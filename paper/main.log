@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  25 SEP 2025 23:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  6 OCT 2025 19:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -485,14 +485,10 @@ apter_3.aux) (chapter_4.aux) (appendix_A.aux)
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
  6320 strings out of 474485
- 100736 string characters out of 5744206
+ 101099 string characters out of 5744206
  1936542 words of memory out of 5000000
  28440 multiletter control sequences out of 15000+600000
  566328 words of font info for 67 fonts, out of 8000000 for 9000
@@ -507,7 +503,7 @@ nts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/dell/AppData/Local/Programs/Mi
 KTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/dell/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/dell/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (19 pages, 139066 bytes).
+Output written on main.pdf (19 pages, 139085 bytes).
 PDF statistics:
  107 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
