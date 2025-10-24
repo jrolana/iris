@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.28)  24 OCT 2025 16:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.28)  24 OCT 2025 16:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -277,8 +277,7 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 LaTeX Warning: Unused global option(s):
     [onepage].
 
-(main.aux (title_page.aux) (abstract.aux) (chapter_1.aux) (chapter_2.aux)
-(chapter_3.aux) (chapter_4.aux) (appendix_A.aux) (appendix_B.aux))
+(main.aux (title_page.aux) (chapter_1.aux) (chapter_2.aux) (chapter_3.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
@@ -350,57 +349,48 @@ LaTeX Info: Redefining \BHBI on input line 130.
 (title_page.tex [1
 
 
-{C:/Users/andry/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}])
-\openout2 = `abstract.aux'.
-
- (abstract.tex
-LaTeX Font Info:    Trying to load font information for U+msa on input line 10.
-
+{C:/Users/andry/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]) (main.toc
+LaTeX Font Info:    Trying to load font information for U+msa on input line 2.
 
 (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 10.
-
+LaTeX Font Info:    Trying to load font information for U+msb on input line 2.
 
 (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-[1
-
-
-
-]) (main.toc [2
-
-
-
-])
+))
 \tf@toc=\write3
 \openout3 = `main.toc'.
 
- [3] (main.lof)
+
+[2
+
+
+
+] (main.lof)
 \tf@lof=\write4
 \openout4 = `main.lof'.
 
- [4
+ [3
 
 ] (main.lot)
 \tf@lot=\write5
 \openout5 = `main.lot'.
 
- [5
+ [4
 
 ]
 \openout2 = `chapter_1.aux'.
 
  (chapter_1.tex
 Chapter 1.
-<figures/DisneyChart.png, id=24, 346.29375pt x 225.84375pt>
+<figures/DisneyChart.png, id=17, 346.29375pt x 225.84375pt>
 File: figures/DisneyChart.png Graphic file (type png)
 <use figures/DisneyChart.png>
 Package pdftex.def Info: figures/DisneyChart.png  used on input line 25.
 (pdftex.def)             Requested size: 346.2929pt x 225.84319pt.
-<figures/general_sequenceA.png, id=26, 842.39719pt x 817.55438pt>
+<figures/general_sequenceA.png, id=19, 842.39719pt x 817.55438pt>
 File: figures/general_sequenceA.png Graphic file (type png)
 <use figures/general_sequenceA.png>
 Package pdftex.def Info: figures/general_sequenceA.png  used on input line 33.
@@ -459,56 +449,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 56--56
 []\OT1/cmr/m/n/12 Development of Rac-ing
  []
 
-) [10]
-\openout2 = `chapter_4.aux'.
-
- (chapter_4.tex
-Chapter 4.
-) [11
+) [10] (main.bbl) [11
 
 
 
-
-]
-\openout2 = `appendix_A.aux'.
-
- (appendix_A.tex
-Appendix A.
-) [12
-
-
-
-
-]
-\openout2 = `appendix_B.aux'.
-
- (appendix_B.tex
-Appendix B.
-) [13
-
-
-
-
-] (main.bbl) [14
-
-
-
-] (main.aux (title_page.aux) (abstract.aux) (chapter_1.aux) (chapter_2.aux) (ch
-apter_3.aux) (chapter_4.aux) (appendix_A.aux)
-(appendix_B.aux))
+] (main.aux (title_page.aux) (chapter_1.aux)
+(chapter_2.aux) (chapter_3.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 6338 strings out of 474486
- 102711 string characters out of 5743755
+ 6226 strings out of 474486
+ 99234 string characters out of 5743755
  1936542 words of memory out of 5000000
- 28457 multiletter control sequences out of 15000+600000
- 566328 words of font info for 67 fonts, out of 8000000 for 9000
+ 28373 multiletter control sequences out of 15000+600000
+ 565992 words of font info for 65 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 79i,10n,84p,357b,296s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 79i,10n,84p,357b,287s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\andry\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1200.pk><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmbx12.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/publ
@@ -518,9 +477,9 @@ eX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/andry/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/andry/AppData/Loca
 l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/andry/App
 Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (20 pages, 205701 bytes).
+Output written on main.pdf (15 pages, 202999 bytes).
 PDF statistics:
- 112 PDF objects out of 1000 (max. 8388607)
+ 96 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

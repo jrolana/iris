@@ -12,7 +12,4 @@
 \contentsline {chapter}{\numberline {3}Research Methodology}{9}{}%
 \contentsline {section}{\numberline {3.1}Research Activities}{9}{}%
 \contentsline {section}{\numberline {3.2}Calendar of Activities}{10}{}%
-\contentsline {chapter}{\numberline {4}Preliminary Results/System Prototype}{11}{}%
-\contentsline {chapter}{\numberline {A}Appendix}{12}{}%
-\contentsline {chapter}{\numberline {B}Resource Persons}{13}{}%
-\contentsline {chapter}{References}{14}{}%
+\contentsline {chapter}{References}{11}{}%
