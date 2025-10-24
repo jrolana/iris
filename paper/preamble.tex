@@ -8,10 +8,16 @@
 %-- specify related packages
 % \usepackage[utf8x]{inputenc}
 \usepackage{pdfpages}
+\usepackage{caption}
+% left-align table captions; keep them at the top
+\captionsetup[table]{justification=raggedright,singlelinecheck=false,position=top}
 
-
-
+\usepackage{float}    % for [H]
 \usepackage[natbibapa]{apacite} % gives you \citet / \citep in APA style
+\usepackage[hidelinks]{hyperref} % load after apacite
+\usepackage{url}
+\usepackage{etoolbox}
+\robustify\url  
 \usepackage{amsmath}       % American Math Society packages
 \usepackage{amsfonts}
 \usepackage{amssymb}
