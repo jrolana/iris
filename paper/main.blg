@@ -29,43 +29,43 @@ Database file #1: myreferences.bib
 apacite.bst [2013/07/21 v6.03 APA bibliography style]
 You've used 1 entry,
             6951 wiz_defined-function locations,
-            1283 strings with 10936 characters,
-and the built_in function-call counts, 2153 in all, are:
-= -- 285
-> -- 25
+            1277 strings with 10840 characters,
+and the built_in function-call counts, 1734 in all, are:
+= -- 200
+> -- 23
 < -- 61
-+ -- 69
++ -- 64
 - -- 2
-* -- 112
-:= -- 312
-add.period$ -- 6
+* -- 97
+:= -- 294
+add.period$ -- 4
 call.type$ -- 1
-change.case$ -- 18
+change.case$ -- 17
 chr.to.int$ -- 0
 cite$ -- 2
-duplicate$ -- 71
-empty$ -- 96
-format.name$ -- 35
-if$ -- 448
+duplicate$ -- 61
+empty$ -- 83
+format.name$ -- 41
+if$ -- 343
 int.to.chr$ -- 0
 int.to.str$ -- 3
 missing$ -- 0
 newline$ -- 31
-num.names$ -- 10
-pop$ -- 64
+num.names$ -- 8
+pop$ -- 51
 preamble$ -- 1
 purify$ -- 4
 quote$ -- 0
-skip$ -- 159
+skip$ -- 106
 stack$ -- 0
-substring$ -- 87
-swap$ -- 45
-text.length$ -- 7
+substring$ -- 69
+swap$ -- 30
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 144
+type$ -- 80
 warning$ -- 0
-while$ -- 15
+while$ -- 14
 width$ -- 0
-write$ -- 39
+write$ -- 41
 (There was 1 error message)

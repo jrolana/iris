@@ -1,33 +1,31 @@
 \begin{thebibliography}{}
 
 \bibitem [\protect \citeauthoryear {%
-Fedkiw%
-, Stam%
-\BCBL {}\ \BBA {} Jensen%
+Bentley%
+, Sherman%
+, Gangjee%
+\BCBL {}\ \BBA {} Johnson%
 }{%
-Fedkiw%
+Bentley%
 \ \protect \BOthers {.}}{%
-{\protect \APACyear {2001}}%
+{\protect \APACyear {2022}}%
 }]{%
-fedkiw:2001:VSO}
+bently2022intellectual}
 \APACinsertmetastar {%
-fedkiw:2001:VSO}%
+bently2022intellectual}%
 \begin{APACrefauthors}%
-Fedkiw, R.%
-, Stam, J.%
-\BCBL {}\ \BBA {} Jensen, H\BPBI W.%
+Bentley, L.%
+, Sherman, B.%
+, Gangjee, D.%
+\BCBL {}\ \BBA {} Johnson, P.%
 \end{APACrefauthors}%
 \unskip\
 \newblock
-\APACrefYearMonthDay{2001}{}{}.
+\APACrefYear{2022}.
 \newblock
-{\BBOQ}\APACrefatitle {Visual Simulation of Smoke} {Visual simulation of
-  smoke}.{\BBCQ}
+\APACrefbtitle {Intellectual Property Law} {Intellectual property law}.
 \newblock
-\BIn{} E.~Fiume\ (\BED), \APACrefbtitle {Proceedings of SIGGRAPH 2001}
-  {Proceedings of siggraph 2001}\ (\BPGS\ 15--22).
-\newblock
-\APACaddressPublisher{}{ACM Press / ACM SIGGRAPH}.
+\APACaddressPublisher{}{Oxford University Press}.
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}
