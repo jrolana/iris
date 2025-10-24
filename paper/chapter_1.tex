@@ -1,233 +1,123 @@
-%   Filename    : chapter_1.tex 
 \chapter{Introduction}
-\label{sec:researchdesc}    %labels help you reference sections of your document
 
 \section{Overview of the Current State of Technology}
-\label{sec:overview}
 
-This section gives the reader an overview of the specific technology or field in the international or
-local setting. 
-The information regarding the technology or field should be contemporary and not based on outdated sources. 
-Discussion must not be too technical or too detailed.
-   
-\textcolor{red}{This section ends with a discussion on the problem/s faced by or that still exist in the specific
-technology or field (e.g., limitations of existing software or algorithms). 
-The problem statement would lead to the research objectives.}
-
-
-It is   easy to include a figure in JPG or PNG format as shown in the  following example.  
-Make sure that you explain what the figure is all about, and that you refer to your figure.  
-For example, \figref{fig:test} shows a graph of the performance of Disney stock from the 1980s to 2012.
-  
-%--- the following example shows how to include a figure in PNG format
-\begin{figure}[t]                %-- use [t] to place figure at top, [b] to place at the bottom, [h] for here
-   \centering                    %-- use this to center the figure
-   \includegraphics{DisneyChart.png}      %-- include image file named as "disneychart.png" 
-   \caption{This is the figure's caption -- Disney stock chart.
-   	Captions should fully describe the figure in a concise manner  such that there is not need to refer to the text when figuring out the graphic.}
-    \label{fig:disneystock}
-\end{figure}
-
-\begin{figure}[h]                %-- use [t] to place figure at top, [b] to place at the bottom, [h] for here
-   \centering                    %-- use this to center the figure
-   \includegraphics[scale=0.5]{general_sequenceA.png}      %-- include image file named as "disneychart.png" 
-   \caption{TM, UM/ID, Patent Application Sequence Diagram}
-    \label{fig:test}
-\end{figure}
-
-
-Some notes on citing references.   
-When using APA format, the author-date method of citation is  followed.   
-This means that the author's last name and the year of publication for the source should  appear in the text, and a complete reference should appear in the reference list.
-
-% Examples:
-%     	Smith (1970) compared reaction times . . .
-%     	In a recent study of reaction times (Smith, 1970), . . .   
-%     	In 1970, Smith compared reaction times . . .
-%	    Smith, et al., (1970) compared reaction times . . .
-%     	In a recent study of reaction times (Smith, et al., 1970), . .
-%     	In 1970, Smith, et al., compared reaction times . . .
-
-Here are some examples on how to do the referencing (note author's name and years are different from commented examples).  
-For APA citation details, refer to \url{http://www.ctan.org/tex-archive/biblio/bibtex/contrib/apacite/}. 
-
-\begin{itemize}
- \item \citeA{kartch:2000:ERA} compared reaction times...
- \item In a recent study of reaction times \cite{kartch:2000:ERA}...
- \item In \citeyearNP{kartch:2000:ERA}, \citeauthor{kartch:2000:ERA} compared reaction times...
- \item \shortciteA{fedkiw:2001:VSO} compared reaction times... 
- \item In a recent study of reaction times \cite{fedkiw:2001:VSO}...
- \item In \citeyearNP{fedkiw:2001:VSO}, \shortciteauthor{fedkiw:2001:VSO}, compared reaction times...
-\end{itemize}
-
-The following are references from journal articles \cite{Park:2006:DSI, Pellacini:2005:LAH, sako:2001:SSB}.
- Here's an MS thesis document \cite{yee:2000:SSA}, and this is from PhD dissertation \cite{kartch:2000:ERA}. 
- For a book, reference is given as  \cite{parke:1996:CFA}. 
- Proceedings from a conference samples are \cite{Jobs95, fedkiw:2001:VSO, levoy:2000:TDM}.  
- The sample bibliography file named \textbf{myreferences.bib} is from the SIGGRAPH \LaTeX{}  template.  
- You can use a text editor to view the contents of the bib file.  
- It is your task to create your own bibliography file.  
- For those who downloaded papers from ACM or IEEE sites, there is a BibTeX link that you can click; thereafter, you just simply need to copy and paste the BibTeX entry into your own bibliography file.
-
-The following shows how to include a program source code (or algorithm).  
-The verbatim environment, as the name suggests, outputs text (including white spaces) as is...
-
-\begin{verbatim}
-               #include <stdio.h>
-               main()
-               {
-                    printf("Hello world!\n");
-               }
-\end{verbatim}
+In today’s modern world, technology is evolving at a rapid pace all around the world. 
+With this, research and development have produced countless innovations and ideas. Along with the emergence of these inventions 
+and innovations is the concept of ownership of the ideas behind them, referred to as the “creation of the mind” or intellectual property (IP). 
+The “incorporeal right” or the intellectual property right (IPR) is independent from the concept of ownership of the actual object; 
+where owning the tangible object does not guarantee ownership of its IP \citep{bently2022intellectual}. International organizations such as the 
+World Intellectual Property Organization (WIPO) function with the concept of IPR ownership and pioneer the promotion and protection of IPs across borders all over the world.
+The Philippines recognizes the importance of science and technology and their role in research and development, invention, and 
+innovation with the implementation of the Philippine Technology Transfer Act of 2009 (RA 10055). This act also gives emphasis to the 
+generation, utilization, and transfer of intellectual property. It mandates Research and Development Institutions (RDI) to establish 
+Technology Licensing Offices (TLOs) and/or Technology Business Development Offices established wherein these institutions have their 
+own policies for technology transfer and IP management. One of these institutions is the Technology Transfer and Business Development Office (TTBDO) of the University of the Philippines Visayas (UPV).
+The TTBDO of UPV is responsible for the management of the entire UPV IP portfolio which includes patents, utility models, copyrights, 
+industrial designs, and trademarks. The current IP management system includes storing in local machines, utilizing online spreadsheet software (Google Sheets), 
+and cloud storage services (Google Drive). However, it poses challenges such as high dependency on the personal local machine, volatility of information 
+upon editing on spreadsheet cells, and difficulty in tracking current IP statuses. Because of the nature of the current management system, the staff 
+are extremely cautious when it comes to handling the portfolio; even going to the lengths of downloading a local copy of the recent version of the repository for backup.
+ In addition, TTBDO staff have noted that the absence of an alert or notification mechanism often results in missed or delayed follow-ups for ongoing IP applications. 
+ Because the Intellectual Property Office of the Philippines (IPOPHIL) enforces a strict two-month period for responding to certain application stages, the lack of 
+ timely reminders or automated alerts risks dropping the ongoing IP applications. In light of these issues, the present study deems it crucial to implement IRIS - 
+a proposed UPV IP Management Information System. IRIS is a web-based management information system that is designed to streamline the information 
+management process of the Technology Transfer and Business Development Office of the University of the Philippines Visayas. It is also designed to be 
+scalable for the usage of other university campuses that are constituents of the University of the Philippines System.
 
 \section{Problem Statement}
-\textcolor{red}{DO NOT FORGET to write the statement of the research problem here, i.e., before the Research Objectives.}
 
-A problem statement is your research problem written explicitly.  
-The problem statement should do four things: 
-\begin{enumerate}
-	\item Specify and describe the problem (with appropriate citations) 
-	\item  Provide evidence of the problem’s existence  
-	\item Explain the consequences of NOT solving the problem  
-	\item 	Identify what is not known about the problem that should be known.
-\end{enumerate}
+The Technology Transfer and Business Development Office (TTBDO) of the University of the Philippines Visayas (UPV) is responsible for overseeing, protecting, and commercializing the university’s intellectual property (IP) assets. With extensive collaboration and research on the internal processes of the TTBDO, several issues and inefficiencies arising from the current system have been observed. The institution performs tracking of the assets in the portfolio by utilizing Google Sheets and storing files in local machines. It also lacks a mechanism of disseminating up-to-date information on IP status as well as application documents to the university constituents or applicants. The lack of a centralized database increases the risks of data loss, duplication, and miscommunication among staff and stakeholders. Without a structured system, it may also be difficult to monitor and generate summarized descriptive reports that are crucial for decision-making for university officials of UPV and other UP Constituent Universities. Since IPOPHIL imposes a maximum two-month response period for ongoing applications, the absence of a reliable notification or alert system increases the risk of application lapses or case withdrawals, which wastes institutional resources and may discourage inventors from pursuing protection for their research outputs. Furthermore, there is no public portal for showcasing published UPV inventions, limiting visibility to potential investors, industry partners, and the general public.
+While digital information management systems exist in global and national agencies such as the World Intellectual Property Organization (WIPO) and the Intellectual Property Office of the Philippines (IPOPHIL), there is a lack of research and implementation of IP management systems that are specifically designed for academic or university-level institutions in the Philippines. There are frameworks and solutions for these problems that exist, which can then be adapted to mitigate the issues found in Technology Transfer Offices (TLO), such as the TTBDO of the UPV.
+These challenges urged the need for a digital information management system to streamline the IP management processes by the TTBDO.
 
+\paragraph{Summary of Challenges.}
+The existing processes of the UPV TTBDO mainly require meticulous manual labor, which leads to high risks of errors and mistakes; not only does this greatly affect the integrity of the UPV TTBDO, but it also risks massive damages to intellectual property rights (IPR). These challenges highlight the need for an IP management information system with the following features:
+\begin{itemize}
+  \item A secure and centralized IP information record storage that is accessible to authorized users.
+  \item A robust mechanism for managing IP information.
+  \item A monitoring system for up-to-date visibility of each multiple IP status.
+  \item A capacity to generate a comprehensive summary, chart, and descriptive statistics of the IP portfolio for monitoring, compliance, and decision-making.
+  \item A user management system to ensure data confidentiality, proper assignment of accountability, and role-based access control (RBAC) with users such as TTBDO staff, technology generators, university officials, and external stakeholders.
+  \item A system where tech generators submit applications and process their application (reviewing IP-related documents) within the system.
+  \item A public portal for published IP applications to enhance transparency and facilitate partnerships with external stakeholders.
+  \item An automatic alert or notification system for upcoming deadlines or required actions such as IPOPHIL’s two-month application period.
+\end{itemize}
+By addressing these issues, the UPV TTBDO can significantly enhance the integrity and efficiency of IP-related services provided to the UPV.
 
 \section{Research Objectives}
-\label{sec:researchobjectives}
 
 \subsection{General Objective}
-\label{sec:generalobjective}
 
-This subsection states the over--all goal that must be achieved to answer the problem.
-Address the following: Given your research challenge or opportunity, how do you intend  to solve it? What is the output of your research?
-
+This study aims to design, develop, and evaluate IRIS, a web-based system that eliminates manual IP application tracking inefficiencies, 
+enhances transparency through status monitoring, offers a standardized platform for tech generators regarding IPR application-related processes, 
+and provides comprehensive analytics for improved decision-making in IP management and output in the university.
+The research output is a fully functional, secure, and scalable IRIS with role-based access control, automated status tracking, 
+automated notification systems, dashboards, and public portals for published IP applications. Its system architecture is designed to be 
+scalable for potential adaptation by other UP constituent universities. It is evaluated through performance testing, security assessment, and user acceptance testing.
 
 \subsection{Specific Objectives}
-\label{sec:specificobjectives}
 
-%
-%  \begin{comment} ... \end{comment} is used for multiple lines of comment
-%
-
-This subsection is an elaboration of the general objective.  
-It states the specific steps that must be undertaken to accomplish the general objective.  
-These objectives must be \textbf{S}pecific, \textbf{M}easurable, \textbf{A}ttainable, \textbf{R}ealistic, \textbf{T}ime-bounded.  
-A specific objective start with ``to $<$verb$>$'' for example: to design/survey/review/analyze.
-
-Studying a particular programming language or development tool (e.g., to study Windows/Object-Oriented/Graphics/C++ programming) to  accomplish the general objective is inherent in all thesis and, therefore, must not be included here.
-
-
-\begin{comment}
-% IPR acknowledgement: the following sentences and examples are from Ethel Ong's slides 
-%     on Research Objectives
-How to formulate your research objectives:
-1. Identify what research steps do you need to perform to achieve your general objective.
-2. Identify the questions that must be answered for you to achieve your general objective.
-    Thereafter, convert these questions into action statements
-
-Example #1:
-
-Research Question:
-  What are the general features of a web-based learning environment?
-
-Specific Objective:
-   To review existing web-based learning environment that teaches language learning for children
-
-
-Example #2:
-
-Research Question:
-   How will you represent commonsense knowledge for use by computer systems?
-
-Specific Objective:
-   To identify knowledge representation approaches used by existing story generation systems
-
-Example #3:
-Research Question:
-   What types of storytelling knowledge are needed to generate stories?
-
-Specific Objective:
-    To identify the different types of storytelling knowledge used in generating stories
-
-Example #4:
-Research Question:
-    What machine learning approaches will you utilize?
-
-Specific Objective:
-    To determine existing machine learning algorithms [that can be used in training the computer system to detect cyberbullying cases] 
-
-Example #5: Research Question:
-    How will your research output be evaluated?
-
-Specific Objective:
-    To define evaluation metrics for validating the accuracy of the translation
-
-\end{comment}
-
-%
-%  The following are example specific objectives; replace them with your own 
-%
-
+To accomplish the general objective of developing the system within the academic year 2025--2026, the specific objectives are to:
 \begin{enumerate}
-   \item To review related literature, compare and contrast existing algorithms (on what problem?);
-   \item To develop a new algorithm (for what purpose?)
-   \item To analyze the algorithm (based on what criteria?)
+  \item Review and analyze existing IP management systems implemented by IP-generating institutions to identify applicable design patterns, 
+  architecture, and best practices for addressing the identified inefficiencies in TTBDO’s current manual process.
+  \item Design the system architecture and database schema to replace decentralized storage (Google Sheets and files on local machines) 
+  with a secure and unified database. This ensures data integrity by eliminating the risks of data loss and duplication.
+  \item Implement secure user authentication and RBAC to ensure data confidentiality and manage user permissions based on organizational 
+  roles for identified users in Section~1.2.
+  \item Develop an automated application status tracking system with timestamp-based logging for monitoring and real-time status updates 
+  to replace the manual tracking methods and reduce human error in data entry.
+  \item Create dashboards that generate comprehensive summaries, charts, and trends of IP applications for monitoring, compliance reporting, and decision-making.
+  \item Enable tech generators to submit applications and process their application within the system. This includes having a step-by-step 
+  guide to determine which type of IP they should apply to, submit digitally signed disclosure forms, and review IP-related documents in the system, 
+  including Final Examination Reports (FER), Subsequent Examination Reports (SER), office actions, IPOPHIL correspondence, and other prosecution documents.
+  \item Develop an automated notification system to improve communication between TTBDO staff and applicants/tech generators. This ensures that 
+  all applicants are processed on time before IPOPHIL decides to drop the application.
+  \item Design and develop a public portal to provide access to published IP applications of the university.
+  \item Evaluate the system through performance testing, security assessment, and user acceptance testing to validate its 
+  effectiveness in addressing the identified challenges in Section~1.2.
+  \item Document the system’s development process, architectural design, and evaluation results to support replicability for other UP constituent universities.
 \end{enumerate}
 
-
 \section{Scope and Limitations of the Research}
-\label{sec:scopelimitations}
 
-This section discusses the boundaries (with respect to the objectives) of the research and the constraints within 
-which the research will be developed.
-
-\begin{comment}
-
-%
-% IPR acknowledgement: the sentences inside this comment are from Ethel Ong's slides on Scope and Limitations of the Research
-%
-Generally, one paragraph should be allotted for each of your research objectives.
-
-Each paragraph contains a brief overview of the concept/theory and the purpose of doing the associated objective.
-
-Each paragraph also includes a description of the scope/limitation of your study.
-
-* Please refer to the slides for examples.
-
-\end{comment}
-
+The system will be developed and evaluated within the academic year 2025--2026. It also encompasses four user roles, 
+namely the TTBDO staff, technology generators, university officials, and external stakeholders (including potential investors, industry partners, 
+and the general public), with the following core features: user management, application tracking with timestamp-based logging, document management, 
+dashboard analytics, automated notifications, and a public portal for published IP applications.
+The system is limited to the IP management needs and context of UPV. While the system architecture is designed to be scalable and adaptable for other 
+UP constituent universities, the development, testing, and evaluation are conducted specifically within the UPV environment. Adaptation and deployment 
+to other institutions may require adjustments in the configuration and remain as potential future work.
+The system will not include direct integration with IPOPhil's internal filing systems, as applications must still be manually submitted to the office. 
+Additionally, payment processing integration and automated prior art search functionalities are excluded from the system.
 
 \section{Significance of the Research}
-\label{sec:significance}
+The development of IRIS holds significant value across the following stakeholders:
 
-This section explains why research must be done in this area.
- It rationalizes the objective of the research with that of the stated problem. 
- Avoid including sentences such as ``This research will be beneficial to the proponent/department/college'' as this is already an inherent requirement of all BSCS majors.  Focus on the research's contribution to the Computer Science field.
+\subsubsection*{Academic Community}
+This research contributes to the limited body of literature on IP management systems specifically designed for Philippine academic institutions 
+by providing a reference architecture for MIS where full system integration with external agencies such as IPOPHIL or email services may not be feasible. 
+The system design and implementation approach can serve as a model for other universities, particularly UP constituent universities, in developing their 
+respective IP management systems or migrating from manual to automated IP management processes.
 
-The following are guide questions that may help your formulate the significance of your research. 
+\subsubsection*{TTBDO}
+The system addresses inefficiencies in the IP-related processes of TTBDO by automating status tracking and monitoring and replacing fragmented document 
+management practices. With these improvements, TTBDO staff can then redirect focus from repetitive administrative tasks to higher-value activities such as 
+investor consultation, all while minimizing risks of errors, omissions, and lost documentation.
 
+\subsubsection*{Technology Generators}
+The system streamlines the IP application process by allowing submission and processing of applications within the system. Technology generators can 
+determine the type of their IP application, submit digitally signed disclosure forms, and get notified of any required actions regarding their application. 
+This effectively reduces friction in protecting technology generators‘ inventions by allowing them to process all these without visiting the TTBDO office or 
+waiting for email updates.
 
-%
-% IPR acknowledgement: the following list of items are from Ethel Ong's slides on Significance of the Research
-%
-\begin{itemize}
-\item  What is the relevance of your work to the computer science community? 
+\subsubsection*{University Officials}
+The analytics and reporting capabilities provide university officials with comprehensive data visualization and statistical reports on the IP portfolio and 
+application pipeline. These tools enable data-driven planning for research priorities, technology transfer investments, and resource allocation. The system's 
+monitoring features also support compliance reporting for the UP system.
 
-\begin{itemize} 
-\item What will be your technical contributions, in terms of algorithms, or approaches, or new domain? 
-\item What is your value-added compared to existing systems? 
-\end{itemize}
-
-\item What will be your contributions to society in general? 
-    \begin{itemize}
-      \item Who will benefit from your system? 
-      \item Who are your target users and how will this system benefit them? 
-   \end{itemize}
-\end{itemize}
-
-\begin{comment}
-If applicable, describe possible commercialization and/or innovation in your research.
-\end{comment}
-
-
+\subsubsection*{External Stakeholders and General Public}
+The public portal enhances transparency, visibility, and collaboration by providing access to published UPV inventions. This visibility facilitates potential 
+partnerships and technology licensing opportunities that can advance the growth of university inventions. By showcasing UPV's intellectual property portfolio, 
+the system also enhances the university's reputation and strengthens its engagement with industry and innovation ecosystems.

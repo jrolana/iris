@@ -8,7 +8,10 @@
 %-- specify related packages
 % \usepackage[utf8x]{inputenc}
 \usepackage{pdfpages}
-\usepackage{apacite}         %-- APA style citation  http://www.ctan.org/tex-archive/biblio/bibtex/contrib/apacite/
+
+
+
+\usepackage[natbibapa]{apacite} % gives you \citet / \citep in APA style
 \usepackage{amsmath}       % American Math Society packages
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -40,6 +43,8 @@
 \parskip 1em
 \parindent 0.25in
 
+
+
 \bibliographystyle{apacite}            %-- use APA citation scheme
 \hyphenation{ana-lysis know-ledge}     %-- LaTeX may not hyphenate correctly some words you use in your document
                                        %-- use \hyphenation to instruct LaTeX how to do it correctly, example above
@@ -47,6 +52,7 @@
 \newcommand{\etal}{et al.}
 \newcommand{\figref}[1]{Figure \ref{#1}}
 \newcommand{\appref}[1]{Appendix \ref{#1}}
+
 
 %\newcommand{\Section}[1]{\section{#1}\setcounter{figure}{0}\setcounter{table}{0}}
 
