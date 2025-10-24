@@ -17,7 +17,7 @@ The problem statement would lead to the research objectives.}
 
 It is   easy to include a figure in JPG or PNG format as shown in the  following example.  
 Make sure that you explain what the figure is all about, and that you refer to your figure.  
-For example, \figref{fig:disneystock} shows a graph of the performance of Disney stock from the 1980s to 2012.
+For example, \figref{fig:test} shows a graph of the performance of Disney stock from the 1980s to 2012.
   
 %--- the following example shows how to include a figure in PNG format
 \begin{figure}[t]                %-- use [t] to place figure at top, [b] to place at the bottom, [h] for here
@@ -26,6 +26,13 @@ For example, \figref{fig:disneystock} shows a graph of the performance of Disney
    \caption{This is the figure's caption -- Disney stock chart.
    	Captions should fully describe the figure in a concise manner  such that there is not need to refer to the text when figuring out the graphic.}
     \label{fig:disneystock}
+\end{figure}
+
+\begin{figure}[h]                %-- use [t] to place figure at top, [b] to place at the bottom, [h] for here
+   \centering                    %-- use this to center the figure
+   \includegraphics[scale=0.5]{general_sequenceA.png}      %-- include image file named as "disneychart.png" 
+   \caption{TM, UM/ID, Patent Application Sequence Diagram}
+    \label{fig:test}
 \end{figure}
 
 
