@@ -1,63 +1,595 @@
-%   Filename    : chapter_4.tex 
 \chapter{Research Methodology}
-This chapter lists and discusses the specific steps and activities that will be performed  to accomplish the project. 
-The discussion covers the activities from pre-proposal to Final SP Writing.
 
-\section{Research Activities}
-Research activities include inquiry, survey, research, brainstorming, canvassing, consultation, review, interview, observe, experiment, design, test, document, etc.  
-Be sure that for each method, process, or algorithm used, there is a justification why that method was chosen.
-The methodology also includes the following information:
+\section{Research Design}
+
+\subsection{System Development Life Cycle Model}
+The study employs the Agile Software Development Life Cycle model. Agile was chosen for its flexibility and iterative nature, allowing continuous feedback from TTBDO personnel and early validation of system components. Through incremental sprints, the researchers were able to refine features based on actual user input.
+
+\subsection{Research Framework}
+The Problem Identification stage corresponds to the Introduction of the study, where the limitations of the current manual IP tracking process within the university are defined and contextualized. The Literature Review aligns with the Review of Related Literature (RRL) section, which explores local and international studies on IP management systems, theoretical foundations, and best practices to establish a strong research background.
+
+Next, the Requirements Gathering phase reflects the Requirements Elicitation process. At this stage, system requirements are derived from user interviews, document analysis, and process observations. The insights gained are analyzed further in the Requirements Analysis and System Requirements Specification (SRS) stages, where functional and non-functional requirements are organized and translated into system features and design models.
+
+Finally, the Testing and Evaluation phase aligns with the Methodology section, specifically the evaluation component. This phase involves validating the system’s functionality, usability, and performance through User Acceptance Testing (UAT) and other assessment methods to ensure that the developed IPMS meets the users’ needs effectively.
+
+Overall, the framework ensures that each stage of the research process, from identifying the problem to evaluating the final system, is logically aligned with the structure of the study, ensuring coherence between the conceptual, analytical, and technical components.
+
+\section{Development Tools and Technologies}
+
+\subsection{Software and Hardware}
+
+\subsubsection{Software Tools}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\captionsetup{justification=raggedright,singlelinecheck=false}
+\caption{Software Tools}
+\begin{tabular}{|p{3cm}|p{5cm}|p{6.2cm}|}
+\hline
+\textbf{Category} & \textbf{Tool} & \textbf{Purpose} \\
+\hline
+IDE & Visual Studio Code & Code development and debugging \\
+\hline
+Database & Supabase & Database modeling and management \\
+\hline
+Design & Figma, Canva & UI/UX design and system diagrams \\
+\hline
+Version Control & GitHub & Source code management and collaboration \\
+\hline
+OS & Windows 10, 11 & Development environment \\
+\hline
+Browsers & Google Chrome, Microsoft Edge & Testing and compatibility checks \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection{Hardware Specifications}
 
 \begin{itemize}
-   \item who is responsible for the task
-   \item the resource person to be contacted
-   \item what will be done
-   \item when and how long will the activity be done
-   \item where will it be done
-   \item why should be activity be done
+  \item Processor: Intel Core i5 
+  \item RAM: Minimum 8 GB 
+  \item Storage: 512 GB SSD 
+  \item Internet Connection: 30 Mbps minimum 
+  \item Devices for testing: Desktop and Laptop Computers
 \end{itemize}
 
+\subsection{Technology Stack}
 
-\section{Calendar of Activities}
-
-A Gantt chart showing the schedule of the activities should be included as a table. For example:
-
-Table \ref{tab:timetableactivities} shows a Gantt chart of the activities.  Each bullet represents approximately
-one week worth of activity.
-
-%
-%  the following commands will be used for filling up the bullets in the Gantt chart
-%
-\newcommand{\weekone}{\textbullet}
-\newcommand{\weektwo}{\textbullet \textbullet}
-\newcommand{\weekthree}{\textbullet \textbullet \textbullet}
-\newcommand{\weekfour}{\textbullet \textbullet \textbullet \textbullet}
-
-%
-%  alternative to bullet is a star 
-%
-\begin{comment}
-   \newcommand{\weekone}{$\star$}
-   \newcommand{\weektwo}{$\star \star$}
-   \newcommand{\weekthree}{$\star \star \star$}
-   \newcommand{\weekfour}{$\star \star \star \star$ }
-\end{comment}
-
-
-
-\begin{table}[ht]   %t means place on top, replace with b if you want to place at the bottom
-\centering
-\caption{Timetable of Activities} \vspace{0.25em}
-\begin{tabular}{|p{2in}|c|c|c|c|c|c|c|c|} \hline
-\centering Activities (2009) & Jan   & Feb & Mar & Apr & May & Jun & Jul \\ \hline
-Study on Prerequisite Knowledge      &   &  & ~~~\weektwo & \weekfour &  &  &  \\ \hline
-Review of Existing Racing Strategies & ~~~\weektwo  & \weekfour & \weekfour & \weekfour &  &  &  \\ \hline
-Identification of Best Features      &   &  &  & \weekfour & \weektwo~~~ &  &  \\ \hline
-Development of Racing Strategies     &   &  &  & ~~~\weektwo & \weekfour & \weektwo~~~ &  \\ \hline
-Simulation of Racing Strategies      &   &  &  & ~~~\weektwo & \weekfour & \weekthree~~ &  \\ \hline
-Analysis and Interpretation of the Results &   &  &  &  & \weekfour & \weekfour & \weekone~~~~~ \\ \hline
-Documentation & ~~~\weektwo  & \weekfour & \weekfour & \weekfour & \weekfour & \weekfour & \weektwo~~~ \\ \hline
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\captionsetup{justification=raggedright,singlelinecheck=false}
+\caption{Technology Stack}
+\begin{tabular}{|p{3cm}|p{5cm}|p{6.2cm}|}
+\hline
+\textbf{Component} & \textbf{Technology} & \textbf{Justification} \\
+\hline
+Frontend & HTML5, JavaScript, Tailwind & Responsive interface and accessibility \\
+\hline
+Backend & ExpressJs & Robust and secure server-side processing \\
+\hline
+Database & Supabase & Reliable and structured data storage \\
+\hline
 \end{tabular}
-\label{tab:timetableactivities}
 \end{table}
+\endgroup
 
+\section{Requirements Analysis}
+
+\subsection{Data Collection Methods}
+
+Data was gathered through multiple methods to ensure an accurate understanding of existing processes: 
+
+\begin{itemize}
+  \item Interviews: Conducted with TTBDO staff to identify workflow challenges. 
+  \item Observation: Reviewed the current manual document tracking and IP filing process. 
+  \item Document Analysis: Examined sample forms, tracking logs, and process documents.
+\end{itemize}
+
+\subsection{Functional Requirements}
+
+This section details the functional requirements of the system, organized by major features. 
+
+\subsubsection*{3.1.1 Authentication \& User Roles}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Authentication \& User Roles}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-01 & The system SHALL require users to authenticate before accessing internal features. \\
+\hline
+FR-02 & The system SHALL implement role-based access control (TTBDO, Applicant, UP Official, Guest). \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.1.2 Submission of Application}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Submission of Application}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-03 & The system SHALL allow download of standardized Invention Disclosure Forms (IDFs) by IP type. \\
+\hline
+FR-04 & The system SHALL guide users in selecting the correct IDF type before application. \\
+\hline
+FR-05 & The system SHALL allow users to review IP-related application documents, including but not limited to Final Examination Reports (FER), Subsequent Examination Reports (SER), and other related correspondence. \\
+\hline
+FR-06 & The system SHALL log timestamps when application statuses are updated. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.1.3 Application Tracking}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Application Tracking}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-07 & The system SHALL maintain a registry of Applicants and their submissions. \\
+\hline
+FR-08 & The system SHALL allow authorized users to view and search applicant submission histories. \\
+\hline
+FR-09 & The system SHOULD provide filters and faceted search over the registry. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.1.4 Dashboards \& Reporting}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Dashboards \& Reporting}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-10 & The system SHALL provide dashboards with real-time statistics, breakdowns, and trends. \\
+\hline
+FR-11 & The system SHOULD allow generation and export of reports in machine-readable formats (CSV, XLSX) and human-readable formats (PDF) to support both automated processing and manual review. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.1.5 Notifications}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Notifications}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-12 & The system SHALL send in-app notifications when application statuses change or deadlines approach. \\
+\hline
+FR-13 & The system SHALL allow users to configure notification preferences. \\
+\hline
+FR-14 & The system SHALL maintain a notification history for each user. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.1.6 Document Management}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Document Management}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-15 & The system SHALL allow TTBDO staff to upload supporting documents and link them to application records. \\
+\hline
+FR-16 & The system SHALL secure documents and enforce role-based access restrictions. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.1.7 External System Synchronization}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{External System Synchronization}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-17 & The system SHALL synchronize with IPOPhil’s public data on a scheduled basis. \\
+\hline
+FR-18 & The system SHALL update records when discrepancies with IPOPhil data are detected. \\
+\hline
+FR-19 & The system SHOULD allow manual reconciliation of conflicts by TTBDO staff. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.1.8 Public Portal}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Public Portal}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-20 & The system SHALL provide a guest-accessible, read-only portal to browse published IPs. \\
+\hline
+FR-21 & The system SHALL display summary statistics in the public portal. \\
+\hline
+FR-22 & The system SHOULD allow document access requests via a public form. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsection{Non-Functional Requirements}
+
+\subsubsection*{3.2.1 Performance}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Performance}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-01 & The system SHALL return 95\% of requests within 2 seconds under normal load. \\
+\hline
+NFR-02 & The system SHALL support at least 200 concurrent users. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.2.2 Security}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Security}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-03 & The system SHALL encrypt all traffic using TLS 1.2 or higher. \\
+\hline
+NFR-04 & The system SHALL enforce role-based access control. \\
+\hline
+NFR-05 & The system MAY log all security-related events. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.2.3 Reliability \& Availability}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Reliability \& Availability}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-06 & The system SHALL have 99.5\% uptime during business hours. \\
+\hline
+NFR-07 & The system SHALL recover to the last stable state within 4 hours of failure. \\
+\hline
+NFR-08 & The system SHALL perform daily backups stored in two separate locations. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.2.4 Usability \& Accessibility}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Usability \& Accessibility}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-09 & The system SHALL provide a responsive web interface for desktop and mobile. \\
+\hline
+NFR-10 & The system SHALL follow consistent UI and navigation patterns. \\
+\hline
+NFR-11 & The system SHALL provide meaningful error messages. \\
+\hline
+NFR-12 & The system SHALL comply with WCAG 2.1 Level AA accessibility standards. \\
+\hline
+NFR-13 & The system SHOULD include tooltips or help prompts for complex tasks. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.2.5 Maintainability, Portability \& Scalability}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Maintainability, Portability \& Scalability}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-14 & The system SHALL be modular with separation of concerns for maintainability. \\
+\hline
+NFR-15 & The system SHALL include developer and API documentation. \\
+\hline
+NFR-16 & The system SHOULD support deployment in multiple environments (dev, staging, prod). \\
+\hline
+NFR-17 & The system MAY support containerized deployment (e.g. Docker). \\
+\hline
+NFR-18 & The system SHOULD support horizontal scaling. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\subsubsection*{3.2.6 Compliance \& Legal}
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\begin{table}[H]
+\centering
+\caption{Compliance \& Legal}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-19 & The system SHALL comply with the Philippine Data Privacy Act of 2012. \\
+\hline
+NFR-20 & The system SHALL retain records per UP and IPOPhil retention policies. \\
+\hline
+NFR-21 & The system SHALL export logs and reports in standard formats (PDF, CSV, XLSX). \\
+\hline
+NFR-22 & The system SHOULD provide compliance reports for audits. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\section{System Design}
+
+\subsection{Context Model}
+
+The context model for IRIS is illustrated in Figure 3.1, showing how key stakeholders (such as the TTBDO admin, TTBDO staff,  and the UP officials), Technology Generators (Researchers and Applicants), and Guests interact with the system and vice versa.
+
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=0.35]{context_model.png}     
+   \caption{Context Model of IRIS}
+    \label{fig:context_model}
+\end{figure}
+
+\subsubsection{TTBDO Admin}
+The TTBDO Admins are the key stakeholders of the system, and as such have full access to the functionalities of the system. It includes managing the accounts of the users, the documents relating to every IPR application, the IPR status and critical deadlines, as well as having a full overview of the entire IP portfolio of the university. They can also gather reports of the IP portfolio from the system, which they can later use for further IP-driven strategies and decisions. 
+
+\subsubsection{Tech Generators}
+
+The Tech Generators, or the university researchers and IPR applicants, have the primary interaction of overseeing the current status of the IPs related to them. That is, if they are a member of the tech generators of a certain IP. They can also access and file disclosure forms to start their IPR application. The Tech Generators are notified by the system every time there is a status change to their IPR, may it is in the process of applying or while maintaining their rights to it. Aside from this, they also have viewing privileges to the IP portfolio summary and the published IPs of the university.
+
+\subsubsection{UP Officials and Guests.}
+
+These stakeholders in the system only have viewing capabilities with the IP portfolio summary as well as the published IPs of the university. The UP officials, however, have extended privileges to have an overview of the unpublished IPs or the ongoing IPR applications.
+
+
+\subsection{Database Design}
+
+Figure 3.2 illustrates the database schema of the system, following PostgreSQL data types and object definitions. It shows how different objects are related to each other through foreign keys derived from other objects.
+
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=0.5]{db_design.png}     
+   \caption{Database Design (Schema) of IRIS}
+    \label{fig:db_design}
+\end{figure}
+
+\subsection{Use Case Diagram}
+The following figures illustrate each use case diagram for each user of the system. It shows the functionalities available for each type of user, their interaction with the system, and their particular use cases they have for the system.
+
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.7]{uc_guest.png}     
+   \caption{Guest Use Case Diagram of IRIS}
+    \label{fig:uc_guest}
+\end{figure}
+
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.7]{uc_official.png}     
+   \caption{UP Official Use Case Diagram of IRIS}
+    \label{fig:uc_official}
+\end{figure}
+
+It is shown in \figref{fig:uc_guest} that the Guests' only use case for the system is to view the published IPs of the university and to see its IP portfolio summary. It could be for research purposes or to get an overview of the IP-generation power of the university. It is shown in \figref{fig:uc_official} that the UP Officials have an extended use case where they want to view the entire IP portfolio of the university, including unpublished IPs. With this, they have to authenticate with the system first, adding another use case with the system.
+
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.7]{uc_techgen.png}     
+   \caption{Technology Generator Use Case Diagram of IRIS}
+    \label{fig:uc_techgen}
+\end{figure}
+
+\figref{fig:uc_techgen} shows the various use cases of a technology generator (university researcher or university IPR applicant), showing the actions they can take with the system. The technology generator has guest-level privileges but can also have extended privileges of the system by authenticating and logging in. The extended privileges include accessing and filing disclosure forms (IPR application) and monitoring IPR status.
+ 
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.3]{uc_admin.png}     
+   \caption{TTBDO Admin Use Case Diagram of IRIS}
+    \label{fig:uc_admin}
+\end{figure}
+
+\figref{fig:uc_admin} shows the various use cases of the TTBDO admins. It shows that they have the most use cases for the system as they have all the privileges to access its functionality. It includes a UP official-level overview of the IP portfolio, user management, IPR application status management, and gathering reports about the IP portfolio of the university.
+
+\subsection{Sequence Diagrams}
+
+\subsubsection{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram}
+
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.5]{general_sequenceA.png}     
+   \caption{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 1)}
+    \label{fig:gen_seqA}
+\end{figure}
+
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.5]{general_sequenceB.png}     
+   \caption{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 2)}
+    \label{fig:gen_seqB}
+\end{figure}
+
+Figures \ref{fig:gen_seqA} and \ref{fig:gen_seqB} illustrate the sequence diagram of a Trademark, Utility Model, Industrial Design, and Patent application started by a Technology Generator, which is then facilitated by the system through the TTBDO Admin. It details the interaction between the TTBDO and the system as they handle the application process with the IPOPHIL. It also shows how the system notifies the Technology Generator for every update of the IPR application.
+
+
+\subsubsection{Detailed Branch of the Specific IPR Sequence Diagram}
+
+The following figures are the specific branch of sequence diagrams that are referred to in \figref{fig:gen_seqB}. It shows the rights-specific processes that the TTBDO interfaces with the IPOPHIL for the IPR application process.
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.35]{tm_sequence.png}     
+   \caption{Detailed Branch of Trademark Application Sequence Diagram}
+    \label{fig:gen_seqB}
+\end{figure}
+
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.35]{um_id_sequence.png}     
+   \caption{Detailed Branch of Utility Model \& Industrial Design Application Sequence Diagram}
+    \label{fig:gen_seqB}
+\end{figure}
+
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.35]{patent_sequence.png}     
+   \caption{Detailed Branch of Patent Application Sequence Diagram}
+    \label{fig:gen_seqB}
+\end{figure}
+
+
+\subsubsection{Copyright Application Sequence Diagram}
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.5]{copyright_sequenceA.png}     
+   \caption{Copyright Application Sequence Diagram Part 1}
+    \label{fig:copyright_seqA}
+\end{figure}
+\begin{figure}[H]                
+   \centering                   
+   \includegraphics[scale=.5]{copyright_sequenceB.png}     
+   \caption{Copyright Application Sequence Diagram Part 2}
+    \label{fig:copyright_seqB}
+\end{figure}
+The application process for copyright can not be completely digitized, as it requires physical copies and wet signatures along the process. Figures \ref{fig:copyright_seqA} \& \ref{fig:copyright_seqB} illustrates the copyright application process started by the Technology Generator and facilitated by the TTBDO through the system.
+
+
+
+\section{Testing and Evaluation}
+
+Testing ensured that all system features met the defined functional and non-functional requirements of the proposed system. The process covered multiple testing levels to validate performance, security, and user satisfaction.
+
+\paragraph{Testing Approach:}
+
+\begin{itemize}
+  \item Performance Testing 
+
+  \begin{itemize}
+    \item Evaluated the system’s responsiveness, stability, and resilience under load. Page 
+    load time was maintained below three seconds on average. Penetration testing was 
+    conducted to assess the system’s defense mechanisms against unauthorized access 
+    and vulnerabilities. 
+  \end{itemize}
+
+  \item User Acceptance Testing (UAT) 
+
+  \begin{itemize}
+    \item Involved end-users in evaluating the system’s overall usability, functionality, and 
+    reliability. Feedback from evaluators rated the interface as “very satisfactory,” 
+    with no system crashes observed during testing. 
+  \end{itemize}
+\end{itemize}
+
+\paragraph{Evaluation Criteria:}
+
+\begin{itemize}
+  \item Functionality: All modules are operational and aligned with defined requirements. 
+  \item Usability: Interface rated “very satisfactory” by evaluators. 
+  \item Performance: Average page load time maintained under three seconds. 
+  \item Reliability: No critical errors or crashes occurred during UAT. 
+\end{itemize}
