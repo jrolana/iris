@@ -1,0 +1,195 @@
+@startuml
+title UPV TTBDO IP Filing Flow (Sequence)
+
+actor "Tech Generator" as TG
+actor "TTBDO" as TT
+actor "IPOPHIL" as IP
+participant "System" as SYS
+database "Database" as DB
+
+autonumber
+
+' ---------------------- Intake & Triage ----------------------
+group Disclosure & Intake
+  TG -> TT: Submit IP Disclosure Form (IPDF)
+  TT -> SYS: Log disclosure
+  SYS -> DB: Save IPDF, metadata, attachments
+  DB --> SYS: IPDF_ID
+  SYS --> TT: IPDF recorded
+  TT --> TG: Acknowledge receipt
+
+  alt Incomplete application
+    TT -> TG: Request missing info
+    TG -> TT: Provide requirements
+    TT -> SYS: Update IPDF
+    SYS -> DB: Save updates
+  else Complete
+    TT -> TG: Proceed to evaluation
+  end
+end
+
+' ---------------------- Prior Art Search ----------------------
+group Prior Art Search (PAS)
+  TT -> SYS: Initiate PAS task
+  SYS -> DB: Store PAS parameters
+  ... internal/externals search, curate results ...
+  SYS --> TT: PAS report ready
+  TT -> DB: Attach PAS report
+end
+
+' ---------------------- Drafting & Internal Review ----------------------
+group Drafting & Review
+  TT -> TG: Request draft (UM / ID / Patent / TM)
+  TG -> TT: Submit application draft
+  TT -> SYS: Start internal review
+  SYS -> DB: Version draft + comments
+
+  alt Revisions required
+    TT -> TG: Return with comments
+    TG -> TT: Resubmit revised draft
+    TT -> SYS: Update draft version
+    SYS -> DB: Save revision history
+  else Draft acceptable
+    TT --> TG: Draft approved for filing
+  end
+end
+
+' ---------------------- TM-only: NICE Classification ----------------------
+group (TM only) NICE Classification
+  TT -> SYS: Prepare NICE classification list
+  SYS -> DB: Save proposed classes
+  alt Revision in classification
+    TT -> TG: Clarify goods/services scope
+    TG -> TT: Provide inputs
+    TT -> SYS: Update classes
+    SYS -> DB: Save updates
+  else Approve NICE classification
+    SYS --> TT: Classification approved
+  end
+end
+
+' ---------------------- Finalization & Filing ----------------------
+group Finalize & File
+  TT -> TG: Finalize application package
+  TT -> IP: Submit, pay fees
+  IP --> TT: IPOPHIL acknowledgement (app no., date)
+  TT -> SYS: Record IPOPHIL acknowledgement
+  SYS -> DB: Store app no., filing date, fees
+end
+
+' ---------------------- Post-filing: Branch by IP Type ----------------------
+alt Trademark (TM)
+  group Formality Examination (FER)
+    TT -> IP: Wait for FER
+    IP --> TT: FER issued
+    alt Defects found
+      loop Resolve FER defects until accepted
+        TT -> TG: Provide fixes (specs/reqs)
+        TG -> TT: Revised materials
+        TT -> IP: Submit response to FER
+        TT -> SYS: Log submission
+        SYS -> DB: Save response + timestamp
+        alt Failure to respond on time
+          TT -> IP: Request and pay for revival
+          TT -> SYS: Record revival action
+          SYS -> DB: Save revival receipt
+        end
+        IP --> TT: FER defects resolved?
+      end
+    else No defects found
+      TT -> SYS: Note "No FER defects"
+    end
+  end
+
+  group Registrability & Publication
+    TT -> IP: Wait for Registrability Report (RR)
+    IP --> TT: RR issued
+    alt Defects found
+      TT -> TG: Provide fixes per RR
+      TG -> TT: Revised response
+      TT -> IP: Submit response
+      TT -> SYS: Record RR response
+      SYS -> DB: Save response
+      alt Failure to respond on time
+        TT -> IP: Request and pay for revival
+        TT -> SYS: Record revival
+        SYS -> DB: Save revival receipt
+      end
+    else No defects found
+      TT -> IP: Wait for Notice of Publication
+      IP --> TT: Publication notice
+      TT -> IP: Request & pay for 2nd publication and Certificate of Registration (COR)
+      TT -> SYS: Record payment & request
+      SYS -> DB: Save proof of payment
+      IP --> TT: Registration Certificate
+      TT -> SYS: Mark status = Registered
+      SYS -> DB: Store COR and final status
+    end
+  end
+
+else Patent
+  group Formality Examination (FER)
+    TT -> IP: Wait for FER
+    IP --> TT: FER issued
+    alt Defects found
+      loop Resolve FER defects until accepted
+        TT -> TG: Provide fixes (forms/spec/claims)
+        TG -> TT: Revised docs
+        TT -> IP: Submit response to FER
+        TT -> SYS: Log submission
+        SYS -> DB: Save response + timestamp
+        alt Failure to respond on time
+          TT -> IP: Request and pay for revival
+          TT -> SYS: Record revival
+          SYS -> DB: Save revival receipt
+        end
+        IP --> TT: FER defects resolved?
+      end
+    else No defects found
+      TT -> SYS: Note "No FER defects"
+    end
+  end
+
+  group Substantive Examination (SER)
+    TT -> IP: Wait for SER (exam request & fees handled per policy)
+    IP --> TT: SER report issued
+    alt No inventive step / objections
+      TT -> TG: Draft SER response (arguments/amendments)
+      TG -> TT: Proposed response
+      TT -> SYS: Internal review of SER response
+      SYS -> DB: Version response + comments
+      TT -> IP: Submit SER response
+      TT -> SYS: Record submission
+      SYS -> DB: Save response + date
+      alt Failure to respond on time
+        TT -> IP: Request and pay for revival
+        TT -> SYS: Record revival
+        SYS -> DB: Save revival
+      end
+      ... iterate if further SERs issued ...
+    else Allowed
+      TT -> IP: Wait for IPOPHIL Notice of Issuance of Letters Patent
+      IP --> TT: Notice of issuance
+      TT -> IP: Request and pay for Certificate of Registration
+      TT -> SYS: Record payment & request
+      SYS -> DB: Save proof of payment
+      IP --> TT: Certificate / Letters Patent
+      TT -> SYS: Mark status = Registered
+      SYS -> DB: Store Letters Patent/COR and final status
+    end
+  end
+
+else Utility Model / Industrial Design (UM/ID)
+  group Post-filing
+    TT -> IP: Wait for Notice of Publication
+    IP --> TT: Publication notice
+    TT -> IP: Request & pay for 2nd publication and COR
+    TT -> SYS: Record payment & request
+    SYS -> DB: Save proof of payment
+    IP --> TT: Registration Certificate
+    TT -> SYS: Mark status = Registered
+    SYS -> DB: Store COR and final status
+  end
+end
+
+@enduml

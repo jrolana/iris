@@ -1,0 +1,27 @@
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+skinparam ArrowColor #333
+skinparam ArrowThickness 1
+skinparam RankSep 70
+skinparam NodeSep 80
+skinparam NoteBorderColor white
+skinparam NoteBackgroundColor white
+
+actor "UP Official" as UPO
+' Row 1
+together {
+  usecase "Authentication /\nLogin" as U_Login
+  usecase "Full IP Portfolio\nOverview" as U_Portfolio
+}
+
+' Row 2
+together {
+  usecase "View IP Portfolio\nAnalysis/Summary" as U_Stats
+}
+
+' One arrow per interaction
+UPO -down-> U_Login
+UPO -down-> U_Portfolio
+UPO -down-> U_Stats
+@enduml

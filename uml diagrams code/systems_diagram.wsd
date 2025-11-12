@@ -1,0 +1,63 @@
+@startuml
+title please
+' ==================== Layout & Styling ====================
+left to right direction
+skinparam dpi 180
+skinparam shadowing false
+skinparam linetype ortho          ' << straight, right-angle connectors
+skinparam RankSep 90
+skinparam NodeSep 80
+
+skinparam ArrowThickness 1.1
+skinparam ArrowColor #333
+skinparam ArrowFontSize 12
+skinparam RectangleBorderColor #333
+skinparam RectangleFontSize 14
+skinparam defaultTextAlignment center
+
+' ==================== Nodes ====================
+rectangle "Technology Generators /\nApplicants" as TG #EFE6FF
+rectangle "Guest" as GUEST #EFE6FF
+
+rectangle "I.R.I.S.\n*IP Repository & Information System*" as IRIS #E9FFF0
+
+rectangle "Administrators" as ADMIN #E6F0FF
+rectangle "UP Officials" as UPO #E6F0FF
+
+' Stack left and right sides neatly
+TG -[hidden]down- GUEST
+ADMIN -[hidden]down- UPO
+
+' Keep IRIS in the middle
+TG -[hidden]-> IRIS
+GUEST -[hidden]-> IRIS
+IRIS -[hidden]-> ADMIN
+IRIS -[hidden]-> UPO
+
+' ==================== Per-interaction (orthogonal) ====================
+' --- Technology Generators / Applicants (left -> center) ---
+TG -right-> IRIS : Authentication / Login interface
+TG -right-> IRIS : IP application status\nmonitoring interface
+TG -right-> IRIS : Disclosure forms accessibility\n& guidance interface
+TG -right-> IRIS : IP-related application documents review\n(FER, SER, correspondence)
+TG -right-> IRIS : Published IPs view interface
+TG -right-> IRIS : Repository statistical / analysis\nsummary interface
+
+' --- Administrators (right -> center) ---
+ADMIN -left-> IRIS : Authentication / Login interface
+ADMIN -left-> IRIS : Full IP portfolio overview interface
+ADMIN -left-> IRIS : Portfolio statistical / analysis summary\n& visualization interface
+ADMIN -left-> IRIS : User, roles, and permissions\nmanagement interface
+ADMIN -left-> IRIS : IP application status\nconfiguration interface
+ADMIN -left-> IRIS : Document & media\nmanagement interface
+
+' --- UP Officials (right -> center) ---
+UPO -left-> IRIS : Authentication / Login interface
+UPO -left-> IRIS : Full IP portfolio overview interface
+UPO -left-> IRIS : Portfolio statistical / analysis summary\n& visualization interface
+
+' --- Guests (left -> center) ---
+GUEST -right-> IRIS : Repository statistical / analysis\nsummary interface
+GUEST -right-> IRIS : Published IPs view interface
+
+@enduml

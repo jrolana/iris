@@ -1,0 +1,85 @@
+@startuml
+title PATENT – Status-driven flow (UPV TTBDO)
+
+actor "Tech Generator" as TG
+actor "TTBDO" as TT
+actor "IPOPHIL" as IP
+participant "System" as SYS
+database "Database" as DB
+autonumber
+
+' Filing
+TT -> IP: File patent application & pay fees
+IP --> TT: Acknowledgement (app no., date)
+
+TT -> SYS: Update status = "Filed – Awaiting FER"
+SYS -> DB: Upsert(app_id, "Filed – Awaiting FER")
+SYS -> TG: Notify "Filed – Awaiting FER"
+
+' Formality Examination (FER)
+IP --> TT: FER issued
+alt FER defects found
+  TT -> SYS: Update status = "FER Defects – Action Required"
+  SYS -> DB: Upsert(app_id, "FER Defects – Action Required")
+  SYS -> TG: Notify "FER Defects – Action Required"
+
+  loop Until FER cleared or deadline lapses
+    TT -> IP: Submit FER response
+    TT -> SYS: Update status = "FER Response Submitted"
+    SYS -> DB: Upsert(app_id, "FER Response Submitted")
+    SYS -> TG: Notify "FER Response Submitted"
+    alt Missed deadline
+      TT -> IP: Request & pay for revival
+      TT -> SYS: Update status = "Revival Requested"
+      SYS -> DB: Upsert(app_id, "Revival Requested")
+      SYS -> TG: Notify "Revival Requested"
+    end
+    IP --> TT: FER result (cleared or more defects)
+  end
+else No FER defects
+  TT -> SYS: Update status = "FER Cleared"
+  SYS -> DB: Upsert(app_id, "FER Cleared")
+  SYS -> TG: Notify "FER Cleared"
+end
+
+' Substantive Examination (SER)
+TT -> IP: Request SER & pay fees (if applicable)
+IP --> TT: SER report issued
+alt Objections / "No inventive step"
+  TT -> SYS: Update status = "SER Objections – Draft Response"
+  SYS -> DB: Upsert(app_id, "SER Objections – Draft Response")
+  SYS -> TG: Notify "SER Objections – Draft Response"
+
+  loop Until allowed / downgraded / lapsed
+    TT -> IP: Submit SER response
+    TT -> SYS: Update status = "SER Response Submitted"
+    SYS -> DB: Upsert(app_id, "SER Response Submitted")
+    SYS -> TG: Notify "SER Response Submitted"
+    alt Missed deadline
+      TT -> IP: Request & pay for revival
+      TT -> SYS: Update status = "Revival Requested"
+      SYS -> DB: Upsert(app_id, "Revival Requested")
+      SYS -> TG: Notify "Revival Requested"
+    end
+    IP --> TT: SER result (allowed / further objections / downgrade)
+    alt Downgrade to UM
+      TT -> SYS: Update status = "Downgraded to Utility Model"
+      SYS -> DB: Upsert(app_id, "Downgraded to Utility Model")
+      SYS -> TG: Notify "Downgraded to Utility Model"
+    end
+  end
+else Allowed
+  TT -> SYS: Update status = "Allowed – Awaiting Issuance"
+  SYS -> DB: Upsert(app_id, "Allowed – Awaiting Issuance")
+  SYS -> TG: Notify "Allowed – Awaiting Issuance"
+end
+
+' Grant
+IP --> TT: Notice of Issuance of Letters Patent
+TT -> IP: Request & pay for Certificate/Letters Patent
+IP --> TT: Letters Patent / COR
+TT -> SYS: Update status = "Registered"
+SYS -> DB: Upsert(app_id, "Registered")
+SYS -> TG: Notify "Registered"
+
+@enduml

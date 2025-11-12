@@ -1,0 +1,40 @@
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+skinparam ArrowColor #333
+skinparam ArrowThickness 1
+skinparam NoteBorderColor white
+skinparam NoteBackgroundColor white
+
+' Actor at the very top (centered)
+actor "TTBDO Administrator" as ADMIN
+
+' Row 1
+together {
+  usecase "Authentication /\nLogin" as A_Login
+  usecase "Full IP Portfolio\nOverview" as A_Portfolio
+}
+
+' Row 2
+together {
+  usecase "User / Roles /\nPermissions Management" as A_URP
+  usecase "IP Application Status\nConfiguration" as A_StatusCfg
+}
+
+' Row 3
+together {
+  usecase "Document & Media\nManagement" as A_Doc
+  usecase "View IP Portfolio\nAnalysis/Summary" as A_Stats
+  usecase "Gather report of IP portfolio" as A_Report
+}
+
+' One arrow per interaction (top → down)
+ADMIN -down-> A_Login
+ADMIN -down-> A_Portfolio
+ADMIN -down-> A_Stats
+ADMIN -down-> A_URP
+ADMIN -down-> A_StatusCfg
+ADMIN -down-> A_Doc
+ADMIN -down-> A_Report
+
+@enduml

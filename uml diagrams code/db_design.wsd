@@ -1,0 +1,67 @@
+@startuml
+
+hide circle
+skinparam objectAttributeIconSize 0
+skinparam linetype ortho
+skinparam NodeSep 150
+skinparam RankSep 140
+
+
+
+object "users" as users {
+  uid: uuid <<PK>>
+  full_name: text
+  college: text
+  email: text
+  role: text
+  created_at: timestamptz
+}
+
+object "ipr_applications" as applications {
+  application_id: uuid <<PK>>
+  ip_title: text
+  project_title: text
+  status: uuid<<FK>>
+  funding_source: text
+  tech_gen: uuid <<FK>>
+  application_number: text <<UNIQUE>>
+  date_of_filing: date
+  type_of_ip: text
+  date_of_registration: date
+  registration_year: int
+  created_at: timestamptz
+  updated_at: timestamptz
+}
+
+object "ipr_statuses" as statuses {
+  status_id: uuid <<PK>>
+  status_type: statusType
+  deadline: date
+  note: text
+  created_at: timestamptz
+}
+
+object "ipr_files" as files {
+  file_id: uuid <<PK>>
+  application_id: uuid <<FK>>
+  storage_path: text
+  filename: text
+  file_type: text
+  uploaded_at: timestamptz
+}
+
+object "inventors" as inv {
+  inventor_id: uuid <<PK>>
+  application_id: uuid <<FK>>
+  user_id: uuid | null <<FK>>
+  full_name: text
+  email: text
+  college: text
+}
+
+applications "1" -down- "*" files
+users "*" -right- "*" applications
+applications "1" -right- "*" statuses
+applications "*" -- "*" inv
+
+@enduml

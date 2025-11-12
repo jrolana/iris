@@ -1,0 +1,19 @@
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+skinparam ArrowColor #333
+skinparam ArrowThickness 1
+skinparam RankSep 70
+skinparam NodeSep 80
+skinparam NoteBorderColor white
+skinparam NoteBackgroundColor white
+
+actor "Guest" as G
+
+usecase "View IP Portfolio\nAnalysis/Summary" as G_Repo
+usecase "View Published Intellectual Properties" as G_Published
+
+' One arrow per interaction
+G -d-> G_Repo
+G -r-> G_Published
+@enduml

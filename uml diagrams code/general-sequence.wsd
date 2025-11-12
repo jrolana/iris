@@ -1,0 +1,90 @@
+@startuml
+actor "Tech Generator" as TG
+actor "TTBDO" as TT
+actor "IPOPHIL" as IPO
+participant "System" as SYS
+database "Database" as DB
+
+'Start of application
+TG -> TT: Submit IP Disclosure Form (IDF)
+TT -> SYS: Update(APP_ID, "IDF Received")
+SYS -> DB: Upsert(APP_ID, "IDF Received", IDF_ID, metadata)
+DB --> SYS: IDF_ID, APP_ID
+SYS --> TT: IDF recorded
+SYS -> TG: Forms under review
+
+alt Incomplete application
+  TT -> TG: Request missing info
+  TG -> TT: Provide requirements
+  TT -> SYS: Update(APP_ID, "IDF Updated")
+  SYS -> DB: Upsert(APP_ID, "IDF Updated")
+else Complete
+  TT -> TG: Proceed to evaluation
+end
+
+TT -> SYS: Upsert(USER_ID, TITLE)
+SYS -> DB: Upsert(APP_ID, "Application Created", USER_ID, TITLE)
+SYS -> TG: Notify(APP_ID, "Application Created")
+
+'Prior Art Search
+group Prior Art Search (PAS)
+  TT -> TT: Conduct Prior Art Search
+end
+
+alt Patent, Utility Model (UM), Industrial Design (ID)
+  'Drafting & Internal Review
+  TT -> TT: Draft Application
+  TT -> SYS: Update(APP_ID, "Drafting Started")
+  SYS -> DB: Upsert(APP_ID, "Drafting Started")
+  SYS -> TG: Notify(APP_ID, "Drafting Started")
+
+  loop Until draft is acceptable
+    TT -> TG: Collaborate for application review
+    TG -> TT: Collaborate for application review
+    TT -> SYS: Update(APP_ID, "Draft Revised")
+    SYS -> DB: Upsert(APP_ID, "Draft Revised")
+    SYS -> TG: Notify(APP_ID, "Draft Revised")
+  else Draft acceptable
+    TT -> SYS: Update(APP_ID, "Draft Approved for Filing")
+    SYS -> DB: Upsert(APP_ID, "Draft Approved for Filing")
+    SYS -> TG: Notify(APP_ID, "Draft Approved for Filing")
+  end
+else Trademark (TM)
+  'TM only: NICE Classification
+  group (TM only) NICE Classification
+    TT -> SYS: Update(APP_ID, "NICE Classification Drafted")
+    SYS -> DB: Upsert(APP_ID, "NICE Classification Drafted", attachments)
+    SYS -> TG: Notify(APP_ID, "NICE Classification Drafted")
+
+    loop Until classification is acceptable
+      TT -> TG: Collaborate for classification revision
+      TG -> TT: Collaborate for classification revision
+      TT -> SYS: Update(APP_ID, "NICE Classification Revised")
+      SYS -> DB: Upsert(APP_ID, "NICE Classification Revised")
+      SYS -> TG: Notify(APP_ID, "NICE Classification Revised")
+    else Acceptable NICE Classification
+      TT -> SYS: Update(APP_ID, "NICE Classification Approved")
+      SYS -> DB: Upsert(APP_ID, "NICE Classification Approved", attachments)
+      SYS -> TG: Notify(APP_ID, "NICE Classification Approved")
+    end
+  end
+end
+
+TT -> TT: Finalize IPR Application
+TT -> IPO: Submit application and pay fees
+TT -> SYS: Update(APP_ID, "Filed: Await IPO Acknowledgement")
+SYS -> DB: Upsert(APP_ID, "Filed: Await IPO Acknowledgement")
+SYS -> TG: Notify(APP_ID, "Filed: Await IPO Acknowledgement")
+
+IPO --> TT: Acknowledged
+
+'Specific IPR processes
+alt Trademark (TM)
+  ref over TG, TT, IPO, SYS, DB: See "TRADEMARK Detailed Branch"
+else Patent
+  ref over TG, TT, IPO, SYS, DB: See "PATENT Detailed Branch"
+else Utility Model / Industrial Design (UM/ID)
+  ref over TG, TT, IPO, SYS, DB: See "UM/ID Detailed Branch"
+end
+
+@enduml
