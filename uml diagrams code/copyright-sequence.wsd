@@ -1,0 +1,110 @@
+@startuml
+
+actor "Tech Generator" as TG
+actor "TTBDO" as TT
+actor "IPOPHIL" as IPO
+participant "System" as SYS
+database "Database" as DB
+
+' --- Intake (manual docs) ---
+TG -> TT: Submit required documents
+TT -> SYS: Update(APP_ID, "Docs Submitted")
+SYS -> DB: Upsert(APP_ID, "Docs Submitted")
+SYS -> TG: Notify(APP_ID, "Docs Submitted")
+
+TT -> TT: Review application
+TT -> SYS: Update(APP_ID, "Under Review")
+SYS -> DB: Upsert(APP_ID, "Under Review")
+SYS -> TG: Notify(APP_ID, "Under Review")
+
+alt Incomplete application
+  TT -> TG: Request missing info
+  TG -> TT: Provide requirements
+  alt Requirements unresolved
+  TT -> TG: Unresolved requirements notice
+  TT -> SYS: Update(APP_ID, "Dropped: Requirements Unresolved")
+  SYS -> DB: Upsert(APP_ID, "Dropped: Requirements Unresolved")
+  SYS -> TG: Notify(APP_ID, "Dropped: Requirements Unresolved")
+  ' Application stops here
+  else Requirements fulfilled
+  TT -> SYS: Update(APP_ID, "Application approved)
+  SYS -> DB: Upsert(APP_ID, "Application Approved")
+  SYS -> TG: Notify(APP_ID, "Compiling printed documents")
+end
+
+
+else Requirements complete
+  TT -> TT: Print complete documents (physical)
+  TT -> SYS: Update(APP_ID, "Docs Printed (Physical)")
+  SYS -> DB: Upsert(APP_ID, "Docs Printed (Physical)")
+  SYS -> TG: Notify(APP_ID, "Docs Printed (Physical)")
+
+  TG -> TT: Sign documents (applicant/assignor)
+  TT -> SYS: Update(APP_ID, "Signed by Applicant")
+  SYS -> DB: Upsert(APP_ID, "Signed by Applicant")
+  SYS -> TG: Notify(APP_ID, "Signed by Applicant")
+
+  TT -> TT: Chancellor signs document
+  TT -> SYS: Update(APP_ID, "Signed by Chancellor")
+  SYS -> DB: Upsert(APP_ID, "Signed by Chancellor")
+  SYS -> TG: Notify(APP_ID, "Signed by Chancellor")
+
+  TT -> TT: Notarize documents
+  TT -> SYS: Update(APP_ID, "Notarized")
+  SYS -> DB: Upsert(APP_ID, "Notarized")
+  SYS -> TG: Notify(APP_ID, "Notarized")
+
+  TT -> IPO: Scan and submit application
+  TT -> SYS: Update(APP_ID, "Submitted to IPOPHIL: Await Notice of Action")
+  SYS -> DB: Upsert(APP_ID, "Submitted to IPOPHIL: Await Notice of Action")
+  SYS -> TG: Notify(APP_ID, "Submitted to IPOPHIL: Await Notice of Action")
+
+  IPO --> TT: Notice of Action
+  TT -> SYS: Update(APP_ID, "Notice of Action Received")
+  SYS -> DB: Upsert(APP_ID, "Notice of Action Received")
+  SYS -> TG: Notify(APP_ID, "Notice of Action Received")
+
+  alt Additional requirements needed
+    TT -> TG: Request additional requirements
+    TT -> SYS: Update(APP_ID, "Additional Requirements Needed")
+    SYS -> DB: Upsert(APP_ID, "Additional Requirements Needed")
+    SYS -> TG: Notify(APP_ID, "Additional Requirements Needed")
+    alt Resolving requirements
+    TG -> TT: Provide additional requirements
+    TT -> IPO: Submit additional requirements
+    TT -> SYS: Update(APP_ID, "Additional Requirements Submitted")
+    SYS -> DB: Upsert(APP_ID, "Additional Requirements Submitted")
+    SYS -> TG: Notify(APP_ID, "Additional Requirements Submitted")
+    else Requirements Unresolved
+    TT -> SYS: Update(APP_ID, "Requirements unresolved: Application dropped")
+    SYS -> DB: Upsert(APP_ID, "Requirements unresolved: Application dropped")
+    SYS -> TG: Notify(APP_ID, "Requirements unresolved: Application dropped")
+  else No additional requirements/Requirements fulfilled
+    TT -> SYS: Update(APP_ID, "No Additional Requirements:\nAwait Statement of Account")
+    SYS -> DB: Upsert(APP_ID, "No Additional Requirements:\nAwait Statement of Account")
+    SYS -> TG: Notify(APP_ID, "No Additional Requirements:\nAwait Statement of Account")
+    IPO --> TT: Statement of Account
+    TT -> SYS: Update(APP_ID, "Statement of Account Received")
+    SYS -> DB: Upsert(APP_ID, "Statement of Account Received")
+    SYS -> TG: Notify(APP_ID, "Statement of Account Received")
+
+    TT -> IPO: Pay copyright application fees
+    TT -> SYS: Update(APP_ID, "Copyright application paid")
+    SYS -> DB: Upsert(APP_ID, "Copyright application paid")
+    SYS -> TG: Notify(APP_ID, "Copyright application paid")
+
+    TT -> IPO: Mail original signed/notarized documents
+    TT -> SYS: Update(APP_ID, "Original copy mailed to IPOPHIL:\nAwait Certificate of Registration")
+    SYS -> DB: Upsert(APP_ID, "Original copy mailed to IPOPHIL:\nAwait Certificate of Registration")
+    SYS -> TG: Notify(APP_ID, "Original copy mailed to IPOPHIL:\nAwait Certificate of Registration")
+
+    IPO --> TT: Certificate of Registration
+    TT -> SYS: Update(APP_ID, "Registered")
+    SYS -> DB: Upsert(APP_ID, "Registered")
+    SYS -> TG: Notify(APP_ID, "Registered")
+  end
+
+  
+end
+
+@enduml

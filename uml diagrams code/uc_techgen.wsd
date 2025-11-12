@@ -1,0 +1,46 @@
+@startuml
+' --- Top-down layout (no left-to-right) ---
+skinparam shadowing false
+skinparam linetype ortho
+skinparam ArrowColor #333
+skinparam ArrowThickness 1
+skinparam RankSep 70
+skinparam packageBorderColor white
+skinparam RectangleBorderColor white
+left to right direction
+
+' Actor at top center
+actor "Technology Generator" as TG
+
+' A small invisible anchor right under the actor helps keep arrows neat
+
+' -------- Use cases distributed below (rows) --------
+' Row 1
+together {
+  usecase "Authentication /\nLogin" as UC_Login
+  usecase "Monitor IP Application Status" as UC_Status
+}
+
+' Row 2
+together {
+  usecase "Access Disclosure Forms" as UC_Disclose
+  usecase "Review Application Docs\n(FER, SER, correspondence)" as UC_Doc
+}
+
+' Row 3
+together {
+  usecase "View Published IPs" as UC_Published
+  usecase "View IP Portfolio\nAnalysis/Summary" as UC_Repo
+}
+
+usecase "File Disclosure Form" as UC_File
+
+' -------- One arrow per interaction (top → down) --------
+TG -d-> UC_File
+TG -d-> UC_Login
+TG --> UC_Status
+TG -d-> UC_Disclose
+TG --> UC_Doc
+TG --> UC_Published
+TG --> UC_Repo
+@enduml

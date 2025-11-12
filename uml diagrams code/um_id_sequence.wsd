@@ -1,0 +1,64 @@
+@startuml
+actor "Tech Generator" as TG
+actor "TTBDO" as TT
+actor "IPOPHIL" as IPO
+participant "System" as SYS
+database "Database" as DB
+
+TT -> SYS: Update(APP_ID, "IPOPHIL Acknowledged: Await FER")
+SYS -> DB: Upsert(APP_ID, "IPOPHIL Acknowledged: Await FER")
+SYS -> TG: Notify("IPOPHIL Acknowledged: Await FER")
+
+'FER
+IPO --> TT: FER issued
+TT -> SYS: Update(APP_ID, "FER Issued")
+SYS -> DB: Upsert(APP_ID, "FER Issued")
+SYS -> TG: Notify("FER Issued")
+
+alt FER defects found
+  TT -> SYS: Update(APP_ID, "FER Defects: Action Required")
+  SYS -> DB: Upsert(APP_ID, "FER Defects: Action Required")
+  SYS -> TG: Notify("FER Defects: Action Required")
+
+  loop Resolve FER defects until accepted
+    TT -> TG: Collaborate to resolve FER defects
+    TG -> TT: Collaborate to resolve FER defects
+
+    alt Failure to respond on time
+      TT -> IPO: Request & pay for revival
+      TT -> SYS: Update(APP_ID, "Revival Requested (FER)")
+      SYS -> DB: Upsert(APP_ID, "Revival Requested (FER)")
+      SYS -> TG: Notify("Revival Requested (FER)")
+    end
+
+    else FER response acceptable
+        TT -> IPO: Submit FER response
+        TT -> SYS: Update(APP_ID, "FER Response Submitted")
+        SYS -> DB: Upsert(APP_ID, "FER Response Submitted")
+        SYS -> TG: Notify("FER Response Submitted")
+
+    IPO --> TT: FER result (resolved / more defects)
+  end
+else No FER defects
+  TT -> SYS: Update(APP_ID, "FER Cleared: For Publication")
+  SYS -> DB: Upsert(APP_ID, "FER Cleared: For Publication")
+  SYS -> TG: Notify("FER Cleared: For Publication")
+end
+
+'Publication & Registration
+IPO --> TT: Publication notice
+TT -> SYS: Update(APP_ID, "Publication Scheduled")
+SYS -> DB: Upsert(APP_ID, "Publication Scheduled")
+SYS -> TG: Notify("Publication Scheduled")
+
+TT -> IPO: Pay 2nd publication & Certificate\nof Registration fees
+TT -> SYS: Update(APP_ID, "Awaiting Registration Certificate")
+SYS -> DB: Upsert(APP_ID, "Awaiting Registration Certificate")
+SYS -> TG: Notify("Awaiting Registration Certificate")
+
+IPO --> TT: Registration Certificate (UM/ID)
+TT -> SYS: Update(APP_ID, "Registered")
+SYS -> DB: Upsert(APP_ID, "Registered")
+SYS -> TG: Notify("Registered")
+
+@enduml

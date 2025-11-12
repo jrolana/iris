@@ -1,0 +1,97 @@
+@startuml
+title UPV TTBDO IP Filing Flow (Sequence)
+
+actor "Tech Generator" as TG
+actor "TTBDO" as TT
+actor "IPOPHIL" as IP
+participant "System" as SYS
+database "Database" as DB
+autonumber
+
+' ---------------------- Intake & Triage ----------------------
+group Disclosure & Intake
+  TG -> TT: Submit IP Disclosure Form (IDF)
+  TT -> SYS: Log disclosure
+  SYS -> DB: Save IDF, metadata, attachments
+  DB --> SYS: IDF_ID, APP_ID
+  SYS --> TT: IDF recorded
+  alt Incomplete application
+    TT -> TG: Request missing info
+    TG -> TT: Provide requirements
+    TT -> SYS: Update IDF
+    SYS -> DB: Save updates
+  else Complete
+    TT -> TG: Proceed to evaluation
+  end
+  TT -> SYS: Create_App(USER_ID, TITLE)
+  SYS -> DB: Create new application object 
+  SYS --> TG: Application acknowledged
+
+end
+
+' ---------------------- Prior Art Search ----------------------
+group Prior Art Search (PAS)
+    TT -> TT: Conduct Prior Art Search
+end
+
+
+alt: Patent, Utility Model (UM), Industrial Design (ID)
+' ---------------------- Drafting & Internal Review ----------------------
+group Drafting & Review
+  TT -> TT: Draft Application
+  TT -> SYS: Log updates
+  SYS -> DB: Upsert(APP_ID, NEW_STATUS)
+  SYS -> TG: Notify()
+  
+
+  loop Revisions required
+    TT -> TG: Collaborate for application review
+    TG -> TT: Collaborate for application review
+  else Draft acceptable
+    TT -> SYS: Log draft approved for filing
+  end
+  
+  SYS -> DB: Upsert(APP_ID, NEW_STATUS)
+  SYS -> TG: Notify()
+end
+
+' ---------------------- TM-only: NICE Classification ----------------------
+group (TM only) NICE Classification
+  TT -> SYS: Prepare NICE classification list
+  SYS -> DB: Save proposed classes
+  alt Revision in classification
+    TT -> TG: Clarify goods/services scope
+    TG -> TT: Provide inputs
+    TT -> SYS: Update classes
+    SYS -> DB: Save updates
+  else Approve NICE classification
+    SYS --> TT: Classification approved
+  end
+end
+
+' ---------------------- Finalization & Filing ----------------------
+group Finalize & File
+  TT -> TG: Finalize application package
+  TT -> IP: Submit, pay fees
+  IP --> TT: IPOPHIL acknowledgement (app no., date)
+
+  ' Status logging + notification STARTS here (application stage)
+  TT -> SYS: Update status = "Filed / Acknowledged"
+  SYS -> DB: Upsert(app_id, "Filed / Acknowledged")
+  SYS -> TG: Notify "Filed / Acknowledged"
+
+  TT -> SYS: Update status = "Awaiting Examination / Office Action"
+  SYS -> DB: Upsert(app_id, "Awaiting Examination / Office Action")
+  SYS -> TG: Notify "Awaiting Examination / Office Action"
+end
+
+' ---------------------- Post-filing: Branch by IP Type ----------------------
+alt Trademark (TM)
+  ref over TG,TT, IP, SYS, DB: See "TRADEMARK — Detailed Branch"
+else Patent
+  ref over TG, TT, IP, SYS, DB: See "PATENT — Detailed Branch"
+else Utility Model / Industrial Design (UM/ID)
+  ref over TG, TT, IP, SYS, DB: See "UM/ID — Detailed Branch"
+end
+
+@enduml

@@ -1,0 +1,65 @@
+@startuml
+
+actor "Tech Generator" as TG
+actor "TTBDO" as TT
+actor "IPOPHIL" as IPO
+participant "System" as SYS
+database "Database" as DB
+
+
+TT -> SYS: Update(APP_ID, "IPOPHIL Acknowledged: Await RR")
+SYS -> DB: Upsert(APP_ID, "IPOPHIL Acknowledged: Await RR")
+SYS -> TG: Notify("IPOPHIL Acknowledged: Await RR")
+
+IPO --> TT: Registrability Report (RR) issued
+TT -> SYS: Update(APP_ID, "RR Issued")
+SYS -> DB: Upsert(APP_ID, "RR Issued")
+SYS -> TG: Notify("RR Issued")
+
+alt RR defects found
+  TT -> SYS: Update(APP_ID, "RR Defects: Action Required")
+  SYS -> DB: Upsert(APP_ID, "RR Defects: Action Required")
+  SYS -> TG: Notify("RR Defects: Action Required")
+
+  loop Resolve RR defects until accepted
+    loop Draft RR response until acceptable
+        TT -> TG: Collaborate to write RR response
+        TG -> TT: Collaborate to write RR response
+    else RR response acceptable
+        TT -> IPO: Submit RR response
+    end
+    TT -> SYS: Update(APP_ID, "RR Response Submitted")
+    SYS -> DB: Upsert(APP_ID, "RR Response Submitted")
+    SYS -> TG: Notify("RR Response Submitted")
+
+    alt Failure to respond on time
+      TT -> IPO: Request & pay for revival
+      TT -> SYS: Update(APP_ID, "Revival Requested (RR)")
+      SYS -> DB: Upsert(APP_ID, "Revival Requested (RR)")
+      SYS -> TG: Notify("Revival Requested (RR)")
+    end
+
+    IPO --> TT: RR result (resolved / more defects)
+  end
+else No RR defects
+  TT -> SYS: Update(APP_ID, "For Publication")
+  SYS -> DB: Upsert(APP_ID, "For Publication")
+  SYS -> TG: Notify("For Publication")
+
+  IPO --> TT: Publication notice
+  TT -> SYS: Update(APP_ID, "Publication Scheduled")
+  SYS -> DB: Upsert(APP_ID, "Publication Scheduled")
+  SYS -> TG: Notify("Publication Scheduled")
+
+  TT -> IPO: Pay 2nd publication & Certificate\n of Completion (COR) fees
+  TT -> SYS: Update(APP_ID, "Awaiting Registration Certificate")
+  SYS -> DB: Upsert(APP_ID, "Awaiting Registration Certificate")
+  SYS -> TG: Notify("Awaiting Registration Certificate")
+
+  IPO --> TT: Registration Certificate (TM)
+  TT -> SYS: Update(APP_ID, "Registered")
+  SYS -> DB: Upsert(APP_ID, "Registered")
+  SYS -> TG: Notify("Registered")
+end
+
+@enduml

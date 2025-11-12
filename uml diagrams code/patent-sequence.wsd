@@ -1,0 +1,68 @@
+@startuml
+
+actor "Tech Generator" as TG
+actor "TTBDO" as TT
+actor "IPOPHIL" as IPO
+participant "System" as SYS
+database "Database" as DB
+
+TT -> SYS: Update(APP_ID, "IPOPHIL Acknowledged: Await Notice of Publication")
+SYS -> DB: Upsert(APP_ID, "IPOPHIL Acknowledged: Await Notice of Publication")
+SYS -> TG: Notify("IPOPHIL Acknowledged: Await Notice of Publication")
+
+IPO --> TT: Notice of Publication issued 
+
+TT -> SYS: Update(APP_ID, "Wait for SER")
+SYS -> DB: Upsert(APP_ID, "Wait for SER")
+SYS -> TG: Notify("Wait for SER")
+
+'SER
+IPO --> TT: SER report issued
+TT -> SYS: Update(APP_ID, "SER Issued")
+SYS -> DB: Upsert(APP_ID, "SER Issued")
+SYS -> TG: Notify("SER Issued")
+
+alt "No inventive step"
+  TT -> SYS: Update(APP_ID, "Downgraded to UM  —> Await for FER")
+  SYS -> DB: Upsert(APP_ID, "Downgraded to UM  —> Await for FER")
+  SYS -> TG: Notify("Downgraded to UM —> Await for FER")
+  TT -> IPO: Submit application and pay fees
+
+  ' Reuse the UM/ID FER+Publication branch
+  ref over TG, TT, IPO, SYS, DB: Refer UM/ID Detailed Branch"
+
+  
+else Proceed to Patent filing
+  loop Until SER response is acceptable
+    TT -> SYS: Update(APP_ID, "SER Response Submitted")
+    SYS -> DB: Upsert(APP_ID, "SER Response Submitted")
+    SYS -> TG: Notify("SER Response Submitted")
+
+    IPO --> TT: SER result (allowed / further objections / downgrade)
+    else SER response is acceptable
+      TT -> IPO: Submit SER response
+    
+    
+  end
+  TT -> SYS: Update(APP_ID, "For Issuance")
+  SYS -> DB: Upsert(APP_ID, " For Issuance")
+  SYS -> TG: Notify("For Issuance")
+
+  'Issuance & Registration
+  IPO --> TT: Notice of Issuance of Letters Patent
+  TT -> SYS: Update(APP_ID, "Notice of Issuance")
+  SYS -> DB: Upsert(APP_ID, "Notice of Issuance")
+  SYS -> TG: Notify("Notice of Issuance")
+
+  TT -> IPO: Request & pay for Certificate\nof Registration (COR)
+  TT -> SYS: Update(APP_ID, "Wait for COR")
+  SYS -> DB: Upsert(APP_ID, "Wait for COR")
+  SYS -> TG: Notify("Wait for COR")
+
+  IPO --> TT: COR issued
+  TT -> SYS: Update(APP_ID, "Registered")
+  SYS -> DB: Upsert(APP_ID, "Registered")
+  SYS -> TG: Notify("Registered")
+end
+
+@enduml
