@@ -17,8 +17,10 @@ Overall, the framework ensures that each stage of the research process, from ide
 \section{Development Tools and Technologies}
 
 \subsection{Software and Hardware}
+The following section describes the software tools and hardware specifications used in developing and testing the system. It outlines the purpose of each tool, the role they play in the development process, and the minimum hardware requirements needed to ensure smooth and efficient system performance.
 
 \subsubsection{Software Tools}
+The development of the system utilizes several software tools that support coding, design, database management, and testing, as listed in Table~\ref{tab:software_tools}. 
 
 \begingroup
 \setlength{\tabcolsep}{6pt}
@@ -27,6 +29,7 @@ Overall, the framework ensures that each stage of the research process, from ide
 \begin{table}[H]
 \captionsetup{justification=raggedright,singlelinecheck=false}
 \caption{Software Tools}
+\label{tab:software_tools}
 \begin{tabular}{|p{3cm}|p{5cm}|p{6.2cm}|}
 \hline
 \textbf{Category} & \textbf{Tool} & \textbf{Purpose} \\
@@ -47,7 +50,13 @@ Browsers & Google Chrome, Microsoft Edge & Testing and compatibility checks \\
 \end{table}
 \endgroup
 
+Visual Studio Code serves as the primary Integrated Development Environment (IDE), enabling efficient writing, editing, and debugging of code. Supabase is used for database management, supporting the modeling and handling of system data. For visual design needs, Figma and Canva are used to create UI/UX layouts, prototypes, and system diagrams.
+
+GitHub serves as a version control platform, enabling source code management and collaboration among developers. The development environment runs on Windows 10 and Windows 11, while Google Chrome and Microsoft Edge are used to test the system’s compatibility and performance across different browsers.
+
+
 \subsubsection{Hardware Specifications}
+The following hardware specifications outline the minimum requirements used during development and testing. 
 
 \begin{itemize}
   \item Processor: Intel Core i5 
@@ -57,7 +66,15 @@ Browsers & Google Chrome, Microsoft Edge & Testing and compatibility checks \\
   \item Devices for testing: Desktop and Laptop Computers
 \end{itemize}
 
+Devices are equipped with an Intel Core i5 processor and at least 8 GB of RAM to ensure stable performance when running development tools and the system itself. A 512 GB SSD provides fast storage access, contributing to smoother operation during testing. An internet connection of at least 30 Mbps is required to support online services such as Supabase and GitHub. 
+To verify system performance across various setups, testing is conducted on both desktop and laptop computers, ensuring the system operates reliably on different device types.
+
 \subsection{Technology Stack}
+Table~\ref{tab:tech_stack} outlines the technology stack used in developing the system. This stack ensures that the system remains efficient, secure, and user-friendly across all layers, from the interface to the backend and database.
+
+The frontend of the system is built using HTML5, JavaScript, and Tailwind CSS. These technologies provide a responsive and accessible user interface, enabling technology generators and other organizational roles to perform various tasks such as submitting forms, reviewing IP documents, and tracking application statuses. On the other hand, the backend is developed using Express.js, which supports secure server-side processing and efficient handling of API endpoints that power the digital submission workflows, automated notifications, and dashboard analytics. 
+
+The database is managed using Supabase, which offers structured and reliable data storage, real-time updates, and easy integration with JavaScript-based applications. Supabase ensures that IP records, notifications, and logs are stored efficiently and securely, allowing for prompt access to support decision-making, reporting, and compliance with IPOPHL deadlines. Furthermore, its built-in authentication and storage APIs streamline user management and secure document handling for various IP forms.
 
 \begingroup
 \setlength{\tabcolsep}{6pt}
@@ -66,6 +83,7 @@ Browsers & Google Chrome, Microsoft Edge & Testing and compatibility checks \\
 \begin{table}[H]
 \captionsetup{justification=raggedright,singlelinecheck=false}
 \caption{Technology Stack}
+\label{tab:tech_stack}
 \begin{tabular}{|p{3cm}|p{5cm}|p{6.2cm}|}
 \hline
 \textbf{Component} & \textbf{Technology} & \textbf{Justification} \\
@@ -512,7 +530,7 @@ It is shown in \figref{fig:uc_guest} that the Guests' only use case for the syst
    \centering                   
    \includegraphics[scale=.5]{general_sequenceB.png}     
    \caption{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 2)}
-    \label{fig:gen_seqB}
+    \label{fig:gen_seqB_1}
 \end{figure}
 
 Figures \ref{fig:gen_seqA} and \ref{fig:gen_seqB} illustrate the sequence diagram of a Trademark, Utility Model, Industrial Design, and Patent application started by a Technology Generator, which is then facilitated by the system through the TTBDO Admin. It details the interaction between the TTBDO and the system as they handle the application process with the IPOPHIL. It also shows how the system notifies the Technology Generator for every update of the IPR application.
@@ -525,21 +543,21 @@ The following figures are the specific branch of sequence diagrams that are refe
    \centering                   
    \includegraphics[scale=.35]{tm_sequence.png}     
    \caption{Detailed Branch of Trademark Application Sequence Diagram}
-    \label{fig:gen_seqB}
+    \label{fig:gen_seqB_2}
 \end{figure}
 
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.35]{um_id_sequence.png}     
    \caption{Detailed Branch of Utility Model \& Industrial Design Application Sequence Diagram}
-    \label{fig:gen_seqB}
+    \label{fig:gen_seqB_3}
 \end{figure}
 
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.35]{patent_sequence.png}     
    \caption{Detailed Branch of Patent Application Sequence Diagram}
-    \label{fig:gen_seqB}
+    \label{fig:gen_seqB_4}
 \end{figure}
 
 
