@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  25 NOV 2025 00:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  25 NOV 2025 00:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1018,33 +1018,26 @@ Overfull \hbox (5.64507pt too wide) in paragraph at lines 522--523
  []
 
 [51 <./figures/general_sequenceA.png>]
-
-LaTeX Warning: Reference `fig:gen_seqB' on page 52 undefined on input line 527.
-
-
-
-LaTeX Warning: Reference `fig:gen_seqB' on page 52 undefined on input line 532.
-
-
-<figures/tm_sequence.png, id=574, 1051.93pt x 1458.44875pt>
+<figures/tm_sequence.png, id=576, 1051.93pt x 1458.44875pt>
 File: figures/tm_sequence.png Graphic file (type png)
 <use figures/tm_sequence.png>
 Package pdftex.def Info: figures/tm_sequence.png  used on input line 535.
 (pdftex.def)             Requested size: 368.18102pt x 510.46472pt.
-[52 <./figures/general_sequenceB.png>] [53]
-<figures/um_id_sequence.png, id=585, 1078.0275pt x 1426.32875pt>
+ [52 <./figures/general_sequenceB.png>]
+[53]
+<figures/um_id_sequence.png, id=587, 1078.0275pt x 1426.32875pt>
 File: figures/um_id_sequence.png Graphic file (type png)
 <use figures/um_id_sequence.png>
 Package pdftex.def Info: figures/um_id_sequence.png  used on input line 542.
 (pdftex.def)             Requested size: 377.31528pt x 499.22255pt.
  [54 <./figures/tm_sequence.png (PNG copy)>]
-<figures/patent_sequence.png, id=590, 1110.1475pt x 1410.26875pt>
+<figures/patent_sequence.png, id=592, 1110.1475pt x 1410.26875pt>
 File: figures/patent_sequence.png Graphic file (type png)
 <use figures/patent_sequence.png>
 Package pdftex.def Info: figures/patent_sequence.png  used on input line 549.
 (pdftex.def)             Requested size: 388.55745pt x 493.60146pt.
  [55 <./figures/um_id_sequence.png (PNG copy)>]
-<figures/copyright_sequenceA.png, id=595, 897.3525pt x 1112.65688pt>
+<figures/copyright_sequenceA.png, id=597, 897.3525pt x 1112.65688pt>
 File: figures/copyright_sequenceA.png Graphic file (type png)
 <use figures/copyright_sequenceA.png>
 Package pdftex.def Info: figures/copyright_sequenceA.png  used on input line 55
@@ -1055,7 +1048,7 @@ Overfull \hbox (33.12265pt too wide) in paragraph at lines 558--559
  [][] 
  []
 
-<figures/copyright_sequenceB.png, id=596, 897.3525pt x 948.54375pt>
+<figures/copyright_sequenceB.png, id=598, 897.3525pt x 948.54375pt>
 File: figures/copyright_sequenceB.png Graphic file (type png)
 <use figures/copyright_sequenceB.png>
 Package pdftex.def Info: figures/copyright_sequenceB.png  used on input line 56
@@ -1102,18 +1095,14 @@ Researcher [] -Booklet []
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: DF794744D8E1B5A08BDEFBFCBB52C113;7925.
  ) 
 Here is how much of TeX's memory you used:
- 14975 strings out of 474485
- 242411 string characters out of 5744206
+ 14974 strings out of 474485
+ 242397 string characters out of 5744206
  1939542 words of memory out of 5000000
- 36801 multiletter control sequences out of 15000+600000
+ 36800 multiletter control sequences out of 15000+600000
  566628 words of font info for 68 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
  80i,11n,82p,1598b,703s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1124,9 +1113,9 @@ amsfonts/cm/cmcsc10.pfb><C:/Users/dell/AppData/Local/Programs/MiKTeX/fonts/type
 1/public/amsfonts/cm/cmr12.pfb><C:/Users/dell/AppData/Local/Programs/MiKTeX/fon
 ts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/dell/AppData/Local/Programs/Mi
 KTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (67 pages, 1415935 bytes).
+Output written on main.pdf (67 pages, 1416022 bytes).
 PDF statistics:
- 749 PDF objects out of 1000 (max. 8388607)
+ 751 PDF objects out of 1000 (max. 8388607)
  203 named destinations out of 1000 (max. 500000)
  388 words of extra memory for PDF output out of 10000 (max. 10000000)
 
