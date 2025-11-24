@@ -112,7 +112,9 @@ Data was gathered through multiple methods to ensure an accurate understanding o
 
 \subsection{Functional Requirements}
 
-This section details the functional requirements of the system, organized by major features. 
+The functional requirements (FR) of IRIS define the specific system behaviors, capabilities, and interactions necessary to address the inefficiencies of TTBDO’s current manual IP management process. These requirements translate the project objectives into specific system behaviors and are organized into eight key functional areas such as authentication, application submission, application tracking, dashboards, notifications, document management, external synchronization, and public access. 
+
+The tables below (Table~\ref{tab:fr_auth_roles} to Table~\ref{tab:fr_public_portal}) present the complete set of functional requirements that will guide the design and implementation of IRIS.
 
 \subsubsection*{3.1.1 Authentication \& User Roles}
 
@@ -123,6 +125,7 @@ This section details the functional requirements of the system, organized by maj
 \begin{table}[H]
 \centering
 \caption{Authentication \& User Roles}
+\label{tab:fr_auth_roles}
 \begin{tabular}{|p{2.2cm}|p{12cm}|}
 \hline
 \textbf{ID} & \textbf{Requirement} \\
@@ -280,6 +283,7 @@ FR-19 & The system SHOULD allow manual reconciliation of conflicts by TTBDO staf
 \begin{table}[H]
 \centering
 \caption{Public Portal}
+\label{tab:fr_public_portal}
 \begin{tabular}{|p{2.2cm}|p{12cm}|}
 \hline
 \textbf{ID} & \textbf{Requirement} \\
@@ -294,7 +298,13 @@ FR-22 & The system SHOULD allow document access requests via a public form. \\
 \end{table}
 \endgroup
 
+The functional requirements outline a structured and role-aware system that digitizes the IP application process and strengthens transparency through status tracking, dashboards, and notifications. They also ensure proper document handling, alignment with IPOPHL records, and provide public visibility for published IPs. Together, these requirements establish the functional foundation necessary for IRIS to operate as a secure, efficient, and scalable system.
+
 \subsection{Non-Functional Requirements}
+
+Non-functional requirements (NFRs) define the standards that IRIS must meet for performance, security, reliability, usability, maintainability, and compliance. Unlike functional requirements that specify what the system does, NFRs establish how well it must operate. This is critical for a system handling sensitive IP data, serving diverse users with varying technical skills, and maintaining public trust through consistent availability.
+
+The following tables (Table~\ref{tab:nfr_performance} to Table~\ref{tab:nfr_compliance}) summarize the non-functional requirements that IRIS must satisfy.
 
 \subsubsection*{3.2.1 Performance}
 
@@ -305,6 +315,7 @@ FR-22 & The system SHOULD allow document access requests via a public form. \\
 \begin{table}[H]
 \centering
 \caption{Performance}
+\label{tab:nfr_performance}
 \begin{tabular}{|p{2.2cm}|p{12cm}|}
 \hline
 \textbf{ID} & \textbf{Requirement} \\
@@ -426,6 +437,7 @@ NFR-18 & The system SHOULD support horizontal scaling. \\
 \begin{table}[H]
 \centering
 \caption{Compliance \& Legal}
+\label{tab:nfr_compliance}
 \begin{tabular}{|p{2.2cm}|p{12cm}|}
 \hline
 \textbf{ID} & \textbf{Requirement} \\
@@ -441,6 +453,8 @@ NFR-22 & The system SHOULD provide compliance reports for audits. \\
 \end{tabular}
 \end{table}
 \endgroup
+
+Overall, the non-functional requirements set the foundation necessary for IRIS to function reliably at scale. They ensure that the system performs efficiently under load, maintains strong security practices, remains available and recoverable during failures, and provides an accessible and user-friendly interface. These requirements also promote long-term maintainability, support future scaling and deployment needs, and ensure alignment with institutional policies and national data protection laws. These NFRs represent binding commitments that will guide acceptance testing and operational monitoring, ensuring IRIS delivers not just the right features, but delivers them with the performance, security, and reliability expected from a production IP management system.Overall, the non-functional requirements set the foundation necessary for IRIS to function reliably at scale. They ensure that the system performs efficiently under load, maintains strong security practices, remains available and recoverable during failures, and provides an accessible and user-friendly interface. These requirements also promote long-term maintainability, support future scaling and deployment needs, and ensure alignment with institutional policies and national data protection laws. These NFRs represent binding commitments that will guide acceptance testing and operational monitoring, ensuring IRIS delivers not just the right features, but delivers them with the performance, security, and reliability expected from a production IP management system.
 
 \section{System Design}
 
