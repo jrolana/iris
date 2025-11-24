@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  24 NOV 2025 17:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  24 NOV 2025 17:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -434,12 +434,46 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@roff=\dimen184
 )) (C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
+)
+(C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape.sty
+Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
+
+(C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape-nome
+tadata.sty
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PD
+F (HO)
+
+(C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/graphics\lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+))
+(C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+Package: tabularx 2023/07/08 v2.11c `tabularx' package (DPC)
+
+(C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen185
+\ar@mcellbox=\box59
+\extrarowheight=\dimen186
+\NC@list=\toks32
+\extratabsurround=\skip64
+\backup@length=\skip65
+\ar@cellbox=\box60
+)
+\TX@col@width=\dimen187
+\TX@old@table=\dimen188
+\TX@old@col=\dimen189
+\TX@target=\dimen190
+\TX@delta=\dimen191
+\TX@cols=\count300
+\TX@ftn=\toks33
 ))
 (C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdft
 ex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count300
-\l__pdf_internal_box=\box59
+\l__color_backend_stack_int=\count301
+\l__pdf_internal_box=\box61
 )
 
 LaTeX Warning: Unused global option(s):
@@ -470,17 +504,17 @@ LaTeX Font Info:    ... okay on input line 6.
 (C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mki
 i
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count301
-\scratchdimen=\dimen185
-\scratchbox=\box60
-\nofMPsegments=\count302
-\nofMParguments=\count303
-\everyMPshowfont=\toks32
-\MPscratchCnt=\count304
-\MPscratchDim=\dimen186
-\MPnumerator=\count305
-\makeMPintoPDFobject=\count306
-\everyMPtoPDFconversion=\toks33
+\scratchcounter=\count302
+\scratchdimen=\dimen192
+\scratchbox=\box62
+\nofMPsegments=\count303
+\nofMParguments=\count304
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count305
+\MPscratchDim=\dimen193
+\MPnumerator=\count306
+\makeMPintoPDFobject=\count307
+\everyMPtoPDFconversion=\toks35
 )
 (C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-ba
 se.sty
@@ -492,32 +526,17 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 g
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-(C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape.sty
-Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
-
-(C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape-nome
-tadata.sty
-Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PD
-F (HO)
-
-(C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/graphics\lscape.sty
-Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
-)
-Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
-))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@maskedRefs=\count307
-
-(C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/apacite\english.apc
+\c@maskedRefs=\count308
+ (C:\Users\dell\AppData\Local\Programs\MiKTeX\tex/latex/apacite\english.apc
 File: english.apc 2013/07/21 v6.03 apacite language file
 LaTeX Info: Redefining \BPBI on input line 129.
 LaTeX Info: Redefining \BHBI on input line 130.
 )
 Package hyperref Info: Link coloring OFF on input line 6.
-
 (main.out) (main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
@@ -584,7 +603,7 @@ Chapter 2.
 
 ] [12] [13] [14] [15]
 Underfull \hbox (badness 10000) in paragraph at lines 50--50
-[]\OT1/cmr/bx/n/12 Fees
+[]|\OT1/cmr/bx/n/12 Fees
  []
 
 
@@ -604,17 +623,17 @@ Overfull \hbox (1.05243pt too wide) in paragraph at lines 50--50
 
 
 Overfull \hbox (8.79831pt too wide) in paragraph at lines 50--50
-[]\OT1/cmr/bx/n/12 Processing| 
+[]|\OT1/cmr/bx/n/12 Processing| 
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 50--51
-[]\OT1/cmr/bx/n/12 Person Re-
+[]|\OT1/cmr/bx/n/12 Person Re-
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 52--53
-[]\OT1/cmr/m/n/12 1. Sub-mit
+[]|\OT1/cmr/m/n/12 1. Sub-mit
  []
 
 
@@ -634,22 +653,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 52--53
 
 
 Overfull \hbox (0.82576pt too wide) in paragraph at lines 54--55
-[]\OT1/cmr/m/n/12 None| 
+[]|\OT1/cmr/m/n/12 None| 
  []
 
 
 Underfull \hbox (badness 1852) in paragraph at lines 56--57
-[]\OT1/cmr/m/n/12 Ma. Cristina T.
+[]|\OT1/cmr/m/n/12 Ma. Cristina T.
  []
 
 
 Overfull \hbox (0.82576pt too wide) in paragraph at lines 59--60
-[]\OT1/cmr/m/n/12 None| 
+[]|\OT1/cmr/m/n/12 None| 
  []
 
 
 Overfull \hbox (0.82576pt too wide) in paragraph at lines 64--65
-[]\OT1/cmr/m/n/12 None| 
+[]|\OT1/cmr/m/n/12 None| 
  []
 
 
@@ -664,31 +683,31 @@ Underfull \hbox (badness 1735) in paragraph at lines 68--69
 
 
 Overfull \hbox (0.82576pt too wide) in paragraph at lines 70--71
-[]\OT1/cmr/m/n/12 None| 
+[]|\OT1/cmr/m/n/12 None| 
  []
 
 
 Overfull \hbox (0.82576pt too wide) in paragraph at lines 76--77
-[]\OT1/cmr/m/n/12 None| 
+[]|\OT1/cmr/m/n/12 None| 
  []
 
 
 Overfull \hbox (0.82576pt too wide) in paragraph at lines 81--82
-[]\OT1/cmr/m/n/12 None| 
+[]|\OT1/cmr/m/n/12 None| 
  []
 
 
 Underfull \hbox (badness 1852) in paragraph at lines 83--84
-[]\OT1/cmr/m/n/12 Ma. Cristina T.
+[]|\OT1/cmr/m/n/12 Ma. Cristina T.
  []
 
 
 Overfull \hbox (0.82576pt too wide) in paragraph at lines 86--87
-[]\OT1/cmr/m/n/12 None| 
+[]|\OT1/cmr/m/n/12 None| 
  []
 
 
-Overfull \hbox (42.70247pt too wide) in paragraph at lines 48--93
+Overfull \hbox (45.10243pt too wide) in paragraph at lines 48--93
  [][] 
  []
 
@@ -712,268 +731,126 @@ Overfull \hbox (11.80922pt too wide) in paragraph at lines 139--139
 []\OT1/cmr/bx/n/17.28 Comparative Ana-lysis of IP Man-age-ment Sys-
  []
 
-[23]
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
-[]\OT1/cmr/bx/n/12 International
+[23] [24]
+Underfull \hbox (badness 3068) in paragraph at lines 203--203
+[]|\OT1/cmr/bx/n/12 International Uni-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--161
-[]\OT1/cmr/m/n/12 Submission
+Underfull \hbox (badness 4181) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 UP Dil-i-man: web-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--163
-[]\OT1/cmr/m/n/12 UP Dil-i-man:
+Underfull \hbox (badness 2486) in paragraph at lines 203--203
+\OT1/cmr/m/n/12 site; UP Min-danao:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--163
-\OT1/cmr/m/n/12 web-site; UP
+Overfull \hbox (4.09059pt too wide) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 MIT/Stanford/Oxford:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--163
-\OT1/cmr/m/n/12 Min-danao:
+Underfull \hbox (badness 3375) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 UPV TTBDO lacks
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--163
-\OT1/cmr/m/n/12 Google Forms;
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 Manual via Google
  []
 
 
-Underfull \hbox (badness 1577) in paragraph at lines 162--163
-\OT1/cmr/m/n/12 DLSU: phys-i-cal;
+Underfull \hbox (badness 2158) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 Mostly man-ual; UP
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--163
-\OT1/cmr/m/n/12 PUP: Google
+Underfull \hbox (badness 5175) in paragraph at lines 203--203
+\OT1/cmr/m/n/12 Dil-i-man has par-tial
  []
 
 
-Overfull \hbox (30.2659pt too wide) in paragraph at lines 163--164
-[]\OT1/cmr/m/n/12 MIT/Stanford/Oxford:
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 Automated dig-i-tal
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 164--165
-[]\OT1/cmr/m/n/12 UPV TTBDO
+Underfull \hbox (badness 2799) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 Need for au-to-mated
  []
 
 
-Underfull \hbox (badness 1565) in paragraph at lines 164--165
-\OT1/cmr/m/n/12 lacks an of-fi-cial
+Underfull \hbox (badness 1142) in paragraph at lines 203--203
+\OT1/cmr/m/n/12 track-ing and pro-cess
  []
 
 
-Underfull \hbox (badness 1173) in paragraph at lines 164--165
-\OT1/cmr/m/n/12 sub-mis-sion plat-
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 Partially cen-tral-ized
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 166--167
-[]\OT1/cmr/m/n/12 Workflow &
+Underfull \hbox (badness 5417) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 Need for in-te-grated
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 167--168
-[]\OT1/cmr/m/n/12 Manual via
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+\OT1/cmr/m/n/12 database to en-sure
  []
 
 
-Underfull \hbox (badness 7273) in paragraph at lines 168--169
-[]\OT1/cmr/m/n/12 Mostly man-ual;
+Underfull \hbox (badness 2662) in paragraph at lines 203--203
+\OT1/cmr/m/n/12 cess and dis-tributed
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 168--169
-\OT1/cmr/m/n/12 par-tial struc-
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 Commercialization
  []
 
 
-Underfull \hbox (badness 4353) in paragraph at lines 170--171
-[]\OT1/cmr/m/n/12 Need for au-to-
+Underfull \hbox (badness 1173) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 DLSU has in-cu-ba-tor
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 170--171
-\OT1/cmr/m/n/12 mated track-ing
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 Need to in-te-grate
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 170--171
-\OT1/cmr/m/n/12 and pro-cess
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+\OT1/cmr/m/n/12 com-mer-cial-iza-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 172--173
-[]\OT1/cmr/m/n/12 Data Man-
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 Transparent, tiered
  []
 
 
-Underfull \hbox (badness 1048) in paragraph at lines 173--174
-\OT1/cmr/m/n/12 cal and Google
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+\OT1/cmr/m/n/12 dis-tri-bu-tion (MIT,
  []
 
 
-Underfull \hbox (badness 4229) in paragraph at lines 174--175
-\OT1/cmr/m/n/12 ized (some use
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+[]|\OT1/cmr/m/n/12 PNeed for built-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 175--176
-[]\OT1/cmr/m/n/12 Centralized
+Underfull \hbox (badness 10000) in paragraph at lines 203--203
+\OT1/cmr/m/n/12 in rev-enue track-
  []
 
-
-Underfull \hbox (badness 7981) in paragraph at lines 175--176
-\OT1/cmr/m/n/12 databases man-
- []
+[25] [26
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--177
-[]\OT1/cmr/m/n/12 Need for in-te-
- []
-
-
-Underfull \hbox (badness 3724) in paragraph at lines 176--177
-\OT1/cmr/m/n/12 grated database
- []
-
-
-Underfull \hbox (badness 4940) in paragraph at lines 176--177
-\OT1/cmr/m/n/12 to en-sure data
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 178--179
-[]\OT1/cmr/m/n/12 Notifications
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 181--182
-[]\OT1/cmr/m/n/12 Built-in re-
- []
-
-
-Underfull \hbox (badness 4181) in paragraph at lines 182--183
-\OT1/cmr/m/n/12 no-ti-fi-ca-tion sys-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 184--185
-[]\OT1/cmr/m/n/12 Staffing
- []
-
-
-Underfull \hbox (badness 4303) in paragraph at lines 185--186
-[]\OT1/cmr/m/n/12 One IP of-fi-cer
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 185--186
-\OT1/cmr/m/n/12 han-dles most
- []
-
-
-Underfull \hbox (badness 2277) in paragraph at lines 186--187
-[]\OT1/cmr/m/n/12 Small teams or
- []
-
-
-Underfull \hbox (badness 3009) in paragraph at lines 187--188
-\OT1/cmr/m/n/12 ing of-fi-cers, le-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 188--189
-[]\OT1/cmr/m/n/12 Need for role-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 188--189
-\OT1/cmr/m/n/12 based ac-cess
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 188--189
-\OT1/cmr/m/n/12 and dis-tributed
- []
-
-
-Overfull \hbox (24.82545pt too wide) in paragraph at lines 190--191
-[]\OT1/cmr/m/n/12 Commercialization
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
-[]\OT1/cmr/m/n/12 DLSU has in-
- []
-
-
-Underfull \hbox (badness 3302) in paragraph at lines 192--193
-\OT1/cmr/m/n/12 cu-ba-tor (An-imo
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 193--194
-[]\OT1/cmr/m/n/12 Extensive
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 193--194
-\OT1/cmr/m/n/12 startup and
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 194--195
-\OT1/cmr/m/n/12 com-mer-cial-iza-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 194--195
-\OT1/cmr/m/n/12 tion track-ing
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 196--197
-[]\OT1/cmr/m/n/12 Revenue
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 198--199
-[]\OT1/cmr/m/n/12 Institutional
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
-[]\OT1/cmr/m/n/12 Transparent,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
-\OT1/cmr/m/n/12 tiered dis-tri-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
-\OT1/cmr/m/n/12 bu-tion (MIT,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 200--201
-\OT1/cmr/m/n/12 ing/reporting
- []
-
-
-Overfull \hbox (45.54877pt too wide) in paragraph at lines 156--203
- [][] 
- []
-
-[24] [25] [26]
-Overfull \hbox (3.77525pt too wide) in paragraph at lines 222--222
+]
+Overfull \hbox (3.77525pt too wide) in paragraph at lines 224--224
 []\OT1/cmr/bx/n/17.28 Rationale for Im-ple-ment-ing Dig-i-tal So-lu-tions
  []
 
@@ -989,91 +866,92 @@ Chapter 3.
 
 ] [34]
 Underfull \hbox (badness 1331) in paragraph at lines 41--42
-[]\OT1/cmr/m/n/12 UI/UX de-sign and sys-tem di-a-
+[]|\OT1/cmr/m/n/12 UI/UX de-sign and sys-tem di-a-
  []
 
 
-Overfull \hbox (24.47655pt too wide) in paragraph at lines 33--50
+Overfull \hbox (26.07652pt too wide) in paragraph at lines 33--50
 [][] 
  []
 
 [35] [36]
-Overfull \hbox (24.47655pt too wide) in paragraph at lines 87--98
+Overfull \hbox (26.07652pt too wide) in paragraph at lines 87--98
 [][] 
  []
 
 [37] [38]
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 129--138
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 129--138
  [][] 
  []
 
 
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 150--163
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 150--163
  [][] 
  []
 
 
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 175--186
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 175--186
  [][] 
  []
 
 [39]
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 198--207
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 198--207
  [][] 
  []
 
 
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 219--230
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 219--230
  [][] 
  []
 
 
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 242--251
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 242--251
  [][] 
  []
 
 [40]
 Underfull \hbox (badness 1194) in paragraph at lines 269--270
-[]\OT1/cmr/m/n/12 The sys-tem SHALL up-date records when dis-crep-an-cies with
+[]|\OT1/cmr/m/n/12 The sys-tem SHALL up-date records when dis-crep-an-cies with
+
  []
 
 
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 263--274
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 263--274
  [][] 
  []
 
 
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 287--298
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 287--298
  [][] 
  []
 
 [41]
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 319--328
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 319--328
  [][] 
  []
 
 
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 340--351
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 340--351
  [][] 
  []
 
 [42]
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 363--374
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 363--374
  [][] 
  []
 
 
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 386--401
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 386--401
  [][] 
  []
 
 
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 413--428
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 413--428
  [][] 
  []
 
 [43]
-Overfull \hbox (12.47653pt too wide) in paragraph at lines 441--454
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 441--454
  [][] 
  []
 
@@ -1244,13 +1122,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: DF794744D8E1B5A08BDEFBFCBB52C113;7925.
  ) 
 Here is how much of TeX's memory you used:
- 14856 strings out of 474485
- 240501 string characters out of 5744206
- 1942542 words of memory out of 5000000
- 36683 multiletter control sequences out of 15000+600000
+ 14979 strings out of 474485
+ 242452 string characters out of 5744206
+ 1939542 words of memory out of 5000000
+ 36801 multiletter control sequences out of 15000+600000
  566628 words of font info for 68 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 80i,11n,82p,1598b,699s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 80i,11n,82p,1598b,703s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\dell\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1
 200.pk><C:/Users/dell/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb><C:/Users/dell/AppData/Local/Programs/MiKTeX/fonts/type1/public/
@@ -1258,7 +1136,7 @@ amsfonts/cm/cmcsc10.pfb><C:/Users/dell/AppData/Local/Programs/MiKTeX/fonts/type
 1/public/amsfonts/cm/cmr12.pfb><C:/Users/dell/AppData/Local/Programs/MiKTeX/fon
 ts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/dell/AppData/Local/Programs/Mi
 KTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (69 pages, 1418369 bytes).
+Output written on main.pdf (69 pages, 1418483 bytes).
 PDF statistics:
  761 PDF objects out of 1000 (max. 8388607)
  207 named destinations out of 1000 (max. 500000)
