@@ -40,18 +40,18 @@
 \contentsline {section}{\numberline {3.3}Requirements Analysis}{38}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Data Collection Methods}{38}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Functional Requirements}{38}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Non-Functional Requirements}{42}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.3}Non-Functional Requirements}{41}{subsection.3.3.3}%
 \contentsline {section}{\numberline {3.4}System Design}{45}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}Context Model}{45}{subsection.3.4.1}%
-\contentsline {subsubsection}{TTBDO Admin}{46}{section*.54}%
-\contentsline {subsubsection}{Tech Generators}{46}{section*.55}%
-\contentsline {subsubsection}{UP Officials and Guests.}{47}{section*.56}%
+\contentsline {subsubsection}{TTBDO Admin}{46}{section*.52}%
+\contentsline {subsubsection}{Tech Generators}{46}{section*.53}%
+\contentsline {subsubsection}{UP Officials and Guests.}{46}{section*.54}%
 \contentsline {subsection}{\numberline {3.4.2}Database Design}{47}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Use Case Diagram}{48}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}Sequence Diagrams}{52}{subsection.3.4.4}%
-\contentsline {subsubsection}{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram}{52}{section*.62}%
-\contentsline {subsubsection}{Detailed Branch of the Specific IPR Sequence Diagram}{54}{section*.65}%
-\contentsline {subsubsection}{Copyright Application Sequence Diagram}{58}{section*.69}%
-\contentsline {section}{\numberline {3.5}Testing and Evaluation}{60}{section.3.5}%
-\contentsline {paragraph}{Testing Approach:}{60}{section*.72}%
-\contentsline {paragraph}{Evaluation Criteria:}{60}{section*.73}%
+\contentsline {subsection}{\numberline {3.4.3}Use Case Diagram}{47}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}Sequence Diagrams}{51}{subsection.3.4.4}%
+\contentsline {subsubsection}{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram}{51}{section*.60}%
+\contentsline {subsubsection}{Detailed Branch of the Specific IPR Sequence Diagram}{53}{section*.63}%
+\contentsline {subsubsection}{Copyright Application Sequence Diagram}{57}{section*.67}%
+\contentsline {section}{\numberline {3.5}Testing and Evaluation}{59}{section.3.5}%
+\contentsline {paragraph}{Testing Approach:}{59}{section*.70}%
+\contentsline {paragraph}{Evaluation Criteria:}{59}{section*.71}%

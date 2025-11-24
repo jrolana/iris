@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  24 NOV 2025 17:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  25 NOV 2025 00:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -577,7 +577,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
  [5
 
-] [6]
+]
 \openout2 = `chapter_1.aux'.
 
  (chapter_1.tex
@@ -712,14 +712,14 @@ Overfull \hbox (45.10243pt too wide) in paragraph at lines 48--93
  []
 
 [16]
-<figures/flowchart_general.png, id=378, 1975.38pt x 1735.23282pt>
+<figures/flowchart_general.png, id=372, 1975.38pt x 1735.23282pt>
 File: figures/flowchart_general.png Graphic file (type png)
 <use figures/flowchart_general.png>
 Package pdftex.def Info: figures/flowchart_general.png  used on input line 100.
 
 (pdftex.def)             Requested size: 355.55305pt x 312.32843pt.
  [17]
-<figures/flowchart_copyright.png, id=383, 676.02562pt x 1590.69281pt>
+<figures/flowchart_copyright.png, id=377, 676.02562pt x 1590.69281pt>
 File: figures/flowchart_copyright.png Graphic file (type png)
 <use figures/flowchart_copyright.png>
 Package pdftex.def Info: figures/flowchart_copyright.png  used on input line 10
@@ -910,23 +910,17 @@ Overfull \hbox (13.67651pt too wide) in paragraph at lines 242--251
  []
 
 [40]
-Underfull \hbox (badness 1194) in paragraph at lines 269--270
-[]|\OT1/cmr/m/n/12 The sys-tem SHALL up-date records when dis-crep-an-cies with
-
- []
-
-
-Overfull \hbox (13.67651pt too wide) in paragraph at lines 263--274
- [][] 
- []
-
-
-Overfull \hbox (13.67651pt too wide) in paragraph at lines 287--298
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 264--275
  [][] 
  []
 
 [41]
-Overfull \hbox (13.67651pt too wide) in paragraph at lines 319--328
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 296--305
+ [][] 
+ []
+
+
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 317--328
  [][] 
  []
 
@@ -936,151 +930,145 @@ Overfull \hbox (13.67651pt too wide) in paragraph at lines 340--351
  []
 
 [42]
-Overfull \hbox (13.67651pt too wide) in paragraph at lines 363--374
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 363--378
  [][] 
  []
 
 
-Overfull \hbox (13.67651pt too wide) in paragraph at lines 386--401
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 390--405
  [][] 
  []
 
 
-Overfull \hbox (13.67651pt too wide) in paragraph at lines 413--428
+Overfull \hbox (13.67651pt too wide) in paragraph at lines 418--431
  [][] 
  []
 
-[43]
-Overfull \hbox (13.67651pt too wide) in paragraph at lines 441--454
- [][] 
- []
-
-[44]
-<figures/context_model.png, id=533, 1150.2975pt x 580.41844pt>
+[43] [44]
+<figures/context_model.png, id=526, 1150.2975pt x 580.41844pt>
 File: figures/context_model.png Graphic file (type png)
 <use figures/context_model.png>
-Package pdftex.def Info: figures/context_model.png  used on input line 467.
+Package pdftex.def Info: figures/context_model.png  used on input line 444.
 (pdftex.def)             Requested size: 402.61017pt x 203.14949pt.
- [45] [46 <./figures/context_model.png (PNG copy)>]
-<figures/db_design.png, id=544, 877.2775pt x 549.05125pt>
+ [45 <./figures/context_model.png (PNG copy)>] [46]
+<figures/db_design.png, id=538, 877.2775pt x 549.05125pt>
 File: figures/db_design.png Graphic file (type png)
 <use figures/db_design.png>
-Package pdftex.def Info: figures/db_design.png  used on input line 490.
+Package pdftex.def Info: figures/db_design.png  used on input line 467.
 (pdftex.def)             Requested size: 438.63768pt x 274.52495pt.
 
-Overfull \hbox (23.08519pt too wide) in paragraph at lines 490--491
+Overfull \hbox (23.08519pt too wide) in paragraph at lines 467--468
  [][] 
  []
 
-[47]
-<figures/uc_guest.png, id=550, 472.76625pt x 214.8025pt>
+<figures/uc_guest.png, id=539, 472.76625pt x 214.8025pt>
 File: figures/uc_guest.png Graphic file (type png)
 <use figures/uc_guest.png>
-Package pdftex.def Info: figures/uc_guest.png  used on input line 500.
+Package pdftex.def Info: figures/uc_guest.png  used on input line 477.
 (pdftex.def)             Requested size: 330.93411pt x 150.36072pt.
- [48 <./figures/db_design.png (PNG copy)>]
-<figures/uc_official.png, id=555, 678.535pt x 214.8025pt>
+[47 <./figures/db_design.png (PNG copy)>]
+<figures/uc_official.png, id=544, 678.535pt x 214.8025pt>
 File: figures/uc_official.png Graphic file (type png)
 <use figures/uc_official.png>
-Package pdftex.def Info: figures/uc_official.png  used on input line 507.
+Package pdftex.def Info: figures/uc_official.png  used on input line 484.
 (pdftex.def)             Requested size: 474.97125pt x 150.36072pt.
 
-Overfull \hbox (59.41876pt too wide) in paragraph at lines 507--508
+Overfull \hbox (59.41876pt too wide) in paragraph at lines 484--485
  [][] 
  []
 
-<figures/uc_techgen.png, id=558, 495.8525pt x 563.10374pt>
+<figures/uc_techgen.png, id=547, 495.8525pt x 563.10374pt>
 File: figures/uc_techgen.png Graphic file (type png)
 <use figures/uc_techgen.png>
-Package pdftex.def Info: figures/uc_techgen.png  used on input line 516.
+Package pdftex.def Info: figures/uc_techgen.png  used on input line 493.
 (pdftex.def)             Requested size: 347.09438pt x 394.16994pt.
-[49 <./figures/uc_guest.png (PNG copy)> <./figures/uc_official.png (PNG copy)>]
-<figures/uc_admin.png, id=565, 1593.955pt x 204.765pt>
+[48 <./figures/uc_guest.png (PNG copy)> <./figures/uc_official.png (PNG copy)>]
+<figures/uc_admin.png, id=553, 1593.955pt x 204.765pt>
 File: figures/uc_admin.png Graphic file (type png)
 <use figures/uc_admin.png>
-Package pdftex.def Info: figures/uc_admin.png  used on input line 525.
+Package pdftex.def Info: figures/uc_admin.png  used on input line 502.
 (pdftex.def)             Requested size: 478.1902pt x 61.42996pt.
 
-Overfull \hbox (62.63771pt too wide) in paragraph at lines 525--526
+Overfull \hbox (62.63771pt too wide) in paragraph at lines 502--503
  [][] 
  []
 
-[50 <./figures/uc_techgen.png (PNG copy)>]
-<figures/general_sequenceA.png, id=571, 842.39719pt x 817.55438pt>
+[49 <./figures/uc_techgen.png (PNG copy)>]
+<figures/general_sequenceA.png, id=559, 842.39719pt x 817.55438pt>
 File: figures/general_sequenceA.png Graphic file (type png)
 <use figures/general_sequenceA.png>
-Package pdftex.def Info: figures/general_sequenceA.png  used on input line 538.
+Package pdftex.def Info: figures/general_sequenceA.png  used on input line 515.
 
 (pdftex.def)             Requested size: 421.19756pt x 408.7762pt.
 
-Overfull \hbox (5.64507pt too wide) in paragraph at lines 538--539
+Overfull \hbox (5.64507pt too wide) in paragraph at lines 515--516
  [][] 
  []
 
-[51 <./figures/uc_admin.png (PNG copy)>]
-<figures/general_sequenceB.png, id=577, 842.39719pt x 699.36281pt>
+[50 <./figures/uc_admin.png (PNG copy)>]
+<figures/general_sequenceB.png, id=566, 842.39719pt x 699.36281pt>
 File: figures/general_sequenceB.png Graphic file (type png)
 <use figures/general_sequenceB.png>
-Package pdftex.def Info: figures/general_sequenceB.png  used on input line 545.
+Package pdftex.def Info: figures/general_sequenceB.png  used on input line 522.
 
 (pdftex.def)             Requested size: 421.19756pt x 349.68054pt.
 
-Overfull \hbox (5.64507pt too wide) in paragraph at lines 545--546
+Overfull \hbox (5.64507pt too wide) in paragraph at lines 522--523
  [][] 
  []
 
-[52 <./figures/general_sequenceA.png>]
+[51 <./figures/general_sequenceA.png>]
 
-LaTeX Warning: Reference `fig:gen_seqB' on page 53 undefined on input line 550.
-
-
-
-LaTeX Warning: Reference `fig:gen_seqB' on page 53 undefined on input line 555.
+LaTeX Warning: Reference `fig:gen_seqB' on page 52 undefined on input line 527.
 
 
-<figures/tm_sequence.png, id=585, 1051.93pt x 1458.44875pt>
+
+LaTeX Warning: Reference `fig:gen_seqB' on page 52 undefined on input line 532.
+
+
+<figures/tm_sequence.png, id=574, 1051.93pt x 1458.44875pt>
 File: figures/tm_sequence.png Graphic file (type png)
 <use figures/tm_sequence.png>
-Package pdftex.def Info: figures/tm_sequence.png  used on input line 558.
+Package pdftex.def Info: figures/tm_sequence.png  used on input line 535.
 (pdftex.def)             Requested size: 368.18102pt x 510.46472pt.
-[53 <./figures/general_sequenceB.png>] [54]
-<figures/um_id_sequence.png, id=596, 1078.0275pt x 1426.32875pt>
+[52 <./figures/general_sequenceB.png>] [53]
+<figures/um_id_sequence.png, id=585, 1078.0275pt x 1426.32875pt>
 File: figures/um_id_sequence.png Graphic file (type png)
 <use figures/um_id_sequence.png>
-Package pdftex.def Info: figures/um_id_sequence.png  used on input line 565.
+Package pdftex.def Info: figures/um_id_sequence.png  used on input line 542.
 (pdftex.def)             Requested size: 377.31528pt x 499.22255pt.
- [55 <./figures/tm_sequence.png (PNG copy)>]
-<figures/patent_sequence.png, id=602, 1110.1475pt x 1410.26875pt>
+ [54 <./figures/tm_sequence.png (PNG copy)>]
+<figures/patent_sequence.png, id=590, 1110.1475pt x 1410.26875pt>
 File: figures/patent_sequence.png Graphic file (type png)
 <use figures/patent_sequence.png>
-Package pdftex.def Info: figures/patent_sequence.png  used on input line 572.
+Package pdftex.def Info: figures/patent_sequence.png  used on input line 549.
 (pdftex.def)             Requested size: 388.55745pt x 493.60146pt.
- [56 <./figures/um_id_sequence.png (PNG copy)>]
-<figures/copyright_sequenceA.png, id=607, 897.3525pt x 1112.65688pt>
+ [55 <./figures/um_id_sequence.png (PNG copy)>]
+<figures/copyright_sequenceA.png, id=595, 897.3525pt x 1112.65688pt>
 File: figures/copyright_sequenceA.png Graphic file (type png)
 <use figures/copyright_sequenceA.png>
-Package pdftex.def Info: figures/copyright_sequenceA.png  used on input line 58
-1.
+Package pdftex.def Info: figures/copyright_sequenceA.png  used on input line 55
+8.
 (pdftex.def)             Requested size: 448.67514pt x 556.32709pt.
 
-Overfull \hbox (33.12265pt too wide) in paragraph at lines 581--582
+Overfull \hbox (33.12265pt too wide) in paragraph at lines 558--559
  [][] 
  []
 
-<figures/copyright_sequenceB.png, id=608, 897.3525pt x 948.54375pt>
+<figures/copyright_sequenceB.png, id=596, 897.3525pt x 948.54375pt>
 File: figures/copyright_sequenceB.png Graphic file (type png)
 <use figures/copyright_sequenceB.png>
-Package pdftex.def Info: figures/copyright_sequenceB.png  used on input line 58
-7.
+Package pdftex.def Info: figures/copyright_sequenceB.png  used on input line 56
+4.
 (pdftex.def)             Requested size: 448.67514pt x 474.2707pt.
 
-Overfull \hbox (33.12265pt too wide) in paragraph at lines 587--588
+Overfull \hbox (33.12265pt too wide) in paragraph at lines 564--565
  [][] 
  []
 
-[57 <./figures/patent_sequence.png (PNG copy)>] [58 <./figures/copyright_sequen
-ceA.png>] [59 <./figures/copyright_sequenceB.png>] [60]) [61] (main.bbl
-[62
+[56 <./figures/patent_sequence.png (PNG copy)>] [57 <./figures/copyright_sequen
+ceA.png>] [58 <./figures/copyright_sequenceB.png>] [59]) [60] (main.bbl
+[61
 
 
 
@@ -1108,7 +1096,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 399--412
 Researcher [] -Booklet []
  []
 
-) [63] (main.aux (title_page.aux) (chapter_1.aux) (chapter_2.aux)
+) [62] (main.aux (title_page.aux) (chapter_1.aux) (chapter_2.aux)
 (chapter_3.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
@@ -1122,8 +1110,8 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: DF794744D8E1B5A08BDEFBFCBB52C113;7925.
  ) 
 Here is how much of TeX's memory you used:
- 14979 strings out of 474485
- 242452 string characters out of 5744206
+ 14975 strings out of 474485
+ 242411 string characters out of 5744206
  1939542 words of memory out of 5000000
  36801 multiletter control sequences out of 15000+600000
  566628 words of font info for 68 fonts, out of 8000000 for 9000
@@ -1136,9 +1124,9 @@ amsfonts/cm/cmcsc10.pfb><C:/Users/dell/AppData/Local/Programs/MiKTeX/fonts/type
 1/public/amsfonts/cm/cmr12.pfb><C:/Users/dell/AppData/Local/Programs/MiKTeX/fon
 ts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/dell/AppData/Local/Programs/Mi
 KTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (69 pages, 1418483 bytes).
+Output written on main.pdf (67 pages, 1415935 bytes).
 PDF statistics:
- 761 PDF objects out of 1000 (max. 8388607)
- 207 named destinations out of 1000 (max. 500000)
+ 749 PDF objects out of 1000 (max. 8388607)
+ 203 named destinations out of 1000 (max. 500000)
  388 words of extra memory for PDF output out of 10000 (max. 10000000)
 

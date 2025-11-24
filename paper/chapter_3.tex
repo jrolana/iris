@@ -112,7 +112,7 @@ Data was gathered through multiple methods to ensure an accurate understanding o
 
 \subsection{Functional Requirements}
 
-The functional requirements (FR) of IRIS define the specific system behaviors, capabilities, and interactions necessary to address the inefficiencies of TTBDO’s current manual IP management process. These requirements translate the project objectives into specific system behaviors and are organized into eight key functional areas such as authentication, application submission, application tracking, dashboards, notifications, document management, external synchronization, and public access. 
+The functional requirements (FR) of IRIS define the specific system behaviors, capabilities, and interactions necessary to address the inefficiencies of TTBDO’s current manual IP management process. These requirements translate the project objectives into specific system behaviors and are organized into eight key functional areas such as authentication, application submission, application tracking, dashboards, notifications, document management, and public access. 
 
 The tables below (Table~\ref{tab:fr_auth_roles} to Table~\ref{tab:fr_public_portal}) present the complete set of functional requirements that will guide the design and implementation of IRIS.
 
@@ -251,30 +251,7 @@ FR-16 & The system SHALL secure documents and enforce role-based access restrict
 \end{table}
 \endgroup
 
-\subsubsection*{3.1.7 External System Synchronization}
-
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{External System Synchronization}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-FR-17 & The system SHALL synchronize with IPOPhil’s public data on a scheduled basis. \\
-\hline
-FR-18 & The system SHALL update records when discrepancies with IPOPhil data are detected. \\
-\hline
-FR-19 & The system SHOULD allow manual reconciliation of conflicts by TTBDO staff. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-\subsubsection*{3.1.8 Public Portal}
+\subsubsection*{3.1.7 Public Portal}
 
 \begingroup
 \setlength{\tabcolsep}{6pt}
