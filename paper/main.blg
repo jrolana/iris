@@ -35,45 +35,46 @@ Warning--entry type for "ttbdo_about" isn't style-file defined
 Warning--entry type for "oxfordinnovation2013-booklet" isn't style-file defined
 --line 253 of file myreferences.bib
 apacite.bst [2013/07/21 v6.03 APA bibliography style]
+Warning--No journal in ra8293_1997_lawphil
 You've used 16 entries,
             6951 wiz_defined-function locations,
             1360 strings with 13992 characters,
-and the built_in function-call counts, 28854 in all, are:
-= -- 3855
+and the built_in function-call counts, 28806 in all, are:
+= -- 3849
 > -- 184
 < -- 1245
 + -- 1207
 - -- 39
-* -- 1681
-:= -- 4840
-add.period$ -- 65
+* -- 1686
+:= -- 4839
+add.period$ -- 64
 call.type$ -- 16
 change.case$ -- 271
 chr.to.int$ -- 0
-cite$ -- 32
-duplicate$ -- 651
-empty$ -- 1218
+cite$ -- 33
+duplicate$ -- 647
+empty$ -- 1208
 format.name$ -- 295
-if$ -- 5794
+if$ -- 5773
 int.to.chr$ -- 0
 int.to.str$ -- 52
 missing$ -- 0
 newline$ -- 365
 num.names$ -- 96
-pop$ -- 626
+pop$ -- 573
 preamble$ -- 1
 purify$ -- 58
 quote$ -- 0
-skip$ -- 2150
+skip$ -- 2193
 stack$ -- 0
 substring$ -- 1307
-swap$ -- 350
+swap$ -- 354
 text.length$ -- 47
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 1866
-warning$ -- 0
+type$ -- 1860
+warning$ -- 1
 while$ -- 105
 width$ -- 0
 write$ -- 437
-(There were 6 warnings)
+(There were 7 warnings)
