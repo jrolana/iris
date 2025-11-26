@@ -108,18 +108,18 @@ ipophil_about}%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-\APACcitebtitle {Intellectual Property Code of the Philippines, Rep. Act No.
+\APACciteatitle {Intellectual Property Code of the Philippines, Rep. Act No.
   8293 (June 6, 1997) (Phil.)}}{%
-\APACcitebtitle {Intellectual Property Code of the Philippines, Rep. Act No.
+\APACciteatitle {Intellectual Property Code of the Philippines, Rep. Act No.
   8293 (June 6, 1997) (Phil.)}}{%
 {\protect \APACyear {1997}}%
 }]{%
 ra8293_1997_lawphil}
 \APACinsertmetastar {%
 ra8293_1997_lawphil}%
-\APACrefbtitle {Intellectual Property Code of the Philippines, Rep. Act No.
-  8293 (June 6, 1997) (Phil.).} {Intellectual property code of the philippines,
-  rep. act no. 8293 (june 6, 1997) (phil.).}
+{\BBOQ}\APACrefatitle {Intellectual Property Code of the Philippines, Rep. Act
+  No. 8293 (June 6, 1997) (Phil.)} {Intellectual property code of the
+  philippines, rep. act no. 8293 (june 6, 1997) (phil.)}.{\BBCQ}
 \newblock
 \APACrefYearMonthDay{1997}{}{}.
 \newblock
