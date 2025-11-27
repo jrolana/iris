@@ -266,11 +266,11 @@ FR-16 & The system SHALL secure documents and enforce role-based access restrict
 \hline
 \textbf{ID} & \textbf{Requirement} \\
 \hline
-FR-20 & The system SHALL provide a guest-accessible, read-only portal to browse published IPs. \\
+FR-17 & The system SHALL provide a guest-accessible, read-only portal to browse published IPs. \\
 \hline
-FR-21 & The system SHALL display summary statistics in the public portal. \\
+FR-18 & The system SHALL display summary statistics in the public portal. \\
 \hline
-FR-22 & The system SHOULD allow document access requests via a public form. \\
+FR-19 & The system SHOULD allow document access requests via a public form. \\
 \hline
 \end{tabular}
 \end{table}
@@ -300,7 +300,7 @@ The following tables (Table~\ref{tab:nfr_performance} to Table~\ref{tab:nfr_comp
 \hline
 NFR-01 & The system SHALL return 95\% of requests within 2 seconds under normal load. \\
 \hline
-NFR-02 & The system SHALL support at least 200 concurrent users. \\
+NFR-02 & The system SHALL support at least 100 concurrent users. \\
 \hline
 \end{tabular}
 \end{table}
@@ -432,7 +432,7 @@ NFR-22 & The system SHOULD provide compliance reports for audits. \\
 \end{table}
 \endgroup
 
-Overall, the non-functional requirements set the foundation necessary for IRIS to function reliably at scale. They ensure that the system performs efficiently under load, maintains strong security practices, remains available and recoverable during failures, and provides an accessible and user-friendly interface. These requirements also promote long-term maintainability, support future scaling and deployment needs, and ensure alignment with institutional policies and national data protection laws. These NFRs represent binding commitments that will guide acceptance testing and operational monitoring, ensuring IRIS delivers not just the right features, but delivers them with the performance, security, and reliability expected from a production IP management system.Overall, the non-functional requirements set the foundation necessary for IRIS to function reliably at scale. They ensure that the system performs efficiently under load, maintains strong security practices, remains available and recoverable during failures, and provides an accessible and user-friendly interface. These requirements also promote long-term maintainability, support future scaling and deployment needs, and ensure alignment with institutional policies and national data protection laws. These NFRs represent binding commitments that will guide acceptance testing and operational monitoring, ensuring IRIS delivers not just the right features, but delivers them with the performance, security, and reliability expected from a production IP management system.
+These non-functional requirements ensure IRIS operates reliably, securely, and efficiently under load while remaining accessible and maintainable. They establish performance standards, security practices, availability targets, and usability guidelines that align with institutional policies and national data protection laws. These requirements will guide acceptance testing and operational monitoring to ensure the system meets production standards for an IP management platform.
 
 \section{System Design}
 
@@ -556,7 +556,6 @@ The following figures are the specific branch of sequence diagrams that are refe
     \label{fig:gen_seqB_4}
 \end{figure}
 
-
 \subsubsection{Copyright Application Sequence Diagram}
 \begin{figure}[H]                
    \centering                   
@@ -572,34 +571,23 @@ The following figures are the specific branch of sequence diagrams that are refe
 \end{figure}
 The application process for copyright can not be completely digitized, as it requires physical copies and wet signatures along the process. Figures \ref{fig:copyright_seqA} \& \ref{fig:copyright_seqB} illustrates the copyright application process started by the Technology Generator and facilitated by the TTBDO through the system.
 
-
-
 \section{Testing and Evaluation}
 
 Testing ensured that all system features met the defined functional and non-functional requirements of the proposed system. The process covered multiple testing levels to validate performance, security, and user satisfaction.
 
-\paragraph{Testing Approach:}
+\subsubsection{Testing Approach}
 
-\begin{itemize}
-  \item Performance Testing 
+The system will undergo Performance Testing, Penetration Testing, and User Acceptance Testing (UAT) to validate functional and non-functional requirements.
 
-  \begin{itemize}
-    \item Evaluated the system’s responsiveness, stability, and resilience under load. Page 
-    load time was maintained below three seconds on average. Penetration testing was 
-    conducted to assess the system’s defense mechanisms against unauthorized access 
-    and vulnerabilities. 
-  \end{itemize}
+Performance testing will evaluate system responsiveness and stability to validate NFR-01 (95\% of requests within 2 seconds). Testing will focus on application submission (FR-03 to FR-06), dashboard access (FR-10), and search functionality (FR-08 to FR-09), measuring page load times and response rates under normal usage conditions.
 
-  \item User Acceptance Testing (UAT) 
+Penetration testing will validate FR-02 and NFR-04 (role-based access control). Tests will attempt unauthorized access to restricted functions by simulating users accessing features outside their assigned roles, such as Applicant users attempting to access TTBDO document upload functions (FR-15). Authentication (FR-01) will be tested by attempting access to protected routes without valid credentials. Input validation will be tested by submitting malicious or unexpected data to verify that security mechanisms properly sanitize inputs and prevent unauthorized access.
 
-  \begin{itemize}
-    \item Involved end-users in evaluating the system’s overall usability, functionality, and 
-    reliability. Feedback from evaluators rated the interface as “very satisfactory,” 
-    with no system crashes observed during testing. 
-  \end{itemize}
-\end{itemize}
+User Acceptance Testing will involve end-users from each role (TTBDO staff, applicants, UP officials) completing representative tasks: application submission and document review (FR-03 to FR-06), applicant tracking (FR-07 to FR-08), notifications (FR-12 to FR-14), and dashboard reporting (FR-10 to FR-11). The responsive interface (NFR-09) will be tested across desktop devices, and navigation consistency (NFR-10) will be assessed through user feedback on interface clarity and ease of use.
 
-\paragraph{Evaluation Criteria:}
+\subsubsection{Evaluation Criteria}
+
+The evaluation of the system focuses on key aspects aligned with the Testing Approach to ensure overall effectiveness and readiness.
 
 \begin{itemize}
   \item Functionality: All modules are operational and aligned with defined requirements. 
