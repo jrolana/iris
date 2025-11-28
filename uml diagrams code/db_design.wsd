@@ -33,8 +33,20 @@ object "ipr_applications" as applications {
   updated_at: timestamptz
 }
 
+object "notifications" as notifs{
+  notif_id: uuid <<PK>>
+  user_id: uuid <<FK>>
+  application_id: uuid <<FK>> | null
+  title: text
+  message: text
+  is_read: boolean
+  created_at: timestamptz
+  read_at: timestamptz | null
+}
+
 object "ipr_statuses" as statuses {
   status_id: uuid <<PK>>
+  application_id: uuid <<FK>>
   status_type: statusType
   deadline: date
   note: text
@@ -59,9 +71,12 @@ object "inventors" as inv {
   college: text
 }
 
-applications "1" -down- "*" files
-users "*" -right- "*" applications
+applications "1" -left- "*" files
+users "*" -up- "*" applications
 applications "1" -right- "*" statuses
 applications "*" -- "*" inv
+applications "1" -- "*" notifs
+users "1" -right- "*" notifs
+inv "1" -right- "1" users
 
 @enduml
