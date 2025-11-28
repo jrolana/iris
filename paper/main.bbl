@@ -297,42 +297,20 @@ mittlo2021-inventors-guide}%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-\APACcitebtitle {Philippine Technology Transfer Act of 2009, Rep. Act No. 10055
+\APACciteatitle {Philippine Technology Transfer Act of 2009, Rep. Act No. 10055
   (Mar. 23, 2009) (Phil.)}}{%
-\APACcitebtitle {Philippine Technology Transfer Act of 2009, Rep. Act No. 10055
-  (Mar. 23, 2009) (Phil.)}}{%
-{\protect \APACyear {2009}}%
-{\protect \APACexlab {{\protect \BCnt {1}}}}}]{%
-ra10055_2009_officialgazette}
-\APACinsertmetastar {%
-ra10055_2009_officialgazette}%
-\APACrefbtitle {Philippine Technology Transfer Act of 2009, Rep. Act No. 10055
-  (Mar. 23, 2009) (Phil.).} {Philippine technology transfer act of 2009, rep.
-  act no. 10055 (mar. 23, 2009) (phil.).}
-\newblock
-\APACrefYearMonthDay{2009{\protect \BCnt {1}}}{}{}.
-\newblock
-\APAChowpublished
-  {\protect\url{https://www.officialgazette.gov.ph/2009/03/23/republic-act-no-10055/}}.
-\newblock
-\APACrefnote{Official Gazette of the Republic of the Philippines}
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-\APACcitebtitle {Philippine Technology Transfer Act of 2009, Rep. Act No. 10055
-  (Mar. 23, 2009) (Phil.)}}{%
-\APACcitebtitle {Philippine Technology Transfer Act of 2009, Rep. Act No. 10055
+\APACciteatitle {Philippine Technology Transfer Act of 2009, Rep. Act No. 10055
   (Mar. 23, 2009) (Phil.)}}{%
 {\protect \APACyear {2009}}%
-{\protect \APACexlab {{\protect \BCnt {2}}}}}]{%
+}]{%
 ra10055_2009_dost}
 \APACinsertmetastar {%
 ra10055_2009_dost}%
-\APACrefbtitle {Philippine Technology Transfer Act of 2009, Rep. Act No. 10055
-  (Mar. 23, 2009) (Phil.).} {Philippine technology transfer act of 2009, rep.
-  act no. 10055 (mar. 23, 2009) (phil.).}
+{\BBOQ}\APACrefatitle {Philippine Technology Transfer Act of 2009, Rep. Act No.
+  10055 (Mar. 23, 2009) (Phil.)} {Philippine technology transfer act of 2009,
+  rep. act no. 10055 (mar. 23, 2009) (phil.)}.{\BBCQ}
 \newblock
-\APACrefYearMonthDay{2009{\protect \BCnt {2}}}{}{}.
+\APACrefYearMonthDay{2009}{}{}.
 \newblock
 \APAChowpublished
   {\protect\url{https://www.dost.gov.ph/knowledge-resources/2014-04-27-01-59-53/republic-acts/file/288-republic-act-no-10055-philippine-technology-transfer-act-of-2009.html}}.

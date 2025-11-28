@@ -3,6 +3,8 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 Reallocating 'name_of_file' (item size: 1) to 15 items.
 A level-1 auxiliary file: title_page.aux
+Reallocating 'name_of_file' (item size: 1) to 13 items.
+A level-1 auxiliary file: abstract.aux
 Reallocating 'name_of_file' (item size: 1) to 14 items.
 A level-1 auxiliary file: chapter_1.aux
 Reallocating 'name_of_file' (item size: 1) to 14 items.
@@ -36,45 +38,46 @@ Warning--entry type for "oxfordinnovation2013-booklet" isn't style-file defined
 --line 253 of file myreferences.bib
 apacite.bst [2013/07/21 v6.03 APA bibliography style]
 Warning--No journal in ra8293_1997_lawphil
-You've used 16 entries,
+Warning--No journal in ra10055_2009_dost
+You've used 15 entries,
             6951 wiz_defined-function locations,
-            1360 strings with 13992 characters,
-and the built_in function-call counts, 28806 in all, are:
-= -- 3849
-> -- 184
-< -- 1245
-+ -- 1207
-- -- 39
-* -- 1686
-:= -- 4839
-add.period$ -- 64
-call.type$ -- 16
-change.case$ -- 271
+            1358 strings with 13843 characters,
+and the built_in function-call counts, 26976 in all, are:
+= -- 3589
+> -- 183
+< -- 1157
++ -- 1126
+- -- 38
+* -- 1569
+:= -- 4534
+add.period$ -- 59
+call.type$ -- 15
+change.case$ -- 239
 chr.to.int$ -- 0
-cite$ -- 33
-duplicate$ -- 647
-empty$ -- 1208
+cite$ -- 32
+duplicate$ -- 618
+empty$ -- 1115
 format.name$ -- 295
-if$ -- 5773
+if$ -- 5384
 int.to.chr$ -- 0
-int.to.str$ -- 52
+int.to.str$ -- 45
 missing$ -- 0
-newline$ -- 365
+newline$ -- 348
 num.names$ -- 96
-pop$ -- 573
+pop$ -- 452
 preamble$ -- 1
-purify$ -- 58
+purify$ -- 55
 quote$ -- 0
-skip$ -- 2193
+skip$ -- 2141
 stack$ -- 0
-substring$ -- 1307
-swap$ -- 354
-text.length$ -- 47
+substring$ -- 1223
+swap$ -- 345
+text.length$ -- 45
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 1860
-warning$ -- 1
-while$ -- 105
+type$ -- 1750
+warning$ -- 2
+while$ -- 103
 width$ -- 0
-write$ -- 437
-(There were 7 warnings)
+write$ -- 416
+(There were 8 warnings)
