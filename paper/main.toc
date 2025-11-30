@@ -32,11 +32,11 @@
 \contentsline {section}{\numberline {3.1}Research Design}{33}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}System Development Life Cycle Model}{33}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Research Framework}{33}{subsection.3.1.2}%
-\contentsline {section}{\numberline {3.2}Development Tools and Technologies}{35}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Software and Hardware}{35}{subsection.3.2.1}%
+\contentsline {section}{\numberline {3.2}Development Tools and Technologies}{34}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Software and Hardware}{34}{subsection.3.2.1}%
 \contentsline {subsubsection}{Software Tools}{35}{section*.21}%
 \contentsline {subsubsection}{Hardware Specifications}{36}{section*.23}%
-\contentsline {subsection}{\numberline {3.2.2}Technology Stack}{37}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.2}Technology Stack}{36}{subsection.3.2.2}%
 \contentsline {section}{\numberline {3.3}Requirements Analysis}{38}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Data Collection Methods}{38}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Functional Requirements}{38}{subsection.3.3.2}%
@@ -55,3 +55,4 @@
 \contentsline {section}{\numberline {3.5}Testing and Evaluation}{58}{section.3.5}%
 \contentsline {subsubsection}{Testing Approach}{58}{section*.70}%
 \contentsline {subsubsection}{Evaluation Criteria}{59}{section*.71}%
+\contentsline {section}{\numberline {3.6}Calendar of Activities}{59}{section.3.6}%

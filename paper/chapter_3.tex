@@ -6,13 +6,13 @@
 The study employs the Agile Software Development Life Cycle model. Agile was chosen for its flexibility and iterative nature, allowing continuous feedback from TTBDO personnel and early validation of system components. Through incremental sprints, the researchers were able to refine features based on actual user input.
 
 \subsection{Research Framework}
-The Problem Identification stage corresponds to the Introduction of the study, where the limitations of the current manual IP tracking process within the university are defined and contextualized. The Literature Review aligns with the Review of Related Literature (RRL) section, which explores local and international studies on IP management systems, theoretical foundations, and best practices to establish a strong research background.
+The research framework follows a systematic progression from problem identification through system development to rigorous evaluation.
 
-Next, the Requirements Gathering phase reflects the Requirements Elicitation process. At this stage, system requirements are derived from user interviews, document analysis, and process observations. The insights gained are analyzed further in the Requirements Analysis and System Requirements Specification (SRS) stages, where functional and non-functional requirements are organized and translated into system features and design models.
+The research begins by identifying the limitations of the current manual IP tracking process within the university. These limitations were identified through interviews with TTBDO and observation of existing workflows. Concurrently, a review of local and international literature on IP management systems and best practices was also conducted to establish the conceptual foundation for the system design.
 
-Finally, the Testing and Evaluation phase aligns with the Methodology section, specifically the evaluation component. This phase involves validating the system’s functionality, usability, and performance through User Acceptance Testing (UAT) and other assessment methods to ensure that the developed IPMS meets the users’ needs effectively.
+Building on these insights, system requirements were elicited and analyzed through user interviews and document analysis. These requirements, both functional and non-functional, were then organized and translated into system features through iterative Agile development cycles. Continuous feedback from stakeholders was gathered to ensure the system meets user needs and organizational workflows.
 
-Overall, the framework ensures that each stage of the research process, from identifying the problem to evaluating the final system, is logically aligned with the structure of the study, ensuring coherence between the conceptual, analytical, and technical components.
+Finally, the system was evaluated using Performance, Security, and User Acceptance Testing (UAT) involving the four key user roles. Feedback gathered during this phase informed final system adjustments before deployment.
 
 \section{Development Tools and Technologies}
 
@@ -573,11 +573,9 @@ The application process for copyright can not be completely digitized, as it req
 
 \section{Testing and Evaluation}
 
-Testing ensured that all system features met the defined functional and non-functional requirements of the proposed system. The process covered multiple testing levels to validate performance, security, and user satisfaction.
-
 \subsubsection{Testing Approach}
 
-The system will undergo Performance Testing, Penetration Testing, and User Acceptance Testing (UAT) to validate functional and non-functional requirements.
+The system will undergo Performance Testing, Penetration Testing, and User Acceptance Testing to validate functional and non-functional requirements.
 
 Performance testing will evaluate system responsiveness and stability to validate NFR-01 (95\% of requests within 2 seconds). Testing will focus on application submission (FR-03 to FR-06), dashboard access (FR-10), and search functionality (FR-08 to FR-09), measuring page load times and response rates under normal usage conditions.
 
@@ -595,3 +593,45 @@ The evaluation of the system focuses on key aspects aligned with the Testing App
   \item Performance: Average page load time maintained under three seconds. 
   \item Reliability: No critical errors or crashes occurred during UAT. 
 \end{itemize}
+
+\section{Calendar of Activities}
+
+Table~\ref{tab:gantt_chart} shows a Gantt chart of the activities. Each bullet represents approximately one week worth of activity. 
+
+\begingroup
+\setlength{\tabcolsep}{4pt} 
+\renewcommand{\arraystretch}{1.1} 
+\footnotesize 
+\begin{table}[H]
+\captionsetup{justification=raggedright,singlelinecheck=false}
+\caption{Timetable of Activities}
+\label{tab:gantt_chart}
+\centering
+\begin{tabular}{|p{4.5cm}|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Activities} & \textbf{Sept} & \textbf{Oct} & \textbf{Nov} & \textbf{Dec} & \textbf{Jan} & \textbf{Feb} & \textbf{Mar} & \textbf{Apr} & \textbf{May} \\
+\hline
+Problem Identification \& Literature Review & \textbullet & \textbullet & & & & & & & \\
+\hline
+Requirements Elicitation and Analysis & \textbullet & \textbullet & & & & & & & \\
+\hline
+Requirements Specification & & \textbullet & \textbullet & & & & & & \\
+\hline
+System Design and Prototype & & \textbullet\textbullet & \textbullet\textbullet & \textbullet\textbullet & & & & & \\
+\hline
+System Development & & & \textbullet & \textbullet\textbullet\textbullet\textbullet & \textbullet\textbullet\textbullet\textbullet & \textbullet\textbullet\textbullet\textbullet & \textbullet\textbullet\textbullet\textbullet & & \\
+\hline
+Testing and Evaluation & & & & \textbullet & \textbullet & \textbullet & \textbullet\textbullet & \textbullet\textbullet & \\
+\hline
+System Deployment & & & & \textbullet & \textbullet & \textbullet & \textbullet & \textbullet\textbullet & \\
+\hline
+Analysis and Interpretation of Results & & & & \textbullet & & & \textbullet\textbullet & \textbullet\textbullet & \\
+\hline
+Documentation & \textbullet & \textbullet & \textbullet & \textbullet & \textbullet & \textbullet & \textbullet & \textbullet\textbullet & \textbullet\textbullet \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+
+Since the developers are implementing Agile, testing and deployment occur every two consecutive sprints (each lasting two weeks). This ensures stakeholders provide regular feedback, which is then used to guide the next iteration of development.
