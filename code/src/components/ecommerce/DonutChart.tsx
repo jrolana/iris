@@ -88,10 +88,10 @@ export default function DonutChart(props: PropsInterface) {
   return (
     <div className="shadow-default space-y-2 rounded-2xl border border-gray-200 bg-gray-100">
       <div className="rounded-2xl bg-white px-5 pt-5 pb-10">
-        <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-        <p className="text-theme-sm mt-1 font-normal text-gray-500">
-          Total filed IPs by type since 2013
-        </p>
+          <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+          <p className="text-theme-sm mt-1 font-normal text-gray-500">
+            Total filed IPs by type since 2013
+          </p>
         <div className="h-40 w-full">
           <ReactApexChart options={options} series={series} type="radialBar" />
         </div>

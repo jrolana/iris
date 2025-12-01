@@ -2,12 +2,20 @@ import React from "react";
 import PieChart from "@/components/ecommerce/PieChart";
 import CombinationChart from "@/components/ecommerce/CombinationChart";
 import DonutChart from "@/components/ecommerce/DonutChart";
+import Button from "@/components/ui/button/Button";
+import { CiExport } from "react-icons/ci";
 
 export default function AdminPage() {
   return (
     <div className="grid grid-cols-12 gap-4 md:gap-6">
-      <div className="col-span-12 my-6 text-2xl font-bold text-gray-700">
+      <div className="col-span-6 my-6 text-2xl font-bold text-gray-700">
         <h1>IP Portfolio at Glance</h1>
+      </div>
+
+      <div className="col-span-6 my-6 flex flex-1 justify-end">
+        <Button startIcon={<CiExport size="18" />}>
+          Export Reports
+        </Button>
       </div>
 
       <div className="col-span-7 flex justify-between">
@@ -29,7 +37,7 @@ export default function AdminPage() {
         </div>
       </div>
 
-      <div className="col-span-5 ">
+      <div className="col-span-5">
         <DonutChart title="Filed vs Granted IPs" />
       </div>
 
