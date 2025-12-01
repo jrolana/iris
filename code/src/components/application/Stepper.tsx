@@ -29,29 +29,21 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
           return (
             <li
               key={step.id}
-              className={clsx(
-                'flex items-center',
-                'flex-none sm:flex-1' // steps get equal width on desktop, scroll on mobile
-              )}
+              className='flex items-centerflex-none sm:flex-1 items-start' // steps get equal width on desktop, scroll on mobile
             >
               {/* each step item */}
               <div className="flex w-full flex-col items-center text-center">
                 <div
                   className={clsx(
-                    'flex h-8 w-8 items-center justify-center rounded-full border-2 text-[11px] font-semibold transition-colors sm:h-9 sm:w-9 sm:text-xs',
-                    isCompleted &&
-                      'border-emerald-500 bg-emerald-500 text-white',
-                    isActive &&
-                      !isCompleted &&
-                      'border-sky-600 bg-sky-50 text-sky-700',
-                    !isCompleted &&
-                      !isActive &&
-                      'border-slate-300 bg-white text-slate-400'
+                    'flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors sm:h-9 sm:w-9',
+                    isCompleted && 'border-emerald-500 bg-emerald-500 text-white',
+                    isActive && !isCompleted && 'border-sky-600 bg-sky-50 text-sky-700',
+                    !isCompleted && !isActive && 'border-slate-300 bg-white text-slate-400'
                   )}
                 >
                   {isCompleted ? '✓' : index + 1}
                 </div>
-                <span className="mt-2 line-clamp-2 text-[10px] font-medium leading-tight text-slate-700 sm:text-[11px]">
+                <span className="mt-2 line-clamp-2 font-medium leading-tight text-slate-700 text-sm truncate">
                   {step.label}
                 </span>
               </div>
