@@ -12,7 +12,6 @@ import Badge from "../ui/badge/Badge";
 import Link from "next/link";
 import Button from "../ui/button/Button";
 import SearchInput from "../common/SearchInput";
-import { PlusIcon } from "@/icons";
 import FilterButton from "../common/FilterButton";
 
 interface IPRecord {
@@ -168,17 +167,13 @@ export default function ApplicationsTable() {
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-800">
-            Your Applications
-          </h1>
+        <h1 className="text-2xl font-semibold text-gray-800">
+          Applications Registry
+        </h1>
+        <div className="flex items-center gap-3">
+          <SearchInput />
+          <FilterButton />
         </div>
-
-        <Button startIcon={<PlusIcon size={30} />}> Add New Application</Button>
-      </div>
-      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <SearchInput />
-        <FilterButton />
       </div>
 
       <div className="overflow-x-auto">
@@ -250,6 +245,7 @@ export default function ApplicationsTable() {
                     {record.status}
                   </Badge>
                 </TableCell>
+                
               </TableRow>
             ))}
           </TableBody>

@@ -35,11 +35,9 @@ export default function BaseLayout({
       {navItems && <AppSidebar navItems={navItems} othersItems={othersItems} isPublic={isPublic} />}
       {navItems && <Backdrop />}
 
-      {/* Main Content */}
       <div
         className={`flex-1 transition-all duration-300 ease-in-out ${navItems ? mainContentMargin : ""}`}
       >
-        {/* Header */}
         {navItems && <AppHeader isPublic={isPublic} />}
 
         {/* Page Content */}
