@@ -105,6 +105,7 @@ export default function CombinationChart(props: PropsInterface) {
         },
       },
     },
+  
   };
 
   const series = [
