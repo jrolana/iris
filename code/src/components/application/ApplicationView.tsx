@@ -17,6 +17,7 @@ import { IprStatus } from '@/lib/types/status';
 import InformationPanel from './InformationPanel';
 
 import StatusUpdateModal from '@/components/application/StatusUpdateModal';
+import { SquarePen } from "lucide-react"
 
 export type ApplicationViewMode = 'applicant' | 'admin';
 
@@ -154,13 +155,27 @@ function ApplicationView(props: ApplicationViewProps){
         <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
             <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
-                <h1 className="text-lg font-semibold text-slate-900 sm:text-2xl">
-                    {application.ipTitle}
-                </h1>
+                <div className='flex flex-row gap-3 items-center'>
+                    <h1 className="text-lg font-semibold text-slate-900 sm:text-2xl">
+                        {application.ipTitle}
+                    </h1>
+                    {isAdmin &&
+                        <button onClick={()=>{}}>
+                            <SquarePen size={20} />
+                        </button>
+                    }
+                </div>
                 {application.projectTitle && (
-                    <p className="mt-1 text-lg text-slate-600">
-                    {application.projectTitle}
-                    </p>
+                    <div className='flex flex-row gap-3 items-center'>
+                        <p className="mt-1 text-lg text-slate-600">
+                            {application.projectTitle}
+                        </p>
+                        {isAdmin &&
+                            <button onClick={()=>{}}>
+                                <SquarePen size={20} className='text-slate-600'/>
+                            </button>
+                        } 
+                    </div>
                 )}
                 <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
                     <span className="rounded-full bg-sky-100 px-3 py-1 font-medium text-sky-700">
