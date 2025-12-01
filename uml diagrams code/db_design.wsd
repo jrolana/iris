@@ -16,17 +16,19 @@ object "users" as users {
   role: text
   created_at: timestamptz
 }
-
+'
 object "ipr_applications" as applications {
   application_id: uuid <<PK>>
   ip_title: text
   project_title: text
-  status: uuid<<FK>>
+  current_status: uuid<<FK>>
+  ' for easy access of type (cached)
+  current_status_type: StatusType 
   funding_source: text
   tech_gen: uuid <<FK>>
   application_number: text <<UNIQUE>>
   date_of_filing: date
-  type_of_ip: text
+  type_of_ip: IpType
   date_of_registration: date
   registration_year: int
   created_at: timestamptz
@@ -58,6 +60,7 @@ object "ipr_files" as files {
   application_id: uuid <<FK>>
   storage_path: text
   filename: text
+  description: text | null
   file_type: text
   uploaded_at: timestamptz
 }

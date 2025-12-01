@@ -1,0 +1,371 @@
+'use client';
+
+import { useState } from 'react';
+import { IpType, StatusType } from '@/lib/types/ip';
+import { ipTypeToTitle } from '@/lib/helper/get-ip-title';
+import ApplicationStepper from '@/components/application/Stepper';
+import StatusHistoryPanel, {
+  STATUS_LABELS,
+} from '@/components/application/StatusPanel';
+
+import {
+    ApplicationType,
+    AttachmentType,
+    InventorType,
+} from '@/lib/types/application';
+import { IprStatus } from '@/lib/types/status';
+import InformationPanel from './InformationPanel';
+
+import StatusUpdateModal from '@/components/application/StatusUpdateModal';
+
+export type ApplicationViewMode = 'applicant' | 'admin';
+
+interface ApplicationViewProps{
+  mode: ApplicationViewMode;
+  initialApplication: ApplicationType;
+  initialAttachments: AttachmentType[];
+  initialInventors: InventorType[];
+  initialStatuses: IprStatus[];
+};
+
+// Options for TTBDO modal only
+const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
+  STATUS_LABELS as Record<string, string>
+).map(([value, label]) => ({
+  value: value as StatusType,
+  label,
+}));
+
+const IP_TYPE_OPTIONS: { value: IpType; label: string }[] = [
+  { value: 'patent', label: 'Patent' },
+  { value: 'utility_model', label: 'Utility Model' },
+  { value: 'industrial_design', label: 'Industrial Design' },
+  { value: 'trademark', label: 'Trademark' },
+  { value: 'copyright', label: 'Copyright' },
+];
+
+function ApplicationView(props: ApplicationViewProps){
+    const {
+    mode,
+    initialApplication,
+    initialAttachments,
+    initialInventors,
+    initialStatuses,
+    } = props;
+    const [application, setApplication] = useState<ApplicationType>(initialApplication);
+    const [attachments, setAttachments] = useState<AttachmentType[]>(initialAttachments);
+    const [inventors, setInventors] = useState<InventorType[]>(initialInventors);
+    const [iprStatuses, setIprStatuses] = useState<IprStatus[]>(initialStatuses);
+
+    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+    const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
+
+    const statusLabel = STATUS_LABELS[application.current_status_type] ?? application.current_status_type;
+
+
+
+    // handlers for admin, could be moved later on
+    const isAdmin = mode === 'admin';
+
+    const handleAddAttachment = () => {
+        if (!isAdmin) return;
+        setHasUnsavedChanges(true);
+        // actual add file/link flow will be wired later (modal, etc.)
+    };
+
+    const handleEditAttachment = (fileId: string) => {
+        if (!isAdmin) return;
+        console.log('edit attachment', fileId);
+        setHasUnsavedChanges(true);
+    };
+
+    const handleDeleteAttachment = (fileId: string) => {
+        if (!isAdmin) return;
+        setAttachments((prev) => prev.filter((f) => f.fileId !== fileId));
+        setHasUnsavedChanges(true);
+    };
+
+    const handleAddInventor = () => {
+        if (!isAdmin) return;
+        setHasUnsavedChanges(true);
+    };
+
+    const handleEditInventor = (inventorId: string) => {
+        if (!isAdmin) return;
+        console.log('edit inventor', inventorId);
+        setHasUnsavedChanges(true);
+    };
+
+    const handleRemoveInventor = (inventorId: string) => {
+        if (!isAdmin) return;
+        setInventors((prev) => prev.filter((i) => i.inventorId !== inventorId));
+        setHasUnsavedChanges(true);
+    };
+
+    const handleStartStatusUpdate = () => {
+        if (!isAdmin) return;
+        setHasUnsavedChanges(true);
+    };
+
+    const handleOpenStatusModal = () => {
+        if (!isAdmin || !hasUnsavedChanges) return;
+        setIsStatusModalOpen(true);
+    };
+
+    const handleConfirmStatusUpdate = (payload: {
+        newIpType: IpType;
+        newStatusType: StatusType;
+        note: string;
+        deadline?: string | null;
+    }) => {
+        //do the actual db changes here
+        if (!isAdmin) return;
+
+        const { newIpType, newStatusType, note, deadline } = payload;
+        const nowIso = new Date().toISOString();
+
+        setApplication((prev) => ({
+        ...prev,
+        type_of_ip: newIpType,
+        current_status_type: newStatusType,
+        lastUpdated: nowIso,
+        }));
+
+        setIprStatuses((prev) => [
+        ...prev,
+        {
+            statusId: `local-${prev.length + 1}`,
+            status_type: newStatusType,
+            note,
+            deadline: deadline ?? null,
+            created_at: nowIso,
+        },
+        ]);
+
+        setHasUnsavedChanges(false);
+        setIsStatusModalOpen(false);
+    };
+
+    const handleCancelStatusUpdate = () => {
+        setIsStatusModalOpen(false);
+    };
+
+    return (
+        <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
+            <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0">
+                <h1 className="text-lg font-semibold text-slate-900 sm:text-xl">
+                    {application.ipTitle}
+                </h1>
+                {application.projectTitle && (
+                    <p className="mt-1 text-sm text-slate-600">
+                    {application.projectTitle}
+                    </p>
+                )}
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                    <span className="rounded-full bg-sky-100 px-3 py-1 font-medium text-sky-700">
+                    {ipTypeToTitle(application.type_of_ip)}
+                    </span>
+                    <span className="rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-700">
+                    {statusLabel}
+                    </span>
+                    {application.applicationNumber && (
+                    <span className="rounded-full bg-slate-600 px-3 py-1 text-white">
+                        App. No. {application.applicationNumber}
+                    </span>
+                    )}
+                </div>
+                </div>
+
+                <div className="text-xs text-slate-600 sm:text-right">
+                <p className="font-bold text-slate-900">
+                    {application.dateOfFiling
+                    ? 'Ongoing application'
+                    : 'Draft application'}
+                </p>
+                {application.dateOfFiling && (
+                    <p className="mt-1">
+                    Date of filing:{' '}
+                    {new Date(application.dateOfFiling).toLocaleDateString()}
+                    </p>
+                )}
+                {isAdmin && application.lastUpdated && (
+                    <p className="mt-1">
+                    Last updated:{' '}
+                    {new Date(application.lastUpdated).toLocaleString()}
+                    </p>
+                )}
+                </div>
+            </header>
+            {/* <header className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                <h1 className="text-xl font-semibold text-slate-900">
+                    {application.ipTitle}
+                </h1>
+                {application.projectTitle && (
+                    <p className="mt-1 text-sm text-slate-600">
+                    {application.projectTitle}
+                    </p>
+                )}
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                    <span className="rounded-full bg-sky-100 px-3 py-1 font-medium text-sky-700">
+                    {ipTypeToTitle(application.type_of_ip)}
+                    </span>
+                    <span className="rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-700">
+                    {statusLabel}
+                    </span>
+                    {application.applicationNumber && (
+                    <span className="rounded-full bg-slate-600 px-3 py-1 text-white">
+                        App. No. {application.applicationNumber}
+                    </span>
+                    )}
+                </div>
+                </div>
+
+                <div className="text-xs text-right">
+                <p className="font-bold">
+                    {application.dateOfFiling ? 'Ongoing application' : 'Draft application'}
+                </p>
+                {application.dateOfFiling && (
+                    <p className="mt-1 text-slate-500">
+                    {` Date of filing: ${new Date(application.dateOfFiling).toLocaleDateString()}`}
+                    </p>
+                )}
+                {isAdmin && application.lastUpdated && (
+                    <p className="mt-1 text-slate-500">
+                    {`Last updated: ${new Date(application.lastUpdated).toLocaleString()}`}
+                    </p>
+                )}
+                </div>
+            </header> */}
+
+            {/* stepper */}
+            {/* <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                <ApplicationStepper
+                ipType={application.type_of_ip}
+                statusType={application.current_status_type}
+                />
+            </section> */}
+
+            <section className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+                <ApplicationStepper
+                ipType={application.type_of_ip}
+                statusType={application.current_status_type}
+                />
+            </section>
+
+            <main className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1.2fr)]">
+                {/* left panel for the attachments and inventors */}
+                <section className="space-y-4">
+                <InformationPanel
+                    mode={mode}
+                    attachments={attachments}
+                    inventors={inventors}
+                    onAddAttachment={isAdmin ? handleAddAttachment : undefined}
+                    onEditAttachment={isAdmin ? handleEditAttachment : undefined}
+                    onDeleteAttachment={isAdmin ? handleDeleteAttachment : undefined}
+                    onAddInventor={isAdmin ? handleAddInventor : undefined}
+                    onEditInventor={isAdmin ? handleEditInventor : undefined}
+                    onRemoveInventor={isAdmin ? handleRemoveInventor : undefined}
+                />
+                </section>
+
+                {/* right panels, status history and the reminders (could be change later on for something more useful)*/}
+                <section className="space-y-4">
+                <StatusHistoryPanel
+                    statuses={iprStatuses}
+                    currentStatusType={application.current_status_type}
+                    variant={isAdmin ? 'ttbdo' : 'techgen'}
+                    onStartStatusUpdate={
+                    isAdmin ? handleStartStatusUpdate : undefined
+                    }
+                />
+
+                {mode === 'applicant' ? (
+                    <ApplicantReminders />
+                ) : (
+                    <AdminReminders />
+                )}
+                </section>
+            </main>
+
+            {/* sticky button that shows when there are unsaved changes and ONLY shows in ADMIN mode */}
+            {isAdmin && hasUnsavedChanges && (
+                <div className="fixed inset-x-0 bottom-4 z-40 flex justify-center px-4 pointer-events-none">
+                <div className="pointer-events-auto flex max-w-xl flex-1 items-center justify-between gap-3 rounded-full border border-sky-200 bg-white px-6 py-4 shadow-lg">
+                    <div className="text-xs text-slate-700">
+                    <p className="font-semibold">Unsaved changes</p>
+                    <p className="text-[11px]">
+                        You&apos;ve made changes to this application. Save them and add
+                        a status note for the record.
+                    </p>
+                    </div>
+                    <button
+                    type="button"
+                    onClick={handleOpenStatusModal}
+                    className="rounded-full bg-sky-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+                    >
+                    Update status &amp; save
+                    </button>
+                </div>
+                </div>
+            )}
+
+            {/* status modal, change these later to the proper modal */}
+            {isAdmin && (
+                <StatusUpdateModal
+                open={isStatusModalOpen}
+                ipType={application.type_of_ip}
+                currentStatusType={application.current_status_type}
+                ipTypeOptions={IP_TYPE_OPTIONS}
+                statusOptions={STATUS_OPTIONS}
+                onConfirm={handleConfirmStatusUpdate}
+                onCancel={handleCancelStatusUpdate}
+                />
+            )}
+        </div>
+    );
+    };
+
+export default ApplicationView;
+
+//these are too small and trivial to be their own components
+// Reminder cards, maybe waste of space but for add these for now
+const ApplicantReminders = () => (
+  <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-lg bg-sky-50 p-3 text-xs text-sky-800">
+      <p className="font-semibold">Reminders</p>
+      <ul className="mt-1 list-disc space-y-1 pl-4">
+        <li>Check your email and IRIS notifications for updates from TTBDO.</li>
+        <li>
+          Respond to questions and document requests before any indicated
+          deadlines.
+        </li>
+        <li>
+          Coordinate with TTBDO if there are changes in inventors, funding, or
+          planned commercialization.
+        </li>
+      </ul>
+    </div>
+  </div>
+);
+
+const AdminReminders = () => (
+  <div className="rounded-2xl border border-slate-200 bg-sky-50 p-5 text-xs text-sky-800 shadow-sm">
+    <p className="text-sm font-semibold">Internal reminders</p>
+    <ul className="mt-2 list-disc space-y-1 pl-4">
+      <li>
+        Coordinate with inventors for clarifications before updating formal
+        status.
+      </li>
+      <li>
+        Record major actions (e.g., filing, responses to reports) as a new
+        status with a clear note.
+      </li>
+      <li>
+        Ensure that changes in inventors, funding, or IP type are properly
+        reflected in the records.
+      </li>
+    </ul>
+  </div>
+);
