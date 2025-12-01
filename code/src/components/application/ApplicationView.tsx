@@ -299,7 +299,7 @@ const ApplicantReminders = () => (
 
 const AdminReminders = () => (
   <div className="rounded-2xl border border-slate-200 bg-sky-50 p-5 text-xs text-sky-800 shadow-sm">
-    <p className="text-xl font-semibold">Internal reminders</p>
+    <p className="text-lg font-semibold">Internal reminders</p>
     <ul className="mt-2 list-disc space-y-1 pl-4 text-[16px]">
       <li>
         Coordinate with inventors for clarifications before updating formal
