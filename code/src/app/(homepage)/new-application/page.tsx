@@ -140,18 +140,18 @@ function NewApplicationPage() {
     <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
       <header className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">
+          <h1 className="text-4xl font-semibold text-slate-900">
             New IP Application
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-lg text-slate-500">
             Start a disclosure for your research output and track its progress
             with TTBDO.
           </p>
         </div>
         {finalIpType && (
-          <span className="rounded-full bg-sky-100 px-3 py-1 text-xs font-medium text-sky-700">
+          <span className="rounded-full bg-sky-100 px-3 py-1 text-md font-medium text-sky-700">
             {"Selected protection: "}
-            <span className="capitalize">
+            <span className="capitalize font-bold">
               {ipTypeToTitle(finalIpType)}
             </span>
           </span>
@@ -161,24 +161,12 @@ function NewApplicationPage() {
       <main className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1.3fr)]">
         {/* Wizard section*/}
         <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-900">
-                IP Classification Guide
-              </h2>
-              <p className="mt-1 text-sm text-slate-500">
-                Answer a few quick questions or choose directly if you already
-                know the proper disclosure form.
-              </p>
-            </div>
-          </div>
-
           {/* Initial question */}
-          <div className="mt-6 space-y-2">
-            <p className="text-sm font-medium text-slate-900">
+          <div className="mt-6">
+            <p className="text-xl font-medium text-slate-900">
               Would you like help choosing the proper disclosure form?
             </p>
-            <p className="text-xs text-slate-500">
+            <p className="text-lg text-slate-500">
               You can either follow a short guide or pick the form agreed upon
               with TTBDO.
             </p>
@@ -195,10 +183,10 @@ function NewApplicationPage() {
                 )
               }
             >
-              <span className="block font-semibold">
+              <span className="mt-1 block font-semibold text-xl">
                 Yes, guide me through it
               </span>
-              <span className="mt-1 block text-xs text-slate-600">
+              <span className="mt-2 block text-lg/snug text-slate-600 ">
                 IRIS will ask a few questions and suggest the most suitable
                 disclosure form.
               </span>
@@ -216,10 +204,10 @@ function NewApplicationPage() {
                 mode === 'direct' ? 'border-sky-500 bg-sky-50 text-sky-900' : 'border-slate-200 bg-slate-50 text-slate-900 hover:border-sky-300 hover:bg-sky-50',
                 )}
             >
-              <span className="block font-semibold">
+              <span className="mt-1 block font-semibold text-lg/tight">
                 No, I already know what to choose
               </span>
-              <span className="mt-1 block text-xs text-slate-600">
+              <span className="mt-2 block text-lg/snug text-slate-600">
                 Select the disclosure form directly (for example, after a
                 consultation with TTBDO).
               </span>
@@ -227,17 +215,17 @@ function NewApplicationPage() {
           </div>
 
           {/* Wizard options */}
-          <div className="mt-6 border-t border-slate-100 pt-6">
+          <div className="mt-4 border-t border-slate-100 pt-2">
             {mode === 'wizard' && (
               <ClassificationWizard onFinished={handleWizardFinished} resetResult={setWizardResult}/>
             )}
 
             {mode === 'direct' && (
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-slate-900">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900">
                   Choose the disclosure form to use
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-md text-slate-500">
                   These are the standard forms used by TTBDO for different
                   types of protection.
                 </p>
@@ -250,16 +238,14 @@ function NewApplicationPage() {
                         type="button"
                         onClick={() => setSelectedFormId(form.id)}
                         className={clsx(
-                          'h-full rounded-lg border px-3 py-3 text-left text-sm transition',
-                          isSelected
-                            ? 'border-sky-500 bg-sky-50 text-sky-900'
-                            : 'border-slate-200 bg-slate-50 text-slate-900 hover:border-sky-300 hover:bg-sky-50',
+                          'h-full rounded-lg border px-3 py-3 text-left text-lg transition',
+                          isSelected ? 'border-sky-500 bg-sky-50 text-sky-900' : 'border-slate-200 bg-slate-50 text-slate-900 hover:border-sky-300 hover:bg-sky-50',
                         )}
                       >
                         <span className="block font-semibold">
                           {form.label}
                         </span>
-                        <span className="mt-1 block text-xs text-slate-600">
+                        <span className="block text-md/snug text-slate-600">
                           {form.shortDescription}
                         </span>
                       </button>
@@ -270,7 +256,7 @@ function NewApplicationPage() {
             )}
 
             {mode === 'undecided' && (
-              <p className="text-xs text-slate-400">
+              <p className="text-md text-slate-400">
                 Choose one of the options above to continue.
               </p>
             )}
@@ -280,11 +266,11 @@ function NewApplicationPage() {
         {/* Information side section, similar to Trance*/}
         <section className="space-y-4">
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 className="text-sm font-semibold text-slate-900">
+            <h2 className="text-lg font-semibold text-slate-900">
               What happens after this?
             </h2>
             {finalIpType ? (
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-xl text-slate-600">
                 After you proceed, IRIS will start a new application using this
                 form. TTBDO will review your submission, may refine the
                 classification, and then guide you through prior art search,
@@ -292,7 +278,7 @@ function NewApplicationPage() {
                 protection type.
               </p>
             ) : (
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-lg/snug text-slate-600">
                 Once you confirm a disclosure form, IRIS will create a new
                 application record. You&apos;ll then be able to upload
                 attachments, see TTBDO feedback, and track progress through each
@@ -303,13 +289,13 @@ function NewApplicationPage() {
 
           {/* More details about the options selected */}
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-700">
-            <h3 className="text-sm font-semibold text-slate-900">
+            <h3 className="text-xl font-semibold text-slate-900">
               {sideDetailsTitle}
             </h3>
             {sideDetailsSelectedLabel ? (
-              <p className="mt-2 text-sm text-slate-700">{sideDetailsBody}</p>
+              <p className="mt-2 text-lg/snug text-slate-700">{sideDetailsBody}</p>
             ) : (
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-lg/snug text-slate-600">
                 Select a disclosure form (or complete the guide) to see specific
                 guidance, notes, and reminders here.
               </p>
@@ -321,11 +307,11 @@ function NewApplicationPage() {
                 // open submission bin here
                 onClick={handleSubmissionModal}
                 disabled={!canProceed}
-                className="w-full text-center items-center rounded-md bg-sky-600 px-4 py-2 text-xs font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
+                className="w-full text-center items-center rounded-md bg-sky-600 px-4 py-2 text-md font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
               >
-                 {"Download "}{ipTypeToTitle(finalIpType) + " Disclosure Form"}
+                 {`Download ${ipTypeToTitle(finalIpType)} Disclosure Form`}
               </button>
-              <p className="text-[11px] text-gray-500 mt-2">
+              <p className="text-xs/tight text-gray-500 mt-2">
                 Download the recommended disclosure form and fill up the necessary details. Please do not forget to include your e-signatures.
               </p>
             </div>
@@ -335,11 +321,11 @@ function NewApplicationPage() {
                 type="button"
                 onClick={handleProceed}
                 disabled={!canProceed}
-                className="w-full text-center items-center rounded-md bg-sky-600 px-4 py-2 text-xs font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
+                className="w-full text-center items-center rounded-md bg-sky-600 px-4 py-2 text-md font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
               >
                 Proceed to application
               </button>
-              <p className="text-[11px] text-gray-500 mt-2">
+              <p className="text-xs/tight text-gray-500 mt-2">
                 When you&apos;re ready, proceed to create the application. TTBDO
                 can still adjust the classification and status after their
                 review.
