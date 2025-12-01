@@ -7,7 +7,7 @@ export const dummyApplication: ApplicationType = {
   projectTitle: 'Smart Monitoring for Upland Farms',
   type_of_ip: 'patent',
   current_status_type: 'filed_with_ipophil',
-  applicationNumber: 'App. No. 100F',
+  applicationNumber: '100F',
   dateOfFiling: '2025-11-25',
   lastUpdated: '2025-11-26T00:40:00Z',
 };

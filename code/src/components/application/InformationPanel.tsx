@@ -29,7 +29,7 @@ function InformationPanel(props: DetailsPanelProps){
     return (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between gap-2">
-                <div className="inline-flex rounded-full bg-slate-100 p-1 text-xs font-medium text-slate-600">
+                <div className="inline-flex rounded-full bg-slate-100 p-1 text-md font-medium text-slate-600">
                 <button
                     type="button"
                     onClick={() => setActiveTab('attachments')}
@@ -46,7 +46,7 @@ function InformationPanel(props: DetailsPanelProps){
                     Inventors
                 </button>
                 </div>
-                <span className="text-[11px] text-slate-500">{countLabel}</span>
+                <span className="text-sm text-slate-500">{countLabel}</span>
             </div>
 
             {activeTab === 'attachments' ? (
