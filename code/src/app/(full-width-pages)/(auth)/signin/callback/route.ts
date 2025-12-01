@@ -64,6 +64,7 @@ export async function GET(request: Request) {
   }
 
   // Create response with redirect
+  // TODO: Redirect depending on the role
   const response = NextResponse.redirect(`${origin}/admin`)
 
   // Manually set auth cookies on the response
