@@ -316,7 +316,7 @@
   @apply !mb-0 !border-b-0 !bg-transparent !p-0 !text-[10px] !leading-4 !text-gray-800 dark:!text-white/90;
 }
 .apexcharts-tooltip-text {
-  @apply !text-theme-xs !p-1  dark:!text-white/90;
+  @apply !text-theme-xs !p-1 dark:!text-white/90;
 }
 .apexcharts-tooltip-text-y-value {
   @apply !font-medium;

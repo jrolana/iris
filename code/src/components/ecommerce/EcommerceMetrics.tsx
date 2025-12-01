@@ -1,56 +1,52 @@
 "use client";
 import React from "react";
-import Badge from "../ui/badge/Badge";
-import { ArrowDownIcon, ArrowUpIcon, BoxIconLine, GroupIcon } from "@/icons";
+import { BoxIconLine, GroupIcon } from "@/icons";
+import { MetricItem } from "../common/MetricItem";
 
 export const EcommerceMetrics = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
-      {/* <!-- Metric Item Start --> */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
-          <GroupIcon className="text-gray-800 size-6 dark:text-white/90" />
-        </div>
-
-        <div className="flex items-end justify-between mt-5">
-          <div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              Customers
-            </span>
-            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              3,782
-            </h4>
-          </div>
-          <Badge color="success">
-            <ArrowUpIcon />
-            11.01%
-          </Badge>
-        </div>
+      <div className="col-span-2">
+        <MetricItem
+          metricIcon={GroupIcon}
+          name="Granted"
+          metric="3,782"
+          difference="11.01%"
+          increased={true}
+        />
       </div>
-      {/* <!-- Metric Item End --> */}
 
-      {/* <!-- Metric Item Start --> */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
-          <BoxIconLine className="text-gray-800 dark:text-white/90" />
-        </div>
-        <div className="flex items-end justify-between mt-5">
-          <div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              Orders
-            </span>
-            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              5,359
-            </h4>
-          </div>
+      <MetricItem
+        metricIcon={GroupIcon}
+        name="Filed"
+        metric="3,782"
+        difference="11.01%"
+        increased={true}
+      />
 
-          <Badge color="error">
-            <ArrowDownIcon className="text-error-500" />
-            9.05%
-          </Badge>
-        </div>
-      </div>
-      {/* <!-- Metric Item End --> */}
+      <MetricItem
+        metricIcon={BoxIconLine}
+        name="Pending"
+        metric="5,359"
+        difference="9.05%"
+        increased={false}
+      />
+
+      <MetricItem
+        metricIcon={GroupIcon}
+        name="Withdrawn"
+        metric="3,782"
+        difference="11.01%"
+        increased={false}
+      />
+
+      <MetricItem
+        metricIcon={BoxIconLine}
+        name="Downgrade"
+        metric="5,359"
+        difference="9.05%"
+        increased={true}
+      />
     </div>
   );
 };
