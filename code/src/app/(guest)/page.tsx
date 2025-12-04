@@ -5,7 +5,7 @@ import DonutChart from "@/components/charts/DonutChart";
 import Button from "@/components/ui/button/Button";
 import { CiExport } from "react-icons/ci";
 
-export default function Homepage() {
+export default function GuestDashboard() {
   return (
     <div className="grid grid-cols-12 gap-4 md:gap-6">
       <div className="col-span-6 mt-3 mb-6 text-2xl font-bold text-gray-700">
@@ -18,11 +18,15 @@ export default function Homepage() {
 
       <div className="col-span-7 flex justify-between">
         <div className="w-[48%]">
-          <PieChart title="Filed IPs" />
+          <PieChart
+            title="Filed IPs"
+            subtitle="Total filed IPs by type since 2013"
+          />
         </div>
         <div className="w-[48%]">
           <PieChart
             title="Granted IPs"
+            subtitle="Total granted IPs by type since 2013"
             colors={[
               "#FF9446",
               "#FF7F1F",
@@ -36,7 +40,7 @@ export default function Homepage() {
       </div>
 
       <div className="col-span-5">
-        <DonutChart title="Granted IP Rate" />
+        <DonutChart title="Granted IPs" />
       </div>
 
       <div className="col-span-12 my-6 text-2xl font-bold text-gray-700">

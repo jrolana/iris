@@ -115,7 +115,10 @@ export default function UsersTable() {
         <h1 className="text-2xl font-semibold text-gray-800">
           User Management
         </h1>
-        <Button startIcon={<PlusIcon size={30} />}> Add New User</Button>
+        <Button startIcon={<PlusIcon size={30} />} size="sm">
+          {" "}
+          Add New User
+        </Button>
       </div>
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <SearchInput />

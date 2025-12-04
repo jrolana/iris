@@ -18,11 +18,15 @@ export default function AdminDashboard() {
 
       <div className="col-span-7 flex justify-between">
         <div className="w-[48%]">
-          <PieChart title="Filed IPs" />
+          <PieChart
+            title="Filed IPs"
+            subtitle="Total filed IPs by type since 2013"
+          />
         </div>
         <div className="w-[48%]">
           <PieChart
             title="Granted IPs"
+            subtitle="Total granted IPs by type since 2013"
             colors={[
               "#FF9446",
               "#FF7F1F",

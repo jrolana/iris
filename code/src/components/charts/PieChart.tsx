@@ -10,6 +10,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 
 interface PropsInterface {
   title: string;
+  subtitle: string;
   showLegend?: boolean;
   colors?: string[];
   series?: number[];
@@ -19,6 +20,7 @@ interface PropsInterface {
 export default function PieChart(props: PropsInterface) {
   const {
     title,
+    subtitle,
     showLegend = true,
     colors = ["#465FFF", "#5A6FFF", "#7080FF", "#3745A0", "#2A3380"],
     series = [6.7, 34.4, 44.5, 12.4, 1.9],
@@ -78,7 +80,7 @@ export default function PieChart(props: PropsInterface) {
             {title}
           </h3>
           <p className="text-theme-sm mt-1 font-normal text-gray-500 dark:text-gray-400">
-            Total filed IPs by type since 2013
+            {subtitle}
           </p>
         </div>
       </div>
