@@ -13,7 +13,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       name: "Applications Registry",
       path: "/application-registry",
     },
-    { icon: <DocsIcon />, name: "Application Guide", path: "/" },
+    {
+      icon: <DocsIcon />,
+      name: "Application Guide",
+      path: "/application-guide",
+    },
     { icon: <DownloadIcon />, name: "Application Documents", path: "/" },
   ];
 
