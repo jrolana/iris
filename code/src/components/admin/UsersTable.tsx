@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import Button from "../ui/button/Button";
 import SearchInput from "../common/SearchInput";
-import { PencilIcon, TrashBinIcon, PlusIcon } from "@/icons";
+import { PencilIcon, TrashBinIcon } from "@/icons";
 import FilterButton from "../common/FilterButton";
 
 interface User {
@@ -115,11 +115,10 @@ export default function UsersTable() {
         <h1 className="text-2xl font-semibold text-gray-800">
           User Management
         </h1>
-        <Button startIcon={<PlusIcon size={30} />}> Add New User</Button>
-      </div>
-      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <SearchInput />
-        <FilterButton />
+        <div className="flex items-center gap-3">
+          <SearchInput />
+          <FilterButton />
+        </div>
       </div>
 
       <div className="overflow-x-auto">
