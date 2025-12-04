@@ -160,7 +160,7 @@ function ApplicationView(props: ApplicationViewProps){
         <div className="mx-auto max-w-6xl px-4 py-8 space-y-6 relative">
             <button
             type="button"
-            onClick={() => {}}
+            onClick={handleBack}
             aria-label="Return to homepage"
             className="absolute -left-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm hover:bg-slate-50 focus:outline-none"
             >
