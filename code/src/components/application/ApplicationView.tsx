@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { IpType, StatusType } from '@/lib/types/ip';
 import { ipTypeToTitle } from '@/lib/helper/get-ip-title';
 import ApplicationStepper from '@/components/application/Stepper';
@@ -17,7 +18,7 @@ import { IprStatus } from '@/lib/types/status';
 import InformationPanel from './InformationPanel';
 
 import StatusUpdateModal from '@/components/application/StatusUpdateModal';
-import { SquarePen } from "lucide-react"
+import { SquarePen, ArrowLeft } from "lucide-react"
 
 export type ApplicationViewMode = 'applicant' | 'admin';
 
@@ -63,7 +64,7 @@ function ApplicationView(props: ApplicationViewProps){
 
     const statusLabel = STATUS_LABELS[application.current_status_type] ?? application.current_status_type;
 
-
+    const router = useRouter();
 
     // handlers for admin, could be moved later on
     const isAdmin = mode === 'admin';
@@ -151,8 +152,20 @@ function ApplicationView(props: ApplicationViewProps){
         setIsStatusModalOpen(false);
     };
 
+    function handleBack(){
+        router.back();
+    }
+
     return (
-        <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
+        <div className="mx-auto max-w-6xl px-4 py-8 space-y-6 relative">
+            <button
+            type="button"
+            onClick={() => {}}
+            aria-label="Return to homepage"
+            className="absolute -left-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm hover:bg-slate-50 focus:outline-none"
+            >
+                <ArrowLeft size={18} className="text-slate-700" />
+            </button>
             <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
                 <div className='flex flex-row gap-3 items-center'>
@@ -160,7 +173,7 @@ function ApplicationView(props: ApplicationViewProps){
                         {application.ipTitle}
                     </h1>
                     {isAdmin &&
-                        <button onClick={()=>{}}>
+                        <button onClick={handleBack}>
                             <SquarePen size={20} />
                         </button>
                     }
@@ -208,6 +221,7 @@ function ApplicationView(props: ApplicationViewProps){
                     )}
                 </div>
             </header>
+            
 
             <section className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
                 <ApplicationStepper
