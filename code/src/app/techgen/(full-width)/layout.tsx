@@ -2,8 +2,6 @@
 
 import React from "react";
 import BaseLayout from "@/layout/BaseLayout";
-import { NavItem } from "@/lib/types/nav";
-import { GridIcon, DocsIcon, DownloadIcon } from "@/icons";
 import { useRole } from "@/hooks/useRole";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -17,11 +15,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return <div>You are not authorized to access this page.</div>;
   }
 
-  const navItems: NavItem[] = [
-    { icon: <GridIcon />, name: "Dashboard", path: "/techgen" },
-    { icon: <DocsIcon />, name: "Application Guide", path: "/techgen" },
-    { icon: <DownloadIcon />, name: "Application Documents", path: "/techgen" },
-  ];
-
-  return <BaseLayout navItems={navItems}>{children}</BaseLayout>;
+  return <BaseLayout isFullWidth={true}>{children}</BaseLayout>;
 }

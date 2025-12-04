@@ -1,11 +1,11 @@
 import React from "react";
-import PieChart from "@/components/ecommerce/PieChart";
-import CombinationChart from "@/components/ecommerce/CombinationChart";
-import DonutChart from "@/components/ecommerce/DonutChart";
+import PieChart from "@/components/charts/PieChart";
+import CombinationChart from "@/components/charts/CombinationChart";
+import DonutChart from "@/components/charts/DonutChart";
 import Button from "@/components/ui/button/Button";
 import { CiExport } from "react-icons/ci";
 
-export default function Homepage() {
+export default function UPOfficialDashboard() {
   return (
     <div className="grid grid-cols-12 gap-4 md:gap-6">
       <div className="col-span-6 mt-3 mb-6 text-2xl font-bold text-gray-700">

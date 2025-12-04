@@ -1,7 +1,7 @@
 import React from "react";
 import ApplicationsTable from "@/components/admin/ApplicationsTable";
 
-export default function ApplicationRegistry() {
+export default function AdminApplicationRegistry() {
   return (
     <div>
       <ApplicationsTable />

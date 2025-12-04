@@ -1,74 +1,28 @@
+import { Metrics } from "@/components/techgen/Metrics";
 import React from "react";
-import PieChart from "@/components/ecommerce/PieChart";
-import CombinationChart from "@/components/ecommerce/CombinationChart";
-import DonutChart from "@/components/ecommerce/DonutChart";
-import Button from "@/components/ui/button/Button";
-import { CiExport } from "react-icons/ci";
+import ApplicationsTable from "@/components/techgen/ApplicationsTable";
+import StatusHistoryPanel from "@/components/techgen/StatusPanel";
+import {
+  dummyApplication,
+  dummyIprStatuses,
+} from "@/lib/dummy-data/application";
 
-export default function Homepage() {
+export default function TechgenDashboard() {
   return (
     <div className="grid grid-cols-12 gap-4 md:gap-6">
-      <div className="col-span-6 mt-3 mb-6 text-2xl font-bold text-gray-700">
-        <h1>IP Portfolio at Glance</h1>
+      <div className="col-span-12 xl:col-span-7">
+        <Metrics />
       </div>
 
-      <div className="col-span-6 mt-3 mb-6 flex flex-1 justify-end">
-        <Button startIcon={<CiExport size="18" />}>Export Reports</Button>
-      </div>
-
-      <div className="col-span-7 flex justify-between">
-        <div className="w-[48%]">
-          <PieChart title="Filed IPs" />
-        </div>
-        <div className="w-[48%]">
-          <PieChart
-            title="Granted IPs"
-            colors={[
-              "#FF9446",
-              "#FF7F1F",
-              "#FFAA66",
-              "#FFB980",
-              "#FF5F00",
-              "#FFD099",
-            ]}
-          />
-        </div>
-      </div>
-
-      <div className="col-span-5">
-        <DonutChart title="Granted IP Rate" />
-      </div>
-
-      <div className="col-span-12 my-6 text-2xl font-bold text-gray-700">
-        <h1>IP Journey: From Filing to Outcome</h1>
-      </div>
-
-      <div className="col-span-6">
-        <CombinationChart title="Filed" />
-      </div>
-
-      <div className="col-span-6">
-        <CombinationChart title="Pending" />
+      <div className="col-span-12 xl:col-span-5">
+        <StatusHistoryPanel
+          statuses={dummyIprStatuses}
+          currentStatusType={dummyApplication.current_status_type}
+        />
       </div>
 
       <div className="col-span-12">
-        <CombinationChart title="Granted" />
-      </div>
-
-      <div className="col-span-12 my-6 flex items-center space-x-3">
-        <span className="h-px flex-1 bg-gray-300"></span>
-        <h2 className="text-xl font-semibold text-gray-700">
-          Alternative Outcomes
-        </h2>
-        <span className="h-px flex-1 bg-gray-300"></span>
-      </div>
-
-      <div className="col-span-6">
-        <CombinationChart title="Withdrawn" />
-      </div>
-
-      <div className="col-span-6">
-        <CombinationChart title="Downgraded" />
+        <ApplicationsTable />
       </div>
     </div>
   );

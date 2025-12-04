@@ -1,7 +1,7 @@
 import React from "react";
-import PieChart from "@/components/ecommerce/PieChart";
-import CombinationChart from "@/components/ecommerce/CombinationChart";
-import DonutChart from "@/components/ecommerce/DonutChart";
+import PieChart from "@/components/charts/PieChart";
+import CombinationChart from "@/components/charts/CombinationChart";
+import DonutChart from "@/components/charts/DonutChart";
 import Button from "@/components/ui/button/Button";
 import { CiExport } from "react-icons/ci";
 
