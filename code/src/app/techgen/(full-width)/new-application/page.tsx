@@ -97,9 +97,9 @@ function NewApplicationPage() {
     console.log(idfFile);
 
     // Supabase insert into ipr_applications with:
-    // * type_of_ip = finalIpType
-    // * current_status_type = 'draft_idf'
-    // * original_type_of_ip = finalIpType
+    // * ipType = finalIpType
+    // * currentStatus = 'draft_idf'
+    // * original_ipType = finalIpType
     // should return the uuid of the new row
 
     // Supabase insert into ipr_files with:

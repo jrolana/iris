@@ -1,5 +1,5 @@
 import React from "react";
-import ApplicationsTable from "@/components/up-official/ApplicationsTable";
+import ApplicationsTable from "@/components/common/ApplicationsTable";
 
 export default function ApplicationRegistry() {
   return (

@@ -1,6 +1,6 @@
 import { Metrics } from "@/components/techgen/Metrics";
 import React from "react";
-import ApplicationsTable from "@/components/techgen/ApplicationsTable";
+import ApplicationsTable from "@/components/common/ApplicationsTable";
 import StatusHistoryPanel from "@/components/techgen/StatusPanel";
 import {
   dummyApplication,
@@ -17,12 +17,12 @@ export default function TechgenDashboard() {
       <div className="col-span-12 xl:col-span-5">
         <StatusHistoryPanel
           statuses={dummyIprStatuses}
-          currentStatusType={dummyApplication.current_status_type}
+          currentStatusType={dummyApplication.currentStatus}
         />
       </div>
 
       <div className="col-span-12">
-        <ApplicationsTable />
+        <ApplicationsTable isTechgen={true}/>
       </div>
     </div>
   );

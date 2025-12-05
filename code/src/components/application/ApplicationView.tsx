@@ -64,8 +64,7 @@ function ApplicationView(props: ApplicationViewProps) {
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
 
   const statusLabel =
-    STATUS_LABELS[application.current_status_type] ??
-    application.current_status_type;
+    STATUS_LABELS[application.currentStatus] ?? application.currentStatus;
 
   const router = useRouter();
 
@@ -131,8 +130,8 @@ function ApplicationView(props: ApplicationViewProps) {
 
     setApplication((prev) => ({
       ...prev,
-      type_of_ip: newIpType,
-      current_status_type: newStatusType,
+      ipType: newIpType,
+      currentStatus: newStatusType,
       lastUpdated: nowIso,
     }));
 
@@ -165,7 +164,7 @@ function ApplicationView(props: ApplicationViewProps) {
         type="button"
         onClick={handleBack}
         aria-label="Return to homepage"
-        className="absolute -left-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white  hover:bg-gray-50 focus:outline-none"
+        className="absolute -left-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-50 focus:outline-none"
       >
         <ArrowLeft size={18} className="text-gray-700" />
       </button>
@@ -195,7 +194,7 @@ function ApplicationView(props: ApplicationViewProps) {
           )}
           <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
             <span className="rounded-full bg-sky-100 px-3 py-1 font-medium text-sky-700">
-              {ipTypeToTitle(application.type_of_ip)}
+              {ipTypeToTitle(application.ipType)}
             </span>
             <span className="rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-700">
               {statusLabel}
@@ -210,13 +209,13 @@ function ApplicationView(props: ApplicationViewProps) {
 
         <div className="text-md text-gray-600 sm:text-right">
           <p className="font-bold text-gray-900">
-            {application.dateOfFiling
+            {application.filingDate
               ? "Ongoing application"
               : "Draft application"}
           </p>
-          {application.dateOfFiling && (
+          {application.filingDate && (
             <p className="mt-1">
-              {`Date of filing: ${new Date(application.dateOfFiling).toLocaleDateString()}`}
+              {`Date of filing: ${new Date(application.filingDate).toLocaleDateString()}`}
             </p>
           )}
           {isAdmin && application.lastUpdated && (
@@ -227,10 +226,10 @@ function ApplicationView(props: ApplicationViewProps) {
         </div>
       </header>
 
-      <section className="rounded-2xl border border-gray-200 bg-white p-3  sm:p-4">
+      <section className="rounded-2xl border border-gray-200 bg-white p-3 sm:p-4">
         <ApplicationStepper
-          ipType={application.type_of_ip}
-          statusType={application.current_status_type}
+          ipType={application.ipType}
+          statusType={application.currentStatus}
         />
       </section>
 
@@ -254,7 +253,7 @@ function ApplicationView(props: ApplicationViewProps) {
         <section className="space-y-4">
           <StatusHistoryPanel
             statuses={iprStatuses}
-            currentStatusType={application.current_status_type}
+            currentStatusType={application.currentStatus}
             variant={isAdmin ? "ttbdo" : "techgen"}
             onStartStatusUpdate={isAdmin ? handleStartStatusUpdate : undefined}
           />
@@ -277,7 +276,7 @@ function ApplicationView(props: ApplicationViewProps) {
             <button
               type="button"
               onClick={handleOpenStatusModal}
-              className="rounded-full bg-sky-600 px-4 py-1.5 text-sm font-semibold text-white  hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+              className="rounded-full bg-sky-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-gray-300"
             >
               Update status &amp; save
             </button>
@@ -289,8 +288,8 @@ function ApplicationView(props: ApplicationViewProps) {
       {isAdmin && (
         <StatusUpdateModal
           open={isStatusModalOpen}
-          ipType={application.type_of_ip}
-          currentStatusType={application.current_status_type}
+          ipType={application.ipType}
+          currentStatusType={application.currentStatus}
           ipTypeOptions={IP_TYPE_OPTIONS}
           statusOptions={STATUS_OPTIONS}
           onConfirm={handleConfirmStatusUpdate}
@@ -306,7 +305,7 @@ export default ApplicationView;
 //these are too small and trivial to be their own components
 // Reminder cards, maybe waste of space but for add these for now
 const ApplicantReminders = () => (
-  <div className="rounded-2xl border border-gray-200 bg-white p-5 ">
+  <div className="rounded-2xl border border-gray-200 bg-white p-5">
     <div className="rounded-lg bg-sky-50 p-3 text-xs text-sky-800">
       <p className="text-xl font-semibold">Reminders</p>
       <ul className="mt-1 list-disc space-y-1 pl-4 text-[16px]">
@@ -325,7 +324,7 @@ const ApplicantReminders = () => (
 );
 
 const AdminReminders = () => (
-  <div className="rounded-2xl border border-gray-200 bg-sky-50 p-5 text-xs text-sky-800 ">
+  <div className="rounded-2xl border border-gray-200 bg-sky-50 p-5 text-xs text-sky-800">
     <p className="text-lg font-semibold">Internal reminders</p>
     <ul className="mt-2 list-disc space-y-1 pl-4 text-[16px]">
       <li>
