@@ -11,6 +11,8 @@ Reallocating 'name_of_file' (item size: 1) to 14 items.
 A level-1 auxiliary file: chapter_2.aux
 Reallocating 'name_of_file' (item size: 1) to 14 items.
 A level-1 auxiliary file: chapter_3.aux
+Reallocating 'name_of_file' (item size: 1) to 14 items.
+A level-1 auxiliary file: chapter_4.aux
 Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apacite.bst
 Reallocating 'name_of_file' (item size: 1) to 13 items.
@@ -41,7 +43,7 @@ Warning--No journal in ra8293_1997_lawphil
 Warning--No journal in ra10055_2009_dost
 You've used 15 entries,
             6951 wiz_defined-function locations,
-            1358 strings with 13843 characters,
+            1359 strings with 13884 characters,
 and the built_in function-call counts, 26976 in all, are:
 = -- 3589
 > -- 183

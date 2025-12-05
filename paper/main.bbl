@@ -23,7 +23,7 @@ Bentley, L.%
 \newblock
 \APACrefYear{2022}.
 \newblock
-\APACrefbtitle {Intellectual Property Law} {Intellectual property law}.
+\APACrefbtitle {{Intellectual Property Law}} {{Intellectual Property Law}}.
 \newblock
 \APACaddressPublisher{}{Oxford University Press}.
 \PrintBackRefs{\CurrentBib}
@@ -48,9 +48,9 @@ fftcap2015-ptta}%
 \newblock
 \APACrefYearMonthDay{2015}{}{}.
 \newblock
-\APACrefbtitle {Philippine Technology Transfer Act of 2009: Empowering Filipino
-  Researchers and Innovators.} {Philippine technology transfer act of 2009:
-  Empowering filipino researchers and innovators.}
+\APACrefbtitle {{Philippine Technology Transfer Act of 2009: Empowering
+  Filipino Researchers and Innovators}.} {{Philippine Technology Transfer Act
+  of 2009: Empowering Filipino Researchers and Innovators}.}
 \newblock
 \begin{APACrefURL} \url{https://ap.fftc.org.tw/article/1350} \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
@@ -75,9 +75,9 @@ Gargate, G.%
 \newblock
 \APACrefYearMonthDay{2018}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Intellectual property management system: Develop and
-  self-assess using IPM model} {Intellectual property management system:
-  Develop and self-assess using ipm model}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{Intellectual Property Management System: Develop and
+  Self-assess using IPM model}} {{Intellectual Property Management System:
+  Develop and Self-assess using IPM model}}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{World Patent Information}{52}{}{29--41}.
 \newblock
@@ -101,25 +101,25 @@ ipophil_about}%
 \newblock
 \APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
 \newblock
-\APACrefbtitle {About IPOPHL.} {About ipophl.}
+\APACrefbtitle {{About IPOPHL}.} {{About IPOPHL}.}
 \newblock
 \begin{APACrefURL} \url{https://www.ipophil.gov.ph/about-ipophil/}
   \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-\APACciteatitle {Intellectual Property Code of the Philippines, Rep. Act No.
-  8293 (June 6, 1997) (Phil.)}}{%
-\APACciteatitle {Intellectual Property Code of the Philippines, Rep. Act No.
-  8293 (June 6, 1997) (Phil.)}}{%
+\APACciteatitle {{Intellectual Property Code of the Philippines, Rep. Act No.
+  8293 (June 6, 1997) (Phil.)}}}{%
+\APACciteatitle {{Intellectual Property Code of the Philippines, Rep. Act No.
+  8293 (June 6, 1997) (Phil.)}}}{%
 {\protect \APACyear {1997}}%
 }]{%
 ra8293_1997_lawphil}
 \APACinsertmetastar {%
 ra8293_1997_lawphil}%
-{\BBOQ}\APACrefatitle {Intellectual Property Code of the Philippines, Rep. Act
-  No. 8293 (June 6, 1997) (Phil.)} {Intellectual property code of the
-  philippines, rep. act no. 8293 (june 6, 1997) (phil.)}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{Intellectual Property Code of the Philippines, Rep. Act
+  No. 8293 (June 6, 1997) (Phil.)}} {{Intellectual Property Code of the
+  Philippines, Rep. Act No. 8293 (June 6, 1997) (Phil.)}}.{\BBCQ}
 \newblock
 \APACrefYearMonthDay{1997}{}{}.
 \newblock
@@ -130,15 +130,18 @@ ra8293_1997_lawphil}%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-\APACciteatitle {Introduction to the Special Issue on Intellectual Capital}}{%
-\APACciteatitle {Introduction to the Special Issue on Intellectual Capital}}{%
+\APACciteatitle {{Introduction to the Special Issue on Intellectual
+  Capital}}}{%
+\APACciteatitle {{Introduction to the Special Issue on Intellectual
+  Capital}}}{%
 {\protect \APACyear {2024}}%
 }]{%
 jic2024-intro-special-issue}
 \APACinsertmetastar {%
 jic2024-intro-special-issue}%
-{\BBOQ}\APACrefatitle {Introduction to the Special Issue on Intellectual
-  Capital} {Introduction to the special issue on intellectual capital}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{Introduction to the Special Issue on Intellectual
+  Capital}} {{Introduction to the Special Issue on Intellectual
+  Capital}}.{\BBCQ}
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
@@ -169,9 +172,9 @@ Jain, K.%
 \newblock
 \APACrefYearMonthDay{2006}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Intellectual property management system: An
-  organizational perspective} {Intellectual property management system: An
-  organizational perspective}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{Intellectual Property Management System: An
+  Organizational Perspective}} {{Intellectual Property Management System: An
+  Organizational Perspective}}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Journal of Intellectual Property
   Rights}{11}{5}{330--333}.
@@ -199,9 +202,9 @@ Kolodyazhnaya, O\BPBI A.%
 \newblock
 \APACrefYearMonthDay{2020}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Development model of the intellectual property
-  management system} {Development model of the intellectual property management
-  system}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{Development Model of the Intellectual Property
+  Management System}} {{Development Model of the Intellectual Property
+  Management System}}.{\BBCQ}
 \newblock
 \BIn{} \APACrefbtitle {Proceedings of the Russian Conference on Digital Economy
   and Knowledge Management (RuDEcK 2020)} {Proceedings of the russian
@@ -235,10 +238,10 @@ Krejcar, O.%
 \newblock
 \APACrefYearMonthDay{2020}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Review of Available SW Solutions for Intellectual
-  Property Management Systems from the Perspective of Open Innovation} {Review
-  of available sw solutions for intellectual property management systems from
-  the perspective of open innovation}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{Review of Available SW Solutions for Intellectual
+  Property Management Systems from the Perspective of Open Innovation}}
+  {{Review of Available SW Solutions for Intellectual Property Management
+  Systems from the Perspective of Open Innovation}}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Journal of Open Innovation: Technology, Market, and
   Complexity}{6}{2}{23}.
@@ -263,8 +266,8 @@ mittlo2020-patenting}%
 \newblock
 \APACrefYearMonthDay{2020}{}{}.
 \newblock
-\APACrefbtitle {Patenting and Commercializing Your Invention.} {Patenting and
-  commercializing your invention.}
+\APACrefbtitle {{Patenting and Commercializing Your Invention}.} {{Patenting
+  and Commercializing Your Invention}.}
 \newblock
 \begin{APACrefURL}
   \url{https://tlo.mit.edu/understand-ip/patenting-commercializing-your-invention}
@@ -288,8 +291,8 @@ mittlo2021-inventors-guide}%
 \newblock
 \APACrefYearMonthDay{2021}{}{}.
 \newblock
-\APACrefbtitle {MIT TLO Inventors’ Guide to Technology Transfer.} {Mit tlo
-  inventors’ guide to technology transfer.}
+\APACrefbtitle {{MIT TLO Inventors’ Guide to Technology Transfer}.} {{MIT TLO
+  Inventors’ Guide to Technology Transfer}.}
 \newblock
 \begin{APACrefURL}
   \url{https://web.mit.edu/tlo/documents/MIT-TLO-inventors-guide.pdf}
@@ -297,18 +300,18 @@ mittlo2021-inventors-guide}%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-\APACciteatitle {Philippine Technology Transfer Act of 2009, Rep. Act No. 10055
-  (Mar. 23, 2009) (Phil.)}}{%
-\APACciteatitle {Philippine Technology Transfer Act of 2009, Rep. Act No. 10055
-  (Mar. 23, 2009) (Phil.)}}{%
+\APACciteatitle {{Philippine Technology Transfer Act of 2009, Rep. Act No.
+  10055 (Mar. 23, 2009) (Phil.)}}}{%
+\APACciteatitle {{Philippine Technology Transfer Act of 2009, Rep. Act No.
+  10055 (Mar. 23, 2009) (Phil.)}}}{%
 {\protect \APACyear {2009}}%
 }]{%
 ra10055_2009_dost}
 \APACinsertmetastar {%
 ra10055_2009_dost}%
-{\BBOQ}\APACrefatitle {Philippine Technology Transfer Act of 2009, Rep. Act No.
-  10055 (Mar. 23, 2009) (Phil.)} {Philippine technology transfer act of 2009,
-  rep. act no. 10055 (mar. 23, 2009) (phil.)}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{Philippine Technology Transfer Act of 2009, Rep. Act
+  No. 10055 (Mar. 23, 2009) (Phil.)}} {{Philippine Technology Transfer Act of
+  2009, Rep. Act No. 10055 (Mar. 23, 2009) (Phil.)}}.{\BBCQ}
 \newblock
 \APACrefYearMonthDay{2009}{}{}.
 \newblock
@@ -335,7 +338,7 @@ stanfordOTL2021-process}%
 \newblock
 \APACrefYearMonthDay{2021}{}{}.
 \newblock
-\APACrefbtitle {OTL’s Process.} {Otl’s process.}
+\APACrefbtitle {{OTL’s Process}.} {{OTL’s Process}.}
 \newblock
 \begin{APACrefURL} \url{https://otl.stanford.edu/researchers/otls-process}
   \end{APACrefURL}
@@ -380,8 +383,8 @@ oxfordinnovation2013-booklet}%
 \newblock
 \APACrefYearMonthDay{2013}{}{}.
 \newblock
-\APACrefbtitle {IP, Patents and Licences Researcher Booklet.} {Ip, patents and
-  licences researcher booklet.}
+\APACrefbtitle {{IP, Patents and Licences Researcher Booklet}.} {{IP, Patents
+  and Licences Researcher Booklet}.}
 \newblock
 \begin{APACrefURL}
   \url{https://innovation.ox.ac.uk/wp-content/uploads/2014/04/IP-Patents-and-Licences-Researcher-Booklet-201308162.pdf}
