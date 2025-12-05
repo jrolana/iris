@@ -3,6 +3,24 @@
 This chapter  presents the preliminary results or the system prototype of your SP.  Include screenhots, tables, or graphs and provide the discussion of results.
 
 
+
+
+
+\section{Authentication}
+The IRIS system prototype can handle authentication for registered accounts. It has protected routing for role-based access control (RBAC). It facilitates sign-in with Google emails that should already be registered with Supabase. 
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.3]{signin.png}     
+    \caption[Sign-in Page]{Sign-in Page. The page shows the sign-in page of IRIS for authentication. For the prototype, the page only allows authentication with Google emails.}
+    \label{fig:applicant_appview}                 
+\end{figure}
+
+
+\section{Specific Application View}
+Both the technology generators and the TTBDO admin can view a list of applications. They can also interact with a specific application, which prompts them to a different web page that shows specific details about that application.
+
+\subsubsection{Technology Generator View}
 The web page shown in \figref{fig:applicant_appview} shows the perspective of a technology generator when they want to view more details about a specific IP right application. It shows the current stage of the application, as well as the list of all status changes of the IP right application with timestamp (highlighting the latest status). The technology generator only has view privileges of the attachments and list of co-applicants on the IP right application.
 
 \begin{figure}[H]                
@@ -29,8 +47,9 @@ The web page shown in \figref{fig:applicant_appview} shows the perspective of a 
     \label{fig:applicant_appview}                 
 \end{figure}
 
+\subsubsection{TTBDO Admin View}
 
-For the TTBDO admin's side, it is shown in \figref{fig:admin_appview} that it also shows the same IP right application details as the technology generators view. However, it can be seen that there are buttons that allow create, remove, update, delete (CRUD) operations on the list of attachments and inventors. Moreover, the TTBDO admin is responsible for updating the status of an application as well as moving the application to another stage of the application process.  
+For the TTBDO admin's side, it is shown in \figref{fig:admin_appview} that it shows the same IP right application details as the technology generators view. However, it can be seen that there are buttons that allow create, remove, update, delete (CRUD) operations on the list of attachments and inventors, as well on the IP and project title. The TTBDO admin is responsible for updating the status of an application as well as moving the application to another stage of the application process, and as such can do so in this page.  
 
 \begin{figure}[H]                
     \centering 
@@ -57,7 +76,7 @@ For the TTBDO admin's side, it is shown in \figref{fig:admin_appview} that it al
 \end{figure}
 
 
-
+\section{Start an Application}
 It is seen in Figure \figref{fig:new_application} that the IRIS system can guide technology generators in choosing the proper disclosure form through a simple application wizard. Technology generators can also choose to skip the wizard entirely, as some technology generators already know what disclosure forms to use. The page starts their IP right application into motion.
 \begin{figure}[H]                
     \centering 
@@ -80,4 +99,16 @@ It is seen in Figure \figref{fig:new_application} that the IRIS system can guide
 
     \caption[New Application Page]{New Application Page. The page helps technology generators choose the right disclosure form and starts their IP right application.}
     \label{fig:new_application}                 
+\end{figure}
+
+
+
+\section{Notification}
+IRIS has a notification component that is only available for technology generators and the TTBDO admin. Whenever there are changes (e.g., attachments submitted, status updated, title updated, application stage moved etc.) on an application, the technology generator is notified. Moreover, the TTBDO can also see notification whenever there are new applications started, or they have been contacted by a technology generator. \figref{fig:notification} shows the panel that pops up whenever the authenticated users interact with the bell icon on the top bar. The panel shows the notifications that are chronologically ordered to show the latest notification at the top.
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.5]{notification.png}     
+    \caption[Notification Dropdown]{Notification Dropdown. The notification dropdown when users interact with the notification bell icon on the top bar. It is only shown for technology generators and the TTBDO admin.}
+    \label{fig:applicant_appview}                 
 \end{figure}
