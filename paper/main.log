@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  5 DEC 2025 23:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  5 DEC 2025 23:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -972,13 +972,13 @@ Overfull \hbox (13.80531pt too wide) in paragraph at lines 318--341
 
  (chapter_4.tex
 Chapter 4.
-<figures/signin.png, id=797, 1445.4pt x 776.9025pt>
+<figures/signin.png, id=799, 1445.4pt x 776.9025pt>
 File: figures/signin.png Graphic file (type png)
 <use figures/signin.png>
-Package pdftex.def Info: figures/signin.png  used on input line 14.
+Package pdftex.def Info: figures/signin.png  used on input line 9.
 (pdftex.def)             Requested size: 433.62335pt x 233.07254pt.
 
-Overfull \hbox (18.07086pt too wide) in paragraph at lines 14--15
+Overfull \hbox (18.07086pt too wide) in paragraph at lines 9--10
  [][] 
  []
 
@@ -988,49 +988,49 @@ Overfull \hbox (18.07086pt too wide) in paragraph at lines 14--15
 
 
 ] [60 <./figures/signin.png>]
-<figures/techgen_view_applicationA.png, id=809, 1445.4pt x 776.9025pt>
+<figures/techgen_view_applicationA.png, id=811, 1445.4pt x 776.9025pt>
 File: figures/techgen_view_applicationA.png Graphic file (type png)
 <use figures/techgen_view_applicationA.png>
 Package pdftex.def Info: figures/techgen_view_applicationA.png  used on input l
-ine 32.
+ine 27.
 (pdftex.def)             Requested size: 433.62335pt x 233.07254pt.
 
-Overfull \hbox (18.07086pt too wide) in paragraph at lines 32--33
+Overfull \hbox (18.07086pt too wide) in paragraph at lines 27--28
  [][] 
  []
 
-<figures/techgen_view_applicationB.png, id=810, 1445.4pt x 776.9025pt>
+<figures/techgen_view_applicationB.png, id=812, 1445.4pt x 776.9025pt>
 File: figures/techgen_view_applicationB.png Graphic file (type png)
 <use figures/techgen_view_applicationB.png>
 Package pdftex.def Info: figures/techgen_view_applicationB.png  used on input l
-ine 41.
+ine 36.
 (pdftex.def)             Requested size: 433.62335pt x 233.07254pt.
 
-Overfull \hbox (18.07086pt too wide) in paragraph at lines 41--42
+Overfull \hbox (18.07086pt too wide) in paragraph at lines 36--37
  [][] 
  []
 
 [61] [62 <./figures/techgen_view_applicationA.png> <./figures/techgen_view_appl
 icationB.png>]
-<figures/admin_view_applicationA.png, id=823, 1445.4pt x 776.9025pt>
+<figures/admin_view_applicationA.png, id=825, 1445.4pt x 776.9025pt>
 File: figures/admin_view_applicationA.png Graphic file (type png)
 <use figures/admin_view_applicationA.png>
 Package pdftex.def Info: figures/admin_view_applicationA.png  used on input lin
-e 60.
+e 55.
 (pdftex.def)             Requested size: 433.62335pt x 233.07254pt.
 
-Overfull \hbox (18.07086pt too wide) in paragraph at lines 60--61
+Overfull \hbox (18.07086pt too wide) in paragraph at lines 55--56
  [][] 
  []
 
-<figures/admin_view_applicationB.png, id=824, 1445.4pt x 776.9025pt>
+<figures/admin_view_applicationB.png, id=826, 1445.4pt x 776.9025pt>
 File: figures/admin_view_applicationB.png Graphic file (type png)
 <use figures/admin_view_applicationB.png>
 Package pdftex.def Info: figures/admin_view_applicationB.png  used on input lin
-e 69.
+e 64.
 (pdftex.def)             Requested size: 433.62335pt x 233.07254pt.
 
-Overfull \hbox (18.07086pt too wide) in paragraph at lines 69--70
+Overfull \hbox (18.07086pt too wide) in paragraph at lines 64--65
  [][] 
  []
 
@@ -1040,98 +1040,98 @@ Overfull \vbox (3.00279pt too high) has occurred while \output is active []
 
 [64 <./figures/admin_view_applicationA.png> <./figures/admin_view_applicationB.
 png>]
-<figures/new_applicationA.png, id=838, 1445.4pt x 776.9025pt>
+<figures/new_applicationA.png, id=840, 1445.4pt x 776.9025pt>
 File: figures/new_applicationA.png Graphic file (type png)
 <use figures/new_applicationA.png>
-Package pdftex.def Info: figures/new_applicationA.png  used on input line 86.
+Package pdftex.def Info: figures/new_applicationA.png  used on input line 81.
 (pdftex.def)             Requested size: 433.62335pt x 233.07254pt.
 
-Overfull \hbox (18.07086pt too wide) in paragraph at lines 86--87
+Overfull \hbox (18.07086pt too wide) in paragraph at lines 81--82
  [][] 
  []
 
-<figures/new_applicationB.png, id=839, 1445.4pt x 776.9025pt>
+<figures/new_applicationB.png, id=841, 1445.4pt x 776.9025pt>
 File: figures/new_applicationB.png Graphic file (type png)
 <use figures/new_applicationB.png>
-Package pdftex.def Info: figures/new_applicationB.png  used on input line 95.
+Package pdftex.def Info: figures/new_applicationB.png  used on input line 90.
 (pdftex.def)             Requested size: 433.62335pt x 233.07254pt.
 
-Overfull \hbox (18.07086pt too wide) in paragraph at lines 95--96
+Overfull \hbox (18.07086pt too wide) in paragraph at lines 90--91
  [][] 
  []
 
 [65] [66 <./figures/new_applicationA.png> <./figures/new_applicationB.png>]
-<figures/notification.png, id=851, 487.06969pt x 504.38437pt>
+<figures/notification.png, id=853, 487.06969pt x 504.38437pt>
 File: figures/notification.png Graphic file (type png)
 <use figures/notification.png>
-Package pdftex.def Info: figures/notification.png  used on input line 110.
+Package pdftex.def Info: figures/notification.png  used on input line 105.
 (pdftex.def)             Requested size: 243.53424pt x 252.19156pt.
 
 [67 <./figures/notification.png>]
-<figures/admin_dashboard_1.png, id=861, 1927.2pt x 910.40125pt>
+<figures/admin_dashboard_1.png, id=863, 1927.2pt x 910.40125pt>
 File: figures/admin_dashboard_1.png Graphic file (type png)
 <use figures/admin_dashboard_1.png>
-Package pdftex.def Info: figures/admin_dashboard_1.png  used on input line 123.
+Package pdftex.def Info: figures/admin_dashboard_1.png  used on input line 118.
 
 (pdftex.def)             Requested size: 385.43318pt x 182.07701pt.
-<figures/admin_dashboard_2.jpg, id=862, 951.555pt x 455.20062pt>
+<figures/admin_dashboard_2.jpg, id=864, 951.555pt x 455.20062pt>
 File: figures/admin_dashboard_2.jpg Graphic file (type jpg)
 <use figures/admin_dashboard_2.jpg>
-Package pdftex.def Info: figures/admin_dashboard_2.jpg  used on input line 132.
+Package pdftex.def Info: figures/admin_dashboard_2.jpg  used on input line 127.
 
 (pdftex.def)             Requested size: 380.61525pt x 182.07701pt.
  [68]
-<figures/techgen_dashboard_1.png, id=867, 1927.2pt x 910.40125pt>
+<figures/techgen_dashboard_1.png, id=869, 1927.2pt x 910.40125pt>
 File: figures/techgen_dashboard_1.png Graphic file (type png)
 <use figures/techgen_dashboard_1.png>
 Package pdftex.def Info: figures/techgen_dashboard_1.png  used on input line 14
-7.
+2.
 (pdftex.def)             Requested size: 385.43318pt x 182.07701pt.
-<figures/techgen_dashboard_2.png, id=868, 1927.2pt x 910.40125pt>
+<figures/techgen_dashboard_2.png, id=870, 1927.2pt x 910.40125pt>
 File: figures/techgen_dashboard_2.png Graphic file (type png)
 <use figures/techgen_dashboard_2.png>
 Package pdftex.def Info: figures/techgen_dashboard_2.png  used on input line 15
-6.
+1.
 (pdftex.def)             Requested size: 385.43318pt x 182.07701pt.
  [69 <./figures/admin_dashboard_1.png> <./figures/admin_dashboard_2.jpg>] [70 <
 ./figures/techgen_dashboard_1.png> <./figures/techgen_dashboard_2.png>]
-<figures/admin_applications_registry.png, id=884, 1927.2pt x 910.40125pt>
+<figures/admin_applications_registry.png, id=886, 1927.2pt x 910.40125pt>
 File: figures/admin_applications_registry.png Graphic file (type png)
 <use figures/admin_applications_registry.png>
 Package pdftex.def Info: figures/admin_applications_registry.png  used on input
- line 174.
+ line 169.
 (pdftex.def)             Requested size: 385.43318pt x 182.07701pt.
-<figures/guest_applications_registry.png, id=885, 1927.2pt x 910.40125pt>
+<figures/guest_applications_registry.png, id=887, 1927.2pt x 910.40125pt>
 File: figures/guest_applications_registry.png Graphic file (type png)
 <use figures/guest_applications_registry.png>
 Package pdftex.def Info: figures/guest_applications_registry.png  used on input
- line 183.
+ line 178.
 (pdftex.def)             Requested size: 385.43318pt x 182.07701pt.
  [71] [72 <./figures/admin_applications_registry.png> <./figures/guest_applicat
 ions_registry.png>]
-<figures/guest_application_documents.png, id=898, 1927.2pt x 910.40125pt>
+<figures/guest_application_documents.png, id=900, 1927.2pt x 910.40125pt>
 File: figures/guest_application_documents.png Graphic file (type png)
 <use figures/guest_application_documents.png>
 Package pdftex.def Info: figures/guest_application_documents.png  used on input
- line 200.
+ line 195.
 (pdftex.def)             Requested size: 385.43318pt x 182.07701pt.
-<figures/techgen_application_documents.png, id=899, 1927.2pt x 910.40125pt>
+<figures/techgen_application_documents.png, id=901, 1927.2pt x 910.40125pt>
 File: figures/techgen_application_documents.png Graphic file (type png)
 <use figures/techgen_application_documents.png>
 Package pdftex.def Info: figures/techgen_application_documents.png  used on inp
-ut line 209.
+ut line 204.
 (pdftex.def)             Requested size: 385.43318pt x 182.07701pt.
  [73] [74 <./figures/guest_application_documents.png> <./figures/techgen_applic
 ation_documents.png>]
 File: figures/guest_application_documents.png Graphic file (type png)
 <use figures/guest_application_documents.png>
 Package pdftex.def Info: figures/guest_application_documents.png  used on input
- line 226.
+ line 221.
 (pdftex.def)             Requested size: 346.88104pt x 163.86514pt.
 File: figures/techgen_application_documents.png Graphic file (type png)
 <use figures/techgen_application_documents.png>
 Package pdftex.def Info: figures/techgen_application_documents.png  used on inp
-ut line 235.
+ut line 230.
 (pdftex.def)             Requested size: 346.88104pt x 163.86514pt.
 )
 [75] (main.bbl [76
@@ -1264,9 +1264,9 @@ KTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/dell/AppData/Local/Prog
 rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/dell/AppData/Loc
 al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/dell/App
 Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (94 pages, 4879037 bytes).
+Output written on main.pdf (94 pages, 4879841 bytes).
 PDF statistics:
- 1096 PDF objects out of 1200 (max. 8388607)
+ 1098 PDF objects out of 1200 (max. 8388607)
  253 named destinations out of 1000 (max. 500000)
  668 words of extra memory for PDF output out of 10000 (max. 10000000)
 
