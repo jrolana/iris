@@ -30,7 +30,7 @@ The development of the system utilizes several software tools that support codin
 \small
 \begin{table}[H]
 \captionsetup{justification=raggedright,singlelinecheck=false}
-\caption{Software Tools}
+\caption[Software Tools]{Software Tools. The table shows the software tools that would be utilized in the development of IRIS. It breaks down the tools into categories and justifies the purpose of using them.}
 \label{tab:software_tools}
 \begin{tabular}{|p{3cm}|p{5cm}|p{6.2cm}|}
 \hline
@@ -81,7 +81,7 @@ Table~\ref{tab:tech_stack} outlines the technology stack used in developing the 
 \small
 \begin{table}[H]
   \captionsetup{justification=raggedright,singlelinecheck=false}
-  \caption{Technology Stack}
+  \caption[Technology Stack]{Technology Stack. The table shows the chosen technology stack used for the development of IRIS. These are the modern technology stack used in developing web-applications.}
   \label{tab:tech_stack}
   \begin{tabular}{|p{3cm}|p{5cm}|p{6.2cm}|}
     \hline
@@ -145,12 +145,12 @@ Appendix~\ref{sec:appendixb} (Tables~\ref{tab:nfr_performance}--\ref{tab:nfr_com
 
 \subsection{Context Model}
 
-The context model for IRIS is illustrated in Figure 3.1, showing how key stakeholders (such as the TTBDO admin, TTBDO staff,  and the UP officials), Technology Generators (Researchers and Applicants), and Guests interact with the system and vice versa.
+The context model for IRIS is illustrated in \figref{fig:context_model}, showing how key stakeholders (such as the TTBDO admin, TTBDO staff,  and the UP officials), Technology Generators (Researchers and Applicants), and Guests interact with the system and vice versa.
 
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=0.35]{context_model.png}     
-   \caption{Context Model of IRIS}
+   \caption[Context Model of IRIS]{Context Model of IRIS. The diagram shows a high-level context of IRIS, presenting how different stakeholders connect with the system. It clarifies what information each stakeholder can access and manage.}
     \label{fig:context_model}
 \end{figure}
 
@@ -168,12 +168,12 @@ These stakeholders in the system only have viewing capabilities with the IP port
 
 \subsection{Database Design}
 
-Figure 3.2 illustrates the database schema of the system, following PostgreSQL data types and object definitions. It shows how different objects are related to each other through foreign keys derived from other objects.
+\figref{fig:db_design} illustrates the database schema of the system, following PostgreSQL data types and object definitions. It shows how different objects are related to each other through foreign keys derived from other objects.
 
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=0.5]{db_design.png}     
-   \caption{Database Design (Schema) of IRIS}
+   \caption[Database Design (Schema) of IRIS]{Database Design (Schema) of IRIS. It shows an entity relationship diagram (ERD) for the PostgreSQL database of the system.}
     \label{fig:db_design}
 \end{figure}
 
@@ -185,14 +185,14 @@ It is shown in \figref{fig:uc_guest} that the Guests' only use case for the syst
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.7]{uc_guest.png}     
-   \caption{Guest Use Case Diagram of IRIS}
+   \caption[Guest Use Case Diagram of IRIS]{Guest Use Case Diagram of IRIS. It shows the scenarios in which unauthenticated or unregistered users interact with the system.}
     \label{fig:uc_guest}
 \end{figure}
 
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.7]{uc_official.png}     
-   \caption{UP Official Use Case Diagram of IRIS}
+   \caption[UP Official Use Case Diagram of IRIS]{UP Official Use Case Diagram of IRIS. It shows the scenarios in which the UP Officials interact with the system and for what intent they use the system for.}
     \label{fig:uc_official}
 \end{figure}
 
@@ -202,7 +202,7 @@ It is shown in \figref{fig:uc_guest} that the Guests' only use case for the syst
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.7]{uc_techgen.png}     
-   \caption{Technology Generator Use Case Diagram of IRIS}
+   \caption[Technology Generator Use Case Diagram of IRIS]{Technology Generator Use Case Diagram of IRIS. It shows the scenarios in which technology generators or applicants use the system. It also shows that their use cases expand as compared to the guests and UP officials.}
     \label{fig:uc_techgen}
 \end{figure}
 
@@ -212,7 +212,7 @@ It is shown in \figref{fig:uc_guest} that the Guests' only use case for the syst
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.3]{uc_admin.png}     
-   \caption{TTBDO Admin Use Case Diagram of IRIS}
+   \caption[TTBDO Admin Use Case Diagram of IRIS]{TTBDO Admin Use Case Diagram of IRIS. It shows the scenarios in which the TTBDO admins use and interact with the system. As the main stakeholder of the system, it shows that they have a lot of use cases with the system.}
     \label{fig:uc_admin}
 \end{figure}
 
@@ -221,19 +221,19 @@ It is shown in \figref{fig:uc_guest} that the Guests' only use case for the syst
 
 \subsubsection{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram}
 
-Figures \ref{fig:gen_seqA} and \ref{fig:gen_seqB_1} illustrate the sequence diagram of a Trademark, Utility Model, Industrial Design, and Patent application started by a Technology Generator, which is then facilitated by the system through the TTBDO Admin. It details the interaction between the TTBDO and the system as they handle the application process with the IPOPHL. It also shows how the system notifies the Technology Generator for every update of the IPR application.
+Figures \ref{fig:gen_seqA} and \ref{fig:gen_seqB_1} illustrate the sequence diagram of a Trademark, Utility Model, Industrial Design, and Patent application started by a Technology Generator, which is then facilitated by the system through the TTBDO Admin. It details the interaction between the TTBDO and the system as they handle the application process with the IPOPHL. It also shows how the system notifies the Technology Generator for every update of the IPR application. The sequence diagrams are used to derive the IP application stages that will be used in the system. The IP application stages will be used for the interaction of the technology generator and TTBDO during an IP right application.
 
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.5]{general_sequenceA.png}     
-   \caption{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 1)}
+   \caption[Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 1)]{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 1). The sequence diagram shows the first part of the TM/UM/ID/Patent application, starting from the submission of the disclosure form. The diagram shows in which stage of the application the TTBDO and technology generator interact with the system respectively.}
     \label{fig:gen_seqA}
 \end{figure}
 
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.5]{general_sequenceB.png}     
-   \caption{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 2)}
+   \caption[Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 2)]{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 2). This sequence diagram shows the continuation of the sequence diagram shown in \figref{fig:gen_seqA}. The bottom part of the diagram shows that the processes branch into specific flows and interations, depending on the type of IP right filed.}
     \label{fig:gen_seqB_1}
 \end{figure}
 
@@ -241,42 +241,43 @@ Figures \ref{fig:gen_seqA} and \ref{fig:gen_seqB_1} illustrate the sequence diag
 
 \subsubsection{Detailed Branch of the Specific IPR Sequence Diagram}
 
-The following figures are the specific branch of sequence diagrams that are referred to in \figref{fig:gen_seqB_1}. It shows the rights-specific processes that the TTBDO interfaces with the IPOPHL for the IPR application process.
+The following figures are the specific branch of sequence diagrams that are referred to in \figref{fig:gen_seqB_1}. It shows the rights-specific processes that the TTBDO interfaces with the IPOPHL and technology generator for the IPR application process. Based on the diagrams, more application stages are derived which are then displayed in the system depending on which IP right the technology generator and TTBDO are working with.
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.35]{tm_sequence.png}     
-   \caption{Detailed Branch of Trademark Application Sequence Diagram}
+   \caption[Detailed Branch of Trademark Application Sequence Diagram]{Detailed Branch of Trademark Application Sequence Diagram. The diagram shows the detailed branch of the trademark application flow as shown in \figref{fig:gen_seqB_1}.}
     \label{fig:gen_seqB_2}
 \end{figure}
 
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.35]{um_id_sequence.png}     
-   \caption{Detailed Branch of Utility Model \& Industrial Design Application Sequence Diagram}
+   \caption[Detailed Branch of Utility Model \& Industrial Design Application Sequence Diagram]{Detailed Branch of Utility Model \& Industrial Design Application Sequence Diagram. The diagram shows the detailed branch of the utility model \& industrial design application flow as shown in \figref{fig:gen_seqB_1}.}
     \label{fig:gen_seqB_3}
 \end{figure}
 
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.35]{patent_sequence.png}     
-   \caption{Detailed Branch of Patent Application Sequence Diagram}
+   \caption[Detailed Branch of Patent Application Sequence Diagram]{Detailed Branch of Patent Application Sequence Diagram. The diagram shows the detailed branch of the patent application flow as shown in \figref{fig:gen_seqB_1}.}
     \label{fig:gen_seqB_4}
 \end{figure}
 
 \subsubsection{Copyright Application Sequence Diagram}
+Figures \ref{fig:copyright_seqA} \& \ref{fig:copyright_seqB} illustrates the copyright application process started by the Technology Generator and facilitated by the TTBDO through the system. The application process for copyright can not be completely digitized, as it requires physical copies and wet signatures along the process. However, the sequence diagram shows how IRIS can still facilitate this process as shown between the interactions of the actors.
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.5]{copyright_sequenceA.png}     
-   \caption{Copyright Application Sequence Diagram Part 1}
+   \caption[Copyright Application Sequence Diagram Part 1]{Copyright Application Sequence Diagram Part 1. The diagram shows the detailed branch of the copyright application flow as shown in \figref{fig:gen_seqB_1}. It shows how IRIS, a digital system, can still be used despite having stages that requires physical documents and wet signatures.}
     \label{fig:copyright_seqA}
 \end{figure}
 \begin{figure}[H]                
    \centering                   
    \includegraphics[scale=.5]{copyright_sequenceB.png}     
-   \caption{Copyright Application Sequence Diagram Part 2}
+   \caption[Copyright Application Sequence Diagram Part 2]{Copyright Application Sequence Diagram Part 2. The diagram shows a continuation of the diagram shown in \figref{fig:copyright_seqA}. It shows that if the TTBDO does not require additional physical requirement from the technology generators, then the rest of the entire process can stay digital.}
     \label{fig:copyright_seqB}
 \end{figure}
-The application process for copyright can not be completely digitized, as it requires physical copies and wet signatures along the process. Figures \ref{fig:copyright_seqA} \& \ref{fig:copyright_seqB} illustrates the copyright application process started by the Technology Generator and facilitated by the TTBDO through the system.
+ 
 
 \section{Testing and Evaluation}
 
@@ -311,7 +312,7 @@ Table~\ref{tab:gantt_chart} shows a Gantt chart of the activities. Each bullet r
 \footnotesize 
 \begin{table}[H]
 \captionsetup{justification=raggedright,singlelinecheck=false}
-\caption{Timetable of Activities}
+\caption[Timetable of Activities]{Timetable of Activities. The table shows the planned activities and their respective schedules for developing the system prototype.}
 \label{tab:gantt_chart}
 \centering
 \begin{tabular}{|p{4.5cm}|c|c|c|c|c|c|c|c|c|}
