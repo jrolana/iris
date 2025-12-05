@@ -1,17 +1,158 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   Filename    : appendix_A.tex 
-%
-%   Description : This file is for including the Research Ethics Documents (delegated as Appendix A) 
-%                 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix % switch to appendix mode (A, B, ...)
 
-\chapter{Appendix}
+\chapter{Functional Requirements Tables}
 \label{sec:appendixa}
 
+This appendix contains the complete set of functional requirements (FR) for IRIS, organized by the eight key functional areas. These tables provide detailed descriptions of the specific system behaviors, capabilities, and interactions necessary to address the inefficiencies of TTBDO’s current manual IP management process. They serve as a reference to guide the design and implementation of the system.
 
+%-------------------------------------------------------
+\section{Authentication \& User Roles}
 
-% Save the file you want to include in PDF format.
-% Uncomment the commant below specifying the correct appendix file. 
-%\includepdf[pages=-, scale = 0.9, pagecommand={}, offset = -30 0]{appendixA.pdf}
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Authentication \& User Roles}
+\label{tab:fr_auth_roles}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-01 & The system SHALL require users to authenticate before accessing internal features. \\
+\hline
+FR-02 & The system SHALL implement role-based access control (TTBDO, Applicant, UP Official, Guest). \\
+\hline
+\end{tabular}
+\end{table}
 
+%-------------------------------------------------------
+\section{Submission of Application}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Submission of Application}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-03 & The system SHALL allow download of standardized Invention Disclosure Forms (IDFs) by IP type. \\
+\hline
+FR-04 & The system SHALL guide users in selecting the correct IDF type before application. \\
+\hline
+FR-05 & The system SHALL allow users to review IP-related application documents, including but not limited to Final Examination Reports (FER), Subsequent Examination Reports (SER), and other related correspondence. \\
+\hline
+FR-06 & The system SHALL log timestamps when application statuses are updated. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Application Tracking}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Application Tracking}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-07 & The system SHALL maintain a registry of Applicants and their submissions. \\
+\hline
+FR-08 & The system SHALL allow authorized users to view and search applicant submission histories. \\
+\hline
+FR-09 & The system SHOULD provide filters and faceted search over the registry. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Dashboards \& Reporting}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Dashboards \& Reporting}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-10 & The system SHALL provide dashboards with real-time statistics, breakdowns, and trends. \\
+\hline
+FR-11 & The system SHOULD allow generation and export of reports in machine-readable formats (CSV, XLSX) and human-readable formats (PDF) to support both automated processing and manual review. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Notifications}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Notifications}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-12 & The system SHALL send in-app notifications when application statuses change or deadlines approach. \\
+\hline
+FR-13 & The system SHALL allow users to configure notification preferences. \\
+\hline
+FR-14 & The system SHALL maintain a notification history for each user. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Document Management}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Document Management}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-15 & The system SHALL allow TTBDO staff to upload supporting documents and link them to application records. \\
+\hline
+FR-16 & The system SHALL secure documents and enforce role-based access restrictions. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Public Portal}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Public Portal}
+\label{tab:fr_public_portal}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-17 & The system SHALL provide a guest-accessible, read-only portal to browse published IPs. \\
+\hline
+FR-18 & The system SHALL display summary statistics in the public portal. \\
+\hline
+FR-19 & The system SHOULD allow document access requests via a public form. \\
+\hline
+\end{tabular}
+\end{table}

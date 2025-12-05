@@ -14,6 +14,10 @@ A level-1 auxiliary file: chapter_3.aux
 Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apacite.bst
 Reallocating 'name_of_file' (item size: 1) to 13 items.
+Reallocating 'name_of_file' (item size: 1) to 15 items.
+A level-1 auxiliary file: appendix_A.aux
+Reallocating 'name_of_file' (item size: 1) to 15 items.
+A level-1 auxiliary file: appendix_B.aux
 Reallocating 'glb_str_end' (item size: 4) to 20 items.
 Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
 Reallocating 'global_strs' (item size: 1) to 4000000 items.
@@ -41,7 +45,7 @@ Warning--No journal in ra8293_1997_lawphil
 Warning--No journal in ra10055_2009_dost
 You've used 15 entries,
             6951 wiz_defined-function locations,
-            1358 strings with 13843 characters,
+            1360 strings with 13871 characters,
 and the built_in function-call counts, 26976 in all, are:
 = -- 3589
 > -- 183
