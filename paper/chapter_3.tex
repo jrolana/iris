@@ -5,6 +5,8 @@
 \subsection{System Development Life Cycle Model}
 The study employs the Agile Software Development Life Cycle model. Agile was chosen for its flexibility and iterative nature, allowing continuous feedback from TTBDO personnel and early validation of system components. Through incremental sprints, the researchers were able to refine features based on actual user input.
 
+However, certain limitations in using Agile are also acknowledged. Iterative feedback can cause ongoing expansion of requirements, which can be mitigated by maintaining clearly defined functional and non-functional requirements, prioritized backlogs, structured sprint goals, and thorough decision-making in adding more requirements. Additionally, heavy reliance on client input might result in delays in the development. This is mitigated through scheduled progress updates and predetermined feedback windows. In the absence of timely input, development proceeds according to the approved requirements baseline.
+
 \subsection{Research Framework}
 The research framework follows a systematic progression from problem identification through system development to rigorous evaluation.
 
@@ -113,326 +115,31 @@ Data was gathered through multiple methods to ensure an accurate understanding o
 
 \subsection{Functional Requirements}
 
-The functional requirements (FR) of IRIS define the specific system behaviors, capabilities, and interactions necessary to address the inefficiencies of TTBDO’s current manual IP management process. These requirements translate the project objectives into specific system behaviors and are organized into eight key functional areas such as authentication, application submission, application tracking, dashboards, notifications, document management, and public access. 
+The functional requirements (FRs) of IRIS define the specific system behaviors, capabilities, and interactions necessary to address the inefficiencies of TTBDO’s current manual IP management process. These requirements translate the project objectives into specific system behaviors and are organized into eight key functional areas such as authentication, application submission, application tracking, dashboards, notifications, document management, and public access. 
 
-The tables below (Table~\ref{tab:fr_auth_roles} to Table~\ref{tab:fr_public_portal}) present the complete set of functional requirements that will guide the design and implementation of IRIS.
+For authentication, the system will require all users to authenticate before accessing internal features and will implement role-based access control. In the submission of applications, IRIS will allow users to guide users in selecting the IDFs by IP type and enable review of IP-related documents. The system will also log timestamps whenever application statuses are updated.
 
-\subsubsection*{3.1.1 Authentication \& User Roles}
+The application tracking functionality will maintain a registry of applicants and their submissions, allow authorized users to search and review submission histories, and support filtered and faceted searches over the registry. Dashboards and reporting will provide real-time statistics, trends, and breakdowns, with options to generate and export reports in both machine and human-readable formats.
 
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Authentication \& User Roles}
-\label{tab:fr_auth_roles}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-FR-01 & The system SHALL require users to authenticate before accessing internal features. \\
-\hline
-FR-02 & The system SHALL implement role-based access control (TTBDO, Applicant, UP Official, Guest). \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
+In terms of notifications, the system will send in-app alerts for application status changes or approaching deadlines, allow users to configure notification preferences, and maintain a notification history for each user. The document management capabilities will enable TTBDO staff to upload and securely store supporting documents linked to application records, with access enforced according to user roles.
 
-\subsubsection*{3.1.2 Submission of Application}
+Finally, the public portal will provide read-only access for guest users to browse published IPs, display summary statistics, and, where appropriate, allow document access requests via a public form.
 
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Submission of Application}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-FR-03 & The system SHALL allow download of standardized Invention Disclosure Forms (IDFs) by IP type. \\
-\hline
-FR-04 & The system SHALL guide users in selecting the correct IDF type before application. \\
-\hline
-FR-05 & The system SHALL allow users to review IP-related application documents, including but not limited to Final Examination Reports (FER), Subsequent Examination Reports (SER), and other related correspondence. \\
-\hline
-FR-06 & The system SHALL log timestamps when application statuses are updated. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-\subsubsection*{3.1.3 Application Tracking}
-
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Application Tracking}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-FR-07 & The system SHALL maintain a registry of Applicants and their submissions. \\
-\hline
-FR-08 & The system SHALL allow authorized users to view and search applicant submission histories. \\
-\hline
-FR-09 & The system SHOULD provide filters and faceted search over the registry. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-\subsubsection*{3.1.4 Dashboards \& Reporting}
-
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Dashboards \& Reporting}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-FR-10 & The system SHALL provide dashboards with real-time statistics, breakdowns, and trends. \\
-\hline
-FR-11 & The system SHOULD allow generation and export of reports in machine-readable formats (CSV, XLSX) and human-readable formats (PDF) to support both automated processing and manual review. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-\subsubsection*{3.1.5 Notifications}
-
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Notifications}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-FR-12 & The system SHALL send in-app notifications when application statuses change or deadlines approach. \\
-\hline
-FR-13 & The system SHALL allow users to configure notification preferences. \\
-\hline
-FR-14 & The system SHALL maintain a notification history for each user. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-\subsubsection*{3.1.6 Document Management}
-
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Document Management}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-FR-15 & The system SHALL allow TTBDO staff to upload supporting documents and link them to application records. \\
-\hline
-FR-16 & The system SHALL secure documents and enforce role-based access restrictions. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-\subsubsection*{3.1.7 Public Portal}
-
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Public Portal}
-\label{tab:fr_public_portal}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-FR-17 & The system SHALL provide a guest-accessible, read-only portal to browse published IPs. \\
-\hline
-FR-18 & The system SHALL display summary statistics in the public portal. \\
-\hline
-FR-19 & The system SHOULD allow document access requests via a public form. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-The functional requirements outline a structured and role-aware system that digitizes the IP application process and strengthens transparency through status tracking, dashboards, and notifications. They also ensure proper document handling, alignment with IPOPHL records, and provide public visibility for published IPs. Together, these requirements establish the functional foundation necessary for IRIS to operate as a secure, efficient, and scalable system.
+The complete set of functional requirements, including all detailed specifications, is provided in Appendix~\ref{sec:appendixa} (Tables~\ref{tab:fr_auth_roles}--\ref{tab:fr_public_portal}).
 
 \subsection{Non-Functional Requirements}
 
-Non-functional requirements (NFRs) define the standards that IRIS must meet for performance, security, reliability, usability, maintainability, and compliance. Unlike functional requirements that specify what the system does, NFRs establish how well it must operate. This is critical for a system handling sensitive IP data, serving diverse users with varying technical skills, and maintaining public trust through consistent availability.
+Non-functional requirements (NFRs) define the standards that IRIS must meet for performance, security, reliability, usability, maintainability, and compliance. NFRs are critical for a system handling sensitive IP data, serving diverse users with varying technical skills, and maintaining public trust through consistent availability.
 
-The following tables (Table~\ref{tab:nfr_performance} to Table~\ref{tab:nfr_compliance}) summarize the non-functional requirements that IRIS must satisfy.
+In terms of performance, IRIS is expected to return 95\% of requests within two seconds under normal load and support at least 100 concurrent users. For security, the system will encrypt all traffic using TLS 1.2 or higher and enforce role-based access control.
 
-\subsubsection*{3.2.1 Performance}
+Regarding reliability and availability, IRIS is designed to achieve 99.5\% uptime during business hours, recover to the last stable state within four hours in case of failure, and perform daily backups stored in two separate locations. Usability and accessibility considerations include a responsive web interface for desktop, consistent UI and navigation patterns, meaningful error messages, and compliance with WCAG 2.1 Level AA accessibility standards. 
 
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Performance}
-\label{tab:nfr_performance}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-NFR-01 & The system SHALL return 95\% of requests within 2 seconds under normal load. \\
-\hline
-NFR-02 & The system SHALL support at least 100 concurrent users. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
+For maintainability, portability, and scalability, the system will follow a modular design with separation of concerns, include developer and API documentation, support deployment across multiple environments and horizontal scaling.
 
-\subsubsection*{3.2.2 Security}
+Finally, compliance and legal requirements ensure that IRIS adheres to the Philippine Data Privacy Act of 2012, retains records according to UP and IPOPHL retention policies, and can export logs and reports in standard formats. 
 
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Security}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-NFR-03 & The system SHALL encrypt all traffic using TLS 1.2 or higher. \\
-\hline
-NFR-04 & The system SHALL enforce role-based access control. \\
-\hline
-NFR-05 & The system MAY log all security-related events. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-\subsubsection*{3.2.3 Reliability \& Availability}
-
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Reliability \& Availability}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-NFR-06 & The system SHALL have 99.5\% uptime during business hours. \\
-\hline
-NFR-07 & The system SHALL recover to the last stable state within 4 hours of failure. \\
-\hline
-NFR-08 & The system SHALL perform daily backups stored in two separate locations. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-\subsubsection*{3.2.4 Usability \& Accessibility}
-
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Usability \& Accessibility}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-NFR-09 & The system SHALL provide a responsive web interface for desktop and mobile. \\
-\hline
-NFR-10 & The system SHALL follow consistent UI and navigation patterns. \\
-\hline
-NFR-11 & The system SHALL provide meaningful error messages. \\
-\hline
-NFR-12 & The system SHALL comply with WCAG 2.1 Level AA accessibility standards. \\
-\hline
-NFR-13 & The system SHOULD include tooltips or help prompts for complex tasks. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-\subsubsection*{3.2.5 Maintainability, Portability \& Scalability}
-
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Maintainability, Portability \& Scalability}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-NFR-14 & The system SHALL be modular with separation of concerns for maintainability. \\
-\hline
-NFR-15 & The system SHALL include developer and API documentation. \\
-\hline
-NFR-16 & The system SHOULD support deployment in multiple environments (dev, staging, prod). \\
-\hline
-NFR-17 & The system MAY support containerized deployment (e.g. Docker). \\
-\hline
-NFR-18 & The system SHOULD support horizontal scaling. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-\subsubsection*{3.2.6 Compliance \& Legal}
-
-\begingroup
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\begin{table}[H]
-\centering
-\caption{Compliance \& Legal}
-\label{tab:nfr_compliance}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-NFR-19 & The system SHALL comply with the Philippine Data Privacy Act of 2012. \\
-\hline
-NFR-20 & The system SHALL retain records per UP and IPOPHL retention policies. \\
-\hline
-NFR-21 & The system SHALL export logs and reports in standard formats (PDF, CSV, XLSX). \\
-\hline
-NFR-22 & The system SHOULD provide compliance reports for audits. \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-These non-functional requirements ensure IRIS operates reliably, securely, and efficiently under load while remaining accessible and maintainable. They establish performance standards, security practices, availability targets, and usability guidelines that align with institutional policies and national data protection laws. These requirements will guide acceptance testing and operational monitoring to ensure the system meets production standards for an IP management platform.
+Appendix~\ref{sec:appendixb} (Tables~\ref{tab:nfr_performance}--\ref{tab:nfr_compliance}) provides the complete set of non-functional requirements. The main text above lists only mandatory SHALL requirements; additional SHOULD and MAY requirements are included in the appendix.
 
 \section{System Design}
 
