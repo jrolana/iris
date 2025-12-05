@@ -3,15 +3,20 @@ import { FileType } from "./file";
 import { CollegeUnitType } from "./college-units";
 
 export type ApplicationType = {
-  applicationId: string;
+  applicationId: string | number; // will be changed later
   ipTitle: string;
   projectTitle?: string;
-  type_of_ip: IpType;
-  current_status_type: StatusType;
+  ipType: IpType;
+  currentStatus: StatusType;
   applicationNumber?: string | null;
-  dateOfFiling?: string | null;
+  filingDate?: string | Date; // will be changed later
   lastUpdated?: string | null;
+  registrationDate?: Date;
+  fundingAgency?: string;
+  techGens?: string[];
+  colleges?: string[];
 };
+
 export type AttachmentType = {
   fileId: string;
   filename: string;
