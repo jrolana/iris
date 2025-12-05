@@ -31,22 +31,22 @@
 \contentsline {chapter}{\numberline {3}Research Methodology}{33}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Research Design}{33}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}System Development Life Cycle Model}{33}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Research Framework}{33}{subsection.3.1.2}%
-\contentsline {section}{\numberline {3.2}Development Tools and Technologies}{34}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Software and Hardware}{34}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.1.2}Research Framework}{34}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Development Tools and Technologies}{35}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Software and Hardware}{35}{subsection.3.2.1}%
 \contentsline {subsubsection}{Software Tools}{35}{section*.21}%
 \contentsline {subsubsection}{Hardware Specifications}{36}{section*.23}%
-\contentsline {subsection}{\numberline {3.2.2}Technology Stack}{36}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.2}Technology Stack}{37}{subsection.3.2.2}%
 \contentsline {section}{\numberline {3.3}Requirements Analysis}{38}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Data Collection Methods}{38}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Functional Requirements}{38}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Non-Functional Requirements}{39}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.3}Non-Functional Requirements}{40}{subsection.3.3.3}%
 \contentsline {section}{\numberline {3.4}System Design}{41}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}Context Model}{41}{subsection.3.4.1}%
-\contentsline {subsubsection}{TTBDO Admin}{41}{section*.26}%
+\contentsline {subsubsection}{TTBDO Admin}{42}{section*.26}%
 \contentsline {subsubsection}{Tech Generators}{42}{section*.27}%
 \contentsline {subsubsection}{UP Officials and Guests.}{42}{section*.28}%
-\contentsline {subsection}{\numberline {3.4.2}Database Design}{42}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.2}Database Design}{43}{subsection.3.4.2}%
 \contentsline {subsection}{\numberline {3.4.3}Use Case Diagram}{43}{subsection.3.4.3}%
 \contentsline {subsection}{\numberline {3.4.4}Sequence Diagrams}{46}{subsection.3.4.4}%
 \contentsline {subsubsection}{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram}{46}{section*.34}%
