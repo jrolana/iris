@@ -19,7 +19,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems: NavItem[] = [
     { icon: <GridIcon />, name: "Dashboard", path: "/techgen" },
-    { icon: <DocsIcon />, name: "Application Guide", path: "/techgen" },
+    {
+      icon: <DocsIcon />,
+      name: "Application Guide",
+      path: "/techgen/application-guide",
+    },
     { icon: <DownloadIcon />, name: "Application Documents", path: "/techgen" },
   ];
 
