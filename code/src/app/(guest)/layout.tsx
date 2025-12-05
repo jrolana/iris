@@ -18,7 +18,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       name: "Application Guide",
       path: "/application-guide",
     },
-    { icon: <DownloadIcon />, name: "Application Documents", path: "/" },
+    {
+      icon: <DownloadIcon />,
+      name: "Application Documents",
+      path: "/application-document",
+    },
   ];
 
   return (
