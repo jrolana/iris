@@ -2,10 +2,13 @@
 \chapter{System Prototype}
 This chapter  presents the preliminary results or the system prototype of your SP.  Include screenhots, tables, or graphs and provide the discussion of results.
 
+
+The web page shown in Figure \figref{fig:applicant_appview} shows the perspective of a technology generator when they want to view more details about a specific IP right application. It shows the current stage of the application, as well as the list of all status changes of the IP right application with timestamp (highlighting the latest status). The technology generator only has view privileges of the attachments and list of co-applicants on the IP right application.
+
 \begin{figure}[H]                
     \centering 
 
-    % --- (a) ---
+    %(a)
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[scale=0.3]{techgen_view_applicationA.png}     
@@ -13,8 +16,8 @@ This chapter  presents the preliminary results or the system prototype of your S
         \label{fig:applicant_appviewA}
         \vspace{1cm}
     \end{subfigure}
-    
-    % --- (b) ---
+
+    % (b)
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[scale=0.3]{techgen_view_applicationB.png}     
@@ -22,8 +25,59 @@ This chapter  presents the preliminary results or the system prototype of your S
         \label{fig:applicant_appviewB}
     \end{subfigure}
 
-
-    \caption[Applicant Application View]{Applicant Application View. The view sumth sumth}
+    \caption[Technology Generator Application View Page]{Technology Generator Application View Page on the perspective of a technology generator. The page shows more details about an IP right application such as list of attachments, co-applicants, and status changes}
     \label{fig:applicant_appview}                 
-   
+\end{figure}
+
+
+For the TTBDO admin's side, it is shown in Figure \figref{fig:admin_appview} that it also shows the same IP right application details as the technology generators view. However, it can be seen that there are buttons that allow create, remove, update, delete (CRUD) operations on the list of attachments and inventors. Moreover, the TTBDO admin is responsible for updating the status of an application as well as moving the application to another stage of the application process.  
+
+\begin{figure}[H]                
+    \centering 
+
+    %(a)
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.3]{admin_view_applicationA.png}     
+        \caption{}
+        \label{fig:admin_appviewA}
+        \vspace{1cm}
+    \end{subfigure}
+
+    % (b)
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.3]{admin_view_applicationB.png}     
+        \caption{}
+        \label{fig:admin_appviewB}
+    \end{subfigure}
+
+    \caption[TTBDO Admin Application View Page]{TTBDO Admin Application View Page. The page shows more details about an IP right application such as list of attachments, co-applicants, and status changes on the perspective of a TTBDO admin. It shows that a TTBDO admin can perform CRUD operations on any information regarding the IP right application}
+    \label{fig:admin_appview}                 
+\end{figure}
+
+
+
+It is seen in Figure \figref{fig:new_application} that the IRIS system can guide technology generators in choosing the proper disclosure form through a simple application wizard. Technology generators can also choose to skip the wizard entirely, as some technology generators already know what disclosure forms to use. The page starts their IP right application into motion.
+\begin{figure}[H]                
+    \centering 
+    %(a)
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.3]{new_applicationA.png}     
+        \caption{}
+        \label{fig:new_applicationA}
+        \vspace{1cm}
+    \end{subfigure}
+
+    % (b)
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.3]{new_applicationB.png}     
+        \caption{}
+        \label{fig:new_applicationB}
+    \end{subfigure}
+
+    \caption[New Application Page]{New Application Page. The page helps technology generators choose the right disclosure form and starts their IP right application.}
+    \label{fig:new_application}                 
 \end{figure}
