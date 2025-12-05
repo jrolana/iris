@@ -79,15 +79,20 @@ function ViewAttachments(props: ViewAttachmentProps){
         </ul>
 
         <div className="mt-4">
-            <button
-            type="button"
-            onClick={isAdmin ? onAddAttachment : undefined}
-            className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
-            >
-            {isAdmin ? 'Add file or link' : 'Upload a file or link'}
-            </button>
+            {
+                isAdmin && (
+                    <button
+                    type="button"
+                    onClick={isAdmin ? onAddAttachment : undefined}
+                    className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
+                    >
+                        {'Upload a file or link'}
+                    </button>
+                )
+            }
+            
             <p className="mt-2 text-sm text-gray-500">
-            Attach necessary files or links related to this application.
+            {isAdmin ? " Attach necessary files or links related to this application." : "Links and files are managed by TTBDO. Contact them for any attachment requests."}
             </p>
         </div>
     </>
