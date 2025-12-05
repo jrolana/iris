@@ -65,7 +65,8 @@ export async function updateSession(request: NextRequest) {
     // Define role-based route permissions
     const roleRoutes = {
       admin: ['/admin'],
-      'up-officials': ['/up-officials'],
+      'up-official': ['/up-official'],
+      'techgen': ['/techgen'],
     }
 
     // Check if user is trying to access a role-protected route
@@ -81,8 +82,11 @@ export async function updateSession(request: NextRequest) {
           case 'admin':
             url.pathname = '/admin'
             break
-          case 'up-officials':
-            url.pathname = '/up-officials'
+          case 'up-official':
+            url.pathname = '/up-official'
+            break
+          case 'techgen':
+            url.pathname = '/techgen'
             break
           default:
             url.pathname = '/'

@@ -27,26 +27,26 @@ function InformationPanel(props: DetailsPanelProps){
     const countLabel = `${itemCount} ${["attachment", "inventor"][tabIndex]}${" s"[+(itemCount > 0)]}` ;
 
     return (
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 ">
             <div className="flex items-center justify-between gap-2">
-                <div className="inline-flex rounded-full bg-slate-100 p-1 text-md font-medium text-slate-600">
+                <div className="inline-flex rounded-full bg-gray-100 p-1 text-md font-medium text-gray-600">
                 <button
                     type="button"
                     onClick={() => setActiveTab('attachments')}
-                    className={`rounded-full px-3 py-1 ${activeTab === 'attachments' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600'}`}
+                    className={`rounded-full px-3 py-1 ${activeTab === 'attachments' ? 'bg-white text-gray-900 ' : 'text-gray-600'}`}
                 >
                     Attachments
                 </button>
                 <button
                     type="button"
                     onClick={() => setActiveTab('inventors')}
-                    className={`rounded-full px-3 py-1 ${ activeTab === 'inventors' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600'
+                    className={`rounded-full px-3 py-1 ${ activeTab === 'inventors' ? 'bg-white text-gray-900 ' : 'text-gray-600'
                     }`}
                 >
                     Inventors
                 </button>
                 </div>
-                <span className="text-sm text-slate-500">{countLabel}</span>
+                <span className="text-sm text-gray-500">{countLabel}</span>
             </div>
 
             {activeTab === 'attachments' ? (
