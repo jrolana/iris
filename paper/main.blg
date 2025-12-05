@@ -47,11 +47,7 @@ Warning--No journal in ra8293_1997_lawphil
 Warning--No journal in ra10055_2009_dost
 You've used 15 entries,
             6951 wiz_defined-function locations,
-<<<<<<< HEAD
-            1359 strings with 13884 characters,
-=======
-            1360 strings with 13871 characters,
->>>>>>> 4d43bb97515187f7197f00702bb4d9ef75814926
+            1361 strings with 13912 characters,
 and the built_in function-call counts, 26976 in all, are:
 = -- 3589
 > -- 183
