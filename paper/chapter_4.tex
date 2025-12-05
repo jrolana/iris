@@ -77,7 +77,7 @@ For the TTBDO admin's side, it is shown in \figref{fig:admin_appview} that it sh
 
 
 \section{Start an Application}
-It is seen in Figure \figref{fig:new_application} that the IRIS system can guide technology generators in choosing the proper disclosure form through a simple application wizard. Technology generators can also choose to skip the wizard entirely, as some technology generators already know what disclosure forms to use. The page starts their IP right application into motion.
+It is seen in  \figref{fig:new_application} that the IRIS system can guide technology generators in choosing the proper disclosure form through a simple application wizard. Technology generators can also choose to skip the wizard entirely, as some technology generators already know what disclosure forms to use. The page starts their IP right application into motion.
 \begin{figure}[H]                
     \centering 
     %(a)
@@ -102,7 +102,6 @@ It is seen in Figure \figref{fig:new_application} that the IRIS system can guide
 \end{figure}
 
 
-
 \section{Notification}
 IRIS has a notification component that is only available for technology generators and the TTBDO admin. Whenever there are changes (e.g., attachments submitted, status updated, title updated, application stage moved etc.) on an application, the technology generator is notified. Moreover, the TTBDO can also see notification whenever there are new applications started, or they have been contacted by a technology generator. \figref{fig:notification} shows the panel that pops up whenever the authenticated users interact with the bell icon on the top bar. The panel shows the notifications that are chronologically ordered to show the latest notification at the top.
 
@@ -112,3 +111,134 @@ IRIS has a notification component that is only available for technology generato
     \caption[Notification Dropdown]{Notification Dropdown. The notification dropdown when users interact with the notification bell icon on the top bar. It is only shown for technology generators and the TTBDO admin.}
     \label{fig:notification}                 
 \end{figure}
+
+\section{Dashboard}
+The dashboard presents a unified interface for admins, UP officials, and guests, where all users can access the same graphical representations derived from the existing Google Sheets charts maintained by the TTBDO, as seen in \figref{fig:dashboard_admin_guest_a} and \figref{fig:dashboard_admin_guest_b}. Technology generators, however, have a distinct perspective: their dashboard emphasizes key metrics and includes a dedicated table of their own applications. \figref{fig:dashboard_techgen_metrics} and \figref{fig:dashboard_techgen_table} show the metrics and table views for technology generators, respectively, allowing them to track progress efficiently.
+
+\begin{figure}[H]                
+    \centering 
+    % (a) Top/first part of the dashboard
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{admin_dashboard_1.png}     
+        \caption{}
+        \label{fig:dashboard_admin_guest_a}
+        \vspace{1cm}
+    \end{subfigure}
+
+    % (b) Bottom/second part of the same dashboard
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.4]{admin_dashboard_2.jpg}     
+        \caption{}
+        \label{fig:dashboard_admin_guest_b}
+    \end{subfigure}
+
+    \caption[Admin Dashboard Full View]{Full view of the Admin Dashboard. (a) Top section of the dashboard. (b) Bottom section showing the rest of the content.}
+    \label{fig:dashboard_admin_guest}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    % (b) Techgen metrics
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{techgen_dashboard_1.png}     
+        \caption{}
+        \label{fig:dashboard_techgen_metrics}
+        \vspace{1cm}
+    \end{subfigure}
+
+    % (c) Techgen table
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{techgen_dashboard_2.png}     
+        \caption{}
+        \label{fig:dashboard_techgen_table}
+    \end{subfigure}
+
+    \caption[Technology Generator Dashboard Views]{Technology Generator dashboard views. (b) Metrics view showing key statistics. (c) Applications table view showing all submitted applications.}
+    \label{fig:dashboard_techgen}
+\end{figure}
+
+
+\section{Application Registry}
+The Application Registry provides users with a quick overview of all IPs, allowing them to easily browse and reference relevant information. The registry is largely uniform across user roles, with some exceptions. Technology Generators do not require a separate registry since their applications are already accessible from the dashboard (\figref{fig:dashboard_techgen_table}). Admins have full control to manage IP rights, as illustrated in \figref{fig:registry_admin}, while UP officials and Guests have read-only access to view IP information (\figref{fig:registry_guest}). Guests have an additional constraint: they can request access to view more details about a specific IP, a feature planned but not yet implemented in the current prototype.
+
+\begin{figure}[H]                
+    \centering 
+    % (a)
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{admin_applications_registry.png}     
+        \caption{}
+        \label{fig:registry_admin}
+        \vspace{1cm}
+    \end{subfigure}
+
+    % (b)
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{guest_applications_registry.png}     
+        \caption{}
+        \label{fig:registry_guest}
+    \end{subfigure}
+
+    \caption[Application Registry Views]{Application Registry views. (a) Admin view with full management capabilities. (b) UP Officials and Guests have read-only access to IP information.}
+    \label{fig:registry}
+\end{figure}
+
+\section{Application Documents}
+The Application Documents page provides a centralized location for users to view all forms and related documents associated with the IP application process. Both Guests and Technology Generators can access the page and initiate applications using the call-to-action buttons. However, only Technology Generators can track their latest submissions, as illustrated in \figref{fig:documents_techgen}. Clicking the button redirects Technology Generators to a dedicated application page that displays detailed information about their specific IP right applications (\figref{fig:applicant_appview}), enabling them to monitor progress, while Guests are primarily guided to apply.
+
+\begin{figure}[H]                
+    \centering 
+    % (a)
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{guest_application_documents.png}     
+        \caption{}
+        \label{fig:documents_guest}
+        \vspace{1cm}
+    \end{subfigure}
+
+    % (b)
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.2]{techgen_application_documents.png}     
+        \caption{}
+        \label{fig:documents_techgen}
+    \end{subfigure}
+
+    \caption[Application Documents Views]{Application Documents views. (a) Guest and (b) Technology Generator view with different call-to-action buttons.}
+    \label{fig:documents}
+\end{figure}
+
+\section{Application Guide}
+The application guide provides users with step-by-step instructions to navigate the IP application process. Guests are guided to submit new applications, while Technology Generators have the additional capability to track and manage their existing submissions. The guide content is identical for both roles, the only difference is the call-to-action functionality. 
+
+\begin{figure}[H]                
+    \centering 
+    % (a) Guest view
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.18]{guest_application_documents.png}     
+        \caption{}
+        \label{fig:application_guide_guest}
+        \vspace{1cm}
+    \end{subfigure}
+
+    % (b) Technology Generator view
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.18]{techgen_application_documents.png}     
+        \caption{}
+        \label{fig:application_guide_techgen}
+    \end{subfigure}
+
+    \caption[Application Guide Views]{Application Guide views for Guests (a) and Technology Generators (b). Both roles see the same guide content; the only difference is the call-to-action functionality.}
+    \label{fig:application_guide}
+\end{figure}
+
+

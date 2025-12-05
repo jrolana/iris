@@ -63,18 +63,22 @@
 \contentsline {subsubsection}{TTBDO Admin View}{63}{section*.50}%
 \contentsline {section}{\numberline {4.3}Start an Application}{65}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Notification}{67}{section.4.4}%
-\contentsline {chapter}{\numberline {A}Functional Requirements Tables}{71}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Authentication \& User Roles}{71}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Submission of Application}{72}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Application Tracking}{72}{section.A.3}%
-\contentsline {section}{\numberline {A.4}Dashboards \& Reporting}{72}{section.A.4}%
-\contentsline {section}{\numberline {A.5}Notifications}{73}{section.A.5}%
-\contentsline {section}{\numberline {A.6}Document Management}{73}{section.A.6}%
-\contentsline {section}{\numberline {A.7}Public Portal}{73}{section.A.7}%
-\contentsline {chapter}{\numberline {B}Non-Functional Requirements Tables}{74}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Performance}{74}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Security}{75}{section.B.2}%
-\contentsline {section}{\numberline {B.3}Reliability \& Availability}{75}{section.B.3}%
-\contentsline {section}{\numberline {B.4}Usability \& Accessibility}{75}{section.B.4}%
-\contentsline {section}{\numberline {B.5}Maintainability, Portability \& Scalability}{76}{section.B.5}%
-\contentsline {section}{\numberline {B.6}Compliance \& Legal}{76}{section.B.6}%
+\contentsline {section}{\numberline {4.5}Dashboard}{68}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Application Registry}{70}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Application Documents}{72}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Application Guide}{74}{section.4.8}%
+\contentsline {chapter}{\numberline {A}Functional Requirements Tables}{79}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Authentication \& User Roles}{79}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Submission of Application}{80}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Application Tracking}{80}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Dashboards \& Reporting}{80}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Notifications}{81}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Document Management}{81}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Public Portal}{81}{section.A.7}%
+\contentsline {chapter}{\numberline {B}Non-Functional Requirements Tables}{82}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Performance}{82}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Security}{83}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Reliability \& Availability}{83}{section.B.3}%
+\contentsline {section}{\numberline {B.4}Usability \& Accessibility}{83}{section.B.4}%
+\contentsline {section}{\numberline {B.5}Maintainability, Portability \& Scalability}{84}{section.B.5}%
+\contentsline {section}{\numberline {B.6}Compliance \& Legal}{84}{section.B.6}%
