@@ -1,32 +1,153 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%   Filename    : appendix_B.tex
+%   Filename    : appendix_B.tex 
+%   Description : Non-Functional Requirements Tables for IRIS as Appendix B
 %
-%   Description : This file will contain information about your Resource Persons
-%                 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Resource Persons}
+\chapter{Non-Functional Requirements Tables}
 \label{sec:appendixb}
 
-%
-%  Indicate your resource persons here:
-%
-%	<full name and title, e.g., Dr. Juan de la Cruz>
-%	<profession, e.g., faculty>
-%	<department, e.g., Division of Physical Sciences and Mathematics>
-%	<name of institution, e.g., University of the Philippines Visayas>
-%	<e-mail address>
-%
-%
+This appendix contains the complete set of non-functional requirements (NFRs) for IRIS, organized by category. These tables specify system qualities, constraints, and standards that ensure IRIS operates efficiently, securely, and reliably while meeting usability and compliance standards.
 
-%
-%  the following shows 3 examples, replace entries with your own
-%
+%-------------------------------------------------------
+\section{Performance}
 
-\newcommand{\resperson}[4]{\textbf{#1} \\ #2 \\ #3 \\ \url{#4}\vspace{0.5em}\\}
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Performance}
+\label{tab:nfr_performance}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-01 & The system SHALL return 95\% of requests within 2 seconds under normal load. \\
+\hline
+NFR-02 & The system SHALL support at least 100 concurrent users. \\
+\hline
+\end{tabular}
+\end{table}
 
-\resperson{Mr. Firstname1 Lastname1}{Role1}{Affiliation1}{emailaddr1@domain.com}
-\resperson{Ms. Firstname2 Lastname2}{Role2}{Affiliation2}{emailaddr2@domain.net}
-....
+%-------------------------------------------------------
+\section{Security}
 
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Security}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-03 & The system SHALL encrypt all traffic using TLS 1.2 or higher. \\
+\hline
+NFR-04 & The system SHALL enforce role-based access control. \\
+\hline
+NFR-05 & The system MAY log all security-related events. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Reliability \& Availability}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Reliability \& Availability}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-06 & The system SHALL have 99.5\% uptime during business hours. \\
+\hline
+NFR-07 & The system SHALL recover to the last stable state within 4 hours of failure. \\
+\hline
+NFR-08 & The system SHALL perform daily backups stored in two separate locations. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Usability \& Accessibility}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Usability \& Accessibility}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-09 & The system SHALL provide a responsive web interface for desktop and mobile. \\
+\hline
+NFR-10 & The system SHALL follow consistent UI and navigation patterns. \\
+\hline
+NFR-11 & The system SHALL provide meaningful error messages. \\
+\hline
+NFR-12 & The system SHALL comply with WCAG 2.1 Level AA accessibility standards. \\
+\hline
+NFR-13 & The system SHOULD include tooltips or help prompts for complex tasks. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Maintainability, Portability \& Scalability}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Maintainability, Portability \& Scalability}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-14 & The system SHALL be modular with separation of concerns for maintainability. \\
+\hline
+NFR-15 & The system SHALL include developer and API documentation. \\
+\hline
+NFR-16 & The system SHOULD support deployment in multiple environments (dev, staging, prod). \\
+\hline
+NFR-17 & The system MAY support containerized deployment (e.g., Docker). \\
+\hline
+NFR-18 & The system SHOULD support horizontal scaling. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Compliance \& Legal}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.05}
+\small
+\caption{Compliance \& Legal}
+\label{tab:nfr_compliance}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+NFR-19 & The system SHALL comply with the Philippine Data Privacy Act of 2012. \\
+\hline
+NFR-20 & The system SHALL retain records per UP and IPOPHL retention policies. \\
+\hline
+NFR-21 & The system SHALL export logs and reports in standard formats (PDF, CSV, XLSX). \\
+\hline
+NFR-22 & The system SHOULD provide compliance reports for audits. \\
+\hline
+\end{tabular}
+\end{table}
