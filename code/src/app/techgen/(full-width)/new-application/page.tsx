@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IpType } from "@/lib/types/ip";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
@@ -9,6 +9,7 @@ import clsx from "clsx";
 
 import ClassificationWizard from "@/components/application/Wizard";
 import { ArrowLeft } from "lucide-react";
+import { toast } from "sonner";
 
 type Mode = "undecided" | "wizard" | "direct";
 
@@ -119,7 +120,7 @@ function NewApplicationPage() {
     console.log("open the modal here");
   }
 
-  // Side panel deets, changeable based on selected options
+  // Side details, now used for the stacked info card
   let sideDetailsTitle = "Form details";
   let sideDetailsBody =
     "Select an option or complete the guide to see more details about the recommended disclosure form.";
@@ -139,19 +140,32 @@ function NewApplicationPage() {
     router.back();
   }
 
+  useEffect(() => {
+    toast.info("How this works", {
+      description:
+        "IRIS will help you choose a starting disclosure form. " +
+        "You can either answer a few quick questions or directly pick the form agreed upon with TTBDO. " +
+        "You can still change things later during the review.",
+      descriptionClassName: "!text-slate-500",
+    });
+  }, []);
+
   return (
     <div className="relative mx-auto max-w-6xl space-y-6 px-4 py-8">
+      {/* Back button positioned near the header without shifting it */}
       <button
         type="button"
         onClick={handleBack}
-        aria-label="Return to homepage"
-        className="absolute -left-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white hover:bg-slate-50 focus:outline-none"
+        aria-label="Return to previous page"
+        className="absolute top-8 left-0 inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white hover:bg-slate-50 focus:outline-none"
       >
         <ArrowLeft size={18} className="text-slate-700" />
       </button>
-      <header className="flex items-center justify-between gap-4">
+
+      {/* Page header */}
+      <header className="flex items-center justify-between gap-4 pl-12">
         <div>
-          <h1 className="text-4xl font-semibold text-slate-900">
+          <h1 className="text-3xl font-semibold text-slate-900">
             New IP Application
           </h1>
           <p className="mt-1 text-lg text-slate-500">
@@ -169,24 +183,27 @@ function NewApplicationPage() {
         )}
       </header>
 
-      <main className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1.3fr)]">
-        {/* Wizard section*/}
+      <main className="space-y-4">
+        {/* Wizard section */}
         <section className="rounded-2xl border border-slate-200 bg-white p-6">
-          {/* Initial question */}
-          <div className="mt-6">
+          {/* Initial choice: guided vs direct */}
+          <div className="mt-2">
             <p className="text-xl font-medium text-slate-900">
-              Would you like help choosing the proper disclosure form?
+              How would you like to start?
             </p>
             <p className="text-lg text-slate-500">
-              You can either follow a short guide or pick the form agreed upon
-              with TTBDO.
+              You can let IRIS recommend a form or choose it yourself if you
+              already know the protection you want.
             </p>
           </div>
 
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             <button
               type="button"
-              onClick={() => setMode("wizard")}
+              onClick={() => {
+                setMode("wizard");
+                setWizardResult(null);
+              }}
               className={clsx(
                 "rounded-lg border px-3 py-3 text-left text-sm transition",
                 mode === "wizard"
@@ -198,8 +215,8 @@ function NewApplicationPage() {
                 Yes, guide me through it
               </span>
               <span className="mt-2 block text-lg/snug text-slate-600">
-                IRIS will ask a few questions and suggest the most suitable
-                disclosure form.
+                IRIS will ask a few short questions and suggest the most
+                suitable disclosure form for your work.
               </span>
             </button>
 
@@ -226,50 +243,21 @@ function NewApplicationPage() {
             </button>
           </div>
 
-          {/* Wizard options */}
+          {/* Wizard / direct selection area */}
+
           <div className="mt-4 border-t border-slate-100 pt-2">
-            {mode === "wizard" && (
+            {mode === "wizard" && !finalIpType && (
               <ClassificationWizard
                 onFinished={handleWizardFinished}
                 resetResult={setWizardResult}
               />
             )}
 
-            {mode === "direct" && (
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900">
-                  Choose the disclosure form to use
-                </h3>
-                <p className="text-md text-slate-500">
-                  These are the standard forms used by TTBDO for different types
-                  of protection.
-                </p>
-                <div className="mt-3 grid gap-3 md:grid-cols-2">
-                  {DISCLOSURE_FORMS.map((form) => {
-                    const isSelected = selectedFormId === form.id;
-                    return (
-                      <button
-                        key={form.id}
-                        type="button"
-                        onClick={() => setSelectedFormId(form.id)}
-                        className={clsx(
-                          "h-full rounded-lg border px-3 py-3 text-left text-lg transition",
-                          isSelected
-                            ? "border-sky-500 bg-sky-50 text-sky-900"
-                            : "border-slate-200 bg-slate-50 text-slate-900 hover:border-sky-300 hover:bg-sky-50",
-                        )}
-                      >
-                        <span className="block font-semibold">
-                          {form.label}
-                        </span>
-                        <span className="text-md/snug block text-slate-600">
-                          {form.shortDescription}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+            {mode === "direct" && !finalIpType && (
+              <DirectMenu
+                selectedFormId={selectedFormId}
+                setSelectedFormId={setSelectedFormId}
+              />
             )}
 
             {mode === "undecided" && (
@@ -279,84 +267,152 @@ function NewApplicationPage() {
             )}
           </div>
         </section>
-
-        {/* Information side section, similar to Trance*/}
-        <section className="space-y-4">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5">
-            <h2 className="text-lg font-semibold text-slate-900">
-              What happens after this?
-            </h2>
-            {finalIpType ? (
-              <p className="mt-2 text-xl text-slate-600">
-                After you proceed, IRIS will start a new application using this
-                form. TTBDO will review your submission, may refine the
-                classification, and then guide you through prior art search,
-                drafting, and filing with IPOPHL as appropriate for this
-                protection type.
-              </p>
-            ) : (
-              <p className="mt-2 text-lg/snug text-slate-600">
-                Once you confirm a disclosure form, IRIS will create a new
-                application record. You&apos;ll then be able to upload
-                attachments, see TTBDO feedback, and track progress through each
-                stage of the review and filing process.
-              </p>
-            )}
-          </div>
-
-          {/* More details about the options selected */}
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-700">
-            <h3 className="text-xl font-semibold text-slate-900">
-              {sideDetailsTitle}
-            </h3>
-            {sideDetailsSelectedLabel ? (
-              <p className="mt-2 text-lg/snug text-slate-700">
-                {sideDetailsBody}
-              </p>
-            ) : (
-              <p className="mt-2 text-lg/snug text-slate-600">
-                Select a disclosure form (or complete the guide) to see specific
-                guidance, notes, and reminders here.
-              </p>
-            )}
-
-            <div className="mt-4 flex-row items-center justify-between">
-              <button
-                type="button"
-                // open submission bin here
-                onClick={handleSubmissionModal}
-                disabled={!canProceed}
-                className="text-md w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
-              >
-                {`Download ${ipTypeToTitle(finalIpType)} Disclosure Form`}
-              </button>
-              <p className="mt-2 text-xs/tight text-gray-500">
-                Download the recommended disclosure form and fill up the
-                necessary details. Please do not forget to include your
-                e-signatures.
-              </p>
-            </div>
-
-            <div className="mt-4 flex-row items-center justify-between">
-              <button
-                type="button"
-                onClick={handleProceed}
-                disabled={!canProceed}
-                className="text-md w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
-              >
-                Proceed to application
-              </button>
-              <p className="mt-2 text-xs/tight text-gray-500">
-                When you&apos;re ready, proceed to create the application. TTBDO
-                can still adjust the classification and status after their
-                review.
-              </p>
-            </div>
-          </div>
-        </section>
+        {finalIpType && (
+          <DisclosureFormActions
+            title={sideDetailsTitle}
+            nodeLabel={sideDetailsSelectedLabel}
+            nodeBody={sideDetailsBody}
+            handleSubmissionModal={handleSubmissionModal}
+            handleProceed={handleProceed}
+            canProceed={canProceed}
+            finalIpType={finalIpType}
+          />
+        )}
       </main>
     </div>
   );
 }
 
 export default NewApplicationPage;
+
+interface DisclosureFormActionsProps {
+  title: string;
+  nodeLabel: string | null;
+  nodeBody: string;
+  handleSubmissionModal: () => void;
+  handleProceed: () => void;
+  canProceed: boolean;
+  finalIpType: IpType | null;
+}
+
+interface DirectMenuProps {
+  selectedFormId: string | null;
+  setSelectedFormId: (formId: string) => void;
+}
+
+function DirectMenu(props: DirectMenuProps) {
+  const { selectedFormId, setSelectedFormId } = props;
+  const [selectedIpType, setSelectedIpType] = useState<string>("");
+
+  function handleSelect(ipType: string) {
+    setSelectedIpType(ipType);
+  }
+  return (
+    <div className="p-2">
+      <h3 className="text-lg font-medium text-slate-900">
+        Choose the disclosure form to use
+      </h3>
+      <p className="text-md text-slate-500">
+        These are the standard forms used by TTBDO for different types of
+        protection.
+      </p>
+      <div className="mt-3 grid gap-3 md:grid-cols-2">
+        {DISCLOSURE_FORMS.map((form) => {
+          const isSelected = selectedFormId === form.id;
+          return (
+            <button
+              key={form.id}
+              type="button"
+              onClick={() => handleSelect(form.id)}
+              className={clsx(
+                "text-md h-full rounded-lg border px-3 py-3 text-left transition",
+                isSelected
+                  ? "border-sky-500 bg-sky-50 text-sky-900"
+                  : "border-slate-200 bg-slate-50 text-slate-900 hover:border-sky-300 hover:bg-sky-50",
+              )}
+            >
+              <span className="block font-bold">{form.label}</span>
+              <span className="text-md/snug block text-slate-600">
+                {form.shortDescription}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      <div className="mt-6 flex items-center justify-end">
+        <button
+          type="button"
+          onClick={() => setSelectedFormId(selectedIpType)}
+          className="inline-flex items-center rounded-md bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-sky-200"
+          disabled={!selectedIpType}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function DisclosureFormActions(props: DisclosureFormActionsProps) {
+  const {
+    title,
+    nodeLabel,
+    nodeBody,
+    handleSubmissionModal,
+    handleProceed,
+    canProceed,
+    finalIpType,
+  } = props;
+  return (
+    <>
+      {/* Stacked info / actions section (formerly side panels) */}
+      <section className="space-y-4">
+        {/* Form deets and actions */}
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-700">
+          <h3 className="text-xl font-semibold text-slate-900">{title}</h3>
+          {nodeLabel ? (
+            <p className="mt-2 text-lg/snug text-slate-700">{nodeBody}</p>
+          ) : (
+            <p className="mt-2 text-lg/snug text-slate-600">
+              Select a disclosure form (or complete the guide) to see specific
+              guidance, notes, and reminders here.
+            </p>
+          )}
+
+          <div className="mt-4 flex-row items-center justify-between">
+            <button
+              type="button"
+              // open submission bin here
+              onClick={handleSubmissionModal}
+              disabled={!canProceed}
+              className="text-md w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
+            >
+              {finalIpType
+                ? `Download ${ipTypeToTitle(finalIpType)} Disclosure Form`
+                : "Download Disclosure Form"}
+            </button>
+            <p className="mt-2 text-xs/tight text-gray-500">
+              Download the recommended disclosure form and fill up the necessary
+              details. Please do not forget to include your e-signatures.
+            </p>
+          </div>
+
+          <div className="mt-4 flex-row items-center justify-between">
+            <button
+              type="button"
+              onClick={handleProceed}
+              disabled={!canProceed}
+              className="text-md w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
+            >
+              Proceed to application
+            </button>
+            <p className="mt-2 text-xs/tight text-gray-500">
+              When you&apos;re ready, proceed to create the application. TTBDO
+              can still adjust the classification and status after their review.
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
