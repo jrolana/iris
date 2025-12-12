@@ -17,6 +17,7 @@ import FilterButton from "./FilterButton";
 import { dummyApplications } from "@/lib/dummy-data/application";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import { PlusIcon, EyeIcon } from "@/icons/index";
+import { statusTypeToTitle } from "@/lib/helper/get-status-title";
 
 interface propsInterface {
   isAdmin?: boolean;
@@ -116,10 +117,10 @@ export default function ApplicationsTable(props: propsInterface) {
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   {typeof record.filingDate == "string"
                     ? record.filingDate
-                    : record.filingDate?.toDateString()}
+                    : record.filingDate?.toLocaleDateString()}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.registrationDate?.toDateString()}
+                  {record.registrationDate?.toLocaleDateString()}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   {record.fundingAgency}
@@ -142,12 +143,12 @@ export default function ApplicationsTable(props: propsInterface) {
                           : "warning"
                     }
                   >
-                    {record.currentStatus}
+                    {statusTypeToTitle(record.currentStatus)}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-theme-sm py-3 text-gray-800">
                   {isAdmin ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex justify-center items-center gap-2">
                       <Link href="/" className="hover:text-brand-500">
                         <PencilIcon />
                       </Link>

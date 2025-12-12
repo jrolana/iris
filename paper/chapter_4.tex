@@ -6,7 +6,7 @@ The IRIS system prototype can handle authentication for registered accounts. It 
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.3]{signin.png}     
+    \includegraphics[scale=0.2]{signin.png}     
     \caption[Sign-in Page]{Sign-in Page. The page shows the sign-in page of IRIS for authentication. For the prototype, the page only allows authentication with Google emails.}
     \label{fig:applicant_appview}                 
 \end{figure}
@@ -78,7 +78,7 @@ It is seen in  \figref{fig:new_application} that the IRIS system can guide techn
     %(a)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.3]{new_applicationA.png}     
+        \includegraphics[scale=0.225]{new_applicationA.jpeg}     
         \caption{}
         \label{fig:new_applicationA}
         \vspace{1cm}
@@ -87,7 +87,7 @@ It is seen in  \figref{fig:new_application} that the IRIS system can guide techn
     % (b)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.3]{new_applicationB.png}     
+        \includegraphics[scale=0.225]{new_applicationB.jpeg}     
         \caption{}
         \label{fig:new_applicationB}
     \end{subfigure}
@@ -102,7 +102,7 @@ IRIS has a notification component that is only available for technology generato
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.5]{notification.png}     
+    \includegraphics[scale=0.6]{notification.png}     
     \caption[Notification Dropdown]{Notification Dropdown. The notification dropdown when users interact with the notification bell icon on the top bar. It is only shown for technology generators and the TTBDO admin.}
     \label{fig:notification}                 
 \end{figure}
@@ -115,7 +115,7 @@ The dashboard presents a unified interface for admins, UP officials, and guests,
     % (a) Top/first part of the dashboard
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.2]{admin_dashboard_1.png}     
+        \includegraphics[scale=0.3]{admin_dashboard_1.png}     
         \caption{}
         \label{fig:dashboard_admin_guest_a}
         \vspace{1cm}
@@ -124,7 +124,7 @@ The dashboard presents a unified interface for admins, UP officials, and guests,
     % (b) Bottom/second part of the same dashboard
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.4]{admin_dashboard_2.jpg}     
+        \includegraphics[scale=0.45]{admin_dashboard_2.jpg}     
         \caption{}
         \label{fig:dashboard_admin_guest_b}
     \end{subfigure}
@@ -139,7 +139,7 @@ The dashboard presents a unified interface for admins, UP officials, and guests,
     % (b) Techgen metrics
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.2]{techgen_dashboard_1.png}     
+        \includegraphics[scale=0.3]{techgen_dashboard_1.png}     
         \caption{}
         \label{fig:dashboard_techgen_metrics}
         \vspace{1cm}
@@ -148,7 +148,7 @@ The dashboard presents a unified interface for admins, UP officials, and guests,
     % (c) Techgen table
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.2]{techgen_dashboard_2.png}     
+        \includegraphics[scale=0.3]{techgen_dashboard_2.png}     
         \caption{}
         \label{fig:dashboard_techgen_table}
     \end{subfigure}
@@ -157,6 +157,15 @@ The dashboard presents a unified interface for admins, UP officials, and guests,
     \label{fig:dashboard_techgen}
 \end{figure}
 
+\section{User Management}
+The User Management page is exclusively accessible to administrators. It provides a centralized interface for managing the accounts of UP Officials and Technology Generators. Administrators can view detailed information for each user, including contact details and assigned roles. Moreover, they can modify roles and account privileges as needed, ensuring that the system maintains appropriate access controls for all users. \figref{fig:user_management} shows the interface where administrators can perform these actions.
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.3]{admin_user_management.png}     
+    \caption[User Management Page]{User Management Page for administrators. The page displays the list of UP Officials and Technology Generators, allowing admins to view details and modify roles.}
+    \label{fig:user_management}                 
+\end{figure}
 
 \section{Application Registry}
 The Application Registry provides users with a quick overview of all IPs, allowing them to easily browse and reference relevant information. The registry is largely uniform across user roles, with some exceptions. Technology Generators do not require a separate registry since their applications are already accessible from the dashboard (\figref{fig:dashboard_techgen_table}). Admins have full control to manage IP rights, as illustrated in \figref{fig:registry_admin}, while UP officials and Guests have read-only access to view IP information (\figref{fig:registry_guest}). Guests have an additional constraint: they can request access to view more details about a specific IP, a feature planned but not yet implemented in the current prototype.
@@ -166,7 +175,7 @@ The Application Registry provides users with a quick overview of all IPs, allowi
     % (a)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.2]{admin_applications_registry.png}     
+        \includegraphics[scale=0.25]{admin_applications_registry.jpeg}     
         \caption{}
         \label{fig:registry_admin}
         \vspace{1cm}
@@ -175,7 +184,7 @@ The Application Registry provides users with a quick overview of all IPs, allowi
     % (b)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.2]{guest_applications_registry.png}     
+        \includegraphics[scale=0.25]{guest_applications_registry.jpeg}     
         \caption{}
         \label{fig:registry_guest}
     \end{subfigure}
@@ -192,7 +201,7 @@ The Application Documents page provides a centralized location for users to view
     % (a)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.2]{guest_application_documents.png}     
+        \includegraphics[scale=0.3]{guest_application_documents.png}     
         \caption{}
         \label{fig:documents_guest}
         \vspace{1cm}
@@ -201,7 +210,7 @@ The Application Documents page provides a centralized location for users to view
     % (b)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.2]{techgen_application_documents.png}     
+        \includegraphics[scale=0.3]{techgen_application_documents.png}     
         \caption{}
         \label{fig:documents_techgen}
     \end{subfigure}
@@ -218,7 +227,7 @@ The application guide provides users with step-by-step instructions to navigate 
     % (a) Guest view
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.18]{guest_application_documents.png}     
+        \includegraphics[scale=0.3]{guest_application_documents.png}     
         \caption{}
         \label{fig:application_guide_guest}
         \vspace{1cm}
@@ -227,7 +236,7 @@ The application guide provides users with step-by-step instructions to navigate 
     % (b) Technology Generator view
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.18]{techgen_application_documents.png}     
+        \includegraphics[scale=0.3]{techgen_application_documents.png}     
         \caption{}
         \label{fig:application_guide_techgen}
     \end{subfigure}
