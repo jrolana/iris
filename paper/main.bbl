@@ -1,6 +1,73 @@
 \begin{thebibliography}{}
 
 \bibitem [\protect \citeauthoryear {%
+Agostini%
+, Nosella%
+, Lazzarotti%
+, Manzini%
+\BCBL {}\ \BBA {} Pellegrini%
+}{%
+Agostini%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2017}}%
+}]{%
+AgostiniEtAl2017}
+\APACinsertmetastar {%
+AgostiniEtAl2017}%
+\begin{APACrefauthors}%
+Agostini, L.%
+, Nosella, A.%
+, Lazzarotti, V.%
+, Manzini, R.%
+\BCBL {}\ \BBA {} Pellegrini, L.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2017}{07}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{Introduction to the Special Issue on Intellectual
+  Property Management: an internal and external perspective}} {{Introduction to
+  the Special Issue on Intellectual Property Management: an internal and
+  external perspective}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Management Decision}{55}{6}{1082-1086}.
+\newblock
+\begin{APACrefURL} \url{https://doi.org/10.1108/MD-05-2017-0501}
+  \end{APACrefURL}
+\newblock
+\begin{APACrefDOI} \doi{10.1108/MD-05-2017-0501} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Beck%
+\ \protect \BOthers {.}}{%
+Beck%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2001}}%
+}]{%
+agilemanifesto}
+\APACinsertmetastar {%
+agilemanifesto}%
+\begin{APACrefauthors}%
+Beck, K.%
+, Beedle, M.%
+, van Bennekum, A.%
+, Cockburn, A.%
+, Cunningham, W.%
+, Fowler, M.%
+\BDBL {}Thomas, D.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2001}{}{}.
+\newblock
+\APACrefbtitle {{Manifesto for Agile Software Development}.} {{Manifesto for
+  Agile Software Development}.}
+\newblock
+\APAChowpublished {\url{https://agilemanifesto.org/}}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Bentley%
 , Sherman%
 , Gangjee%
@@ -319,6 +386,34 @@ ra10055_2009_dost}%
   {\protect\url{https://www.dost.gov.ph/knowledge-resources/2014-04-27-01-59-53/republic-acts/file/288-republic-act-no-10055-philippine-technology-transfer-act-of-2009.html}}.
 \newblock
 \APACrefnote{Department of Science and Technology}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Saiyad%
+}{%
+Saiyad%
+}{%
+{\protect \APACyear {2024}}%
+}]{%
+saiyad2024project}
+\APACinsertmetastar {%
+saiyad2024project}%
+\begin{APACrefauthors}%
+Saiyad, S.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYear{2024}.
+\unskip\
+\newblock
+\APACrefbtitle {{Project Management and Jira with Agile Scrum Methodology}}
+  {{Project Management and Jira with Agile Scrum Methodology}}\
+  \APACtypeAddressSchool {Master’s Thesis}{}{Harrisburg University of Science
+  and Technology}.
+\unskip\
+\newblock
+\begin{APACrefURL} \url{https://digitalcommons.harrisburgu.edu/dandt/46/}
+  \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

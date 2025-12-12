@@ -6,7 +6,7 @@ export const usersData: UserType[] = [
     fullName: "Elena Cruz",
     college: "CAS",
     email: "elena.cruz@up.edu.ph",
-    role: "admin",
+    role: "up-official",
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ export const usersData: UserType[] = [
     fullName: "Clara Mendoza",
     college: "CAS",
     email: "clara.mendoza@up.edu.ph",
-    role: "admin",
+    role: "techgen",
   },
   {
     id: 6,
@@ -55,7 +55,7 @@ export const usersData: UserType[] = [
     fullName: "Victor Lim",
     college: "SOTECH",
     email: "victor.lim@up.edu.ph",
-    role: "admin",
+    role: "up-official",
   },
   {
     id: 9,

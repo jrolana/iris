@@ -37,16 +37,16 @@
 \contentsline {subsubsection}{Software Tools}{35}{section*.21}%
 \contentsline {subsubsection}{Hardware Specifications}{36}{section*.23}%
 \contentsline {subsection}{\numberline {3.2.2}Technology Stack}{37}{subsection.3.2.2}%
-\contentsline {section}{\numberline {3.3}Requirements Analysis}{38}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Data Collection Methods}{38}{subsection.3.3.1}%
+\contentsline {section}{\numberline {3.3}Requirements Analysis}{39}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Data Collection Methods}{39}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Functional Requirements}{39}{subsection.3.3.2}%
 \contentsline {subsection}{\numberline {3.3.3}Non-Functional Requirements}{40}{subsection.3.3.3}%
-\contentsline {section}{\numberline {3.4}System Design}{41}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Context Model}{41}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.4}System Design}{42}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Context Model}{42}{subsection.3.4.1}%
 \contentsline {subsubsection}{TTBDO Admin}{42}{section*.26}%
-\contentsline {subsubsection}{Tech Generators}{42}{section*.27}%
+\contentsline {subsubsection}{Tech Generators}{43}{section*.27}%
 \contentsline {subsubsection}{UP Officials and Guests.}{43}{section*.28}%
-\contentsline {subsection}{\numberline {3.4.2}Database Design}{43}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.2}Database Design}{44}{subsection.3.4.2}%
 \contentsline {subsection}{\numberline {3.4.3}Use Case Diagram}{44}{subsection.3.4.3}%
 \contentsline {subsection}{\numberline {3.4.4}Sequence Diagrams}{47}{subsection.3.4.4}%
 \contentsline {subsubsection}{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram}{47}{section*.34}%
@@ -60,25 +60,26 @@
 \contentsline {section}{\numberline {4.1}Authentication}{59}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Specific Application View}{60}{section.4.2}%
 \contentsline {subsubsection}{Technology Generator View}{60}{section*.48}%
-\contentsline {subsubsection}{TTBDO Admin View}{63}{section*.50}%
-\contentsline {section}{\numberline {4.3}Start an Application}{65}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Notification}{67}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Dashboard}{68}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Application Registry}{70}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Application Documents}{72}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Application Guide}{74}{section.4.8}%
-\contentsline {chapter}{\numberline {A}Functional Requirements Tables}{79}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Authentication \& User Roles}{79}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Submission of Application}{80}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Application Tracking}{80}{section.A.3}%
-\contentsline {section}{\numberline {A.4}Dashboards \& Reporting}{80}{section.A.4}%
-\contentsline {section}{\numberline {A.5}Notifications}{81}{section.A.5}%
-\contentsline {section}{\numberline {A.6}Document Management}{81}{section.A.6}%
-\contentsline {section}{\numberline {A.7}Public Portal}{81}{section.A.7}%
-\contentsline {chapter}{\numberline {B}Non-Functional Requirements Tables}{82}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Performance}{82}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Security}{83}{section.B.2}%
-\contentsline {section}{\numberline {B.3}Reliability \& Availability}{83}{section.B.3}%
-\contentsline {section}{\numberline {B.4}Usability \& Accessibility}{83}{section.B.4}%
-\contentsline {section}{\numberline {B.5}Maintainability, Portability \& Scalability}{84}{section.B.5}%
-\contentsline {section}{\numberline {B.6}Compliance \& Legal}{84}{section.B.6}%
+\contentsline {subsubsection}{TTBDO Admin View}{62}{section*.50}%
+\contentsline {section}{\numberline {4.3}Start an Application}{64}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Notification}{66}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Dashboard}{67}{section.4.5}%
+\contentsline {section}{\numberline {4.6}User Management}{70}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Application Registry}{70}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Application Documents}{73}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Application Guide}{75}{section.4.9}%
+\contentsline {chapter}{\numberline {A}Functional Requirements Tables}{80}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Authentication \& User Roles}{80}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Submission of Application}{81}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Application Tracking}{81}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Dashboards \& Reporting}{81}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Notifications}{82}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Document Management}{82}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Public Portal}{82}{section.A.7}%
+\contentsline {chapter}{\numberline {B}Non-Functional Requirements Tables}{83}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Performance}{83}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Security}{84}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Reliability \& Availability}{84}{section.B.3}%
+\contentsline {section}{\numberline {B.4}Usability \& Accessibility}{84}{section.B.4}%
+\contentsline {section}{\numberline {B.5}Maintainability, Portability \& Scalability}{85}{section.B.5}%
+\contentsline {section}{\numberline {B.6}Compliance \& Legal}{85}{section.B.6}%
