@@ -1,4 +1,5 @@
 import { Outfit } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 import { SidebarProvider } from "@/context/SidebarContext";
@@ -16,6 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${outfit.className}`}>
         <SidebarProvider>{children}</SidebarProvider>
+        <Toaster />
       </body>
     </html>
   );
