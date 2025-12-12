@@ -45,45 +45,45 @@ Warning--entry type for "oxfordinnovation2013-booklet" isn't style-file defined
 apacite.bst [2013/07/21 v6.03 APA bibliography style]
 Warning--No journal in ra8293_1997_lawphil
 Warning--No journal in ra10055_2009_dost
-You've used 15 entries,
+You've used 18 entries,
             6951 wiz_defined-function locations,
-            1361 strings with 13912 characters,
-and the built_in function-call counts, 26976 in all, are:
-= -- 3589
-> -- 183
-< -- 1157
-+ -- 1126
-- -- 38
-* -- 1569
-:= -- 4534
-add.period$ -- 59
-call.type$ -- 15
-change.case$ -- 239
+            1383 strings with 14844 characters,
+and the built_in function-call counts, 33532 in all, are:
+= -- 4378
+> -- 247
+< -- 1479
++ -- 1455
+- -- 44
+* -- 1998
+:= -- 5702
+add.period$ -- 71
+call.type$ -- 18
+change.case$ -- 292
 chr.to.int$ -- 0
-cite$ -- 32
-duplicate$ -- 618
-empty$ -- 1115
-format.name$ -- 295
-if$ -- 5384
+cite$ -- 38
+duplicate$ -- 810
+empty$ -- 1368
+format.name$ -- 417
+if$ -- 6609
 int.to.chr$ -- 0
-int.to.str$ -- 45
+int.to.str$ -- 54
 missing$ -- 0
-newline$ -- 348
-num.names$ -- 96
-pop$ -- 452
+newline$ -- 434
+num.names$ -- 120
+pop$ -- 594
 preamble$ -- 1
-purify$ -- 55
+purify$ -- 69
 quote$ -- 0
-skip$ -- 2141
+skip$ -- 2533
 stack$ -- 0
-substring$ -- 1223
-swap$ -- 345
-text.length$ -- 45
+substring$ -- 1570
+swap$ -- 449
+text.length$ -- 53
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 1750
+type$ -- 2054
 warning$ -- 2
-while$ -- 103
+while$ -- 145
 width$ -- 0
-write$ -- 416
+write$ -- 527
 (There were 8 warnings)

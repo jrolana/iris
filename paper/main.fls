@@ -1,6 +1,6 @@
-PWD E:\schoolworks\cmsc198_1\iris\paper
+PWD e:\schoolworks\cmsc198_1\iris\paper
 INPUT C:\Users\dell\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT main.tex
+INPUT e:\schoolworks\cmsc198_1\iris\paper\main.tex
 OUTPUT main.log
 INPUT .\preamble.tex
 INPUT .\preamble.tex
