@@ -57,7 +57,6 @@ function ApplicationView(props: ApplicationViewProps) {
     useState<ApplicationType>(initialApplication);
   const [attachments, setAttachments] =
     useState<AttachmentType[]>(initialAttachments);
-  const [inventors, setInventors] = useState<InventorType[]>(initialInventors);
   const [iprStatuses, setIprStatuses] = useState<IprStatus[]>(initialStatuses);
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -245,7 +244,7 @@ function ApplicationView(props: ApplicationViewProps) {
           <InformationPanel
             mode={mode}
             attachments={attachments}
-            inventors={inventors}
+            inventors={initialInventors}
             onAddAttachment={isAdmin ? handleAddAttachment : undefined}
             onEditAttachment={isAdmin ? handleEditAttachment : undefined}
             onDeleteAttachment={isAdmin ? handleDeleteAttachment : undefined}

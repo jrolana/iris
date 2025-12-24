@@ -1,6 +1,6 @@
 import { InventorType } from "@/lib/types/application";
 
-import { NotebookPen, Cable, BadgeCheck } from "lucide-react";
+import { Cable, BadgeCheck, NotepadText } from "lucide-react";
 
 interface ViewInventorsProps {
   inventors: InventorType[];
@@ -23,6 +23,10 @@ function ViewInventors(props: ViewInventorsProps) {
     );
   }
 
+  function handleViewComments(comment: string | null) {
+    if (!comment) comment = "No comments available.";
+    alert(`Comments: ${comment}`);
+  }
   return (
     <>
       <ul className="mt-3 max-h-64 divide-y divide-slate-100 overflow-x-auto overflow-y-auto">
@@ -47,7 +51,7 @@ function ViewInventors(props: ViewInventorsProps) {
                   onClick={() => onAnnotateInventor?.(inventor.inventorId)}
                   className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                 >
-                  Comment <NotebookPen size={24} />
+                  Comment
                 </button>
                 {/* <button
                   type="button"
@@ -59,6 +63,13 @@ function ViewInventors(props: ViewInventorsProps) {
               </div>
             ) : (
               <div className="flex shrink-0 items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleViewComments(inventor.comments)}
+                  className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
+                >
+                  <NotepadText />
+                </button>
                 {!inventor.userId ? (
                   <button
                     type="button"
@@ -68,7 +79,7 @@ function ViewInventors(props: ViewInventorsProps) {
                     Link Account <Cable size={24} />
                   </button>
                 ) : (
-                  <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600">
+                  <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-sky-600">
                     Verified Account <BadgeCheck size={24} />
                   </div>
                 )}

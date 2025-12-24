@@ -14,39 +14,49 @@ export const dummyApplication: ApplicationType = {
 
 export const dummyFiles: AttachmentType[] = [
   {
+    applicationId: 'demo-123',
     fileId: 'f1',
     filename: 'SensorDesign_v1.pdf',
     description: 'Initial technical description shared with TTBDO',
     fileType: 'pdf',
     uploadedAt: '2025-11-25T09:30:00Z',
+    owner_id: 'tech',
   },
   {
+    applicationId: 'demo-123',
     fileId: 'f12',
-    filename: 'SensorDesign_v1.pdf',
+    filename: 'SensorDesign_v2.pdf',
     description: 'Initial technical description shared with TTBDO',
     fileType: 'pdf',
     uploadedAt: '2025-11-25T09:30:00Z',
+    owner_id: 'tech'
   },
   {
+    applicationId: 'demo-123',
     fileId: 'f13',
-    filename: 'SensorDesign_v1.pdf',
+    filename: 'SensorDesign_v3.pdf',
     description: 'Initial technical description shared with TTBDO',
     fileType: 'pdf',
     uploadedAt: '2025-11-25T09:30:00Z',
+    owner_id: 'tech'
   },
   {
+    applicationId: 'demo-123',
     fileId: 'f2',
     filename: 'BlockDiagram.png',
     description: 'System architecture diagram',
     fileType: 'image',
     uploadedAt: '2025-11-25T10:12:00Z',
+    owner_id: 'tech'
   },
   {
+    applicationId: 'demo-123',
     fileId: 'f3',
     filename: 'MeetingNotes_GoogleDoc',
     description: 'Link to collaborative Google Doc for Q&A',
     fileType: 'link',
     uploadedAt: '2025-11-26T14:05:00Z',
+    owner_id: 'ttbdo'
   },
 ];
 
@@ -56,14 +66,16 @@ export const dummyInventors: InventorType[] = [
     full_name: 'Juan Dela Cruz',
     email: 'juan.delacruz@up.edu.ph',
     college: "CAS-Bio",
-    userId: '123'
+    userId: '123',
+    comments: null
   },
   {
     inventorId: 'i2',
     full_name: 'Maria Santos',
     email: 'maria.santos@up.edu.ph',
     college: "CFOS-IA",
-    userId: '1234'
+    userId: '1234',
+    comments: null
 
   },
   {
@@ -71,8 +83,8 @@ export const dummyInventors: InventorType[] = [
     full_name: 'Alex Reyes',
     email: 'alex.reyes@up.edu.ph',
     college: 'CFOS',
-    userId: null
-
+    userId: null,
+    comments: "Correct the surname spelling."
   },
 ];
 

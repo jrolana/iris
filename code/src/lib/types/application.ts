@@ -18,11 +18,13 @@ export type ApplicationType = {
 };
 
 export type AttachmentType = {
+  applicationId: string;
   fileId: string;
   filename: string;
   description?: string | null;
   fileType: FileType;
   uploadedAt: string;
+  owner_id: string;
 };
 
 export type InventorType = {
@@ -31,4 +33,5 @@ export type InventorType = {
   email: string;
   college: CollegeUnitType;
   userId: string | null; //change uuid type to something supabase related
+  comments: string | null;
 };

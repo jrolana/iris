@@ -58,20 +58,30 @@ object "ipr_statuses" as statuses {
 object "ipr_files" as files {
   file_id: uuid <<PK>>
   application_id: uuid <<FK>>
+  owner_id: uuid <<FK>>
   storage_path: text
   filename: text
   description: text | null
   file_type: text
   uploaded_at: timestamptz
+  comments: text | null
 }
 
 object "inventors" as inv {
   inventor_id: uuid <<PK>>
   application_id: uuid <<FK>>
   user_id: uuid | null <<FK>>
+  comments: text | null
   full_name: text
   email: text
   college: text
+}
+
+object "audit_logs"  as aud{
+  user_id: uuid <<FK>>
+  role: text
+  action: text
+  time_stampt: timestamptz
 }
 
 applications "1" -left- "*" files
@@ -81,5 +91,6 @@ applications "*" -- "*" inv
 applications "1" -- "*" notifs
 users "1" -right- "*" notifs
 inv "1" -right- "1" users
+users "1" -down- "*" aud
 
 @enduml
