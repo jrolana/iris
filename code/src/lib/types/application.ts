@@ -30,4 +30,5 @@ export type InventorType = {
   full_name: string;
   email: string;
   college: CollegeUnitType;
+  userId: string | null; //change uuid type to something supabase related
 };

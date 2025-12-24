@@ -89,22 +89,28 @@ function ApplicationView(props: ApplicationViewProps) {
     setHasUnsavedChanges(true);
   };
 
-  const handleAddInventor = () => {
-    if (!isAdmin) return;
+  // const handleAddInventor = () => {
+  //   if (!isAdmin) return;
+  //   setHasUnsavedChanges(true);
+  // };
+
+  const handleLinkInventor = (inventorId: string) => {
+    // if (!isAdmin) return;
+    console.log("link inventor", inventorId);
     setHasUnsavedChanges(true);
   };
 
-  const handleEditInventor = (inventorId: string) => {
-    if (!isAdmin) return;
-    console.log("edit inventor", inventorId);
+  const handleAnnotateInventor = (inventorId: string) => {
+    // if (!isAdmin) return;
+    console.log("annotate inventor", inventorId);
     setHasUnsavedChanges(true);
   };
 
-  const handleRemoveInventor = (inventorId: string) => {
-    if (!isAdmin) return;
-    setInventors((prev) => prev.filter((i) => i.inventorId !== inventorId));
-    setHasUnsavedChanges(true);
-  };
+  // const handleRemoveInventor = (inventorId: string) => {
+  //   if (!isAdmin) return;
+  //   setInventors((prev) => prev.filter((i) => i.inventorId !== inventorId));
+  //   setHasUnsavedChanges(true);
+  // };
 
   const handleStartStatusUpdate = () => {
     if (!isAdmin) return;
@@ -243,9 +249,8 @@ function ApplicationView(props: ApplicationViewProps) {
             onAddAttachment={isAdmin ? handleAddAttachment : undefined}
             onEditAttachment={isAdmin ? handleEditAttachment : undefined}
             onDeleteAttachment={isAdmin ? handleDeleteAttachment : undefined}
-            onAddInventor={isAdmin ? handleAddInventor : undefined}
-            onEditInventor={isAdmin ? handleEditInventor : undefined}
-            onRemoveInventor={isAdmin ? handleRemoveInventor : undefined}
+            onLinkInventor={isAdmin ? undefined : handleLinkInventor}
+            onAnnotateInventor={isAdmin ? handleAnnotateInventor : undefined}
           />
         </section>
 

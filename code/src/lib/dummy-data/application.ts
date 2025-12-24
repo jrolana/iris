@@ -56,18 +56,23 @@ export const dummyInventors: InventorType[] = [
     full_name: 'Juan Dela Cruz',
     email: 'juan.delacruz@up.edu.ph',
     college: "CAS-Bio",
+    userId: '123'
   },
   {
     inventorId: 'i2',
     full_name: 'Maria Santos',
     email: 'maria.santos@up.edu.ph',
     college: "CFOS-IA",
+    userId: '1234'
+
   },
   {
     inventorId: 'i3',
     full_name: 'Alex Reyes',
     email: 'alex.reyes@up.edu.ph',
     college: 'CFOS',
+    userId: null
+
   },
 ];
 
