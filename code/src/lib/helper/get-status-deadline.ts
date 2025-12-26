@@ -9,23 +9,23 @@ export const getSuggestedDeadline = (status: StatusType): string | null => {
 
   switch (status) {
     // strict 2-month deadline from IPOPHL
-    case "wait_formality_exam_report": 
-    case "wait_substantive_exam_report": 
+    case "resolve_ser_defects": 
+    case "resolve_fer_defects": 
     case "resolve_rr_defects": 
     case "request_revival":
-    { 
+      { 
         const twoMonthsLater = new Date(now);
-      twoMonthsLater.setMonth(now.getMonth() + 2);
-      return formatDate(twoMonthsLater); 
-    }
+        twoMonthsLater.setMonth(now.getMonth() + 2);
+        return formatDate(twoMonthsLater); 
+      }
 
     // dummy deadline
     case "draft_idf":
-    { 
+      { 
         const twoWeeksLater = new Date(now);
-      twoWeeksLater.setDate(now.getDate() + 14);
-      return formatDate(twoWeeksLater); 
-    }
+        twoWeeksLater.setDate(now.getDate() + 14);
+        return formatDate(twoWeeksLater); 
+      }
 
     // Default: No automated suggestion
     default:
