@@ -13,6 +13,7 @@ export type ApplicationType = {
   lastUpdated?: string | null;
   registrationDate?: Date;
   fundingAgency?: string;
+  current_stage_deadline?: string | Date;
   techGens?: string[];
   colleges?: string[];
 };

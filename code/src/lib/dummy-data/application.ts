@@ -10,6 +10,7 @@ export const dummyApplication: ApplicationType = {
   applicationNumber: '100F',
   filingDate: '2025-11-25',
   lastUpdated: '2025-11-26T00:40:00Z',
+  current_stage_deadline: '2025-12-30',
 };
 
 export const dummyFiles: AttachmentType[] = [

@@ -235,6 +235,7 @@ function ApplicationView(props: ApplicationViewProps) {
         <ApplicationStepper
           ipType={application.ipType}
           statusType={application.currentStatus}
+          currentStageDeadline={application.current_stage_deadline}
         />
       </section>
 
