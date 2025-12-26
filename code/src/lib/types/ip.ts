@@ -21,7 +21,10 @@ export type StatusType =
   | 'wait_substantive_exam_report'
   | 'prepare_nice_classification'
   | 'approve_nice_classification'
+  | 'resolve_ser_defects'
+  | 'resolve_fer_defects'
   | 'resolve_rr_defects'
+  | 'resolve_additional_requirements'
   | 'request_revival'
   | 'downgraded_to_um'
   | 'registered'
@@ -38,7 +41,7 @@ export const ipStatuses = {
     'draft_application',
     'filed_with_ipophil',
     'wait_formality_exam_report',
-    'resolve_rr_defects',
+    'resolve_ser_defects',
     'wait_substantive_exam_report',
     'downgraded_to_um',
     'registered',
@@ -53,7 +56,7 @@ export const ipStatuses = {
     'draft_application',
     'filed_with_ipophil',
     'wait_registrability_report',
-    'resolve_rr_defects',
+    'resolve_fer_defects',
     'registered',
     'closed',
   ],
@@ -64,7 +67,7 @@ export const ipStatuses = {
     'under_ttbdo_review',
     'filed_with_ipophil',
     'wait_registrability_report',
-    'resolve_rr_defects',
+    'resolve_fer_defects',
     'registered',
     'closed',
   ],
@@ -85,6 +88,7 @@ export const ipStatuses = {
     'draft_idf',
     'submitted_to_ttbdo',
     'under_ttbdo_review',
+    'resolve_additional_requirements',
     'registered',
     'closed',
   ],

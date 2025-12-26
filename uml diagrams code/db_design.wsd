@@ -33,6 +33,7 @@ object "ipr_applications" as applications {
   registration_year: int
   created_at: timestamptz
   updated_at: timestamptz
+  current_stage_deadline: text | date | null
 }
 
 object "notifications" as notifs{
