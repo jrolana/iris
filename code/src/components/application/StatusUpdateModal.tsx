@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { IpType, StatusType } from '@/lib/types/ip';
+import React, { useState, useEffect } from "react";
+import { IpType, StatusType } from "@/lib/types/ip";
+import { getSuggestedDeadline } from "@/lib/helper/get-status-deadline";
 
 type Option<T> = {
   value: T;
   label: string;
 };
 
-interface StatusUpdateModalProps{
+interface StatusUpdateModalProps {
   open: boolean;
   ipType: IpType;
   currentStatusType: StatusType;
@@ -21,14 +22,22 @@ interface StatusUpdateModalProps{
     deadline?: string | null;
   }) => void;
   onCancel: () => void;
-};
+}
 
-export default function StatusUpdateModal(props: StatusUpdateModalProps){
-   const { open,ipType, currentStatusType, ipTypeOptions, statusOptions, onConfirm, onCancel } = props;
+export default function StatusUpdateModal(props: StatusUpdateModalProps) {
+  const {
+    open,
+    ipType,
+    currentStatusType,
+    ipTypeOptions,
+    statusOptions,
+    onConfirm,
+    onCancel,
+  } = props;
   const [selectedIpType, setSelectedIpType] = useState<IpType>(ipType);
   const [selectedStatus, setSelectedStatus] =
     useState<StatusType>(currentStatusType);
-  const [note, setNote] = useState('');
+  const [note, setNote] = useState("");
   const [deadline, setDeadline] = useState<string | null>(null);
 
   // Reset form whenever modal opens or values change
@@ -36,10 +45,22 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps){
     if (open) {
       setSelectedIpType(ipType);
       setSelectedStatus(currentStatusType);
-      setNote('');
+      setNote("");
       setDeadline(null);
     }
   }, [open, ipType, currentStatusType]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const suggestion = getSuggestedDeadline(selectedStatus);
+    // Only overwrite if a suggestion exists; otherwise, keep it null or let the user choose
+    if (suggestion) {
+      setDeadline(suggestion);
+    } else {
+      setDeadline(null);
+    }
+  }, [selectedStatus, open]);
 
   if (!open) return null;
 
@@ -73,10 +94,8 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps){
               <span className="font-medium text-slate-800">IP type</span>
               <select
                 value={selectedIpType}
-                onChange={(e) =>
-                  setSelectedIpType(e.target.value as IpType)
-                }
-                className="rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400"
+                onChange={(e) => setSelectedIpType(e.target.value as IpType)}
+                className="rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
               >
                 {ipTypeOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -87,15 +106,13 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps){
             </label>
 
             <label className="flex flex-col gap-1">
-              <span className="font-medium text-slate-800">
-                Status in flow
-              </span>
+              <span className="font-medium text-slate-800">Status in flow</span>
               <select
                 value={selectedStatus}
                 onChange={(e) =>
                   setSelectedStatus(e.target.value as StatusType)
                 }
-                className="rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400"
+                className="rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
               >
                 {statusOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -114,7 +131,7 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps){
               value={note}
               onChange={(e) => setNote(e.target.value)}
               rows={4}
-              className="w-full rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400"
+              className="w-full rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
               placeholder="Briefly describe what changed, what TTBDO did, and what the tech gens should expect next."
             />
           </label>
@@ -125,11 +142,11 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps){
             </span>
             <input
               type="date"
-              value={deadline ?? ''}
+              value={deadline ?? ""}
               onChange={(e) =>
                 setDeadline(e.target.value ? e.target.value : null)
               }
-              className="w-full rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400"
+              className="w-full rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
             />
           </label>
 
@@ -153,4 +170,4 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps){
       </div>
     </div>
   );
-};
+}

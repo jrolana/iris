@@ -16,7 +16,8 @@ The IRIS system prototype can handle authentication for registered accounts. It 
 Both the technology generators and the TTBDO admin can view a list of applications. They can also interact with a specific application, which prompts them to a different web page that shows specific details about that application.
 
 \subsubsection{Technology Generator View}
-The web page shown in \figref{fig:applicant_appview} shows the perspective of a technology generator when they want to view more details about a specific IP right application. It shows the current stage of the application, as well as the list of all status changes of the IP right application with timestamp (highlighting the latest status). The technology generator only has view privileges of the attachments and list of co-applicants on the IP right application.
+The web page shown in \figref{fig:applicant_appview} shows the perspective of a technology generator when they want to view more details about a specific IP right application. It shows the current stage of the application, as well as the list of all status changes of the IP right application with timestamp (highlighting the latest status). Some steps on the trackbar of the application stage reflects the TTBDO's citizen charter where it shows whether the current step is within or over the processing time. IRIS allows create, remove, update, and delete (CRUD) operations on the attachments of the IP right application, but only on those that were uploaded by the user themselves; other users only have view privileges on other users' attachments. 
+The technology generator can only view annotations provided by the TTBDO admin regarding other inventors listed for the application.
 
 \begin{figure}[H]                
     \centering 
@@ -44,29 +45,83 @@ The web page shown in \figref{fig:applicant_appview} shows the perspective of a 
 
 \subsubsection{TTBDO Admin View}
 
-For the TTBDO admin's side, it is shown in \figref{fig:admin_appview} that it shows the same IP right application details as the technology generators view. However, it can be seen that there are buttons that allow create, remove, update, delete (CRUD) operations on the list of attachments and inventors, as well on the IP and project title. The TTBDO admin is responsible for updating the status of an application as well as moving the application to another stage of the application process, and as such can do so in this page.  
+For the TTBDO admin's side, it is shown in \figref{fig:admin_appview} that it has the same IP right application details as the technology generators view. IRIS follows the same principles for CRUD operations on the admin's side for the attachments, but also extends the operations on the IP and project title. The TTBDO admin is responsible for updating the status of an application as well as moving the application to another stage of the application process. Certain steps that require deadlines are automatically calculated by the system, but the TTBDO admin can of course change this automatically suggested deadline as they see fit. 
+Since it is possible that not all collaborators of the IP have IRIS accounts, the co-applicants can list them as plain text upon the start of the application, and then the TTBDO admin can link their accounts if they have one in the system later on, as shown in \figref{fig:admin_appviewB}. The TTBDO admin can also add annotations to the inventors listed in the application, which are only visible to them and the technology generator.  
 
-\begin{figure}[H]                
+% \begin{figure}[H]                
+%     \centering 
+
+%     %(a)
+%     \begin{subfigure}[b]{\textwidth}
+%         \centering
+%         \includegraphics[scale=0.3]{admin_view_applicationA.png}     
+%         \caption{}
+%         \label{fig:admin_appviewA}
+%         \vspace{1cm}
+%     \end{subfigure}
+
+%     % (b)
+%     \begin{subfigure}[b]{\textwidth}
+%         \centering
+%         \includegraphics[scale=0.3]{admin_view_applicationB.png}     
+%         \caption{}
+%         \label{fig:admin_appviewB}
+%     \end{subfigure}
+
+%     % (c)
+%     \begin{subfigure}[c]{\textwidth}
+%         \centering
+%         \includegraphics[scale=0.3]{admin_status_update.png}     
+%         \caption{}
+%         \label{fig:status_update}
+%     \end{subfigure}
+
+%     \caption[TTBDO Admin Application View Page]{TTBDO Admin Application View Page. The page shows more details about an IP right application such as list of attachments, co-applicants, and status changes on the perspective of a TTBDO admin. The page is quite similar to the technology generator's application view, but includes an additional feature which is updating the status of the application. Here, the TTBDO admin can move the application to another stage, set deadlines, and add annotations to the inventors.}
+%     \label{fig:admin_appview}                 
+% \end{figure}
+
+% --- PAGE 1: Figures (a) and (b) ---
+\begin{figure}[p] % 'p' forces this to its own page to avoid layout shifts
     \centering 
 
-    %(a)
+    % (a)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.3]{admin_view_applicationA.png}     
+        % changed scale to width=\textwidth for better alignment
+        \includegraphics[width=\textwidth]{admin_view_applicationA.png}     
         \caption{}
         \label{fig:admin_appviewA}
-        \vspace{1cm}
+        \vspace{0.5cm} 
     \end{subfigure}
 
     % (b)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.3]{admin_view_applicationB.png}     
+        \includegraphics[width=\textwidth]{admin_view_applicationB.png}     
         \caption{}
         \label{fig:admin_appviewB}
     \end{subfigure}
 
-    \caption[TTBDO Admin Application View Page]{TTBDO Admin Application View Page. The page shows more details about an IP right application such as list of attachments, co-applicants, and status changes on the perspective of a TTBDO admin. It shows that a TTBDO admin can perform CRUD operations on any information regarding the IP right application.}
+    \phantomcaption
+    \label{fig:admin_appview_part1}                 
+\end{figure}
+
+\clearpage % Forces the next figure to the next page immediately
+
+% --- PAGE 2: Figure (c) ---
+\begin{figure}[t] 
+    \ContinuedFloat % <--- IMPORTANT: Keeps the same Figure number
+    \centering
+
+    % (c)
+    \begin{subfigure}[c]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{admin_status_update.png}     
+        \caption{}
+        \label{fig:status_update}
+    \end{subfigure}
+
+    \caption[TTBDO Admin Application View Page]{TTBDO Admin Application View Page. The page shows more details about an IP right application such as list of attachments, co-applicants, and status changes on the perspective of a TTBDO admin. The page is quite similar to the technology generator's application view, but includes an additional feature which is updating the status of the application. Here, the TTBDO admin can move the application to another stage, set deadlines, and add annotations to the inventors.}
     \label{fig:admin_appview}                 
 \end{figure}
 
