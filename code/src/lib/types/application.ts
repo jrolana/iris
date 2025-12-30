@@ -13,16 +13,19 @@ export type ApplicationType = {
   lastUpdated?: string | null;
   registrationDate?: Date;
   fundingAgency?: string;
+  current_stage_deadline?: string | Date;
   techGens?: string[];
   colleges?: string[];
 };
 
 export type AttachmentType = {
+  applicationId: string;
   fileId: string;
   filename: string;
   description?: string | null;
   fileType: FileType;
   uploadedAt: string;
+  owner_id: string;
 };
 
 export type InventorType = {
@@ -30,4 +33,6 @@ export type InventorType = {
   full_name: string;
   email: string;
   college: CollegeUnitType;
+  userId: string | null; //change uuid type to something supabase related
+  comments: string | null;
 };
