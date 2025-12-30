@@ -486,4 +486,54 @@ oxfordinnovation2013-booklet}%
   \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
+\bibitem [\protect \citeauthoryear {%
+{University of the Philippines Diliman, Office of the Vice Chancellor for
+  Research and Development}%
+}{%
+{University of the Philippines Diliman, Office of the Vice Chancellor for
+  Research and Development}%
+}{%
+{\protect \APACyear {2020}}%
+}]{%
+upd2020ovcrd}
+\APACinsertmetastar {%
+upd2020ovcrd}%
+\begin{APACrefauthors}%
+{University of the Philippines Diliman, Office of the Vice Chancellor for
+  Research and Development}.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2020}{}{}.
+\newblock
+\APACrefbtitle {{OVCRD Guidelines}.} {{OVCRD Guidelines}.}
+\newblock
+\APAChowpublished
+  {\url{https://www.upd.edu.ph/wp-content/uploads/2020/04/OVCRD-Guidelines.pdf}}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+{University of the Philippines Mindanao}%
+}{%
+{University of the Philippines Mindanao}%
+}{%
+{\protect \APACyear {2024}}%
+}]{%
+upmindanao2024citizenscharter}
+\APACinsertmetastar {%
+upmindanao2024citizenscharter}%
+\begin{APACrefauthors}%
+{University of the Philippines Mindanao}.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2024}{}{}.
+\newblock
+\APACrefbtitle {{UP Mindanao Citizen’s Charter As of January 2024}.} {{UP
+  Mindanao Citizen’s Charter As of January 2024}.}
+\newblock
+\APAChowpublished
+  {\url{https://up.edu.ph/wp-content/uploads/2024/03/UPMin-Citizens-Charter-As-of-January-2024.pdf}}.
+\PrintBackRefs{\CurrentBib}
+
 \end{thebibliography}

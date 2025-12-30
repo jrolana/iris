@@ -1,89 +1,79 @@
-This is BibTeX, Version 0.99d
+This is BibTeX, Version 0.99d (TeX Live 2025)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
-Reallocating 'name_of_file' (item size: 1) to 15 items.
 A level-1 auxiliary file: title_page.aux
-Reallocating 'name_of_file' (item size: 1) to 13 items.
 A level-1 auxiliary file: abstract.aux
-Reallocating 'name_of_file' (item size: 1) to 14 items.
 A level-1 auxiliary file: chapter_1.aux
-Reallocating 'name_of_file' (item size: 1) to 14 items.
 A level-1 auxiliary file: chapter_2.aux
-Reallocating 'name_of_file' (item size: 1) to 14 items.
 A level-1 auxiliary file: chapter_3.aux
-Reallocating 'name_of_file' (item size: 1) to 14 items.
 A level-1 auxiliary file: chapter_4.aux
-Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apacite.bst
-Reallocating 'name_of_file' (item size: 1) to 13 items.
-Reallocating 'name_of_file' (item size: 1) to 15 items.
 A level-1 auxiliary file: appendix_A.aux
-Reallocating 'name_of_file' (item size: 1) to 15 items.
 A level-1 auxiliary file: appendix_B.aux
-Reallocating 'glb_str_end' (item size: 4) to 20 items.
-Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
-Reallocating 'global_strs' (item size: 1) to 4000000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'wiz_functions' (item size: 4) to 6000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'wiz_functions' (item size: 4) to 9000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: myreferences.bib
 Warning--entry type for "fftcap2015-ptta" isn't style-file defined
---line 15 of file myreferences.bib
+--line 8 of file myreferences.bib
 Warning--entry type for "ipophil_about" isn't style-file defined
---line 65 of file myreferences.bib
+--line 33 of file myreferences.bib
 Warning--entry type for "mittlo2020-patenting" isn't style-file defined
---line 181 of file myreferences.bib
+--line 91 of file myreferences.bib
 Warning--entry type for "stanfordOTL2021-process" isn't style-file defined
---line 223 of file myreferences.bib
+--line 112 of file myreferences.bib
 Warning--entry type for "ttbdo_about" isn't style-file defined
---line 237 of file myreferences.bib
+--line 119 of file myreferences.bib
 Warning--entry type for "oxfordinnovation2013-booklet" isn't style-file defined
---line 253 of file myreferences.bib
+--line 127 of file myreferences.bib
 apacite.bst [2013/07/21 v6.03 APA bibliography style]
 Warning--No journal in ra8293_1997_lawphil
 Warning--No journal in ra10055_2009_dost
-You've used 18 entries,
+You've used 20 entries,
             6951 wiz_defined-function locations,
-            1383 strings with 14844 characters,
-and the built_in function-call counts, 33532 in all, are:
-= -- 4378
-> -- 247
-< -- 1479
-+ -- 1455
-- -- 44
-* -- 1998
-:= -- 5702
-add.period$ -- 71
-call.type$ -- 18
-change.case$ -- 292
+            1391 strings with 15266 characters,
+and the built_in function-call counts, 36146 in all, are:
+= -- 4704
+> -- 267
+< -- 1583
++ -- 1535
+- -- 52
+* -- 2132
+:= -- 6148
+add.period$ -- 81
+call.type$ -- 20
+change.case$ -- 326
 chr.to.int$ -- 0
-cite$ -- 38
-duplicate$ -- 810
-empty$ -- 1368
-format.name$ -- 417
-if$ -- 6609
+cite$ -- 42
+duplicate$ -- 870
+empty$ -- 1496
+format.name$ -- 445
+if$ -- 7151
 int.to.chr$ -- 0
-int.to.str$ -- 54
+int.to.str$ -- 60
 missing$ -- 0
-newline$ -- 434
-num.names$ -- 120
-pop$ -- 594
+newline$ -- 478
+num.names$ -- 136
+pop$ -- 732
 preamble$ -- 1
-purify$ -- 69
+purify$ -- 77
 quote$ -- 0
-skip$ -- 2533
+skip$ -- 2671
 stack$ -- 0
-substring$ -- 1570
-swap$ -- 449
-text.length$ -- 53
+substring$ -- 1658
+swap$ -- 475
+text.length$ -- 59
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 2054
+type$ -- 2214
 warning$ -- 2
-while$ -- 145
+while$ -- 155
 width$ -- 0
-write$ -- 527
+write$ -- 575
 (There were 8 warnings)
