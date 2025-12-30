@@ -29,6 +29,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       name: "User Management",
       path: "/admin/user-management",
     },
+    {
+      icon: <UserCircleIcon />,
+      name: "Audit Trail",
+      path: "/admin/audit-trail",
+    },
   ];
 
   return <BaseLayout navItems={navItems}>{children}</BaseLayout>;

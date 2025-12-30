@@ -4,6 +4,7 @@ import CombinationChart from "@/components/charts/CombinationChart";
 import DonutChart from "@/components/charts/DonutChart";
 import Button from "@/components/ui/button/Button";
 import { CiExport } from "react-icons/ci";
+import { PIE_SERIES_2 } from "@/lib/dummy-data/metrics";
 
 export default function Dashboard() {
   return (
@@ -27,14 +28,7 @@ export default function Dashboard() {
           <PieChart
             title="Granted IPs"
             subtitle="Total granted IPs by type since 2013"
-            colors={[
-              "#FF9446",
-              "#FF7F1F",
-              "#FFAA66",
-              "#FFB980",
-              "#FF5F00",
-              "#FFD099",
-            ]}
+            series={PIE_SERIES_2}
           />
         </div>
       </div>
