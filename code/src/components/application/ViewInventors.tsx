@@ -53,6 +53,19 @@ function ViewInventors(props: ViewInventorsProps) {
                 >
                   Comment
                 </button>
+                {inventor.userId ? (
+                  <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-sky-600">
+                    Verified Account <BadgeCheck size={24} />
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onLinkInventor?.(inventor.inventorId)}
+                    className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
+                  >
+                    Link Account <Cable size={24} />
+                  </button>
+                )}
                 {/* <button
                   type="button"
                   onClick={() => onRemoveInventor?.(inventor.inventorId)}
@@ -70,19 +83,6 @@ function ViewInventors(props: ViewInventorsProps) {
                 >
                   <NotepadText />
                 </button>
-                {!inventor.userId ? (
-                  <button
-                    type="button"
-                    onClick={() => onLinkInventor?.(inventor.inventorId)}
-                    className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                  >
-                    Link Account <Cable size={24} />
-                  </button>
-                ) : (
-                  <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-sky-600">
-                    Verified Account <BadgeCheck size={24} />
-                  </div>
-                )}
               </div>
             )}
           </li>
@@ -99,14 +99,15 @@ function ViewInventors(props: ViewInventorsProps) {
               Add inventor
             </button> */}
             <p className="mt-2 text-sm text-gray-500">
-              Annotate or comment on an inventor to inform others about issues
-              or concerns.
+              Link an IRIS account to an inventor to let them access this
+              application. For issues and concerns on an inventor, please
+              annotate or comment to inform the other inventors.
             </p>
           </>
         ) : (
           <p className="mt-2 text-sm text-gray-500">
-            Link an IRIS account to an inventor to let them access this
-            application.
+            Read annotations for an inventor. For issues and concerns on an
+            inventor, please coordinate with TTBDO.
           </p>
         )}
       </div>
