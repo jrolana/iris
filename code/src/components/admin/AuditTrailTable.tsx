@@ -11,12 +11,11 @@ import {
 import Badge from "../ui/badge/Badge";
 import Link from "next/link";
 import Button from "../ui/button/Button";
-import SearchInput from "../common/SearchInput"
+import SearchInput from "../common/SearchInput";
 import { PencilIcon, TrashBinIcon } from "@/icons/index";
 import FilterButton from "../common/FilterButton";
-import { dummyApplications } from "@/lib/dummy-data/application";
-import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
-import { statusTypeToTitle } from "@/lib/helper/get-status-title";
+import { dummyAuditTrail } from "@/lib/dummy-data/audit_trail";
+import { AuditLogType } from "@/lib/types/audit_trail";
 
 export default function AuditTrailTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,23 +23,21 @@ export default function AuditTrailTable() {
 
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = dummyApplications.slice(
+  const currentRecords = dummyAuditTrail.slice(
     indexOfFirstRecord,
     indexOfLastRecord,
   );
-  const totalPages = Math.ceil(dummyApplications.length / recordsPerPage);
+  const totalPages = Math.ceil(dummyAuditTrail.length / recordsPerPage);
 
   const tableHeaders = [
-    "IP Title",
-    "Project Title",
-    "Type",
-    "Filing Date",
-    "Registration Date",
-    "Funding Agency",
-    "Technology Generators",
-    "Colleges",
-    "Status",
-    "Actions",
+    "Timestamp",
+    "User Name",
+    "User Role",
+    "Action Category",
+    "Action Taken",
+    "Action Result",
+    "Record Type",
+    "Record Reference",
   ];
 
   const handlePageChange = (page: number) => {
@@ -50,15 +47,13 @@ export default function AuditTrailTable() {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
-     <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl font-semibold text-gray-800">
-            Audit Trail
-          </h1>
-          <div className="flex items-center gap-3">
-            <SearchInput />
-            <FilterButton />
-          </div>
+      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-2xl font-semibold text-gray-800">Audit Trail</h1>
+        <div className="flex items-center gap-3">
+          <SearchInput />
+          <FilterButton />
         </div>
+      </div>
 
       <div className="overflow-x-auto">
         <Table>
@@ -77,58 +72,31 @@ export default function AuditTrailTable() {
           </TableHeader>
 
           <TableBody className="divide-y divide-gray-100">
-            {currentRecords.map((record) => (
-              <TableRow key={record.applicationId}>
+            {currentRecords.map((record: AuditLogType) => (
+              <TableRow key={record.id}>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  <Link href={"/"} className="hover:text-brand-500">
-                    {record.ipTitle}
-                  </Link>
+                  {record.timestamp}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.projectTitle}
+                  {record.userName}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {ipTypeToTitle(record.ipType)}
+                  {record.userRole}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {typeof record.filingDate == "string"
-                    ? record.filingDate
-                    : record.filingDate?.toLocaleDateString()}
+                  {record.actionCategory}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.registrationDate?.toLocaleDateString()}
+                  {record.actionTaken}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.fundingAgency}
+                  {record.actionResult}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.techGens?.join(", ")}
+                  {record.recordType}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.colleges?.join(", ")}
-                </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  <Badge
-                    size="sm"
-                    color={
-                      record.currentStatus === "registered"
-                        ? "success"
-                        : record.currentStatus === "closed" ||
-                            record.currentStatus === "downgraded_to_um"
-                          ? "error"
-                          : "warning"
-                    }
-                  >
-                    {statusTypeToTitle(record.currentStatus)}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-theme-sm py-3 text-gray-800">
-                 <div className="flex justify-center items-center gap-2">
-                      <Link href="/" className="hover:text-brand-500">
-                        <PencilIcon />
-                      </Link>
-                      <TrashBinIcon className="hover:text-error-500" />
-                    </div>
+                  {record.recordReference}
                 </TableCell>
               </TableRow>
             ))}
