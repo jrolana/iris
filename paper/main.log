@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 JAN 2026 02:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 JAN 2026 02:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1181,15 +1181,17 @@ Overfull \vbox (10.10095pt too high) has occurred while \output is active []
 
 
 [67 <./figures/new_applicationA.jpeg> <./figures/new_applicationB.jpeg>]
-<figures/notification.png, id=904, 475.7775pt x 438.13687pt>
+<figures/notification.png, id=904, 395.4775pt x 588.1975pt>
 File: figures/notification.png Graphic file (type png)
 <use figures/notification.png>
 Package pdftex.def Info: figures/notification.png  used on input line 160.
-(pdftex.def)             Requested size: 285.46869pt x 262.88414pt.
+(pdftex.def)             Requested size: 237.28833pt x 352.92122pt.
 
 
-[68 <./figures/notification.png>]
-<admin_dashboard_1.png, id=914, 1457.94687pt x 698.10812pt>
+[68]
+
+[69 <./figures/notification.png>]
+<admin_dashboard_1.png, id=919, 1457.94687pt x 698.10812pt>
 File: admin_dashboard_1.png Graphic file (type png)
 <use admin_dashboard_1.png>
 Package pdftex.def Info: admin_dashboard_1.png  used on input line 173.
@@ -1199,7 +1201,7 @@ Overfull \hbox (21.83495pt too wide) in paragraph at lines 173--174
  [][] 
  []
 
-<figures/admin_dashboard_2.jpg, id=915, 951.555pt x 455.20062pt>
+<figures/admin_dashboard_2.jpg, id=920, 951.555pt x 455.20062pt>
 File: figures/admin_dashboard_2.jpg Graphic file (type jpg)
 <use figures/admin_dashboard_2.jpg>
 Package pdftex.def Info: figures/admin_dashboard_2.jpg  used on input line 182.
@@ -1210,9 +1212,6 @@ Overfull \hbox (12.6433pt too wide) in paragraph at lines 182--183
  [][] 
  []
 
-
-
-[69]
 <figures/techgen_dashboard_1.png, id=921, 1424.32124pt x 682.80093pt>
 File: figures/techgen_dashboard_1.png Graphic file (type png)
 <use figures/techgen_dashboard_1.png>
@@ -1509,7 +1508,7 @@ xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/tex
 live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texl
 ive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texli
 ve/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on main.pdf (98 pages, 5069319 bytes).
+Output written on main.pdf (98 pages, 5068675 bytes).
 PDF statistics:
  1198 PDF objects out of 1200 (max. 8388607)
  1004 compressed objects within 11 object streams
