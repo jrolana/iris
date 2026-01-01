@@ -8,14 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import Badge from "../ui/badge/Badge";
-import Link from "next/link";
 import Button from "../ui/button/Button";
 import SearchInput from "../common/SearchInput";
-import { PencilIcon, TrashBinIcon } from "@/icons/index";
 import FilterButton from "../common/FilterButton";
 import { dummyAuditTrail } from "@/lib/dummy-data/audit_trail";
 import { AuditLogType } from "@/lib/types/audit_trail";
+import { StatusBadge } from "../common/StatusBadge";
+import { ActionCategoryBadgeClasses, ActionResultBadgeClasses } from "@/lib/constants/ui";
 
 export default function AuditTrailTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -83,15 +82,27 @@ export default function AuditTrailTable() {
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   {record.userRole}
                 </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.actionCategory}
+                
+                <TableCell className="p-2 py-3">
+                  <StatusBadge
+                    label={record.actionCategory}
+                    className={
+                      ActionCategoryBadgeClasses[record.actionCategory]
+                    }
+                  />
                 </TableCell>
+
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   {record.actionTaken}
                 </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.actionResult}
+
+                <TableCell className="p-2 py-3">
+                  <StatusBadge
+                    label={record.actionResult}
+                    className={ActionResultBadgeClasses[record.actionResult]}
+                  />
                 </TableCell>
+
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   {record.recordType}
                 </TableCell>

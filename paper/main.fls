@@ -411,10 +411,11 @@ INPUT ./figures/notification.png
 INPUT ./figures/notification.png
 INPUT ./figures/notification.png
 INPUT ./figures/notification.png
-INPUT ./figures/admin_dashboard_1.png
-INPUT ./figures/admin_dashboard_1.png
-INPUT ./figures/admin_dashboard_1.png
-INPUT ./figures/admin_dashboard_1.png
+INPUT ./admin_dashboard_1.png
+INPUT ./admin_dashboard_1.png
+INPUT ./admin_dashboard_1.png
+INPUT ./admin_dashboard_1.png
+INPUT ./admin_dashboard_1.png
 INPUT ./figures/admin_dashboard_2.jpg
 INPUT ./figures/admin_dashboard_2.jpg
 INPUT ./figures/admin_dashboard_2.jpg
@@ -453,6 +454,11 @@ INPUT ./figures/guest_application_documents.png
 INPUT ./figures/techgen_application_documents.png
 INPUT ./figures/techgen_application_documents.png
 INPUT ./figures/techgen_application_documents.png
+INPUT ./audit_trail.png
+INPUT ./audit_trail.png
+INPUT ./audit_trail.png
+INPUT ./audit_trail.png
+INPUT ./audit_trail.png
 INPUT ./main.bbl
 INPUT ./main.bbl
 INPUT main.bbl
