@@ -78,11 +78,17 @@ object "inventors" as inv {
   college: text
 }
 
-object "audit_logs"  as aud{
-  user_id: uuid <<FK>>
-  role: text
-  action: text
-  time_stampt: timestamptz
+object "audit_trail" as audit {
+  id: uuid <<PK>>
+  timestamp: timestamptz
+  user_name: text
+  user_role: text
+  action_category: text
+  action_taken: text
+  action_result: text
+  record_type: text
+  record_reference: text
+  changed_fields: jsonb | null
 }
 
 applications "1" -left- "*" files
@@ -92,6 +98,5 @@ applications "*" -- "*" inv
 applications "1" -- "*" notifs
 users "1" -right- "*" notifs
 inv "1" -right- "1" users
-users "1" -down- "*" aud
 
 @enduml
