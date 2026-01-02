@@ -14,7 +14,10 @@ import FilterButton from "../common/FilterButton";
 import { dummyAuditTrail } from "@/lib/dummy-data/audit_trail";
 import { AuditLogType } from "@/lib/types/audit_trail";
 import { StatusBadge } from "../common/StatusBadge";
-import { ActionCategoryBadgeClasses, ActionResultBadgeClasses } from "@/lib/constants/ui";
+import {
+  ActionCategoryBadgeClasses,
+  ActionResultBadgeClasses,
+} from "@/lib/constants/ui";
 
 export default function AuditTrailTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,7 +77,13 @@ export default function AuditTrailTable() {
             {currentRecords.map((record: AuditLogType) => (
               <TableRow key={record.id}>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.timestamp}
+                  {new Date(record.timestamp).toLocaleDateString([], {
+                    month: "2-digit",
+                    day: "2-digit",
+                    year: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   {record.userName}
@@ -82,7 +91,7 @@ export default function AuditTrailTable() {
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   {record.userRole}
                 </TableCell>
-                
+
                 <TableCell className="p-2 py-3">
                   <StatusBadge
                     label={record.actionCategory}
