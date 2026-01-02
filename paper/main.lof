@@ -3,30 +3,31 @@
 \contentsline {figure}{\numberline {2.1}{\ignorespaces TM, UM/ID, Patent Application Flow Chart}}{18}{figure.caption.12}%
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Copyright Application Flow Chart}}{19}{figure.caption.13}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Context Model of IRIS}}{42}{figure.caption.25}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Database Design (Schema) of IRIS}}{44}{figure.caption.29}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Guest Use Case Diagram of IRIS}}{45}{figure.caption.30}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces UP Official Use Case Diagram of IRIS}}{45}{figure.caption.31}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Technology Generator Use Case Diagram of IRIS}}{46}{figure.caption.32}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces TTBDO Admin Use Case Diagram of IRIS}}{47}{figure.caption.33}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 1)}}{48}{figure.caption.35}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 2)}}{49}{figure.caption.36}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Detailed Branch of Trademark Application Sequence Diagram}}{50}{figure.caption.38}%
-\contentsline {figure}{\numberline {3.10}{\ignorespaces Detailed Branch of Utility Model \& Industrial Design Application Sequence Diagram}}{51}{figure.caption.39}%
-\contentsline {figure}{\numberline {3.11}{\ignorespaces Detailed Branch of Patent Application Sequence Diagram}}{52}{figure.caption.40}%
-\contentsline {figure}{\numberline {3.12}{\ignorespaces Copyright Application Sequence Diagram Part 1}}{54}{figure.caption.42}%
-\contentsline {figure}{\numberline {3.13}{\ignorespaces Copyright Application Sequence Diagram Part 2}}{55}{figure.caption.43}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Context Model of IRIS}}{43}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Database Design (Schema) of IRIS}}{45}{figure.caption.29}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Guest Use Case Diagram of IRIS}}{46}{figure.caption.30}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces UP Official Use Case Diagram of IRIS}}{46}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Technology Generator Use Case Diagram of IRIS}}{47}{figure.caption.32}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces TTBDO Admin Use Case Diagram of IRIS}}{48}{figure.caption.33}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 1)}}{49}{figure.caption.35}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 2)}}{50}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Detailed Branch of Trademark Application Sequence Diagram}}{51}{figure.caption.38}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Detailed Branch of Utility Model \& Industrial Design Application Sequence Diagram}}{52}{figure.caption.39}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Detailed Branch of Patent Application Sequence Diagram}}{53}{figure.caption.40}%
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Copyright Application Sequence Diagram Part 1}}{55}{figure.caption.42}%
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Copyright Application Sequence Diagram Part 2}}{56}{figure.caption.43}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Sign-in Page}}{60}{figure.caption.47}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Technology Generator Application View Page}}{62}{figure.caption.49}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces TTBDO Admin Application View Page}}{65}{figure.caption.52}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces New Application Page}}{66}{figure.caption.53}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Notification Dropdown}}{67}{figure.caption.54}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Admin Dashboard Full View}}{69}{figure.caption.55}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Technology Generator Dashboard Views}}{70}{figure.caption.56}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces User Management Page}}{71}{figure.caption.57}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Application Registry Views}}{73}{figure.caption.58}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Application Documents Views}}{75}{figure.caption.59}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Application Guide Views}}{77}{figure.caption.60}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Sign-in Page}}{61}{figure.caption.47}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Technology Generator Application View Page}}{63}{figure.caption.49}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces TTBDO Admin Application View Page}}{66}{figure.caption.52}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces New Application Page}}{67}{figure.caption.53}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Notification Dropdown}}{69}{figure.caption.54}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Admin Dashboard Full View}}{70}{figure.caption.55}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Technology Generator Dashboard Views}}{71}{figure.caption.56}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces User Management Page}}{72}{figure.caption.57}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Application Registry Views}}{74}{figure.caption.58}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Application Documents Views}}{76}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Application Guide Views}}{78}{figure.caption.60}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Example of audit trail entries displaying application creation, status updates, and document uploads performed by different user roles.}}{79}{figure.caption.61}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

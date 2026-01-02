@@ -3,6 +3,8 @@ import React from "react";
 // import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
+import { COLORS } from "@/lib/constants/ui";
+import { COMBINATION_SERIES } from "@/lib/dummy-data/metrics";
 
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -105,41 +107,9 @@ export default function CombinationChart(props: PropsInterface) {
         },
       },
     },
-  
   };
 
-  const series = [
-    {
-      name: "Patent",
-      type: "column",
-      data: [2, 5, 0, 0, 3, 4, 3, 9, 11],
-    },
-    {
-      name: "Utility Model",
-      type: "column",
-      data: [13, 18, 6, 10, 18, 11, 9, 8, 12],
-    },
-    {
-      name: "Industrial design",
-      type: "column",
-      data: [0, 2, 0, 0, 0, 1, 1, 0, 0],
-    },
-    {
-      name: "Copyright",
-      type: "column",
-      data: [1, 1, 1, 6, 20, 27, 3, 13, 16],
-    },
-    {
-      name: "Trademark",
-      type: "column",
-      data: [0, 1, 2, 3, 0, 2, 1, 5, 14],
-    },
-    {
-      name: "Total",
-      type: "line",
-      data: [16, 27, 9, 19, 41, 45, 17, 35, 53],
-    },
-  ];
+  const series = COMBINATION_SERIES;
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white px-5 pt-5 pb-5 sm:px-6 sm:pt-6">

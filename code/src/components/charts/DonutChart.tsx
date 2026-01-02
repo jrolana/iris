@@ -80,7 +80,6 @@ export default function DonutChart(props: PropsInterface) {
     },
     fill: {
       type: "solid",
-      colors: ["#FF7F1F"],
     },
     stroke: {
       lineCap: "round",

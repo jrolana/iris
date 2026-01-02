@@ -1,4 +1,6 @@
 "use client";
+import { COLORS } from "@/lib/constants/ui";
+import { PIE_SERIES_1 } from "@/lib/dummy-data/metrics";
 // import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
@@ -22,8 +24,8 @@ export default function PieChart(props: PropsInterface) {
     title,
     subtitle,
     showLegend = true,
-    colors = ["#465FFF", "#5A6FFF", "#7080FF", "#3745A0", "#2A3380"],
-    series = [6.7, 34.4, 44.5, 12.4, 1.9],
+    colors = COLORS,
+    series = PIE_SERIES_1,
     labels = [
       "Industrial Design",
       "Copyright",
