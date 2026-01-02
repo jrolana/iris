@@ -24,4 +24,7 @@ export const COLORS = [
     "#F4D06A"  
 ]
 
+export const MONOCHROMATIC_COLORS = ["#4169E1", "#1B263B", "#89CFF0", "#E0E7FF", "#64748B"];
+
+export const ANALOGOUS_COLORS = ["#4169E1", "#2DD4BF", "#6366F1", "#06B6D4", "#94A3B8"];
   
