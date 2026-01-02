@@ -5,7 +5,7 @@ import DonutChart from "@/components/charts/DonutChart";
 import Button from "@/components/ui/button/Button";
 import { CiExport } from "react-icons/ci";
 import { PIE_SERIES_2 } from "@/lib/dummy-data/metrics";
-import { ANALOGOUS_COLORS, MONOCHROMATIC_COLORS } from "@/lib/constants/ui";
+import { ANALOGOUS_COLORS } from "@/lib/constants/ui";
 
 export default function Dashboard() {
   return (
@@ -23,7 +23,7 @@ export default function Dashboard() {
           <PieChart
             title="Filed IPs"
             subtitle="Total filed IPs by type since 2013"
-            colors={MONOCHROMATIC_COLORS}
+            colors={ANALOGOUS_COLORS}
           />
         </div>
         <div className="w-[48%]">
