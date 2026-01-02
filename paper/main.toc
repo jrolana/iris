@@ -64,23 +64,23 @@
 \contentsline {section}{\numberline {4.3}Start an Application}{66}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Notification}{68}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Dashboard}{69}{section.4.5}%
-\contentsline {section}{\numberline {4.6}User Management}{72}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Application Registry}{72}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Application Documents}{75}{section.4.8}%
-\contentsline {section}{\numberline {4.9}Application Guide}{77}{section.4.9}%
-\contentsline {section}{\numberline {4.10}Audit Trail}{79}{section.4.10}%
-\contentsline {chapter}{\numberline {A}Functional Requirements Tables}{83}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Authentication \& User Roles}{83}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Submission of Application}{84}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Application Tracking}{84}{section.A.3}%
-\contentsline {section}{\numberline {A.4}Dashboards \& Reporting}{84}{section.A.4}%
-\contentsline {section}{\numberline {A.5}Notifications}{85}{section.A.5}%
-\contentsline {section}{\numberline {A.6}Document Management}{85}{section.A.6}%
-\contentsline {section}{\numberline {A.7}Public Portal}{85}{section.A.7}%
-\contentsline {chapter}{\numberline {B}Non-Functional Requirements Tables}{86}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Performance}{86}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Security}{87}{section.B.2}%
-\contentsline {section}{\numberline {B.3}Reliability \& Availability}{87}{section.B.3}%
-\contentsline {section}{\numberline {B.4}Usability \& Accessibility}{87}{section.B.4}%
-\contentsline {section}{\numberline {B.5}Maintainability, Portability \& Scalability}{88}{section.B.5}%
-\contentsline {section}{\numberline {B.6}Compliance \& Legal}{88}{section.B.6}%
+\contentsline {section}{\numberline {4.6}User Management}{73}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Application Registry}{73}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Application Documents}{76}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Application Guide}{78}{section.4.9}%
+\contentsline {section}{\numberline {4.10}Audit Trail}{80}{section.4.10}%
+\contentsline {chapter}{\numberline {A}Functional Requirements Tables}{84}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Authentication \& User Roles}{84}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Submission of Application}{85}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Application Tracking}{85}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Dashboards \& Reporting}{85}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Notifications}{86}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Document Management}{86}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Public Portal}{86}{section.A.7}%
+\contentsline {chapter}{\numberline {B}Non-Functional Requirements Tables}{87}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Performance}{87}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Security}{88}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Reliability \& Availability}{88}{section.B.3}%
+\contentsline {section}{\numberline {B.4}Usability \& Accessibility}{88}{section.B.4}%
+\contentsline {section}{\numberline {B.5}Maintainability, Portability \& Scalability}{89}{section.B.5}%
+\contentsline {section}{\numberline {B.6}Compliance \& Legal}{89}{section.B.6}%

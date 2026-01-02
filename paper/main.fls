@@ -411,11 +411,10 @@ INPUT ./figures/notification.png
 INPUT ./figures/notification.png
 INPUT ./figures/notification.png
 INPUT ./figures/notification.png
-INPUT ./admin_dashboard_1.png
-INPUT ./admin_dashboard_1.png
-INPUT ./admin_dashboard_1.png
-INPUT ./admin_dashboard_1.png
-INPUT ./admin_dashboard_1.png
+INPUT ./figures/admin_dashboard_1.png
+INPUT ./figures/admin_dashboard_1.png
+INPUT ./figures/admin_dashboard_1.png
+INPUT ./figures/admin_dashboard_1.png
 INPUT ./figures/admin_dashboard_2.jpg
 INPUT ./figures/admin_dashboard_2.jpg
 INPUT ./figures/admin_dashboard_2.jpg
