@@ -6,6 +6,7 @@ import AppHeader from "./AppHeader";
 import AppSidebar from "./AppSidebar";
 import Backdrop from "./Backdrop";
 import { NavItem } from "@/lib/types/nav";
+import ModalProvider from "@/providers/ModalProvider";
 
 interface BaseLayoutProps {
   children: React.ReactNode;
@@ -33,6 +34,7 @@ export default function BaseLayout({
 
   return (
     <div className="min-h-screen xl:flex">
+      <ModalProvider />
       {/* Sidebar + Backdrop */}
       {!isFullWidth && navItems && (
         <AppSidebar

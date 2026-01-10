@@ -4,13 +4,14 @@ import React, { useState, useEffect } from "react";
 import { IpType, StatusType } from "@/lib/types/ip";
 import { getSuggestedDeadline } from "@/lib/helper/get-status-deadline";
 
+import Modal from "./Modal";
+
 type Option<T> = {
   value: T;
   label: string;
 };
 
 interface StatusUpdateModalProps {
-  open: boolean;
   ipType: IpType;
   currentStatusType: StatusType;
   ipTypeOptions: Option<IpType>[];
@@ -21,18 +22,19 @@ interface StatusUpdateModalProps {
     note: string;
     deadline?: string | null;
   }) => void;
-  onCancel: () => void;
+  isOpen: boolean;
+  closeModal: () => void;
 }
 
-export default function StatusUpdateModal(props: StatusUpdateModalProps) {
+function StatusUpdateModal(props: StatusUpdateModalProps) {
   const {
-    open,
+    isOpen,
     ipType,
     currentStatusType,
     ipTypeOptions,
     statusOptions,
+    closeModal,
     onConfirm,
-    onCancel,
   } = props;
   const [selectedIpType, setSelectedIpType] = useState<IpType>(ipType);
   const [selectedStatus, setSelectedStatus] =
@@ -42,16 +44,16 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps) {
 
   // Reset form whenever modal opens or values change
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       setSelectedIpType(ipType);
       setSelectedStatus(currentStatusType);
       setNote("");
       setDeadline(null);
     }
-  }, [open, ipType, currentStatusType]);
+  }, [isOpen, ipType, currentStatusType]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!isOpen) return;
 
     const suggestion = getSuggestedDeadline(selectedStatus);
     // Only overwrite if a suggestion exists; otherwise, keep it null or let the user choose
@@ -60,9 +62,9 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps) {
     } else {
       setDeadline(null);
     }
-  }, [selectedStatus, open]);
+  }, [selectedStatus, isOpen]);
 
-  if (!open) return null;
+  if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,12 +78,18 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps) {
     });
   };
 
+  function handleChange() {
+    closeModal();
+  }
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-4">
-      <div className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-xl">
-        <h2 className="text-sm font-semibold text-slate-900">
-          Update status &amp; notify record
-        </h2>
+    <Modal
+      title="Update status &amp; notify record"
+      description=""
+      isOpen={isOpen}
+      onChange={handleChange}
+    >
+      <div className="w-full max-w-lg">
         <p className="mt-1 text-xs text-slate-600">
           Choose the IP type and status that best reflect the new stage of this
           application, then add a short note that will appear in the status
@@ -153,7 +161,7 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps) {
           <div className="mt-3 flex items-center justify-end gap-2">
             <button
               type="button"
-              onClick={onCancel}
+              onClick={closeModal}
               className="rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
             >
               Cancel
@@ -168,6 +176,8 @@ export default function StatusUpdateModal(props: StatusUpdateModalProps) {
           </div>
         </form>
       </div>
-    </div>
+    </Modal>
   );
 }
+
+export default StatusUpdateModal;

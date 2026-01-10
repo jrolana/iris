@@ -16,8 +16,10 @@ import {
 import { IprStatus } from "@/lib/types/status";
 import InformationPanel from "./InformationPanel";
 
-import StatusUpdateModal from "@/components/application/StatusUpdateModal";
+// import StatusUpdateModal from "@/components/application/StatusUpdateModal";
+import StatusUpdateModal from "../modals/StatusUpdateModal";
 import { SquarePen, ArrowLeft } from "lucide-react";
+import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
 
 export type ApplicationViewMode = "applicant" | "admin";
 
@@ -60,7 +62,11 @@ function ApplicationView(props: ApplicationViewProps) {
   const [iprStatuses, setIprStatuses] = useState<IprStatus[]>(initialStatuses);
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
+  const {
+    openModal: openStatusUpdateModal,
+    isOpen: isStatusUpdateModalOpen,
+    closeModal: closeStatusUpdateModal,
+  } = useStatusUpdateModal();
 
   const statusLabel =
     STATUS_LABELS[application.currentStatus] ?? application.currentStatus;
@@ -88,28 +94,17 @@ function ApplicationView(props: ApplicationViewProps) {
     setHasUnsavedChanges(true);
   };
 
-  // const handleAddInventor = () => {
-  //   if (!isAdmin) return;
-  //   setHasUnsavedChanges(true);
-  // };
-
   const handleLinkInventor = (inventorId: string) => {
-    // if (!isAdmin) return;
+    if (!isAdmin) return;
     console.log("link inventor", inventorId);
     setHasUnsavedChanges(true);
   };
 
   const handleAnnotateInventor = (inventorId: string) => {
-    // if (!isAdmin) return;
+    if (!isAdmin) return;
     console.log("annotate inventor", inventorId);
     setHasUnsavedChanges(true);
   };
-
-  // const handleRemoveInventor = (inventorId: string) => {
-  //   if (!isAdmin) return;
-  //   setInventors((prev) => prev.filter((i) => i.inventorId !== inventorId));
-  //   setHasUnsavedChanges(true);
-  // };
 
   const handleStartStatusUpdate = () => {
     if (!isAdmin) return;
@@ -118,7 +113,7 @@ function ApplicationView(props: ApplicationViewProps) {
 
   const handleOpenStatusModal = () => {
     if (!isAdmin || !hasUnsavedChanges) return;
-    setIsStatusModalOpen(true);
+    openStatusUpdateModal();
   };
 
   const handleConfirmStatusUpdate = (payload: {
@@ -152,11 +147,7 @@ function ApplicationView(props: ApplicationViewProps) {
     ]);
 
     setHasUnsavedChanges(false);
-    setIsStatusModalOpen(false);
-  };
-
-  const handleCancelStatusUpdate = () => {
-    setIsStatusModalOpen(false);
+    closeStatusUpdateModal();
   };
 
   function handleBack() {
@@ -268,7 +259,7 @@ function ApplicationView(props: ApplicationViewProps) {
       </main>
 
       {/* sticky button that shows when there are unsaved changes and ONLY shows in ADMIN mode */}
-      {isAdmin && hasUnsavedChanges && (
+      {isAdmin && hasUnsavedChanges && !isStatusUpdateModalOpen && (
         <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
           <div className="pointer-events-auto flex max-w-xl flex-1 items-center justify-between gap-3 rounded-full border border-sky-200 bg-white px-6 py-4 shadow-lg">
             <div className="text-md text-gray-700">
@@ -292,13 +283,13 @@ function ApplicationView(props: ApplicationViewProps) {
       {/* status modal, change these later to the proper modal */}
       {isAdmin && (
         <StatusUpdateModal
-          open={isStatusModalOpen}
+          isOpen={isStatusUpdateModalOpen}
+          closeModal={closeStatusUpdateModal}
           ipType={application.ipType}
           currentStatusType={application.currentStatus}
           ipTypeOptions={IP_TYPE_OPTIONS}
           statusOptions={STATUS_OPTIONS}
           onConfirm={handleConfirmStatusUpdate}
-          onCancel={handleCancelStatusUpdate}
         />
       )}
     </div>
