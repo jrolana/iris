@@ -111,7 +111,7 @@ function NewApplicationPage() {
 
     // For now we just navigate to the view page placeholder
     // add url params of application_id (from there, derive IpType and StatusType)
-    router.push("/view-application");
+    router.push("/techgen/view-application");
   }
 
   function handleSubmissionModal() {
@@ -254,10 +254,7 @@ function NewApplicationPage() {
             )}
 
             {mode === "direct" && !finalIpType && (
-              <DirectMenu
-                selectedFormId={selectedFormId}
-                setSelectedFormId={setSelectedFormId}
-              />
+              <DirectMenu setSelectedFormId={setSelectedFormId} />
             )}
 
             {mode === "undecided" && (
@@ -296,12 +293,11 @@ interface DisclosureFormActionsProps {
 }
 
 interface DirectMenuProps {
-  selectedFormId: string | null;
   setSelectedFormId: (formId: string) => void;
 }
 
 function DirectMenu(props: DirectMenuProps) {
-  const { selectedFormId, setSelectedFormId } = props;
+  const { setSelectedFormId } = props;
   const [selectedIpType, setSelectedIpType] = useState<string>("");
 
   function handleSelect(ipType: string) {
@@ -318,7 +314,7 @@ function DirectMenu(props: DirectMenuProps) {
       </p>
       <div className="mt-3 grid gap-3 md:grid-cols-2">
         {DISCLOSURE_FORMS.map((form) => {
-          const isSelected = selectedFormId === form.id;
+          const isSelected = selectedIpType == form.id;
           return (
             <button
               key={form.id}
