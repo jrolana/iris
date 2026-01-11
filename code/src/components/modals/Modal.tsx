@@ -16,7 +16,7 @@ function Modal(props: ModalProps) {
       <Dialog.Trigger />
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-999 bg-neutral-800/50 backdrop-blur-xs" />
-        <Dialog.Content className="fixed top-[50%] left-[50%] z-9999 h-full max-h-full w-full max-w-2xl translate-x-[-50%] translate-y-[-50%] rounded-2xl bg-white p-5 shadow-xl drop-shadow-md focus:outline-none md:h-auto md:max-h-[85vh] md:w-auto">
+        <Dialog.Content className="fixed top-[50%] left-[50%] z-9999 h-full max-h-full w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] rounded-2xl bg-white p-5 shadow-xl drop-shadow-md focus:outline-none md:h-auto md:max-h-[85vh] md:w-auto">
           <Dialog.Title className="mb-4 text-center text-xl font-bold text-neutral-900">
             {title}
           </Dialog.Title>

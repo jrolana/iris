@@ -50,12 +50,6 @@ function ApplicationView(props: ApplicationViewProps) {
   // handlers for admin, could be moved later on
   const isAdmin = mode === "admin";
 
-  const handleAddAttachment = () => {
-    if (!isAdmin) return;
-    setHasUnsavedChanges(true);
-    // actual add file/link flow will be wired later (modal, etc.)
-  };
-
   const handleEditAttachment = (fileId: string) => {
     if (!isAdmin) return;
     console.log("edit attachment", fileId);
@@ -177,7 +171,6 @@ function ApplicationView(props: ApplicationViewProps) {
             mode={mode}
             attachments={attachments}
             inventors={initialInventors}
-            onAddAttachment={isAdmin ? handleAddAttachment : undefined}
             onEditAttachment={isAdmin ? handleEditAttachment : undefined}
             onDeleteAttachment={isAdmin ? handleDeleteAttachment : undefined}
             onLinkInventor={isAdmin ? undefined : handleLinkInventor}
