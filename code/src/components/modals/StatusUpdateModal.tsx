@@ -3,42 +3,43 @@
 import React, { useState, useEffect } from "react";
 import { IpType, StatusType } from "@/lib/types/ip";
 import { getSuggestedDeadline } from "@/lib/helper/get-status-deadline";
+import { STATUS_LABELS } from "@/lib/helper/status-labels";
+
+import { dummyApplication } from "@/lib/dummy-data/application";
 
 import Modal from "./Modal";
+import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
 
-type Option<T> = {
-  value: T;
-  label: string;
-};
+// Options for TTBDO modal only
+const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
+  STATUS_LABELS as Record<string, string>,
+).map(([value, label]) => ({
+  value: value as StatusType,
+  label,
+}));
 
-interface StatusUpdateModalProps {
-  ipType: IpType;
-  currentStatusType: StatusType;
-  ipTypeOptions: Option<IpType>[];
-  statusOptions: Option<StatusType>[];
-  onConfirm: (payload: {
-    newIpType: IpType;
-    newStatusType: StatusType;
-    note: string;
-    deadline?: string | null;
-  }) => void;
-  isOpen: boolean;
-  closeModal: () => void;
-}
+const IP_TYPE_OPTIONS: { value: IpType; label: string }[] = [
+  { value: "patent", label: "Patent" },
+  { value: "utility_model", label: "Utility Model" },
+  { value: "industrial_design", label: "Industrial Design" },
+  { value: "trademark", label: "Trademark" },
+  { value: "copyright", label: "Copyright" },
+];
 
-function StatusUpdateModal(props: StatusUpdateModalProps) {
-  const {
-    isOpen,
-    ipType,
-    currentStatusType,
-    ipTypeOptions,
-    statusOptions,
-    closeModal,
-    onConfirm,
-  } = props;
+function StatusUpdateModal() {
+  const { isOpen, closeModal } = useStatusUpdateModal();
+
+  const ipType = dummyApplication.ipType;
+  const currentStatus = dummyApplication.currentStatus;
+  const ipTypeOptions = IP_TYPE_OPTIONS;
+  const statusOptions = STATUS_OPTIONS;
+
   const [selectedIpType, setSelectedIpType] = useState<IpType>(ipType);
+  // implement this hook to get the current application
+  // const {application} = useGetApplication();
+
   const [selectedStatus, setSelectedStatus] =
-    useState<StatusType>(currentStatusType);
+    useState<StatusType>(currentStatus);
   const [note, setNote] = useState("");
   const [deadline, setDeadline] = useState<string | null>(null);
 
@@ -46,11 +47,11 @@ function StatusUpdateModal(props: StatusUpdateModalProps) {
   useEffect(() => {
     if (isOpen) {
       setSelectedIpType(ipType);
-      setSelectedStatus(currentStatusType);
+      setSelectedStatus(currentStatus);
       setNote("");
       setDeadline(null);
     }
-  }, [isOpen, ipType, currentStatusType]);
+  }, [isOpen, ipType, currentStatus]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -65,6 +66,22 @@ function StatusUpdateModal(props: StatusUpdateModalProps) {
   }, [selectedStatus, isOpen]);
 
   if (!isOpen) return null;
+
+  function onConfirm(payload: {
+    newIpType: IpType;
+    newStatusType: StatusType;
+    note: string;
+    deadline?: string | null;
+  }) {
+    // do the actual db changes here
+
+    // also do some admin check here
+    // if (!isAdmin) return;
+
+    console.log(payload);
+
+    closeModal();
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

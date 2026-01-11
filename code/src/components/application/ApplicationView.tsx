@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { IpType, StatusType } from "@/lib/types/ip";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import ApplicationStepper from "@/components/application/Stepper";
 import StatusHistoryPanel from "@/components/application/StatusPanel";
@@ -15,9 +14,6 @@ import {
 } from "@/lib/types/application";
 import { IprStatus } from "@/lib/types/status";
 import InformationPanel from "./InformationPanel";
-
-// import StatusUpdateModal from "@/components/application/StatusUpdateModal";
-import StatusUpdateModal from "../modals/StatusUpdateModal";
 import { SquarePen, ArrowLeft } from "lucide-react";
 import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
 
@@ -31,42 +27,20 @@ interface ApplicationViewProps {
   initialStatuses: IprStatus[];
 }
 
-// Options for TTBDO modal only
-const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
-  STATUS_LABELS as Record<string, string>,
-).map(([value, label]) => ({
-  value: value as StatusType,
-  label,
-}));
-
-const IP_TYPE_OPTIONS: { value: IpType; label: string }[] = [
-  { value: "patent", label: "Patent" },
-  { value: "utility_model", label: "Utility Model" },
-  { value: "industrial_design", label: "Industrial Design" },
-  { value: "trademark", label: "Trademark" },
-  { value: "copyright", label: "Copyright" },
-];
-
 function ApplicationView(props: ApplicationViewProps) {
   const {
     mode,
-    initialApplication,
+    initialApplication: application,
     initialAttachments,
     initialInventors,
-    initialStatuses,
+    initialStatuses: iprStatuses,
   } = props;
-  const [application, setApplication] =
-    useState<ApplicationType>(initialApplication);
   const [attachments, setAttachments] =
     useState<AttachmentType[]>(initialAttachments);
-  const [iprStatuses, setIprStatuses] = useState<IprStatus[]>(initialStatuses);
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const {
-    openModal: openStatusUpdateModal,
-    isOpen: isStatusUpdateModalOpen,
-    closeModal: closeStatusUpdateModal,
-  } = useStatusUpdateModal();
+  const { openModal: openStatusUpdateModal, isOpen: isStatusUpdateModalOpen } =
+    useStatusUpdateModal();
 
   const statusLabel =
     STATUS_LABELS[application.currentStatus] ?? application.currentStatus;
@@ -114,40 +88,6 @@ function ApplicationView(props: ApplicationViewProps) {
   const handleOpenStatusModal = () => {
     if (!isAdmin || !hasUnsavedChanges) return;
     openStatusUpdateModal();
-  };
-
-  const handleConfirmStatusUpdate = (payload: {
-    newIpType: IpType;
-    newStatusType: StatusType;
-    note: string;
-    deadline?: string | null;
-  }) => {
-    //do the actual db changes here
-    if (!isAdmin) return;
-
-    const { newIpType, newStatusType, note, deadline } = payload;
-    const nowIso = new Date().toISOString();
-
-    setApplication((prev) => ({
-      ...prev,
-      ipType: newIpType,
-      currentStatus: newStatusType,
-      lastUpdated: nowIso,
-    }));
-
-    setIprStatuses((prev) => [
-      ...prev,
-      {
-        statusId: `local-${prev.length + 1}`,
-        status_type: newStatusType,
-        note,
-        deadline: deadline ?? null,
-        created_at: nowIso,
-      },
-    ]);
-
-    setHasUnsavedChanges(false);
-    closeStatusUpdateModal();
   };
 
   function handleBack() {
@@ -278,19 +218,6 @@ function ApplicationView(props: ApplicationViewProps) {
             </button>
           </div>
         </div>
-      )}
-
-      {/* status modal, change these later to the proper modal */}
-      {isAdmin && (
-        <StatusUpdateModal
-          isOpen={isStatusUpdateModalOpen}
-          closeModal={closeStatusUpdateModal}
-          ipType={application.ipType}
-          currentStatusType={application.currentStatus}
-          ipTypeOptions={IP_TYPE_OPTIONS}
-          statusOptions={STATUS_OPTIONS}
-          onConfirm={handleConfirmStatusUpdate}
-        />
       )}
     </div>
   );

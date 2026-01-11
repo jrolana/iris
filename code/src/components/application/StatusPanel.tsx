@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { StatusType } from "@/lib/types/ip";
 import { IprStatus } from "@/lib/types/status";
 import clsx from "clsx";
@@ -50,7 +49,7 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
   return (
     <div
       className={
-        "rounded-2xl border border-gray-200 bg-white p-4 text-gray-700  " +
+        "rounded-2xl border border-gray-200 bg-white p-4 text-gray-700 " +
         className
       }
     >
