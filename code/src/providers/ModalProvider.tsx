@@ -1,5 +1,6 @@
 "use client";
 
+import UploadFilesModal from "@/components/modals/UploadFilesModal";
 import { useEffect, useState } from "react";
 
 function ModalProvider() {
@@ -13,7 +14,11 @@ function ModalProvider() {
 
   if (!isMounted) return null;
 
-  return <div className="hidden">Insert modals here...</div>;
+  return (
+    <>
+      <UploadFilesModal />
+    </>
+  );
 }
 
 export default ModalProvider;

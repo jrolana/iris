@@ -2,9 +2,9 @@ import { isApplicationUploadOpen } from "@/atom-states/application-upload-modal"
 import { useAtom } from "jotai";
 
 function useApplicationUploadModal(){
-    const [isOpen, setIsAuthOpen] = useAtom(isApplicationUploadOpen);
-    const openModal = () => setIsAuthOpen(true);
-    const closeModal = () => setIsAuthOpen(false);
+    const [isOpen, setIsOpen] = useAtom(isApplicationUploadOpen);
+    const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
     return {isOpen, openModal, closeModal}
 }
 

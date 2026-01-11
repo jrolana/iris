@@ -10,6 +10,7 @@ import clsx from "clsx";
 import ClassificationWizard from "@/components/application/Wizard";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
+import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 
 type Mode = "undecided" | "wizard" | "direct";
 
@@ -67,6 +68,7 @@ const DISCLOSURE_FORMS: DisclosureFormOption[] = [
 function NewApplicationPage() {
   const router = useRouter();
 
+  const { openModal } = useFilesUploadModal();
   const [mode, setMode] = useState<Mode>("undecided");
   const [wizardResult, setWizardResult] = useState<WizardResult | null>(null);
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
@@ -117,7 +119,7 @@ function NewApplicationPage() {
   function handleSubmissionModal() {
     // Open a submission modal here for the disclosure form
     setWizardResult(null); //added this just to remove the squiggly hehe, should remove when logic is implemented
-    console.log("open the modal here");
+    openModal();
   }
 
   // Side details, now used for the stacked info card
