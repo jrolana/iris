@@ -90,12 +90,11 @@ function ViewAttachments(props: ViewAttachmentProps) {
         <button
           type="button"
           onClick={() => {
-            console.log("heya");
             openUploadModal();
           }}
           className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
         >
-          {"Upload a file or link"}
+          Upload a file or link
         </button>
 
         <p className="mt-2 text-sm text-gray-500">
