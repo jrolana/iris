@@ -23,7 +23,6 @@ function UploadFilesModal() {
     closeModal();
   }
 
-  // Inside your page component
   async function handleUpload(fileItems: FileType[]) {
     console.log(fileItems);
 
