@@ -1,12 +1,16 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FileType } from "@/lib/types/file";
 import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 
 import Modal from "./Modal";
-import SmartFileUploader from "./SmartFileUploader";
+import FileUploader from "./FileUploader";
+import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog"; // could be removed
 
 function UploadFilesModal() {
   const { isOpen, closeModal } = useFilesUploadModal();
+  const [fileItems, setFileItems] = useState<FileType[]>([]);
 
   // Reset form whenever modal opens or values change
   useEffect(() => {
@@ -20,7 +24,7 @@ function UploadFilesModal() {
   }
 
   // Inside your page component
-  async function handleUpload(fileItems: any[]) {
+  async function handleUpload(fileItems: FileType[]) {
     console.log(fileItems);
 
     // Separate files and links
@@ -68,7 +72,18 @@ function UploadFilesModal() {
       onChange={handleChange}
     >
       <div className="w-full sm:min-w-md md:w-2xl">
-        <SmartFileUploader onClose={closeModal} onUpload={handleUpload} />
+        <FileUploader items={fileItems} setItems={setFileItems} />
+        <DialogFooter className="mt-6">
+          <Button variant="outline" onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button
+            onClick={() => handleUpload(fileItems)}
+            disabled={fileItems.length === 0}
+          >
+            Upload {fileItems.length} Item{fileItems.length !== 1 && "s"}
+          </Button>
+        </DialogFooter>
       </div>
     </Modal>
   );
