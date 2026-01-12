@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FileType } from "@/lib/types/file";
+import { AttachmentType } from "@/lib/types/application";
 import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 
 import Modal from "./Modal";
@@ -10,7 +10,7 @@ import { DialogFooter } from "@/components/ui/dialog"; // could be removed
 
 function UploadFilesModal() {
   const { isOpen, closeModal } = useFilesUploadModal();
-  const [fileItems, setFileItems] = useState<FileType[]>([]);
+  const [fileItems, setFileItems] = useState<AttachmentType[]>([]);
 
   // Reset form whenever modal opens or values change
   useEffect(() => {
@@ -23,7 +23,7 @@ function UploadFilesModal() {
     closeModal();
   }
 
-  async function handleUpload(fileItems: FileType[]) {
+  async function handleUpload(fileItems: AttachmentType[]) {
     console.log(fileItems);
 
     // Separate files and links

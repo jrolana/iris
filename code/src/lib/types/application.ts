@@ -1,5 +1,4 @@
 import { IpType, StatusType } from "./ip";
-import { FileType } from "./file";
 import { CollegeUnitType } from "./college-units";
 
 export type ApplicationType = {
@@ -19,13 +18,15 @@ export type ApplicationType = {
 };
 
 export type AttachmentType = {
-  applicationId: string;
-  fileId: string;
-  filename: string;
-  description?: string | null;
-  fileType: FileType;
-  uploadedAt: string;
+  id: string | null;
+  application_id: string;
   owner_id: string;
+  file_name: string;
+  storage_path: string;
+  description: string | null;
+  file_type: string;
+  uploaded_at: Date;
+  comments: string | null;
 };
 
 export type InventorType = {
