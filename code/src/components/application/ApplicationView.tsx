@@ -15,7 +15,6 @@ import {
 import { IprStatus } from "@/lib/types/status";
 import InformationPanel from "./InformationPanel";
 import { SquarePen, ArrowLeft } from "lucide-react";
-import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
 
 export type ApplicationViewMode = "applicant" | "admin";
 
@@ -38,10 +37,6 @@ function ApplicationView(props: ApplicationViewProps) {
   const [attachments, setAttachments] =
     useState<AttachmentType[]>(initialAttachments);
 
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const { openModal: openStatusUpdateModal, isOpen: isStatusUpdateModalOpen } =
-    useStatusUpdateModal();
-
   const statusLabel =
     STATUS_LABELS[application.currentStatus] ?? application.currentStatus;
 
@@ -50,38 +45,19 @@ function ApplicationView(props: ApplicationViewProps) {
   // handlers for admin, could be moved later on
   const isAdmin = mode === "admin";
 
-  const handleEditAttachment = (fileId: string) => {
-    if (!isAdmin) return;
-    console.log("edit attachment", fileId);
-    setHasUnsavedChanges(true);
-  };
-
   const handleDeleteAttachment = (fileId: string) => {
     if (!isAdmin) return;
     setAttachments((prev) => prev.filter((f) => f.fileId !== fileId));
-    setHasUnsavedChanges(true);
   };
 
   const handleLinkInventor = (inventorId: string) => {
     if (!isAdmin) return;
     console.log("link inventor", inventorId);
-    setHasUnsavedChanges(true);
   };
 
   const handleAnnotateInventor = (inventorId: string) => {
     if (!isAdmin) return;
     console.log("annotate inventor", inventorId);
-    setHasUnsavedChanges(true);
-  };
-
-  const handleStartStatusUpdate = () => {
-    if (!isAdmin) return;
-    setHasUnsavedChanges(true);
-  };
-
-  const handleOpenStatusModal = () => {
-    if (!isAdmin || !hasUnsavedChanges) return;
-    openStatusUpdateModal();
   };
 
   function handleBack() {
@@ -171,7 +147,6 @@ function ApplicationView(props: ApplicationViewProps) {
             mode={mode}
             attachments={attachments}
             inventors={initialInventors}
-            onEditAttachment={isAdmin ? handleEditAttachment : undefined}
             onDeleteAttachment={isAdmin ? handleDeleteAttachment : undefined}
             onLinkInventor={isAdmin ? undefined : handleLinkInventor}
             onAnnotateInventor={isAdmin ? handleAnnotateInventor : undefined}
@@ -184,34 +159,11 @@ function ApplicationView(props: ApplicationViewProps) {
             statuses={iprStatuses}
             currentStatusType={application.currentStatus}
             variant={isAdmin ? "ttbdo" : "techgen"}
-            onStartStatusUpdate={isAdmin ? handleStartStatusUpdate : undefined}
           />
 
           {mode === "applicant" ? <ApplicantReminders /> : <AdminReminders />}
         </section>
       </main>
-
-      {/* sticky button that shows when there are unsaved changes and ONLY shows in ADMIN mode */}
-      {isAdmin && hasUnsavedChanges && !isStatusUpdateModalOpen && (
-        <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
-          <div className="pointer-events-auto flex max-w-xl flex-1 items-center justify-between gap-3 rounded-full border border-sky-200 bg-white px-6 py-4 shadow-lg">
-            <div className="text-md text-gray-700">
-              <p className="font-semibold">Unsaved changes</p>
-              <p className="text-sm">
-                You&apos;ve made changes to this application. Save them and add
-                a status note for the record.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={handleOpenStatusModal}
-              className="rounded-full bg-sky-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-gray-300"
-            >
-              Update status &amp; save
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
