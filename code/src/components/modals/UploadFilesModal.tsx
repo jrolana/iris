@@ -4,7 +4,7 @@ import { FileType } from "@/lib/types/file";
 import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 
 import Modal from "./Modal";
-import FileUploader from "./FileUploader";
+import FileUploader from "../common/FileUploader";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog"; // could be removed
 
