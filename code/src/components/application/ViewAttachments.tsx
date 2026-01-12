@@ -1,23 +1,22 @@
+import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 import { AttachmentType } from "@/lib/types/application";
 
 interface ViewAttachmentProps {
   attachments: AttachmentType[];
   isAdmin: boolean;
-  onAddAttachment?: () => void;
-  onEditAttachment?: (id: string) => void;
   onDeleteAttachment?: (id: string) => void;
 }
 
 function ViewAttachments(props: ViewAttachmentProps) {
-  const {
-    attachments,
-    isAdmin,
-    onAddAttachment,
-    onEditAttachment,
-    onDeleteAttachment,
-  } = props;
+  const { attachments, isAdmin, onDeleteAttachment } = props;
+  const { openModal: openUploadModal } = useFilesUploadModal();
+
   if (attachments.length == 0) {
-    return <p className="mt-4 text-sm text-slate-500"> No attachments yet. </p>;
+    return (
+      <p className="mt-4 text-sm text-slate-500">
+        No attachments yet. Please upload appropriate files or links.
+      </p>
+    );
   }
 
   return (
@@ -61,41 +60,26 @@ function ViewAttachments(props: ViewAttachmentProps) {
                   Download
                 </button>
               )}
+              {/* TODO
+                change these to file.owner_id === user.id when db is properly set up
+              */}
               {isAdmin && file.owner_id === "ttbdo" && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => onEditAttachment?.(file.fileId)}
-                    className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-600 hover:bg-slate-50"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onDeleteAttachment?.(file.fileId)}
-                    className="rounded-md border border-red-100 bg-red-50 px-2 py-1 font-medium text-red-600 hover:bg-red-100"
-                  >
-                    Delete
-                  </button>
-                </>
+                <button
+                  type="button"
+                  onClick={() => onDeleteAttachment?.(file.fileId)}
+                  className="rounded-md border border-red-100 bg-red-50 px-2 py-1 font-medium text-red-600 hover:bg-red-100"
+                >
+                  Delete
+                </button>
               )}
               {!isAdmin && file.owner_id === "tech" && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => onEditAttachment?.(file.fileId)}
-                    className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-600 hover:bg-slate-50"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onDeleteAttachment?.(file.fileId)}
-                    className="rounded-md border border-red-100 bg-red-50 px-2 py-1 font-medium text-red-600 hover:bg-red-100"
-                  >
-                    Delete
-                  </button>
-                </>
+                <button
+                  type="button"
+                  onClick={() => onDeleteAttachment?.(file.fileId)}
+                  className="rounded-md border border-red-100 bg-red-50 px-2 py-1 font-medium text-red-600 hover:bg-red-100"
+                >
+                  Delete
+                </button>
               )}
             </div>
           </li>
@@ -105,7 +89,10 @@ function ViewAttachments(props: ViewAttachmentProps) {
       <div className="mt-4">
         <button
           type="button"
-          onClick={onAddAttachment}
+          onClick={() => {
+            console.log("heya");
+            openUploadModal();
+          }}
           className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
         >
           {"Upload a file or link"}

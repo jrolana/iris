@@ -1,6 +1,8 @@
 import { InventorType } from "@/lib/types/application";
 
 import { Cable, BadgeCheck, NotepadText } from "lucide-react";
+import { toast } from "sonner";
+import Hint from "../common/Tooltip";
 
 interface ViewInventorsProps {
   inventors: InventorType[];
@@ -25,7 +27,7 @@ function ViewInventors(props: ViewInventorsProps) {
 
   function handleViewComments(comment: string | null) {
     if (!comment) comment = "No comments available.";
-    alert(`Comments: ${comment}`);
+    toast.info(comment, { duration: 3000 });
   }
   return (
     <>
@@ -76,13 +78,15 @@ function ViewInventors(props: ViewInventorsProps) {
               </div>
             ) : (
               <div className="flex shrink-0 items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleViewComments(inventor.comments)}
-                  className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                >
-                  <NotepadText />
-                </button>
+                <Hint label="Click to see TTBDO annotations">
+                  <button
+                    type="button"
+                    onClick={() => handleViewComments(inventor.comments)}
+                    className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
+                  >
+                    <NotepadText />
+                  </button>
+                </Hint>
               </div>
             )}
           </li>

@@ -10,6 +10,7 @@ import clsx from "clsx";
 import ClassificationWizard from "@/components/application/Wizard";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
+import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 
 type Mode = "undecided" | "wizard" | "direct";
 
@@ -67,6 +68,7 @@ const DISCLOSURE_FORMS: DisclosureFormOption[] = [
 function NewApplicationPage() {
   const router = useRouter();
 
+  const { openModal } = useFilesUploadModal();
   const [mode, setMode] = useState<Mode>("undecided");
   const [wizardResult, setWizardResult] = useState<WizardResult | null>(null);
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
@@ -111,13 +113,13 @@ function NewApplicationPage() {
 
     // For now we just navigate to the view page placeholder
     // add url params of application_id (from there, derive IpType and StatusType)
-    router.push("/view-application");
+    router.push("/techgen/view-application");
   }
 
   function handleSubmissionModal() {
     // Open a submission modal here for the disclosure form
     setWizardResult(null); //added this just to remove the squiggly hehe, should remove when logic is implemented
-    console.log("open the modal here");
+    openModal();
   }
 
   // Side details, now used for the stacked info card
@@ -254,10 +256,7 @@ function NewApplicationPage() {
             )}
 
             {mode === "direct" && !finalIpType && (
-              <DirectMenu
-                selectedFormId={selectedFormId}
-                setSelectedFormId={setSelectedFormId}
-              />
+              <DirectMenu setSelectedFormId={setSelectedFormId} />
             )}
 
             {mode === "undecided" && (
@@ -296,12 +295,11 @@ interface DisclosureFormActionsProps {
 }
 
 interface DirectMenuProps {
-  selectedFormId: string | null;
   setSelectedFormId: (formId: string) => void;
 }
 
 function DirectMenu(props: DirectMenuProps) {
-  const { selectedFormId, setSelectedFormId } = props;
+  const { setSelectedFormId } = props;
   const [selectedIpType, setSelectedIpType] = useState<string>("");
 
   function handleSelect(ipType: string) {
@@ -318,7 +316,7 @@ function DirectMenu(props: DirectMenuProps) {
       </p>
       <div className="mt-3 grid gap-3 md:grid-cols-2">
         {DISCLOSURE_FORMS.map((form) => {
-          const isSelected = selectedFormId === form.id;
+          const isSelected = selectedIpType == form.id;
           return (
             <button
               key={form.id}

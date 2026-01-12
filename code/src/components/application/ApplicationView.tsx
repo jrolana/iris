@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { IpType, StatusType } from "@/lib/types/ip";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import ApplicationStepper from "@/components/application/Stepper";
 import StatusHistoryPanel from "@/components/application/StatusPanel";
@@ -15,8 +14,6 @@ import {
 } from "@/lib/types/application";
 import { IprStatus } from "@/lib/types/status";
 import InformationPanel from "./InformationPanel";
-
-import StatusUpdateModal from "@/components/application/StatusUpdateModal";
 import { SquarePen, ArrowLeft } from "lucide-react";
 
 export type ApplicationViewMode = "applicant" | "admin";
@@ -29,38 +26,16 @@ interface ApplicationViewProps {
   initialStatuses: IprStatus[];
 }
 
-// Options for TTBDO modal only
-const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
-  STATUS_LABELS as Record<string, string>,
-).map(([value, label]) => ({
-  value: value as StatusType,
-  label,
-}));
-
-const IP_TYPE_OPTIONS: { value: IpType; label: string }[] = [
-  { value: "patent", label: "Patent" },
-  { value: "utility_model", label: "Utility Model" },
-  { value: "industrial_design", label: "Industrial Design" },
-  { value: "trademark", label: "Trademark" },
-  { value: "copyright", label: "Copyright" },
-];
-
 function ApplicationView(props: ApplicationViewProps) {
   const {
     mode,
-    initialApplication,
+    initialApplication: application,
     initialAttachments,
     initialInventors,
-    initialStatuses,
+    initialStatuses: iprStatuses,
   } = props;
-  const [application, setApplication] =
-    useState<ApplicationType>(initialApplication);
   const [attachments, setAttachments] =
     useState<AttachmentType[]>(initialAttachments);
-  const [iprStatuses, setIprStatuses] = useState<IprStatus[]>(initialStatuses);
-
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
 
   const statusLabel =
     STATUS_LABELS[application.currentStatus] ?? application.currentStatus;
@@ -70,93 +45,19 @@ function ApplicationView(props: ApplicationViewProps) {
   // handlers for admin, could be moved later on
   const isAdmin = mode === "admin";
 
-  const handleAddAttachment = () => {
-    if (!isAdmin) return;
-    setHasUnsavedChanges(true);
-    // actual add file/link flow will be wired later (modal, etc.)
-  };
-
-  const handleEditAttachment = (fileId: string) => {
-    if (!isAdmin) return;
-    console.log("edit attachment", fileId);
-    setHasUnsavedChanges(true);
-  };
-
   const handleDeleteAttachment = (fileId: string) => {
     if (!isAdmin) return;
     setAttachments((prev) => prev.filter((f) => f.fileId !== fileId));
-    setHasUnsavedChanges(true);
   };
 
-  // const handleAddInventor = () => {
-  //   if (!isAdmin) return;
-  //   setHasUnsavedChanges(true);
-  // };
-
   const handleLinkInventor = (inventorId: string) => {
-    // if (!isAdmin) return;
+    if (!isAdmin) return;
     console.log("link inventor", inventorId);
-    setHasUnsavedChanges(true);
   };
 
   const handleAnnotateInventor = (inventorId: string) => {
-    // if (!isAdmin) return;
+    if (!isAdmin) return;
     console.log("annotate inventor", inventorId);
-    setHasUnsavedChanges(true);
-  };
-
-  // const handleRemoveInventor = (inventorId: string) => {
-  //   if (!isAdmin) return;
-  //   setInventors((prev) => prev.filter((i) => i.inventorId !== inventorId));
-  //   setHasUnsavedChanges(true);
-  // };
-
-  const handleStartStatusUpdate = () => {
-    if (!isAdmin) return;
-    setHasUnsavedChanges(true);
-  };
-
-  const handleOpenStatusModal = () => {
-    if (!isAdmin || !hasUnsavedChanges) return;
-    setIsStatusModalOpen(true);
-  };
-
-  const handleConfirmStatusUpdate = (payload: {
-    newIpType: IpType;
-    newStatusType: StatusType;
-    note: string;
-    deadline?: string | null;
-  }) => {
-    //do the actual db changes here
-    if (!isAdmin) return;
-
-    const { newIpType, newStatusType, note, deadline } = payload;
-    const nowIso = new Date().toISOString();
-
-    setApplication((prev) => ({
-      ...prev,
-      ipType: newIpType,
-      currentStatus: newStatusType,
-      lastUpdated: nowIso,
-    }));
-
-    setIprStatuses((prev) => [
-      ...prev,
-      {
-        statusId: `local-${prev.length + 1}`,
-        status_type: newStatusType,
-        note,
-        deadline: deadline ?? null,
-        created_at: nowIso,
-      },
-    ]);
-
-    setHasUnsavedChanges(false);
-    setIsStatusModalOpen(false);
-  };
-
-  const handleCancelStatusUpdate = () => {
-    setIsStatusModalOpen(false);
   };
 
   function handleBack() {
@@ -246,8 +147,6 @@ function ApplicationView(props: ApplicationViewProps) {
             mode={mode}
             attachments={attachments}
             inventors={initialInventors}
-            onAddAttachment={isAdmin ? handleAddAttachment : undefined}
-            onEditAttachment={isAdmin ? handleEditAttachment : undefined}
             onDeleteAttachment={isAdmin ? handleDeleteAttachment : undefined}
             onLinkInventor={isAdmin ? undefined : handleLinkInventor}
             onAnnotateInventor={isAdmin ? handleAnnotateInventor : undefined}
@@ -260,47 +159,11 @@ function ApplicationView(props: ApplicationViewProps) {
             statuses={iprStatuses}
             currentStatusType={application.currentStatus}
             variant={isAdmin ? "ttbdo" : "techgen"}
-            onStartStatusUpdate={isAdmin ? handleStartStatusUpdate : undefined}
           />
 
           {mode === "applicant" ? <ApplicantReminders /> : <AdminReminders />}
         </section>
       </main>
-
-      {/* sticky button that shows when there are unsaved changes and ONLY shows in ADMIN mode */}
-      {isAdmin && hasUnsavedChanges && (
-        <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
-          <div className="pointer-events-auto flex max-w-xl flex-1 items-center justify-between gap-3 rounded-full border border-sky-200 bg-white px-6 py-4 shadow-lg">
-            <div className="text-md text-gray-700">
-              <p className="font-semibold">Unsaved changes</p>
-              <p className="text-sm">
-                You&apos;ve made changes to this application. Save them and add
-                a status note for the record.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={handleOpenStatusModal}
-              className="rounded-full bg-sky-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-gray-300"
-            >
-              Update status &amp; save
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* status modal, change these later to the proper modal */}
-      {isAdmin && (
-        <StatusUpdateModal
-          open={isStatusModalOpen}
-          ipType={application.ipType}
-          currentStatusType={application.currentStatus}
-          ipTypeOptions={IP_TYPE_OPTIONS}
-          statusOptions={STATUS_OPTIONS}
-          onConfirm={handleConfirmStatusUpdate}
-          onCancel={handleCancelStatusUpdate}
-        />
-      )}
     </div>
   );
 }

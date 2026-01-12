@@ -1,18 +1,16 @@
 "use client";
 
-import React from "react";
+import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
 import { StatusType } from "@/lib/types/ip";
 import { IprStatus } from "@/lib/types/status";
-import clsx from "clsx";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
+import clsx from "clsx";
 
 interface StatusHistoryPanelProps {
   statuses: IprStatus[];
   currentStatusType: StatusType;
   variant?: "techgen" | "ttbdo";
   className?: string;
-  // For TTBDO only – triggers the “unsaved changes” flow
-  onStartStatusUpdate?: () => void;
 }
 
 export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
@@ -21,8 +19,9 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
     currentStatusType,
     variant = "techgen",
     className = "",
-    onStartStatusUpdate,
   } = props;
+  const { openModal } = useStatusUpdateModal();
+
   if (!statuses || statuses.length === 0) {
     return (
       <div
@@ -40,6 +39,10 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
     );
   }
 
+  function handleClickUpdate() {
+    openModal();
+  }
+
   // The query might have sorted these already
   const sortedStatuses = [...statuses].sort(
     (a, b) =>
@@ -50,16 +53,16 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
   return (
     <div
       className={
-        "rounded-2xl border border-gray-200 bg-white p-4 text-gray-700  " +
+        "rounded-2xl border border-gray-200 bg-white p-4 text-gray-700 " +
         className
       }
     >
       <div className="mb-2 flex items-center justify-between gap-2">
         <h2 className="text-lg font-semibold text-gray-900">Status history</h2>
-        {variant === "ttbdo" && onStartStatusUpdate && (
+        {variant === "ttbdo" && (
           <button
             type="button"
-            onClick={onStartStatusUpdate}
+            onClick={handleClickUpdate}
             className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-sm font-medium text-sky-700 hover:bg-sky-100"
           >
             Update status

@@ -9,8 +9,6 @@ interface DetailsPanelProps {
   mode: ApplicationViewMode;
   attachments: AttachmentType[];
   inventors: InventorType[];
-  onAddAttachment?: () => void;
-  onEditAttachment?: (id: string) => void;
   onDeleteAttachment?: (id: string) => void;
   onLinkInventor?: (id: string) => void;
   onAnnotateInventor?: (id: string) => void;
@@ -21,8 +19,6 @@ function InformationPanel(props: DetailsPanelProps) {
     mode,
     attachments,
     inventors,
-    onAddAttachment,
-    onEditAttachment,
     onDeleteAttachment,
     onAnnotateInventor,
     onLinkInventor,
@@ -66,8 +62,6 @@ function InformationPanel(props: DetailsPanelProps) {
         <ViewAttachments
           attachments={attachments}
           isAdmin={isAdmin}
-          onAddAttachment={onAddAttachment}
-          onEditAttachment={onEditAttachment}
           onDeleteAttachment={onDeleteAttachment}
         />
       ) : (
