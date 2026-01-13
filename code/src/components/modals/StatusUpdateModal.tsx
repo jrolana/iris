@@ -10,8 +10,15 @@ import { dummyApplication } from "@/lib/dummy-data/application";
 
 import Modal from "./Modal";
 import Select from "react-select";
-import DatePicker from "../common/DatePicker";
-
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
+import { CalendarIcon, X } from "lucide-react";
 // Options for TTBDO modal only
 const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
   STATUS_LABELS as Record<string, string>,
@@ -43,7 +50,7 @@ function StatusUpdateModal() {
   const [selectedStatus, setSelectedStatus] =
     useState<StatusType>(currentStatus);
   const [note, setNote] = useState("");
-  const [deadline, setDeadline] = useState<string | null>(null);
+  const [deadline, setDeadline] = useState<Date | null>();
 
   // Reset form whenever modal opens or values change
   useEffect(() => {
@@ -61,7 +68,7 @@ function StatusUpdateModal() {
     const suggestion = getSuggestedDeadline(selectedStatus);
     // Only overwrite if a suggestion exists; otherwise, keep it null or let the user choose
     if (suggestion) {
-      setDeadline(suggestion);
+      setDeadline(new Date(suggestion));
     } else {
       setDeadline(null);
     }
@@ -73,7 +80,7 @@ function StatusUpdateModal() {
     newIpType: IpType;
     newStatusType: StatusType;
     note: string;
-    deadline?: string | null;
+    deadline?: Date | null;
   }) {
     // do the actual db changes here
 
@@ -205,20 +212,53 @@ function StatusUpdateModal() {
             />
           </label>
 
-          <label className="flex flex-col gap-1">
+          <div className="flex flex-col items-start gap-2">
             <span className="font-medium text-slate-800">
               Deadline (optional)
             </span>
-            <DatePicker />
-            {/* <input
-              type="date"
-              value={deadline ?? ""}
-              onChange={(e) =>
-                setDeadline(e.target.value ? e.target.value : null)
-              }
-              className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
-            /> */}
-          </label>
+            <div className="flex flex-row items-start justify-center gap-2 align-middle">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    data-empty={!deadline}
+                    className="data-[empty=true]:text-muted-foreground w-[350px] justify-start text-left font-normal"
+                  >
+                    <CalendarIcon />
+                    {deadline ? (
+                      format(deadline, "PPP")
+                    ) : (
+                      <span>Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="z-9999 w-auto p-0">
+                  <Calendar
+                    fixedWeeks
+                    mode="single"
+                    selected={deadline ?? undefined}
+                    onSelect={setDeadline}
+                    classNames={{
+                      day_selected:
+                        "bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white",
+                      day_today: "bg-slate-100 text-slate-900",
+                    }}
+                    required
+                  />
+                </PopoverContent>
+              </Popover>
+              {deadline && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-destructive h-8 w-8"
+                  onClick={() => setDeadline(null)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+          </div>
 
           <div className="mt-3 flex items-center justify-end gap-2">
             <button

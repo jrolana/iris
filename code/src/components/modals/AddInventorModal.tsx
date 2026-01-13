@@ -14,6 +14,7 @@ export default function AddInventorModal() {
   const [email, setEmail] = useState("");
   const [collegeUnit, setCollegeUnit] = useState<CollegeUnitType | null>();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const collegeOptions = Object.entries(CollegeUnits).map(([_, college]) => {
     return { value: college.toString(), label: college.toString() };
   });
