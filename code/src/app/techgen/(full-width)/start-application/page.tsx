@@ -10,7 +10,7 @@ export default function StartApplicationPage() {
   const [formItems, setFormItems] = useState<AttachmentType[]>([]);
   const [inventors, setInventors] = useState<string[]>([]);
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center bg-red-50">
       <div className="relative mx-auto max-w-6xl space-y-6 px-4 py-8">
         <h1 className="mb-4 text-2xl font-bold">Start Application</h1>
         {inventors.length > 0 && <ScrollArea></ScrollArea>}
