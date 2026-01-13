@@ -1,8 +1,9 @@
-import useAddInventorsModal from "@/hooks/useAddInventorModal";
-import Modal from "./Modal";
-import { Input } from "../ui/input";
 import { useEffect, useState } from "react";
 import { CollegeUnits, CollegeUnitType } from "@/lib/types/college-units";
+import useAddInventorsModal from "@/hooks/useAddInventorModal";
+
+import Modal from "./Modal";
+import { Input } from "../ui/input";
 import { Button } from "@/components/ui/button";
 import Select from "react-select";
 

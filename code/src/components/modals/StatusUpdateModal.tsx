@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from "react";
 import { IpType, StatusType } from "@/lib/types/ip";
 import { getSuggestedDeadline } from "@/lib/helper/get-status-deadline";
-import { STATUS_LABELS } from "@/lib/helper/status-labels";
+import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
 
+import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import { dummyApplication } from "@/lib/dummy-data/application";
 
 import Modal from "./Modal";
-import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
+import Select from "react-select";
+import DatePicker from "../common/DatePicker";
 
 // Options for TTBDO modal only
 const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
@@ -107,17 +109,38 @@ function StatusUpdateModal() {
       onChange={handleChange}
     >
       <div className="w-full max-w-lg">
-        <p className="mt-1 text-xs text-slate-600">
+        <p className="mt-1 text-justify text-slate-600">
           Choose the IP type and status that best reflect the new stage of this
           application, then add a short note that will appear in the status
           history (and later in notifications for tech gens).
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4 text-xs">
+        <form onSubmit={handleSubmit} className="mt-4 space-y-4 text-sm">
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="flex flex-col gap-1">
               <span className="font-medium text-slate-800">IP type</span>
-              <select
+              <Select
+                unstyled
+                value={IP_TYPE_OPTIONS.find(
+                  (opt) => opt.value === selectedIpType,
+                )}
+                options={ipTypeOptions}
+                className="h-10"
+                classNames={{
+                  placeholder: () => "text-lg!",
+                  control: ({ isFocused }) =>
+                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
+                  menu: () =>
+                    "bg-white border border-gray-200 mt-2 rounded-lg  space-y-2 overflow-hidden",
+                  input: () => "text-sm",
+                  option: ({ isFocused }) =>
+                    `px-3 py-2 cursor-pointer ${isFocused ? "bg-blue-100" : "bg-transparent"}`,
+                }}
+                onChange={(selectedOption) =>
+                  setSelectedIpType(selectedOption?.value as IpType)
+                }
+              />
+              {/* <select
                 value={selectedIpType}
                 onChange={(e) => setSelectedIpType(e.target.value as IpType)}
                 className="rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
@@ -127,12 +150,33 @@ function StatusUpdateModal() {
                     {opt.label}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </label>
 
             <label className="flex flex-col gap-1">
               <span className="font-medium text-slate-800">Status in flow</span>
-              <select
+              <Select
+                unstyled
+                value={STATUS_OPTIONS.find(
+                  (opt) => opt.value === selectedStatus,
+                )}
+                options={statusOptions}
+                className="h-10"
+                classNames={{
+                  placeholder: () => "text-lg!",
+                  control: ({ isFocused }) =>
+                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
+                  menu: () =>
+                    "bg-white border border-gray-200 mt-2 rounded-lg  space-y-2 overflow-hidden",
+                  input: () => "text-sm",
+                  option: ({ isFocused }) =>
+                    `px-3 py-2 cursor-pointer ${isFocused ? "bg-blue-100" : "bg-transparent"}`,
+                }}
+                onChange={(selectedOption) =>
+                  setSelectedStatus(selectedOption?.value as StatusType)
+                }
+              />
+              {/* <select
                 value={selectedStatus}
                 onChange={(e) =>
                   setSelectedStatus(e.target.value as StatusType)
@@ -144,7 +188,7 @@ function StatusUpdateModal() {
                     {opt.label}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </label>
           </div>
 
@@ -156,7 +200,7 @@ function StatusUpdateModal() {
               value={note}
               onChange={(e) => setNote(e.target.value)}
               rows={4}
-              className="w-full rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
+              className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
               placeholder="Briefly describe what changed, what TTBDO did, and what the tech gens should expect next."
             />
           </label>
@@ -165,28 +209,29 @@ function StatusUpdateModal() {
             <span className="font-medium text-slate-800">
               Deadline (optional)
             </span>
-            <input
+            <DatePicker />
+            {/* <input
               type="date"
               value={deadline ?? ""}
               onChange={(e) =>
                 setDeadline(e.target.value ? e.target.value : null)
               }
-              className="w-full rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
-            />
+              className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
+            /> */}
           </label>
 
           <div className="mt-3 flex items-center justify-end gap-2">
             <button
               type="button"
               onClick={closeModal}
-              className="rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+              className="rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!note.trim()}
-              className="rounded-full bg-sky-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+              className="rounded-full bg-sky-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300"
             >
               Save status
             </button>
