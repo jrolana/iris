@@ -87,7 +87,7 @@ export default function FileUploader(props: FileUploaderProps) {
   }
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full flex-col justify-center space-y-6">
       <div
         {...getRootProps()}
         className={cn(

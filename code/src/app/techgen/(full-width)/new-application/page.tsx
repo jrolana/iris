@@ -167,9 +167,7 @@ function NewApplicationPage() {
       {/* Page header */}
       <header className="flex flex-col items-start justify-between gap-4 pl-12 lg:flex-row lg:items-center">
         <div>
-          <h1 className="text-3xl font-semibold text-slate-900">
-            New IP Application
-          </h1>
+          <h1 className="text-3xl font-semibold">New IP Application</h1>
           <p className="mt-1 text-lg text-slate-500">
             Start a disclosure for your research output and track its progress
             with TTBDO.

@@ -1,5 +1,6 @@
 "use client";
 
+import AddInventorModal from "@/components/modals/AddInventorModal";
 import StatusUpdateModal from "@/components/modals/StatusUpdateModal";
 import UploadFilesModal from "@/components/modals/UploadFilesModal";
 import { useEffect, useState } from "react";
@@ -19,6 +20,7 @@ function ModalProvider() {
     <>
       <UploadFilesModal />
       <StatusUpdateModal />
+      <AddInventorModal />
     </>
   );
 }
