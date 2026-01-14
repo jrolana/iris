@@ -113,7 +113,7 @@ function NewApplicationPage() {
 
     // For now we just navigate to the view page placeholder
     // add url params of application_id (from there, derive IpType and StatusType)
-    router.push("/techgen/view-application");
+    router.push("/techgen/start-application");
   }
 
   function handleSubmissionModal() {
@@ -165,11 +165,9 @@ function NewApplicationPage() {
       </button>
 
       {/* Page header */}
-      <header className="flex items-center justify-between gap-4 pl-12">
+      <header className="flex flex-col items-start justify-between gap-4 pl-12 lg:flex-row lg:items-center">
         <div>
-          <h1 className="text-3xl font-semibold text-slate-900">
-            New IP Application
-          </h1>
+          <h1 className="text-3xl font-semibold">New IP Application</h1>
           <p className="mt-1 text-lg text-slate-500">
             Start a disclosure for your research output and track its progress
             with TTBDO.

@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils"; // Standard shadcn utility
-import { FileType } from "@/lib/types/file";
+import { AttachmentType } from "@/lib/types/application";
 
 function getFileIcon(fileType: string) {
   if (fileType === "link") {
@@ -26,8 +26,8 @@ function getFileIcon(fileType: string) {
 }
 
 interface FileUploaderProps {
-  items: FileType[];
-  setItems: Dispatch<SetStateAction<FileType[]>>;
+  items: AttachmentType[];
+  setItems: Dispatch<SetStateAction<AttachmentType[]>>;
 }
 
 export default function FileUploader(props: FileUploaderProps) {
@@ -37,7 +37,7 @@ export default function FileUploader(props: FileUploaderProps) {
   // function to handle file drops
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const newItems: FileType[] = acceptedFiles.map((file) => ({
+      const newItems: AttachmentType[] = acceptedFiles.map((file) => ({
         id: Math.random().toString(36).substr(2, 9), // change this to a better ID generator if needed
         owner_id: "",
         file_name: file.name,
@@ -59,7 +59,7 @@ export default function FileUploader(props: FileUploaderProps) {
 
   function handleAddLink() {
     if (!linkInput) return;
-    const newItem: FileType = {
+    const newItem: AttachmentType = {
       id: Math.random().toString(36).substr(2, 9),
       owner_id: "",
       application_id: "",
@@ -87,7 +87,7 @@ export default function FileUploader(props: FileUploaderProps) {
   }
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full flex-col justify-center space-y-6">
       <div
         {...getRootProps()}
         className={cn(

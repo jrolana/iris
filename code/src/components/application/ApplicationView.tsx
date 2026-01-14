@@ -47,7 +47,7 @@ function ApplicationView(props: ApplicationViewProps) {
 
   const handleDeleteAttachment = (fileId: string) => {
     if (!isAdmin) return;
-    setAttachments((prev) => prev.filter((f) => f.fileId !== fileId));
+    setAttachments((prev) => prev.filter((f) => f.id !== fileId));
   };
 
   const handleLinkInventor = (inventorId: string) => {
