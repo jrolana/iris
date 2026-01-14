@@ -32,6 +32,10 @@ export default function StartApplicationPage() {
   }
 
   function handleSubmit() {
+    if (appTitle.trim() === "") return;
+    // TODO:
+    // Implement submission logic here
+    // DB saving, form validation, etc.
     console.log("submit application");
   }
 
