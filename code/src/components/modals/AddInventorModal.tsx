@@ -77,7 +77,7 @@ export default function AddInventorModal() {
           options={collegeOptions}
           className="h-10"
           classNames={{
-            placeholder: () => "text-lg!",
+            placeholder: () => "text-lg! text-muted-foreground",
             control: ({ isFocused }) =>
               `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
             menu: () =>
