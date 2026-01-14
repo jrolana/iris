@@ -43,7 +43,7 @@ export default function LinkInventorModal() {
       isOpen={isOpen}
       onChange={closeModal}
     >
-      <div className="w-full justify-center px-10">
+      <div className="w-2xl justify-center px-10">
         <SearchInput
           inputRef={searchInputRef}
           setSearchQuery={setSearchQuery}
