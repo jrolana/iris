@@ -42,9 +42,6 @@ export default function StartApplicationPage() {
   useEffect(() => {
     if (inventorDetails === null) return;
     setInventors((prev) => [...prev, inventorDetails]);
-    console.log(inventorDetails);
-
-    console.log("did it save?");
   }, [inventorDetails, isOpen]);
 
   return (
