@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import ApplicationStepper from "@/components/application/Stepper";
@@ -30,12 +29,10 @@ function ApplicationView(props: ApplicationViewProps) {
   const {
     mode,
     initialApplication: application,
-    initialAttachments,
+    initialAttachments: attachments,
     initialInventors,
     initialStatuses: iprStatuses,
   } = props;
-  const [attachments, setAttachments] =
-    useState<AttachmentType[]>(initialAttachments);
 
   const statusLabel =
     STATUS_LABELS[application.currentStatus] ?? application.currentStatus;
@@ -44,21 +41,6 @@ function ApplicationView(props: ApplicationViewProps) {
 
   // handlers for admin, could be moved later on
   const isAdmin = mode === "admin";
-
-  const handleDeleteAttachment = (fileId: string) => {
-    if (!isAdmin) return;
-    setAttachments((prev) => prev.filter((f) => f.id !== fileId));
-  };
-
-  const handleLinkInventor = (inventorId: string) => {
-    if (!isAdmin) return;
-    console.log("link inventor", inventorId);
-  };
-
-  const handleAnnotateInventor = (inventorId: string) => {
-    if (!isAdmin) return;
-    console.log("annotate inventor", inventorId);
-  };
 
   function handleBack() {
     router.back();
@@ -147,9 +129,6 @@ function ApplicationView(props: ApplicationViewProps) {
             mode={mode}
             attachments={attachments}
             inventors={initialInventors}
-            onDeleteAttachment={isAdmin ? handleDeleteAttachment : undefined}
-            onLinkInventor={isAdmin ? undefined : handleLinkInventor}
-            onAnnotateInventor={isAdmin ? handleAnnotateInventor : undefined}
           />
         </section>
 

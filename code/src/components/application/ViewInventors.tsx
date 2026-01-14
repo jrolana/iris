@@ -3,16 +3,17 @@ import { InventorType } from "@/lib/types/application";
 import { Cable, BadgeCheck, NotepadText } from "lucide-react";
 import { toast } from "sonner";
 import Hint from "../common/Tooltip";
+import useLinkInventorModal from "@/hooks/useLinkInventorModal";
 
 interface ViewInventorsProps {
   inventors: InventorType[];
   isAdmin: boolean;
-  onLinkInventor?: (id: string) => void;
-  onAnnotateInventor?: (id: string) => void;
 }
 
 function ViewInventors(props: ViewInventorsProps) {
-  const { inventors, isAdmin, onAnnotateInventor, onLinkInventor } = props;
+  const { inventors, isAdmin } = props;
+
+  const { openModal } = useLinkInventorModal();
 
   if (inventors.length == 0) {
     return (
@@ -25,9 +26,19 @@ function ViewInventors(props: ViewInventorsProps) {
     );
   }
 
-  function handleViewComments(comment: string | null) {
+  function handleCommentClicked(
+    inventorId: string | null,
+    comment: string | null,
+  ) {
+    // TODO: open modal here when implemented
+    if (!inventorId) return;
     if (!comment) comment = "No comments available.";
     toast.info(comment, { duration: 3000 });
+  }
+
+  function handleLinkInventor(inventorId: string) {
+    console.log("Link inventor:", inventorId);
+    openModal();
   }
   return (
     <>
@@ -50,7 +61,9 @@ function ViewInventors(props: ViewInventorsProps) {
               <div className="flex shrink-0 items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => onAnnotateInventor?.(inventor.inventorId)}
+                  onClick={() =>
+                    handleCommentClicked(inventor.inventorId, inventor.comments)
+                  }
                   className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                 >
                   Comment
@@ -62,7 +75,7 @@ function ViewInventors(props: ViewInventorsProps) {
                 ) : (
                   <button
                     type="button"
-                    onClick={() => onLinkInventor?.(inventor.inventorId)}
+                    onClick={() => handleLinkInventor(inventor.inventorId)}
                     className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                   >
                     Link Account <Cable size={24} />
@@ -81,7 +94,9 @@ function ViewInventors(props: ViewInventorsProps) {
                 <Hint label="Click to see TTBDO annotations">
                   <button
                     type="button"
-                    onClick={() => handleViewComments(inventor.comments)}
+                    onClick={() =>
+                      handleCommentClicked(null, inventor.comments)
+                    }
                     className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                   >
                     <NotepadText />

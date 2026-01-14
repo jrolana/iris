@@ -97,6 +97,14 @@ export const dummyInventors: InventorType[] = [
     userId: null,
     comments: "Correct the surname spelling."
   },
+  {
+    inventorId: 'i4',
+    full_name: 'Juanito Pascal',
+    email: 'juanito.pascal@up.edu.ph',
+    college: 'SoTech',
+    userId: null,
+    comments: "Insufficient contribution to the project."
+  },
 ];
 
 export const dummyIprStatuses: IprStatus[] = [

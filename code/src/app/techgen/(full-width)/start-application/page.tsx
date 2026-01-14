@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AttachmentType, InventorType } from "@/lib/types/application";
+// import qs from "query-string"
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FileUploader from "@/components/common/FileUploader";
@@ -37,6 +38,7 @@ export default function StartApplicationPage() {
     // Implement submission logic here
     // DB saving, form validation, etc.
     console.log("submit application");
+    router.push("/techgen/view-application?applicationID=12345");
   }
 
   useEffect(() => {

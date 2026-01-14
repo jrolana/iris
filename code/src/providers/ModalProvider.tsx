@@ -1,6 +1,7 @@
 "use client";
 
 import AddInventorModal from "@/components/modals/AddInventorModal";
+import LinkInventorModal from "@/components/modals/LinkInventorModal";
 import StatusUpdateModal from "@/components/modals/StatusUpdateModal";
 import UploadFilesModal from "@/components/modals/UploadFilesModal";
 import { useEffect, useState } from "react";
@@ -18,6 +19,7 @@ function ModalProvider() {
 
   return (
     <>
+      <LinkInventorModal />
       <UploadFilesModal />
       <StatusUpdateModal />
       <AddInventorModal />
