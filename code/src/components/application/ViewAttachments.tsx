@@ -4,12 +4,12 @@ import { AttachmentType } from "@/lib/types/application";
 interface ViewAttachmentProps {
   attachments: AttachmentType[];
   isAdmin: boolean;
-  onDeleteAttachment?: (id: string) => void;
 }
 
 function ViewAttachments(props: ViewAttachmentProps) {
-  const { attachments, isAdmin, onDeleteAttachment } = props;
+  const { attachments, isAdmin } = props;
   const { openModal: openUploadModal } = useFilesUploadModal();
+  // TODO: implement fetch all attachments with hooks when backend is ready
 
   if (attachments.length == 0) {
     return (
@@ -17,6 +17,11 @@ function ViewAttachments(props: ViewAttachmentProps) {
         No attachments yet. Please upload appropriate files or links.
       </p>
     );
+  }
+
+  function handleDeleteAttachment(attachmentId: string) {
+    // TODO: implement delete attachment logic
+    console.log(attachmentId);
   }
 
   return (
@@ -66,7 +71,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
               {isAdmin && file.owner_id === "ttbdo" && (
                 <button
                   type="button"
-                  onClick={() => onDeleteAttachment?.(file.id!)}
+                  onClick={() => handleDeleteAttachment(file.id!)}
                   className="rounded-md border border-red-100 bg-red-50 px-2 py-1 font-medium text-red-600 hover:bg-red-100"
                 >
                   Delete
@@ -75,7 +80,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
               {!isAdmin && file.owner_id === "tech" && (
                 <button
                   type="button"
-                  onClick={() => onDeleteAttachment?.(file.id!)}
+                  onClick={() => handleDeleteAttachment(file.id!)}
                   className="rounded-md border border-red-100 bg-red-50 px-2 py-1 font-medium text-red-600 hover:bg-red-100"
                 >
                   Delete

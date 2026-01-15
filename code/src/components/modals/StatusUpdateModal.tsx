@@ -111,12 +111,12 @@ function StatusUpdateModal() {
   return (
     <Modal
       title="Update status &amp; notify record"
-      description=""
+      description={""}
       isOpen={isOpen}
       onChange={handleChange}
     >
       <div className="w-full max-w-lg">
-        <p className="mt-1 text-justify text-slate-600">
+        <p className="-mt-4 text-center text-sm leading-normal text-slate-600">
           Choose the IP type and status that best reflect the new stage of this
           application, then add a short note that will appear in the status
           history (and later in notifications for tech gens).

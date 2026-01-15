@@ -9,20 +9,10 @@ interface DetailsPanelProps {
   mode: ApplicationViewMode;
   attachments: AttachmentType[];
   inventors: InventorType[];
-  onDeleteAttachment?: (id: string) => void;
-  onLinkInventor?: (id: string) => void;
-  onAnnotateInventor?: (id: string) => void;
 }
 
 function InformationPanel(props: DetailsPanelProps) {
-  const {
-    mode,
-    attachments,
-    inventors,
-    onDeleteAttachment,
-    onAnnotateInventor,
-    onLinkInventor,
-  } = props;
+  const { mode, attachments, inventors } = props;
   const [activeTab, setActiveTab] = useState<"attachments" | "inventors">(
     "attachments",
   );
@@ -59,18 +49,9 @@ function InformationPanel(props: DetailsPanelProps) {
       </div>
 
       {activeTab === "attachments" ? (
-        <ViewAttachments
-          attachments={attachments}
-          isAdmin={isAdmin}
-          onDeleteAttachment={onDeleteAttachment}
-        />
+        <ViewAttachments attachments={attachments} isAdmin={isAdmin} />
       ) : (
-        <ViewInventors
-          inventors={inventors}
-          isAdmin={isAdmin}
-          onLinkInventor={onLinkInventor}
-          onAnnotateInventor={onAnnotateInventor}
-        />
+        <ViewInventors inventors={inventors} isAdmin={isAdmin} />
       )}
     </div>
   );
