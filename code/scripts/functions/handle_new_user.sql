@@ -14,8 +14,8 @@ BEGIN
             split_part(NEW.email, '@', 1)
         ),
         NEW.email,
-        'CAS',
-        'admin'::user_role
+        (NEW.raw_user_meta_data->>'college'),
+        (NEW.raw_user_meta_data->>'role')::private.user_role
     );
     RETURN NEW;
 EXCEPTION
