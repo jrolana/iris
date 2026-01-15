@@ -38,7 +38,6 @@ export default function SignInForm() {
       setLoading(false);
     } else {
       console.log("OAuth initiated, data:", data);
-      // OAuth should redirect automatically, so we don't set loading to false
     }
   };
 

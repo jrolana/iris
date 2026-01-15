@@ -32,28 +32,24 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
 
-  // Public routes that don't require authentication
-  const publicRoutes = ['/signin', '/signup', '/auth', '/'] // Added homepage
+  const publicRoutes = ['/signin', '/signup', '/auth', '/'] 
   const isPublicRoute = publicRoutes.some(route => pathname === route || pathname.startsWith(route + '/'))
 
-  // If no user and trying to access protected route, redirect to homepage
   if (!user && !isPublicRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/'
     return NextResponse.redirect(url)
   }
 
-  // If user exists, check their role from public.users
   if (user) {
     const { data: userData } = await supabase
-      .from('users')
+      .from('private.users')
       .select('role')
       .eq('uid', user.sub)
       .single()
 
     const userRole = userData?.role
 
-    // SET THE ROLE COOKIE HERE
     if (userRole) {
       supabaseResponse.cookies.set('user-role', userRole, {
         maxAge: 3600, // 1 hour
@@ -62,22 +58,18 @@ export async function updateSession(request: NextRequest) {
       })
     }
 
-    // Define role-based route permissions
     const roleRoutes = {
       admin: ['/admin'],
       'up-official': ['/up-official'],
       'techgen': ['/techgen'],
     }
 
-    // Check if user is trying to access a role-protected route
     for (const [role, routes] of Object.entries(roleRoutes)) {
       const isAccessingRoleRoute = routes.some(route => pathname.startsWith(route))
       
       if (isAccessingRoleRoute && userRole !== role) {
-        // User is trying to access a route they don't have permission for
         const url = request.nextUrl.clone()
         
-        // Redirect to their appropriate dashboard
         switch (userRole) {
           case 'admin':
             url.pathname = '/admin'

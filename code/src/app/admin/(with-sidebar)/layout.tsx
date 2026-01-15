@@ -14,9 +14,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return <div>Loading...</div>;
   }
 
-  // if (!isAuthorized) {
-  //   return <div>You are not authorized to access this page.</div>;
-  // }
+  if (!isAuthorized) {
+    return <div>You are not authorized to access this page.</div>;
+  }
 
   const navItems: NavItem[] = [
     { icon: <GridIcon />, name: "Dashboard", path: "/admin" },
