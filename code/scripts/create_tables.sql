@@ -1,124 +1,121 @@
--- FROM: src/lib/types/ip.ts
-CREATE TYPE private.statusType AS ENUM (
-  'draft_classification',
-  'draft_idf',
-  'submitted_to_ttbdo',
-  'under_ttbdo_review',
-  'prior_art_search',
-  'draft_application',
-  'filed_with_ipophil',
-  'under_examination',
-  'wait_notice_publication',
-  'wait_registrability_report',
-  'wait_formality_exam_report',
-  'wait_substantive_exam_report',
-  'prepare_nice_classification',
-  'approve_nice_classification',
-  'resolve_ser_defects',
-  'resolve_fer_defects',
-  'resolve_rr_defects',
-  'resolve_additional_requirements',
-  'request_revival',
-  'downgraded_to_um',
-  'registered',
-  'closed'
-)
-
 CREATE TABLE private.ipr_statuses (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    deadline DATE NOT NULL,
-    note TEXT NOT NULL,
-    status_type private.statusType NOT NULL DEFAULT 'draft_classification',
-    created_at TIMESTAMPTZ DEFAULT now()
-)
+    code TEXT PRIMARY KEY,
+    label TEXT NOT NULL,
+    sort_order INT
+);
 
--- FROM: src/lib/types/ip.ts
+INSERT INTO private.ipr_statuses (code, label, sort_order) VALUES
+  ('draft_classification',           'Draft – Classification', 1),
+  ('draft_idf',                      'Draft – IDF', 2),
+  ('submitted_to_ttbdo',             'Submitted to TTBDO', 3),
+  ('under_ttbdo_review',             'Under TTBDO Review', 4),
+  ('prior_art_search',               'Prior Art Search', 5),
+  ('draft_application',              'Draft Application', 6),
+  ('filed_with_ipophil',             'Filed with IPOPHIL', 7),
+  ('under_examination',              'Under Examination', 8),
+  ('wait_notice_publication',        'Waiting for Notice of Publication', 9),
+  ('wait_registrability_report',     'Waiting for Registrability Report', 10),
+  ('wait_formality_exam_report',     'Waiting for Formality Examination Report', 11),
+  ('wait_substantive_exam_report',   'Waiting for Substantive Examination Report', 12),
+  ('prepare_nice_classification',    'Prepare NICE Classification', 13),
+  ('approve_nice_classification',    'Approve NICE Classification', 14),
+  ('resolve_ser_defects',            'Resolve SER Defects', 15),
+  ('resolve_fer_defects',            'Resolve FER Defects', 16),
+  ('resolve_rr_defects',             'Resolve RR Defects', 17),
+  ('resolve_additional_requirements','Resolve Additional Requirements', 18),
+  ('request_revival',                'Request Revival', 19),
+  ('downgraded_to_um',               'Downgraded to Utility Model', 20),
+  ('registered',                     'Registered', 21),
+  ('closed',                         'Closed', 22);
+
 CREATE TYPE private.IpType AS ENUM (
     'patent', 
     'utility_model',
     'industrial_design',
     'trademark',
     'copyright'
-)
+);
 
 CREATE TABLE private.ipr_applications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     ip_title TEXT NOT NULL,
     project_title TEXT NOT NULL,
-    tech_gen UUID NOT NULL REFERENCES inventors(id) ON DELETE CASCADE,
-    current_status UUID NOT NULL REFERENCES ipr_statuses,
     ip_type private.IpType NOT NULL,
     funding_source TEXT NOT NULL,
-    filing_date DATE NOT NULL,
-    registration_date DATE NOT NULL,
-    registration_year INT NOT NULL,
-    current_stage_deadline DATE NOT NULL,
+
+    filing_date DATE,
+    registration_date DATE,
+
+    current_status NOT NULL REFERENCES ipr_statuses(code),
+    current_status_deadline DATE,
+    current_status_note TEXT,
+
     created_at TIMESTAMPTZ DEFAULT now(),
-    updated_at TIMESTAMPTZ,
-)
-
-ALTER TABLE private.ipr_statuses
-ADD COLUMN application_id UUID;
-
-ALTER TABLE private.ipr_statuses
-ADD CONSTRAINT fk_application_id
-FOREIGN KEY (application_id)
-REFERENCES private.ipr_applications(id)
-ON DELETE CASCADE
-ON UPDATE CASCADE;
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
 
 CREATE TABLE private.ipr_files (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   
     application_id UUID NOT NULL REFERENCES ipr_applications(id) ON DELETE CASCADE,
-    owner_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    storage_path TEXT NOT NULL,
+    owner_id UUID NOT NULL REFERENCES users(id),
+    deleted_user_at TIMESTAMPTZ,
+    
+    storage_path TEXT UNIQUE NOT NULL,
     file_name TEXT NOT NULL,
     file_description TEXT,
-    uploaded_at TIMESTAMPTZ DEFAULT now(),
     comments TEXT,
-)
+    
+    uploaded_at TIMESTAMPTZ DEFAULT now()
+);
 
 CREATE TABLE private.notifications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    application_id REFERENCES ipr_applications(id) ON DELETE CASCADE,
+    application_id UUID REFERENCES ipr_applications(id) ON DELETE CASCADE,
+    
     title TEXT NOT NULL,
-    message TEXT NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT now()
+    content TEXT UNIQUE NOT NULL,
     read_at TIMESTAMPTZ,
-)
 
--- FROM: src/lib/types/college-units.tS
-CREATE TYPE private.college AS ENUM (
-  'CAS-Bio',
-  'CAS-Chem',
-  'CFOS',
-  'CFOS-IA',
-  'CFOS-IFPT',
-  'CFOS-IMFO',
-  'ChE-SoTech',
-  'Chem-CAS',
-  'DPSM-CAS',
-  'FT-SoTech',
-  'NIMBB',
-  'RRC',
-  'SoTech',
-  'TTBDO',
-  'UPHSI',
-  'UPV',
-  'UPV GS',
-  'UPVTC',
-  'Other'
-)
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+
+CREATE TABLE private.colleges (
+    code TEXT PRIMARY KEY,
+    full_name TEXT
+);
+
+INSERT INTO private.colleges (code, full_name) VALUES
+  ('CAS-Bio',      'College of Arts and Sciences - Biology'),
+  ('CAS-Chem',     'College of Arts and Sciences - Chemistry'),
+  ('CFOS',         'College of Fisheries and Ocean Sciences'),
+  ('CFOS-IA',      'CFOS - Institute of Aquaculture'),
+  ('CFOS-IFPT',    'CFOS - Institute of Fish Processing Technology'),
+  ('CFOS-IMFO',    'CFOS - Institute of Marine Fisheries and Oceanology'),
+  ('ChE-SoTech',   'Chemical Engineering - School of Technology'),
+  ('Chem-CAS',     'Chemistry - College of Arts and Sciences'),
+  ('DPSM-CAS',     'Division of Physical Sciences and Mathematics - CAS'),
+  ('FT-SoTech',    'Food Technology - School of Technology'),
+  ('NIMBB',        'National Institute of Molecular Biology and Biotechnology'),
+  ('RRC',          'Regional Research Center'),
+  ('SoTech',       'School of Technology'),
+  ('TTBDO',        'Technology Transfer and Business Development Office'),
+  ('UPHSI',        'UP Health Services Unit'),
+  ('UPV',          'University of the Philippines Visayas'),
+  ('UPV GS',       'UP Visayas Graduate School'),
+  ('Other',        'Other / External');
+
+ALTER TABLE users
+ADD COLUMN college TEXT REFERENCES private.colleges(code);
 
 CREATE TABLE private.inventors (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     application_id UUID NOT NULL REFERENCES ipr_applications(id) ON DELETE CASCADE,
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    comments TEXT,
-    full_name TEXT NOT NULL,
-    email TEXT NOT NULL,
-)
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    comments TEXT
+);
 
 CREATE TYPE private.actionType AS ENUM (
     'create',
@@ -133,7 +130,7 @@ CREATE TYPE private.actionResult AS ENUM (
     'success',
     'pending',
     'failure'
-)
+);
 
 CREATE TYPE private.recordType AS ENUM (
     'application',
@@ -141,19 +138,30 @@ CREATE TYPE private.recordType AS ENUM (
     'account',
     'inventor',
     'report'
-)
+);
+
+-- changed_fields:
+-- {
+--   "before": { "status": "draft_application" },
+--   "after":  { "status": "filed_with_ipophil" }
+-- }
 
 CREATE TABLE private.audit_trail (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    time_stamp TIMESTAMPTZ NOT NULL,
-    user_name TEXT NOT NULL,
-    user_role TEXT NOT NULL,
-    action_category private.actionCategory NOT NULL,
+
+    event_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    snapshot_user_name TEXT NOT NULL,
+    snapshot_user_role TEXT NOT NULL,
+
+    action_type private.actionType NOT NULL,
     action_taken TEXT NOT NULL,
     action_result private.actionResult NOT NULL,
+
     record_type private.recordType NOT NULL,
-    record_reference TEXT NOT NULL,
+    snapshot_record_reference TEXT NOT NULL,
+
     changed_fields JSONB,
-)
+);
+
 
 
