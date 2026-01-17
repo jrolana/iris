@@ -10,7 +10,7 @@ BEGIN
     SELECT role
     INTO v_role
     FROM private.users
-    WHERE uid = auth.uid()
+    WHERE id = auth.uid()
     limit 1;
 
     return v_role;

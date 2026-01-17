@@ -5,7 +5,7 @@ SECURITY DEFINER
 SET search_path TO 'private'
 AS $function$
 BEGIN
-    INSERT INTO private.users (uid, full_name, email, college, role)
+    INSERT INTO private.users (id, full_name, email, role)
     VALUES (
         NEW.id,
         COALESCE(
@@ -14,7 +14,6 @@ BEGIN
             split_part(NEW.email, '@', 1)
         ),
         NEW.email,
-        (NEW.raw_user_meta_data->>'college'),
         (NEW.raw_user_meta_data->>'role')::private.user_role
     );
     RETURN NEW;

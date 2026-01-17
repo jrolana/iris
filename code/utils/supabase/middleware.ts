@@ -45,7 +45,7 @@ export async function updateSession(request: NextRequest) {
     const { data: userData } = await supabase
       .from('private.users')
       .select('role')
-      .eq('uid', user.sub)
+      .eq('id', user.sub)
       .single()
 
     const userRole = userData?.role

@@ -1,102 +1,124 @@
 @startuml
-
 hide circle
 skinparam objectAttributeIconSize 0
 skinparam linetype ortho
 skinparam NodeSep 150
 skinparam RankSep 140
 
+' ----------------------
+' Lookup Tables
+' ----------------------
 
+object "college_units" as colleges {
+  code: varchar <<PK>>
+  full_name: text
+}
+
+object "ipr_status_types" as status_types {
+  id: serial <<PK>>
+  code: varchar <<UNIQUE>>
+  label: varchar
+}
+
+' ----------------------
+' Main Tables
+' ----------------------
 
 object "users" as users {
-  uid: uuid <<PK>>
+  id: uuid <<PK>>
   full_name: text
-  college: text
+  college: varchar <<FK.college_units.code>>
   email: text
   role: text
   created_at: timestamptz
 }
-'
+
 object "ipr_applications" as applications {
-  application_id: uuid <<PK>>
+  id: uuid <<PK>>
+  techgen_id: uuid <<FK.users.id>>
   ip_title: text
   project_title: text
-  current_status: uuid<<FK>>
-  ' for easy access of type (cached)
-  current_status_type: StatusType 
+  ip_type: iprType
   funding_source: text
-  tech_gen: uuid <<FK>>
-  application_number: text <<UNIQUE>>
-  date_of_filing: date
-  type_of_ip: IpType
-  date_of_registration: date
-  registration_year: int
+  filing_date: date
+  registration_date: date
   created_at: timestamptz
   updated_at: timestamptz
-  current_stage_deadline: text | date | null
 }
 
-object "notifications" as notifs{
-  notif_id: uuid <<PK>>
-  user_id: uuid <<FK>>
-  application_id: uuid <<FK>> | null
-  title: text
-  message: text
-  is_read: boolean
-  created_at: timestamptz
-  read_at: timestamptz | null
+object "inventors" as inv {
+  id: uuid <<PK>>
+  application_id: uuid <<FK.ipr_applications.id>>
+  user_id: uuid <<FK.users.id>> | null
+  full_name: text
+  email: text
+  college: varchar <<FK.college_units.code>>
+  comments: text | null
 }
 
 object "ipr_statuses" as statuses {
-  status_id: uuid <<PK>>
-  application_id: uuid <<FK>>
-  status_type: statusType
+  id: uuid <<PK>>
+  application_id: uuid <<FK.ipr_applications.id>>
+  status_type: varchar <<FK.ipr_status_types.code>>
   deadline: date
   note: text
   created_at: timestamptz
 }
 
 object "ipr_files" as files {
-  file_id: uuid <<PK>>
-  application_id: uuid <<FK>>
-  owner_id: uuid <<FK>>
+  id: uuid <<PK>>
+  application_id: uuid <<FK.ipr_applications.id>>
+  owner_id: uuid <<FK.users.id>>
   storage_path: text
-  filename: text
-  description: text | null
+  file_name: text
+  file_description: text | null
   file_type: text
   uploaded_at: timestamptz
   comments: text | null
 }
 
-object "inventors" as inv {
-  inventor_id: uuid <<PK>>
-  application_id: uuid <<FK>>
-  user_id: uuid | null <<FK>>
-  comments: text | null
-  full_name: text
-  email: text
-  college: text
+object "notifications" as notifs {
+  id: uuid <<PK>>
+  user_id: uuid <<FK.users.id>>
+  application_id: uuid <<FK.ipr_applications.id>> | null
+  title: text
+  content: text
+  read_at: timestamptz | null
+  created_at: timestamptz
 }
 
 object "audit_trail" as audit {
   id: uuid <<PK>>
-  timestamp: timestamptz
-  user_name: text
-  user_role: text
-  action_category: text
+  event_at: timestamptz
+  snapshot_user_name: text
+  snapshot_user_role: text
+  action_type: actionType
   action_taken: text
-  action_result: text
-  record_type: text
-  record_reference: text
+  action_result: actionResult
+  record_type: recordType
+  snapshot_record_reference: text
   changed_fields: jsonb | null
 }
 
+' ----------------------
+' Relationships
+' ----------------------
+
+' Techgen relationship (1 user can techgen many applications)
+users "1" -down- "*" applications
+
+' Inventors (junction table)
+applications "1" -- "*" inv
+users "0..1" -- "*" inv
+
+' Other FKs
+users "*" -left- "1" colleges
 applications "1" -left- "*" files
-users "*" -up- "*" applications
+files "*" -up- "1" users
 applications "1" -right- "*" statuses
-applications "*" -- "*" inv
-applications "1" -- "*" notifs
+statuses "*" -right- "1" status_types
+applications "0..1" -- "*" notifs
 users "1" -right- "*" notifs
-inv "1" -right- "1" users
+inv "*" -left- "1" colleges
 
 @enduml
