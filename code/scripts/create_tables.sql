@@ -67,7 +67,6 @@ INSERT INTO private.ipr_status_types (code, label) VALUES
 
 CREATE TABLE private.ipr_applications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    techgen_id UUID NOT NULL REFERENCES private.users(id) ON DELETE RESTRICT,
     
     ip_title TEXT NOT NULL,
     project_title TEXT NOT NULL,
@@ -83,39 +82,50 @@ CREATE TABLE private.ipr_applications (
 );
 
 ALTER TABLE users
-ADD COLUMN college VARCHAR(20) REFERENCES private.college_units(code) DEFAULT 'Other' NOT NULL;
+ADD COLUMN college VARCHAR(20) DEFAULT 'Other' NOT NULL,
+ADD COLUMN is_active BOOLEAN DEFAULT TRUE NOT NULL,
+ADD CONSTRAINT fk_users_college FOREIGN KEY(college) REFERENCES private.college_units(code);
 
+-- Acts the junction table for ipr_applications and users
 --  not all inventors have an account
 CREATE TABLE private.inventors (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
-    application_id UUID NOT NULL REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
-    user_id UUID REFERENCES private.users(id) ON DELETE SET NULL,
+    application_id UUID NOT NULL,
+    techgen_id UUID,
     
     full_name TEXT NOT NULL,
     email TEXT NOT NULL,
-    college VARCHAR(20) NOT NULL REFERENCES private.college_units(code),
+    college VARCHAR(20) NOT NULL,
     comments TEXT,
 
-    UNIQUE(application_id, full_name)
+    UNIQUE(application_id, email),
+
+    CONSTRAINT fk_inventor_techgen FOREIGN KEY(techgen_id) REFERENCES private.users(id),
+    CONSTRAINT fk_inventor_application FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id),
+
+    CONSTRAINT fk_inventor_college FOREIGN KEY(college) REFERENCES private.college_units(code)
 );
 
 CREATE TABLE private.ipr_statuses (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
-    application_id UUID NOT NULL REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
-    status_type VARCHAR(50) NOT NULL REFERENCES private.ipr_status_types(code) ON UPDATE CASCADE,
+    application_id UUID NOT NULL,
+    status_type VARCHAR(50) NOT NULL,
     deadline DATE,
     note TEXT,
     
-    created_at TIMESTAMPTZ DEFAULT now()
+    created_at TIMESTAMPTZ DEFAULT now(),
+
+    CONSTRAINT fk_statuses_application_id FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
+    CONSTRAINT fk_statuses_status_type FOREIGN KEY(status_type) REFERENCES private.ipr_status_types(code) ON UPDATE CASCADE
 );
 
 CREATE TABLE private.ipr_files (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
    
-    application_id UUID NOT NULL REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
-    owner_id UUID NOT NULL REFERENCES private.users(id) ON DELETE CASCADE,
+    application_id UUID NOT NULL,
+    owner_id UUID NOT NULL,
     uploaded_at TIMESTAMPTZ DEFAULT now(),
     
     storage_path TEXT NOT NULL,
@@ -123,19 +133,25 @@ CREATE TABLE private.ipr_files (
     file_description TEXT,
     file_type TEXT NOT NULL,
     comments TEXT,
+
+    CONSTRAINT fk_ipr_files_app_id FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
+    CONSTRAINT fk_ipr_files_owner_id FOREIGN KEY(owner_id) REFERENCES private.users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE private.notifications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     
-    user_id UUID NOT NULL REFERENCES private.users(id) ON DELETE CASCADE,
-    application_id UUID REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL,
+    application_id UUID,
     
     title TEXT NOT NULL,
     content TEXT NOT NULL,
     read_at TIMESTAMPTZ,
 
-    created_at TIMESTAMPTZ DEFAULT now()
+    created_at TIMESTAMPTZ DEFAULT now(),
+
+    CONSTRAINT fk_notifs_user_id FOREIGN KEY(user_id) REFERENCES private.users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_notifs_app_id FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id) ON DELETE CASCADE
 );
 
 -- AUDIT TRAIL

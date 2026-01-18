@@ -1,124 +1,121 @@
 @startuml
-hide circle
-skinparam objectAttributeIconSize 0
 skinparam linetype ortho
-skinparam NodeSep 150
-skinparam RankSep 140
 
-' ----------------------
+'==============================
 ' Lookup Tables
-' ----------------------
-
-object "college_units" as colleges {
-  code: varchar <<PK>>
-  full_name: text
+'==============================
+class College_Units {
+    +code : varchar <<PK>>
+    +full_name : text
 }
 
-object "ipr_status_types" as status_types {
-  id: serial <<PK>>
-  code: varchar <<UNIQUE>>
-  label: varchar
+class IPR_Status_Types {
+    +id : serial <<PK>>
+    +code : varchar
+    +label : varchar
 }
 
-' ----------------------
+'==============================
 ' Main Tables
-' ----------------------
-
-object "users" as users {
-  id: uuid <<PK>>
-  full_name: text
-  college: varchar <<FK.college_units.code>>
-  email: text
-  role: text
-  created_at: timestamptz
+'==============================
+class Users {
+    +id : uuid <<PK>>
+    +full_name : text
+    +college : varchar <<FK.College_Units.code>>
+    +email : text
+    +role : text
+    +is_active : boolean
+    +created_at : timestamptz
 }
 
-object "ipr_applications" as applications {
-  id: uuid <<PK>>
-  techgen_id: uuid <<FK.users.id>>
-  ip_title: text
-  project_title: text
-  ip_type: iprType
-  funding_source: text
-  filing_date: date
-  registration_date: date
-  created_at: timestamptz
-  updated_at: timestamptz
+class IPR_Applications {
+    +id : uuid <<PK>>
+    +ip_title : text
+    +project_title : text
+    +ip_type : iprType
+    +funding_source : text
+    +filing_date : date (nullable)
+    +registration_date : date (nullable)
+    +created_at : timestamptz
+    +updated_at : timestamptz
 }
 
-object "inventors" as inv {
-  id: uuid <<PK>>
-  application_id: uuid <<FK.ipr_applications.id>>
-  user_id: uuid <<FK.users.id>> | null
-  full_name: text
-  email: text
-  college: varchar <<FK.college_units.code>>
-  comments: text | null
+class Inventors {
+    +id : uuid <<PK>>
+    +application_id : uuid <<FK.IPR_Applications.id>>
+    +techgen_id : uuid <<FK.Users.id>> (nullable)
+    +full_name : text
+    +email : text
+    +college : varchar <<FK.College_Units.code>>
+    +comments : text (nullable)
 }
 
-object "ipr_statuses" as statuses {
-  id: uuid <<PK>>
-  application_id: uuid <<FK.ipr_applications.id>>
-  status_type: varchar <<FK.ipr_status_types.code>>
-  deadline: date
-  note: text
-  created_at: timestamptz
+class IPR_Statuses {
+    +id : uuid <<PK>>
+    +application_id : uuid <<FK.IPR_Applications.id>>
+    +status_type : varchar <<FK.IPR_Status_Types.code>>
+    +deadline : date (nullable)
+    +note : text (nullable)
+    +created_at : timestamptz
 }
 
-object "ipr_files" as files {
-  id: uuid <<PK>>
-  application_id: uuid <<FK.ipr_applications.id>>
-  owner_id: uuid <<FK.users.id>>
-  storage_path: text
-  file_name: text
-  file_description: text | null
-  file_type: text
-  uploaded_at: timestamptz
-  comments: text | null
+class IPR_Files {
+    +id : uuid <<PK>>
+    +application_id : uuid <<FK.IPR_Applications.id>>
+    +owner_id : uuid <<FK.Users.id>>
+    +storage_path : text
+    +file_name : text
+    +file_description : text (nullable)
+    +file_type : text
+    +comments : text (nullable)
+    +uploaded_at : timestamptz
 }
 
-object "notifications" as notifs {
-  id: uuid <<PK>>
-  user_id: uuid <<FK.users.id>>
-  application_id: uuid <<FK.ipr_applications.id>> | null
-  title: text
-  content: text
-  read_at: timestamptz | null
-  created_at: timestamptz
+class Notifications {
+    +id : uuid <<PK>>
+    +user_id : uuid <<FK.Users.id>>
+    +application_id : uuid <<FK.IPR_Applications.id>> (nullable)
+    +title : text
+    +content : text
+    +read_at : timestamptz (nullable)
+    +created_at : timestamptz
 }
 
-object "audit_trail" as audit {
-  id: uuid <<PK>>
-  event_at: timestamptz
-  snapshot_user_name: text
-  snapshot_user_role: text
-  action_type: actionType
-  action_taken: text
-  action_result: actionResult
-  record_type: recordType
-  snapshot_record_reference: text
-  changed_fields: jsonb | null
+class Audit_Trail {
+    +id : uuid <<PK>>
+    +event_at : timestamptz
+    +snapshot_user_name : text
+    +snapshot_user_role : text
+    +action_type : actionType
+    +action_taken : text
+    +action_result : actionResult
+    +record_type : recordType
+    +snapshot_record_reference : text
+    +changed_fields : JSONB (nullable)
 }
 
-' ----------------------
+'==============================
 ' Relationships
-' ----------------------
+'==============================
+College_Units "1" -- "1..*" Users
+College_Units "1" -- "0..*" Inventors
 
-' Techgen relationship (1 user can techgen many applications)
-users "1" -down- "*" applications
+IPR_Status_Types "1" -- "0..*" IPR_Statuses
 
-' Inventors (junction table)
-applications "1" -- "*" inv
-users "0..1" -- "*" inv
+Users "0..1" -- "0..*" Inventors
+Users "1" -- "0..*" IPR_Files
+Users "1" -- "0..*" Notifications
 
-' Other FKs
-users "*" -left- "1" colleges
-applications "1" -left- "*" files
-files "*" -up- "1" users
-applications "1" -right- "*" statuses
-statuses "*" -right- "1" status_types
-applications "0..1" -- "*" notifs
-users "1" -right- "*" notifs
-inv "*" -left- "1" colleges
+IPR_Applications "1" -- "1..*" Inventors
+IPR_Applications "1" -- "1..*" IPR_Statuses
+IPR_Applications "1" -- "0..*" IPR_Files
+IPR_Applications "1" -- "0..*" Notifications
 
+'==============================
+' Layout hints
+'==============================
+College_Units -[hidden]- IPR_Status_Types
+Users -[hidden]- IPR_Applications
+Inventors -[hidden]- IPR_Statuses
+IPR_Files -[hidden]- Notifications
 @enduml
