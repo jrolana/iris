@@ -27,13 +27,13 @@ export default function ApplicationDocuments(props: propsInterface)  {
                 {section.items.map((item, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between rounded-lg border border-gray-100 p-3 transition hover:bg-gray-50"
+                    className="flex items-center justify-between gap-2 rounded-lg border border-gray-100 p-3 transition hover:bg-gray-50 flex-col sm:flex-row"
                   >
                     <div>
                       <p className="font-medium">{item.name}</p>
                       <p className="text-sm text-gray-500">{item.desc}</p>
                     </div>
-                    <Button size="sm" variant="outline">
+                    <Button size="sm" variant="outline" className="w-full sm:w-fit">
                       {item.action}
                     </Button>
                   </div>
