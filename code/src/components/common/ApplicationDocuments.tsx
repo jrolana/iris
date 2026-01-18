@@ -9,8 +9,8 @@ interface propsInterface {
 export default function ApplicationDocuments(props: propsInterface)  {
   const { isApplicant = true } = props;
   return (
-    <div className="grid grid-cols-12 gap-x-6 gap-y-8">
-      <div className="col-span-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-8">
+      <div className="lg:col-span-8">
         <h1 className="text-2xl font-semibold">Application Documents</h1>
         <p className="mt-2 text-gray-600">
           Prepare the required documents before submitting your Intellectual
@@ -44,7 +44,7 @@ export default function ApplicationDocuments(props: propsInterface)  {
         </div>
       </div>
 
-      <div className="col-span-4">
+      <div className="lg:col-span-4">
         <CallToAction isApplicant={isApplicant} />
         <div className="p-5">
           <h2 className="text-xl font-semibold">Notes</h2>
