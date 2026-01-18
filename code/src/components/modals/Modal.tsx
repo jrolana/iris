@@ -16,11 +16,14 @@ function Modal(props: ModalProps) {
       <Dialog.Trigger />
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-999 bg-neutral-800/50 backdrop-blur-xs" />
-        <Dialog.Content className="fixed top-[50%] left-[50%] z-9999 h-full max-h-full w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] rounded-2xl bg-white p-5 shadow-xl drop-shadow-md focus:outline-none md:h-auto md:max-h-[85vh] md:w-auto">
+        <Dialog.Content
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          className="fixed top-[50%] left-[50%] z-9999 flex h-full max-h-full w-auto max-w-4xl translate-x-[-50%] translate-y-[-50%] flex-col items-center justify-center rounded-2xl bg-white p-5 shadow-xl drop-shadow-md focus:outline-none md:h-auto md:max-h-[85vh] md:w-auto"
+        >
           <Dialog.Title className="mb-4 text-center text-xl font-bold text-neutral-900">
             {title}
           </Dialog.Title>
-          <Dialog.Description className="mb-5 text-center text-sm leading-normal text-slate-600">
+          <Dialog.Description className="mb-5 max-w-2xl px-10 text-center text-sm leading-normal text-slate-600">
             {description}
           </Dialog.Description>
           <div>{children}</div>

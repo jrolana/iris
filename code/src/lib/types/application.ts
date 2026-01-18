@@ -30,7 +30,7 @@ export type AttachmentType = {
 };
 
 export type InventorType = {
-  inventorId: string | null;
+  inventorId: string;
   full_name: string;
   email: string;
   college: CollegeUnitType;
