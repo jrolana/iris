@@ -14,7 +14,6 @@ export function useRole(allowedRoles: string[]) {
       try {
         const supabase = createClient()
         
-        // Wait for auth state to be ready
         const { data: { session } } = await supabase.auth.getSession()
         
         if (!session?.user) {
@@ -25,11 +24,7 @@ export function useRole(allowedRoles: string[]) {
 
         console.log('Session found, checking role for user:', session.user.id)
 
-        const { data: userData, error } = await supabase
-          .from('users')
-          .select('role')
-          .eq('uid', session.user.id)
-          .single()
+        const { data: userRole, error } =  await supabase.rpc("get_user_role")
 
         if (error) {
           console.error('Error fetching user role:', error)
@@ -37,19 +32,18 @@ export function useRole(allowedRoles: string[]) {
           return
         }
 
-        if (!userData) {
+        if (!userRole) {
           console.warn('No user data found in database')
           setIsLoading(false)
           return
         }
 
-        console.log('User role:', userData.role, 'Allowed roles:', allowedRoles)
+        console.log('User role:', userRole, 'Allowed roles:', allowedRoles)
 
-        // Check if user has allowed role
-        if (allowedRoles.includes(userData.role)) {
+        if (allowedRoles.includes(userRole)) {
           setIsAuthorized(true)
         } else {
-          console.warn(`User role ${userData.role} not in allowed roles`)
+          console.warn(`User role ${userRole} not in allowed roles`)
         }
       } catch (error) {
         console.error('Error checking role:', error)

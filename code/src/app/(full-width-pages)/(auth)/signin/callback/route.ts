@@ -15,13 +15,11 @@ export async function GET(request: Request) {
     allParams: Object.fromEntries(searchParams)
   })
 
-  // Handle OAuth errors
   if (error) {
     console.error('OAuth error from URL:', error)
     return NextResponse.redirect(`${origin}/signin?error=${error}`)
   }
 
-  // If no code, something went wrong
   if (!code) {
     console.error('No code in callback URL')
     return NextResponse.redirect(`${origin}/signin`)
@@ -63,11 +61,17 @@ export async function GET(request: Request) {
     return NextResponse.redirect(`${origin}/signin?error=auth_failed`)
   }
 
-  // Create response with redirect
-  // TODO: Redirect depending on the role
-  const response = NextResponse.redirect(`${origin}/admin`)
+  const { data: userRole, error: userError } = await supabase.rpc("get_user_role")
 
-  // Manually set auth cookies on the response
+  console.log("Fetched user role:", { userRole, userError });
+
+  if (userError || !userRole) {
+    console.error("Failed to get user role", userError)
+    return NextResponse.redirect(`${origin}/signin?error=no_role`)
+  }
+
+  const response = NextResponse.redirect(`${origin}/${userRole}`)
+
   cookieStore.getAll().forEach(({ name, value }) => {
     response.cookies.set(name, value)
   })

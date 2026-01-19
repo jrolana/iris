@@ -1,0 +1,7 @@
+SELECT
+    n.nspname AS schema,
+    t.typname AS enum_name
+FROM pg_type t
+JOIN pg_namespace n ON n.oid = t.typnamespace
+WHERE t.typtype = 'e'
+ORDER BY schema, enum_name;

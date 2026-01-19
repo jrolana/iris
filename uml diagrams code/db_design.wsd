@@ -1,102 +1,121 @@
 @startuml
-
-hide circle
-skinparam objectAttributeIconSize 0
 skinparam linetype ortho
-skinparam NodeSep 150
-skinparam RankSep 140
 
-
-
-object "users" as users {
-  uid: uuid <<PK>>
-  full_name: text
-  college: text
-  email: text
-  role: text
-  created_at: timestamptz
-}
-'
-object "ipr_applications" as applications {
-  application_id: uuid <<PK>>
-  ip_title: text
-  project_title: text
-  current_status: uuid<<FK>>
-  ' for easy access of type (cached)
-  current_status_type: StatusType 
-  funding_source: text
-  tech_gen: uuid <<FK>>
-  application_number: text <<UNIQUE>>
-  date_of_filing: date
-  type_of_ip: IpType
-  date_of_registration: date
-  registration_year: int
-  created_at: timestamptz
-  updated_at: timestamptz
-  current_stage_deadline: text | date | null
+'==============================
+' Lookup Tables
+'==============================
+class College_Units {
+    +code : varchar <<PK>>
+    +full_name : text
 }
 
-object "notifications" as notifs{
-  notif_id: uuid <<PK>>
-  user_id: uuid <<FK>>
-  application_id: uuid <<FK>> | null
-  title: text
-  message: text
-  is_read: boolean
-  created_at: timestamptz
-  read_at: timestamptz | null
+class IPR_Status_Types {
+    +id : serial <<PK>>
+    +code : varchar
+    +label : varchar
 }
 
-object "ipr_statuses" as statuses {
-  status_id: uuid <<PK>>
-  application_id: uuid <<FK>>
-  status_type: statusType
-  deadline: date
-  note: text
-  created_at: timestamptz
+'==============================
+' Main Tables
+'==============================
+class Users {
+    +id : uuid <<PK>>
+    +full_name : text
+    +college : varchar <<FK.College_Units.code>>
+    +email : text
+    +role : text
+    +is_active : boolean
+    +created_at : timestamptz
 }
 
-object "ipr_files" as files {
-  file_id: uuid <<PK>>
-  application_id: uuid <<FK>>
-  owner_id: uuid <<FK>>
-  storage_path: text
-  filename: text
-  description: text | null
-  file_type: text
-  uploaded_at: timestamptz
-  comments: text | null
+class IPR_Applications {
+    +id : uuid <<PK>>
+    +ip_title : text
+    +project_title : text
+    +ip_type : iprType
+    +funding_source : text
+    +filing_date : date (nullable)
+    +registration_date : date (nullable)
+    +created_at : timestamptz
+    +updated_at : timestamptz
 }
 
-object "inventors" as inv {
-  inventor_id: uuid <<PK>>
-  application_id: uuid <<FK>>
-  user_id: uuid | null <<FK>>
-  comments: text | null
-  full_name: text
-  email: text
-  college: text
+class Inventors {
+    +id : uuid <<PK>>
+    +application_id : uuid <<FK.IPR_Applications.id>>
+    +techgen_id : uuid <<FK.Users.id>> (nullable)
+    +full_name : text
+    +email : text
+    +college : varchar <<FK.College_Units.code>>
+    +comments : text (nullable)
 }
 
-object "audit_trail" as audit {
-  id: uuid <<PK>>
-  timestamp: timestamptz
-  user_name: text
-  user_role: text
-  action_category: text
-  action_taken: text
-  action_result: text
-  record_type: text
-  record_reference: text
-  changed_fields: jsonb | null
+class IPR_Statuses {
+    +id : uuid <<PK>>
+    +application_id : uuid <<FK.IPR_Applications.id>>
+    +status_type : varchar <<FK.IPR_Status_Types.code>>
+    +deadline : date (nullable)
+    +note : text (nullable)
+    +created_at : timestamptz
 }
 
-applications "1" -left- "*" files
-users "*" -up- "*" applications
-applications "1" -right- "*" statuses
-applications "*" -- "*" inv
-applications "1" -- "*" notifs
-users "1" -right- "*" notifs
-inv "1" -right- "1" users
+class IPR_Files {
+    +id : uuid <<PK>>
+    +application_id : uuid <<FK.IPR_Applications.id>>
+    +owner_id : uuid <<FK.Users.id>>
+    +storage_path : text
+    +file_name : text
+    +file_description : text (nullable)
+    +file_type : text
+    +comments : text (nullable)
+    +uploaded_at : timestamptz
+}
 
+class Notifications {
+    +id : uuid <<PK>>
+    +user_id : uuid <<FK.Users.id>>
+    +application_id : uuid <<FK.IPR_Applications.id>> (nullable)
+    +title : text
+    +content : text
+    +read_at : timestamptz (nullable)
+    +created_at : timestamptz
+}
+
+class Audit_Trail {
+    +id : uuid <<PK>>
+    +event_at : timestamptz
+    +snapshot_user_name : text
+    +snapshot_user_role : text
+    +action_type : actionType
+    +action_taken : text
+    +action_result : actionResult
+    +record_type : recordType
+    +snapshot_record_reference : text
+    +changed_fields : JSONB (nullable)
+}
+
+'==============================
+' Relationships
+'==============================
+College_Units "1" -- "1..*" Users
+College_Units "1" -- "0..*" Inventors
+
+IPR_Status_Types "1" -- "0..*" IPR_Statuses
+
+Users "0..1" -- "0..*" Inventors
+Users "1" -- "0..*" IPR_Files
+Users "1" -- "0..*" Notifications
+
+IPR_Applications "1" -- "1..*" Inventors
+IPR_Applications "1" -- "1..*" IPR_Statuses
+IPR_Applications "1" -- "0..*" IPR_Files
+IPR_Applications "1" -- "0..*" Notifications
+
+'==============================
+' Layout hints
+'==============================
+College_Units -[hidden]- IPR_Status_Types
+Users -[hidden]- IPR_Applications
+Inventors -[hidden]- IPR_Statuses
+IPR_Files -[hidden]- Notifications
 @enduml
