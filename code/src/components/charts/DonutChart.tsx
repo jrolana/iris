@@ -1,10 +1,9 @@
 "use client";
-// import Chart from "react-apexcharts";
+
 import { ApexOptions } from "apexcharts";
 import ThreeSummary from "../common/ThreeSummary";
-
 import dynamic from "next/dynamic";
-// Dynamically import the ReactApexChart component
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
@@ -25,55 +24,42 @@ export default function DonutChart(props: PropsInterface) {
     series = [75.68],
     labels = ["Progress"],
   } = props;
+
   const options: ApexOptions = {
     chart: {
       type: "radialBar",
       fontFamily: "Outfit, sans-serif",
-      width: "100%",
+      sparkline: {
+        enabled: true,
+      },
     },
-    colors: colors,
-    labels: labels,
+    colors,
+    labels,
     legend: {
       show: false,
     },
     dataLabels: {
       enabled: false,
-      formatter: function (val, opts) {
-        return opts.w.globals.series[opts.seriesIndex];
-      },
-      style: {
-        fontSize: "14px",
-        fontWeight: "medium",
-        fontFamily: "Outfit, sans-serif",
-      },
-      dropShadow: {
-        enabled: false,
-      },
     },
     plotOptions: {
       radialBar: {
-        startAngle: -85,
-        endAngle: 85,
+        startAngle: -80,
+        endAngle: 80,
         hollow: {
-          size: "80%",
+          size: "75%",
         },
         track: {
           background: "#E4E7EC",
-          strokeWidth: "100%",
-          margin: 5, // margin is in pixels
+          margin: 0,
         },
         dataLabels: {
-          name: {
-            show: false,
-          },
+          name: { show: false },
           value: {
-            fontSize: "36px",
+            fontSize: "32px",
             fontWeight: "600",
-            offsetY: -20,
+            offsetY: -8,
             color: "#1D2939",
-            formatter: function (val) {
-              return val + "%";
-            },
+            formatter: (val: number) => `${val}%`,
           },
         },
       },
@@ -87,17 +73,25 @@ export default function DonutChart(props: PropsInterface) {
   };
 
   return (
-    <div className="shadow-default space-y-2 rounded-2xl border border-gray-200 bg-gray-100">
-      <div className="rounded-2xl bg-white px-5 pt-5 pb-10">
+    <div className="shadow-default relative rounded-2xl border border-gray-200 bg-gray-100">
+      <div className="rounded-2xl bg-white p-5">
         <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-        <p className="text-theme-sm mt-1 font-normal text-gray-500">
-          {subtitle}
-        </p>
-        <div className="h-40 w-full">
-          <ReactApexChart options={options} series={series} type="radialBar" />
+        <p className="mt-1 text-sm text-gray-500">{subtitle}</p>
+
+        <div className="mt-4 h-[250px] w-full sm:h-[300px]">
+          <ReactApexChart
+            options={options}
+            series={series}
+            type="radialBar"
+            width="100%"
+            height="100%"
+          />
         </div>
       </div>
-      <ThreeSummary />
+
+      <div className="absolute bottom-0 w-full">
+        <ThreeSummary />
+      </div>
     </div>
   );
 }

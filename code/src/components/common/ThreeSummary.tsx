@@ -2,7 +2,7 @@ import React from "react";
 
 const ThreeSummary: React.FC = () => {
   return (
-    <div className="relative rounded-2xl bg-gray-100 pb-2">
+    <div className="relative rounded-2xl bg-gray-100 py-2.5">
       <div className="flex items-center justify-center gap-5 px-6 py-3.5 sm:gap-8 sm:py-5">
         <div>
           <p className="text-theme-xs mb-1 text-center text-gray-500 sm:text-sm">

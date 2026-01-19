@@ -9,24 +9,24 @@ import { ANALOGOUS_COLORS } from "@/lib/constants/ui";
 
 export default function Dashboard() {
   return (
-    <div className="grid grid-cols-12 gap-4 md:gap-6">
-      <div className="col-span-6 mt-3 mb-6 text-2xl font-bold text-gray-700">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-6">
+      <div className="mt-3 mb-6 text-2xl font-bold text-gray-700 lg:col-span-6">
         <h1>IP Portfolio at Glance</h1>
       </div>
 
-      <div className="col-span-6 mt-3 mb-6 flex flex-1 justify-end">
+      <div className="mt-3 mb-6 flex flex-1 justify-end lg:col-span-6">
         <Button startIcon={<CiExport size="18" />}>Export Reports</Button>
       </div>
 
-      <div className="col-span-7 flex justify-between">
-        <div className="w-[48%]">
+      <div className="flex flex-col justify-between gap-4 lg:col-span-7 md:flex-row">
+        <div className="md:w-[48%]">
           <PieChart
             title="Filed IPs"
             subtitle="Total filed IPs by type since 2013"
             colors={ANALOGOUS_COLORS}
           />
         </div>
-        <div className="w-[48%]">
+        <div className="md:w-[48%]">
           <PieChart
             title="Granted IPs"
             subtitle="Total granted IPs by type since 2013"
@@ -36,27 +36,27 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="col-span-5">
+      <div className="lg:col-span-5">
         <DonutChart title="Granted IPs" />
       </div>
 
-      <div className="col-span-12 my-6 text-2xl font-bold text-gray-700">
+      <div className="my-6 text-2xl font-bold text-gray-700 lg:col-span-12">
         <h1>IP Journey: From Filing to Outcome</h1>
       </div>
 
-      <div className="col-span-6">
+      <div className="lg:col-span-6">
         <CombinationChart title="Filed" />
       </div>
 
-      <div className="col-span-6">
+      <div className="lg:col-span-6">
         <CombinationChart title="Pending" />
       </div>
 
-      <div className="col-span-12">
+      <div className="lg:col-span-12">
         <CombinationChart title="Granted" />
       </div>
 
-      <div className="col-span-12 my-6 flex items-center space-x-3">
+      <div className="my-6 flex items-center space-x-3 lg:col-span-12">
         <span className="h-px flex-1 bg-gray-300"></span>
         <h2 className="text-xl font-semibold text-gray-700">
           Alternative Outcomes
@@ -64,11 +64,11 @@ export default function Dashboard() {
         <span className="h-px flex-1 bg-gray-300"></span>
       </div>
 
-      <div className="col-span-6">
+      <div className="lg:col-span-6">
         <CombinationChart title="Withdrawn" />
       </div>
 
-      <div className="col-span-6">
+      <div className="lg:col-span-6">
         <CombinationChart title="Downgraded" />
       </div>
     </div>

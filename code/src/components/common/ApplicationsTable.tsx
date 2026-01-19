@@ -77,7 +77,7 @@ export default function ApplicationsTable(props: propsInterface) {
           <h1 className="text-2xl font-semibold text-gray-800">
             Applications Registry
           </h1>
-          <div className="flex items-center gap-3">
+          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <SearchInput />
             <FilterButton />
           </div>
@@ -148,7 +148,7 @@ export default function ApplicationsTable(props: propsInterface) {
                 </TableCell>
                 <TableCell className="text-theme-sm py-3 text-gray-800">
                   {isAdmin ? (
-                    <div className="flex justify-center items-center gap-2">
+                    <div className="flex items-center justify-center gap-2">
                       <Link href="/" className="hover:text-brand-500">
                         <PencilIcon />
                       </Link>
