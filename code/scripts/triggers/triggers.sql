@@ -3,7 +3,19 @@
     "table_schema": "auth",
     "table_name": "users",
     "trigger_name": "on_auth_user_created",
-    "trigger_sql": "CREATE TRIGGER on_auth_user_created AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION handle_new_user()"
+    "trigger_sql": "CREATE TRIGGER on_auth_user_created AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION private.handle_new_user()"
+  },
+  {
+    "table_schema": "private",
+    "table_name": "ipr_applications",
+    "trigger_name": "trg_update_ipr_applications",
+    "trigger_sql": "CREATE TRIGGER trg_update_ipr_applications BEFORE UPDATE ON private.ipr_applications FOR EACH ROW EXECUTE FUNCTION private.update_updated_at()"
+  },
+  {
+    "table_schema": "private",
+    "table_name": "ipr_statuses",
+    "trigger_name": "trg_update_ipr_application_from_status",
+    "trigger_sql": "CREATE TRIGGER trg_update_ipr_application_from_status AFTER INSERT OR DELETE OR UPDATE ON private.ipr_statuses FOR EACH ROW EXECUTE FUNCTION private.update_ipr_application_from_status()"
   },
   {
     "table_schema": "realtime",
@@ -26,6 +38,12 @@
   {
     "table_schema": "storage",
     "table_name": "objects",
+    "trigger_name": "objects_delete_delete_prefix",
+    "trigger_sql": "CREATE TRIGGER objects_delete_delete_prefix AFTER DELETE ON storage.objects FOR EACH ROW EXECUTE FUNCTION storage.delete_prefix_hierarchy_trigger()"
+  },
+  {
+    "table_schema": "storage",
+    "table_name": "objects",
     "trigger_name": "objects_update_create_prefix",
     "trigger_sql": "CREATE TRIGGER objects_update_create_prefix BEFORE UPDATE ON storage.objects FOR EACH ROW WHEN (new.name <> old.name OR new.bucket_id <> old.bucket_id) EXECUTE FUNCTION storage.objects_update_prefix_trigger()"
   },
@@ -37,20 +55,14 @@
   },
   {
     "table_schema": "storage",
-    "table_name": "objects",
-    "trigger_name": "objects_delete_delete_prefix",
-    "trigger_sql": "CREATE TRIGGER objects_delete_delete_prefix AFTER DELETE ON storage.objects FOR EACH ROW EXECUTE FUNCTION storage.delete_prefix_hierarchy_trigger()"
+    "table_name": "prefixes",
+    "trigger_name": "prefixes_create_hierarchy",
+    "trigger_sql": "CREATE TRIGGER prefixes_create_hierarchy BEFORE INSERT ON storage.prefixes FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE FUNCTION storage.prefixes_insert_trigger()"
   },
   {
     "table_schema": "storage",
     "table_name": "prefixes",
     "trigger_name": "prefixes_delete_hierarchy",
     "trigger_sql": "CREATE TRIGGER prefixes_delete_hierarchy AFTER DELETE ON storage.prefixes FOR EACH ROW EXECUTE FUNCTION storage.delete_prefix_hierarchy_trigger()"
-  },
-  {
-    "table_schema": "storage",
-    "table_name": "prefixes",
-    "trigger_name": "prefixes_create_hierarchy",
-    "trigger_sql": "CREATE TRIGGER prefixes_create_hierarchy BEFORE INSERT ON storage.prefixes FOR EACH ROW WHEN (pg_trigger_depth() < 1) EXECUTE FUNCTION storage.prefixes_insert_trigger()"
   }
 ]

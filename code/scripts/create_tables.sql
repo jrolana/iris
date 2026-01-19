@@ -81,7 +81,7 @@ CREATE TABLE private.ipr_applications (
     updated_at TIMESTAMPTZ DEFAULT now()
 );
 
-ALTER TABLE users
+ALTER TABLE private.users
 ADD COLUMN college VARCHAR(20) DEFAULT 'Other' NOT NULL,
 ADD COLUMN is_active BOOLEAN DEFAULT TRUE NOT NULL,
 ADD CONSTRAINT fk_users_college FOREIGN KEY(college) REFERENCES private.college_units(code);
@@ -199,7 +199,7 @@ CREATE TABLE private.audit_trail (
     record_type private.recordType NOT NULL,
     snapshot_record_reference TEXT NOT NULL,
 
-    changed_fields JSONB,
+    changed_fields JSONB
 );
 
 

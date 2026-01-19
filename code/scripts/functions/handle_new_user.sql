@@ -4,7 +4,15 @@ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path TO 'private'
 AS $function$
+DECLARE
+    v_role private.user_role;
 BEGIN
+    -- SHOULD BE CHANGED: for now fallback is admin
+    v_role := COALESCE(
+        (NEW.raw_user_meta_data->>'role')::private.user_role,
+        'admin'::private.user_role
+    );
+
     INSERT INTO private.users (id, full_name, email, role)
     VALUES (
         NEW.id,
@@ -14,8 +22,9 @@ BEGIN
             split_part(NEW.email, '@', 1)
         ),
         NEW.email,
-        (NEW.raw_user_meta_data->>'role')::private.user_role
+        v_role
     );
+
     RETURN NEW;
 EXCEPTION
     WHEN OTHERS THEN
