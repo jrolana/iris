@@ -9,8 +9,8 @@ interface propsInterface {
 export default function ApplicationDocuments(props: propsInterface)  {
   const { isApplicant = true } = props;
   return (
-    <div className="grid grid-cols-12 gap-x-6 gap-y-8">
-      <div className="col-span-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-8">
+      <div className="lg:col-span-8">
         <h1 className="text-2xl font-semibold">Application Documents</h1>
         <p className="mt-2 text-gray-600">
           Prepare the required documents before submitting your Intellectual
@@ -27,13 +27,13 @@ export default function ApplicationDocuments(props: propsInterface)  {
                 {section.items.map((item, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between rounded-lg border border-gray-100 p-3 transition hover:bg-gray-50"
+                    className="flex items-center justify-between gap-2 rounded-lg border border-gray-100 p-3 transition hover:bg-gray-50 flex-col sm:flex-row"
                   >
                     <div>
                       <p className="font-medium">{item.name}</p>
                       <p className="text-sm text-gray-500">{item.desc}</p>
                     </div>
-                    <Button size="sm" variant="outline">
+                    <Button size="sm" variant="outline" className="w-full sm:w-fit">
                       {item.action}
                     </Button>
                   </div>
@@ -44,7 +44,7 @@ export default function ApplicationDocuments(props: propsInterface)  {
         </div>
       </div>
 
-      <div className="col-span-4">
+      <div className="lg:col-span-4">
         <CallToAction isApplicant={isApplicant} />
         <div className="p-5">
           <h2 className="text-xl font-semibold">Notes</h2>

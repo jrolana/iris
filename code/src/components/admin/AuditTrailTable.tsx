@@ -51,7 +51,7 @@ export default function AuditTrailTable() {
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold text-gray-800">Audit Trail</h1>
-        <div className="flex items-center gap-3">
+        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <SearchInput />
           <FilterButton />
         </div>
