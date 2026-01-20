@@ -14,6 +14,7 @@ import SearchInput from "../common/SearchInput";
 import { PencilIcon, TrashBinIcon, PlusIcon } from "@/icons";
 import FilterButton from "../common/FilterButton";
 import { usersData } from "@/lib/dummy-data/users";
+import useAddNewUserModal from "@/hooks/useAddNewUserModal";
 
 export default function UsersTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,19 +30,30 @@ export default function UsersTable() {
     setCurrentPage(page);
   };
 
+  const { openModal } = useAddNewUserModal();
+
+  function handleClick() {
+    openModal();
+  }
+
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold text-gray-800">
           User Management
         </h1>
-        <Button startIcon={<PlusIcon size={30} />} size="sm">
-          {" "}
+        <Button
+          onClick={handleClick}
+          startIcon={<PlusIcon size={30} />}
+          size="sm"
+        >
           Add New User
         </Button>
       </div>
-      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <SearchInput />
+      <div className="mb-4 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+        <div className="self-start sm:w-1/3">
+          <SearchInput />
+        </div>
         <FilterButton />
       </div>
 
