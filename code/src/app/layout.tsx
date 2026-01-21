@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 import { SidebarProvider } from "@/context/SidebarContext";
-import TanStackProvider from "@/providers/TanstackProvider";
+import TanStackProvider from "../providers/TanStackProvider";
 
 const outfit = Outfit({
   subsets: ["latin"],
