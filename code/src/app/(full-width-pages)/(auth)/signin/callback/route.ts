@@ -19,9 +19,10 @@ export async function GET(request: Request) {
     allParams: Object.fromEntries(searchParams)
   })
 
+  // TODO: should handle signin error
   if (error) {
     console.error('Error from URL:', error)
-    return NextResponse.redirect(`${origin}/error?message=${error}`)
+    return NextResponse.redirect(`${origin}/error=${encodeURIComponent(error)}`)
   }
 
   const cookieStore = await cookies()
@@ -51,14 +52,15 @@ export async function GET(request: Request) {
       type: 'invite',
       token_hash,
     })
-
+    
     if (verifyError || !data.session) {
       console.error('Invite verification failed:', verifyError)
-      return NextResponse.redirect(`${origin}/error?message=${verifyError?.message || 'Invite link expired or invalid'}`)
+      return NextResponse.redirect(`${origin}/welcome?error=${encodeURIComponent(verifyError?.message || 'Invite link expired or invalid')}`)
     }
-
+    
     console.log('Invite verified successfully')
-    // Redirect to confirmation page
+    
+    // Redirect to welcome page on success
     return NextResponse.redirect(`${origin}/welcome`)
   }
 
@@ -85,7 +87,7 @@ export async function GET(request: Request) {
 
   const { data: userRole, error: userError } = await supabase.rpc("get_user_role")
   console.log("Fetched user role:", { userRole, userError })
-
+  
   if (userError || !userRole) {
     console.error("Failed to get user role", userError)
     return NextResponse.redirect(`${origin}/signin?error=no_role`)
@@ -95,5 +97,6 @@ export async function GET(request: Request) {
   cookieStore.getAll().forEach(({ name, value }) => {
     response.cookies.set(name, value)
   })
+  
   return response
 }

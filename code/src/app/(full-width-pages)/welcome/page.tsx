@@ -1,15 +1,14 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "../../../../utils/supabase/client";
 import { ChevronLeft } from "lucide-react";
 
 const LoadingState = () => (
   <div className="py-6 text-center">
     <div className="border-brand-500 mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2"></div>
-    <p className="text-gray-700">Verifying your invitation...</p>
+    <p className="text-gray-700">Loading your account...</p>
   </div>
 );
 
@@ -97,9 +96,8 @@ const WelcomeState = ({
 
 export default function WelcomePage() {
   const router = useRouter();
-  const [status, setStatus] = useState<"processing" | "welcome" | "error">(
-    "processing",
-  );
+  const searchParams = useSearchParams();
+  const [status, setStatus] = useState<"loading" | "welcome" | "error">("loading");
   const [userName, setUserName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -108,44 +106,25 @@ export default function WelcomePage() {
   const handleRetry = () => router.push("/signin");
 
   useEffect(() => {
-    const handleAuthAndWelcome = async () => {
-      const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      const accessToken = hashParams.get("access_token");
-      const refreshToken = hashParams.get("refresh_token");
-      const error = hashParams.get("error");
-      const errorDescription = hashParams.get("error_description");
-
+    const loadUser = async () => {
+      // Check for error from callback route
+      const error = searchParams.get("error");
       if (error) {
-        setErrorMessage(decodeURIComponent(errorDescription || error));
+        setErrorMessage(decodeURIComponent(error));
         setStatus("error");
         return;
       }
 
-      if (accessToken && refreshToken) {
-        const { error: sessionError } = await supabase.auth.setSession({
-          access_token: accessToken,
-          refresh_token: refreshToken,
-        });
+      // Get current user session
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
 
-        if (sessionError) {
-          setErrorMessage(sessionError.message);
-          setStatus("error");
-          return;
-        }
-
-        window.history.replaceState(null, "", window.location.pathname);
-      }
-
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        setErrorMessage("No active session found");
+      if (userError || !user) {
+        setErrorMessage(userError?.message || "No active session found. Please sign in.");
         setStatus("error");
         return;
       }
 
+      // User is authenticated
       setUserName(user.email?.split("@")[0] || "there");
       setStatus("welcome");
 
@@ -156,8 +135,8 @@ export default function WelcomePage() {
       }, 3000);
     };
 
-    handleAuthAndWelcome();
-  }, [router, supabase]);
+    loadUser();
+  }, [router, supabase, searchParams]);
 
   return (
     <div className="flex min-h-screen flex-col bg-white p-6 sm:p-12">
@@ -170,10 +149,9 @@ export default function WelcomePage() {
           Back to homepage
         </Link>
       </div>
-
       <div className="flex flex-1 items-center justify-center">
         <div className="shadow-default w-full max-w-md space-y-2 rounded-2xl border border-gray-200 bg-white px-5 pt-5 pb-11 sm:px-6 sm:pt-6">
-          {status === "processing" && <LoadingState />}
+          {status === "loading" && <LoadingState />}
           {status === "error" && (
             <ErrorState message={errorMessage} onRetry={handleRetry} />
           )}
