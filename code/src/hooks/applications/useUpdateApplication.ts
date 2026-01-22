@@ -3,10 +3,10 @@ import { updateApplication } from '@/services/application/update-application';
 
 
 export function useUpdateApplication() {
-    const {data, isPending, mutate} =  useMutation({
+    const {data, isPending, mutateAsync} =  useMutation({
         mutationKey: ['application', 'update'],
         mutationFn: updateApplication
     });
 
-    return {application: data, isLoading: isPending, update:mutate}; 
+    return {application: data, isLoading: isPending, update:mutateAsync}; 
 }
