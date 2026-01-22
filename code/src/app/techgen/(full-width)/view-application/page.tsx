@@ -25,9 +25,9 @@ function TechgenViewApplicationPage() {
       mode="applicant"
       initialApplication={{
         ...dummyApplication,
-        ipTitle: application?.ip_title ?? dummyApplication.ip_title,
+        ipTitle: application?.ip_title ?? dummyApplication.ipTitle,
         projectTitle:
-          application?.project_title ?? dummyApplication.project_title,
+          application?.project_title ?? dummyApplication.projectTitle,
       }}
       initialAttachments={dummyFiles}
       initialInventors={dummyInventors}
