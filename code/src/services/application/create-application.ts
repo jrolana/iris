@@ -1,8 +1,9 @@
 import { supabaseClient as supabase } from "@/lib/supabase"
+
 import { ApplicationType } from "@/lib/types/application";
 
 interface CreateApplicationProps {
-    applicationData: Partial<ApplicationType>;
+    applicationData: ApplicationType["Insert"];
 }   
 
 export const createApplication = async (props: CreateApplicationProps) => {

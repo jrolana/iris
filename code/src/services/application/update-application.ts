@@ -3,7 +3,7 @@ import { ApplicationType } from "@/lib/types/application";
 
 interface UpdateApplicationProps {
     id: string;
-    applicationData: Partial<ApplicationType>;
+    applicationData: Partial<ApplicationType["Update"]>;
 }
 
 export const updateApplication = async (props: UpdateApplicationProps) => {
