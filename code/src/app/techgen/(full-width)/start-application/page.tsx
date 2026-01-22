@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AttachmentType, InventorType } from "@/lib/types/application";
-// import qs from "query-string"
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FileUploader from "@/components/common/FileUploader";
@@ -37,8 +36,7 @@ export default function StartApplicationPage() {
   async function handleSubmit() {
     if (appTitle.trim() === "") return;
     // TODO:
-    // Implement submission logic here
-    // DB saving, form validation, etc.
+    // Implement file submission and inventor adding
 
     await create(
       {

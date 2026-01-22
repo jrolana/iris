@@ -37,6 +37,8 @@ function ApplicationView(props: ApplicationViewProps) {
   const statusLabel =
     STATUS_LABELS[application.currentStatus] ?? application.currentStatus;
 
+  console.log(application);
+
   const router = useRouter();
 
   // handlers for admin, could be moved later on
