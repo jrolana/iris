@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 import { SidebarProvider } from "@/context/SidebarContext";
+import TanStackProvider from "../providers/TanStackProvider";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -16,8 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${outfit.className}`}>
-        <SidebarProvider>{children}</SidebarProvider>
         <Toaster />
+        <TanStackProvider>
+          <SidebarProvider>{children}</SidebarProvider>
+        </TanStackProvider>
       </body>
     </html>
   );
