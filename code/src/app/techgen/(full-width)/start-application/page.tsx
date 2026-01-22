@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AttachmentType, InventorType } from "@/lib/types/application";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -11,10 +11,13 @@ import { Button } from "@/components/ui/button";
 import useAddInventorsModal from "@/hooks/useAddInventorModal";
 import { Input } from "@/components/ui/input";
 import { useCreateApplication } from "@/hooks/applications/useCreateApplication";
+import { IpType } from "@/lib/types/ip";
 
 export default function StartApplicationPage() {
   const router = useRouter();
   const { inventorDetails, openModal, isOpen } = useAddInventorsModal();
+  const searchParams = useSearchParams();
+  const ipTypeParam = searchParams.get("ipType");
   const { application, isLoading, create } = useCreateApplication();
   const [formItems, setFormItems] = useState<AttachmentType[]>([]);
   const [inventors, setInventors] = useState<InventorType[]>([]);
@@ -43,7 +46,7 @@ export default function StartApplicationPage() {
         applicationData: {
           ip_title: appTitle,
           project_title: projectTitle,
-          ip_type: "patent",
+          ip_type: ipTypeParam as IpType,
           funding_source: "internal",
         },
       },

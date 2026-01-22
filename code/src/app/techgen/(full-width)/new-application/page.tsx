@@ -113,7 +113,7 @@ function NewApplicationPage() {
 
     // For now we just navigate to the view page placeholder
     // add url params of application_id (from there, derive IpType and StatusType)
-    router.push("/techgen/start-application");
+    router.push(`/techgen/start-application?ipType=${finalIpType}`);
   }
 
   function handleSubmissionModal() {
