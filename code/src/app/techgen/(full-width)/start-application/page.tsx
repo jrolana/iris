@@ -11,10 +11,12 @@ import { ArrowLeft, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useAddInventorsModal from "@/hooks/useAddInventorModal";
 import { Input } from "@/components/ui/input";
+import { useCreateApplication } from "@/hooks/applications/useCreateApplication";
 
 export default function StartApplicationPage() {
   const router = useRouter();
   const { inventorDetails, openModal, isOpen } = useAddInventorsModal();
+  const { application, isLoading, create } = useCreateApplication();
   const [formItems, setFormItems] = useState<AttachmentType[]>([]);
   const [inventors, setInventors] = useState<InventorType[]>([]);
   const [appTitle, setAppTitle] = useState("");
@@ -32,19 +34,47 @@ export default function StartApplicationPage() {
     openModal();
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (appTitle.trim() === "") return;
     // TODO:
     // Implement submission logic here
     // DB saving, form validation, etc.
-    console.log("submit application");
-    router.push("/techgen/view-application?applicationID=12345");
+
+    await create(
+      {
+        applicationData: {
+          ip_title: appTitle,
+          project_title: projectTitle,
+          ip_type: "patent",
+          funding_source: "internal",
+        },
+      },
+      {
+        onSuccess: () => {
+          console.log("Application created successfully.");
+        },
+        onError: (error) => {
+          console.error("Error creating application:", error);
+        },
+        onSettled: () => {
+          console.log("Create application mutation settled.");
+        },
+      },
+    );
   }
 
   useEffect(() => {
     if (inventorDetails === null) return;
     setInventors((prev) => [...prev, inventorDetails]);
   }, [inventorDetails, isOpen]);
+
+  useEffect(() => {
+    if (!application) return;
+    const appId = application.id;
+    if (!appId) return;
+
+    router.push(`/techgen/view-application?applicationID=${appId}`);
+  }, [application, router]);
 
   return (
     <div className="flex justify-center">
