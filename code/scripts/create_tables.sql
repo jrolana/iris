@@ -101,8 +101,8 @@ CREATE TABLE private.inventors (
 
     UNIQUE(application_id, email),
 
-    CONSTRAINT fk_inventor_techgen FOREIGN KEY(techgen_id) REFERENCES private.users(id),
-    CONSTRAINT fk_inventor_application FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id),
+    CONSTRAINT fk_inventor_techgen FOREIGN KEY(techgen_id) REFERENCES private.users(id) ON DELETE SET NULL,
+    CONSTRAINT fk_inventor_application FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
 
     CONSTRAINT fk_inventor_college FOREIGN KEY(college) REFERENCES private.college_units(code)
 );
