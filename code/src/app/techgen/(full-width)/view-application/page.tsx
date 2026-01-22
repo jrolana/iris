@@ -19,7 +19,6 @@ function TechgenViewApplicationPage() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  console.log(applicationId, application);
 
   return (
     <ApplicationView
