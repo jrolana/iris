@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { createClient } from "../../../utils/supabase/client";
 
 import useAddNewUserModal from "@/hooks/useAddNewUserModal";
 import Modal from "./Modal";
@@ -10,22 +9,33 @@ import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import { useModal } from "@/hooks/useModal";
 import SuccessModal from "./SuccessModal";
+import ErrorModal from "./ErrorModal";
+import { inviteUser } from "@/app/app/actions/invite-user";
 
 function AddNewUserModal() {
   const { isOpen, closeModal } = useAddNewUserModal();
-  const [email, setEmail] = useState<string>("");
   const successModal = useModal();
-  const supabase = createClient();
+  const errorModal = useModal();
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // [WIP] will use: apoi | edge function | as is
-    // const { data, error } = await supabase.auth.admin.inviteUserByEmail(email);
+    const result = await inviteUser(email);
 
-    // if (!error) {
-    //   successModal.openModal();
-    // }
+    if (result.success) {
+      setSuccessMessage(
+        "The user has been invited and will receive an email shortly.",
+      );
+      successModal.openModal();
+    } else {
+      setErrorMessage(result.error);
+      errorModal.openModal();
+    }
+
+    closeModal();
   };
 
   return (
@@ -66,6 +76,17 @@ function AddNewUserModal() {
             successModal.closeModal();
             closeModal();
           }}
+          message={successMessage}
+        />
+      )}
+      {errorModal.isOpen && (
+        <ErrorModal
+          isOpen={errorModal.isOpen}
+          onClose={() => {
+            errorModal.closeModal();
+            closeModal();
+          }}
+          message={errorMessage}
         />
       )}
     </>

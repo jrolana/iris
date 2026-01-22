@@ -44,12 +44,10 @@ export default function SignInForm() {
   return (
     <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
       <div className="mb-5">
-        <h1 className="text-title-sm sm:text-title-md mb-2 font-semibold text-gray-800 dark:text-white/90">
+        <h1 className="text-title-sm sm:text-title-md mb-2 font-semibold text-gray-800">
           Sign In
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          Use your UP Mail to continue.
-        </p>
+        <p className="text-sm text-gray-500">Use your UP Mail to continue.</p>
       </div>
 
       <div className="grid grid-cols-2">
