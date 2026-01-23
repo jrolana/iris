@@ -1,17 +1,21 @@
 "use server"
 
 import { supabaseAdmin } from "../../../../utils/supabase/admin";
-import { Userchema } from "@/lib/schemas/user";
+import { InviteUserType, InviteUserSchema } from "@/lib/schemas/user";
 
-export async function inviteUser(email: string) {
+export async function inviteUser(input: InviteUserType) {
 
-    const input = Userchema.shape.email.safeParse(email);
+    const inputValidation = InviteUserSchema.safeParse(input);
 
-    if (input.error) {
-        return {success: false, error: input.error.issues[0].message};
+    if (!inputValidation.success) {
+        return {success: false, error: inputValidation.error.issues[0].message};
     }
 
-    const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(input.data);
+    const { email, role } = inputValidation.data;
+
+    const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
+        data: {role: role}
+    });
 
     if (error) {
         return {success: false, error: error.message}
