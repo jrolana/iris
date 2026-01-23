@@ -6,36 +6,24 @@ import ApplicationStepper from "@/components/application/Stepper";
 import StatusHistoryPanel from "@/components/application/StatusPanel";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 
-import {
-  ApplicationType,
-  AttachmentType,
-  InventorType,
-} from "@/lib/types/application";
-import { IprStatus } from "@/lib/types/status";
+import { ApplicationType } from "@/lib/types/application";
 import InformationPanel from "./InformationPanel";
 import { SquarePen, ArrowLeft } from "lucide-react";
+import { StatusType } from "@/lib/types/ip";
 
 export type ApplicationViewMode = "applicant" | "admin";
 
 interface ApplicationViewProps {
   mode: ApplicationViewMode;
-  initialApplication: ApplicationType;
-  initialAttachments: AttachmentType[];
-  initialInventors: InventorType[];
-  initialStatuses: IprStatus[];
+  initialApplication: ApplicationType["Row"];
 }
 
 function ApplicationView(props: ApplicationViewProps) {
-  const {
-    mode,
-    initialApplication: application,
-    initialAttachments: attachments,
-    initialInventors,
-    initialStatuses: iprStatuses,
-  } = props;
+  const { mode, initialApplication: application } = props;
 
   const statusLabel =
-    STATUS_LABELS[application.currentStatus] ?? application.currentStatus;
+    STATUS_LABELS[application.current_status as StatusType] ??
+    application.current_status;
 
   console.log(application);
 
@@ -62,7 +50,7 @@ function ApplicationView(props: ApplicationViewProps) {
         <div className="min-w-0">
           <div className="flex flex-row items-center gap-3">
             <h1 className="text-lg font-semibold text-gray-900 sm:text-2xl">
-              {application.ipTitle}
+              {application.ip_title}
             </h1>
             {isAdmin && (
               <button onClick={handleBack}>
@@ -70,10 +58,10 @@ function ApplicationView(props: ApplicationViewProps) {
               </button>
             )}
           </div>
-          {application.projectTitle && (
+          {application.project_title && (
             <div className="flex flex-row items-center gap-3">
               <p className="mt-1 text-lg text-gray-600">
-                {application.projectTitle}
+                {application.project_title}
               </p>
               {isAdmin && (
                 <button onClick={() => {}}>
@@ -84,14 +72,14 @@ function ApplicationView(props: ApplicationViewProps) {
           )}
           <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
             <span className="rounded-full bg-sky-100 px-3 py-1 font-medium text-sky-700">
-              {ipTypeToTitle(application.ipType)}
+              {ipTypeToTitle(application.ip_type)}
             </span>
             <span className="rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-700">
               {statusLabel}
             </span>
-            {application.applicationNumber && (
+            {application.id && (
               <span className="rounded-full bg-gray-600 px-3 py-1 text-white">
-                App. No. {application.applicationNumber}
+                Application I.D. {application.id}
               </span>
             )}
           </div>
@@ -99,18 +87,18 @@ function ApplicationView(props: ApplicationViewProps) {
 
         <div className="text-md text-gray-600 sm:text-right">
           <p className="font-bold text-gray-900">
-            {application.filingDate
+            {application.created_at
               ? "Ongoing application"
               : "Draft application"}
           </p>
-          {application.filingDate && (
+          {application.created_at && (
             <p className="mt-1">
-              {`Date of filing: ${new Date(application.filingDate).toLocaleDateString()}`}
+              {`Date of filing: ${new Date(application.created_at).toLocaleDateString()}`}
             </p>
           )}
-          {isAdmin && application.lastUpdated && (
+          {isAdmin && application.updated_at && (
             <p className="mt-1">
-              {`Last updated: ${new Date(application.lastUpdated).toLocaleString()}`}
+              {`Last updated: ${new Date(application.updated_at).toLocaleString()}`}
             </p>
           )}
         </div>
@@ -118,8 +106,8 @@ function ApplicationView(props: ApplicationViewProps) {
 
       <section className="rounded-2xl border border-gray-200 bg-white p-3 sm:p-4">
         <ApplicationStepper
-          ipType={application.ipType}
-          statusType={application.currentStatus}
+          ipType={application.ip_type}
+          statusType={application.current_status}
           currentStageDeadline={application.current_stage_deadline}
         />
       </section>
@@ -127,18 +115,14 @@ function ApplicationView(props: ApplicationViewProps) {
       <main className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1.2fr)]">
         {/* left panel for the attachments and inventors */}
         <section className="space-y-4">
-          <InformationPanel
-            mode={mode}
-            attachments={attachments}
-            inventors={initialInventors}
-          />
+          <InformationPanel applicationId={application.id} mode={mode} />
         </section>
 
         {/* right panels, status history and the reminders (could be change later on for something more useful)*/}
         <section className="space-y-4">
           <StatusHistoryPanel
-            statuses={iprStatuses}
-            currentStatusType={application.currentStatus}
+            applicationId={application.id}
+            currentStatusType={application.current_status}
             variant={isAdmin ? "ttbdo" : "techgen"}
           />
 

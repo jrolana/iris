@@ -1,26 +1,26 @@
 import { ApplicationType, InventorType, AttachmentType } from "../types/application";
 import { IprStatus } from "../types/status";
 
-export const dummyApplication: ApplicationType = {
-  applicationId: 'demo-123',
-  ipTitle: 'Low-Power Environmental Sensor Network',
-  projectTitle: 'Smart Monitoring for Upland Farms',
-  ipType: 'patent',
-  currentStatus: 'filed_with_ipophil',
-  applicationNumber: '100F',
-  filingDate: '2025-11-25',
-  lastUpdated: '2025-11-26T00:40:00Z',
+export const dummyApplication: ApplicationType["Row"] = {
+  id: 'demo-123',
+  ip_title: 'Low-Power Environmental Sensor Network',
+  project_title: 'Smart Monitoring for Upland Farms',
+  ip_type: 'patent',
+  created_at: '2025-11-25',
+  updated_at: '2025-11-26T00:40:00Z',
   current_stage_deadline: '2025-12-30',
+  application_number: '100F',
+  current_status: 'filed_with_ipophil',
 };
 
-export const dummyFiles: AttachmentType[] = [
+export const dummyFiles: AttachmentType["Row"][] = [
   {
     application_id: 'demo-123',
     id: 'f1',
     file_name: 'SensorDesign_v1.pdf',
-    description: 'Initial technical description shared with TTBDO',
+    file_description: 'Initial technical description shared with TTBDO',
     file_type: 'pdf',
-    uploaded_at: new Date('2025-11-25T09:30:00Z'),
+    uploaded_at: '2025-11-25T09:30:00Z',
     storage_path: '',
     comments: null,
     owner_id: 'tech',
@@ -29,9 +29,9 @@ export const dummyFiles: AttachmentType[] = [
     application_id: 'demo-123',
     id: 'f12',
     file_name: 'SensorDesign_v2.pdf',
-    description: 'Initial technical description shared with TTBDO',
+    file_description: 'Initial technical description shared with TTBDO',
     file_type: 'pdf',
-    uploaded_at: new Date('2025-11-25T09:30:00Z'),
+    uploaded_at: '2025-11-25T09:30:00Z',
     storage_path: '',
     comments: null,
     owner_id: 'tech'
@@ -40,9 +40,9 @@ export const dummyFiles: AttachmentType[] = [
     application_id: 'demo-123',
     id: 'f13',
     file_name: 'SensorDesign_v3.pdf',
-    description: 'Initial technical description shared with TTBDO',
+    file_description: 'Initial technical description shared with TTBDO',
     file_type: 'pdf',
-    uploaded_at: new Date('2025-11-25T09:30:00Z'),
+    uploaded_at: '2025-11-25T09:30:00Z',
     storage_path: '',
     comments: null,
     owner_id: 'tech'
@@ -51,9 +51,9 @@ export const dummyFiles: AttachmentType[] = [
     application_id: 'demo-123',
     id: 'f2',
     file_name: 'BlockDiagram.png',
-    description: 'System architecture diagram',
+    file_description: 'System architecture diagram',
     file_type: 'image',
-    uploaded_at: new Date('2025-11-25T10:12:00Z'),
+    uploaded_at: '2025-11-25T10:12:00Z',
     storage_path: '',
     comments: null,
     owner_id: 'tech'
@@ -62,93 +62,103 @@ export const dummyFiles: AttachmentType[] = [
     application_id: 'demo-123',
     id: 'f3',
     file_name: 'MeetingNotes_GoogleDoc',
-    description: 'Link to collaborative Google Doc for Q&A',
+    file_description: 'Link to collaborative Google Doc for Q&A',
     file_type: 'link',
-    uploaded_at: new Date('2025-11-26T14:05:00Z'),
+    uploaded_at: '2025-11-26T14:05:00Z',
     storage_path: '',
     comments: null,
     owner_id: 'ttbdo'
   },
 ];
 
-export const dummyInventors: InventorType[] = [
+export const dummyInventors: InventorType["Row"][] = [
   {
-    inventorId: 'i1',
+    id: 'i1',
     full_name: 'Juan Dela Cruz',
     email: 'juan.delacruz@up.edu.ph',
     college: "CAS-Bio",
-    userId: '123',
-    comments: null
+    techgen_id: '123',
+    comments: null,
+    application_id: "demo-123"
   },
   {
-    inventorId: 'i2',
+    id: 'i2',
     full_name: 'Maria Santos',
     email: 'maria.santos@up.edu.ph',
     college: "CFOS-IA",
-    userId: '1234',
-    comments: null
+    techgen_id: '1234',
+    comments: null,
+    application_id: "demo-123"
 
   },
   {
-    inventorId: 'i3',
+    id: 'i3',
     full_name: 'Alex Reyes',
     email: 'alex.reyes@up.edu.ph',
     college: 'CFOS',
-    userId: null,
-    comments: "Correct the surname spelling."
+    techgen_id: null,
+    comments: "Correct the surname spelling.",
+    application_id: "demo-123"
   },
   {
-    inventorId: 'i4',
+    id: 'i4',
     full_name: 'Juanito Pascal',
     email: 'juanito.pascal@up.edu.ph',
     college: 'SoTech',
-    userId: null,
-    comments: "Insufficient contribution to the project."
+    techgen_id: null,
+    comments: "Insufficient contribution to the project.",
+    application_id: "demo-123"
   },
 ];
 
-export const dummyIprStatuses: IprStatus[] = [
+export const dummyIprStatuses: IprStatus["Row"][] = [
   {
-    statusId: 's1',
+    id: 's1',
     status_type: 'draft_idf',
     note: 'Started initial IDF draft.',
     deadline: null,
     created_at: '2025-11-20T08:30:00Z',
+    application_id: "demo-123"
   },
   {
-    statusId: 's2',
+    id: 's2',
     status_type: 'submitted_to_ttbdo',
     note: 'Disclosure form submitted for TTBDO review.',
     deadline: null,
     created_at: '2025-11-21T09:15:00Z',
+    application_id: "demo-123"
   },
   {
-    statusId: 's3',
+    id: 's3',
     status_type: 'under_ttbdo_review',
     note: 'TTBDO is reviewing the IDF. Please expect follow-up questions if clarification is needed.',
     deadline: null,
     created_at: '2025-11-22T10:00:00Z',
+    application_id: "demo-123"
   },
   {
-    statusId: 's4',
+    id: 's4',
     status_type: 'prior_art_search',
     note: 'Prior art search initiated by TTBDO.',
     deadline: null,
     created_at: '2025-11-23T19:20:00Z',
+    application_id: "demo-123"
   },
   {
-    statusId: 's5',
+    id: 's5',
     status_type: 'draft_application',
     note: 'TTBDO is drafting the IPOPHL application. Kindly review the shared Google Doc and leave comments by the deadline.',
     deadline: '2025-11-26',
     created_at: '2025-11-24T21:05:00Z',
+    application_id: "demo-123"
   },
   {
-    statusId: 's6',
+    id: 's6',
     status_type: 'filed_with_ipophil',
     note: 'Application filed with IPOPHL. Please monitor your email for any requests relayed by TTBDO.',
     deadline: null,
     created_at: '2025-11-26T00:40:00Z',
+    application_id: "demo-123"
   },
 ];
 

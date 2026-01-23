@@ -2,14 +2,22 @@ import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 import { AttachmentType } from "@/lib/types/application";
 
 interface ViewAttachmentProps {
-  attachments: AttachmentType[];
+  attachments: AttachmentType["Row"][];
   isAdmin: boolean;
+  isLoading: boolean;
 }
 
 function ViewAttachments(props: ViewAttachmentProps) {
-  const { attachments, isAdmin } = props;
+  const { attachments, isAdmin, isLoading } = props;
   const { openModal: openUploadModal } = useFilesUploadModal();
   // TODO: implement fetch all attachments with hooks when backend is ready
+
+  // TODO: show loading state properly
+  if (isLoading) {
+    return (
+      <p className="mt-4 text-sm text-slate-500">Loading attachments...</p>
+    );
+  }
 
   if (attachments.length == 0) {
     return (
@@ -36,16 +44,16 @@ function ViewAttachments(props: ViewAttachmentProps) {
               <p className="text-md truncate font-medium text-slate-900">
                 {file.file_name}
               </p>
-              {file.description && (
+              {file.file_description && (
                 <p className="mt-0.5 line-clamp-2 text-sm leading-tight text-slate-600">
-                  {file.description}
+                  {file.file_description}
                 </p>
               )}
               <p className="mt-0.5 flex items-center gap-2 text-sm text-slate-400">
                 <span className="rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
                   {file.file_type}
                 </span>
-                <span>{new Date(file.uploaded_at).toLocaleString()}</span>
+                <span>{new Date(file.uploaded_at!).toLocaleString()}</span>
               </p>
             </div>
 
@@ -71,7 +79,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
               {isAdmin && file.owner_id === "ttbdo" && (
                 <button
                   type="button"
-                  onClick={() => handleDeleteAttachment(file.id!)}
+                  onClick={() => handleDeleteAttachment(file.id)}
                   className="rounded-md border border-red-100 bg-red-50 px-2 py-1 font-medium text-red-600 hover:bg-red-100"
                 >
                   Delete
@@ -80,7 +88,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
               {!isAdmin && file.owner_id === "tech" && (
                 <button
                   type="button"
-                  onClick={() => handleDeleteAttachment(file.id!)}
+                  onClick={() => handleDeleteAttachment(file.id)}
                   className="rounded-md border border-red-100 bg-red-50 px-2 py-1 font-medium text-red-600 hover:bg-red-100"
                 >
                   Delete

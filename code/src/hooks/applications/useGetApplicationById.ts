@@ -9,10 +9,10 @@ interface UseGetApplicationByIdProp {
 export function useGetAppById(props: UseGetApplicationByIdProp) {
     const { appId } = props;
 
-    const {data, isLoading} =  useQuery({
+    const {data, isLoading, isFetched} =  useQuery({
         queryKey: ['application', appId],
         queryFn: () => getApplicationById({id: appId}),
     });
 
-    return {application: data, isLoading}; 
+    return {application: data, isLoading, isFetched}; 
 }

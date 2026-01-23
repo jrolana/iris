@@ -4,8 +4,6 @@ import ApplicationView from "@/components/application/ApplicationView";
 import { useGetAppById } from "@/hooks/applications/useGetApplicationById";
 import {
   dummyApplication,
-  dummyFiles,
-  dummyInventors,
   dummyIprStatuses,
 } from "@/lib/dummy-data/application";
 
@@ -15,8 +13,10 @@ function TechgenViewApplicationPage() {
   const searchParams = useSearchParams();
   const applicationId = searchParams.get("applicationID") ?? "";
 
-  const { application, isLoading } = useGetAppById({ appId: applicationId });
-  if (isLoading) {
+  const { application, isLoading, isFetched } = useGetAppById({
+    appId: applicationId,
+  });
+  if (isLoading && !isFetched) {
     return <div>Loading...</div>;
   }
 
@@ -25,13 +25,11 @@ function TechgenViewApplicationPage() {
       mode="applicant"
       initialApplication={{
         ...dummyApplication,
-        ipTitle: application?.ip_title ?? dummyApplication.ipTitle,
-        projectTitle:
-          application?.project_title ?? dummyApplication.projectTitle,
+        ip_title: application?.ip_title ?? dummyApplication.ip_title,
+        project_title:
+          application?.project_title ?? dummyApplication.project_title,
+        id: application!.id,
       }}
-      initialAttachments={dummyFiles}
-      initialInventors={dummyInventors}
-      initialStatuses={dummyIprStatuses}
     />
   );
 }
