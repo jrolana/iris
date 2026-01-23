@@ -1,3 +1,5 @@
+// TODO: change this to refer to the db enums later
+
 export const CollegeUnits = {
   "CAS-Bio": "CAS-Bio",
   "CAS-Chem": "CAS-Chem",
