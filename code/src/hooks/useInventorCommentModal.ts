@@ -1,10 +1,12 @@
-import {inventorComment as inventorCommentState, isInventorCommentModalOpen, isAdmin as isUserAdmin} from "../atom-states/inventor-comment-modal";
+import {inventorComment as inventorCommentState, isInventorCommentModalOpen, isAdmin as isUserAdmin, inventorIdState} from "../atom-states/inventor-comment-modal";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 
 function useInventorCommentModal(){
     const [isOpen, setIsOpen] = useAtom(isInventorCommentModalOpen);
+
     const [inventorComment, setInventorComment] = useAtom(inventorCommentState);
+    const [inventorId, setInventorId] = useAtom(inventorIdState)
     const [isAdmin, setIsAdmin] = useAtom(isUserAdmin);
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
@@ -15,7 +17,7 @@ function useInventorCommentModal(){
         setInventorComment(null);
       }
     }, [isOpen, setInventorComment]);
-    return {isOpen, openModal, closeModal, inventorComment, setInventorComment, isAdmin, setIsAdmin};
+    return {isOpen, openModal, closeModal, inventorComment, setInventorComment, inventorId, setInventorId, isAdmin, setIsAdmin};
 }
 
 export default useInventorCommentModal;

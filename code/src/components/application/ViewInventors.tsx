@@ -20,11 +20,16 @@ function ViewInventors(props: ViewInventorsProps) {
     openModal: openCommentModal,
     setInventorComment,
     setIsAdmin,
+    setInventorId,
   } = useInventorCommentModal();
 
   useEffect(() => {
     setIsAdmin(isAdmin);
   }, [isAdmin, setIsAdmin]);
+
+  useEffect(() => {
+    console.log("fetched inventors!!", inventors);
+  }, [inventors]);
 
   // TODO: show proper loading state
   if (isLoading) {
@@ -50,6 +55,7 @@ function ViewInventors(props: ViewInventorsProps) {
 
   function handleCommentClicked(inventorId: string, comment: string | null) {
     setInventorComment(comment);
+    setInventorId(inventorId);
     openCommentModal();
   }
 

@@ -9,7 +9,7 @@ export function useGetInventorsByAppId(props: UseGetInventorsByAppIdProps) {
     const { id } = props;
 
     const {data, isLoading} =  useQuery({
-        queryKey: ['applications', id],
+        queryKey: ['inventors', id],
         queryFn: () => getInventorsByAppId({id}),
     });
 
