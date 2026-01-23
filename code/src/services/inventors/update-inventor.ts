@@ -8,7 +8,7 @@ interface UpdateInventorProps {
 
 export const updateInventor = async (props: UpdateInventorProps) => {
     const { id, inventorData } = props;
-    const { data, error } = await supabase.schema("private").from('inventors').update(inventorData).eq('id', id).select()
+    const { data, error } = await supabase.schema("private").from('inventors').update(inventorData).eq('id', id).select().single();
 
     if (error) {
         throw new Error(error.message);

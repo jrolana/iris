@@ -5,6 +5,7 @@ import Hint from "../common/Tooltip";
 import useLinkInventorModal from "@/hooks/useLinkInventorModal";
 import useInventorCommentModal from "@/hooks/useInventorCommentModal";
 import { useEffect } from "react";
+import { Button } from "../ui/button";
 
 interface ViewInventorsProps {
   inventors: InventorType["Row"][];
@@ -15,7 +16,11 @@ interface ViewInventorsProps {
 function ViewInventors(props: ViewInventorsProps) {
   const { inventors, isAdmin, isLoading } = props;
 
-  const { openModal: openLinkModal, setExcludedUIDs } = useLinkInventorModal();
+  const {
+    openModal: openLinkModal,
+    setExcludedUIDs,
+    setInventorUID,
+  } = useLinkInventorModal();
   const {
     openModal: openCommentModal,
     setInventorComment,
@@ -58,7 +63,7 @@ function ViewInventors(props: ViewInventorsProps) {
   function handleLinkInventor(inventorId: string) {
     const existingUserIds =
       inventors.map((inv) => inv.techgen_id).filter((id) => id !== null) || [];
-    setInventorId(inventorId);
+    setInventorUID(inventorId);
     setExcludedUIDs(existingUserIds);
     openLinkModal();
   }
@@ -81,7 +86,7 @@ function ViewInventors(props: ViewInventorsProps) {
             </div>
             {isAdmin ? (
               <div className="flex shrink-0 items-center gap-2">
-                <button
+                <Button
                   type="button"
                   onClick={() =>
                     handleCommentClicked(inventor.id, inventor.comments)
@@ -89,7 +94,7 @@ function ViewInventors(props: ViewInventorsProps) {
                   className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                 >
                   Comment
-                </button>
+                </Button>
                 {inventor.techgen_id ? (
                   <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-sky-600">
                     Verified Account <BadgeCheck size={24} />

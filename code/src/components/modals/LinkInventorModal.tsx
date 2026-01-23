@@ -36,13 +36,21 @@ export default function LinkInventorModal() {
       closeModal();
       return;
     }
-    await updateInventor({
-      id: inventorUID,
-      inventorData: { techgen_id: userId },
-    });
+    const linkedInventor = await updateInventor(
+      {
+        id: inventorUID,
+        inventorData: { techgen_id: userId },
+      },
+      {
+        onSettled: () => {
+          closeModal();
+        },
+      },
+    );
 
-    closeModal();
-    toast.success(`Successfully linked ${userId}!`, { duration: 3000 });
+    toast.success(`Successfully linked ${linkedInventor.full_name}!`, {
+      duration: 3000,
+    });
   }
 
   return (
