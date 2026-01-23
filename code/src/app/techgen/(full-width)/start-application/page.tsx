@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AttachmentType, InventorType } from "@/lib/types/application";
-// import qs from "query-string"
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FileUploader from "@/components/common/FileUploader";
@@ -11,10 +10,16 @@ import { ArrowLeft, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useAddInventorsModal from "@/hooks/useAddInventorModal";
 import { Input } from "@/components/ui/input";
+import { useCreateApplication } from "@/hooks/applications/useCreateApplication";
+import { IpType } from "@/lib/types/ip";
 
 export default function StartApplicationPage() {
+  // TODO: Add funding source input later
   const router = useRouter();
   const { inventorDetails, openModal, isOpen } = useAddInventorsModal();
+  const searchParams = useSearchParams();
+  const ipTypeParam = searchParams.get("ipType");
+  const { application, isLoading, create } = useCreateApplication();
   const [formItems, setFormItems] = useState<AttachmentType[]>([]);
   const [inventors, setInventors] = useState<InventorType[]>([]);
   const [appTitle, setAppTitle] = useState("");
@@ -32,19 +37,46 @@ export default function StartApplicationPage() {
     openModal();
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (appTitle.trim() === "") return;
     // TODO:
-    // Implement submission logic here
-    // DB saving, form validation, etc.
-    console.log("submit application");
-    router.push("/techgen/view-application?applicationID=12345");
+    // Implement file submission and inventor adding
+
+    await create(
+      {
+        applicationData: {
+          ip_title: appTitle,
+          project_title: projectTitle,
+          ip_type: ipTypeParam as IpType,
+          funding_source: "internal",
+        },
+      },
+      {
+        onSuccess: () => {
+          console.log("Application created successfully.");
+        },
+        onError: (error) => {
+          console.error("Error creating application:", error);
+        },
+        onSettled: () => {
+          console.log("Create application mutation settled.");
+        },
+      },
+    );
   }
 
   useEffect(() => {
     if (inventorDetails === null) return;
     setInventors((prev) => [...prev, inventorDetails]);
   }, [inventorDetails, isOpen]);
+
+  useEffect(() => {
+    if (!application) return;
+    const appId = application.id;
+    if (!appId) return;
+
+    router.push(`/techgen/view-application?applicationID=${appId}`);
+  }, [application, router]);
 
   return (
     <div className="flex justify-center">

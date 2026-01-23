@@ -97,7 +97,9 @@ const WelcomeState = ({
 export default function WelcomePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [status, setStatus] = useState<"loading" | "welcome" | "error">("loading");
+  const [status, setStatus] = useState<"loading" | "welcome" | "error">(
+    "loading",
+  );
   const [userName, setUserName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -116,10 +118,15 @@ export default function WelcomePage() {
       }
 
       // Get current user session
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
 
       if (userError || !user) {
-        setErrorMessage(userError?.message || "No active session found. Please sign in.");
+        setErrorMessage(
+          userError?.message || "No active session found. Please sign in.",
+        );
         setStatus("error");
         return;
       }
@@ -130,7 +137,7 @@ export default function WelcomePage() {
 
       setTimeout(async () => {
         setIsRedirecting(true);
-        const { data: userRole } = await supabase.rpc("get_user_role");
+        const { data: userRole } = await supabase.rpc("get_user_role" as never);
         router.push(userRole ? `/${userRole}` : "/");
       }, 3000);
     };
