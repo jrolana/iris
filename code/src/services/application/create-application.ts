@@ -1,18 +1,25 @@
 import { supabaseClient as supabase } from "@/lib/supabase"
 
-import { ApplicationType } from "@/lib/types/application";
+import { ApplicationType, InventorType } from "@/lib/types/application";
 
 interface CreateApplicationProps {
     applicationData: ApplicationType["Insert"];
+    inventorsData: InventorType["Insert"][];
 }   
 
 export const createApplication = async (props: CreateApplicationProps) => {
-    const { applicationData } = props;
-    const {data, error} = await supabase.schema("private").from("ipr_applications").insert(applicationData).select().single();
+    const { applicationData, inventorsData } = props;
+    const {data: appId, error} = await supabase.rpc('create_application_with_inventors', {
+      p_ip_title: applicationData.ip_title,
+      p_project_title: applicationData.project_title,
+      p_ip_type: applicationData.ip_type,
+      p_funding_source: applicationData.funding_source,
+      p_inventors: inventorsData 
+    });
 
     if (error) {
         throw new Error(error.message);
     }
 
-    return data;
+    return appId;
 }

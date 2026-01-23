@@ -7,5 +7,5 @@ export function useDeleteApplication() {
         mutationFn: deleteApplication
     });
 
-    return {application: data, isLoading: isPending, delete:mutateAsync}; 
+    return {application: data, isLoading: isPending, deleteApp:mutateAsync}; 
 }

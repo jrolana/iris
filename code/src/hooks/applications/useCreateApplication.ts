@@ -7,5 +7,5 @@ export function useCreateApplication() {
         mutationFn: createApplication
     });
 
-    return {application: data, isLoading: isPending, create:mutateAsync}; 
+    return {appId: data, isLoading: isPending, createApp:mutateAsync}; 
 }

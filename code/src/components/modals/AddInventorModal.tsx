@@ -22,12 +22,11 @@ export default function AddInventorModal() {
   function handleSubmit() {
     if (!name || !email || !collegeUnit) return;
     setNewInventorDetails({
-      userId: null,
-      inventorId: null,
       comments: null,
       full_name: name,
       email: email,
       college: collegeUnit,
+      application_id: "",
     });
 
     closeModal();

@@ -12,6 +12,7 @@ import useAddInventorsModal from "@/hooks/useAddInventorModal";
 import { Input } from "@/components/ui/input";
 import { useCreateApplication } from "@/hooks/applications/useCreateApplication";
 import { IpType } from "@/lib/types/ip";
+// import { useAddInventors } from "@/hooks/inventors/useAddInventors";
 
 export default function StartApplicationPage() {
   // TODO: Add funding source input later
@@ -19,9 +20,10 @@ export default function StartApplicationPage() {
   const { inventorDetails, openModal, isOpen } = useAddInventorsModal();
   const searchParams = useSearchParams();
   const ipTypeParam = searchParams.get("ipType");
-  const { application, isLoading, create } = useCreateApplication();
-  const [formItems, setFormItems] = useState<AttachmentType[]>([]);
-  const [inventors, setInventors] = useState<InventorType[]>([]);
+  const { appId, isLoading: isCreatingApp, createApp } = useCreateApplication();
+  // const { addInventors, isLoading: isAddingInventors } = useAddInventors();
+  const [formItems, setFormItems] = useState<AttachmentType["Insert"][]>([]);
+  const [inventors, setInventors] = useState<InventorType["Insert"][]>([]);
   const [appTitle, setAppTitle] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
 
@@ -42,7 +44,9 @@ export default function StartApplicationPage() {
     // TODO:
     // Implement file submission and inventor adding
 
-    await create(
+    console.log("Inventor deets:", inventors);
+
+    await createApp(
       {
         applicationData: {
           ip_title: appTitle,
@@ -50,6 +54,7 @@ export default function StartApplicationPage() {
           ip_type: ipTypeParam as IpType,
           funding_source: "internal",
         },
+        inventorsData: inventors,
       },
       {
         onSuccess: () => {
@@ -71,12 +76,19 @@ export default function StartApplicationPage() {
   }, [inventorDetails, isOpen]);
 
   useEffect(() => {
-    if (!application) return;
-    const appId = application.id;
     if (!appId) return;
 
     router.push(`/techgen/view-application?applicationID=${appId}`);
-  }, [application, router]);
+  }, [appId, router]);
+
+  // TODO: Add proper loading state
+  if (isCreatingApp) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <span className="text-lg font-medium">Creating application...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center">
