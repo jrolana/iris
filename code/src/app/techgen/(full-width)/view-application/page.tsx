@@ -2,10 +2,7 @@
 
 import ApplicationView from "@/components/application/ApplicationView";
 import { useGetAppById } from "@/hooks/applications/useGetApplicationById";
-import {
-  dummyApplication,
-  dummyIprStatuses,
-} from "@/lib/dummy-data/application";
+import { dummyApplication } from "@/lib/dummy-data/application";
 
 import { useSearchParams } from "next/navigation";
 

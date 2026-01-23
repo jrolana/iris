@@ -16,7 +16,6 @@ function TtbdoViewApplicationPage() {
     return <div>Loading...</div>;
   }
 
-  alert(application);
   return (
     <ApplicationView
       mode="admin"
