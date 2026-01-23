@@ -15,7 +15,7 @@ interface ViewInventorsProps {
 function ViewInventors(props: ViewInventorsProps) {
   const { inventors, isAdmin, isLoading } = props;
 
-  const { openModal: openLinkModal } = useLinkInventorModal();
+  const { openModal: openLinkModal, setExcludedUIDs } = useLinkInventorModal();
   const {
     openModal: openCommentModal,
     setInventorComment,
@@ -26,10 +26,6 @@ function ViewInventors(props: ViewInventorsProps) {
   useEffect(() => {
     setIsAdmin(isAdmin);
   }, [isAdmin, setIsAdmin]);
-
-  useEffect(() => {
-    console.log("fetched inventors!!", inventors);
-  }, [inventors]);
 
   // TODO: show proper loading state
   if (isLoading) {
@@ -60,7 +56,10 @@ function ViewInventors(props: ViewInventorsProps) {
   }
 
   function handleLinkInventor(inventorId: string) {
-    console.log("Link inventor:", inventorId);
+    const existingUserIds =
+      inventors.map((inv) => inv.techgen_id).filter((id) => id !== null) || [];
+    setInventorId(inventorId);
+    setExcludedUIDs(existingUserIds);
     openLinkModal();
   }
   return (

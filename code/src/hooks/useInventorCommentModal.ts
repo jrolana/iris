@@ -15,8 +15,9 @@ function useInventorCommentModal(){
       if (!isOpen) {
         // Reset inventor comment when modal is closed
         setInventorComment(null);
+        setInventorId(null);
       }
-    }, [isOpen, setInventorComment]);
+    }, [isOpen, setInventorComment, setInventorId]);
     return {isOpen, openModal, closeModal, inventorComment, setInventorComment, inventorId, setInventorId, isAdmin, setIsAdmin};
 }
 

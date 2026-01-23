@@ -8,10 +8,10 @@ interface UseGetInventorsByAppIdProps {
 export function useGetInventorsByAppId(props: UseGetInventorsByAppIdProps) {
     const { id } = props;
 
-    const {data, isLoading} =  useQuery({
+    const {data, isLoading, isFetching} =  useQuery({
         queryKey: ['inventors', id],
         queryFn: () => getInventorsByAppId({id}),
     });
 
-    return {inventors: data, isLoading}; 
+    return {inventors: data, isLoading: isLoading || isFetching}; 
 }

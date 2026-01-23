@@ -2,10 +2,7 @@ import { useState } from "react";
 import ViewAttachments from "./ViewAttachments";
 import ViewInventors from "./ViewInventors";
 
-import {
-  dummyInventors,
-  dummyFiles as attachments,
-} from "@/lib/dummy-data/application";
+import { dummyFiles as attachments } from "@/lib/dummy-data/application";
 import { useGetInventorsByAppId } from "@/hooks/inventors/useGetInventorsByAppId";
 
 type ApplicationViewMode = "applicant" | "admin";
@@ -21,18 +18,15 @@ function InformationPanel(props: DetailsPanelProps) {
     "attachments",
   );
 
-  const { inventors: fetchedInventors, isLoading: isFetchingInventors } =
-    useGetInventorsByAppId({
-      id: applicationId,
-    });
-
-  const inventors = [...dummyInventors, ...(fetchedInventors ?? [])];
+  const { inventors, isLoading: isFetchingInventors } = useGetInventorsByAppId({
+    id: applicationId,
+  });
 
   // TODO: implement fetch files here when backend is ready
 
   const isAdmin = mode === "admin";
   const tabIndex = +(activeTab === "inventors");
-  const itemCount = [attachments, inventors][tabIndex].length;
+  const itemCount = [attachments, inventors ?? []][tabIndex].length;
   const countLabel = `${itemCount} ${["attachment", "inventor"][tabIndex]}${" s"[+(itemCount > 0)]}`;
 
   return (
@@ -69,7 +63,7 @@ function InformationPanel(props: DetailsPanelProps) {
         />
       ) : (
         <ViewInventors
-          inventors={inventors}
+          inventors={inventors ?? []}
           isAdmin={isAdmin}
           isLoading={isFetchingInventors}
         />
