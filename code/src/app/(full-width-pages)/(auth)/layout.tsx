@@ -18,7 +18,7 @@ export default function AuthLayout({
               className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
             >
               <ChevronLeftIcon />
-              Back to dashboard
+              Back to homepage
             </Link>
           </div>
           {children}
@@ -49,7 +49,7 @@ export default function AuthLayout({
                 </div>
               </Link>
 
-              <p className="text-center text-white/80 w-[60%]">
+              <p className="w-[60%] text-center text-white/80">
                 Intellectual Property Rights Management System for the
                 University of the Philippines Visayas
               </p>

@@ -1,6 +1,7 @@
 "use client";
 
 import AddInventorModal from "@/components/modals/AddInventorModal";
+import AddNewUserModal from "@/components/modals/AddNewUserModal";
 import InventorCommentModal from "@/components/modals/InventorCommentModal";
 import LinkInventorModal from "@/components/modals/LinkInventorModal";
 import StatusUpdateModal from "@/components/modals/StatusUpdateModal";
@@ -25,6 +26,7 @@ function ModalProvider() {
       <StatusUpdateModal />
       <AddInventorModal />
       <InventorCommentModal />
+      <AddNewUserModal />
     </>
   );
 }
