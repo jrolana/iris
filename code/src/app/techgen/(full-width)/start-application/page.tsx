@@ -14,6 +14,7 @@ import { useCreateApplication } from "@/hooks/applications/useCreateApplication"
 import { IpType } from "@/lib/types/ip";
 
 export default function StartApplicationPage() {
+  // TODO: Add funding source input later
   const router = useRouter();
   const { inventorDetails, openModal, isOpen } = useAddInventorsModal();
   const searchParams = useSearchParams();
