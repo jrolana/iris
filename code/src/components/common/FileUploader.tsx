@@ -10,6 +10,7 @@ import {
   Link as LinkIcon,
   UploadCloud,
   Image as ImageIcon,
+  LoaderCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,10 +31,11 @@ function getFileIcon(fileType: string) {
 interface FileUploaderProps {
   items: extendedAttachmentType[];
   setItems: Dispatch<SetStateAction<extendedAttachmentType[]>>;
+  isLoading?: boolean;
 }
 
 export default function FileUploader(props: FileUploaderProps) {
-  const { items, setItems } = props;
+  const { items, setItems, isLoading } = props;
   const [linkInput, setLinkInput] = useState("");
 
   // function to handle file drops
@@ -120,7 +122,7 @@ export default function FileUploader(props: FileUploaderProps) {
           />
         </div>
         <Button
-          variant="secondary"
+          className="disabled:text-muted-foreground bg-sky-600 hover:bg-sky-600/50 disabled:bg-slate-200"
           onClick={handleAddLink}
           disabled={!linkInput}
         >
@@ -152,24 +154,32 @@ export default function FileUploader(props: FileUploaderProps) {
                           {item.file_type}
                         </span>
                         {/* show file size, optional for now  */}
-                        {/* {item.file_type === "file" && item.fileObject && (
+                        {item.file_type !== "link" && item.fileObject && (
                           <span>
                             • {(item.fileObject.size / 1024 / 1024).toFixed(2)}{" "}
                             MB
                           </span>
-                        )} */}
+                        )}
                       </span>
                     </div>
                   </div>
 
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-muted-foreground hover:text-destructive h-8 w-8"
-                    onClick={() => removeItem(index)}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
+                  {isLoading ? (
+                    <div className="text-muted-foreground flex h-8 w-auto items-center gap-2 rounded">
+                      <span>Uploading</span>
+                      <LoaderCircle className="animate-spin" size={15} />
+                    </div>
+                  ) : (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-muted-foreground hover:text-destructive h-8 w-8"
+                      onClick={() => removeItem(index)}
+                      disabled={isLoading}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
 
                 <Input
@@ -177,6 +187,7 @@ export default function FileUploader(props: FileUploaderProps) {
                   value={item.file_description ?? ""}
                   onChange={(e) => updateDescription(index, e.target.value)}
                   className="h-8 text-sm"
+                  disabled={isLoading}
                 />
               </div>
             ))}

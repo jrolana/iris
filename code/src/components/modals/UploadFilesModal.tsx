@@ -22,30 +22,42 @@ function UploadFilesModal() {
 
   const { isLoading, uploadFile } = useUploadFile();
 
-  // Reset form whenever modal opens or values change
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     console.log("opened");
-  //   }
-  // }, [isOpen]);
-
   function handleChange() {
     closeModal();
   }
 
   async function handleUpload(fileItems: extendedAttachmentType[]) {
-    console.log(fileItems);
     for (const item of fileItems) {
       await uploadFile(
         { file: item, appId },
         {
-          onSuccess: () => {
-            toast.success(`Uploaded: ${item.file_name}`, { duration: 5000 });
-          },
+          onSuccess: () => handleSuccess(item),
+          onError: (error: unknown) => handleError(item, error),
+          onSettled: handleSettled,
         },
       );
     }
     closeModal();
+  }
+
+  function handleSuccess(item: extendedAttachmentType) {
+    toast.success(`Uploaded: ${item.file_name}`, { duration: 5000 });
+  }
+
+  function handleError(item: extendedAttachmentType, error: unknown) {
+    toast.error(
+      `Error uploading ${item.file_name}: ${(error as Error).message}`,
+      {
+        duration: 8000,
+      },
+    );
+  }
+
+  function handleSettled() {
+    setFileItems((prev) => {
+      const remainingItems = prev.filter((file, index) => index !== 0);
+      return remainingItems;
+    });
   }
 
   return (
@@ -56,7 +68,11 @@ function UploadFilesModal() {
       onChange={handleChange}
     >
       <div className="w-full sm:min-w-md md:w-2xl">
-        <FileUploader items={fileItems} setItems={setFileItems} />
+        <FileUploader
+          items={fileItems}
+          setItems={setFileItems}
+          isLoading={isLoading}
+        />
         <DialogFooter className="mt-6">
           <Button variant="outline" onClick={closeModal}>
             Cancel
@@ -64,6 +80,7 @@ function UploadFilesModal() {
           <Button
             onClick={() => handleUpload(fileItems)}
             disabled={fileItems.length === 0 || isLoading}
+            className="disabled:text-muted-foreground bg-sky-600 hover:bg-sky-600/50 disabled:bg-slate-200"
           >
             Upload {fileItems.length} Item{fileItems.length !== 1 && "s"}
           </Button>

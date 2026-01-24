@@ -38,7 +38,6 @@ export const uploadFile = async (props: UploadFileProps) => {
     // Otherwise, proceed with file upload
     const { data, error } = await supabase.storage.from('ipr_files_bucket').upload(
         fullPath, file.fileObject, {
-        // upsert: true,
         contentType: file.fileObject.type,
         upsert: true,
     })
