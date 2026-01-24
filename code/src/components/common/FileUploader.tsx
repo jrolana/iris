@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
+type extendedAttachmentType = AttachmentType["Insert"] & { fileObject?: File };
+
 function getFileIcon(fileType: string) {
   if (fileType === "link") {
     return <LinkIcon className="h-5 w-5 text-blue-500" />;
@@ -26,8 +28,8 @@ function getFileIcon(fileType: string) {
 }
 
 interface FileUploaderProps {
-  items: AttachmentType["Insert"][];
-  setItems: Dispatch<SetStateAction<AttachmentType["Insert"][]>>;
+  items: extendedAttachmentType[];
+  setItems: Dispatch<SetStateAction<extendedAttachmentType[]>>;
 }
 
 export default function FileUploader(props: FileUploaderProps) {
@@ -37,19 +39,17 @@ export default function FileUploader(props: FileUploaderProps) {
   // function to handle file drops
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const newItems: AttachmentType["Insert"][] = acceptedFiles.map(
-        (file) => ({
-          owner_id: "",
-          file_name: file.name,
-          application_id: "",
-          uploaded_at: new Date().toString(),
-          comments: null,
-          file_type: getFileType(file),
-          storage_path: "",
-          file_description: "",
-        }),
-      );
-
+      const newItems: extendedAttachmentType[] = acceptedFiles.map((file) => ({
+        owner_id: "",
+        file_name: file.name,
+        application_id: "",
+        comments: null,
+        file_description: "",
+        fileObject: file,
+        file_type: getFileType(file),
+        storage_path: "",
+        uploaded_at: new Date().toString(),
+      }));
       setItems((prev) => [...prev, ...newItems]);
     },
     [setItems],
@@ -60,7 +60,7 @@ export default function FileUploader(props: FileUploaderProps) {
 
   function handleAddLink() {
     if (!linkInput) return;
-    const newItem: AttachmentType["Insert"] = {
+    const newItem: extendedAttachmentType = {
       owner_id: "",
       application_id: "",
       file_name: linkInput,
@@ -134,7 +134,7 @@ export default function FileUploader(props: FileUploaderProps) {
           <div className="space-y-3">
             {items.map((item, index) => (
               <div
-                key={item.id}
+                key={item.id + index.toString()}
                 className="bg-card text-card-foreground flex flex-col gap-2 rounded-lg border p-3 shadow-sm"
               >
                 <div className="flex items-start justify-between gap-3">

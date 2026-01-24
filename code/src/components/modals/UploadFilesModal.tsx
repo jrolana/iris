@@ -1,65 +1,42 @@
 "use client";
-import { useEffect, useState } from "react";
-import { AttachmentType } from "@/lib/types/application";
+import { useState } from "react";
 import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 
 import Modal from "./Modal";
 import FileUploader from "../common/FileUploader";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog"; // could be removed
+import { AttachmentType } from "@/lib/types/application";
+import { useSearchParams } from "next/navigation";
+import { useUploadFile } from "@/hooks/attachments/useUploadFile";
 
+type extendedAttachmentType = AttachmentType["Insert"] & {
+  fileObject?: File;
+};
 function UploadFilesModal() {
   const { isOpen, closeModal } = useFilesUploadModal();
-  const [fileItems, setFileItems] = useState<AttachmentType[]>([]);
+  const [fileItems, setFileItems] = useState<extendedAttachmentType[]>([]);
+  const searchParams = useSearchParams();
+  const appId = searchParams.get("applicationID") || "";
+
+  const { isLoading, uploadFile } = useUploadFile();
 
   // Reset form whenever modal opens or values change
-  useEffect(() => {
-    if (isOpen) {
-      console.log("opened");
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     console.log("opened");
+  //   }
+  // }, [isOpen]);
 
   function handleChange() {
     closeModal();
   }
 
-  async function handleUpload(fileItems: AttachmentType[]) {
+  async function handleUpload(fileItems: extendedAttachmentType[]) {
     console.log(fileItems);
-
-    // Separate files and links
-
-    // const filesToUpload = items.filter((i) => i.type === "file");
-    // const linksToSave = items.filter((i) => i.type === "link");
-
-    //  Upload files to Supabase Storage
-
-    // for (const item of filesToUpload) {
-    //   const { data, error } = await supabase.storage
-    //     .from("attachments")
-    //     .upload(`public/${item.name}`, item.fileObject);
-
-    //   Save metadata (url, description, file_type) to your database table
-
-    //   if (data) {
-    //     await supabase.from("application_attachments").insert({
-    //       file_url: data.path,
-    //       file_type: item.fileType,
-    //       description: item.description,
-    //       is_link: false,
-    //     });
-    //   }
-    // }
-
-    // Save links directly to database
-
-    // for (const link of linksToSave) {
-    //   await supabase.from("application_attachments").insert({
-    //     file_url: link.url,
-    //     file_type: "Link",
-    //     description: link.description,
-    //     is_link: true,
-    //   });
-    //     }
+    for (const item of fileItems) {
+      await uploadFile({ file: item, appId });
+    }
     closeModal();
   }
 
@@ -78,7 +55,7 @@ function UploadFilesModal() {
           </Button>
           <Button
             onClick={() => handleUpload(fileItems)}
-            disabled={fileItems.length === 0}
+            disabled={fileItems.length === 0 || isLoading}
           >
             Upload {fileItems.length} Item{fileItems.length !== 1 && "s"}
           </Button>
