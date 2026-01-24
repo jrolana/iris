@@ -6,6 +6,7 @@ SET search_path = public, private, storage
 as $$
 declare
   extracted_app_id text;
+  final_file_type text;
 begin
   -- Exit if this is just a folder placeholder
   if NEW.name like '%/' or NEW.metadata->>'mimetype' = 'application/x-directory' then
@@ -14,6 +15,12 @@ begin
 
   -- Extract Data
   extracted_app_id := split_part(NEW.name, '/', 1);
+  
+  -- Safe typing
+  final_file_type := coalesce(
+    split_part(NEW.metadata->>'mimetype', '/', 2),
+    'unknown'
+  );
   
   
   IF (TG_OP = 'INSERT') THEN
@@ -32,7 +39,7 @@ begin
       NEW.owner,
       NEW.name, 
       NEW.name,
-      split_part(NEW.metadata->>'mimetype', '/', 2),
+      final_file_type,
       now(),
       NEW.id
     );
@@ -43,7 +50,7 @@ begin
     UPDATE private.ipr_files
     SET
       file_name = NEW.name,
-      file_type = split_part(NEW.metadata->>'mimetype', '/', 2),
+      file_type = final_file_type,
       -- We optionally update 'uploaded_at' to reflect the modification time
       uploaded_at = NOW()
     WHERE storage_id = NEW.id;

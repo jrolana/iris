@@ -1,14 +1,15 @@
 "use client";
 import { useState } from "react";
 import useFilesUploadModal from "@/hooks/useFilesUploadModal";
+import { toast } from "sonner";
+import { AttachmentType } from "@/lib/types/application";
+import { useSearchParams } from "next/navigation";
+import { useUploadFile } from "@/hooks/attachments/useUploadFile";
 
 import Modal from "./Modal";
 import FileUploader from "../common/FileUploader";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog"; // could be removed
-import { AttachmentType } from "@/lib/types/application";
-import { useSearchParams } from "next/navigation";
-import { useUploadFile } from "@/hooks/attachments/useUploadFile";
 
 type extendedAttachmentType = AttachmentType["Insert"] & {
   fileObject?: File;
@@ -35,7 +36,14 @@ function UploadFilesModal() {
   async function handleUpload(fileItems: extendedAttachmentType[]) {
     console.log(fileItems);
     for (const item of fileItems) {
-      await uploadFile({ file: item, appId });
+      await uploadFile(
+        { file: item, appId },
+        {
+          onSuccess: () => {
+            toast.success(`Uploaded: ${item.file_name}`, { duration: 5000 });
+          },
+        },
+      );
     }
     closeModal();
   }

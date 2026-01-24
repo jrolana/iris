@@ -16,11 +16,6 @@ export const uploadFile = async (props: UploadFileProps) => {
         throw new Error("Application ID is missing. Cannot upload file.");
     }
 
-    console.log("description:", file.file_description);
-    console.log("type:", file.file_type);
-    
-    
-
     const fullPath = `${appId}/${file.file_name}`;
 
     if (!file.fileObject) {
