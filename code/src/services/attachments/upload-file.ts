@@ -16,6 +16,11 @@ export const uploadFile = async (props: UploadFileProps) => {
         throw new Error("Application ID is missing. Cannot upload file.");
     }
 
+    console.log("description:", file.file_description);
+    console.log("type:", file.file_type);
+    
+    
+
     const fullPath = `${appId}/${file.file_name}`;
 
     if (!file.fileObject) {
@@ -41,18 +46,28 @@ export const uploadFile = async (props: UploadFileProps) => {
         // upsert: true,
         contentType: file.fileObject.type,
         upsert: true,
-        // This metadata will be used by the trigger function to populate other fields in the ipr_files table
-        metadata: {
-        description: file.file_description, 
-        comments: file.comments,     
-        file_name: file.fileObject.name,
-        file_type: file.file_type,    
-        }
     })
 
     if (error) {
         throw new Error(error.message);
     }
+
+    const { error: dbError } = await supabase
+    .schema('private')
+    .from('ipr_files')
+    .update({
+      file_description: file.file_description,
+      comments: file.comments,
+      file_type: file.file_type,
+      // explicitly update file_name again just to be sure
+      file_name: file.file_name 
+    })
+    .eq('storage_path', fullPath) // Match the path of the exact file uploaded
+    .select();
+
+  if (dbError) {
+    throw new Error("File uploaded but failed to update database: " + dbError.message);
+  }
 
     return { data, error};
 }
