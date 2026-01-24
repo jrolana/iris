@@ -136,6 +136,7 @@ CREATE TABLE private.ipr_files (
 
     CONSTRAINT fk_ipr_files_app_id FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
     CONSTRAINT fk_ipr_files_owner_id FOREIGN KEY(owner_id) REFERENCES private.users(id) ON DELETE CASCADE
+    constraint ipr_files_storage_id_fkey foreign KEY (storage_id) references storage.objects (id) on DELETE CASCADE
 );
 
 CREATE TABLE private.notifications (
