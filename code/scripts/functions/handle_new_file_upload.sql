@@ -29,29 +29,44 @@ begin
       'unknown'
   );
 
-  -- Insert into ipr_files ATOMICALLY
-  insert into private.ipr_files (
-    application_id, 
-    owner_id, 
-    storage_path, 
-    file_name,
-    file_type, 
-    uploaded_at,
-    file_description, -- <--- populated right away based from metadata
-    comments,
-    storage_id
-  )
-  values (
-    extracted_app_id::uuid, 
-    NEW.owner,
-    NEW.name, 
-    final_file_name,
-    final_file_type, 
-    now(),
-    custom_desc,
-    custom_comments,
-    NEW.id
-  );
+  IF (TG_OP = 'INSERT') THEN
+    -- Insert into ipr_files ATOMICALLY
+    insert into private.ipr_files (
+      application_id, 
+      owner_id, 
+      storage_path, 
+      file_name,
+      file_type, 
+      uploaded_at,
+      file_description, -- <--- populated right away based from metadata
+      comments,
+      storage_id
+    )
+    values (
+      extracted_app_id::uuid, 
+      NEW.owner,
+      NEW.name, 
+      final_file_name,
+      final_file_type, 
+      now(),
+      custom_desc,
+      custom_comments,
+      NEW.id
+    );
+
+  ELSIF (TG_OP = 'UPDATE') THEN
+    -- Update existing record
+    -- We find the row by 'storage_id' because that link is permanent
+    UPDATE private.ipr_files
+    SET
+      file_name = final_file_name,
+      file_type = final_file_type,
+      file_description = custom_desc,
+      comments = custom_comments,
+      -- We optionally update 'uploaded_at' to reflect the modification time
+      uploaded_at = NOW()
+    WHERE storage_id = NEW.id;
+  END IF;
 
   return NEW;
 end;

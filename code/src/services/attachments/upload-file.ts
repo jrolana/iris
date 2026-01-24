@@ -13,8 +13,8 @@ export const uploadFile = async (props: UploadFileProps) => {
     if (!user) throw new Error("User not authenticated");
 
     if (!appId) {
-    throw new Error("Application ID is missing. Cannot upload file.");
-  }
+        throw new Error("Application ID is missing. Cannot upload file.");
+    }
 
     const fullPath = `${appId}/${file.file_name}`;
 
@@ -40,6 +40,7 @@ export const uploadFile = async (props: UploadFileProps) => {
         fullPath, file.fileObject, {
         // upsert: true,
         contentType: file.fileObject.type,
+        upsert: true,
         // This metadata will be used by the trigger function to populate other fields in the ipr_files table
         metadata: {
         description: file.file_description, 
