@@ -5,6 +5,7 @@ create or replace function search_users_for_linking(
 returns setof private.users 
 language sql
 security definer -- bypass RLS
+SET search_path = private
 as $$
   select *
   from private.users
