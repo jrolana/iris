@@ -40,9 +40,25 @@ function ViewAttachments(props: ViewAttachmentProps) {
 
   if (attachments.length == 0) {
     return (
-      <p className="mt-4 text-sm text-slate-500">
-        No attachments yet. Please upload appropriate files or links.
-      </p>
+      <>
+        <p className="mt-4 text-sm text-slate-500">
+          No attachments yet. Please upload appropriate files or links.
+        </p>
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={() => {
+              openUploadModal();
+            }}
+            className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
+          >
+            Upload a file or link
+          </button>
+          <p className="mt-2 text-sm text-gray-500">
+            Attach necessary files or links related to this application.
+          </p>
+        </div>
+      </>
     );
   }
 
@@ -171,7 +187,6 @@ function ViewAttachments(props: ViewAttachmentProps) {
         >
           Upload a file or link
         </button>
-
         <p className="mt-2 text-sm text-gray-500">
           Attach necessary files or links related to this application.
         </p>

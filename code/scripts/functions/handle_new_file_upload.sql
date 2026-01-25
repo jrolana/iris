@@ -6,6 +6,7 @@ SET search_path = public, private, storage
 as $$
 declare
   extracted_app_id text;
+  extracted_file_name text;
   final_file_type text;
 begin
   -- Exit if this is just a folder placeholder
@@ -15,6 +16,7 @@ begin
 
   -- Extract Data
   extracted_app_id := split_part(NEW.name, '/', 1);
+  extracted_file_name := split_part(NEW.name, '/', 2);
   
   -- Safe typing
   final_file_type := coalesce(
@@ -38,7 +40,7 @@ begin
       extracted_app_id::uuid, 
       NEW.owner,
       NEW.name, 
-      NEW.name,
+      extracted_file_name::text,
       final_file_type,
       now(),
       NEW.id
@@ -49,7 +51,7 @@ begin
     -- We find the row by 'storage_id' because that link is permanent
     UPDATE private.ipr_files
     SET
-      file_name = NEW.name,
+      file_name = extracted_file_name,
       file_type = final_file_type,
       -- We optionally update 'uploaded_at' to reflect the modification time
       uploaded_at = NOW()

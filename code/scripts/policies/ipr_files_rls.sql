@@ -31,3 +31,38 @@ USING (
     AND inv.techgen_id = auth.uid()
   )
 );
+
+DROP POLICY IF EXISTS "Users can upload files to their applications" ON private.ipr_files;
+
+CREATE POLICY "Users can upload files to their applications"
+ON private.ipr_files
+FOR INSERT
+TO authenticated
+WITH CHECK (
+  owner_id = auth.uid()
+  
+  AND
+  
+  -- This prevents users from uploading files to random project IDs they don't own.
+  EXISTS (
+    SELECT 1 FROM private.inventors AS inv
+    WHERE inv.application_id = ipr_files.application_id  -- Matches the new row's app ID
+    AND inv.techgen_id = auth.uid()                      -- Checks if listed as inventor
+  )
+);
+
+
+
+DROP POLICY IF EXISTS "Users can update their own file details" ON private.ipr_files;
+
+CREATE POLICY "Users can update their own file details"
+ON private.ipr_files
+FOR UPDATE
+TO authenticated
+USING (
+  owner_id = auth.uid()
+)
+WITH CHECK (
+  -- Cannot accidentally change the owner to someone else
+  owner_id = auth.uid()
+);
