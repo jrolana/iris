@@ -10,7 +10,7 @@ import {
   Link as LinkIcon,
   UploadCloud,
   Image as ImageIcon,
-  LoaderCircle,
+  Loader,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -142,7 +142,7 @@ export default function FileUploader(props: FileUploaderProps) {
                 <div className="flex items-start justify-between gap-3">
                   {/* Icon & Name */}
                   <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded">
                       {getFileIcon(item.file_type)}
                     </div>
                     <div className="flex min-w-0 flex-col">
@@ -167,7 +167,7 @@ export default function FileUploader(props: FileUploaderProps) {
                   {isLoading ? (
                     <div className="text-muted-foreground flex h-8 w-auto items-center gap-2 rounded">
                       <span>Uploading</span>
-                      <LoaderCircle className="animate-spin" size={15} />
+                      <Loader className="animate-spin" size={15} />
                     </div>
                   ) : (
                     <Button

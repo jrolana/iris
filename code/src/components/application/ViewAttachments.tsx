@@ -3,14 +3,25 @@ import { useGetUrlByStoragePath } from "@/hooks/attachments/useGenerateUrlByStor
 import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 import { AttachmentType } from "@/lib/types/application";
 import { User } from "@supabase/supabase-js";
-import { Loader } from "lucide-react";
+import { FileText, ImageIcon, LinkIcon, Loader } from "lucide-react";
 import { toast } from "sonner";
+import Hint from "../common/Tooltip";
 
 interface ViewAttachmentProps {
   attachments: AttachmentType["Row"][];
   user: User | null;
   isFetchingUser: boolean;
   isLoading: boolean;
+}
+
+function getFileIcon(fileType: string) {
+  if (fileType === "link") {
+    return <LinkIcon className="h-7 w-7 text-blue-500" />;
+  } else if (fileType === "Image") {
+    return <ImageIcon className="h-7 w-7 text-purple-500" />;
+  } else {
+    return <FileText className="h-7 w-7 text-orange-500" />;
+  }
 }
 
 function ViewAttachments(props: ViewAttachmentProps) {
@@ -83,21 +94,26 @@ function ViewAttachments(props: ViewAttachmentProps) {
             key={file.id}
             className="flex flex-col gap-2 py-3 sm:flex-row sm:items-start sm:justify-between"
           >
-            <div className="min-w-0 flex-1">
-              <p className="text-md truncate font-medium text-slate-900">
-                {file.file_name}
-              </p>
-              {file.file_description && (
-                <p className="mt-0.5 line-clamp-2 text-sm leading-tight text-slate-600">
-                  {file.file_description}
+            <div className="flex flex-row items-center gap-3">
+              {getFileIcon(file.file_type)}
+              <div className="min-w-0 flex-1">
+                <Hint label={file.file_name}>
+                  <p className="text-md max-w-[250px] truncate font-medium text-slate-900">
+                    {file.file_name}
+                  </p>
+                </Hint>
+                {file.file_description && (
+                  <p className="mt-0.5 line-clamp-2 text-sm leading-tight text-slate-600">
+                    {file.file_description}
+                  </p>
+                )}
+                <p className="mt-0.5 flex items-center gap-2 text-sm text-slate-400">
+                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
+                    {file.file_type}
+                  </span>
+                  <span>{new Date(file.uploaded_at!).toLocaleString()}</span>
                 </p>
-              )}
-              <p className="mt-0.5 flex items-center gap-2 text-sm text-slate-400">
-                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
-                  {file.file_type}
-                </span>
-                <span>{new Date(file.uploaded_at!).toLocaleString()}</span>
-              </p>
+              </div>
             </div>
 
             {/* action buttons */}
