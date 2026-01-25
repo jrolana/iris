@@ -6,7 +6,7 @@ interface DeleteFileByIdProps {
 
 export const deleteFileById = async (props: DeleteFileByIdProps) => {
     const { id } = props;
-    const {data, error} = await supabase.schema("private").from("ipr_files").delete().eq("id", id);
+    const {data, error} = await supabase.schema("private").from("ipr_files").delete().eq("id", id).select().single();
 
     if (error) {
         throw new Error(error.message);

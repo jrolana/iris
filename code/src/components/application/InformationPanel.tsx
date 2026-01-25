@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { useGetInventorsByAppId } from "@/hooks/inventors/useGetInventorsByAppId";
+import { useGetFilesByAppId } from "@/hooks/attachments/useGetFilesByAppId";
+import { useGetCurrentUser } from "@/hooks/useGetCurrentUser";
+
 import ViewAttachments from "./ViewAttachments";
 import ViewInventors from "./ViewInventors";
-
-import { dummyFiles as attachments } from "@/lib/dummy-data/application";
-import { useGetInventorsByAppId } from "@/hooks/inventors/useGetInventorsByAppId";
 
 type ApplicationViewMode = "applicant" | "admin";
 
@@ -18,15 +19,19 @@ function InformationPanel(props: DetailsPanelProps) {
     "attachments",
   );
 
+  const { user, loading: isFetchingUser } = useGetCurrentUser();
+
   const { inventors, isLoading: isFetchingInventors } = useGetInventorsByAppId({
     id: applicationId,
   });
 
-  // TODO: implement fetch files here when backend is ready
+  const { files, isLoading: isFetchingFiles } = useGetFilesByAppId({
+    id: applicationId,
+  });
 
   const isAdmin = mode === "admin";
   const tabIndex = +(activeTab === "inventors");
-  const itemCount = [attachments, inventors ?? []][tabIndex].length;
+  const itemCount = [files ?? [], inventors ?? []][tabIndex].length;
   const countLabel = `${itemCount} ${["attachment", "inventor"][tabIndex]}${" s"[+(itemCount > 0)]}`;
 
   return (
@@ -57,9 +62,10 @@ function InformationPanel(props: DetailsPanelProps) {
 
       {activeTab === "attachments" ? (
         <ViewAttachments
-          attachments={attachments}
-          isAdmin={isAdmin}
-          isLoading={false}
+          attachments={files ?? []}
+          user={user}
+          isFetchingUser={isFetchingUser}
+          isLoading={isFetchingFiles}
         />
       ) : (
         <ViewInventors

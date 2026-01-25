@@ -19,21 +19,6 @@ export const  generateUrlByStoragePath = async (props: GenerateUrlByStoragePathP
 
       if (error) throw new Error(error.message);
 
-      if (data?.signedUrl) {
-        if (action === 'download') {
-          // When downloading, create a temporary link and click it programmatically to prompt download
-          const link = document.createElement('a');
-          link.href = data.signedUrl;
-          link.setAttribute('download', fileName);
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-        } else {
-          // When viewing, open on new tab for now
-          // TODO: return signedUrl depending on the view implementation
-          window.open(data.signedUrl, '_blank');
-        }
-      }
 
-      return data as { signedUrl: string };
+      return data.signedUrl;
     }

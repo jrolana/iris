@@ -1,13 +1,13 @@
-import { useMutation, QueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { uploadFile } from '@/services/attachments/upload-file';
 
 export function useUploadFile() {
-    const queryClient = new QueryClient();
+    const queryClient = useQueryClient();
     const {data, isPending, mutateAsync} =  useMutation({
         mutationKey: ['upload'],
         mutationFn: uploadFile,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['attachments'] });
+            queryClient.invalidateQueries({ queryKey: ['files'] });
         }
     });
 
