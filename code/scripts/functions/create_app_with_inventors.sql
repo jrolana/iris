@@ -11,6 +11,7 @@ CREATE OR REPLACE FUNCTION public.create_application_with_inventors(
 RETURNS UUID -- Returns the id of the new app to use later
 LANGUAGE plpgsql
 SECURITY DEFINER -- Optional: ensures function runs with owner privileges if needed
+SET search_path = private
 AS $$
 DECLARE
   new_app_id UUID; 
