@@ -2,6 +2,7 @@ create or replace function private.can_access_app_files(app_id_text text)
 returns boolean
 language plpgsql
 security definer
+SET search_path = private
 as $$
 begin
   -- Check if user is Admin 
