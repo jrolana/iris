@@ -1,7 +1,8 @@
 create or replace function public.check_app_exists(app_id_text text)
 returns boolean
 language plpgsql
-security definer 
+security definer
+SET search_path = private 
 as $$
 begin
   return exists (
