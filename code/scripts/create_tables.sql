@@ -75,6 +75,7 @@ CREATE TABLE private.ipr_applications (
 
     filing_date DATE,
     registration_date DATE,
+    created_by uuid NULL DEFAULT auth.uid (),
     CHECK (registration_date IS NULL OR registration_date >= filing_date),
 
     created_at TIMESTAMPTZ DEFAULT now(),
@@ -133,9 +134,11 @@ CREATE TABLE private.ipr_files (
     file_description TEXT,
     file_type TEXT NOT NULL,
     comments TEXT,
+    storage_id UUID NOT NULL,
 
     CONSTRAINT fk_ipr_files_app_id FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
-    CONSTRAINT fk_ipr_files_owner_id FOREIGN KEY(owner_id) REFERENCES private.users(id) ON DELETE CASCADE
+    CONSTRAINT fk_ipr_files_owner_id FOREIGN KEY(owner_id) REFERENCES private.users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_ipr_files_storage_id FOREIGN KEY (storage_id) REFERENCES storage.objects (id) ON DELETE CASCADE
 );
 
 CREATE TABLE private.notifications (

@@ -6,9 +6,9 @@ interface UpdateApplicationProps {
     applicationData: Partial<ApplicationType["Update"]>;
 }
 
-export const updateApplication = async (props: UpdateApplicationProps) => {
+export const updateApplicationById = async (props: UpdateApplicationProps) => {
     const { id, applicationData } = props;
-    const { data, error } = await supabase.schema("private").from('ipr_applications').update(applicationData).eq('id', id).select()
+    const { data, error } = await supabase.schema("private").from('ipr_applications').update(applicationData).eq('id', id).select().single()
 
     if (error) {
         throw new Error(error.message);

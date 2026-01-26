@@ -3,26 +3,29 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AttachmentType, InventorType } from "@/lib/types/application";
+import { IpType } from "@/lib/types/ip";
+import useAddInventorsModal from "@/hooks/useAddInventorModal";
+import { useCreateApplication } from "@/hooks/applications/useCreateApplication";
+import { useUploadFile } from "@/hooks/attachments/useUploadFile";
 
+import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FileUploader from "@/components/common/FileUploader";
 import { ArrowLeft, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import useAddInventorsModal from "@/hooks/useAddInventorModal";
-import { Input } from "@/components/ui/input";
-import { useCreateApplication } from "@/hooks/applications/useCreateApplication";
-import { IpType } from "@/lib/types/ip";
-// import { useAddInventors } from "@/hooks/inventors/useAddInventors";
 
+type extendedAttachmentType = AttachmentType["Insert"] & {
+  fileObject?: File;
+};
 export default function StartApplicationPage() {
   // TODO: Add funding source input later
   const router = useRouter();
   const { inventorDetails, openModal, isOpen } = useAddInventorsModal();
   const searchParams = useSearchParams();
   const ipTypeParam = searchParams.get("ipType");
-  const { appId, isLoading: isCreatingApp, createApp } = useCreateApplication();
-  // const { addInventors, isLoading: isAddingInventors } = useAddInventors();
-  const [formItems, setFormItems] = useState<AttachmentType["Insert"][]>([]);
+  const { isLoading: isCreatingApp, createApp } = useCreateApplication();
+  const { isLoading: isUploadingFiles, uploadFile } = useUploadFile();
+  const [fileItems, setFileItems] = useState<extendedAttachmentType[]>([]);
   const [inventors, setInventors] = useState<InventorType["Insert"][]>([]);
   const [appTitle, setAppTitle] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
@@ -41,12 +44,8 @@ export default function StartApplicationPage() {
 
   async function handleSubmit() {
     if (appTitle.trim() === "") return;
-    // TODO:
-    // Implement file submission and inventor adding
 
-    console.log("Inventor deets:", inventors);
-
-    await createApp(
+    const appId = await createApp(
       {
         applicationData: {
           ip_title: appTitle,
@@ -68,6 +67,44 @@ export default function StartApplicationPage() {
         },
       },
     );
+    await handleUpload(appId, fileItems);
+    router.push(`/techgen/view-application?applicationID=${appId}`);
+  }
+
+  async function handleUpload(
+    appId: string,
+    fileItems: extendedAttachmentType[],
+  ) {
+    for (const item of fileItems) {
+      await uploadFile(
+        { file: item, appId },
+        {
+          onSuccess: () => handleSuccess(item),
+          onError: (error: unknown) => handleError(item, error),
+          onSettled: handleSettled,
+        },
+      );
+    }
+  }
+
+  function handleSuccess(item: extendedAttachmentType) {
+    console.log(`Uploaded: ${item.file_name}`);
+  }
+
+  function handleError(item: extendedAttachmentType, error: unknown) {
+    console.log(
+      "Something went wrong with",
+      item,
+      "error: ",
+      (error as Error).message,
+    );
+  }
+
+  function handleSettled() {
+    setFileItems((prev) => {
+      const remainingItems = prev.filter((file, index) => index !== 0);
+      return remainingItems;
+    });
   }
 
   useEffect(() => {
@@ -75,17 +112,25 @@ export default function StartApplicationPage() {
     setInventors((prev) => [...prev, inventorDetails]);
   }, [inventorDetails, isOpen]);
 
-  useEffect(() => {
-    if (!appId) return;
+  // useEffect(() => {
+  //   if (!appId) return;
 
-    router.push(`/techgen/view-application?applicationID=${appId}`);
-  }, [appId, router]);
+  //   router.push(`/techgen/view-application?applicationID=${appId}`);
+  // }, [appId, router]);
 
   // TODO: Add proper loading state
   if (isCreatingApp) {
     return (
       <div className="flex h-full w-full items-center justify-center">
         <span className="text-lg font-medium">Creating application...</span>
+      </div>
+    );
+  }
+
+  if (isUploadingFiles) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <span className="text-lg font-medium">Uploading files...</span>
       </div>
     );
   }
@@ -196,7 +241,7 @@ export default function StartApplicationPage() {
           </p>
         </div>
         <div className="flex w-full justify-center p-4">
-          <FileUploader items={formItems} setItems={setFormItems} />
+          <FileUploader items={fileItems} setItems={setFileItems} />
         </div>
         <button
           type="button"
