@@ -3,11 +3,13 @@ import useInventorCommentModal from "@/hooks/useInventorCommentModal";
 
 import Modal from "./Modal";
 import Button from "../ui/button/Button";
+import { useUpdateInventor } from "@/hooks/inventors/useUpdateInventor";
 
 export default function InventorCommentModal() {
-  const { isOpen, closeModal, inventorComment, isAdmin } =
+  const { isOpen, closeModal, inventorComment, isAdmin, inventorId } =
     useInventorCommentModal();
   const [typedComment, setTypedComment] = useState(inventorComment ?? "");
+  const { isLoading, updateInventor } = useUpdateInventor();
 
   useEffect(() => {
     if (isOpen) {
@@ -15,9 +17,15 @@ export default function InventorCommentModal() {
     }
   }, [isOpen, inventorComment]);
 
-  function handleUpdateComment() {
-    // TODO: implement update logic here
-    console.log(typedComment);
+  async function handleUpdateComment() {
+    if (!inventorId) return;
+    await updateInventor({
+      id: inventorId,
+      inventorData: {
+        comments: typedComment.trim() === "" ? null : typedComment.trim(),
+      },
+    });
+    closeModal();
   }
 
   return (
@@ -42,7 +50,10 @@ export default function InventorCommentModal() {
         />
         {isAdmin && (
           <Button
-            disabled={typedComment.trim() === (inventorComment ?? "").trim()}
+            disabled={
+              typedComment.trim() === (inventorComment ?? "").trim() ||
+              isLoading
+            }
             className="h-10 w-full"
             onClick={handleUpdateComment}
           >

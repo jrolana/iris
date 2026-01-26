@@ -1,6 +1,8 @@
 import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import { useDropzone } from "react-dropzone";
 import { getFileType } from "@/lib/helper/get-file-type";
+import { AttachmentType } from "@/lib/types/application";
+import { cn } from "@/lib/utils"; // Standard shadcn utility
 
 import {
   X,
@@ -12,8 +14,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils"; // Standard shadcn utility
-import { AttachmentType } from "@/lib/types/application";
 
 function getFileIcon(fileType: string) {
   if (fileType === "link") {
@@ -26,8 +26,8 @@ function getFileIcon(fileType: string) {
 }
 
 interface FileUploaderProps {
-  items: AttachmentType[];
-  setItems: Dispatch<SetStateAction<AttachmentType[]>>;
+  items: AttachmentType["Insert"][];
+  setItems: Dispatch<SetStateAction<AttachmentType["Insert"][]>>;
 }
 
 export default function FileUploader(props: FileUploaderProps) {
@@ -37,17 +37,18 @@ export default function FileUploader(props: FileUploaderProps) {
   // function to handle file drops
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const newItems: AttachmentType[] = acceptedFiles.map((file) => ({
-        id: Math.random().toString(36).substr(2, 9), // change this to a better ID generator if needed
-        owner_id: "",
-        file_name: file.name,
-        application_id: "",
-        uploaded_at: new Date(),
-        comments: null,
-        file_type: getFileType(file),
-        storage_path: "",
-        description: "",
-      }));
+      const newItems: AttachmentType["Insert"][] = acceptedFiles.map(
+        (file) => ({
+          owner_id: "",
+          file_name: file.name,
+          application_id: "",
+          uploaded_at: new Date().toString(),
+          comments: null,
+          file_type: getFileType(file),
+          storage_path: "",
+          file_description: "",
+        }),
+      );
 
       setItems((prev) => [...prev, ...newItems]);
     },
@@ -59,16 +60,15 @@ export default function FileUploader(props: FileUploaderProps) {
 
   function handleAddLink() {
     if (!linkInput) return;
-    const newItem: AttachmentType = {
-      id: Math.random().toString(36).substr(2, 9),
+    const newItem: AttachmentType["Insert"] = {
       owner_id: "",
       application_id: "",
       file_name: linkInput,
-      uploaded_at: new Date(),
+      uploaded_at: new Date().toString(),
       comments: null,
       file_type: "link",
       storage_path: linkInput,
-      description: "",
+      file_description: "",
     };
     setItems((prev) => [...prev, newItem]);
     setLinkInput("");
@@ -81,7 +81,7 @@ export default function FileUploader(props: FileUploaderProps) {
   function updateDescription(index_updated: number, newDesc: string) {
     setItems((prev) =>
       prev.map((item, index) =>
-        index === index_updated ? { ...item, description: newDesc } : item,
+        index === index_updated ? { ...item, file_description: newDesc } : item,
       ),
     );
   }
@@ -174,7 +174,7 @@ export default function FileUploader(props: FileUploaderProps) {
 
                 <Input
                   placeholder="Add a description for this attachment..."
-                  value={item.description ?? ""}
+                  value={item.file_description ?? ""}
                   onChange={(e) => updateDescription(index, e.target.value)}
                   className="h-8 text-sm"
                 />

@@ -2,12 +2,13 @@
 
 import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
 import { StatusType } from "@/lib/types/ip";
-import { IprStatus } from "@/lib/types/status";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import clsx from "clsx";
 
+import { dummyIprStatuses as statuses } from "@/lib/dummy-data/application";
+
 interface StatusHistoryPanelProps {
-  statuses: IprStatus[];
+  applicationId: string;
   currentStatusType: StatusType;
   variant?: "techgen" | "ttbdo";
   className?: string;
@@ -15,12 +16,14 @@ interface StatusHistoryPanelProps {
 
 export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
   const {
-    statuses,
+    applicationId,
     currentStatusType,
     variant = "techgen",
     className = "",
   } = props;
   const { openModal } = useStatusUpdateModal();
+
+  // TODO: Fetch statuses by applicationId
 
   if (!statuses || statuses.length === 0) {
     return (
@@ -46,7 +49,7 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
   // The query might have sorted these already
   const sortedStatuses = [...statuses].sort(
     (a, b) =>
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime(),
   );
   const latestStatus = sortedStatuses[0];
 
@@ -88,13 +91,15 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
 
       <div className="mt-3 max-h-64 space-y-2 overflow-y-auto pr-1">
         {sortedStatuses.map((status) => {
-          const label = STATUS_LABELS[status.status_type] ?? status.status_type;
+          const label =
+            STATUS_LABELS[status.status_type as StatusType] ??
+            status.status_type;
           const isCurrent = status.status_type === currentStatusType;
-          const isLatest = status.statusId === latestStatus?.statusId;
+          const isLatest = status.id === latestStatus?.id;
 
           return (
             <div
-              key={status.statusId}
+              key={status.id}
               className={clsx(
                 "flex items-start justify-between gap-3 rounded-lg border px-3 py-2",
                 isCurrent
@@ -116,7 +121,7 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
                 )}
               </div>
               <p className="shrink-0 text-sm text-gray-500">
-                {new Date(status.created_at).toLocaleString()}
+                {new Date(status.created_at!).toLocaleString()}
               </p>
             </div>
           );

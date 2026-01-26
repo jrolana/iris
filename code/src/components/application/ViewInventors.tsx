@@ -5,25 +5,43 @@ import Hint from "../common/Tooltip";
 import useLinkInventorModal from "@/hooks/useLinkInventorModal";
 import useInventorCommentModal from "@/hooks/useInventorCommentModal";
 import { useEffect } from "react";
+import { Button } from "../ui/button";
 
 interface ViewInventorsProps {
-  inventors: InventorType[];
+  inventors: InventorType["Row"][];
   isAdmin: boolean;
+  isLoading: boolean;
 }
 
 function ViewInventors(props: ViewInventorsProps) {
-  const { inventors, isAdmin } = props;
+  const { inventors, isAdmin, isLoading } = props;
 
-  const { openModal: openLinkModal } = useLinkInventorModal();
+  const {
+    openModal: openLinkModal,
+    setExcludedUIDs,
+    setInventorUID,
+  } = useLinkInventorModal();
   const {
     openModal: openCommentModal,
     setInventorComment,
     setIsAdmin,
+    setInventorId,
   } = useInventorCommentModal();
 
   useEffect(() => {
     setIsAdmin(isAdmin);
   }, [isAdmin, setIsAdmin]);
+
+  // TODO: show proper loading state
+  if (isLoading) {
+    return (
+      <div className="mt-3 flex h-64 items-center justify-center overflow-x-auto overflow-y-auto">
+        <p className="text-md mt-4 items-center justify-center text-center text-slate-500">
+          Loading inventors...
+        </p>
+      </div>
+    );
+  }
 
   if (inventors.length == 0) {
     return (
@@ -38,11 +56,15 @@ function ViewInventors(props: ViewInventorsProps) {
 
   function handleCommentClicked(inventorId: string, comment: string | null) {
     setInventorComment(comment);
+    setInventorId(inventorId);
     openCommentModal();
   }
 
   function handleLinkInventor(inventorId: string) {
-    console.log("Link inventor:", inventorId);
+    const existingUserIds =
+      inventors.map((inv) => inv.techgen_id).filter((id) => id !== null) || [];
+    setInventorUID(inventorId);
+    setExcludedUIDs(existingUserIds);
     openLinkModal();
   }
   return (
@@ -50,7 +72,7 @@ function ViewInventors(props: ViewInventorsProps) {
       <ul className="mt-3 max-h-64 divide-y divide-slate-100 overflow-x-auto overflow-y-auto">
         {inventors.map((inventor) => (
           <li
-            key={inventor.inventorId}
+            key={inventor.id}
             className="flex items-center justify-between py-3 sm:items-start"
           >
             <div className="min-w-0 flex-1">
@@ -64,23 +86,23 @@ function ViewInventors(props: ViewInventorsProps) {
             </div>
             {isAdmin ? (
               <div className="flex shrink-0 items-center gap-2">
-                <button
+                <Button
                   type="button"
                   onClick={() =>
-                    handleCommentClicked(inventor.inventorId, inventor.comments)
+                    handleCommentClicked(inventor.id, inventor.comments)
                   }
                   className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                 >
                   Comment
-                </button>
-                {inventor.userId ? (
+                </Button>
+                {inventor.techgen_id ? (
                   <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-sky-600">
                     Verified Account <BadgeCheck size={24} />
                   </div>
                 ) : (
                   <button
                     type="button"
-                    onClick={() => handleLinkInventor(inventor.inventorId)}
+                    onClick={() => handleLinkInventor(inventor.id)}
                     className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                   >
                     Link Account <Cable size={24} />
@@ -100,10 +122,7 @@ function ViewInventors(props: ViewInventorsProps) {
                   <button
                     type="button"
                     onClick={() =>
-                      handleCommentClicked(
-                        inventor.inventorId,
-                        inventor.comments,
-                      )
+                      handleCommentClicked(inventor.id, inventor.comments)
                     }
                     className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                   >

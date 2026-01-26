@@ -8,5 +8,5 @@ export function useUpdateApplication() {
         mutationFn: updateApplication
     });
 
-    return {application: data, isLoading: isPending, update:mutateAsync}; 
+    return {application: data, isLoading: isPending, updateApp:mutateAsync}; 
 }

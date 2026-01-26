@@ -1,25 +1,24 @@
-// TODO: change this to refer to the db enums later
-
+// Make sure that the right value matches with the DB
+// TODO: to be safe, generate enum in db and use it here later
 export const CollegeUnits = {
+  "CAS": "CAS",
   "CAS-Bio": "CAS-Bio",
   "CAS-Chem": "CAS-Chem",
+  "CAS-DPSM" : "CAS-DPSM",
   "CFOS": "CFOS",
   "CFOS-IA": "CFOS-IA",
   "CFOS-IFPT": "CFOS-IFPT",
   "CFOS-IMFO": "CFOS-IMFO",
-  "ChE-SoTech": "ChE-SoTech",
-  "Chem-CAS": "Chem-CAS",
-  "DPSM-CAS": "DPSM-CAS",
-  "FT-SoTech": "FT-SoTech",
   "NIMBB": "NIMBB",
+  "Other": "Other",
   "RRC": "RRC",
   "SoTech": "SoTech",
+  "SoTech-Che": "SoTech-Che",
+  "SoTech-FT": "SoTech-FT",
   "TTBDO": "TTBDO",
   "UPHSI": "UPHSI",
   "UPV": "UPV",
-  "UPV GS": "UPV GS",
-  "UPVTC": "UPVTC",
-  "Other": "Other",
+  "UPVGS": "UPVGS",
 } as const;
 
 // types just in case
