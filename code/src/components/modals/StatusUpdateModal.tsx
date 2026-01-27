@@ -147,17 +147,6 @@ function StatusUpdateModal() {
                   setSelectedIpType(selectedOption?.value as IpType)
                 }
               />
-              {/* <select
-                value={selectedIpType}
-                onChange={(e) => setSelectedIpType(e.target.value as IpType)}
-                className="rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
-              >
-                {ipTypeOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select> */}
             </label>
 
             <label className="flex flex-col gap-1">
@@ -183,19 +172,6 @@ function StatusUpdateModal() {
                   setSelectedStatus(selectedOption?.value as StatusType)
                 }
               />
-              {/* <select
-                value={selectedStatus}
-                onChange={(e) =>
-                  setSelectedStatus(e.target.value as StatusType)
-                }
-                className="rounded-md border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
-              >
-                {statusOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select> */}
             </label>
           </div>
 

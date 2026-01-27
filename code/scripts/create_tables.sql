@@ -141,7 +141,7 @@ CREATE TABLE private.ipr_files (
 CREATE TABLE private.notifications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     
-    user_id UUID NOT NULL,
+    receiver_id UUID NOT NULL,
     application_id UUID,
     
     title TEXT NOT NULL,
