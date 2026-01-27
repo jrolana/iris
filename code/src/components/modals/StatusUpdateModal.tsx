@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import { IpType, StatusType } from "@/lib/types/ip";
 import { getSuggestedDeadline } from "@/lib/helper/get-status-deadline";
 import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
+import { useSearchParams } from "next/navigation";
+import { useGetAppById } from "@/hooks/applications/useGetApplicationById";
+import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
 
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import { dummyApplication } from "@/lib/dummy-data/application";
@@ -19,6 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { CalendarIcon, X } from "lucide-react";
+import { ApplicationType } from "@/lib/types/application";
 // Options for TTBDO modal only
 const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
   STATUS_LABELS as Record<string, string>,
@@ -38,21 +42,33 @@ const IP_TYPE_OPTIONS: { value: IpType; label: string }[] = [
 function StatusUpdateModal() {
   const { isOpen, closeModal } = useStatusUpdateModal();
 
-  const ipType = dummyApplication.ip_type;
-  const currentStatus = "draft_classification";
   const ipTypeOptions = IP_TYPE_OPTIONS;
   const statusOptions = STATUS_OPTIONS;
 
-  const [selectedIpType, setSelectedIpType] = useState<IpType>(ipType);
-  // implement this hook to get the current application
-  // const {application} = useGetApplication();
+  const searchParams = useSearchParams();
+  const applicationId = searchParams.get("applicationID") ?? "";
 
+  const { application, isLoading: isGetAppLoading } = useGetAppById({
+    appId: applicationId,
+  });
+
+  if (isGetAppLoading && !application) {
+    return <div>Loading...</div>;
+  }
+
+  const ipType = application?.ip_type;
+  const currentStatus = "draft_classification";
+
+  const [selectedIpType, setSelectedIpType] = useState<
+    ApplicationType["Update"]["ip_type"] | undefined
+  >(ipType);
   const [selectedStatus, setSelectedStatus] =
     useState<StatusType>(currentStatus);
   const [note, setNote] = useState("");
   const [deadline, setDeadline] = useState<Date | null>();
 
-  // Reset form whenever modal opens or values change
+  const { updateApp, isLoading: isUpdateAppLoading } = useUpdateApplication();
+
   useEffect(() => {
     if (isOpen) {
       setSelectedIpType(ipType);
@@ -77,15 +93,23 @@ function StatusUpdateModal() {
   if (!isOpen) return null;
 
   function onConfirm(payload: {
-    newIpType: IpType;
+    newIpType: ApplicationType["Update"]["ip_type"];
     newStatusType: StatusType;
     note: string;
     deadline?: Date | null;
   }) {
-    // do the actual db changes here
 
-    // also do some admin check here
-    // if (!isAdmin) return;
+    if (ipType != selectedIpType) {
+      updateApp({
+        id: applicationId,
+        applicationData: {
+          ip_type: selectedIpType,
+        },
+      });
+    }
+
+    
+
 
     console.log(payload);
 
