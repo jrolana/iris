@@ -10,10 +10,13 @@ import {
   Link as LinkIcon,
   UploadCloud,
   Image as ImageIcon,
+  Loader,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+type extendedAttachmentType = AttachmentType["Insert"] & { fileObject?: File };
 
 function getFileIcon(fileType: string) {
   if (fileType === "link") {
@@ -26,30 +29,29 @@ function getFileIcon(fileType: string) {
 }
 
 interface FileUploaderProps {
-  items: AttachmentType["Insert"][];
-  setItems: Dispatch<SetStateAction<AttachmentType["Insert"][]>>;
+  items: extendedAttachmentType[];
+  setItems: Dispatch<SetStateAction<extendedAttachmentType[]>>;
+  isLoading?: boolean;
 }
 
 export default function FileUploader(props: FileUploaderProps) {
-  const { items, setItems } = props;
+  const { items, setItems, isLoading } = props;
   const [linkInput, setLinkInput] = useState("");
 
   // function to handle file drops
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const newItems: AttachmentType["Insert"][] = acceptedFiles.map(
-        (file) => ({
-          owner_id: "",
-          file_name: file.name,
-          application_id: "",
-          uploaded_at: new Date().toString(),
-          comments: null,
-          file_type: getFileType(file),
-          storage_path: "",
-          file_description: "",
-        }),
-      );
-
+      const newItems: extendedAttachmentType[] = acceptedFiles.map((file) => ({
+        owner_id: "",
+        file_name: file.name,
+        application_id: "",
+        comments: null,
+        file_description: "",
+        fileObject: file,
+        file_type: getFileType(file),
+        storage_path: "",
+        uploaded_at: new Date().toString(),
+      }));
       setItems((prev) => [...prev, ...newItems]);
     },
     [setItems],
@@ -60,7 +62,7 @@ export default function FileUploader(props: FileUploaderProps) {
 
   function handleAddLink() {
     if (!linkInput) return;
-    const newItem: AttachmentType["Insert"] = {
+    const newItem: extendedAttachmentType = {
       owner_id: "",
       application_id: "",
       file_name: linkInput,
@@ -120,7 +122,7 @@ export default function FileUploader(props: FileUploaderProps) {
           />
         </div>
         <Button
-          variant="secondary"
+          className="disabled:text-muted-foreground bg-sky-600 hover:bg-sky-600/50 disabled:bg-slate-200"
           onClick={handleAddLink}
           disabled={!linkInput}
         >
@@ -134,13 +136,13 @@ export default function FileUploader(props: FileUploaderProps) {
           <div className="space-y-3">
             {items.map((item, index) => (
               <div
-                key={item.id}
+                key={item.id + index.toString()}
                 className="bg-card text-card-foreground flex flex-col gap-2 rounded-lg border p-3 shadow-sm"
               >
                 <div className="flex items-start justify-between gap-3">
                   {/* Icon & Name */}
                   <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="bg-muted flex h-10 w-10 shrink-0 items-center justify-center rounded">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded">
                       {getFileIcon(item.file_type)}
                     </div>
                     <div className="flex min-w-0 flex-col">
@@ -152,24 +154,32 @@ export default function FileUploader(props: FileUploaderProps) {
                           {item.file_type}
                         </span>
                         {/* show file size, optional for now  */}
-                        {/* {item.file_type === "file" && item.fileObject && (
+                        {item.file_type !== "link" && item.fileObject && (
                           <span>
                             • {(item.fileObject.size / 1024 / 1024).toFixed(2)}{" "}
                             MB
                           </span>
-                        )} */}
+                        )}
                       </span>
                     </div>
                   </div>
 
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-muted-foreground hover:text-destructive h-8 w-8"
-                    onClick={() => removeItem(index)}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
+                  {isLoading ? (
+                    <div className="text-muted-foreground flex h-8 w-auto items-center gap-2 rounded">
+                      <span>Uploading</span>
+                      <Loader className="animate-spin" size={15} />
+                    </div>
+                  ) : (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-muted-foreground hover:text-destructive h-8 w-8"
+                      onClick={() => removeItem(index)}
+                      disabled={isLoading}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
 
                 <Input
@@ -177,6 +187,7 @@ export default function FileUploader(props: FileUploaderProps) {
                   value={item.file_description ?? ""}
                   onChange={(e) => updateDescription(index, e.target.value)}
                   className="h-8 text-sm"
+                  disabled={isLoading}
                 />
               </div>
             ))}

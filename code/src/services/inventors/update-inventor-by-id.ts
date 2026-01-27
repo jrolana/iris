@@ -6,7 +6,7 @@ interface UpdateInventorProps {
     inventorData: Partial<InventorType["Update"]>;
 }
 
-export const updateInventor = async (props: UpdateInventorProps) => {
+export const updateInventorById = async (props: UpdateInventorProps) => {
     const { id, inventorData } = props;
     const { data, error } = await supabase.schema("private").from('inventors').update(inventorData).eq('id', id).select().single();
 

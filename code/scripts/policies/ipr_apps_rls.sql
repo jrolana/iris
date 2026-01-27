@@ -35,7 +35,7 @@ USING (
   private.is_admin() 
   OR created_by = auth.uid() 
   OR (auth.uid() IN (
-      SELECT id FROM private.inventors 
+      SELECT techgen_id FROM private.inventors 
       WHERE application_id = ipr_applications.id
   ))
 );
