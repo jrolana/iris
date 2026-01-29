@@ -7,9 +7,7 @@ import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
 import { useSearchParams } from "next/navigation";
 import { useGetAppById } from "@/hooks/applications/useGetApplicationById";
 import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
-
-import { STATUS_LABELS } from "@/lib/helper/status-labels";
-import { dummyApplication } from "@/lib/dummy-data/application";
+import { useAddStatus } from "@/hooks/status/useAddStatus";
 
 import Modal from "./Modal";
 import Select from "react-select";
@@ -22,7 +20,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { CalendarIcon, X } from "lucide-react";
+
+import { STATUS_LABELS } from "@/lib/helper/status-labels";
+import { toSupabaseDate } from "@/lib/helper/to-supabase-date";
 import { ApplicationType } from "@/lib/types/application";
+import { IprStatusType } from "@/lib/types/status";
+import { useUpdateStatus } from "@/hooks/status/useUpdateStatus";
+import { useGetStatus } from "@/hooks/status/useGetStatus";
 // Options for TTBDO modal only
 const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
   STATUS_LABELS as Record<string, string>,
@@ -51,35 +55,44 @@ function StatusUpdateModal() {
   const { application, isLoading: isGetAppLoading } = useGetAppById({
     appId: applicationId,
   });
+  const { status: currentStatus, isLoading: isGetStatusLoading } =
+    useGetStatus();
 
-  if (isGetAppLoading && !application) {
+  const { updateApp, isLoading: isUpdateAppLoading } = useUpdateApplication();
+  const { updateStatus, isLoading: isUpdateStatusLoading } = useUpdateStatus();
+  const { addStatus, isLoading: isAddStatusLoading } = useAddStatus();
+
+  if (isGetAppLoading || isGetStatusLoading || !application || !currentStatus) {
     return <div>Loading...</div>;
   }
 
-  const ipType = application?.ip_type;
-  const currentStatus = "draft_classification";
+  const ipType = application.ip_type;
+  const statusType = currentStatus.status_type;
+  const statusId = currentStatus.id;
 
-  const [selectedIpType, setSelectedIpType] = useState<
-    ApplicationType["Update"]["ip_type"] | undefined
-  >(ipType);
+  const [selectedIpType, setSelectedIpType] =
+    useState<ApplicationType["Update"]["ip_type"]>(ipType);
   const [selectedStatus, setSelectedStatus] =
-    useState<StatusType>(currentStatus);
+    useState<IprStatusType["Row"]["status_type"]>(statusType);
   const [note, setNote] = useState("");
   const [deadline, setDeadline] = useState<Date | null>();
-
-  const { updateApp, isLoading: isUpdateAppLoading } = useUpdateApplication();
 
   useEffect(() => {
     if (isOpen) {
       setSelectedIpType(ipType);
-      setSelectedStatus(currentStatus);
+      setSelectedStatus(statusType);
       setNote("");
       setDeadline(null);
     }
-  }, [isOpen, ipType, currentStatus]);
+  }, [isOpen, ipType, statusType]);
 
   useEffect(() => {
     if (!isOpen) return;
+
+    if (!selectedStatus) {
+      setDeadline(null);
+      return;
+    }
 
     const suggestion = getSuggestedDeadline(selectedStatus);
     // Only overwrite if a suggestion exists; otherwise, keep it null or let the user choose
@@ -90,17 +103,11 @@ function StatusUpdateModal() {
     }
   }, [selectedStatus, isOpen]);
 
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
-  function onConfirm(payload: {
-    newIpType: ApplicationType["Update"]["ip_type"];
-    newStatusType: StatusType;
-    note: string;
-    deadline?: Date | null;
-  }) {
-
+  async function onConfirm() {
     if (ipType != selectedIpType) {
-      updateApp({
+      await updateApp({
         id: applicationId,
         applicationData: {
           ip_type: selectedIpType,
@@ -108,24 +115,37 @@ function StatusUpdateModal() {
       });
     }
 
-    
+    const updatedStatus: Partial<IprStatusType["Insert"]> = {};
 
+    if (note != undefined) updatedStatus.note = note;
+    if (deadline != undefined)
+      updatedStatus.deadline = toSupabaseDate(deadline);
 
-    console.log(payload);
+    if (selectedStatus != statusType) {
+      updatedStatus.status_type = selectedStatus;
 
-    closeModal();
+      await updateStatus({
+        id: statusId,
+        statusData: updatedStatus,
+      });
+
+      return;
+    }
+
+    updatedStatus.status_type = selectedStatus;
+    updatedStatus.application_id = applicationId;
+
+    await addStatus({
+      statusData: updatedStatus,
+    });
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!note.trim()) return;
 
-    onConfirm({
-      newIpType: selectedIpType,
-      newStatusType: selectedStatus,
-      note: note.trim(),
-      deadline,
-    });
+    onConfirm();
+    closeModal();
   };
 
   function handleChange() {

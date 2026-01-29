@@ -2,7 +2,7 @@
 
 import React from "react";
 import { StatusType } from "@/lib/types/ip";
-import { IprStatus } from "@/lib/types/status";
+import { IprStatusType } from "@/lib/types/status";
 import clsx from "clsx";
 
 export const STATUS_LABELS: Partial<Record<StatusType, string>> = {
@@ -22,7 +22,7 @@ export const STATUS_LABELS: Partial<Record<StatusType, string>> = {
 };
 
 interface StatusHistoryPanelProps {
-  statuses: IprStatus[];
+  statuses: IprStatusType[];
   currentStatusType: StatusType;
   className?: string;
 }

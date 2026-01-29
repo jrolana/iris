@@ -7,5 +7,5 @@ export function useAddInventors() {
         mutationFn: addInventors
     });
 
-    return {inventors: data, isLoading: isPending, addInventors:mutateAsync}; 
+    return {inventors: data, isLoading: isPending, addInventors: mutateAsync}; 
 }

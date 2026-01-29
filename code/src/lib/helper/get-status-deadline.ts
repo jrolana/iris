@@ -1,7 +1,7 @@
 
-import { StatusType } from "@/lib/types/ip";
+import { IprStatusType } from "../types/status";
 
-export const getSuggestedDeadline = (status: StatusType): string | null => {
+export const getSuggestedDeadline = (status: IprStatusType["Row"]["status_type"]): string | null => {
   const now = new Date();
 
   // Helper to format date as YYYY-MM-DD for HTML input
