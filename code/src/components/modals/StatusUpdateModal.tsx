@@ -26,7 +26,7 @@ import { toSupabaseDate } from "@/lib/helper/to-supabase-date";
 import { ApplicationType } from "@/lib/types/application";
 import { IprStatusType } from "@/lib/types/status";
 import { useUpdateStatus } from "@/hooks/status/useUpdateStatus";
-import { useGetStatus } from "@/hooks/status/useGetStatus";
+import { useGetLatestStatus } from "@/hooks/status/useGetLatestStatus";
 // Options for TTBDO modal only
 const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
   STATUS_LABELS as Record<string, string>,
@@ -56,14 +56,36 @@ function StatusUpdateModal() {
     appId: applicationId,
   });
   const { status: currentStatus, isLoading: isGetStatusLoading } =
-    useGetStatus();
+    useGetLatestStatus({ appId: applicationId });
 
   const { updateApp, isLoading: isUpdateAppLoading } = useUpdateApplication();
   const { updateStatus, isLoading: isUpdateStatusLoading } = useUpdateStatus();
   const { addStatus, isLoading: isAddStatusLoading } = useAddStatus();
 
-  if (isGetAppLoading || isGetStatusLoading || !application || !currentStatus) {
-    return <div>Loading...</div>;
+  if (isGetAppLoading || isGetStatusLoading) {
+    return (
+      <Modal
+        title="Update status and notify record"
+        description={""}
+        isOpen={isOpen}
+        onChange={handleChange}
+      >
+        <div>Loading...</div>
+      </Modal>
+    );
+  }
+
+  if (!application || !currentStatus) {
+    return (
+      <Modal
+        title="Update status and notify record"
+        description={""}
+        isOpen={isOpen}
+        onChange={handleChange}
+      >
+        <div>No status.</div>
+      </Modal>
+    );
   }
 
   const ipType = application.ip_type;
@@ -103,7 +125,7 @@ function StatusUpdateModal() {
     }
   }, [selectedStatus, isOpen]);
 
-  // if (!isOpen) return null;
+  if (!isOpen) return null;
 
   async function onConfirm() {
     if (ipType != selectedIpType) {
