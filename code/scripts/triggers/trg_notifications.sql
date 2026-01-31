@@ -8,3 +8,13 @@ AFTER UPDATE ON private.ipr_applications
 FOR EACH ROW
 EXECUTE FUNCTION private.notify_ip_type_change()
 
+CREATE TRIGGER trgy_notify_added_files
+AFTER INSERT ON private.ipr_files
+FOR EACH ROW
+EXECUTE FUNCTION private.notify_added_files()
+
+CREATE TRIGGER trgy_notify_deleted_files
+AFTER DELETE ON private.ipr_files
+FOR EACH ROW
+EXECUTE FUNCTION private.notify_deleted_files()
+

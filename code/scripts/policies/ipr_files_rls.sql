@@ -12,8 +12,6 @@ USING (
   -- OR private.is_admin()
 );
 
-
-
 -- Users can view files if they are an Admin OR if they are listed as an inventor
 
 DROP POLICY IF EXISTS "View files if admin or inventor" ON private.ipr_files;
@@ -51,8 +49,6 @@ WITH CHECK (
   )
 );
 
-
-
 DROP POLICY IF EXISTS "Users can update their own file details" ON private.ipr_files;
 
 CREATE POLICY "Users can update their own file details"
@@ -65,4 +61,14 @@ USING (
 WITH CHECK (
   -- Cannot accidentally change the owner to someone else
   owner_id = auth.uid()
+);
+
+DROP POLICY IF EXISTS "Admins can upload files" ON private.ipr_files;
+
+CREATE POLICY "Admins can upload files"
+ON private.ipr_files
+FOR INSERT
+TO authenticated
+WITH CHECK (
+  private.is_admin()
 );

@@ -15,6 +15,7 @@ DECLARE
 BEGIN
     current_status := NEW.status_type;
     SELECT ip_title INTO ip_name FROM private.ipr_applications WHERE id = NEW.application_id;
+    ip_name := COALESCE(ip_name, 'Unknown application');
     
     FOR receiver IN
         SELECT techgen_id FROM private.inventors WHERE application_id = NEW.application_id 
