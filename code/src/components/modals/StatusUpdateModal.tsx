@@ -7,7 +7,7 @@ import { useGetAppById } from "@/hooks/applications/useGetApplicationById";
 
 import Modal from "./Modal";
 
-import { useGetLatestStatus } from "@/hooks/status/useGetLatestStatus";
+import { useGetApplicationStatuses } from "@/hooks/status/useGetStatuses";
 import StatusUpdateForm from "../admin/StatusUpdateForm";
 
 function StatusUpdateModal() {
@@ -24,8 +24,11 @@ function StatusUpdateModal() {
     appId: applicationId,
   });
 
-  const { status: currentStatus, isLoading: isGetStatusLoading } =
-    useGetLatestStatus({ appId: applicationId });
+  const { statuses: currentStatus, isLoading: isGetStatusLoading } =
+    useGetApplicationStatuses({
+      applicationId: applicationId,
+      isLatest: true,
+    });
 
   if (isGetAppLoading || isGetStatusLoading) {
     return (
@@ -55,6 +58,10 @@ function StatusUpdateModal() {
 
   if (!isOpen) return null;
 
+  const status = Array.isArray(currentStatus)
+    ? currentStatus[0]
+    : currentStatus;
+
   return (
     <Modal
       title="Update status and notify record"
@@ -64,7 +71,7 @@ function StatusUpdateModal() {
     >
       <StatusUpdateForm
         application={application}
-        currentStatus={currentStatus}
+        currentStatus={status}
         closeModal={closeModal}
       />
     </Modal>

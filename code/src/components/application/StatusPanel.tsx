@@ -5,27 +5,24 @@ import { StatusType } from "@/lib/types/ip";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import clsx from "clsx";
 
-import { dummyIprStatuses as statuses } from "@/lib/dummy-data/application";
+import { useGetApplicationStatuses } from "@/hooks/status/useGetStatuses";
+import { IprStatusType } from "@/lib/types/status";
 
 interface StatusHistoryPanelProps {
   applicationId: string;
-  currentStatusType: StatusType;
   variant?: "techgen" | "ttbdo";
   className?: string;
 }
 
 export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
-  const {
-    applicationId,
-    currentStatusType,
-    variant = "techgen",
-    className = "",
-  } = props;
+  const { applicationId, variant = "techgen", className = "" } = props;
   const { openModal } = useStatusUpdateModal();
 
-  // TODO: Fetch statuses by applicationId
+  const { statuses, isLoading } = useGetApplicationStatuses({
+    applicationId,
+  });
 
-  if (!statuses || statuses.length === 0) {
+  if (!statuses || isLoading) {
     return (
       <div
         className={
@@ -46,12 +43,8 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
     openModal();
   }
 
-  // The query might have sorted these already
-  const sortedStatuses = [...statuses].sort(
-    (a, b) =>
-      new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime(),
-  );
-  const latestStatus = sortedStatuses[0];
+  const statusArray = Array.isArray(statuses) ? statuses : [statuses];
+  const latestStatus = statusArray[0];
 
   return (
     <div
@@ -90,11 +83,11 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
       )}
 
       <div className="mt-3 max-h-64 space-y-2 overflow-y-auto pr-1">
-        {sortedStatuses.map((status) => {
+        {statusArray.map((status: IprStatusType["Row"]) => {
           const label =
             STATUS_LABELS[status.status_type as StatusType] ??
             status.status_type;
-          const isCurrent = status.status_type === currentStatusType;
+          const isCurrent = status.status_type === latestStatus.status_type;
           const isLatest = status.id === latestStatus?.id;
 
           return (

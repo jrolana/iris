@@ -27,14 +27,15 @@ BEGIN
         ELSIF (TG_OP = 'UPDATE') THEN
             title := 'Status details updated';
 
-            is_note_changed := NEW.note != OLD.note;
-            is_deadline_changed := NEW.deadline != OLD.deadline;
+            -- needs IS DISTINCT FROM since != returns null on empty record
+            is_note_changed := NEW.note IS DISTINCT FROM OLD.note;
+            is_deadline_changed := NEW.deadline IS DISTINCT FROM OLD.deadline;
 
             IF is_note_changed AND is_deadline_changed THEN
                 content := FORMAT('The note and deadline for %s has been updated under %s.', current_status, ip_name);
             ELSIF is_note_changed THEN
                 content := FORMAT('The note for %s has been updated under %s.', current_status, ip_name);
-            ELSIF is_deadline_changed IS NOT NULL THEN
+            ELSIF is_deadline_changed THEN
                 content := FORMAT('The deadline for %s has been updated under %s.', current_status, ip_name);
                 
             END IF;
