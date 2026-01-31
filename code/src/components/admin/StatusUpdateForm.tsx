@@ -56,7 +56,7 @@ function StatusUpdateForm(props: PropsInterface) {
   const { updateApp } = useUpdateApplication();
   const { updateStatus } = useUpdateStatus();
   const { addStatus } = useAddStatus();
-  
+
   const ipType = application.ip_type;
   const currentStatusType = currentStatus.status_type;
   const currentStatusId = currentStatus.id;
@@ -153,8 +153,8 @@ function StatusUpdateForm(props: PropsInterface) {
           },
         },
       );
-    } catch {
-      toast.error("Something went wrong");
+    } catch (e) {
+      console.error(e instanceof Error ? e.message : "An error occurred");
     } finally {
       handleClose();
     }
