@@ -56,7 +56,7 @@ function StatusUpdateForm(props: PropsInterface) {
   const { updateApp } = useUpdateApplication();
   const { updateStatus } = useUpdateStatus();
   const { addStatus } = useAddStatus();
-
+  
   const ipType = application.ip_type;
   const currentStatusType = currentStatus.status_type;
   const currentStatusId = currentStatus.id;
@@ -81,11 +81,8 @@ function StatusUpdateForm(props: PropsInterface) {
     }
 
     const suggestion = getSuggestedDeadline(selectedStatus);
-    // Only overwrite if a suggestion exists; otherwise, keep it null or let the user choose
     if (suggestion) {
       setDeadline(new Date(suggestion));
-    } else {
-      setDeadline(null);
     }
   }, [selectedStatus]);
 
@@ -115,8 +112,12 @@ function StatusUpdateForm(props: PropsInterface) {
 
       const updatedStatus: Partial<IprStatusType["Insert"]> = {};
 
-      if (note) updatedStatus.note = note;
-      if (deadline) updatedStatus.deadline = toSupabaseDate(deadline);
+      if (currentNote != note) {
+        updatedStatus.note = note;
+      }
+      if (currentDeadline != deadline) {
+        updatedStatus.deadline = deadline ? toSupabaseDate(deadline) : null;
+      }
 
       if (currentStatusType == selectedStatus) {
         await updateStatus(
@@ -129,7 +130,7 @@ function StatusUpdateForm(props: PropsInterface) {
               toast.success("Successfully updated status.");
             },
             onError: () => {
-              toast.error("There was an error in changing IP type.");
+              toast.error("There was an error in updating status details.");
             },
           },
         );
@@ -148,7 +149,7 @@ function StatusUpdateForm(props: PropsInterface) {
             toast.success("Successfully changed status.");
           },
           onError: () => {
-            toast.error("There was an error in changing IP type.");
+            toast.error("There was an error in changing status.");
           },
         },
       );
