@@ -14,24 +14,35 @@ export type StatusType =
   | 'prior_art_search'
   | 'draft_application'
   | 'filed_with_ipophil'
-  | 'under_examination'
   | 'wait_notice_publication'
-  | 'wait_registrability_report'
-  | 'wait_formality_exam_report'
   | 'wait_substantive_exam_report'
+  | 'resolve_ser_defects'
+  | 'downgraded_to_um'
+  | 'wait_notice_of_issuance'
+  | 'req_cert_of_registration'
+  | 'wait_cert_of_registration'
+  | 'registered'
+  | 'published'
+  | 'wait_formality_exam_report'
+  | 'resolve_fer_defects'
+  | 'request_revival'
+  | '2nd_publication'
   | 'prepare_nice_classification'
   | 'approve_nice_classification'
-  | 'resolve_ser_defects'
-  | 'resolve_fer_defects'
+  | 'wait_registrability_report'
   | 'resolve_rr_defects'
+  | 'techgen_sign'
+  | 'chancellor_sign'
+  | 'notarization'
+  | 'wait_notice_of_action'
   | 'resolve_additional_requirements'
-  | 'request_revival'
-  | 'downgraded_to_um'
-  | 'registered'
+  | 'wait_statement_of_acc'
+  | 'pay_fee_application'
+  | 'mailed_to_ipophl'
   | 'closed';
 
 //specific ip statuses
-export const ipStatuses = {
+export const IpStatuses = {
   patent: [
     'draft_classification',
     'draft_idf',
@@ -40,11 +51,15 @@ export const ipStatuses = {
     'prior_art_search',
     'draft_application',
     'filed_with_ipophil',
-    'wait_formality_exam_report',
-    'resolve_ser_defects',
+    'wait_notice_publication',
     'wait_substantive_exam_report',
+    'resolve_ser_defects',
     'downgraded_to_um',
+    'wait_notice_of_issuance',
+    'req_cert_of_registration',
+    'wait_cert_of_registration',
     'registered',
+    'published',
     'closed',
   ],
   utility_model: [
@@ -55,9 +70,15 @@ export const ipStatuses = {
     'prior_art_search',
     'draft_application',
     'filed_with_ipophil',
-    'wait_registrability_report',
+    'wait_formality_exam_report',
     'resolve_fer_defects',
+    'request_revival',
+    'wait_notice_publication',
+    'req_cert_of_registration',
+    '2nd_publication',
+    'wait_cert_of_registration',
     'registered',
+    'published',
     'closed',
   ],
   industrial_design: [
@@ -65,10 +86,18 @@ export const ipStatuses = {
     'draft_idf',
     'submitted_to_ttbdo',
     'under_ttbdo_review',
+    'prior_art_search',
+    'draft_application',
     'filed_with_ipophil',
-    'wait_registrability_report',
+    'wait_formality_exam_report',
     'resolve_fer_defects',
+    'request_revival',
+    'wait_notice_publication',
+    'req_cert_of_registration',
+    '2nd_publication',
+    'wait_cert_of_registration',
     'registered',
+    'published',
     'closed',
   ],
   trademark: [
@@ -76,11 +105,19 @@ export const ipStatuses = {
     'draft_idf',
     'submitted_to_ttbdo',
     'under_ttbdo_review',
-    'prepare_nice_classification', 
+    'prior_art_search',
+    'prepare_nice_classification',
     'approve_nice_classification',
+    'filed_with_ipophil',
     'wait_registrability_report',
     'resolve_rr_defects',
+    'request_revival',
+    'wait_notice_publication',
+    'req_cert_of_registration',
+    '2nd_publication',
+    'wait_cert_of_registration',
     'registered',
+    'published',
     'closed',
   ],
   copyright: [
@@ -88,8 +125,19 @@ export const ipStatuses = {
     'draft_idf',
     'submitted_to_ttbdo',
     'under_ttbdo_review',
+    'techgen_sign',
+    'chancellor_sign',
+    'notarization',
+    'filed_with_ipophil',
+    'wait_notice_of_action',
     'resolve_additional_requirements',
+    'wait_statement_of_acc',
+    'pay_fee_application',
+    'mailed_to_ipophl',
+    'req_cert_of_registration',
+    'wait_cert_of_registration',
     'registered',
+    'published',
     'closed',
   ],
 } satisfies Record<IpType, readonly StatusType[]>;
