@@ -12,8 +12,13 @@ function TtbdoViewApplicationPage() {
   const { application, isLoading, isFetched } = useGetAppById({
     appId: applicationId,
   });
+
   if (isLoading && !isFetched) {
     return <div>Loading...</div>;
+  }
+
+  if (!application) {
+    return <div>Application not found.</div>;
   }
 
   return (
@@ -24,7 +29,7 @@ function TtbdoViewApplicationPage() {
         ip_title: application?.ip_title ?? dummyApplication.ip_title,
         project_title:
           application?.project_title ?? dummyApplication.project_title,
-        id: application!.id,
+        id: application.id,
       }}
     />
   );
