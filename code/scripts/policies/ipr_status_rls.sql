@@ -14,3 +14,16 @@ ON private.ipr_statuses FOR UPDATE
 USING (
   private.is_admin()
 );
+
+CREATE POLICY "Admins see all, Inventors see their own statuses"
+ON private.ipr_statuses
+FOR SELECT
+USING (
+  private.is_admin()
+  OR (auth.uid() IN (
+    SELECT 
+    techgen_id FROM
+    private.inventors
+    WHERE application_id = private.ipr_statuses.application_id
+  ))
+)

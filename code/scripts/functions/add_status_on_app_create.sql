@@ -14,6 +14,7 @@ BEGIN
         IF EXISTS (SELECT 1 FROM private.ipr_status_types WHERE code = v_status) THEN
             INSERT INTO private.ipr_statuses (application_id, status_type)
             VALUES (NEW.id, v_status);
+        --  add delay
         ELSE
             RAISE WARNING 'Cannot add status %, it does not exist in statuses table', v_status;
         END IF;
