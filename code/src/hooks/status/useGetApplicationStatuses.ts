@@ -1,5 +1,5 @@
 import { getApplicationStatuses } from "@/services/status/get-application-statuses";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 interface PropsInterface {
     applicationId: string,
@@ -7,15 +7,13 @@ interface PropsInterface {
 }
 
 export function useGetApplicationStatuses(props: PropsInterface) {
-    const queryClient = useQueryClient();
-
-    const {applicationId, isLatest } = props;
+    const {applicationId, isLatest = false } = props;
     const { data, isLoading } = useQuery(
         {
-            queryKey: ["latest-status", applicationId],
+            queryKey: ["latest-status", applicationId, isLatest],
             queryFn: () => getApplicationStatuses({applicationId, isLatest}),
         }
     )
 
-    return { statuses: data, isLoading, queryClient};
+    return { statuses: data, isLoading};
 }

@@ -9,6 +9,7 @@ import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication"
 import { useAddStatus } from "@/hooks/status/useAddStatus";
 import { IprStatusType } from "@/lib/types/status";
 import { useUpdateStatus } from "@/hooks/status/useUpdateStatus";
+import { useQueryClient } from "@tanstack/react-query";
 
 import Select from "react-select";
 import { Calendar } from "@/components/ui/calendar";
@@ -56,6 +57,7 @@ function StatusUpdateForm(props: PropsInterface) {
   const { updateApp } = useUpdateApplication();
   const { updateStatus } = useUpdateStatus();
   const { addStatus } = useAddStatus();
+  const queryClient = useQueryClient();
 
   const ipType = application.ip_type;
   const currentStatusType = currentStatus.status_type;
@@ -166,6 +168,9 @@ function StatusUpdateForm(props: PropsInterface) {
   };
 
   const handleClose = () => {
+    queryClient.invalidateQueries({
+      queryKey: ["latest-status", application.id],
+    });
     setIsSubmitting(false);
     closeModal();
   };

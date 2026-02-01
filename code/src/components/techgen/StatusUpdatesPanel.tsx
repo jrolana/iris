@@ -20,22 +20,45 @@ export default function StatusUpdatesPanel() {
       isLatest: true,
     });
 
-  console.log("statuses", statuses);
-
   const { applications } = useGetMultipleAppById({
     applicationIds,
   });
 
-  console.log("application title", applications);
+  if (isUserApplicationsLoading || isStatusesLoading.every(Boolean)) {
+    return (
+      <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">
+            Status history
+          </h2>
+        </div>
+        Fetching statuses...
+      </div>
+    );
+  }
+
+  if (!statuses || statuses.length < 1) {
+    return (
+      <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">
+            Status history
+          </h2>
+        </div>
+        No status history available.
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-gray-900">Status history</h2>
       </div>
+
       <div className="mt-2 max-h-64 space-y-2 overflow-y-auto pr-1">
         {statuses?.map((status, index) => {
-          if (!status || Array.isArray(status) || !applications) return null;
+          if (!status || Array.isArray(status)) return null;
 
           const label =
             STATUS_LABELS[status.status_type as StatusType] ??
@@ -50,14 +73,16 @@ export default function StatusUpdatesPanel() {
                 <h3 className="truncate text-sm font-semibold text-gray-700">
                   {applications[index]?.ip_title}
                 </h3>
-                <p className="shrink-0 text-xs text-gray-500">
-                  {formatDateTime(status.created_at!)}
-                </p>
               </div>
 
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1">
-                  <p className="font-medium text-gray-900">{label}</p>
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <p className="font-medium text-gray-900">{label}</p>
+                    <p className="shrink-0 text-xs text-gray-500">
+                      {formatDateTime(status.created_at!)}
+                    </p>
+                  </div>
                   {status.note && (
                     <p className="mt-1 line-clamp-2 text-sm text-gray-600">
                       {status.note}

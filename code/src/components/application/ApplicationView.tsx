@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import ApplicationStepper from "@/components/application/Stepper";
 import StatusHistoryPanel from "@/components/application/StatusHistoryPanel";
@@ -10,6 +10,7 @@ import { ApplicationType } from "@/lib/types/application";
 import InformationPanel from "./InformationPanel";
 import { SquarePen, ArrowLeft } from "lucide-react";
 import { StatusType } from "@/lib/types/ip";
+import { useGetApplicationStatuses } from "@/hooks/status/useGetApplicationStatuses";
 
 export type ApplicationViewMode = "applicant" | "admin";
 
@@ -21,13 +22,26 @@ interface ApplicationViewProps {
 function ApplicationView(props: ApplicationViewProps) {
   const { mode, initialApplication: application } = props;
 
-  const statusLabel =
-    STATUS_LABELS[application.current_status as StatusType] ??
-    application.current_status;
+  const { statuses, isLoading } = useGetApplicationStatuses({
+    applicationId: application.id,
+    isLatest: true,
+  });
 
-  console.log(application);
+  const currentStatus = Array.isArray(statuses) ? statuses[0] : statuses;
 
   const router = useRouter();
+
+  if (isLoading) {
+    return <div>Fetching application...</div>;
+  }
+
+  if (!currentStatus) {
+    return <div>Unknown application.</div>;
+  }
+
+  const statusLabel =
+    STATUS_LABELS[currentStatus?.status_type as StatusType] ??
+    currentStatus?.status_type;
 
   // handlers for admin, could be moved later on
   const isAdmin = mode === "admin";
@@ -107,8 +121,8 @@ function ApplicationView(props: ApplicationViewProps) {
       <section className="rounded-2xl border border-gray-200 bg-white p-3 sm:p-4">
         <ApplicationStepper
           ipType={application.ip_type}
-          statusType={application.current_status}
-          currentStageDeadline={application.current_stage_deadline}
+          statusType={currentStatus?.status_type as StatusType}
+          currentStageDeadline={currentStatus?.deadline ?? undefined}
         />
       </section>
 

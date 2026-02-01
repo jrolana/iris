@@ -6,7 +6,6 @@ import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import clsx from "clsx";
 
 import { useGetApplicationStatuses } from "@/hooks/status/useGetApplicationStatuses";
-import { useEffect } from "react";
 import { formatDate, formatDateTime } from "@/lib/helper/format-date";
 
 interface StatusHistoryPanelProps {
@@ -18,13 +17,9 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
   const { applicationId, variant = "techgen" } = props;
   const { openModal } = useStatusUpdateModal();
 
-  const { statuses, isLoading, queryClient } = useGetApplicationStatuses({
+  const { statuses, isLoading } = useGetApplicationStatuses({
     applicationId,
   });
-
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["latest-status"] });
-  }, [queryClient]);
 
   function handleClickUpdate() {
     openModal();
@@ -32,6 +27,9 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
 
   const statusArray = Array.isArray(statuses) ? statuses : [statuses];
   const latestStatus = statusArray[0];
+
+  console.log("statuses", statuses);
+  console.log("statusArray", statusArray);
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
@@ -60,14 +58,6 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
           </p>
 
           <p className="mt-1 text-sm text-amber-900">{latestStatus.note}</p>
-
-          {latestStatus.deadline && (
-            <div className="mt-2">
-              <span className="inline-flex items-center rounded-full border border-red-200 bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700">
-                Deadline · {formatDate(latestStatus.deadline)}
-              </span>
-            </div>
-          )}
         </div>
       )}
 
