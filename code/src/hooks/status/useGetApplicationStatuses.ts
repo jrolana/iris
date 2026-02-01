@@ -9,15 +9,13 @@ interface PropsInterface {
 export function useGetApplicationStatuses(props: PropsInterface) {
     const queryClient = useQueryClient();
 
-    queryClient.invalidateQueries({queryKey: ["latest-status"]});
-
     const {applicationId, isLatest } = props;
-    const { data, isPending } = useQuery(
+    const { data, isLoading } = useQuery(
         {
             queryKey: ["latest-status", applicationId],
             queryFn: () => getApplicationStatuses({applicationId, isLatest}),
         }
     )
 
-    return { statuses: data, isLoading: isPending};
+    return { statuses: data, isLoading, queryClient};
 }

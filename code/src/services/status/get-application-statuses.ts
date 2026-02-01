@@ -20,7 +20,7 @@ export const getApplicationStatuses = async function(props: PropsInterface) {
     }
 
     if (isLatest) {
-        return data[0];
+        return data[0] ?? null;
     }
     
     return data;

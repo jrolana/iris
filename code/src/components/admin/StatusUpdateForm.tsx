@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { IpType, StatusType } from "@/lib/types/ip";
-import { toSupabaseDate } from "@/lib/helper/to-supabase-date";
+import { toSupabaseDate } from "@/lib/helper/format-date";
 import { ApplicationType } from "@/lib/types/application";
 
 import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";

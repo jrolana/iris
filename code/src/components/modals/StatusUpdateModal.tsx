@@ -7,7 +7,7 @@ import { useGetAppById } from "@/hooks/applications/useGetApplicationById";
 
 import Modal from "./Modal";
 
-import { useGetApplicationStatuses } from "@/hooks/status/useGetStatuses";
+import { useGetApplicationStatuses } from "@/hooks/status/useGetApplicationStatuses";
 import StatusUpdateForm from "../admin/StatusUpdateForm";
 
 function StatusUpdateModal() {
@@ -71,7 +71,7 @@ function StatusUpdateModal() {
     >
       <StatusUpdateForm
         application={application}
-        currentStatus={status}
+        currentStatus={status ?? "draft_classification"}
         closeModal={closeModal}
       />
     </Modal>

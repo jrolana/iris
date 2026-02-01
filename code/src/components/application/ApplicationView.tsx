@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import ApplicationStepper from "@/components/application/Stepper";
-import StatusHistoryPanel from "@/components/application/StatusPanel";
+import StatusHistoryPanel from "@/components/application/StatusHistoryPanel";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 
 import { ApplicationType } from "@/lib/types/application";
@@ -122,7 +122,6 @@ function ApplicationView(props: ApplicationViewProps) {
         <section className="space-y-4">
           <StatusHistoryPanel
             applicationId={application.id}
-            currentStatusType={application.current_status}
             variant={isAdmin ? "ttbdo" : "techgen"}
           />
 
