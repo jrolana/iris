@@ -5,6 +5,7 @@ import { ipApplicationFlows } from "@/lib/structs/ip-flow";
 import { IpType, StatusType } from "@/lib/types/ip";
 import { CHARTER_DEADLINES } from "@/lib/structs/charter";
 import clsx from "clsx";
+import Hint from "../common/Tooltip";
 
 interface ApplicationStepperProps {
   ipType: IpType;
@@ -79,14 +80,16 @@ export default function ApplicationStepper({
                   >
                     {isCompleted ? "✓" : index + 1}
                   </div>
-                  <span
-                    className={clsx(
-                      "mt-2 px-1 text-xs leading-tight font-medium sm:text-sm",
-                      isActive ? "text-sky-900" : "text-slate-500",
-                    )}
-                  >
-                    {step.label}
-                  </span>
+                  <Hint label={step.label} side="bottom">
+                    <span
+                      className={clsx(
+                        "mt-2 line-clamp-3 w-21 px-1 text-xs leading-tight font-medium sm:text-sm",
+                        isActive ? "text-sky-900" : "text-slate-500",
+                      )}
+                    >
+                      {step.label}
+                    </span>
+                  </Hint>
                 </div>
 
                 {index !== steps.length - 1 && (
