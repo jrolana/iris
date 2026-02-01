@@ -8,8 +8,6 @@ export const getUserApplicationIds = async function() {
         throw new Error("Cannot find user id");
     }
 
-    console.log("userId", userId)
-
     const {data, error} = await supabase
     .schema("private")
     .from("inventors")
@@ -19,8 +17,6 @@ export const getUserApplicationIds = async function() {
     if (error) {
         throw new Error(error.message);
     }
-
-    console.log("getUserApplicationIds", data)
 
     return data;
 }

@@ -9,14 +9,11 @@ export const getNotifications = async function() {
 
     const userId = user.id;
 
-    console.log("userId", userId);
-
-    const {data, error} = await supabase.schema("private").from("notifications").select().eq("receiver_id", userId);
+    const {data, error} = await supabase.schema("private").from("notifications").select().eq("receiver_id", userId).order("created_at", {ascending: false});
 
     if (error) {
         throw new Error(error.message);
     }
 
-    console.log("notifications data", data);
     return data;
 }

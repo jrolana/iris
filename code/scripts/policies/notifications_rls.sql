@@ -15,3 +15,12 @@ TO authenticated
 USING (
     receiver_id = auth.uid()
 )
+
+DROP POLICY IF EXISTS "Receivers update notifications" ON private.notifications;
+
+CREATE POLICY "Receivers update notifications"
+ON private.notifications FOR UPDATE
+TO authenticated
+USING (
+    receiver_id = auth.uid()
+)

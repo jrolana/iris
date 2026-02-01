@@ -1,16 +1,29 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode, useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { useGetNotifications } from "@/hooks/notifications/useGetNotifications";
+import { useMarkAsRead } from "@/hooks/notifications/useMarkAsRead";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function NotificationDropdown() {
+  const queryClient = useQueryClient();
   const { notifications, isLoading } = useGetNotifications();
+  const { markNotificationAsRead } = useMarkAsRead();
 
-  function markAsRead() {
-    // should set read_at to true
+  async function markAsRead(notifId: string, readAt: null | string) {
+    if (readAt) {
+      return;
+    }
+
+    await markNotificationAsRead(
+      { notifId },
+      {
+        onSuccess: () =>
+          queryClient.invalidateQueries({ queryKey: ["notifications"] }),
+      },
+    );
   }
 
   if (isLoading) {
@@ -29,7 +42,7 @@ export default function NotificationDropdown() {
         {notifications.map((notif) => (
           <li key={notif.id}>
             <DropdownItem
-              onItemClick={markAsRead}
+              onItemClick={() => markAsRead(notif.id, notif.read_at)}
               className={`flex gap-3 rounded-lg p-3 px-4.5 py-3 hover:bg-gray-100 ${
                 notif.read_at ? "bg-white" : "bg-gray-50"
               }`}

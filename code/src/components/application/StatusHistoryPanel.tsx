@@ -28,9 +28,6 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
   const statusArray = Array.isArray(statuses) ? statuses : [statuses];
   const latestStatus = statusArray[0];
 
-  console.log("statuses", statuses);
-  console.log("statusArray", statusArray);
-
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
