@@ -7,6 +7,10 @@ interface PropsInterface {
 
 export const getApplicationStatuses = async function(props: PropsInterface) {
     const { applicationId, isLatest = false } = props;
+
+    if (!applicationId) {
+        throw new Error("Invalid application id.")
+    }
     
     const { data, error } = await supabase
     .schema("private")
@@ -20,7 +24,11 @@ export const getApplicationStatuses = async function(props: PropsInterface) {
     }
 
     if (isLatest) {
-        return data[0] ?? null;
+        if (!data[0]) {
+            throw new Error("No application with that id.")
+        }
+
+        return data[0];
     }
     
     return data;

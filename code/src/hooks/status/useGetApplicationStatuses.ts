@@ -12,6 +12,7 @@ export function useGetApplicationStatuses(props: PropsInterface) {
         {
             queryKey: ["latest-status", applicationId, isLatest],
             queryFn: () => getApplicationStatuses({applicationId, isLatest}),
+            enabled: !!applicationId && applicationId.trim() !== ''
         }
     )
 

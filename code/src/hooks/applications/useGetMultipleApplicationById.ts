@@ -13,7 +13,7 @@ export function useGetMultipleAppById(props: UseGetApplicationByIdProp) {
         {
             queries: applicationIds.map((applicationId) => (
             {
-                queryKey: ['application', applicationId],
+                queryKey: ['multiple-application', applicationId],
                 queryFn: () => getApplicationById({id: applicationId}),
             }
             ))

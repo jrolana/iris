@@ -1,5 +1,5 @@
 import { getApplicationStatuses } from "@/services/status/get-application-statuses";
-import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 
 interface PropsInterface {
     applicationIds: string[],
@@ -7,20 +7,23 @@ interface PropsInterface {
 }
 
 export function useGetMultipleApplicationStatuses(props: PropsInterface) {
-    const queryClient = useQueryClient();
-
     const {applicationIds, isLatest } = props;
+    const validApplicationIds = applicationIds.filter(id => id!=null && id!="");
+
+    if (validApplicationIds.length < 1) {
+        return { statuses: [], isLoading: []};
+    }
+
     const queries = useQueries(
         {
-            queries: applicationIds.map((applicationId) => (
+            queries: validApplicationIds.map((applicationId) => (
             {
-                queryKey: ["latest-status", applicationId],
+                queryKey: ["multiple-status", applicationId],
                 queryFn: () => getApplicationStatuses({applicationId, isLatest}),
             }
             ))
         }
     )
 
-
-    return { statuses: queries.map((q) => q.data), isLoading: queries.map((q) => q.isLoading), queryClient};
+    return { statuses: queries.map((q) => q.data), isLoading: queries.map((q) => q.isLoading)};
 }
