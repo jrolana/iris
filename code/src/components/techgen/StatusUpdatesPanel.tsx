@@ -42,31 +42,29 @@ export default function StatusUpdatesPanel(props: PropsInterface) {
     );
   }
 
-  const statusList = useMemo(() => {
-    return statuses
-      .map((status, i) => {
-        if (Array.isArray(status)) return null;
-        const application = applications[i];
-        if (!status || !application) return null;
-        if (!status.created_at) return null;
+  const statusList = statuses
+    .map((status, i) => {
+      if (Array.isArray(status)) return null;
+      const application = applications[i];
+      if (!status || !application) return null;
+      if (!status.created_at) return null;
 
-        const timestamp = Date.parse(status.created_at);
-        if (isNaN(timestamp)) return null;
+      const timestamp = Date.parse(status.created_at);
+      if (isNaN(timestamp)) return null;
 
-        return { ipTitle: application.ip_title, status, timestamp };
-      })
-      .filter(
-        (
-          item,
-        ): item is {
-          ipTitle: string;
-          status: IprStatusType["Row"];
-          timestamp: number;
-        } => item !== null,
-      )
-      .sort((a, b) => b.timestamp - a.timestamp)
-      .map(({ timestamp, ...rest }) => rest);
-  }, [applications, statuses]);
+      return { ipTitle: application.ip_title, status, timestamp };
+    })
+    .filter(
+      (
+        item,
+      ): item is {
+        ipTitle: string;
+        status: IprStatusType["Row"];
+        timestamp: number;
+      } => item !== null,
+    )
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .map(({ timestamp, ...rest }) => rest);
 
   return (
     <StatusUpdateContainer>
