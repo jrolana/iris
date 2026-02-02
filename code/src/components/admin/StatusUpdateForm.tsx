@@ -59,20 +59,20 @@ function StatusUpdateForm(props: PropsInterface) {
   const { addStatus } = useAddStatus();
   const queryClient = useQueryClient();
 
-  const ipType = application.ip_type;
+  const currentIpType = application.ip_type;
   const currentStatusType = currentStatus.status_type;
   const currentStatusId = currentStatus.id;
-  const currentDeadline = currentStatus.deadline;
+  const currentDeadline = currentStatus.deadline
+    ? new Date(currentStatus.deadline)
+    : null;
   const currentNote = currentStatus.note;
 
   const [selectedIpType, setSelectedIpType] =
-    useState<ApplicationType["Update"]["ip_type"]>(ipType);
+    useState<ApplicationType["Update"]["ip_type"]>(currentIpType);
   const [selectedStatus, setSelectedStatus] =
     useState<IprStatusType["Row"]["status_type"]>(currentStatusType);
   const [note, setNote] = useState(currentNote ?? "");
-  const [deadline, setDeadline] = useState<Date | null>(
-    currentDeadline ? new Date(currentDeadline) : null,
-  );
+  const [deadline, setDeadline] = useState<Date | null>(currentDeadline);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -93,7 +93,8 @@ function StatusUpdateForm(props: PropsInterface) {
       if (isSubmitting) return;
       setIsSubmitting(true);
 
-      if (ipType != selectedIpType) {
+      // IP type change
+      if (currentIpType != selectedIpType) {
         await updateApp(
           {
             id: application.id,
@@ -112,12 +113,24 @@ function StatusUpdateForm(props: PropsInterface) {
         );
       }
 
+      // No changes on status
+
+      if (
+        currentNote == note &&
+        currentDeadline?.getTime() == deadline?.getTime() &&
+        currentStatusType == selectedStatus
+      ) {
+        return;
+      }
+
+      // Changes on note or/and deadline
+
       const updatedStatus: Partial<IprStatusType["Insert"]> = {};
 
       if (currentNote != note) {
         updatedStatus.note = note;
       }
-      if (currentDeadline != deadline) {
+      if (currentDeadline?.getTime() != deadline?.getTime()) {
         updatedStatus.deadline = deadline ? toSupabaseDate(deadline) : null;
       }
 
@@ -138,6 +151,8 @@ function StatusUpdateForm(props: PropsInterface) {
         );
         return;
       }
+
+      // Changes on status_type
 
       updatedStatus.status_type = selectedStatus;
       updatedStatus.application_id = application.id;
@@ -170,6 +185,9 @@ function StatusUpdateForm(props: PropsInterface) {
   const handleClose = () => {
     queryClient.invalidateQueries({
       queryKey: ["latest-status", application.id],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["application", application.id],
     });
     setIsSubmitting(false);
     closeModal();
@@ -306,18 +324,24 @@ function StatusUpdateForm(props: PropsInterface) {
           </label>
         </div>
 
-        <div className="mt-6 grid items-center gap-2 md:w-1/2 md:grid-cols-2 md:gap-1 md:justify-self-end">
+        <div className="mt-6 grid gap-2 md:grid-cols-2 md:gap-1 md:justify-self-end">
           <button
             type="button"
             onClick={closeModal}
-            className="w-full rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 md:w-fit md:justify-self-end"
+            className="w-fit rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 md:justify-self-end"
           >
             Cancel
           </button>
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-full bg-sky-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300 md:w-fit md:justify-self-end"
+            disabled={
+              isSubmitting ||
+              (currentIpType == selectedIpType &&
+                currentNote == note &&
+                currentDeadline?.getTime() == deadline?.getTime() &&
+                currentStatusType == selectedStatus)
+            }
+            className="white-space no-wrap w-fit rounded-full bg-sky-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300 md:justify-self-end"
           >
             {isSubmitting ? "Saving changes..." : "Save"}
           </button>

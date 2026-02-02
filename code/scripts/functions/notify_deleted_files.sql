@@ -35,8 +35,8 @@ BEGIN
         SELECT 
             unnest(receivers),
             OLD.application_id,
-            'File deleted.',
-            FORMAT('The file %s was deleted from %s.', OLD.file_name, ip_name);
+            FORMAT('File removed from %s', ip_name),
+            FORMAT('%s has been removed.', OLD.file_name);
     END IF;
 
     RETURN OLD;

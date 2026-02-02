@@ -21,23 +21,21 @@ BEGIN
         SELECT techgen_id FROM private.inventors WHERE application_id = NEW.application_id 
     LOOP
         IF (TG_OP = 'INSERT') THEN
-            title := 'Status updated';
-            content := FORMAT('The status of %s has changed to %s.', ip_name, current_status);
+            title := FORMAT('Status updated for %s', ip_name);
+            content := FORMAT('Status is now: %s.', current_status);
 
         ELSIF (TG_OP = 'UPDATE') THEN
-            title := 'Status details updated';
+            title := FORMAT('Status updated for %s', ip_name);
 
-            -- needs IS DISTINCT FROM since != returns null on empty record
             is_note_changed := NEW.note IS DISTINCT FROM OLD.note;
             is_deadline_changed := NEW.deadline IS DISTINCT FROM OLD.deadline;
 
             IF is_note_changed AND is_deadline_changed THEN
-                content := FORMAT('The note and deadline for %s has been updated under %s.', current_status, ip_name);
+                content := FORMAT('Note and deadline updated for %s.', current_status);
             ELSIF is_note_changed THEN
-                content := FORMAT('The note for %s has been updated under %s.', current_status, ip_name);
+                content := FORMAT('Note updated for %s.', current_status);
             ELSIF is_deadline_changed THEN
-                content := FORMAT('The deadline for %s has been updated under %s.', current_status, ip_name);
-                
+                content := FORMAT('Deadline updated for %s.', current_status);
             END IF;
         END IF;
             

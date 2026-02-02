@@ -29,7 +29,7 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
   const latestStatus = statusArray[0];
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-gray-200 bg-white p-4">
       <div className="mb-3 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-gray-900">Status history</h2>
 
@@ -115,9 +115,15 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
       {!latestStatus &&
         statusArray.length < 1 &&
         (variant == "ttbdo" ? (
-          <div>No status history yet. Update status to add. </div>
+          <div>
+            No status history yet. Add a status update to start tracking
+            progress.{" "}
+          </div>
         ) : (
-          <div>No status history yet.</div>
+          <div>
+            No status updates yet. We’ll show updates here as soon as your
+            application begins processing.
+          </div>
         ))}
     </div>
   );

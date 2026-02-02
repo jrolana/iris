@@ -31,14 +31,6 @@ function ApplicationView(props: ApplicationViewProps) {
 
   const router = useRouter();
 
-  if (isLoading) {
-    return <div>Fetching application...</div>;
-  }
-
-  if (!currentStatus) {
-    return <div>Unknown application.</div>;
-  }
-
   const statusLabel =
     STATUS_LABELS[currentStatus?.status_type as StatusType] ??
     currentStatus?.status_type;
@@ -88,9 +80,11 @@ function ApplicationView(props: ApplicationViewProps) {
             <span className="rounded-full bg-sky-100 px-3 py-1 font-medium text-sky-700">
               {ipTypeToTitle(application.ip_type)}
             </span>
-            <span className="rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-700">
-              {statusLabel}
-            </span>
+            {statusLabel && (
+              <span className="rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-700">
+                {statusLabel}
+              </span>
+            )}
             {application.id && (
               <span className="rounded-full bg-gray-600 px-3 py-1 text-white">
                 Application I.D. {application.id}
@@ -119,11 +113,15 @@ function ApplicationView(props: ApplicationViewProps) {
       </header>
 
       <section className="rounded-2xl border border-gray-200 bg-white p-3 sm:p-4">
-        <ApplicationStepper
-          ipType={application.ip_type}
-          statusType={currentStatus?.status_type as StatusType}
-          currentStageDeadline={currentStatus?.deadline ?? undefined}
-        />
+        {currentStatus ? (
+          <ApplicationStepper
+            ipType={application.ip_type}
+            statusType={currentStatus?.status_type as StatusType}
+            currentStageDeadline={currentStatus?.deadline ?? undefined}
+          />
+        ) : (
+          <StatusPlaceholder type={isLoading ? "loading" : "empty"} />
+        )}
       </section>
 
       <main className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1.2fr)]">
@@ -188,3 +186,33 @@ const AdminReminders = () => (
     </ul>
   </div>
 );
+
+type StatusPlaceholderProps = {
+  type: "loading" | "empty";
+};
+
+export function StatusPlaceholder({ type }: StatusPlaceholderProps) {
+  if (type === "loading") {
+    return (
+      <div className="w-full space-y-4 rounded-lg border border-slate-200 bg-slate-50 p-6 text-center">
+        <div className="mx-auto h-4 w-48 animate-pulse rounded bg-slate-200" />
+
+        <div className="mx-auto flex max-w-lg flex-col items-center justify-center space-y-2">
+          <div className="h-3 w-full animate-pulse rounded bg-slate-200" />
+          <div className="h-3 w-5/6 animate-pulse rounded bg-slate-200" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full space-y-4 rounded-lg border border-slate-200 bg-slate-50 p-6 text-center">
+      <h2 className="font-semibold text-slate-800">No status available yet</h2>
+
+      <p className="mx-auto text-xs leading-relaxed text-slate-500 sm:text-sm">
+        We’re preparing your application. Once it enters processing, you’ll see
+        real-time updates here.
+      </p>
+    </div>
+  );
+}

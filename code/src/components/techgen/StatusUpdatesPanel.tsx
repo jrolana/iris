@@ -6,7 +6,7 @@ import { formatDate, formatDateTime } from "@/lib/helper/format-date";
 import { useGetMultipleApplicationStatuses } from "@/hooks/status/useGetMultipleApplicationStatuses";
 import { useGetMultipleAppById } from "@/hooks/applications/useGetMultipleApplicationById";
 import { IprStatusType } from "@/lib/types/status";
-import { ReactNode, useMemo } from "react";
+import { ReactNode } from "react";
 
 interface PropsInterface {
   applicationIds: string[];

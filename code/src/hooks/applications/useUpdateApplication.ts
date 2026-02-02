@@ -5,10 +5,10 @@ import { updateApplicationById } from '@/services/application/update-application
 export function useUpdateApplication() {
     const queryClient = useQueryClient();
     const {data, isPending, mutateAsync} =  useMutation({
-        mutationKey: ['application', 'update'],
+        mutationKey: ['update-application'],
         mutationFn: updateApplicationById,
-        onSuccess: (data) => {
-            queryClient.invalidateQueries({queryKey: ['applications', "application", data.id]});
+        onSuccess: (_, appId) => {
+            queryClient.invalidateQueries({queryKey: ['application', appId]});
         }
     });
 

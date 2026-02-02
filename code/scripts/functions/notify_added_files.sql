@@ -35,8 +35,8 @@ BEGIN
         SELECT 
             unnest(receivers),
             NEW.application_id,
-            'File uploaded.',
-            FORMAT('The file %s was uploaded to %s.', NEW.file_name, ip_name);
+            FORMAT('File added to %s', ip_name),
+            FORMAT('%s has been added.', NEW.file_name);
     END IF;
 
     RETURN NEW;

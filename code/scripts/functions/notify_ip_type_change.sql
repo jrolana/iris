@@ -13,8 +13,8 @@ BEGIN
     SELECT
         techgen_id,
         NEW.id,
-        'IP type changed.',
-        FORMAT('The IP type of %s has changed from %s to %s', NEW.ip_title, OLD.ip_type, NEW.ip_type)
+        FORMAT('IP type changed for %s', NEW.ip_title),
+        FORMAT('Changed from %s to %s.', OLD.ip_type, NEW.ip_type)
     FROM private.inventors WHERE application_id = NEW.id;
     
     RETURN NEW;
