@@ -7,7 +7,7 @@ export function useAddStatus() {
         {
             mutationKey: ["new-status"],
             mutationFn: addStatus,
-            onSuccess: (data) => {
+            onSuccess: () => {
                 queryClient.invalidateQueries({queryKey: ["new-status"]})
             }
         }

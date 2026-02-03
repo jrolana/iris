@@ -48,11 +48,11 @@ export default function NotificationDropdown() {
               }`}
             >
               <span className="block">
-                <span className="text-theme-sm block font-medium text-gray-800">
+                <span className="text-theme-sm line-clamp-2 font-medium text-gray-800">
                   {notif.title}
                 </span>
 
-                <span className="text-theme-sm block text-gray-500">
+                <span className="text-theme-sm text-gray-500">
                   {notif.content}
                 </span>
 

@@ -54,8 +54,10 @@ function StatusUpdateForm(props: PropsInterface) {
   const ipTypeOptions = IP_TYPE_OPTIONS;
   const statusOptions = STATUS_OPTIONS;
 
-  const { updateApp } = useUpdateApplication();
-  const { updateStatus } = useUpdateStatus();
+  const applicationId = application.id;
+
+  const { updateApp } = useUpdateApplication({ appId: applicationId });
+  const { updateStatus } = useUpdateStatus({ applicationId });
   const { addStatus } = useAddStatus();
   const queryClient = useQueryClient();
 
@@ -97,7 +99,7 @@ function StatusUpdateForm(props: PropsInterface) {
       if (currentIpType != selectedIpType) {
         await updateApp(
           {
-            id: application.id,
+            id: applicationId,
             applicationData: {
               ip_type: selectedIpType,
             },
@@ -155,7 +157,7 @@ function StatusUpdateForm(props: PropsInterface) {
       // Changes on status_type
 
       updatedStatus.status_type = selectedStatus;
-      updatedStatus.application_id = application.id;
+      updatedStatus.application_id = applicationId;
 
       await addStatus(
         {
@@ -184,10 +186,10 @@ function StatusUpdateForm(props: PropsInterface) {
 
   const handleClose = () => {
     queryClient.invalidateQueries({
-      queryKey: ["latest-status", application.id],
+      queryKey: ["latest-status", applicationId],
     });
     queryClient.invalidateQueries({
-      queryKey: ["application", application.id],
+      queryKey: ["application", applicationId],
     });
     setIsSubmitting(false);
     closeModal();

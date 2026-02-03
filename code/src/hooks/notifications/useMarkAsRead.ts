@@ -9,7 +9,7 @@ export function useMarkAsRead() {
         mutationKey: ["read-notification"],
         mutationFn: markNotificationAsRead,
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["read-notification"]})
+            queryClient.invalidateQueries({queryKey: ["notifications"]})
         }
     }) 
 
