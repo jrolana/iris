@@ -1,5 +1,5 @@
 import { ApplicationType, InventorType, AttachmentType } from "../types/application";
-import { IprStatus } from "../types/status";
+import { IprStatusType } from "../types/status";
 
 export const dummyApplication: ApplicationType["Row"] = {
   id: 'demo-123',
@@ -111,7 +111,7 @@ export const dummyInventors: InventorType["Row"][] = [
   },
 ];
 
-export const dummyIprStatuses: IprStatus["Row"][] = [
+export const dummyIprStatuses: IprStatusType["Row"][] = [
   {
     id: 's1',
     status_type: 'draft_idf',

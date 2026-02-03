@@ -12,6 +12,7 @@ export function useGetAppById(props: UseGetApplicationByIdProp) {
     const {data, isLoading, isFetched} =  useQuery({
         queryKey: ['application', appId],
         queryFn: () => getApplicationById({id: appId}),
+        enabled: !!appId && appId.trim() !== ''
     });
 
     return {application: data, isLoading, isFetched}; 

@@ -57,8 +57,8 @@ export default function ApplicationStepper({
   }, [currentStageDeadline, currentStep]);
 
   return (
-    <div className="w-full space-y-6">
-      <div className="w-full overflow-x-auto pb-2">
+    <div className="w-full space-y-6 p-2">
+      <div className="w-full overflow-x-auto">
         <ol className="flex min-w-[600px] items-stretch gap-3 px-1 sm:min-w-0 sm:gap-4 sm:px-0">
           {steps.map((step, index) => {
             const isCompleted = index < currentIndex;

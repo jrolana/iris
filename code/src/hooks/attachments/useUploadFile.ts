@@ -8,6 +8,7 @@ export function useUploadFile() {
         mutationFn: uploadFile,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['files'] });
+            queryClient.invalidateQueries({ queryKey: ['notifications'] });
         }
     });
 

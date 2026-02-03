@@ -2,7 +2,6 @@
 
 import ApplicationView from "@/components/application/ApplicationView";
 import { useGetAppById } from "@/hooks/applications/useGetApplicationById";
-import { dummyApplication } from "@/lib/dummy-data/application";
 import { useSearchParams } from "next/navigation";
 
 function TtbdoViewApplicationPage() {
@@ -13,7 +12,7 @@ function TtbdoViewApplicationPage() {
     appId: applicationId,
   });
 
-  if (isLoading && !isFetched) {
+  if (isLoading || !isFetched) {
     return <div>Loading...</div>;
   }
 
@@ -21,18 +20,11 @@ function TtbdoViewApplicationPage() {
     return <div>Application not found.</div>;
   }
 
-  return (
-    <ApplicationView
-      mode="admin"
-      initialApplication={{
-        ...dummyApplication,
-        ip_title: application?.ip_title ?? dummyApplication.ip_title,
-        project_title:
-          application?.project_title ?? dummyApplication.project_title,
-        id: application.id,
-      }}
-    />
-  );
+  if (!application) {
+    return <div>Application not found.</div>;
+  }
+
+  return <ApplicationView mode="admin" initialApplication={application} />;
 }
 
 export default TtbdoViewApplicationPage;

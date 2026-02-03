@@ -2,7 +2,7 @@
 
 import {Database} from "@/lib/types/supabase"
 
-export type IprStatus = Database["private"]["Tables"]["ipr_statuses"];
+export type IprStatusType = Database["private"]["Tables"]["ipr_statuses"];
 
 // export type IprStatus = {
 //   statusId: string;

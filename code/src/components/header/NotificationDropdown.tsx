@@ -1,12 +1,93 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import { notifications } from "@/lib/dummy-data/notifications";
+import { useGetNotifications } from "@/hooks/notifications/useGetNotifications";
+import { useMarkAsRead } from "@/hooks/notifications/useMarkAsRead";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function NotificationDropdown() {
+  const queryClient = useQueryClient();
+  const { notifications, isLoading } = useGetNotifications();
+  const { markNotificationAsRead } = useMarkAsRead();
+
+  async function markAsRead(notifId: string, readAt: null | string) {
+    if (readAt) {
+      return;
+    }
+
+    await markNotificationAsRead(
+      { notifId },
+      {
+        onSuccess: () =>
+          queryClient.invalidateQueries({ queryKey: ["notifications"] }),
+      },
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <NotificationContainer>Fetching notifications...</NotificationContainer>
+    );
+  }
+
+  if (!notifications || notifications.length < 1) {
+    return <NotificationContainer>No notifications yet.</NotificationContainer>;
+  }
+
+  return (
+    <NotificationContainer>
+      <ul className="custom-scrollbar flex h-auto flex-col gap-1 overflow-y-auto">
+        {notifications.map((notif) => (
+          <li key={notif.id}>
+            <DropdownItem
+              onItemClick={() => markAsRead(notif.id, notif.read_at)}
+              className={`flex gap-3 rounded-lg p-3 px-4.5 py-3 hover:bg-gray-100 ${
+                notif.read_at ? "bg-white" : "bg-gray-50"
+              }`}
+            >
+              <span className="block">
+                <span className="text-theme-sm line-clamp-2 font-medium text-gray-800">
+                  {notif.title}
+                </span>
+
+                <span className="text-theme-sm text-gray-500">
+                  {notif.content}
+                </span>
+
+                <span className="text-theme-xs mt-1 flex items-center gap-2 text-gray-500">
+                  <span className="h-1 w-1 rounded-full bg-gray-400"></span>
+                  <span>
+                    {notif.created_at &&
+                      new Date(notif.created_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                  </span>
+                </span>
+              </span>
+            </DropdownItem>
+          </li>
+        ))}
+      </ul>
+
+      <Link
+        href="/"
+        className="mt-3 block rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+      >
+        View All Notifications
+      </Link>
+    </NotificationContainer>
+  );
+}
+
+interface PropsInterface {
+  children: ReactNode;
+}
+
+function NotificationContainer(props: PropsInterface) {
+  const { children } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
 
@@ -22,10 +103,11 @@ export default function NotificationDropdown() {
     toggleDropdown();
     setNotifying(false);
   };
+
   return (
     <div className="relative">
       <button
-        className="dropdown-toggle relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+        className="dropdown-toggle relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
         onClick={handleClick}
       >
         <span
@@ -53,7 +135,7 @@ export default function NotificationDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="shadow-theme-lg dark:bg-gray-dark absolute -right-[240px] mt-[17px] flex h-[480px] w-[350px] flex-col rounded-2xl border border-gray-200 bg-white p-3 sm:w-[361px] lg:right-0 dark:border-gray-800"
+        className="shadow-theme-lg absolute left-0 mt-[17px] flex h-fit max-h-[400px] w-screen max-w-[360px] flex-col rounded-2xl border border-gray-200 bg-white p-3 lg:right-0 lg:left-auto"
       >
         <div className="mb-3 flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-700">
           <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
@@ -79,45 +161,7 @@ export default function NotificationDropdown() {
             </svg>
           </button>
         </div>
-        <ul className="custom-scrollbar gap-1 flex h-auto flex-col overflow-y-auto">
-          {notifications.map((notif) => (
-            <li key={notif.notif_id}>
-              <DropdownItem
-                onItemClick={closeDropdown}
-                className={`flex gap-3 rounded-lg p-3 px-4.5 py-3 hover:bg-gray-100 ${
-                  notif.is_read ? "bg-white" : "bg-gray-50"
-                }`}
-              >
-                <span className="block">
-                  <span className="text-theme-sm block font-medium text-gray-800">
-                    {notif.title}
-                  </span>
-
-                  <span className="text-theme-sm block text-gray-500 ">
-                     {notif.message}
-                  </span>
-
-                  <span className="text-theme-xs mt-1 flex items-center gap-2 text-gray-500">
-                    <span className="h-1 w-1 rounded-full bg-gray-400"></span>
-                    <span>
-                      {new Date(notif.created_at).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </span>
-                  </span>
-                </span>
-              </DropdownItem>
-            </li>
-          ))}
-        </ul>
-
-        <Link
-          href="/"
-          className="mt-3 block rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-        >
-          View All Notifications
-        </Link>
+        {children}
       </Dropdown>
     </div>
   );

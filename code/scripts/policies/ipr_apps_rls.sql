@@ -23,6 +23,7 @@ USING (
 -- INSERT: Any logged-in user can create (must own the row)
 CREATE POLICY "Users can insert their own applications"
 ON private.ipr_applications FOR INSERT
+TO authenticated
 WITH CHECK (
   auth.role() = 'authenticated' 
   AND created_by = auth.uid()
@@ -31,6 +32,7 @@ WITH CHECK (
 -- UPDATE: Admins, Creators, or Inventors can edit
 CREATE POLICY "Admins and Owners can update"
 ON private.ipr_applications FOR UPDATE
+TO authenticated
 USING (
   private.is_admin() 
   OR created_by = auth.uid() 
@@ -43,6 +45,7 @@ USING (
 -- DELETE: Only Admins or the Original Creator can delete
 CREATE POLICY "Admins and Creators can delete"
 ON private.ipr_applications FOR DELETE
+TO authenticated
 USING (
   private.is_admin() 
   OR created_by = auth.uid()
