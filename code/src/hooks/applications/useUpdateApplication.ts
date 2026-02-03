@@ -15,6 +15,7 @@ export function useUpdateApplication(props: PropsInterface) {
         mutationFn: updateApplicationById,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['application', appId]});
+            queryClient.invalidateQueries({queryKey: ['notifications']});
         }
     });
 

@@ -8,6 +8,7 @@ export function useDeleteFileById() {
         mutationFn: deleteFileById,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['files']});
+            queryClient.invalidateQueries({queryKey: ['notifications']});
         }
     });
 

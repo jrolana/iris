@@ -1,4 +1,3 @@
-import { notifications } from "@/lib/dummy-data/notifications";
 import { getNotifications } from "@/services/notifications/get-notifications";
 import { useQuery } from "@tanstack/react-query";
 

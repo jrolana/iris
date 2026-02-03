@@ -121,7 +121,7 @@ const AppHeader: React.FC<PropsInterface> = ({
         >
           {isPublic ? (
             <button
-              className="font-norma bg-brand-500 hover:bg-brand-600 inline-flex items-center justify-center gap-3 rounded-lg px-7 py-3 text-sm text-white transition-colors"
+              className="bg-brand-500 hover:bg-brand-600 inline-flex items-center justify-center gap-3 rounded-lg px-7 py-3 text-sm font-normal text-white transition-colors"
               onClick={() => router.push("/signin")}
             >
               Sign-up/Log-in

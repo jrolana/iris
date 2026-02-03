@@ -135,7 +135,7 @@ function NotificationContainer(props: PropsInterface) {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="shadow-theme-lg absolute -right-[240px] mt-[17px] flex h-fit max-h-[400px] w-[350px] flex-col rounded-2xl border border-gray-200 bg-white p-3 sm:w-[361px] lg:right-0 dark:border-gray-800"
+        className="shadow-theme-lg absolute left-0 mt-[17px] flex h-fit max-h-[400px] w-screen max-w-[360px] flex-col rounded-2xl border border-gray-200 bg-white p-3 sm:right-0 sm:left-auto"
       >
         <div className="mb-3 flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-700">
           <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
