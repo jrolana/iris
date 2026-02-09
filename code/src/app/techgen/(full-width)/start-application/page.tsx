@@ -30,7 +30,6 @@ export default function StartApplicationPage() {
   const { isLoading: isUploadingFiles, uploadFile } = useUploadFile();
   const [fileItems, setFileItems] = useState<extendedAttachmentType[]>([]);
   const [inventors, setInventors] = useState<InventorType["Insert"][]>([]);
-  const [ipTitle, setIpTitle] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
   const [fundingSource, setFundingSource] = useState("");
 
@@ -47,12 +46,12 @@ export default function StartApplicationPage() {
   }
 
   async function handleSubmit() {
-    if (ipTitle.trim() === "") return;
+    if (projectTitle.trim() === "") return;
 
     const appId = await createApp(
       {
         applicationData: {
-          ip_title: ipTitle,
+          ip_title: "[No IP Title]",
           project_title: projectTitle,
           ip_type: ipTypeParam as IpType,
           funding_source: fundingSource,
@@ -159,16 +158,6 @@ export default function StartApplicationPage() {
             indicate it as well.
           </p>
         </div>
-        <span className="text-lg font-medium">IP title</span>
-        <Input
-          placeholder="e.g., A novel method for efficient solar energy conversion"
-          className="mt-1 h-12 text-lg!"
-          value={ipTitle}
-          onChange={(e) => {
-            setIpTitle(e.target.value);
-          }}
-          required
-        />
         <span className="text-lg font-medium">Research/Project title</span>
         <Input
           placeholder="e.g., A study on the effectiveness of IRIS in managing intellectual property"
@@ -272,7 +261,7 @@ export default function StartApplicationPage() {
         <button
           type="button"
           onClick={handleSubmit}
-          disabled={ipTitle.trim() === ""}
+          disabled={projectTitle.trim() === ""}
           className="h-10 w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
         >
           Submit Application
