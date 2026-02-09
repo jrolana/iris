@@ -72,7 +72,6 @@ function NewApplicationPage() {
   const [mode, setMode] = useState<Mode>("undecided");
   const [wizardResult, setWizardResult] = useState<WizardResult | null>(null);
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
-  const [idfFile, setidfFile] = useState<string>();
 
   // When wizard finishes, we treat its recommendation as the selected form
   const handleWizardFinished = (result: WizardResult) => {
@@ -93,26 +92,6 @@ function NewApplicationPage() {
 
   function handleProceed() {
     if (!finalIpType) return;
-    // TODO
-    // Open modal for submission of file
-    //
-    setidfFile("should set to file to be uploaded to supabase");
-    console.log(idfFile);
-
-    // Supabase insert into ipr_applications with:
-    // * ipType = finalIpType
-    // * currentStatus = 'draft_idf'
-    // * original_ipType = finalIpType
-    // should return the uuid of the new row
-
-    // Supabase insert into ipr_files with:
-    // * ipr_id = application uuid
-    //
-
-    // Then redirect with the new application_id (return from db)
-
-    // For now we just navigate to the view page placeholder
-    // add url params of application_id (from there, derive IpType and StatusType)
     router.push(`/techgen/start-application?ipType=${finalIpType}`);
   }
 

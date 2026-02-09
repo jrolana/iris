@@ -20,15 +20,20 @@ type extendedAttachmentType = AttachmentType["Insert"] & {
 export default function StartApplicationPage() {
   // TODO: Add funding source input later
   const router = useRouter();
-  const { inventorDetails, openModal, isOpen } = useAddInventorsModal();
+  const {
+    inventorDetails,
+    openModal: addInventorModal,
+    isOpen,
+  } = useAddInventorsModal();
   const searchParams = useSearchParams();
   const ipTypeParam = searchParams.get("ipType");
   const { isLoading: isCreatingApp, createApp } = useCreateApplication();
   const { isLoading: isUploadingFiles, uploadFile } = useUploadFile();
   const [fileItems, setFileItems] = useState<extendedAttachmentType[]>([]);
   const [inventors, setInventors] = useState<InventorType["Insert"][]>([]);
-  const [appTitle, setAppTitle] = useState("");
+  const [ipTitle, setIpTitle] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
+  const [fundingSource, setFundingSource] = useState("");
 
   function handleBack() {
     router.back();
@@ -39,19 +44,19 @@ export default function StartApplicationPage() {
   }
 
   function addInventor() {
-    openModal();
+    addInventorModal();
   }
 
   async function handleSubmit() {
-    if (appTitle.trim() === "") return;
+    if (ipTitle.trim() === "") return;
 
     const appId = await createApp(
       {
         applicationData: {
-          ip_title: appTitle,
+          ip_title: ipTitle,
           project_title: projectTitle,
           ip_type: ipTypeParam as IpType,
-          funding_source: "internal",
+          funding_source: fundingSource,
         },
         inventorsData: inventors,
       },
@@ -112,12 +117,6 @@ export default function StartApplicationPage() {
     setInventors((prev) => [...prev, inventorDetails]);
   }, [inventorDetails, isOpen]);
 
-  // useEffect(() => {
-  //   if (!appId) return;
-
-  //   router.push(`/techgen/view-application?applicationID=${appId}`);
-  // }, [appId, router]);
-
   // TODO: Add proper loading state
   if (isCreatingApp) {
     return (
@@ -153,35 +152,45 @@ export default function StartApplicationPage() {
           </h1>
         </header>
         <div>
-          <h2 className="text-2xl font-medium">A. Titles</h2>
-          <p className="mt-1 max-w-2xl text-lg text-slate-500">
-            Provide the title of the subject of the application (i.e., the
-            invention, research title, or copyright) and the project title as
-            well, if applicable.
+          <h2 className="text-2xl font-medium">A. Information Details</h2>
+          <p className="mt-1 text-lg text-slate-500">
+            Provide the title of the IP application (i.e., the invention,
+            research title, or copyright) and the research/project title, if
+            applicable. If there is a funding source for this IP, please
+            indicate it as well.
           </p>
         </div>
-        <span className="text-lg font-medium">Application title</span>
+        <span className="text-lg font-medium">IP title</span>
         <Input
-          placeholder="e.g., IRIS: A Management Information System for Intellectual Property"
+          placeholder="e.g., A novel method for efficient solar energy conversion"
           className="mt-1 h-12 text-lg!"
-          value={appTitle}
+          value={ipTitle}
           onChange={(e) => {
-            setAppTitle(e.target.value);
+            setIpTitle(e.target.value);
           }}
           required
         />
-        <span className="text-lg font-medium">Project title</span>
+        <span className="text-lg font-medium">Research/Project title</span>
         <Input
-          placeholder="(Optional)"
+          placeholder="e.g., A study on the effectiveness of IRIS in managing intellectual property"
           className="mt-1 h-12 text-lg!"
           value={projectTitle}
           onChange={(e) => {
             setProjectTitle(e.target.value);
           }}
         />
+        <span className="text-lg font-medium">Funding source (Optional)</span>
+        <Input
+          placeholder="e.g., Department of Science and Technology (DOST)"
+          className="mt-1 h-12 text-lg!"
+          value={fundingSource}
+          onChange={(e) => {
+            setFundingSource(e.target.value);
+          }}
+        />
         <div>
           <h2 className="text-2xl font-medium">B. Collaborators</h2>
-          <p className="mt-1 max-w-2xl text-lg text-slate-500">
+          <p className="mt-1 text-lg text-slate-500">
             List all the collaborators for this application. You are
             automatically listed as an inventor so exclude yourself from this
             list. Remember that you can no longer add or remove these names
@@ -235,9 +244,20 @@ export default function StartApplicationPage() {
 
         <div>
           <h2 className="text-2xl font-medium">C. Relevant attachments</h2>
-          <p className="mt-1 max-w-2xl text-lg text-slate-500">
-            Upload necessary files or provide links that support your
-            application.
+          <p className="mt-1 text-lg text-slate-500">
+            <span className="block">
+              Please attach only <b>one (1) PDF file</b> containing the
+              following information:
+            </span>
+            <span className="mt-2 block">
+              (1) The appropriate disclosure form
+              <br />
+              (2) Any relevant supporting documents (e.g., research paper,
+              prototype design, copyright material, images, figures, etc.)
+            </span>
+            <span className="mt-2 block">
+              Compile or merge into <b>one (1) PDF file</b> and upload here.
+            </span>
           </p>
         </div>
         <div className="flex w-full justify-center p-4">
@@ -246,7 +266,7 @@ export default function StartApplicationPage() {
         <button
           type="button"
           onClick={handleSubmit}
-          disabled={appTitle.trim() === ""}
+          disabled={ipTitle.trim() === ""}
           className="h-10 w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
         >
           Submit Application
