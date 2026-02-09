@@ -105,6 +105,7 @@ CREATE TABLE private.inventors (
     email TEXT NOT NULL,
     college VARCHAR(20) NOT NULL,
     comments TEXT,
+    external_institution TEXT NULL,
 
     UNIQUE(application_id, email),
 
@@ -112,6 +113,11 @@ CREATE TABLE private.inventors (
     CONSTRAINT fk_inventor_application FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
 
     CONSTRAINT fk_inventor_college FOREIGN KEY(college) REFERENCES private.college_units(code)
+ 
+    CHECK (
+    (college = 'Other' AND external_institution IS NOT NULL) OR 
+    (college != 'Other' AND external_institution IS NULL)
+    )
 );
 
 CREATE TABLE private.ipr_statuses (
