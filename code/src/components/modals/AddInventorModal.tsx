@@ -41,6 +41,7 @@ export default function AddInventorModal() {
       setName("");
       setEmail("");
       setCollegeUnit(null);
+      setOtherCollegeUnit("");
     }
   }, [isOpen]);
 
