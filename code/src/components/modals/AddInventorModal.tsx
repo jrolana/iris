@@ -13,6 +13,7 @@ export default function AddInventorModal() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [collegeUnit, setCollegeUnit] = useState<CollegeUnitType | null>();
+  const [otherCollegeUnit, setOtherCollegeUnit] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const collegeOptions = Object.entries(CollegeUnits).map(([_, college]) => {
@@ -25,7 +26,10 @@ export default function AddInventorModal() {
       comments: null,
       full_name: name,
       email: email,
-      college: collegeUnit,
+      college:
+        collegeUnit === CollegeUnits.Other
+          ? otherCollegeUnit
+          : (collegeUnit as string),
       application_id: "",
     });
 
@@ -69,7 +73,6 @@ export default function AddInventorModal() {
           required
         />
         <span className="text-lg font-medium">College Unit</span>
-
         <Select
           unstyled
           placeholder="Select College Unit"
@@ -91,7 +94,20 @@ export default function AddInventorModal() {
             );
           }}
         />
-
+        {collegeUnit === CollegeUnits.Other && (
+          <>
+            <span className="text-lg font-medium">Institution Name</span>
+            <Input
+              placeholder="ex. WVSU - Bio"
+              value={otherCollegeUnit}
+              onChange={(e) => {
+                setOtherCollegeUnit(e.target.value);
+              }}
+              className="h-10 text-lg!"
+              required
+            />
+          </>
+        )}
         <Button
           onClick={handleSubmit}
           type="submit"
