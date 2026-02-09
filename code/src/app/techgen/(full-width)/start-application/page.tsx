@@ -18,7 +18,6 @@ type extendedAttachmentType = AttachmentType["Insert"] & {
   fileObject?: File;
 };
 export default function StartApplicationPage() {
-  // TODO: Add funding source input later
   const router = useRouter();
   const {
     inventorDetails,
@@ -261,7 +260,14 @@ export default function StartApplicationPage() {
           </p>
         </div>
         <div className="flex w-full justify-center p-4">
-          <FileUploader items={fileItems} setItems={setFileItems} />
+          <FileUploader
+            items={fileItems}
+            setItems={setFileItems}
+            maxFileCount={1}
+            acceptedFileTypes={{
+              "application/pdf": [".pdf"],
+            }}
+          />
         </div>
         <button
           type="button"
