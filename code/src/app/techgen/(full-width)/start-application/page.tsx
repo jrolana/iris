@@ -13,6 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import FileUploader from "@/components/common/FileUploader";
 import { ArrowLeft, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Hint from "@/components/common/Tooltip";
 
 type extendedAttachmentType = AttachmentType["Insert"] & {
   fileObject?: File;
@@ -51,7 +52,6 @@ export default function StartApplicationPage() {
     const appId = await createApp(
       {
         applicationData: {
-          ip_title: "[No IP Title]",
           project_title: projectTitle,
           ip_type: ipTypeParam as IpType,
           funding_source: fundingSource,
@@ -204,11 +204,19 @@ export default function StartApplicationPage() {
                   <div className="text-muted-foreground text-md">
                     {inventor.email}
                   </div>
-                  <span className="text-muted-foreground mt-1 flex items-center gap-1 text-sm font-medium">
-                    <span className="rounded-md bg-slate-200 p-1 px-1.5 uppercase">
-                      {inventor.college}
+                  <Hint
+                    label={
+                      inventor.college === "Other"
+                        ? inventor.external_institution!
+                        : inventor.college
+                    }
+                  >
+                    <span className="block max-w-32 truncate rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
+                      {inventor.college === "Other"
+                        ? inventor.external_institution
+                        : inventor.college}
                     </span>
-                  </span>
+                  </Hint>
                 </div>
                 <Button
                   variant="ghost"
