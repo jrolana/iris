@@ -26,10 +26,9 @@ export default function AddInventorModal() {
       comments: null,
       full_name: name,
       email: email,
-      college:
-        collegeUnit === CollegeUnits.Other
-          ? otherCollegeUnit
-          : (collegeUnit as string),
+      college: collegeUnit,
+      external_institution:
+        collegeUnit === CollegeUnits.Other ? otherCollegeUnit : null,
       application_id: "",
     });
 
