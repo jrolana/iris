@@ -158,7 +158,8 @@ export default function FileUploader(props: FileUploaderProps) {
       </div>
 
       {/* handle adding a link */}
-      <div className="flex items-center gap-2">
+      {/* TODO: finalize if adding a link is needed. For now, it is hidden */}
+      <div className="hidden items-center gap-2">
         <div className="relative flex-1">
           <LinkIcon className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
           <Input
@@ -180,8 +181,8 @@ export default function FileUploader(props: FileUploaderProps) {
 
       {/* preview list of files */}
       {items.length > 0 && (
-        <ScrollArea className="h-[300px] rounded-md border p-2 pr-4">
-          <div className="space-y-3">
+        <ScrollArea className="rounded-md border p-2 pr-4">
+          <div className="max-h-[300px] space-y-3">
             {items.map((item, index) => (
               <div
                 key={item.id + index.toString()}

@@ -152,10 +152,8 @@ export default function StartApplicationPage() {
         <div>
           <h2 className="text-2xl font-medium">A. Information Details</h2>
           <p className="mt-1 text-lg text-slate-500">
-            Provide the title of the IP application (i.e., the invention,
-            research title, or copyright) and the research/project title, if
-            applicable. If there is a funding source for this IP, please
-            indicate it as well.
+            Provide the title of your research or project. If there is a funding
+            source for this IP, please indicate it as well.
           </p>
         </div>
         <span className="text-lg font-medium">Research/Project title</span>
