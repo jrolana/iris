@@ -172,7 +172,7 @@ export default function StartApplicationPage() {
         />
         <span className="text-lg font-medium">Project title</span>
         <Input
-          placeholder="(Optional)"
+          placeholder="Project Title"
           className="mt-1 h-12 text-lg!"
           value={projectTitle}
           onChange={(e) => {
@@ -246,7 +246,7 @@ export default function StartApplicationPage() {
         <button
           type="button"
           onClick={handleSubmit}
-          disabled={appTitle.trim() === ""}
+          disabled={!appTitle || !projectTitle || !ipTypeParam}
           className="h-10 w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
         >
           Submit Application
