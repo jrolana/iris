@@ -24,12 +24,13 @@ BEGIN
   -- Loop through inventors params and insert to the db
   FOR inv IN SELECT * FROM jsonb_array_elements(p_inventors)
   LOOP
-    INSERT INTO private.inventors (application_id, full_name, email, college)
+    INSERT INTO private.inventors (application_id, full_name, email, college, external_institution)
     VALUES (
       new_app_id, 
       inv->>'full_name', 
       inv->>'email', 
-      inv->>'college'
+      inv->>'college',
+      inv->>'external_institution'
     );
   END LOOP;
 
