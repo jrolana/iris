@@ -6,18 +6,21 @@ SET search_path TO 'private'
 AS $function$
 DECLARE
     ip_name TEXT;
-    receiver UUID;
-    receivers UUID[];
+    receivers UUID[]:= '{}';
     admins UUID[];
+    techgen UUID;
 BEGIN
-    SELECT ip_title INTO ip_name
-        FROM private.ipr_applications WHERE id = NEW.application_id;
-    ip_name := COALESCE(ip_name, 'Unknown application');
-
-    SELECT array_agg(techgen_id) INTO receivers
-        FROM private.inventors WHERE application_id = NEW.application_id;
+    -- ensure only applicants with an account are notified
+    FOR techgen IN
+        SELECT techgen_id FROM private.inventors WHERE application_id = NEW.application_id
+    LOOP
+        IF (techgen IS NOT NULL) THEN
+            receivers := array_append(receivers, techgen);
+        END IF;
+    END LOOP;
     
     -- if the file owner isnt an admin, notify all other techgens and all admins
+    -- doesnt notify other admin if the file owner is an admin already (cleaner use case)
     IF NOT EXISTS
     (
         SELECT 1
@@ -29,6 +32,10 @@ BEGIN
         SELECT array_agg(id) INTO admins FROM private.users WHERE role = 'admin';
         receivers := array_cat(receivers, admins);
     END IF;
+
+    SELECT ip_title INTO ip_name
+        FROM private.ipr_applications WHERE id = NEW.application_id;
+    ip_name := COALESCE(ip_name, 'Unknown application');
 
     IF (receivers IS NOT NULL) AND array_length(receivers, 1) > 0 THEN
         INSERT INTO private.notifications (receiver_id, application_id, title, content)
