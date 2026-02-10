@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import ApplicationStepper from "@/components/application/Stepper";
 import StatusHistoryPanel from "@/components/application/StatusHistoryPanel";

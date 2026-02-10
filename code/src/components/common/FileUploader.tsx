@@ -1,9 +1,8 @@
 import { useState, useCallback, Dispatch, SetStateAction } from "react";
-import { Accept, useDropzone } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import { getFileType } from "@/lib/helper/get-file-type";
 import { AttachmentType } from "@/lib/types/application";
 import { cn } from "@/lib/utils"; // Standard shadcn utility
-import { formatAcceptedExtensions } from "@/lib/helper/get-allowed-file-types";
 
 import {
   X,
@@ -33,27 +32,16 @@ interface FileUploaderProps {
   items: extendedAttachmentType[];
   setItems: Dispatch<SetStateAction<extendedAttachmentType[]>>;
   isLoading?: boolean;
-  maxFileCount?: number;
-  acceptedFileTypes?: Accept;
 }
 
 export default function FileUploader(props: FileUploaderProps) {
-  const { items, setItems, isLoading, maxFileCount, acceptedFileTypes } = props;
+  const { items, setItems, isLoading } = props;
   const [linkInput, setLinkInput] = useState("");
-  const isMaxFilesReached =
-    maxFileCount !== undefined && items.length >= maxFileCount;
 
   // function to handle file drops
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      // set limit on the number of files that can be uploaded if maxFileCount is provided;
-      const remainingSlots = (maxFileCount ?? Infinity) - items.length;
-
-      if (remainingSlots <= 0) return; // if no slots left, do nothing
-
-      const filesToAdd = acceptedFiles.slice(0, remainingSlots); // only take files that fit within the limit
-
-      const newItems: extendedAttachmentType[] = filesToAdd.map((file) => ({
+      const newItems: extendedAttachmentType[] = acceptedFiles.map((file) => ({
         owner_id: "",
         file_name: file.name,
         application_id: "",
@@ -66,19 +54,11 @@ export default function FileUploader(props: FileUploaderProps) {
       }));
       setItems((prev) => [...prev, ...newItems]);
     },
-    [setItems, items.length, maxFileCount],
+    [setItems],
   );
 
   // set up react-dropzone, implementing the onDrop function
-  const { getRootProps, getInputProps, isDragActive, isDragReject } =
-    useDropzone({
-      onDrop,
-      accept: acceptedFileTypes,
-      disabled: isLoading,
-      noClick: isMaxFilesReached, // prevent opening file dialog if max files reached
-      noKeyboard: isMaxFilesReached, // prevent keyboard events if max files reached
-      maxFiles: maxFileCount ? maxFileCount - items.length : undefined,
-    });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   function handleAddLink() {
     if (!linkInput) return;
@@ -113,47 +93,19 @@ export default function FileUploader(props: FileUploaderProps) {
       <div
         {...getRootProps()}
         className={cn(
-          "rounded-lg border-2 border-dashed p-8 text-center transition-colors",
-
-          !isMaxFilesReached &&
-            !isDragActive &&
-            !isLoading &&
-            "border-muted-foreground/25 hover:bg-accent/50 cursor-pointer",
-
-          isDragActive &&
-            !isMaxFilesReached &&
-            !isDragReject &&
-            "border-primary bg-accent opacity-100",
-
-          (isDragReject || (isDragActive && isMaxFilesReached)) &&
-            "border-destructive bg-destructive/10",
-
-          (isMaxFilesReached || isLoading) &&
-            "border-muted-foreground/25 bg-muted/20 cursor-not-allowed opacity-60",
+          "hover:bg-accent/50 cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors",
+          isDragActive
+            ? "border-primary bg-accent"
+            : "border-muted-foreground/25",
         )}
       >
         <input {...getInputProps()} />
         <div className="text-muted-foreground flex flex-col items-center gap-2">
-          {isMaxFilesReached ? (
-            <p className="text-foreground text-sm font-medium">
-              You can no longer upload. Maximum of {maxFileCount} file(s)
-              reached
-            </p>
-          ) : (
-            <>
-              <UploadCloud className="mb-2 h-10 w-10" />
-              <p className="text-foreground text-sm font-medium">
-                {isDragReject
-                  ? "File type not allowed"
-                  : "Drag & drop files here, or click to select"}
-              </p>
-              <p className="text-xs">
-                {formatAcceptedExtensions(acceptedFileTypes)}
-                {maxFileCount &&
-                  ` (maximum of ${maxFileCount} item${maxFileCount > 1 ? "s" : ""})`}
-              </p>
-            </>
-          )}
+          <UploadCloud className="mb-2 h-10 w-10" />
+          <p className="text-foreground text-sm font-medium">
+            Drag & drop files here, or click to select
+          </p>
+          <p className="text-xs">Supports PDF, Images, Word, Excel, etc.</p>
         </div>
       </div>
 
@@ -172,7 +124,7 @@ export default function FileUploader(props: FileUploaderProps) {
         <Button
           className="disabled:text-muted-foreground bg-sky-600 hover:bg-sky-600/50 disabled:bg-slate-200"
           onClick={handleAddLink}
-          disabled={!linkInput || isMaxFilesReached || isLoading}
+          disabled={!linkInput}
         >
           Add Link
         </Button>

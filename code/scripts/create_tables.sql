@@ -68,20 +68,14 @@ INSERT INTO private.ipr_status_types (code, label) VALUES
 CREATE TABLE private.ipr_applications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     
-    ip_title TEXT NULL,
+    ip_title TEXT NOT NULL,
     project_title TEXT NOT NULL,
     ip_type private.iprType NOT NULL,
     funding_source TEXT NOT NULL,
 
     filing_date DATE,
     registration_date DATE,
-    created_by uuid NULL DEFAULT auth.uid(),
-    ip_number TEXT NULL,
-    curr_status uuid NULL,
-
-    CONSTRAINT fk_app_created_by FOREIGN KEY(created_by) REFERENCES private.users(id) ON DELETE SET NULL,
-    CONSTRAINT fk_app_curr_status FOREIGN KEY(curr_status) REFERENCES private.ipr_statuses(id) ON UPDATE CASCADE ON DELETE SET NULL,
-    
+    created_by uuid NULL DEFAULT auth.uid (),
     CHECK (registration_date IS NULL OR registration_date >= filing_date),
 
     created_at TIMESTAMPTZ DEFAULT now(),
@@ -105,7 +99,6 @@ CREATE TABLE private.inventors (
     email TEXT NOT NULL,
     college VARCHAR(20) NOT NULL,
     comments TEXT,
-    external_institution TEXT NULL,
 
     UNIQUE(application_id, email),
 
@@ -113,11 +106,6 @@ CREATE TABLE private.inventors (
     CONSTRAINT fk_inventor_application FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id) ON DELETE CASCADE,
 
     CONSTRAINT fk_inventor_college FOREIGN KEY(college) REFERENCES private.college_units(code)
- 
-    CHECK (
-    (college = 'Other' AND external_institution IS NOT NULL) OR 
-    (college != 'Other' AND external_institution IS NULL)
-    )
 );
 
 CREATE TABLE private.ipr_statuses (
