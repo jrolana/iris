@@ -80,9 +80,20 @@ function ViewInventors(props: ViewInventorsProps) {
                 {inventor.full_name}
               </p>
               <p className="text-sm text-slate-600">{inventor.email}</p>
-              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
-                {inventor.college}
-              </span>
+
+              <Hint
+                label={
+                  inventor.college === "Other"
+                    ? inventor.external_institution!
+                    : inventor.college
+                }
+              >
+                <span className="block w-fit max-w-32 truncate rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
+                  {inventor.college === "Other"
+                    ? inventor.external_institution
+                    : inventor.college}
+                </span>
+              </Hint>
             </div>
             {isAdmin ? (
               <div className="flex shrink-0 items-center gap-2">

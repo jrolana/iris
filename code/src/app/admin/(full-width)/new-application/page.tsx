@@ -92,7 +92,7 @@ function NewApplicationPage() {
 
   function handleProceed() {
     if (!finalIpType) return;
-    router.push(`/techgen/start-application?ipType=${finalIpType}`);
+    router.push(`/admin/start-application?ipType=${finalIpType}`);
   }
 
   function handleSubmissionModal() {
