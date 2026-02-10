@@ -1,3 +1,4 @@
+import { sanitizeFileName } from "@/lib/helper/sanitize-input";
 import { supabaseClient as supabase } from "@/lib/supabase"
 import { AttachmentType } from "@/lib/types/application";
 
@@ -16,16 +17,17 @@ export const uploadFile = async (props: UploadFileProps) => {
         throw new Error("Application ID is missing. Cannot upload file.");
     }
 
-    const fullPath = `${appId}/${file.file_name}`;
+    const fileName = sanitizeFileName(file.file_name);
+    const fullPath = `${appId}/${fileName}`;
 
     if (!file.fileObject) {
         // This means that the file is a link
         // No need to upload to storage, just insert into the database
         const {data, error} = await supabase.schema("private").from('ipr_files').insert({
             application_id: appId,
-            file_name: file.file_name,
+            file_name: fileName,
             file_type: file.file_type,
-            storage_path: file.file_name,
+            storage_path: fileName,
             file_description: file.file_description,
             owner_id: user.id,}
         );
@@ -54,7 +56,7 @@ export const uploadFile = async (props: UploadFileProps) => {
       comments: file.comments,
       file_type: file.file_type,
       // explicitly update file_name again just to be sure
-      file_name: file.file_name 
+      file_name: fileName 
     })
     .eq('storage_path', fullPath) // Match the path of the exact file uploaded
     .select();
