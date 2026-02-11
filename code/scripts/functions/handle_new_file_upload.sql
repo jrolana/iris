@@ -8,6 +8,7 @@ declare
   extracted_app_id text;
   extracted_file_name text;
   final_file_type text;
+  fetched_owner_name text;
 begin
   -- Exit if this is just a folder placeholder
   if NEW.name like '%/' or NEW.metadata->>'mimetype' = 'application/x-directory' then
@@ -23,6 +24,18 @@ begin
     split_part(NEW.metadata->>'mimetype', '/', 2),
     'unknown'
   );
+
+  SELECT full_name 
+  INTO fetched_owner_name
+  FROM private.users 
+  WHERE id = NEW.owner;
+
+  -- fallback if name is null
+  IF fetched_owner_name IS NULL THEN
+      fetched_owner_name := 'Unknown User';
+  END IF;
+
+
   
   
   IF (TG_OP = 'INSERT') THEN
@@ -30,18 +43,22 @@ begin
     insert into private.ipr_files (
       application_id, 
       owner_id, 
+      owner_name,
       storage_path, 
       file_name,
       file_type, 
       uploaded_at,
+      modified_at,
       storage_id
     )
     values (
       extracted_app_id::uuid, 
       NEW.owner,
+      fetched_owner_name,
       NEW.name, 
       extracted_file_name::text,
       final_file_type,
+      now(),
       now(),
       NEW.id
     );
@@ -53,8 +70,9 @@ begin
     SET
       file_name = extracted_file_name,
       file_type = final_file_type,
-      -- We optionally update 'uploaded_at' to reflect the modification time
-      uploaded_at = NOW()
+      owner_name = fetched_owner_name,
+      -- We optionally update 'modified_at' to reflect the modification time
+      modified_at = NOW()
     WHERE storage_id = NEW.id;
   END IF;
 
