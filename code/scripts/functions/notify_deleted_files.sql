@@ -37,7 +37,7 @@ BEGIN
         FROM private.ipr_applications WHERE id = OLD.application_id;
     ip_name := COALESCE(ip_name, 'Unknown application');
 
-    IF (receivers IS NOT NULL) AND array_length(receivers, 1) > 0 THEN
+    IF CARDINALITY(receivers) > 0 THEN
         INSERT INTO private.notifications (receiver_id, application_id, title, content)
         SELECT 
             unnest(receivers),

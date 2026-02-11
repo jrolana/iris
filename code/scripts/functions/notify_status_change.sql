@@ -20,27 +20,29 @@ BEGIN
     FOR receiver IN
         SELECT techgen_id FROM private.inventors WHERE application_id = NEW.application_id 
     LOOP
-        IF (TG_OP = 'INSERT') THEN
-            title := FORMAT('Status updated for %s', ip_name);
-            content := FORMAT('Status is now: %s.', current_status);
+        IF (receiver IS NOT NULL) THEN 
+            IF (TG_OP = 'INSERT') THEN
+                title := FORMAT('Status updated for %s', ip_name);
+                content := FORMAT('Status is now: %s.', current_status);
 
-        ELSIF (TG_OP = 'UPDATE') THEN
-            title := FORMAT('Status updated for %s', ip_name);
+            ELSIF (TG_OP = 'UPDATE') THEN
+                title := FORMAT('Status updated for %s', ip_name);
 
-            is_note_changed := NEW.note IS DISTINCT FROM OLD.note;
-            is_deadline_changed := NEW.deadline IS DISTINCT FROM OLD.deadline;
+                is_note_changed := NEW.note IS DISTINCT FROM OLD.note;
+                is_deadline_changed := NEW.deadline IS DISTINCT FROM OLD.deadline;
 
-            IF is_note_changed AND is_deadline_changed THEN
-                content := FORMAT('Note and deadline updated for %s.', current_status);
-            ELSIF is_note_changed THEN
-                content := FORMAT('Note updated for %s.', current_status);
-            ELSIF is_deadline_changed THEN
-                content := FORMAT('Deadline updated for %s.', current_status);
+                IF is_note_changed AND is_deadline_changed THEN
+                    content := FORMAT('Note and deadline updated for %s.', current_status);
+                ELSIF is_note_changed THEN
+                    content := FORMAT('Note updated for %s.', current_status);
+                ELSIF is_deadline_changed THEN
+                    content := FORMAT('Deadline updated for %s.', current_status);
+                END IF;
             END IF;
+                
+            INSERT INTO private.notifications (receiver_id, application_id, title, content)
+                VALUES (receiver, NEW.application_id, title, content);
         END IF;
-            
-        INSERT INTO private.notifications (receiver_id, application_id, title, content)
-            VALUES (receiver, NEW.application_id, title, content);
     END LOOP;
 
     RETURN NEW;

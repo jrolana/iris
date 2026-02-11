@@ -11,6 +11,7 @@ DECLARE
     content_arr TEXT[] := '{}';
     i INT;
     techgen UUID;
+    receviers UUID[] := '{}';
 BEGIN
     IF (OLD.ip_type IS DISTINCT FROM NEW.ip_type) THEN
         title := FORMAT('IP type changed for %s', NEW.project_title);
@@ -33,13 +34,27 @@ BEGIN
         content_arr := array_append(content_arr, content);
     END IF;
 
+    IF (OLD.filing_date IS DISTINCT FROM NEW.filing_date) THEN
+        title := FORMAT('%s has been filed.', NEW.project_title);
+        content := FORMAT('Filed at %s', NEW.filing_date);
+        title_arr := array_append(title_arr, title);
+        content_arr := array_append(content_arr, content);
+    END IF;
+
+    IF (OLD.registration_date IS DISTINCT FROM NEW.registration_date) THEN
+        title := FORMAT('%s has been registered.', NEW.project_title);
+        content := FORMAT('Registered at %s', NEW.registration_date);
+        title_arr := array_append(title_arr, title);
+        content_arr := array_append(content_arr, content);
+    END IF;
+
     -- should work even on applications started by admins
     -- since every application has at least one inventor associated with it
     FOR techgen IN
         SELECT techgen_id FROM private.inventors WHERE application_id = NEW.id
     LOOP
         IF (techgen IS NOT NULL) THEN
-            FOR i IN 1..array_length(title_arr, 1) LOOP
+            FOR i IN 1..COALESCE(CARDINALITY(title_arr), 0) LOOP
                 INSERT INTO private.notifications (receiver_id, application_id, title, content)
                 VALUES (
                     techgen,

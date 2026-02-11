@@ -16,6 +16,7 @@ import { formatDateTime, formatDate } from "@/lib/helper/format-date";
 import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
 import { InlineEdit } from "../form/input/InlineEdit";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export type ApplicationViewMode = "applicant" | "admin";
 
@@ -81,15 +82,33 @@ function ApplicationView(props: ApplicationViewProps) {
                 onSave={async (newValue) => {
                   if (newValue == ipTitle || !newValue) return;
 
-                  await updateApp({
-                    id: application.id,
-                    applicationData: { ip_title: newValue },
-                  });
-
-                  setIpTitle(newValue);
-                  queryClient.invalidateQueries({
-                    queryKey: ["application", application.id],
-                  });
+                  try {
+                    await updateApp(
+                      {
+                        id: application.id,
+                        applicationData: { ip_title: newValue },
+                      },
+                      {
+                        onSuccess: () => {
+                          setIpTitle(newValue);
+                          queryClient.invalidateQueries({
+                            queryKey: ["application", application.id],
+                          });
+                        },
+                        onError: () => {
+                          toast.error(
+                            "There was a problem changing the IP title.",
+                          );
+                        },
+                      },
+                    );
+                  } catch (e) {
+                    console.error(
+                      e instanceof Error
+                        ? e.message
+                        : "There was a problem changing the IP title.",
+                    );
+                  }
                 }}
                 className="text-lg font-semibold text-gray-900 sm:text-2xl"
               />
@@ -115,27 +134,50 @@ function ApplicationView(props: ApplicationViewProps) {
             )}
             {isAdmin ? (
               <div className="flex flex-row items-center gap-3 rounded-full bg-gray-600 px-3 py-1 text-white">
-                IP Number:{""}
+                IP Number:{" "}
                 <InlineEdit
                   value={ipNumber ?? ""}
                   onSave={async (newValue) => {
                     if (newValue == ipNumber || !newValue) return;
 
-                    await updateApp({
-                      id: application.id,
-                      applicationData: { ip_number: newValue },
-                    });
-
-                    setIpNumber(newValue);
-                    queryClient.invalidateQueries({
-                      queryKey: ["application", application.id],
-                    });
+                    try {
+                      await updateApp(
+                        {
+                          id: application.id,
+                          applicationData: { ip_number: newValue },
+                        },
+                        {
+                          onSuccess: () => {
+                            setIpNumber(newValue);
+                            queryClient.invalidateQueries({
+                              queryKey: ["application", application.id],
+                            });
+                            toast.success("Successfully changed IP number.");
+                          },
+                          onError: () => {
+                            toast.error(
+                              "There was a problem changing the IP number.",
+                            );
+                          },
+                        },
+                      );
+                    } catch (e) {
+                      console.error(
+                        e instanceof Error
+                          ? e.message
+                          : "There was a problem changing the IP number.",
+                      );
+                    }
                   }}
                   className="h-full text-sm"
                 />
               </div>
             ) : (
-              !!ipNumber && <p>{ipNumber}</p>
+              !!ipNumber && (
+                <p className="flex flex-row items-center gap-3 rounded-full bg-gray-600 px-3 py-1 text-white">
+                  IP Number: {ipNumber}
+                </p>
+              )
             )}
           </div>
         </div>
@@ -148,17 +190,22 @@ function ApplicationView(props: ApplicationViewProps) {
           </p>
           {application.created_at && (
             <p className="mt-1">
-              {`Start of application: ${formatDate(application.created_at)}`}
+              {`Application Start: ${formatDate(application.created_at)}`}
             </p>
           )}
           {application.filing_date && (
             <p className="mt-1">
-              {`Date of filing: ${formatDate(application.filing_date)}`}
+              {`Filing Date: ${formatDate(application.filing_date)}`}
+            </p>
+          )}
+          {application.registration_date && (
+            <p className="mt-1">
+              {`Registration Date: ${formatDate(application.registration_date)}`}
             </p>
           )}
           {isAdmin && application.updated_at && (
             <p className="mt-1">
-              {`Last updated: ${formatDateTime(application.updated_at)}`}
+              {`Last Updated: ${formatDateTime(application.updated_at)}`}
             </p>
           )}
         </div>

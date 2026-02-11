@@ -173,9 +173,31 @@ function StatusUpdateForm(props: PropsInterface) {
         },
       );
     } catch (e) {
-      console.error(e instanceof Error ? e.message : "An error occurred");
+      console.error(
+        e instanceof Error
+          ? e.message
+          : "There was an error in changing status.",
+      );
     } finally {
       handleClose();
+    }
+
+    if (selectedStatus == "filed_with_ipophil") {
+      await updateApp({
+        id: applicationId,
+        applicationData: {
+          filing_date: toSupabaseDate(new Date()),
+        },
+      });
+    }
+
+    if (selectedStatus == "registered") {
+      await updateApp({
+        id: applicationId,
+        applicationData: {
+          registration_date: toSupabaseDate(new Date()),
+        },
+      });
     }
   }
 
