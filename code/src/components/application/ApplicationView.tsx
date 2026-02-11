@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import ApplicationStepper from "@/components/application/Stepper";
 import StatusHistoryPanel from "@/components/application/StatusHistoryPanel";
@@ -8,9 +9,13 @@ import { STATUS_LABELS } from "@/lib/helper/status-labels";
 
 import { ApplicationType } from "@/lib/types/application";
 import InformationPanel from "./InformationPanel";
-import { SquarePen, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { StatusType } from "@/lib/types/ip";
 import { useGetApplicationStatuses } from "@/hooks/status/useGetApplicationStatuses";
+import { formatDateTime, formatDate } from "@/lib/helper/format-date";
+import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
+import { InlineEdit } from "../form/input/InlineEdit";
+import { useQueryClient } from "@tanstack/react-query";
 
 export type ApplicationViewMode = "applicant" | "admin";
 
@@ -22,10 +27,20 @@ interface ApplicationViewProps {
 function ApplicationView(props: ApplicationViewProps) {
   const { mode, initialApplication: application } = props;
 
-  const { statuses, isLoading } = useGetApplicationStatuses({
-    applicationId: application.id,
-    isLatest: true,
+  const { statuses, isLoading: isLatestStatusLoading } =
+    useGetApplicationStatuses({
+      applicationId: application.id,
+      isLatest: true,
+    });
+
+  const [ipTitle, setIpTitle] = useState(application.ip_title);
+  const [ipNumber, setIpNumber] = useState(application.ip_number);
+
+  const { updateApp } = useUpdateApplication({
+    appId: application.id,
   });
+
+  const queryClient = useQueryClient();
 
   const currentStatus = Array.isArray(statuses) ? statuses[0] : statuses;
 
@@ -37,6 +52,11 @@ function ApplicationView(props: ApplicationViewProps) {
 
   // handlers for admin, could be moved later on
   const isAdmin = mode === "admin";
+  if (!isAdmin) {
+    console.log("not admin", application.ip_number);
+  } else {
+    console.log("admin", application.ip_number);
+  }
 
   function handleBack() {
     router.back();
@@ -55,26 +75,31 @@ function ApplicationView(props: ApplicationViewProps) {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <div className="flex flex-row items-center gap-3">
-            <h1 className="text-lg font-semibold text-gray-900 sm:text-2xl">
-              {application.ip_title}
-            </h1>
-            {isAdmin && (
-              <button onClick={handleBack}>
-                <SquarePen size={20} />
-              </button>
+            {isAdmin ? (
+              <InlineEdit
+                value={ipTitle ?? ""}
+                onSave={async (newValue) => {
+                  await updateApp({
+                    id: application.id,
+                    applicationData: { ip_title: newValue },
+                  });
+                  setIpTitle(newValue);
+                  queryClient.invalidateQueries({
+                    queryKey: ["application", application.id],
+                  });
+                }}
+                className="text-lg font-semibold text-gray-900 sm:text-2xl"
+              />
+            ) : (
+              <h1 className="text-lg font-semibold text-gray-900 sm:text-2xl">
+                {ipTitle}
+              </h1>
             )}
           </div>
           {application.project_title && (
-            <div className="flex flex-row items-center gap-3">
-              <p className="mt-1 text-lg text-gray-600">
-                {application.project_title}
-              </p>
-              {isAdmin && (
-                <button onClick={() => {}}>
-                  <SquarePen size={20} className="text-gray-600" />
-                </button>
-              )}
-            </div>
+            <p className="mt-1 text-lg text-gray-600">
+              {application.project_title}
+            </p>
           )}
           <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
             <span className="rounded-full bg-sky-100 px-3 py-1 font-medium text-sky-700">
@@ -85,11 +110,27 @@ function ApplicationView(props: ApplicationViewProps) {
                 {statusLabel}
               </span>
             )}
-            {application.id && (
-              <span className="rounded-full bg-gray-600 px-3 py-1 text-white">
-                Application I.D. {application.id}
-              </span>
-            )}
+            <div className="flex flex-row items-center gap-3 rounded-full bg-gray-600 px-3 py-1 text-white">
+              IP Number:{""}
+              {isAdmin ? (
+                <InlineEdit
+                  value={ipNumber ?? ""}
+                  onSave={async (newValue) => {
+                    await updateApp({
+                      id: application.id,
+                      applicationData: { ip_number: newValue },
+                    });
+                    setIpNumber(newValue);
+                    queryClient.invalidateQueries({
+                      queryKey: ["application", application.id],
+                    });
+                  }}
+                  className="h-full text-sm"
+                />
+              ) : (
+                <p>{ipNumber}</p>
+              )}
+            </div>
           </div>
         </div>
 
@@ -101,12 +142,17 @@ function ApplicationView(props: ApplicationViewProps) {
           </p>
           {application.created_at && (
             <p className="mt-1">
-              {`Date of filing: ${new Date(application.created_at).toLocaleDateString()}`}
+              {`Start of application: ${formatDate(application.created_at)}`}
+            </p>
+          )}
+          {application.filing_date && (
+            <p className="mt-1">
+              {`Date of filing: ${formatDate(application.filing_date)}`}
             </p>
           )}
           {isAdmin && application.updated_at && (
             <p className="mt-1">
-              {`Last updated: ${new Date(application.updated_at).toLocaleString()}`}
+              {`Last updated: ${formatDateTime(application.updated_at)}`}
             </p>
           )}
         </div>
@@ -120,7 +166,9 @@ function ApplicationView(props: ApplicationViewProps) {
             currentStageDeadline={currentStatus?.deadline ?? undefined}
           />
         ) : (
-          <StatusPlaceholder type={isLoading ? "loading" : "empty"} />
+          <StatusPlaceholder
+            type={isLatestStatusLoading ? "loading" : "empty"}
+          />
         )}
       </section>
 
