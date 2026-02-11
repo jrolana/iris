@@ -2,7 +2,6 @@
 DROP FUNCTION IF EXISTS create_application_with_inventors;
 
 CREATE OR REPLACE FUNCTION public.create_application_with_inventors(
-  p_ip_title TEXT,
   p_project_title TEXT,
   p_ip_type private.iprtype,
   p_funding_source TEXT,
@@ -18,19 +17,20 @@ DECLARE
   inv JSONB;
 BEGIN
   -- Create the Application in the 'private' schema
-  INSERT INTO private.ipr_applications (ip_title, project_title, ip_type, funding_source)
-  VALUES (p_ip_title, p_project_title, p_ip_type, p_funding_source)
+  INSERT INTO private.ipr_applications (project_title, ip_type, funding_source)
+  VALUES (p_project_title, p_ip_type, p_funding_source)
   RETURNING id INTO new_app_id;
 
   -- Loop through inventors params and insert to the db
   FOR inv IN SELECT * FROM jsonb_array_elements(p_inventors)
   LOOP
-    INSERT INTO private.inventors (application_id, full_name, email, college)
+    INSERT INTO private.inventors (application_id, full_name, email, college, external_institution)
     VALUES (
       new_app_id, 
       inv->>'full_name', 
       inv->>'email', 
-      inv->>'college'
+      inv->>'college',
+      inv->>'external_institution'
     );
   END LOOP;
 
@@ -41,4 +41,4 @@ BEGIN
 EXCEPTION WHEN OTHERS THEN
   RAISE;
 END;
-$$; 
+$$;

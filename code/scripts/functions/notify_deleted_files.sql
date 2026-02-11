@@ -14,8 +14,8 @@ BEGIN
     FOR techgen IN
         SELECT techgen_id FROM private.inventors WHERE application_id = OLD.application_id
     LOOP
-        IF (techgen IS NOT NULL) THEN
-            receivers := array_append(receivers, techgen);
+        IF (receiver IS NOT NULL) THEN
+            receivers := array_append(receivers, receiver);
         END IF;
     END LOOP;
     

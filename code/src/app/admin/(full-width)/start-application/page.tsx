@@ -71,7 +71,7 @@ export default function StartApplicationPage() {
       },
     );
     await handleUpload(appId, fileItems);
-    router.push(`/techgen/view-application?applicationID=${appId}`);
+    router.push(`/admin/view-application?applicationID=${appId}`);
   }
 
   async function handleUpload(
@@ -177,10 +177,8 @@ export default function StartApplicationPage() {
         <div>
           <h2 className="text-2xl font-medium">B. Collaborators</h2>
           <p className="mt-1 text-lg text-slate-500">
-            List all the collaborators for this application. You are
-            automatically listed as an inventor so exclude yourself from this
-            list. Remember that you can no longer add or remove these names
-            after submission.
+            List all the collaborators for this application. Remember that you
+            can no longer add or remove these names after submission.
           </p>
         </div>
         <ScrollArea className="h-[300px] rounded-md border p-2 pr-4">
@@ -199,7 +197,7 @@ export default function StartApplicationPage() {
                   <span className="block truncate text-lg font-medium">
                     {inventor.full_name}
                   </span>
-                  <div className="text-muted-foreground text-md">
+                  <div className="text-muted-foreground text-md block max-w-48 truncate">
                     {inventor.email}
                   </div>
                   <Hint
