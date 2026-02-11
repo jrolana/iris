@@ -15,8 +15,8 @@ export const uploadFile = async (props: UploadFileProps) => {
     if (!appId) {
         throw new Error("Application ID is missing. Cannot upload file.");
     }
-
-    const fullPath = `${appId}/${file.file_name}`;
+    const newId = crypto.randomUUID();
+    const fullPath = `${appId}/${file.file_name}/${newId}`;
 
     if (!file.fileObject) {
         // This means that the file is a link
