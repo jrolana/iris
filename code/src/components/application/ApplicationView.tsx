@@ -79,10 +79,13 @@ function ApplicationView(props: ApplicationViewProps) {
               <InlineEdit
                 value={ipTitle ?? ""}
                 onSave={async (newValue) => {
+                  if (newValue == ipTitle || !newValue) return;
+
                   await updateApp({
                     id: application.id,
                     applicationData: { ip_title: newValue },
                   });
+
                   setIpTitle(newValue);
                   queryClient.invalidateQueries({
                     queryKey: ["application", application.id],
@@ -110,16 +113,19 @@ function ApplicationView(props: ApplicationViewProps) {
                 {statusLabel}
               </span>
             )}
-            <div className="flex flex-row items-center gap-3 rounded-full bg-gray-600 px-3 py-1 text-white">
-              IP Number:{""}
-              {isAdmin ? (
+            {isAdmin ? (
+              <div className="flex flex-row items-center gap-3 rounded-full bg-gray-600 px-3 py-1 text-white">
+                IP Number:{""}
                 <InlineEdit
                   value={ipNumber ?? ""}
                   onSave={async (newValue) => {
+                    if (newValue == ipNumber || !newValue) return;
+
                     await updateApp({
                       id: application.id,
                       applicationData: { ip_number: newValue },
                     });
+
                     setIpNumber(newValue);
                     queryClient.invalidateQueries({
                       queryKey: ["application", application.id],
@@ -127,10 +133,10 @@ function ApplicationView(props: ApplicationViewProps) {
                   }}
                   className="h-full text-sm"
                 />
-              ) : (
-                <p>{ipNumber}</p>
-              )}
-            </div>
+              </div>
+            ) : (
+              !!ipNumber && <p>{ipNumber}</p>
+            )}
           </div>
         </div>
 
