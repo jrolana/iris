@@ -94,6 +94,7 @@ function ApplicationView(props: ApplicationViewProps) {
                           queryClient.invalidateQueries({
                             queryKey: ["application", application.id],
                           });
+                          toast.success("Successfully changed IP title.");
                         },
                         onError: () => {
                           toast.error(
