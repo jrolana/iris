@@ -124,14 +124,14 @@ function ApplicationView(props: ApplicationViewProps) {
         )}
       </section>
 
-      <main className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1.2fr)]">
+      <main className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* left panel for the attachments and inventors */}
-        <section className="space-y-4">
+        <section className="min-w-0 space-y-4 lg:col-span-7">
           <InformationPanel applicationId={application.id} mode={mode} />
         </section>
 
         {/* right panels, status history and the reminders (could be change later on for something more useful)*/}
-        <section className="space-y-4">
+        <section className="min-w-0 space-y-4 lg:col-span-5">
           <StatusHistoryPanel
             applicationId={application.id}
             variant={isAdmin ? "ttbdo" : "techgen"}

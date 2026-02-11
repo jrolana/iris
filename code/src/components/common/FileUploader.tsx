@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-type extendedAttachmentType = AttachmentType["Insert"] & { fileObject?: File };
+type ExtendedAttachmentType = AttachmentType["Insert"] & { fileObject?: File };
 
 function getFileIcon(fileType: string) {
   if (fileType === "link") {
@@ -30,8 +30,8 @@ function getFileIcon(fileType: string) {
 }
 
 interface FileUploaderProps {
-  items: extendedAttachmentType[];
-  setItems: Dispatch<SetStateAction<extendedAttachmentType[]>>;
+  items: ExtendedAttachmentType[];
+  setItems: Dispatch<SetStateAction<ExtendedAttachmentType[]>>;
   isLoading?: boolean;
   maxFileCount?: number;
   acceptedFileTypes?: Accept;
@@ -53,7 +53,7 @@ export default function FileUploader(props: FileUploaderProps) {
 
       const filesToAdd = acceptedFiles.slice(0, remainingSlots); // only take files that fit within the limit
 
-      const newItems: extendedAttachmentType[] = filesToAdd.map((file) => ({
+      const newItems: ExtendedAttachmentType[] = filesToAdd.map((file) => ({
         owner_id: "",
         file_name: file.name,
         application_id: "",
@@ -82,7 +82,7 @@ export default function FileUploader(props: FileUploaderProps) {
 
   function handleAddLink() {
     if (!linkInput) return;
-    const newItem: extendedAttachmentType = {
+    const newItem: ExtendedAttachmentType = {
       owner_id: "",
       application_id: "",
       file_name: linkInput,
