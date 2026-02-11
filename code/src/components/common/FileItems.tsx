@@ -1,4 +1,3 @@
-import { useDeleteFileByStoragePath } from "@/hooks/attachments/useDeleteFileByStoragePath";
 import { useGetUrlByStoragePath } from "@/hooks/attachments/useGenerateUrlByStoragePath";
 import { AttachmentType } from "@/lib/types/application";
 
@@ -9,6 +8,7 @@ import { Button } from "../ui/button";
 
 interface FileItemProps {
   file: AttachmentType["Row"];
+  oldVersions: AttachmentType["Row"][];
   isOwned?: boolean;
 }
 
@@ -22,10 +22,8 @@ function getFileIcon(fileType: string) {
   }
 }
 export default function FileItem(props: FileItemProps) {
-  const { file, isOwned } = props;
+  const { file, isOwned, oldVersions } = props;
   const { fetchUrl, isLoading: isFetchingUrl } = useGetUrlByStoragePath();
-  // const { deleteFile, isLoading: isDeletingFile } =
-  //   useDeleteFileByStoragePath();
 
   async function handleDownloadAttachment(
     storagePath: string,
@@ -59,7 +57,7 @@ export default function FileItem(props: FileItemProps) {
         {getFileIcon(file.file_type)}
         <div className="min-w-0 flex-1">
           <Hint label={file.file_name}>
-            <p className="text-md truncate font-medium text-slate-900">
+            <p className="text-md inline-block max-w-full truncate font-medium">
               {file.file_name}
             </p>
           </Hint>
@@ -113,22 +111,6 @@ export default function FileItem(props: FileItemProps) {
               Download
             </Button>
           )}
-          {/* {file.owner_id === user?.id && (
-                <button
-                type="button"
-                onClick={() =>
-                handleDeleteAttachment(file.storage_path, file.file_name)
-                }
-                className="disabled:text-muted-foreground rounded-md border border-red-100 bg-red-50 px-2 py-1 font-medium text-red-600 hover:bg-red-100 disabled:cursor-not-allowed disabled:bg-slate-200"
-                disabled={isDeletingFile || isFetchingUrl}
-                >
-                {isDeletingFile ? (
-                    <Loader className="animate-spin" size={20} />
-                    ) : (
-                        "Delete"
-                        )}
-                        </button>
-                        )} */}
           <UploadFileButton
             currentFileType={file.file_type}
             disabled={isFetchingUrl}

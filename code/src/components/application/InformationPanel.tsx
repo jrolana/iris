@@ -25,13 +25,14 @@ function InformationPanel(props: DetailsPanelProps) {
     id: applicationId,
   });
 
-  const { files, isLoading: isFetchingFiles } = useGetFilesByAppId({
-    id: applicationId,
-  });
+  const { files: groupedFiles, isLoading: isFetchingFiles } =
+    useGetFilesByAppId({
+      id: applicationId,
+    });
 
   const isAdmin = mode === "admin";
   const tabIndex = +(activeTab === "inventors");
-  const itemCount = [files ?? [], inventors ?? []][tabIndex].length;
+  const itemCount = [groupedFiles ?? [], inventors ?? []][tabIndex].length;
   const countLabel = `${itemCount} ${["attachment", "inventor"][tabIndex]}${" s"[+(itemCount > 0)]}`;
 
   return (
@@ -62,7 +63,7 @@ function InformationPanel(props: DetailsPanelProps) {
 
       {activeTab === "attachments" ? (
         <ViewAttachments
-          attachments={files ?? []}
+          groupedFiles={groupedFiles ?? []}
           user={user}
           isFetchingUser={isFetchingUser}
           isLoading={isFetchingFiles}

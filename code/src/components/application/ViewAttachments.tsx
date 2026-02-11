@@ -4,14 +4,14 @@ import { User } from "@supabase/supabase-js";
 import FileItem from "../common/FileItems";
 
 interface ViewAttachmentProps {
-  attachments: AttachmentType["Row"][];
+  groupedFiles: AttachmentType["Row"][][];
   user: User | null;
   isFetchingUser: boolean;
   isLoading: boolean;
 }
 
 function ViewAttachments(props: ViewAttachmentProps) {
-  const { attachments, isLoading, isFetchingUser, user } = props;
+  const { groupedFiles, isLoading, isFetchingUser, user } = props;
   const { openModal: openUploadModal } = useFilesUploadModal();
 
   // TODO: show loading state properly
@@ -21,7 +21,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
     );
   }
 
-  if (attachments.length == 0) {
+  if (groupedFiles.length == 0) {
     return (
       <>
         <p className="mt-4 text-sm text-slate-500">
@@ -45,31 +45,24 @@ function ViewAttachments(props: ViewAttachmentProps) {
     );
   }
 
-  // async function handleDeleteAttachment(fileId: string, fileName: string) {
-  //   await deleteFile(
-  //     { storage_path: fileId },
-  //     {
-  //       onSuccess: () => {
-  //         toast.success(`File "${fileName}" deleted successfully.`, {
-  //           duration: 4000,
-  //         });
-  //       },
-  //     },
-  //   );
-  // }
-
   return (
-    // TOOD: maybe create a separate component for each attachment item so that there can have separate view, download, and delete loading states
     <>
       <ul className="mt-3 max-h-64 divide-y divide-slate-100 overflow-y-auto">
-        {attachments.map((file) => (
-          <li
-            key={file.id}
-            className="flex flex-col gap-2 py-2 sm:flex-row sm:items-start sm:justify-between"
-          >
-            <FileItem file={file} isOwned={file.owner_id === user?.id} />
-          </li>
-        ))}
+        {groupedFiles.map((folder) => {
+          const latestVersion = folder[0];
+          return (
+            <li
+              key={latestVersion.id}
+              className="flex flex-col gap-2 py-2 sm:flex-row sm:items-start sm:justify-between"
+            >
+              <FileItem
+                file={latestVersion}
+                isOwned={latestVersion.owner_id === user?.id}
+                oldVersions={folder.slice(1)}
+              />
+            </li>
+          );
+        })}
       </ul>
 
       <div className="mt-4">

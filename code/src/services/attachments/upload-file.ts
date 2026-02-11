@@ -5,10 +5,11 @@ import { AttachmentType } from "@/lib/types/application";
 interface UploadFileProps {
     file: AttachmentType["Insert"] & {fileObject?: File};
     appId: string;
+    folderName?: string;
 }   
 
 export const uploadFile = async (props: UploadFileProps) => {
-    const { file, appId } = props;
+    const { file, appId, folderName } = props;
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error("User not authenticated");
 
@@ -16,7 +17,7 @@ export const uploadFile = async (props: UploadFileProps) => {
         throw new Error("Application ID is missing. Cannot upload file.");
     }
     const newId = crypto.randomUUID();
-    const fullPath = `${appId}/${file.file_name}/${newId}`;
+    const fullPath = `${appId}/${folderName ?? file.file_name}/${newId}`;
 
     if (!file.fileObject) {
         // This means that the file is a link
@@ -39,7 +40,7 @@ export const uploadFile = async (props: UploadFileProps) => {
     const { data, error } = await supabase.storage.from('ipr_files_bucket').upload(
         fullPath, file.fileObject, {
         contentType: file.fileObject.type,
-        upsert: true,
+        upsert: false, // do not overwrite existing files
     })
 
     if (error) {
