@@ -9,6 +9,7 @@ import { Button } from "../ui/button";
 
 interface FileItemProps {
   file: AttachmentType["Row"];
+  isOwned?: boolean;
 }
 
 function getFileIcon(fileType: string) {
@@ -21,7 +22,7 @@ function getFileIcon(fileType: string) {
   }
 }
 export default function FileItem(props: FileItemProps) {
-  const { file } = props;
+  const { file, isOwned } = props;
   const { fetchUrl, isLoading: isFetchingUrl } = useGetUrlByStoragePath();
   // const { deleteFile, isLoading: isDeletingFile } =
   //   useDeleteFileByStoragePath();
@@ -78,7 +79,7 @@ export default function FileItem(props: FileItemProps) {
       </div>
 
       {/* action buttons */}
-      <div className="text-right">
+      <div className="pt-2 text-right">
         <div className="flex w-[250px] shrink-0 flex-wrap gap-2 text-sm">
           <Button
             type="button"
@@ -135,9 +136,11 @@ export default function FileItem(props: FileItemProps) {
             className="disabled:text-muted-foreground flex flex-row gap-2 rounded-md border px-2 py-1 font-medium text-slate-600 hover:bg-slate-100"
           />
         </div>
-        <p className="px-4 py-1 text-sm font-medium text-slate-700">
-          by {`${file.owner_name ?? "Unknown User"}`}
-        </p>
+        {!isOwned && (
+          <p className="px-4 py-1 text-sm font-medium text-slate-700">
+            {`by ${file.owner_name ?? "Unknown User"}`}
+          </p>
+        )}
       </div>
     </>
   );

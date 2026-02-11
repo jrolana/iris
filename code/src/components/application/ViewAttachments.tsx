@@ -11,7 +11,7 @@ interface ViewAttachmentProps {
 }
 
 function ViewAttachments(props: ViewAttachmentProps) {
-  const { attachments, isLoading, isFetchingUser } = props;
+  const { attachments, isLoading, isFetchingUser, user } = props;
   const { openModal: openUploadModal } = useFilesUploadModal();
 
   // TODO: show loading state properly
@@ -65,9 +65,9 @@ function ViewAttachments(props: ViewAttachmentProps) {
         {attachments.map((file) => (
           <li
             key={file.id}
-            className="flex flex-col gap-2 py-3 sm:flex-row sm:items-start sm:justify-between"
+            className="flex flex-col gap-2 py-2 sm:flex-row sm:items-start sm:justify-between"
           >
-            <FileItem file={file} />
+            <FileItem file={file} isOwned={file.owner_id === user?.id} />
           </li>
         ))}
       </ul>
