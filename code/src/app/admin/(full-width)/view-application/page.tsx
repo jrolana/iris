@@ -20,10 +20,6 @@ function TtbdoViewApplicationPage() {
     return <div>Application not found.</div>;
   }
 
-  if (!application) {
-    return <div>Application not found.</div>;
-  }
-
   return <ApplicationView mode="admin" initialApplication={application} />;
 }
 
