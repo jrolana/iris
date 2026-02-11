@@ -62,12 +62,12 @@ function ViewAttachments(props: ViewAttachmentProps) {
     );
   }
 
-  async function handleDeleteAttachment(fileId: string) {
+  async function handleDeleteAttachment(fileId: string, fileName: string) {
     await deleteFile(
-      { id: fileId },
+      { storage_path: fileId },
       {
-        onSuccess: (data) => {
-          toast.success(`File "${data.file_name}" deleted successfully.`, {
+        onSuccess: () => {
+          toast.success(`File "${fileName}" deleted successfully.`, {
             duration: 4000,
           });
         },
@@ -161,7 +161,9 @@ function ViewAttachments(props: ViewAttachmentProps) {
               {file.owner_id === user?.id && (
                 <button
                   type="button"
-                  onClick={() => handleDeleteAttachment(file.id)}
+                  onClick={() =>
+                    handleDeleteAttachment(file.storage_path, file.file_name)
+                  }
                   className="disabled:text-muted-foreground rounded-md border border-red-100 bg-red-50 px-2 py-1 font-medium text-red-600 hover:bg-red-100 disabled:cursor-not-allowed disabled:bg-slate-200"
                   disabled={isDeletingFile || isFetchingUrl}
                 >
