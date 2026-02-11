@@ -3,10 +3,11 @@ AFTER INSERT OR UPDATE ON private.ipr_statuses
 FOR EACH ROW
 EXECUTE FUNCTION private.notify_status_change()
 
-CREATE TRIGGER trg_notify_ip_type_change
+DROP TRIGGER IF EXISTS trg_notify_ip_type_change ON private.ipr_applications;
+CREATE TRIGGER trg_notify_application_detail_change
 AFTER UPDATE ON private.ipr_applications
 FOR EACH ROW
-EXECUTE FUNCTION private.notify_ip_type_change()
+EXECUTE FUNCTION private.notify_application_detail_change()
 
 CREATE TRIGGER trgy_notify_added_files
 AFTER INSERT ON private.ipr_files
