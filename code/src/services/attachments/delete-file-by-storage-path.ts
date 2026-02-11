@@ -1,10 +1,10 @@
 import { supabaseClient as supabase } from "@/lib/supabase"
 
-interface DeleteFileByIdProps {
+interface DeleteFileByStoragePathProps {
     storage_path: string;
 }
 
-export const deleteFileById = async (props: DeleteFileByIdProps) => {
+export const deleteFileByStoragePath = async (props: DeleteFileByStoragePathProps) => {
     const { storage_path} = props;
     const { data, error } = await supabase
         .storage

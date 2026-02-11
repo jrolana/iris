@@ -1,4 +1,4 @@
-import { useDeleteFileById } from "@/hooks/attachments/useDeleteFileById";
+import { useDeleteFileByStoragePath } from "@/hooks/attachments/useDeleteFileByStoragePath";
 import { useGetUrlByStoragePath } from "@/hooks/attachments/useGenerateUrlByStoragePath";
 import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 import { AttachmentType } from "@/lib/types/application";
@@ -29,7 +29,8 @@ function ViewAttachments(props: ViewAttachmentProps) {
   const { openModal: openUploadModal } = useFilesUploadModal();
 
   const { fetchUrl, isLoading: isFetchingUrl } = useGetUrlByStoragePath();
-  const { deleteFile, isLoading: isDeletingFile } = useDeleteFileById();
+  const { deleteFile, isLoading: isDeletingFile } =
+    useDeleteFileByStoragePath();
 
   // TODO: show loading state properly
   if (isLoading || isFetchingUser) {
