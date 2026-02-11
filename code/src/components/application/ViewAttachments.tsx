@@ -57,7 +57,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
             >
               <FileItem
                 file={latestVersion}
-                isOwned={latestVersion.owner_id === user?.id}
+                owner={user}
                 oldVersions={folder.slice(1)}
               />
             </li>

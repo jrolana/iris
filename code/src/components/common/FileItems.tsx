@@ -13,11 +13,12 @@ import {
 import Hint from "./Tooltip";
 import UploadFileButton from "./UploadFileButton";
 import { Button } from "../ui/button";
+import { User } from "@supabase/supabase-js";
 
 interface FileItemProps {
   file: AttachmentType["Row"];
   oldVersions: AttachmentType["Row"][];
-  isOwned?: boolean;
+  owner: User | null;
   isHistoryView?: boolean;
 }
 
@@ -32,7 +33,7 @@ function getFileIcon(fileType: string) {
 }
 
 export default function FileItem(props: FileItemProps) {
-  const { file, isOwned, oldVersions, isHistoryView = false } = props;
+  const { file, owner, oldVersions, isHistoryView = false } = props;
   const { fetchUrl, isLoading: isFetchingUrl } = useGetUrlByStoragePath();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -138,7 +139,7 @@ export default function FileItem(props: FileItemProps) {
             )}
           </div>
 
-          {isOwned && (
+          {owner && owner.id !== file.owner_id && (
             <p className="mt-1 px-1 text-xs font-medium text-slate-400">
               {`by ${file.owner_name ?? "Unknown User"}`}
             </p>
@@ -170,7 +171,7 @@ export default function FileItem(props: FileItemProps) {
               key={oldVersion.id}
               file={oldVersion}
               oldVersions={[]} // pass empty just in case, to prevent nesting
-              isOwned={isOwned}
+              owner={owner}
               isHistoryView={true} // indicate that these are old versions (in accordion view)
             />
           ))}
