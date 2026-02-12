@@ -23,9 +23,9 @@ function Hint(props: Readonly<HintProps>) {
         <TooltipContent
           side={side}
           align={align}
-          className="border border-white/5 bg-black/50 text-white"
+          className="w-fit max-w-[280px] border border-solid bg-white p-2 text-xs leading-relaxed text-pretty wrap-break-word hyphens-auto text-black shadow-md"
         >
-          <p className="text-xs font-medium">{label}</p>
+          <p className="font-medium">{label}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

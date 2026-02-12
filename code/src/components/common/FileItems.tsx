@@ -14,6 +14,7 @@ import Hint from "./Tooltip";
 import UploadFileButton from "./UploadFileButton";
 import { Button } from "../ui/button";
 import { User } from "@supabase/supabase-js";
+import { formatDateTime } from "@/lib/helper/format-date";
 
 interface FileItemProps {
   file: AttachmentType["Row"];
@@ -73,26 +74,26 @@ export default function FileItem(props: FileItemProps) {
                 {file.file_name}
               </p>
             </Hint>
-
             {file.file_description && (
               <Hint label={file.file_description}>
-                <p className="mt-0.5 line-clamp-2 inline-block w-fit text-sm leading-tight text-slate-600">
+                <p className="mt-0.5 line-clamp-2 w-fit max-w-full text-sm leading-tight font-medium text-slate-400">
                   {file.file_description}
                 </p>
               </Hint>
             )}
-
-            <p className="mt-0.5 flex items-center gap-2 text-sm text-slate-400">
-              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
+            <p className="mt-0.5 flex items-center gap-1 truncate text-sm text-slate-400">
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700 uppercase">
                 {file.file_type}
               </span>
-              <span>{new Date(file.uploaded_at!).toLocaleString()}</span>
+              <span className="text-xs font-medium">
+                {formatDateTime(new Date(file.uploaded_at!))}
+              </span>
+              {owner && owner.id !== file.owner_id && (
+                <span className="truncate text-xs font-medium">
+                  {`by ${file.owner_name ?? "Unknown User"}`}
+                </span>
+              )}
             </p>
-            {owner && owner.id !== file.owner_id && (
-              <p className="mt-1 px-1 text-xs font-medium text-slate-400">
-                {`by ${file.owner_name ?? "Unknown User"}`}
-              </p>
-            )}
           </div>
         </div>
 
