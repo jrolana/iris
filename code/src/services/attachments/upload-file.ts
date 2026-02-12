@@ -1,3 +1,4 @@
+import { sanitizeFileName } from "@/lib/helper/sanitize-input";
 import { supabaseClient as supabase } from "@/lib/supabase"
 import { AttachmentType } from "@/lib/types/application";
 
@@ -10,6 +11,7 @@ interface UploadFileProps {
 
 export const uploadFile = async (props: UploadFileProps) => {
     const { file, appId, folderName } = props;
+    file.file_name = sanitizeFileName(file.file_name)
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error("User not authenticated");
 
