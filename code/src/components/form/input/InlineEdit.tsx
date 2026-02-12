@@ -37,7 +37,7 @@ export function InlineEdit(props: PropsInterface) {
 
   if (isEditing) {
     return (
-      <div className="flex items-center gap-2">
+      <div className={`${className} flex items-center gap-2`}>
         <Input
           value={draft}
           onChange={(e) => setDraft(e.target.value)}

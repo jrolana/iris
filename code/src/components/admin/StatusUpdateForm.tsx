@@ -75,6 +75,7 @@ function StatusUpdateForm(props: PropsInterface) {
     useState<IprStatusType["Row"]["status_type"]>(currentStatusType);
   const [note, setNote] = useState(currentNote ?? "");
   const [deadline, setDeadline] = useState<Date | null>(currentDeadline);
+  const [date, setDate] = useState<Date>(new Date());
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -186,7 +187,7 @@ function StatusUpdateForm(props: PropsInterface) {
       await updateApp({
         id: applicationId,
         applicationData: {
-          filing_date: toSupabaseDate(new Date()),
+          filing_date: toSupabaseDate(date),
         },
       });
     }
@@ -195,7 +196,7 @@ function StatusUpdateForm(props: PropsInterface) {
       await updateApp({
         id: applicationId,
         applicationData: {
-          registration_date: toSupabaseDate(new Date()),
+          registration_date: toSupabaseDate(date),
         },
       });
     }
@@ -257,6 +258,7 @@ function StatusUpdateForm(props: PropsInterface) {
                 }}
               />
             </label>
+
             <div className="flex flex-col items-start gap-1">
               <span className="font-medium text-slate-800">
                 Deadline (optional)
@@ -304,6 +306,48 @@ function StatusUpdateForm(props: PropsInterface) {
                 )}
               </div>
             </div>
+
+            {(selectedStatus == "registered" ||
+              selectedStatus == "filed_with_ipophil") && (
+              <div className="col-span-2 flex flex-col items-start gap-1">
+                <span className="font-medium text-slate-800">
+                  {selectedStatus == "registered" ? "Registration" : "Filing"}{" "}
+                  Date
+                </span>
+                <div className="flex w-full flex-row items-start justify-between gap-2 align-middle">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        data-empty={!date}
+                        className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
+                      >
+                        <CalendarIcon />
+                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="z-9999 w-auto p-0">
+                      <Calendar
+                        fixedWeeks
+                        mode="single"
+                        selected={date ?? undefined}
+                        onSelect={setDate}
+                        classNames={{
+                          day_selected:
+                            "bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white",
+                          day_today: "bg-slate-100 text-slate-900",
+                        }}
+                        required
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <p className="text-xs text-slate-500">
+                  Pre-filled with today’s date based on the selected status. You
+                  may adjust if needed.
+                </p>
+              </div>
+            )}
           </div>
 
           <label className="flex flex-col gap-1">
@@ -351,7 +395,7 @@ function StatusUpdateForm(props: PropsInterface) {
           </label>
         </div>
 
-        <div className="mt-6 grid gap-2 md:grid-cols-2 md:gap-1 md:justify-self-end">
+        <div className="mt-6 grid grid-cols-2 gap-2 justify-self-end md:gap-1">
           <button
             type="button"
             onClick={closeModal}

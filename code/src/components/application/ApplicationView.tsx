@@ -111,10 +111,10 @@ function ApplicationView(props: ApplicationViewProps) {
                     );
                   }
                 }}
-                className="text-lg font-semibold text-gray-900 sm:text-2xl"
+                className="text-lg font-semibold text-gray-900 sm:text-2xl!"
               />
             ) : (
-              <h1 className="text-lg font-semibold text-gray-900 sm:text-2xl">
+              <h1 className="text-lg font-semibold text-gray-900 sm:text-2xl!">
                 {ipTitle}
               </h1>
             )}
