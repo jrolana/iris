@@ -178,7 +178,8 @@ export default function StartApplicationPage() {
           <h2 className="text-2xl font-medium">B. Collaborators</h2>
           <p className="mt-1 text-lg text-slate-500">
             List all the collaborators for this application. Remember that you
-            can no longer add or remove these names after submission.
+            can no longer add or remove these names after submission. You need{" "}
+            <b>at least one (1)</b> collaborator to proceed.
           </p>
         </div>
         <ScrollArea className="h-[300px] rounded-md border p-2 pr-4">
@@ -265,7 +266,7 @@ export default function StartApplicationPage() {
         <button
           type="button"
           onClick={handleSubmit}
-          disabled={projectTitle.trim() === ""}
+          disabled={projectTitle.trim() === "" || inventors.length === 0}
           className="h-10 w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
         >
           Submit Application

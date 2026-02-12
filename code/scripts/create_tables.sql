@@ -139,7 +139,9 @@ CREATE TABLE private.ipr_files (
    
     application_id UUID NOT NULL,
     owner_id UUID NOT NULL,
+    owner_name TEXT NOT NULL,
     uploaded_at TIMESTAMPTZ DEFAULT now(),
+    modified_at TIMESTAMPTZ DEFAULT now(),
     
     storage_path TEXT NOT NULL,
     file_name TEXT NOT NULL,

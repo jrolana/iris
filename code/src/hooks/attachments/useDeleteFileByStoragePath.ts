@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteFileById } from '@/services/attachments/delete-file-by-id';
+import { deleteFileByStoragePath } from '@/services/attachments/delete-file-by-storage-path';
 
-export function useDeleteFileById() {
+export function useDeleteFileByStoragePath() {
     const queryClient = useQueryClient();
     const {data, isPending, mutateAsync} =  useMutation({
         mutationKey: ['files', 'delete'],
-        mutationFn: deleteFileById,
+        mutationFn: deleteFileByStoragePath,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ['files']});
             queryClient.invalidateQueries({queryKey: ['notifications']});

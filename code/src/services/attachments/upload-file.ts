@@ -1,3 +1,4 @@
+import { sanitizeFileName } from "@/lib/helper/sanitize-input";
 import { supabaseClient as supabase } from "@/lib/supabase"
 import { AttachmentType } from "@/lib/types/application";
 
@@ -5,18 +6,20 @@ import { AttachmentType } from "@/lib/types/application";
 interface UploadFileProps {
     file: AttachmentType["Insert"] & {fileObject?: File};
     appId: string;
+    folderName?: string;
 }   
 
 export const uploadFile = async (props: UploadFileProps) => {
-    const { file, appId } = props;
+    const { file, appId, folderName } = props;
+    file.file_name = sanitizeFileName(file.file_name)
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error("User not authenticated");
 
     if (!appId) {
         throw new Error("Application ID is missing. Cannot upload file.");
     }
-
-    const fullPath = `${appId}/${file.file_name}`;
+    const newId = crypto.randomUUID();
+    const fullPath = `${appId}/${folderName ?? file.file_name}/${newId}`;
 
     if (!file.fileObject) {
         // This means that the file is a link
@@ -39,7 +42,7 @@ export const uploadFile = async (props: UploadFileProps) => {
     const { data, error } = await supabase.storage.from('ipr_files_bucket').upload(
         fullPath, file.fileObject, {
         contentType: file.fileObject.type,
-        upsert: true,
+        upsert: false, // do not overwrite existing files
     })
 
     if (error) {

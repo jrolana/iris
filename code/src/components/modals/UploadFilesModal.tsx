@@ -62,8 +62,8 @@ function UploadFilesModal() {
 
   return (
     <Modal
-      title="Update status &amp; notify record"
-      description=""
+      title="Upload"
+      description="Upload files related to this application. You can upload multiple files at once."
       isOpen={isOpen}
       onChange={handleChange}
     >
