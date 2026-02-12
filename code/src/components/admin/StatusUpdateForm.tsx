@@ -68,6 +68,12 @@ function StatusUpdateForm(props: PropsInterface) {
     ? new Date(currentStatus.deadline)
     : null;
   const currentNote = currentStatus.note;
+  const currentFilingDate = application.filing_date
+    ? new Date(application.filing_date)
+    : new Date();
+  const currentRegistrationDate = application.registration_date
+    ? new Date(application.registration_date)
+    : new Date();
 
   const [selectedIpType, setSelectedIpType] =
     useState<ApplicationType["Update"]["ip_type"]>(currentIpType);
@@ -75,9 +81,27 @@ function StatusUpdateForm(props: PropsInterface) {
     useState<IprStatusType["Row"]["status_type"]>(currentStatusType);
   const [note, setNote] = useState(currentNote ?? "");
   const [deadline, setDeadline] = useState<Date | null>(currentDeadline);
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date>(
+    selectedStatus == "filed_with_ipophil"
+      ? currentFilingDate
+      : selectedStatus == "registered"
+        ? currentRegistrationDate
+        : new Date(),
+  );
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isNoteChanged = currentNote != note;
+  const isDeadlineChanged = currentDeadline?.getDate() != deadline?.getDate();
+  const isStatusChanged = currentStatusType != selectedStatus;
+  const isDateChanged =
+    selectedStatus == "filed_with_ipophil"
+      ? currentFilingDate?.getDate() != date.getDate()
+      : selectedStatus == "registered"
+        ? currentRegistrationDate?.getDate() != date.getDate()
+        : false;
+  const noChangesMade =
+    !isNoteChanged && !isDeadlineChanged && !isStatusChanged && !isDateChanged;
 
   useEffect(() => {
     if (!selectedStatus) {
@@ -89,6 +113,14 @@ function StatusUpdateForm(props: PropsInterface) {
     if (suggestion) {
       setDeadline(new Date(suggestion));
     }
+
+    setDate(
+      selectedStatus == "filed_with_ipophil"
+        ? currentFilingDate
+        : selectedStatus == "registered"
+          ? currentRegistrationDate
+          : new Date(),
+    );
   }, [selectedStatus]);
 
   async function onConfirm() {
@@ -118,11 +150,7 @@ function StatusUpdateForm(props: PropsInterface) {
 
       // No changes on status
 
-      if (
-        currentNote == note &&
-        currentDeadline?.getTime() == deadline?.getTime() &&
-        currentStatusType == selectedStatus
-      ) {
+      if (noChangesMade) {
         return;
       }
 
@@ -130,14 +158,14 @@ function StatusUpdateForm(props: PropsInterface) {
 
       const updatedStatus: Partial<IprStatusType["Insert"]> = {};
 
-      if (currentNote != note) {
+      if (isNoteChanged) {
         updatedStatus.note = note;
       }
-      if (currentDeadline?.getTime() != deadline?.getTime()) {
+      if (isDeadlineChanged) {
         updatedStatus.deadline = deadline ? toSupabaseDate(deadline) : null;
       }
 
-      if (currentStatusType == selectedStatus) {
+      if (!isStatusChanged && (isNoteChanged || isDeadlineChanged)) {
         await updateStatus(
           {
             id: currentStatusId,
@@ -157,22 +185,71 @@ function StatusUpdateForm(props: PropsInterface) {
 
       // Changes on status_type
 
-      updatedStatus.status_type = selectedStatus;
-      updatedStatus.application_id = applicationId;
+      if (isStatusChanged) {
+        updatedStatus.status_type = selectedStatus;
+        updatedStatus.application_id = applicationId;
 
-      await addStatus(
-        {
-          statusData: updatedStatus,
-        },
-        {
-          onSuccess: () => {
-            toast.success("Successfully changed status.");
+        await addStatus(
+          {
+            statusData: updatedStatus,
           },
-          onError: () => {
-            toast.error("There was an error in changing status.");
+          {
+            onSuccess: () => {
+              toast.success("Successfully changed status.");
+            },
+            onError: () => {
+              toast.error("There was an error in changing status.");
+            },
           },
-        },
-      );
+        );
+      }
+
+      const changedDate = toSupabaseDate(date);
+
+      if (selectedStatus == "filed_with_ipophil") {
+        await updateApp(
+          {
+            id: applicationId,
+            applicationData: {
+              filing_date: changedDate,
+            },
+          },
+          {
+            onSuccess: () => {
+              toast.success("Successfully changed filing date.");
+            },
+            onError: () => {
+              toast.error("There was an error in changing filing date.");
+            },
+          },
+        );
+      }
+
+      if (selectedStatus == "registered") {
+        await updateApp(
+          {
+            id: applicationId,
+            applicationData: {
+              registration_date: changedDate,
+            },
+          },
+          {
+            onSuccess: () => {
+              toast.success("Successfully changed registration date.");
+            },
+            onError: () => {
+              toast.error("There was an error in changing registration date.");
+            },
+          },
+        );
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: ["application", applicationId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["multiple-status", applicationId],
+      });
     } catch (e) {
       console.error(
         e instanceof Error
@@ -181,24 +258,6 @@ function StatusUpdateForm(props: PropsInterface) {
       );
     } finally {
       handleClose();
-    }
-
-    if (selectedStatus == "filed_with_ipophil") {
-      await updateApp({
-        id: applicationId,
-        applicationData: {
-          filing_date: toSupabaseDate(date),
-        },
-      });
-    }
-
-    if (selectedStatus == "registered") {
-      await updateApp({
-        id: applicationId,
-        applicationData: {
-          registration_date: toSupabaseDate(date),
-        },
-      });
     }
   }
 
@@ -405,13 +464,7 @@ function StatusUpdateForm(props: PropsInterface) {
           </button>
           <button
             type="submit"
-            disabled={
-              isSubmitting ||
-              (currentIpType == selectedIpType &&
-                currentNote == note &&
-                currentDeadline?.getTime() == deadline?.getTime() &&
-                currentStatusType == selectedStatus)
-            }
+            disabled={isSubmitting || noChangesMade}
             className="white-space no-wrap w-fit rounded-full bg-sky-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300 md:justify-self-end"
           >
             {isSubmitting ? "Saving changes..." : "Save"}

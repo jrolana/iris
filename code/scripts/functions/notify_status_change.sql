@@ -14,32 +14,61 @@ DECLARE
     is_deadline_changed BOOLEAN;
 BEGIN
     current_status := NEW.status_type;
-    SELECT ip_title INTO ip_name FROM private.ipr_applications WHERE id = NEW.application_id;
-    ip_name := COALESCE(ip_name, 'Unknown application');
+    SELECT project_title INTO ip_name FROM private.ipr_applications WHERE id = NEW.application_id;
+    ip_name := COALESCE(ip_name, 'Unknown project');
     
     FOR receiver IN
         SELECT techgen_id FROM private.inventors WHERE application_id = NEW.application_id 
     LOOP
         IF (receiver IS NOT NULL) THEN 
             IF (TG_OP = 'INSERT') THEN
-                title := FORMAT('Status updated for %s', ip_name);
-                content := FORMAT('Status is now: %s.', current_status);
+                title := FORMAT('%s updated', ip_name);
+                content := FORMAT(
+                    'Status changed to "%s".',
+                    current_status
+                );
 
             ELSIF (TG_OP = 'UPDATE') THEN
-                title := FORMAT('Status updated for %s', ip_name);
+                title := FORMAT('%s updated', ip_name);
 
                 is_note_changed := NEW.note IS DISTINCT FROM OLD.note;
                 is_deadline_changed := NEW.deadline IS DISTINCT FROM OLD.deadline;
 
                 IF is_note_changed AND is_deadline_changed THEN
-                    content := FORMAT('Note and deadline updated for %s.', current_status);
+                    content := FORMAT(
+                        '%s • %s',
+                        CASE 
+                            WHEN OLD.note IS NULL AND NEW.note IS NOT NULL THEN 'Note added'
+                            WHEN OLD.note IS NOT NULL AND NEW.note IS NULL THEN 'Note removed'
+                            ELSE 'Note updated'
+                        END,
+                        CASE
+                            WHEN OLD.deadline IS NULL AND NEW.deadline IS NOT NULL 
+                                THEN FORMAT('Deadline set to %s', format_date(NEW.deadline))
+                            WHEN OLD.deadline IS NOT NULL AND NEW.deadline IS NULL 
+                                THEN 'Deadline removed'
+                            ELSE FORMAT('Deadline updated to %s', format_date(NEW.deadline))
+                        END
+                    );
+
                 ELSIF is_note_changed THEN
-                    content := FORMAT('Note updated for %s.', current_status);
+                    content := CASE 
+                        WHEN OLD.note IS NULL AND NEW.note IS NOT NULL THEN 'Note added.'
+                        WHEN OLD.note IS NOT NULL AND NEW.note IS NULL THEN 'Note removed.'
+                        ELSE 'Note updated.'
+                    END;
+
                 ELSIF is_deadline_changed THEN
-                    content := FORMAT('Deadline updated for %s.', current_status);
+                    content := CASE
+                        WHEN OLD.deadline IS NULL AND NEW.deadline IS NOT NULL 
+                            THEN FORMAT('Deadline set to %s.', format_date(NEW.deadline))
+                        WHEN OLD.deadline IS NOT NULL AND NEW.deadline IS NULL 
+                            THEN 'Deadline removed.'
+                        ELSE FORMAT('Deadline updated to %s.', format_date(NEW.deadline))
+                    END;
                 END IF;
             END IF;
-                
+
             INSERT INTO private.notifications (receiver_id, application_id, title, content)
                 VALUES (receiver, NEW.application_id, title, content);
         END IF;
