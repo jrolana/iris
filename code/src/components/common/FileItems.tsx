@@ -88,6 +88,11 @@ export default function FileItem(props: FileItemProps) {
               </span>
               <span>{new Date(file.uploaded_at!).toLocaleString()}</span>
             </p>
+            {owner && owner.id !== file.owner_id && (
+              <p className="mt-1 px-1 text-xs font-medium text-slate-400">
+                {`by ${file.owner_name ?? "Unknown User"}`}
+              </p>
+            )}
           </div>
         </div>
 
@@ -138,12 +143,6 @@ export default function FileItem(props: FileItemProps) {
               />
             )}
           </div>
-
-          {owner && owner.id !== file.owner_id && (
-            <p className="mt-1 px-1 text-xs font-medium text-slate-400">
-              {`by ${file.owner_name ?? "Unknown User"}`}
-            </p>
-          )}
         </div>
       </div>
 
