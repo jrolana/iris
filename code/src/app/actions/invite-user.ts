@@ -1,6 +1,6 @@
 "use server"
 
-import { supabaseAdmin } from "../../../../utils/supabase/admin";
+import { supabaseAdmin } from "../../../utils/supabase/admin";
 import { InviteUserType, InviteUserSchema } from "@/lib/schemas/user";
 
 export async function inviteUser(input: InviteUserType) {

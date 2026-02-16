@@ -10,10 +10,10 @@ import Input from "../form/input/InputField";
 import { useModal } from "@/hooks/useModal";
 import SuccessModal from "./SuccessModal";
 import ErrorModal from "./ErrorModal";
-import { inviteUser } from "@/app/app/actions/invite-user";
+import { inviteUser } from "@/app/actions/invite-user";
 import Select, { Option } from "../form/Select";
 import { ChevronDownIcon } from "lucide-react";
-import { UserSchema, InviteUserType } from "@/lib/schemas/user";
+import { UserSchema } from "@/lib/schemas/user";
 
 function AddNewUserModal() {
   const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +76,7 @@ function AddNewUserModal() {
   function handleRoleChange(val: string) {
     setRole(val);
     const roleValidation = UserSchema.shape.role.safeParse(val);
-    setIsEmailValid(roleValidation.success);
+    setIsRoleValid(roleValidation.success);
   }
 
   return (
@@ -96,6 +96,7 @@ function AddNewUserModal() {
               <Label>User email</Label>
               <Input
                 type="email"
+                value={email}
                 defaultValue={email}
                 placeholder="username@up.edu.ph"
                 onChange={handleEmailChange}
@@ -104,6 +105,7 @@ function AddNewUserModal() {
               />
               <div className="relative">
                 <Select
+                  selectedValue={role}
                   options={roles}
                   defaultValue={role}
                   onChange={handleRoleChange}
