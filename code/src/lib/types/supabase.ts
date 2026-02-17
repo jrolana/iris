@@ -319,6 +319,59 @@ export type Database = {
           },
         ]
       }
+      user_registration_requests: {
+        Row: {
+          approved_at: string | null
+          college_code: string | null
+          email: string
+          email_verified_at: string | null
+          expires_at: string | null
+          external_institution: string | null
+          full_name: string
+          id: string
+          other_college_name: string | null
+          requested_at: string
+          role: Database["private"]["Enums"]["user_role"]
+          status: Database["private"]["Enums"]["registrationrequestsstatus"]
+        }
+        Insert: {
+          approved_at?: string | null
+          college_code?: string | null
+          email: string
+          email_verified_at?: string | null
+          expires_at?: string | null
+          external_institution?: string | null
+          full_name: string
+          id?: string
+          other_college_name?: string | null
+          requested_at?: string
+          role: Database["private"]["Enums"]["user_role"]
+          status?: Database["private"]["Enums"]["registrationrequestsstatus"]
+        }
+        Update: {
+          approved_at?: string | null
+          college_code?: string | null
+          email?: string
+          email_verified_at?: string | null
+          expires_at?: string | null
+          external_institution?: string | null
+          full_name?: string
+          id?: string
+          other_college_name?: string | null
+          requested_at?: string
+          role?: Database["private"]["Enums"]["user_role"]
+          status?: Database["private"]["Enums"]["registrationrequestsstatus"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_user_registration_college"
+            columns: ["college_code"]
+            isOneToOne: false
+            referencedRelation: "college_units"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       users: {
         Row: {
           college_code: string | null
@@ -388,6 +441,12 @@ export type Database = {
         | "trademark"
         | "copyright"
       recordtype: "application" | "document" | "account" | "inventor" | "report"
+      registrationrequestsstatus:
+        | "pending"
+        | "email_verified"
+        | "approved"
+        | "rejected"
+        | "expired"
       user_role: "admin" | "up-official" | "techgen"
     }
     CompositeTypes: {
@@ -424,6 +483,22 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      submit_registration_request:
+        | {
+            Args: { p_email: string; p_full_name: string; p_role: string }
+            Returns: undefined
+          }
+        | {
+            Args: {
+              p_college_code?: string
+              p_email: string
+              p_external_institution?: string
+              p_full_name: string
+              p_other_college_name?: string
+              p_role: string
+            }
+            Returns: undefined
+          }
     }
     Enums: {
       [_ in never]: never
@@ -571,6 +646,13 @@ export const Constants = {
         "copyright",
       ],
       recordtype: ["application", "document", "account", "inventor", "report"],
+      registrationrequestsstatus: [
+        "pending",
+        "email_verified",
+        "approved",
+        "rejected",
+        "expired",
+      ],
       user_role: ["admin", "up-official", "techgen"],
     },
   },

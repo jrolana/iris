@@ -219,5 +219,54 @@ CREATE TABLE private.audit_trail (
     changed_fields JSONB
 );
 
+CREATE TYPE private.registrationRequestsStatus AS ENUM (
+    'pending',
+    'email_verified',
+    'approved',
+    'rejected',
+    'expired'
+);
+
+CREATE TABLE private.user_registration_requests (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+    full_name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    role private.user_role NOT NULL,
+    college_code VARCHAR(20) NULL,
+    other_college_name TEXT NULL,
+    external_institution TEXT NULL,
+
+    status private.registrationRequestsStatus NOT NULL DEFAULT 'pending',
+
+    requested_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    expires_at TIMESTAMPTZ,
+    email_verified_at TIMESTAMPTZ,
+    approved_at TIMESTAMPTZ,
+
+    CONSTRAINT fk_user_registration_college FOREIGN KEY(college_code)
+    REFERENCES private.college_units(code),
+
+    CONSTRAINT registration_affiliation_check CHECK
+    (
+        (
+        (
+            (college_code IS NOT NULL)
+            AND (other_college_name IS NULL)
+            AND (external_institution IS NULL)
+        )
+        OR (
+            (college_code IS NULL)
+            AND (other_college_name IS NOT NULL)
+            AND (external_institution IS NULL)
+        )
+        OR (
+            (college_code IS NULL)
+            AND (other_college_name IS NULL)
+            AND (external_institution IS NOT NULL)
+        )
+        )
+    )
+);
 
 

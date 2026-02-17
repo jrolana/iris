@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserSchema, UserType } from "@/lib/schemas/user";
+import {
+  UserRegistrationSchema,
+  UserRegistrationType,
+} from "@/lib/schemas/user";
 
 import Checkbox from "@/components/form/input/Checkbox";
 import Input from "@/components/form/input/InputField";
@@ -13,8 +16,17 @@ import { CollegeUnits } from "@/lib/types/college-units";
 import Select from "../form/Select";
 import { ChevronDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAddRegistrationRequest } from "@/hooks/registration-request/useAddRegistrationRequest";
+import { toast } from "sonner";
 
 export default function SignUpForm() {
+  const [isChecked, setIsChecked] = useState(false);
+  const [isExternal, setIsExternal] = useState(false);
+
+  const collegeOptions = Object.entries(CollegeUnits).map(([_, college]) => {
+    return { value: college.toString(), label: college.toString() };
+  });
+
   const {
     control,
     watch,
@@ -22,43 +34,61 @@ export default function SignUpForm() {
     formState: { errors },
     reset,
   } = useForm({
-    resolver: zodResolver(UserSchema),
+    resolver: zodResolver(UserRegistrationSchema),
     defaultValues: {
-      isExternal: false,
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
       email: "",
       role: "techgen",
-      college: "",
-      collegeName: "",
-      isActive: true,
+      college_code: undefined,
+      other_college_name: undefined,
+      external_institution: undefined,
     },
   });
 
-  const isExternal = watch("isExternal");
-  const college = watch("college");
+  const college = watch("college_code");
 
-  const [isChecked, setIsChecked] = useState(false);
+  useEffect(() => {
+    if (isExternal) {
+      reset({
+        ...watch(),
+        college_code: undefined,
+        other_college_name: undefined,
+        external_institution: "",
+      });
+    } else {
+      reset({
+        ...watch(),
+        external_institution: undefined,
+      });
+    }
+  }, [isExternal]);
 
-  const collegeOptions = Object.entries(CollegeUnits).map(([_, college]) => {
-    return { value: college.toString(), label: college.toString() };
-  });
+  const { addRegistrationRequest, isLoading } = useAddRegistrationRequest();
 
-  // new schema
-  // college_unit FK NOT NULL,
-  // is_external BOOLEAN,
-  // college_name TEXT,
-
-  const onSubmit: SubmitHandler<UserType> = async (data) => {
+  const onSubmit: SubmitHandler<UserRegistrationType> = async (data) => {
     try {
-      UserSchema.parse(data);
-      console.log("Form submitted:", data);
-    } catch (e) {
-      console.error(
-        e instanceof Error ? e.message : "There was an error saving this user",
+      UserRegistrationSchema.parse(data);
+      const { first_name, last_name, ...userData } = data;
+      console.log(userData);
+      await addRegistrationRequest(
+        {
+          userData,
+        },
+        {
+          onSuccess: () => {
+            toast.success(
+              "Registration submitted! Check your email to verify your account.",
+            );
+            reset();
+            setIsExternal(false);
+            setIsChecked(false);
+          },
+        },
       );
-    } finally {
-      reset();
+    } catch (e) {
+      console.error(e instanceof Error ? e.message : "Sign-up failed.");
+      toast.error("Sign-up failed. Please check your details and try again.");
     }
   };
 
@@ -75,20 +105,17 @@ export default function SignUpForm() {
           </p>
         </div>
         <div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form
+            onSubmit={handleSubmit(onSubmit, (errors) =>
+              console.log("Validation errors:", errors),
+            )}
+          >
             <div className="space-y-5">
               <div className="flex items-center gap-3">
-                <Controller
-                  name="isExternal"
-                  control={control}
-                  render={({ field }) => (
-                    <Checkbox
-                      {...field}
-                      checked={field.value || false}
-                      onChange={field.onChange}
-                      className="h-5 w-5"
-                    />
-                  )}
+                <Checkbox
+                  checked={isExternal}
+                  onChange={setIsExternal}
+                  className="h-5 w-5"
                 />
                 <p className="inline-block font-normal text-gray-500 dark:text-gray-400">
                   I am an External Collaborator
@@ -101,7 +128,7 @@ export default function SignUpForm() {
                     First Name<span className="text-error-500">*</span>
                   </Label>
                   <Controller
-                    name="firstName"
+                    name="first_name"
                     control={control}
                     render={({ field }) => (
                       <Input
@@ -109,10 +136,12 @@ export default function SignUpForm() {
                         type="text"
                         value={field.value}
                         onChange={field.onChange}
-                        id="firstName"
+                        id="first_name"
                         placeholder="Enter your first name"
-                        error={errors.firstName ? true : false}
-                        hint={errors.firstName ? errors.firstName.message : ""}
+                        error={errors.first_name ? true : false}
+                        hint={
+                          errors.first_name ? errors.first_name.message : ""
+                        }
                       />
                     )}
                   />
@@ -123,7 +152,7 @@ export default function SignUpForm() {
                     Last Name<span className="text-error-500">*</span>
                   </Label>
                   <Controller
-                    name="lastName"
+                    name="last_name"
                     control={control}
                     render={({ field }) => (
                       <Input
@@ -131,9 +160,9 @@ export default function SignUpForm() {
                         value={field.value}
                         onChange={field.onChange}
                         type="text"
-                        id="lastName"
-                        error={errors.lastName ? true : false}
-                        hint={errors.lastName ? errors.lastName.message : ""}
+                        id="last_name"
+                        error={errors.last_name ? true : false}
+                        hint={errors.last_name ? errors.last_name.message : ""}
                         placeholder="Enter your last name"
                       />
                     )}
@@ -172,18 +201,23 @@ export default function SignUpForm() {
                     <span className="text-error-500">*</span>
                   </Label>
                   <Controller
-                    name="collegeName"
+                    name="external_institution"
                     control={control}
                     render={({ field }) => (
                       <Input
                         {...field}
-                        value={field.value || ""}
+                        value={
+                          typeof field.value == "string" ? field.value : ""
+                        }
+                        name="external_institution"
                         onChange={field.onChange}
                         type="text"
                         placeholder="ex. WVSU - Bio"
-                        error={errors.collegeName ? true : false}
+                        error={errors.external_institution ? true : false}
                         hint={
-                          errors.collegeName ? errors.collegeName.message : ""
+                          errors.external_institution
+                            ? errors.external_institution.message
+                            : ""
                         }
                       />
                     )}
@@ -197,7 +231,7 @@ export default function SignUpForm() {
                     </Label>
                     <div className="relative">
                       <Controller
-                        name="college"
+                        name="college_code"
                         control={control}
                         render={({ field }) => (
                           <Select
@@ -209,9 +243,9 @@ export default function SignUpForm() {
                           />
                         )}
                       />
-                      {errors.college && (
+                      {errors.college_code && (
                         <p className="text-error-500 text-xs">
-                          {errors.college.message}
+                          {errors.college_code.message}
                         </p>
                       )}
                       <span className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-gray-500 dark:text-gray-400">
@@ -222,11 +256,11 @@ export default function SignUpForm() {
                   {college == CollegeUnits.Other && (
                     <div>
                       <Label>
-                        Other Unit
+                        College Name
                         <span className="text-error-500">*</span>
                       </Label>
                       <Controller
-                        name="collegeName"
+                        name="other_college_name"
                         control={control}
                         render={({ field }) => (
                           <Input
@@ -234,12 +268,12 @@ export default function SignUpForm() {
                             value={field.value || ""}
                             onChange={field.onChange}
                             type="text"
-                            name="collegeName"
-                            placeholder="ex. WVSU - Bio"
-                            error={errors.collegeName ? true : false}
+                            name="other_college_name"
+                            placeholder="ex. CFOS"
+                            error={errors.other_college_name ? true : false}
                             hint={
-                              errors.collegeName
-                                ? errors.collegeName.message
+                              errors.other_college_name
+                                ? errors.other_college_name.message
                                 : ""
                             }
                           />
@@ -270,12 +304,12 @@ export default function SignUpForm() {
               {/* <!-- Submit --> */}
               <div>
                 <Button
-                  disabled={!isChecked}
+                  disabled={!isChecked || isLoading}
                   size="lg"
                   type="submit"
                   className="bg-brand-500 shadow-theme-xs hover:bg-brand-600 flex w-full items-center justify-center rounded-lg px-4 py-3 text-sm font-medium text-white transition"
                 >
-                  Sign Up
+                  {isLoading ? "Saving..." : "Sign up"}
                 </Button>
               </div>
             </div>
