@@ -204,15 +204,16 @@ export default function StartApplicationPage() {
                   </div>
                   <Hint
                     label={
-                      inventor.college === "Other"
-                        ? inventor.external_institution!
-                        : inventor.college
+                      inventor.external_institution ??
+                      inventor.college_code ??
+                      inventor.other_college_name ??
+                      ""
                     }
                   >
                     <span className="block max-w-32 truncate rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
-                      {inventor.college === "Other"
-                        ? inventor.external_institution
-                        : inventor.college}
+                      {inventor.external_institution ??
+                        inventor.college_code ??
+                        inventor.other_college_name}
                     </span>
                   </Hint>
                 </div>

@@ -18,7 +18,7 @@ begin
   end if;
 
   -- Copy fields from the users table to the inventors table
-  select full_name, email, college
+  select full_name, email, college_code, other_college_name, external_institution
   into user_info
   from private.users
   where uid = current_user_id;
@@ -29,13 +29,17 @@ begin
     user_id,
     full_name,
     email,
-    college
+    college_code,
+    other_college_name,
+    external_institution
   ) values (
     new.id, -- Application ID from the newly created application
     current_user_id,
     user_info.full_name,
     user_info.email,
-    user_info.college
+    user_info.college_code,
+    user_info.other_college_name,
+    user_info.external_institution
   );
 
   return new;

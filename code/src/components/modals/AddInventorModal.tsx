@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import { Input } from "../ui/input";
 import { Button } from "@/components/ui/button";
 import Select from "react-select";
+import Checkbox from "@/components/form/input/Checkbox";
 
 export default function AddInventorModal() {
   const { isOpen, setNewInventorDetails, closeModal } = useAddInventorsModal();
@@ -13,7 +14,11 @@ export default function AddInventorModal() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [collegeUnit, setCollegeUnit] = useState<CollegeUnitType | null>();
-  const [otherCollegeUnit, setOtherCollegeUnit] = useState("");
+  const [otherCollegeUnit, setOtherCollegeUnit] = useState<string | null>();
+  const [isExternal, setIsExternal] = useState(false);
+  const [externalInstitution, setExternalInstitution] = useState<
+    string | null
+  >();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const collegeOptions = Object.entries(CollegeUnits).map(([_, college]) => {
@@ -21,17 +26,30 @@ export default function AddInventorModal() {
   });
 
   function handleSubmit() {
-    if (!name || !email || !collegeUnit) return;
-    setNewInventorDetails({
+    if (
+      !name ||
+      !email ||
+      (isExternal
+        ? !externalInstitution
+        : collegeUnit == CollegeUnits.Other
+          ? !otherCollegeUnit
+          : !collegeUnit)
+    )
+      return;
+
+    const inventor = {
       comments: null,
       full_name: name,
       email: email,
-      college: collegeUnit,
-      external_institution:
-        collegeUnit === CollegeUnits.Other ? otherCollegeUnit : null,
+      college_code: collegeUnit,
+      // forced to be null instead of empty string for db constraints
+      other_college_name: otherCollegeUnit == "" ? null : otherCollegeUnit,
+      external_institution: externalInstitution,
       application_id: "",
-    });
+    };
 
+    setNewInventorDetails(inventor);
+    console.log(inventor);
     closeModal();
   }
 
@@ -72,46 +90,81 @@ export default function AddInventorModal() {
           className="h-10 text-lg!"
           required
         />
-        <span className="text-lg font-medium">College Unit</span>
-        <Select
-          unstyled
-          placeholder="Select College Unit"
-          options={collegeOptions}
-          className="h-10"
-          classNames={{
-            placeholder: () => "text-lg! text-muted-foreground",
-            control: ({ isFocused }) =>
-              `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
-            menu: () =>
-              "bg-white border border-gray-200 mt-2 rounded-lg  space-y-2 overflow-hidden",
-            input: () => "text-sm",
-            option: ({ isFocused }) =>
-              `px-3 py-2 cursor-pointer ${isFocused ? "bg-blue-100" : "bg-transparent"}`,
-          }}
-          onChange={(selectedOption) => {
-            setCollegeUnit(
-              selectedOption ? (selectedOption.value as CollegeUnitType) : null,
-            );
-          }}
-        />
-        {collegeUnit === CollegeUnits.Other && (
+        <div className="flex items-center gap-3">
+          <Checkbox
+            checked={isExternal}
+            onChange={setIsExternal}
+            className="h-5 w-5"
+          />
+          <p className="inline-block font-normal text-gray-500 dark:text-gray-400">
+            External Collaborator
+          </p>
+        </div>
+        {isExternal ? (
           <>
             <span className="text-lg font-medium">Institution Name</span>
             <Input
               placeholder="ex. WVSU - Bio"
-              value={otherCollegeUnit}
-              onChange={(e) => {
-                setOtherCollegeUnit(e.target.value);
-              }}
+              value={externalInstitution || ""}
+              onChange={(e) => setExternalInstitution(e.target.value)}
               className="h-10 text-lg!"
               required
             />
+          </>
+        ) : (
+          <>
+            <span className="text-lg font-medium">College Unit</span>
+            <Select
+              unstyled
+              placeholder="Select College Unit"
+              options={collegeOptions}
+              className="h-10"
+              classNames={{
+                placeholder: () => "text-lg! text-muted-foreground",
+                control: ({ isFocused }) =>
+                  `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
+                menu: () =>
+                  "bg-white border border-gray-200 mt-2 rounded-lg  space-y-2 overflow-hidden",
+                input: () => "text-sm",
+                option: ({ isFocused }) =>
+                  `px-3 py-2 cursor-pointer ${isFocused ? "bg-blue-100" : "bg-transparent"}`,
+              }}
+              onChange={(selectedOption) => {
+                setCollegeUnit(
+                  selectedOption
+                    ? (selectedOption.value as CollegeUnitType)
+                    : null,
+                );
+              }}
+            />
+            {collegeUnit == CollegeUnits.Other && (
+              <>
+                <span className="text-lg font-medium">College Name</span>
+                <Input
+                  placeholder="ex. CFOS"
+                  value={otherCollegeUnit || ""}
+                  onChange={(e) => {
+                    setOtherCollegeUnit(e.target.value);
+                  }}
+                  className="h-10 text-lg!"
+                  required
+                />
+              </>
+            )}
           </>
         )}
         <Button
           onClick={handleSubmit}
           type="submit"
-          disabled={!name || !email || !collegeUnit}
+          disabled={
+            !name ||
+            !email ||
+            (isExternal
+              ? !externalInstitution
+              : collegeUnit == CollegeUnits.Other
+                ? !otherCollegeUnit
+                : !collegeUnit)
+          }
           className="mt-1 h-10 border bg-sky-600 hover:bg-sky-600"
         >
           Save
