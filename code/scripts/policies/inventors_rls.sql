@@ -9,3 +9,15 @@ USING (
     OR
     techgen_id = auth.uid()
 )
+
+DROP POLICY IF EXISTS "Inventors update their own, Admin update everyone" ON private.inventors;
+
+CREATE POLICY "Inventors update their own, Admin update everyone"
+ON private.inventors
+FOR UPDATE
+TO authenticated
+USING (
+    private.is_admin()
+    OR
+    techgen_id = auth.uid()
+)
