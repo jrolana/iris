@@ -324,8 +324,6 @@ export type Database = {
           approved_at: string | null
           college_code: string | null
           email: string
-          email_verified_at: string | null
-          expires_at: string | null
           external_institution: string | null
           full_name: string
           id: string
@@ -338,8 +336,6 @@ export type Database = {
           approved_at?: string | null
           college_code?: string | null
           email: string
-          email_verified_at?: string | null
-          expires_at?: string | null
           external_institution?: string | null
           full_name: string
           id?: string
@@ -352,8 +348,6 @@ export type Database = {
           approved_at?: string | null
           college_code?: string | null
           email?: string
-          email_verified_at?: string | null
-          expires_at?: string | null
           external_institution?: string | null
           full_name?: string
           id?: string
@@ -441,12 +435,7 @@ export type Database = {
         | "trademark"
         | "copyright"
       recordtype: "application" | "document" | "account" | "inventor" | "report"
-      registrationrequestsstatus:
-        | "pending"
-        | "email_verified"
-        | "approved"
-        | "rejected"
-        | "expired"
+      registrationrequestsstatus: "pending" | "approved" | "rejected"
       user_role: "admin" | "up-official" | "techgen"
     }
     CompositeTypes: {
@@ -483,22 +472,17 @@ export type Database = {
           isSetofReturn: true
         }
       }
-      submit_registration_request:
-        | {
-            Args: { p_email: string; p_full_name: string; p_role: string }
-            Returns: undefined
-          }
-        | {
-            Args: {
-              p_college_code?: string
-              p_email: string
-              p_external_institution?: string
-              p_full_name: string
-              p_other_college_name?: string
-              p_role: string
-            }
-            Returns: undefined
-          }
+      submit_registration_request: {
+        Args: {
+          p_college_code?: string
+          p_email: string
+          p_external_institution?: string
+          p_full_name: string
+          p_other_college_name?: string
+          p_role: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
@@ -646,13 +630,7 @@ export const Constants = {
         "copyright",
       ],
       recordtype: ["application", "document", "account", "inventor", "report"],
-      registrationrequestsstatus: [
-        "pending",
-        "email_verified",
-        "approved",
-        "rejected",
-        "expired",
-      ],
+      registrationrequestsstatus: ["pending", "approved", "rejected"],
       user_role: ["admin", "up-official", "techgen"],
     },
   },

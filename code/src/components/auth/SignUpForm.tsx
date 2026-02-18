@@ -84,7 +84,7 @@ export default function SignUpForm() {
         {
           onSuccess: () => {
             toast.success(
-              "Registration submitted! Check your email to verify your account.",
+              "Registration submitted! You’ll receive an email once your account is approved.",
             );
             setSkipExternalEffect(true); // to stop the useEffect in overwriting reset()
             reset();

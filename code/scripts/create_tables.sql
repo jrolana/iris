@@ -221,10 +221,8 @@ CREATE TABLE private.audit_trail (
 
 CREATE TYPE private.registrationRequestsStatus AS ENUM (
     'pending',
-    'email_verified',
     'approved',
-    'rejected',
-    'expired'
+    'rejected'
 );
 
 CREATE TABLE private.user_registration_requests (
@@ -240,8 +238,6 @@ CREATE TABLE private.user_registration_requests (
     status private.registrationRequestsStatus NOT NULL DEFAULT 'pending',
 
     requested_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    expires_at TIMESTAMPTZ,
-    email_verified_at TIMESTAMPTZ,
     approved_at TIMESTAMPTZ,
 
     CONSTRAINT fk_user_registration_college FOREIGN KEY(college_code)
@@ -271,5 +267,5 @@ CREATE TABLE private.user_registration_requests (
 
 CREATE UNIQUE INDEX unique_active_registration_email
 ON private.user_registration_requests(lower(email))
-WHERE status IN ('pending', 'email_verified', 'approved');
+WHERE status IN ('pending', 'approved');
 

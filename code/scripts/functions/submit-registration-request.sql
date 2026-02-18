@@ -13,7 +13,7 @@ SET search_path = private
 AS $$
 BEGIN
     INSERT INTO private.user_registration_requests 
-        (full_name, email, role, college_code, other_college_name, external_institution, status, approved_at, requested_at, expires_at)
+        (full_name, email, role, college_code, other_college_name, external_institution, status, approved_at)
     VALUES 
         (
             p_full_name,
@@ -23,9 +23,7 @@ BEGIN
             p_other_college_name,
             p_external_institution,
             'pending',
-            NULL,
-            NOW(), 
-            NOW() + INTERVAL '2 days');
+            NULL);
 END;
 $$;
 

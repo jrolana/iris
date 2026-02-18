@@ -5,16 +5,16 @@ interface PropsInterface {
     userData: RegistrationRequestType["Insert"];
 }
 
-export async function addRegistrationRequest(props: PropsInterface) {
+export const addRegistrationRequest = async function(props: PropsInterface) {
     const { userData } = props;
 
     const { data, error } = await supabase.rpc('submit_registration_request', {
         p_full_name: userData.full_name,
         p_email: userData.email,
         p_role: userData.role,
-        p_college_code: userData.college_code,
-        p_other_college_name: userData.other_college_name,
-        p_external_institution: userData.external_institution,
+        p_college_code: userData.college_code ?? undefined,
+        p_other_college_name: userData.other_college_name ?? undefined,
+        p_external_institution: userData.external_institution ?? undefined,
     });
     
     if (error) {
