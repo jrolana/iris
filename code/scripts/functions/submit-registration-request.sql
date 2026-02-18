@@ -9,12 +9,24 @@ CREATE OR REPLACE FUNCTION public.submit_registration_request(
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = private, public
+SET search_path = private
 AS $$
 BEGIN
     INSERT INTO private.user_registration_requests 
-        (full_name, email, role, college_code, other_college_name, external_institution, status, approved_at)
+        (full_name, email, role, college_code, other_college_name, external_institution, status, approved_at, requested_at, expires_at)
     VALUES 
-        (p_full_name, p_email, p_role::private.user_role, p_college_code, p_other_college_name, p_external_institution, 'pending', NULL);
+        (
+            p_full_name,
+            p_email,
+            p_role::private.user_role,
+            p_college_code,
+            p_other_college_name,
+            p_external_institution,
+            'pending',
+            NULL,
+            NOW(), 
+            NOW() + INTERVAL '2 days');
 END;
 $$;
+
+GRANT EXECUTE ON FUNCTION public.submit_registration_request TO anon;

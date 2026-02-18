@@ -22,6 +22,7 @@ import { toast } from "sonner";
 export default function SignUpForm() {
   const [isChecked, setIsChecked] = useState(false);
   const [isExternal, setIsExternal] = useState(false);
+  const [skipExternalEffect, setSkipExternalEffect] = useState(false);
 
   const collegeOptions = Object.entries(CollegeUnits).map(([_, college]) => {
     return { value: college.toString(), label: college.toString() };
@@ -49,6 +50,11 @@ export default function SignUpForm() {
   const college = watch("college_code");
 
   useEffect(() => {
+    if (skipExternalEffect) {
+      setSkipExternalEffect(false);
+      return;
+    }
+
     if (isExternal) {
       reset({
         ...watch(),
@@ -80,6 +86,7 @@ export default function SignUpForm() {
             toast.success(
               "Registration submitted! Check your email to verify your account.",
             );
+            setSkipExternalEffect(true); // to stop the useEffect in overwriting reset()
             reset();
             setIsExternal(false);
             setIsChecked(false);

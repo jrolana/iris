@@ -269,4 +269,7 @@ CREATE TABLE private.user_registration_requests (
     )
 );
 
+CREATE UNIQUE INDEX unique_active_registration_email
+ON private.user_registration_requests(lower(email))
+WHERE status IN ('pending', 'email_verified', 'approved');
 
