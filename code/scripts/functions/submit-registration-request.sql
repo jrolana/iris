@@ -12,6 +12,19 @@ SECURITY DEFINER
 SET search_path = private
 AS $$
 BEGIN
+    -- handles cases where it is already a user of the system
+    -- doesnt need to check if the email exists in the registration requests table
+    -- since check constraint is already added
+    -- can re-request if the previous requests have been rejected
+    IF EXISTS (
+        SELECT 1
+        FROM private.users
+        WHERE email = p_email
+    ) THEN
+        RAISE EXCEPTION 'Email already exists'
+        USING ERRCODE = 'P0001';
+    END IF;
+
     INSERT INTO private.user_registration_requests 
         (full_name, email, role, college_code, other_college_name, external_institution, status, approved_at)
     VALUES 

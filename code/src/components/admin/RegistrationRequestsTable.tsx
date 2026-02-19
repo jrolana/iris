@@ -11,20 +11,26 @@ import {
 import Link from "next/link";
 import Button from "../ui/button/Button";
 import SearchInput from "../common/SearchInput";
-import { PencilIcon, TrashBinIcon, PlusIcon } from "@/icons";
 import FilterButton from "../common/FilterButton";
 import { useGetRegistrationRequests } from "@/hooks/registration-request/useGetRegistrationRequests";
 import Badge from "../ui/badge/Badge";
+import { RegistrationRequestType } from "@/lib/types/users";
+import { toast } from "sonner";
+import { useUpdateRegistrationRequest } from "@/hooks/registration-request/useUpdateRegistrationRequest";
 
 export default function RegistrationRequestsTable() {
   const { registrationRequests: usersData, isLoading } =
     useGetRegistrationRequests();
+  const {
+    updateRegistrationRequest,
+    isLoading: isUpdatingRegistrationRequest,
+  } = useUpdateRegistrationRequest();
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <div>Loading...</div>;
   }
 
   if (!usersData) {
@@ -40,6 +46,58 @@ export default function RegistrationRequestsTable() {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
   };
+
+  async function handleApprove(userData: RegistrationRequestType["Row"]) {
+    try {
+      // await inviteUser({
+      //   email: userData.email,
+      //   userData,
+      // });
+      // toast.success("Successfully approved the registration request.");
+
+      await updateRegistrationRequest({
+        id: userData.id,
+        userData: {
+          status: "approved",
+        },
+      });
+    } catch (e) {
+      toast.error(
+        e instanceof Error
+          ? e.message
+          : "There was a problem in approving the registration request.",
+      );
+    }
+  }
+
+  async function handleReject(userData: RegistrationRequestType["Row"]) {
+    try {
+      await updateRegistrationRequest(
+        {
+          id: userData.id,
+          userData: {
+            status: "rejected",
+          },
+        },
+        {
+          onSuccess: () => {
+            toast.success("Successfully rejected the registration request.");
+          },
+          onError: () => {
+            toast.error(
+              "There was a problem rejecting the registration request.",
+            );
+          },
+        },
+      );
+    } catch (e) {
+      console.error(
+        e instanceof Error
+          ? e.message
+          : "There was a problem in rejecting the registration request.",
+      );
+    }
+  }
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
@@ -57,17 +115,22 @@ export default function RegistrationRequestsTable() {
         <Table>
           <TableHeader className="border-y border-gray-100">
             <TableRow>
-              {["Full Name", "Email", "College", "Role", "Status"].map(
-                (header) => (
-                  <TableCell
-                    key={header}
-                    isHeader
-                    className="text-theme-xs p-2 py-3 text-start font-medium text-gray-500"
-                  >
-                    {header}
-                  </TableCell>
-                ),
-              )}
+              {[
+                "Full Name",
+                "Email",
+                "College",
+                "Role",
+                "Status",
+                "Actions",
+              ].map((header) => (
+                <TableCell
+                  key={header}
+                  isHeader
+                  className="text-theme-xs p-2 py-3 text-start font-medium text-gray-500"
+                >
+                  {header}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHeader>
 
@@ -102,6 +165,32 @@ export default function RegistrationRequestsTable() {
                   >
                     {record.status}
                   </Badge>
+                </TableCell>
+                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="success"
+                      disabled={record.status != "pending"}
+                      onClick={() => {
+                        handleApprove(record);
+                      }}
+                      className="h-8"
+                    >
+                      Approve
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      disabled={record.status != "pending"}
+                      onClick={() => {
+                        handleReject(record);
+                      }}
+                      className="h-8"
+                    >
+                      Reject
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

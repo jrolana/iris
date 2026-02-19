@@ -14,6 +14,7 @@ import { inviteUser } from "@/app/actions/invite-user";
 import Select, { Option } from "../form/Select";
 import { ChevronDownIcon } from "lucide-react";
 import { UserSchema } from "@/lib/schemas/user";
+import { RegistrationRequestType } from "@/lib/types/users";
 
 function AddNewUserModal() {
   const [isLoading, setIsLoading] = useState(false);
@@ -46,24 +47,33 @@ function AddNewUserModal() {
     e.preventDefault();
     setIsLoading(true);
 
-    const result = await inviteUser({
+    const userData = {
       email,
       role: role as "admin" | "techgen" | "up-official",
-    });
+    };
 
-    if (result.success) {
+    try {
+      await inviteUser({
+        email,
+        userData,
+      });
+
       setSuccessMessage(
         "The user has been invited and will receive an email shortly.",
       );
       successModal.openModal();
-    } else {
-      setErrorMessage(result.error);
+    } catch (e) {
+      setErrorMessage(
+        e instanceof Error
+          ? e.message
+          : "There was a problem inviting the user.",
+      );
       errorModal.openModal();
+    } finally {
+      setIsLoading(false);
+      closeModal();
+      resetForm();
     }
-
-    setIsLoading(false);
-    closeModal();
-    resetForm();
   };
 
   function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {

@@ -1,25 +1,23 @@
 "use server"
 
+import { RegistrationRequestType } from "@/lib/types/users";
 import { supabaseAdmin } from "../../../utils/supabase/admin";
-import { InviteUserType, InviteUserSchema } from "@/lib/schemas/user";
 
-export async function inviteUser(input: InviteUserType) {
+interface PropsInterface {
+    userData: RegistrationRequestType["Update"];
+    email: string;
+}
 
-    const inputValidation = InviteUserSchema.safeParse(input);
-
-    if (!inputValidation.success) {
-        return {success: false, error: inputValidation.error.issues[0].message};
-    }
-
-    const { email, role } = inputValidation.data;
+export async function inviteUser(props: PropsInterface) {
+    const {email, userData} = props;
 
     const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
-        data: {role: role}
+        data: userData
     });
 
     if (error) {
-        return {success: false, error: error.message}
+        throw new Error (error.message)
     } 
 
-    return {success: true, error: ""};
+    return data;
 }

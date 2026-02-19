@@ -18,7 +18,10 @@ export const addRegistrationRequest = async function(props: PropsInterface) {
     });
     
     if (error) {
-        throw new Error(error.message)
+        if (error.code) {
+            throw {type: "supabase", code: error.code, message: error.message}
+        }
+        throw {type: "custom", code: null, message: error.message}
     }
 
     return data;

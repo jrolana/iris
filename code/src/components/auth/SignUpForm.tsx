@@ -93,9 +93,16 @@ export default function SignUpForm() {
           },
         },
       );
-    } catch (e) {
-      console.error(e instanceof Error ? e.message : "Sign-up failed.");
-      toast.error("Sign-up failed. Please check your details and try again.");
+    } catch (e: any) {
+      if (e.type === "supabase") {
+        if (e.code === "P0001") {
+          toast.error("Email has already been taken");
+        } else {
+          toast.error("Something went wrong, please try again");
+        }
+      } else {
+        toast.error("Check your input and try again");
+      }
     }
   };
 
