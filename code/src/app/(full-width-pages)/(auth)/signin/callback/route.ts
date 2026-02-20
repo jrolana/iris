@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { ROLE_CONFIG, type Role } from '@/lib/roles'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -57,5 +58,6 @@ export async function GET(request: Request) {
   if (userError || !userRole) return redirectWithError('Unable to determine your account role. Please contact support.')
 
   // Redirect to the user's role home page
-  return NextResponse.redirect(`${origin}/${userRole}`)
+  const home = ROLE_CONFIG[userRole as Role ]?.home ?? '/';
+  return NextResponse.redirect(`${origin}${home}`);
 }
