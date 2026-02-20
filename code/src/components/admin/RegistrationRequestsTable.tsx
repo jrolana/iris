@@ -17,6 +17,7 @@ import Badge from "../ui/badge/Badge";
 import { RegistrationRequestType } from "@/lib/types/users";
 import { toast } from "sonner";
 import { useUpdateRegistrationRequest } from "@/hooks/registration-request/useUpdateRegistrationRequest";
+import { inviteUser } from "@/app/actions/invite-user";
 
 export default function RegistrationRequestsTable() {
   const { registrationRequests: usersData, isLoading } =
@@ -49,11 +50,11 @@ export default function RegistrationRequestsTable() {
 
   async function handleApprove(userData: RegistrationRequestType["Row"]) {
     try {
-      // await inviteUser({
-      //   email: userData.email,
-      //   userData,
-      // });
-      // toast.success("Successfully approved the registration request.");
+      await inviteUser({
+        email: userData.email,
+        userData,
+      });
+      toast.success("Successfully approved the registration request.");
 
       await updateRegistrationRequest({
         id: userData.id,

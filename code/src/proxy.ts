@@ -41,7 +41,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  if (user) {
+  if (user && !isPublicRoute) {
     const rawCookie = request.cookies.get('user-role')
     console.log('raw cookie object:', rawCookie)
     console.log('cookie value:', rawCookie?.value)

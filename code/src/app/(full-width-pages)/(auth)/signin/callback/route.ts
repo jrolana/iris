@@ -4,12 +4,11 @@ import { cookies } from 'next/headers'
 import { ROLE_CONFIG, type Role } from '@/lib/roles'
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
+  const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
   const error = searchParams.get('error')
   const token_hash = searchParams.get('token_hash')
   const type = searchParams.get('type')
-  const origin = process.env.NEXT_PUBLIC_SITE_URL!;
 
   const redirectWithError = (msg: string) =>
     NextResponse.redirect(`${origin}/signin?error=${encodeURIComponent(msg)}`)
