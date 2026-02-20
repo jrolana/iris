@@ -172,7 +172,10 @@ export default function RegistrationRequestsTable() {
                     <Button
                       size="sm"
                       variant="success"
-                      disabled={record.status != "pending"}
+                      disabled={
+                        record.status != "pending" ||
+                        isUpdatingRegistrationRequest
+                      }
                       onClick={() => {
                         handleApprove(record);
                       }}
@@ -183,7 +186,10 @@ export default function RegistrationRequestsTable() {
                     <Button
                       size="sm"
                       variant="danger"
-                      disabled={record.status != "pending"}
+                      disabled={
+                        record.status != "pending" ||
+                        isUpdatingRegistrationRequest
+                      }
                       onClick={() => {
                         handleReject(record);
                       }}

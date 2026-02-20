@@ -87,7 +87,15 @@ export default function SignUpForm() {
               "Registration submitted! You’ll receive an email once your account is approved.",
             );
             setSkipExternalEffect(true); // to stop the useEffect in overwriting reset()
-            reset();
+            reset({
+              first_name: "",
+              last_name: "",
+              email: "",
+              role: "techgen",
+              college_code: undefined,
+              other_college_name: undefined,
+              external_institution: undefined,
+            });
             setIsExternal(false);
             setIsChecked(false);
           },
