@@ -1,40 +1,36 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { ROLE_CONFIG, type Role } from '@/lib/roles'
+
+const PUBLIC_ROUTES = ['/signin', '/signup', '/welcome', '/']
 
 export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  })
+  let response = NextResponse.next({ request })
+  const pathname = request.nextUrl.pathname
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
+        getAll: () => request.cookies.getAll(),
+        setAll: (cookiesToSet) => {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({
-            request,
-          })
-          cookiesToSet.forEach(({ name, value, options }) => 
-            supabaseResponse.cookies.set(name, value, options)
+          response = NextResponse.next({ request })
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
           )
         },
       },
     }
   )
 
+  // Get authenticated user claims
   const { data } = await supabase.auth.getClaims()
   const user = data?.claims
 
-  const pathname = request.nextUrl.pathname
-
-  const publicRoutes = ['/signin', '/signup', '/welcome', '/'] 
-  const isPublicRoute = publicRoutes.some(route => pathname === route || pathname.startsWith(route + '/'))
-
+  // Redirect unauthenticated users from protected routes
+  const isPublicRoute = PUBLIC_ROUTES.some(route => pathname === route || pathname.startsWith(route + '/'))
   if (!user && !isPublicRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/'
@@ -42,54 +38,40 @@ export async function updateSession(request: NextRequest) {
   }
 
   if (user) {
-    const { data: userData } = await supabase
-      .from('private.users')
-      .select('role')
-      .eq('id', user.sub)
-      .single()
+    // Check if we already have the role cookie
+    let userRole = request.cookies.get('user-role') as Role | undefined
 
-    const userRole = userData?.role
+    // If no role cookie, fetch from DB
+    if (!userRole) {
+      const { data: userData } = await supabase
+        .from('private.users')
+        .select('role')
+        .eq('id', user.sub)
+        .single()
 
-    if (userRole) {
-      supabaseResponse.cookies.set('user-role', userRole, {
-        maxAge: 3600, // 1 hour
-        httpOnly: true,
-        secure: true,
-      })
-    }
+      userRole = userData?.role as Role | undefined
 
-    const roleRoutes = {
-      admin: ['/admin'],
-      'up-official': ['/up-official'],
-      'techgen': ['/techgen'],
-    }
-
-    for (const [role, routes] of Object.entries(roleRoutes)) {
-      const isAccessingRoleRoute = routes.some(route => pathname.startsWith(route))
-      
-      if (isAccessingRoleRoute && userRole !== role) {
-        const url = request.nextUrl.clone()
-        
-        switch (userRole) {
-          case 'admin':
-            url.pathname = '/admin'
-            break
-          case 'up-official':
-            url.pathname = '/up-official'
-            break
-          case 'techgen':
-            url.pathname = '/techgen'
-            break
-          default:
-            url.pathname = '/'
-        }
-        
-        return NextResponse.redirect(url)
+      if (userRole) {
+        response.cookies.set('user-role', userRole, {
+          maxAge: 3600, // 1 hour
+          httpOnly: true,
+          secure: true,
+        })
       }
+    }
+
+    // If the user is trying to access a route outside their allowed prefixes
+    const allowedPrefixes = ROLE_CONFIG[userRole!]?.allowedPrefixes || []
+    const isRouteAllowed = allowedPrefixes.some(prefix => pathname.startsWith(prefix))
+
+    if (!isRouteAllowed) {
+      const url = request.nextUrl.clone()
+      url.pathname = ROLE_CONFIG[userRole!]?.home || '/'
+      return NextResponse.redirect(url)
     }
   }
 
-  return supabaseResponse
+  return response
 }
 
 export const config = {
