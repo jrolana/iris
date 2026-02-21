@@ -14,6 +14,5 @@ export const getNotifications = async function() {
     if (error) {
         throw new Error(error.message);
     }
-
     return data;
 }

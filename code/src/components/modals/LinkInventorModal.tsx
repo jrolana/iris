@@ -36,21 +36,32 @@ export default function LinkInventorModal() {
       closeModal();
       return;
     }
-    const linkedInventor = await updateInventor(
-      {
-        id: inventorUID,
-        inventorData: { techgen_id: userId },
-      },
-      {
-        onSettled: () => {
-          closeModal();
+    try {
+      await updateInventor(
+        {
+          id: inventorUID,
+          inventorData: { techgen_id: userId },
         },
-      },
-    );
-
-    toast.success(`Successfully linked ${linkedInventor.full_name}!`, {
-      duration: 3000,
-    });
+        {
+          onSettled: () => {
+            closeModal();
+          },
+          onSuccess: (data) => {
+            toast.success(`Successfully linked ${data.full_name}!`, {
+              duration: 3000,
+            });
+          },
+        },
+      );
+    } catch (e) {
+      toast.error(
+        e instanceof Error
+          ? e.message
+          : "There was a a problem linking the inventor.",
+      );
+    } finally {
+      closeModal();
+    }
   }
 
   return (
@@ -92,7 +103,9 @@ export default function LinkInventorModal() {
                     </p>
                     <p className="text-sm text-slate-600">{user.email}</p>
                     <span className="rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
-                      {user.college}
+                      {user.external_institution ??
+                        user.college_code ??
+                        user.other_college_name}
                     </span>
                   </div>
                   <div className="flex shrink-0 items-center gap-2">
