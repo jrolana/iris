@@ -13,30 +13,45 @@ SET search_path = private
 AS $$
 BEGIN
     -- handles cases where it is already a user of the system
-    -- doesnt need to check if the email exists in the registration requests table
-    -- since check constraint is already added
     -- can re-request if the previous requests have been rejected
     IF EXISTS (
         SELECT 1
         FROM private.users
         WHERE email = p_email
     ) THEN
-        RAISE EXCEPTION 'Email already exists'
+        RAISE EXCEPTION 'An account with this email already exists.'
         USING ERRCODE = 'P0001';
     END IF;
 
-    INSERT INTO private.user_registration_requests 
-        (full_name, email, role, college_code, other_college_name, external_institution, status, approved_at)
-    VALUES 
-        (
-            p_full_name,
-            p_email,
-            p_role::private.user_role,
-            p_college_code,
-            p_other_college_name,
-            p_external_institution,
-            'pending',
-            NULL);
+    -- invite havent expired
+    IF EXISTS (
+        SELECT 1 
+        FROM private.user_registration_requests
+        WHERE email = p_email
+        AND (status = 'approved' AND invite_expires_at > NOW())
+    ) THEN
+        RAISE EXCEPTION 'An invite has already been sent to this email.'
+        USING ERRCODE = 'P0002';
+    END IF;
+
+    BEGIN
+        INSERT INTO private.user_registration_requests 
+            (full_name, email, role, college_code, other_college_name, external_institution, status)
+        VALUES 
+            (
+                p_full_name,
+                p_email,
+                p_role::private.user_role,
+                p_college_code,
+                p_other_college_name,
+                p_external_institution,
+                'pending'
+            );
+    EXCEPTION
+        WHEN unique_violation THEN
+            RAISE EXCEPTION 'A registration request for this email is already pending approval.'
+            USING ERRCODE = 'P0003';
+    END;
 END;
 $$;
 

@@ -321,36 +321,36 @@ export type Database = {
       }
       user_registration_requests: {
         Row: {
-          approved_at: string | null
           college_code: string | null
           email: string
           external_institution: string | null
           full_name: string
           id: string
+          invite_expires_at: string | null
           other_college_name: string | null
           requested_at: string
           role: Database["private"]["Enums"]["user_role"]
           status: Database["private"]["Enums"]["registrationrequestsstatus"]
         }
         Insert: {
-          approved_at?: string | null
           college_code?: string | null
           email: string
           external_institution?: string | null
           full_name: string
           id?: string
+          invite_expires_at?: string | null
           other_college_name?: string | null
           requested_at?: string
           role: Database["private"]["Enums"]["user_role"]
           status?: Database["private"]["Enums"]["registrationrequestsstatus"]
         }
         Update: {
-          approved_at?: string | null
           college_code?: string | null
           email?: string
           external_institution?: string | null
           full_name?: string
           id?: string
+          invite_expires_at?: string | null
           other_college_name?: string | null
           requested_at?: string
           role?: Database["private"]["Enums"]["user_role"]

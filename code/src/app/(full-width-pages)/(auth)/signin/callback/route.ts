@@ -14,7 +14,9 @@ export async function GET(request: Request) {
     NextResponse.redirect(`${origin}/signin?error=${encodeURIComponent(msg)}`)
 
   // Handle provider errors
-  if (error) return redirectWithError('There was an issue signing you in. Please try again.')
+  if (error) {
+    return redirectWithError(error == "access_denied" ? "Your account isn't registered yet. Please sign up first." : "There was an issue signing you in. Please try again.")
+  }
 
   const cookieStore = await cookies()
   const supabase = createServerClient(

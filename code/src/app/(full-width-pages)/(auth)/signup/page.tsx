@@ -103,8 +103,8 @@ export default function SignUpForm() {
       );
     } catch (e: any) {
       if (e.type === "supabase") {
-        if (e.code === "P0001") {
-          toast.error("Email has already been taken");
+        if (["P0001", "P0002", "P0003"].includes(e.code)) {
+          toast.error(e.message);
         } else {
           toast.error("Something went wrong, please try again");
         }
