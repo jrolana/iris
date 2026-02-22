@@ -33,7 +33,7 @@ function InformationPanel(props: DetailsPanelProps) {
   const isAdmin = mode === "admin";
   const tabIndex = +(activeTab === "inventors");
   const itemCount = [groupedFiles ?? [], inventors ?? []][tabIndex].length;
-  const countLabel = `${itemCount} ${["attachment", "inventor"][tabIndex]}${" s"[+(itemCount > 0)]}`;
+  const countLabel = `${itemCount} ${["attachment", "tech gen"][tabIndex]}${" s"[+(itemCount > 0)]}`;
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5">
@@ -55,10 +55,10 @@ function InformationPanel(props: DetailsPanelProps) {
                 : "text-gray-600"
             }`}
           >
-            Inventors
+            Tech Gens
           </button>
         </div>
-        <span className="text-sm text-gray-500">{countLabel}</span>
+        <span className="text-center text-sm text-gray-500">{countLabel}</span>
       </div>
 
       {activeTab === "attachments" ? (

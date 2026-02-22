@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { CalendarIcon, X } from "lucide-react";
+import { CalendarIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
@@ -83,6 +83,28 @@ function StatusUpdateForm(props: PropsInterface) {
     return { id: stage?.id ?? "", label: stage?.label ?? "" };
   });
 
+  const stages = ipApplicationFlows[currentIpType];
+  const currentStageIndex = Math.max(
+    0,
+    stages.findIndex((step) => step.id === currentStage.id),
+  );
+
+  const handlePrevStage = () => {
+    if (currentStageIndex > 0) {
+      const prevStage = stages[currentStageIndex - 1];
+      setCurrentStage({ id: prevStage.id, label: prevStage.label });
+      setNote(""); // Reset note on change
+    }
+  };
+
+  const handleNextStage = () => {
+    if (currentStageIndex < stages.length - 1) {
+      const nextStage = stages[currentStageIndex + 1];
+      setCurrentStage({ id: nextStage.id, label: nextStage.label });
+      setNote(""); // Reset note on change
+    }
+  };
+
   // Filter status options based on selected stage
   const startStatusOptions = ipApplicationFlows[currentIpType]
     .find((step) => step.id === currentStage.id)
@@ -95,6 +117,7 @@ function StatusUpdateForm(props: PropsInterface) {
     });
 
   const [statusOptions, setStatusOptions] = useState(startStatusOptions);
+
   useEffect(() => {
     if (!currentStage.id) {
       setSelectedStatus(currentStatusType);
@@ -114,8 +137,7 @@ function StatusUpdateForm(props: PropsInterface) {
       };
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setStatusOptions((_prev) => newStatusOptions);
+    setStatusOptions(() => newStatusOptions);
 
     // If the current selected status is not in the new options, reset it to the first option
     if (
@@ -203,13 +225,11 @@ function StatusUpdateForm(props: PropsInterface) {
       }
 
       // No changes on status
-
       if (noChangesMade) {
         return;
       }
 
       // Changes on note or/and deadline
-
       const updatedStatus: Partial<IprStatusType["Insert"]> = {};
 
       if (isNoteChanged) {
@@ -238,7 +258,6 @@ function StatusUpdateForm(props: PropsInterface) {
       }
 
       // Changes on status_type
-
       if (isStatusChanged) {
         updatedStatus.status_type = selectedStatus;
         updatedStatus.application_id = applicationId;
@@ -335,52 +354,57 @@ function StatusUpdateForm(props: PropsInterface) {
   };
 
   return (
-    <div className="w-full max-w-lg">
-      <p className="-mt-4 text-center text-sm leading-normal text-slate-600">
+    <div className="flex max-h-[85vh] w-full max-w-lg min-w-[85vw] flex-col sm:max-h-[90vh] sm:min-w-[400px]">
+      <p className="-mt-4 shrink-0 text-center text-sm leading-normal text-slate-600">
         Update the application status and add a note to notify technology
         generators.
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-4 space-y-4 text-sm">
-        <div className="space-y-3">
-          <div className="grid gap-3 md:grid-cols-2">
-            <div className="flex flex-1 flex-col gap-1">
-              <span className="font-medium text-slate-800">
-                Application Stage
-              </span>
-              <Select
-                unstyled
-                value={
-                  currentStage
-                    ? { value: currentStage.id, label: currentStage.label }
-                    : null
-                }
-                options={ipApplicationFlows[currentIpType].flatMap((step) => [
-                  { value: step.id, label: step.label },
-                ])}
-                className="h-10"
-                classNames={{
-                  placeholder: () => "text-lg!",
-                  control: ({ isFocused }) =>
-                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
-                  menu: () =>
-                    "bg-white border border-gray-200 mt-2 rounded-lg  space-y-2 overflow-hidden",
-                  input: () => "text-sm",
-                  option: ({ isFocused }) =>
-                    `px-3 py-2 cursor-pointer ${isFocused ? "bg-blue-100" : "bg-transparent"}`,
-                }}
-                onChange={(selectedOption) => {
-                  setCurrentStage({
-                    id: selectedOption?.value as string,
-                    label: selectedOption?.label as string,
-                  });
-                  setNote("");
-                }}
-              />
+      <form
+        onSubmit={handleSubmit}
+        className="mt-4 flex h-full flex-col overflow-hidden text-sm"
+      >
+        <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-1 pb-2">
+          {/* stages carousel */}
+          <div className="flex w-full shrink-0 flex-col items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase">
+              Application Stage
+            </span>
+
+            <div className="flex w-full items-center justify-between px-2 sm:px-6">
+              <button
+                type="button"
+                onClick={handlePrevStage}
+                disabled={currentStageIndex === 0}
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-slate-600 shadow-sm ring-1 ring-slate-200 transition-all hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+
+              <div className="flex flex-1 flex-col items-center gap-2 px-2 text-center">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-sky-600 bg-sky-50 text-lg font-bold text-sky-700">
+                  {currentStageIndex + 1}
+                </div>
+                <span className="line-clamp-2 flex min-h-10 w-full items-center justify-center text-sm font-bold text-slate-800">
+                  {currentStage.label}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleNextStage}
+                disabled={currentStageIndex === stages.length - 1}
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-slate-600 shadow-sm ring-1 ring-slate-200 transition-all hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
             </div>
-            <label className="flex flex-1 flex-col gap-1">
+          </div>
+
+          <div className="grid shrink-0 grid-cols-1 gap-4 md:grid-cols-2">
+            <label className="flex w-full flex-col gap-1">
               <span className="font-medium text-slate-800">
-                Status in flow <span className="text-red-500">*</span>
+                Specific Status in flow <span className="text-red-500">*</span>
               </span>
               <Select
                 unstyled
@@ -388,16 +412,16 @@ function StatusUpdateForm(props: PropsInterface) {
                   (opt) => opt.value === selectedStatus,
                 )}
                 options={statusOptions}
-                className="h-10"
+                className="h-10 w-full"
                 classNames={{
                   placeholder: () => "text-lg!",
                   control: ({ isFocused }) =>
                     `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
                   menu: () =>
-                    "bg-white border border-gray-200 mt-2 rounded-lg  space-y-2 overflow-hidden",
+                    "bg-white border border-gray-200 mt-2 rounded-lg space-y-2 overflow-hidden",
                   input: () => "text-sm",
                   option: ({ isFocused }) =>
-                    `px-3 py-2 cursor-pointer ${isFocused ? "bg-blue-100" : "bg-transparent"}`,
+                    `px-3 py-2 cursor-pointer ${isFocused ? "bg-sky-50 text-sky-900" : "bg-transparent"}`,
                 }}
                 onChange={(selectedOption) => {
                   setSelectedStatus(selectedOption?.value as StatusType);
@@ -406,19 +430,19 @@ function StatusUpdateForm(props: PropsInterface) {
               />
             </label>
 
-            <div className="flex flex-col items-start gap-1">
+            <div className="flex w-full shrink-0 flex-col items-start gap-1">
               <span className="font-medium text-slate-800">
                 Deadline (optional)
               </span>
-              <div className="flex w-full flex-row items-start justify-between gap-2 align-middle">
+              <div className="flex w-full flex-row items-center justify-between gap-2">
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       data-empty={!deadline}
-                      className={`data-[empty=true]:text-muted-foreground justify-start text-left font-normal ${deadline ? "w-[85%]" : "w-full"}`}
+                      className={`data-[empty=true]:text-muted-foreground flex-1 justify-start text-left font-normal`}
                     >
-                      <CalendarIcon />
+                      <CalendarIcon className="mr-2 h-4 w-4" />
                       {deadline ? (
                         format(deadline, "PPP")
                       ) : (
@@ -445,7 +469,7 @@ function StatusUpdateForm(props: PropsInterface) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="text-muted-foreground hover:text-destructive h-8 w-8"
+                    className="h-8 w-8 shrink-0 text-slate-500 hover:text-red-500"
                     onClick={() => setDeadline(null)}
                   >
                     <X className="h-4 w-4" />
@@ -456,39 +480,37 @@ function StatusUpdateForm(props: PropsInterface) {
 
             {(selectedStatus == "registered" ||
               selectedStatus == "filed_with_ipophil") && (
-              <div className="col-span-2 flex flex-col items-start gap-1">
+              <div className="col-span-1 flex w-full shrink-0 flex-col items-start gap-1 md:col-span-2">
                 <span className="font-medium text-slate-800">
                   {selectedStatus == "registered" ? "Registration" : "Filing"}{" "}
                   Date
                 </span>
-                <div className="flex w-full flex-row items-start justify-between gap-2 align-middle">
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        data-empty={!date}
-                        className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
-                      >
-                        <CalendarIcon />
-                        {date ? format(date, "PPP") : <span>Pick a date</span>}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="z-9999 w-auto p-0">
-                      <Calendar
-                        fixedWeeks
-                        mode="single"
-                        selected={date ?? undefined}
-                        onSelect={setDate}
-                        classNames={{
-                          day_selected:
-                            "bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white",
-                          day_today: "bg-slate-100 text-slate-900",
-                        }}
-                        required
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      data-empty={!date}
+                      className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="z-9999 w-auto p-0">
+                    <Calendar
+                      fixedWeeks
+                      mode="single"
+                      selected={date ?? undefined}
+                      onSelect={setDate}
+                      classNames={{
+                        day_selected:
+                          "bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white",
+                        day_today: "bg-slate-100 text-slate-900",
+                      }}
+                      required
+                    />
+                  </PopoverContent>
+                </Popover>
                 <p className="text-xs text-slate-500">
                   Pre-filled with today’s date based on the selected status. You
                   may adjust if needed.
@@ -497,7 +519,7 @@ function StatusUpdateForm(props: PropsInterface) {
             )}
           </div>
 
-          <label className="flex flex-col gap-1">
+          <label className="flex w-full shrink-0 flex-col gap-1">
             <span className="font-medium text-slate-800">Note</span>
             <textarea
               value={note}
@@ -507,55 +529,55 @@ function StatusUpdateForm(props: PropsInterface) {
               placeholder="Briefly describe what changed, what TTBDO did, and what the tech gens should expect next."
             />
           </label>
+
+          <div className="w-full shrink-0">
+            <label className="flex flex-col gap-1">
+              <span className="font-medium text-slate-800">
+                IP type (optional)
+              </span>
+              <Select
+                unstyled
+                value={IP_TYPE_OPTIONS.find(
+                  (opt) => opt.value === selectedIpType,
+                )}
+                options={ipTypeOptions}
+                className="h-10"
+                classNames={{
+                  placeholder: () => "text-lg! text-muted-foreground",
+                  control: ({ isFocused }) =>
+                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
+                  menu: () =>
+                    "bg-white border border-gray-200 mt-2 rounded-lg space-y-2 overflow-hidden",
+                  input: () => "text-sm",
+                  option: ({ isFocused }) =>
+                    `px-3 py-2 cursor-pointer ${isFocused ? "bg-sky-50 text-sky-900" : "bg-transparent"}`,
+                }}
+                onChange={(selectedOption) =>
+                  setSelectedIpType(selectedOption?.value as IpType)
+                }
+              />
+              <p className="mt-1 text-xs text-slate-500">
+                Only change this if the application type has fundamentally
+                changed.
+              </p>
+            </label>
+          </div>
         </div>
 
-        <div>
-          <label className="flex flex-col gap-1">
-            <span className="font-medium text-slate-800">
-              IP type (optional)
-            </span>
-            <Select
-              unstyled
-              value={IP_TYPE_OPTIONS.find(
-                (opt) => opt.value === selectedIpType,
-              )}
-              options={ipTypeOptions}
-              className="h-10"
-              classNames={{
-                placeholder: () => "text-lg! text-muted-foreground",
-                control: ({ isFocused }) =>
-                  `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
-                menu: () =>
-                  "bg-white border border-gray-200 mt-2 rounded-lg  space-y-2 overflow-hidden",
-                input: () => "text-sm",
-                option: ({ isFocused }) =>
-                  `px-3 py-2 cursor-pointer ${isFocused ? "bg-blue-100" : "bg-transparent"}`,
-              }}
-              onChange={(selectedOption) =>
-                setSelectedIpType(selectedOption?.value as IpType)
-              }
-            />
-            <p className="text-xs text-slate-500">
-              Only change this if the application type has fundamentally
-              changed.
-            </p>
-          </label>
-        </div>
-
-        <div className="mt-6 grid grid-cols-2 gap-2 justify-self-end md:gap-1">
+        <div className="z-10 mt-2 flex w-full shrink-0 items-center justify-end gap-3 border-t border-slate-100 bg-white pt-4 pb-2">
           <button
             type="button"
             onClick={closeModal}
-            className="w-fit rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 md:justify-self-end"
+            className="rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting || noChangesMade}
-            className="white-space no-wrap w-fit rounded-full bg-sky-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300 md:justify-self-end"
+            className="rounded-full bg-sky-600 px-6 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300"
           >
-            {isSubmitting ? "Saving changes..." : "Save"}
+            {isSubmitting ? "Saving..." : "Save"}
           </button>
         </div>
       </form>
