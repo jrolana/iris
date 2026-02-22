@@ -73,7 +73,7 @@ function ViewInventors(props: ViewInventorsProps) {
         {inventors.map((inventor) => (
           <li
             key={inventor.id}
-            className="flex items-center justify-between py-3 sm:items-start"
+            className="flex flex-col justify-between gap-2 py-3 sm:flex-row sm:items-start sm:justify-between"
           >
             <div className="min-w-0 flex-1">
               <p className="text-md truncate font-medium text-slate-900">
