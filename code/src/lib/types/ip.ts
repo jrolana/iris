@@ -35,6 +35,7 @@ export type StatusType =
   | 'chancellor_sign'
   | 'notarization'
   | 'wait_notice_of_action'
+  | 'discussing_downgrade'
   | 'resolve_additional_requirements'
   | 'wait_statement_of_acc'
   | 'pay_fee_application'
@@ -42,7 +43,7 @@ export type StatusType =
   | 'closed';
 
 //specific ip statuses
-export const IpStatuses = {
+export const IpStatuses: Record<IpType, readonly StatusType[]> = {
   patent: [
     'draft_classification',
     'draft_idf',
@@ -54,6 +55,7 @@ export const IpStatuses = {
     'wait_notice_publication',
     'wait_substantive_exam_report',
     'resolve_ser_defects',
+    'discussing_downgrade',
     'downgraded_to_um',
     'wait_notice_of_issuance',
     'req_cert_of_registration',
