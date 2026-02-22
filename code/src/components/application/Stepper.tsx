@@ -20,6 +20,10 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
   const statusType = currentStatus.status_type as StatusType;
   const steps = ipApplicationFlows[ipType];
 
+  const ipophilIndex = steps.findIndex((step) =>
+    step.statusTypes.includes("filed_with_ipophil"),
+  );
+
   // Calculate current progress
   const currentIndex = useMemo(
     () =>
@@ -29,6 +33,8 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
       ),
     [steps, statusType],
   );
+
+  const inIpophilStages = currentIndex >= ipophilIndex;
 
   const currentStep = steps[currentIndex];
 
@@ -88,6 +94,26 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
   return (
     <div className="w-full space-y-6 p-2">
       <div className="w-full overflow-x-auto">
+        <div className="flex w-full justify-end px-2 sm:px-0">
+          <div
+            className={clsx(
+              "mb-4 flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-bold tracking-widest uppercase shadow-sm transition-colors",
+              inIpophilStages
+                ? "border-sky-200 bg-sky-50 text-sky-700"
+                : "border-amber-200 bg-amber-50 text-amber-700",
+            )}
+          >
+            <div
+              className={clsx(
+                "h-1.5 w-1.5 rounded-full",
+                inIpophilStages ? "bg-sky-500" : "bg-amber-500",
+              )}
+            />
+            {inIpophilStages
+              ? "Interal + External: IPOPHIL Phase"
+              : "Internal: TTBDO Phase"}
+          </div>
+        </div>
         <ol className="flex min-w-[600px] items-stretch gap-3 px-1 sm:min-w-0 sm:gap-4 sm:px-0">
           {steps.map((step, index) => {
             const isCompleted = index < currentIndex;
@@ -120,15 +146,6 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
                     </span>
                   </Hint>
                 </div>
-
-                {index !== steps.length - 1 && (
-                  <div
-                    className={clsx(
-                      "mx-2 mt-4.5 hidden h-0.5 flex-1 rounded-full sm:block",
-                      index < currentIndex ? "bg-emerald-500" : "bg-slate-200",
-                    )}
-                  />
-                )}
               </li>
             );
           })}
