@@ -25,6 +25,7 @@ import { toast } from "sonner";
 
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import { getSuggestedDeadline } from "@/lib/helper/get-status-deadline";
+import { ipApplicationFlows } from "@/lib/structs/ip-flow";
 
 // Options for TTBDO modal only
 const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
@@ -52,13 +53,13 @@ function StatusUpdateForm(props: PropsInterface) {
   const { application, currentStatus, closeModal } = props;
 
   const ipTypeOptions = IP_TYPE_OPTIONS;
-  const statusOptions = STATUS_OPTIONS;
 
   const applicationId = application.id;
 
   const { updateApp } = useUpdateApplication({ appId: applicationId });
   const { updateStatus } = useUpdateStatus({ applicationId });
   const { addStatus } = useAddStatus();
+
   const queryClient = useQueryClient();
 
   const currentIpType = application.ip_type;
@@ -74,6 +75,56 @@ function StatusUpdateForm(props: PropsInterface) {
   const currentRegistrationDate = application.registration_date
     ? new Date(application.registration_date)
     : new Date();
+
+  const [currentStage, setCurrentStage] = useState(() => {
+    const stage = ipApplicationFlows[currentIpType].find((step) =>
+      step.statusTypes.includes(currentStatusType as StatusType),
+    );
+    return { id: stage?.id ?? "", label: stage?.label ?? "" };
+  });
+
+  // Filter status options based on selected stage
+  const startStatusOptions = ipApplicationFlows[currentIpType]
+    .find((step) => step.id === currentStage.id)
+    ?.statusTypes.flatMap((status) => {
+      const statusOption = STATUS_LABELS[status];
+      return {
+        value: status,
+        label: statusOption,
+      };
+    });
+
+  const [statusOptions, setStatusOptions] = useState(startStatusOptions);
+  useEffect(() => {
+    if (!currentStage.id) {
+      setSelectedStatus(currentStatusType);
+      return;
+    }
+
+    const applicationStep = ipApplicationFlows[currentIpType].find(
+      (step) => step.id === currentStage.id,
+    );
+
+    // Filter status options based on selected stage
+    const newStatusOptions = applicationStep?.statusTypes.flatMap((status) => {
+      const statusOption = STATUS_LABELS[status];
+      return {
+        value: status,
+        label: statusOption,
+      };
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setStatusOptions((_prev) => newStatusOptions);
+
+    // If the current selected status is not in the new options, reset it to the first option
+    if (
+      newStatusOptions &&
+      !newStatusOptions.some((opt) => opt.value === selectedStatus)
+    ) {
+      setSelectedStatus(() => newStatusOptions[0].value);
+    }
+  }, [currentStage.id, currentIpType, currentStatusType]);
 
   const [selectedIpType, setSelectedIpType] =
     useState<ApplicationType["Update"]["ip_type"]>(currentIpType);
@@ -290,6 +341,40 @@ function StatusUpdateForm(props: PropsInterface) {
       <form onSubmit={handleSubmit} className="mt-4 space-y-4 text-sm">
         <div className="space-y-3">
           <div className="grid gap-3 md:grid-cols-2">
+            <div className="flex flex-1 flex-col gap-1">
+              <span className="font-medium text-slate-800">
+                Application Stage
+              </span>
+              <Select
+                unstyled
+                value={
+                  currentStage
+                    ? { value: currentStage.id, label: currentStage.label }
+                    : null
+                }
+                options={ipApplicationFlows[currentIpType].flatMap((step) => [
+                  { value: step.id, label: step.label },
+                ])}
+                className="h-10"
+                classNames={{
+                  placeholder: () => "text-lg!",
+                  control: ({ isFocused }) =>
+                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
+                  menu: () =>
+                    "bg-white border border-gray-200 mt-2 rounded-lg  space-y-2 overflow-hidden",
+                  input: () => "text-sm",
+                  option: ({ isFocused }) =>
+                    `px-3 py-2 cursor-pointer ${isFocused ? "bg-blue-100" : "bg-transparent"}`,
+                }}
+                onChange={(selectedOption) => {
+                  setCurrentStage({
+                    id: selectedOption?.value as string,
+                    label: selectedOption?.label as string,
+                  });
+                  setNote("");
+                }}
+              />
+            </div>
             <label className="flex flex-1 flex-col gap-1">
               <span className="font-medium text-slate-800">
                 Status in flow <span className="text-red-500">*</span>
