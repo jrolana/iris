@@ -6,18 +6,18 @@ import { IpType, StatusType } from "@/lib/types/ip";
 import { CHARTER_DEADLINES } from "@/lib/structs/charter";
 import clsx from "clsx";
 import Hint from "../common/Tooltip";
+import { IprStatusType } from "@/lib/types/status";
+import { STATUS_LABELS } from "@/lib/helper/status-labels";
 
 interface ApplicationStepperProps {
   ipType: IpType;
-  statusType: StatusType;
   currentStageDeadline?: string | Date; // From ipr_applications table
+  currentStatus: IprStatusType["Row"];
 }
 
-export default function ApplicationStepper({
-  ipType,
-  statusType,
-  currentStageDeadline,
-}: ApplicationStepperProps) {
+export default function ApplicationStepper(props: ApplicationStepperProps) {
+  const { ipType, currentStageDeadline, currentStatus } = props;
+  const statusType = currentStatus.status_type as StatusType;
   const steps = ipApplicationFlows[ipType];
 
   // Calculate current progress
@@ -34,7 +34,7 @@ export default function ApplicationStepper({
 
   // Deadline calculation logic
   const deadlineInfo = useMemo(() => {
-    if (!currentStageDeadline || !currentStep.charterStage) return null;
+    if (!currentStageDeadline) return null;
 
     const now = new Date();
     const deadline = new Date(currentStageDeadline);
@@ -54,7 +54,36 @@ export default function ApplicationStepper({
         year: "numeric",
       }),
     };
-  }, [currentStageDeadline, currentStep]);
+  }, [currentStageDeadline]);
+
+  // Deadline calculation logic
+  const charterInfo = useMemo(() => {
+    if (!currentStep.charterStage) return null;
+
+    const now = new Date();
+    const deadline = new Date(currentStatus.created_at!);
+    deadline.setDate(
+      deadline.getDate() +
+        CHARTER_DEADLINES[currentStep.charterStage].durationMs /
+          (1000 * 60 * 60 * 24),
+    );
+    const diff = deadline.getTime() - now.getTime();
+    const isOverdue = diff < 0;
+
+    const absDiff = Math.abs(diff);
+    const days = Math.floor(absDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((absDiff / (1000 * 60 * 60)) % 24);
+
+    return {
+      isOverdue,
+      timeString: `${days}d ${hours}h`,
+      formattedDate: deadline.toLocaleDateString("en-PH", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
+    };
+  }, [currentStatus.created_at, currentStep.charterStage]);
 
   return (
     <div className="w-full space-y-6 p-2">
@@ -107,10 +136,50 @@ export default function ApplicationStepper({
       </div>
 
       {/* Citizen's Charter Status Indicator */}
-      {deadlineInfo && (
+      {charterInfo && (
         <div
           className={clsx(
             "flex items-center justify-between rounded-lg border p-3 shadow-sm transition-all",
+            charterInfo.isOverdue
+              ? "border-red-200 bg-red-50 text-red-700"
+              : "border-sky-200 bg-sky-50 text-sky-700",
+          )}
+        >
+          <div className="flex items-center gap-3">
+            <div
+              className={clsx(
+                "h-3 w-3 animate-pulse rounded-full",
+                charterInfo.isOverdue ? "bg-red-500" : "bg-sky-500",
+              )}
+            />
+            <div>
+              <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">
+                Citizen&apos;s Charter Status:{" "}
+                {CHARTER_DEADLINES[currentStep.charterStage!].label}
+              </p>
+              <p className="text-sm font-semibold">
+                {charterInfo.isOverdue
+                  ? `Overdue by ${charterInfo.timeString}`
+                  : `Within Processing Time (${charterInfo.timeString} remaining)`}
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">
+              Target Completion
+            </p>
+            <p className="font-mono text-sm font-bold">
+              {charterInfo.formattedDate}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Deadline Status Indicator */}
+      {deadlineInfo && (
+        <div
+          className={clsx(
+            "-mt-4 flex items-center justify-between rounded-lg border p-3 shadow-sm transition-all",
             deadlineInfo.isOverdue
               ? "border-red-200 bg-red-50 text-red-700"
               : "border-sky-200 bg-sky-50 text-sky-700",
@@ -125,8 +194,8 @@ export default function ApplicationStepper({
             />
             <div>
               <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">
-                Citizen&apos;s Charter Status:{" "}
-                {CHARTER_DEADLINES[currentStep.charterStage!].label}
+                Current Status:{" "}
+                {STATUS_LABELS[currentStatus.status_type as StatusType]}
               </p>
               <p className="text-sm font-semibold">
                 {deadlineInfo.isOverdue

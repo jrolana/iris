@@ -145,12 +145,14 @@ function StatusUpdateForm(props: PropsInterface) {
   const isNoteChanged = currentNote != note;
   const isDeadlineChanged = currentDeadline?.getDate() != deadline?.getDate();
   const isStatusChanged = currentStatusType != selectedStatus;
-  const isDateChanged =
-    selectedStatus == "filed_with_ipophil"
-      ? currentFilingDate?.getDate() != date.getDate()
-      : selectedStatus == "registered"
-        ? currentRegistrationDate?.getDate() != date.getDate()
-        : false;
+  let isDateChanged = false;
+
+  if (selectedStatus == "filed_with_ipophil") {
+    isDateChanged = currentFilingDate?.getDate() != date.getDate();
+  } else if (selectedStatus == "registered") {
+    isDateChanged = currentRegistrationDate?.getDate() != date.getDate();
+  }
+
   const noChangesMade =
     !isNoteChanged && !isDeadlineChanged && !isStatusChanged && !isDateChanged;
 
@@ -159,19 +161,18 @@ function StatusUpdateForm(props: PropsInterface) {
       setDeadline(null);
       return;
     }
-
     const suggestion = getSuggestedDeadline(selectedStatus);
-    if (suggestion) {
-      setDeadline(new Date(suggestion));
+    setDeadline(suggestion ? new Date(suggestion) : null);
+
+    let filingDate = new Date();
+
+    if (selectedStatus == "filed_with_ipophil") {
+      filingDate = currentFilingDate;
+    } else if (selectedStatus == "registered") {
+      filingDate = currentRegistrationDate;
     }
 
-    setDate(
-      selectedStatus == "filed_with_ipophil"
-        ? currentFilingDate
-        : selectedStatus == "registered"
-          ? currentRegistrationDate
-          : new Date(),
-    );
+    setDate(filingDate);
   }, [selectedStatus]);
 
   async function onConfirm() {

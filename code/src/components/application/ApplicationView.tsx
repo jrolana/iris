@@ -2,20 +2,21 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
+import { useQueryClient } from "@tanstack/react-query";
+import { useGetCurrStatus } from "@/hooks/applications/useGetCurrStatus";
+
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
+import { STATUS_LABELS } from "@/lib/helper/status-labels";
+import { ApplicationType } from "@/lib/types/application";
+import { StatusType } from "@/lib/types/ip";
+import { formatDateTime, formatDate } from "@/lib/helper/format-date";
+
+import { InlineEdit } from "../form/input/InlineEdit";
 import ApplicationStepper from "@/components/application/Stepper";
 import StatusHistoryPanel from "@/components/application/StatusHistoryPanel";
-import { STATUS_LABELS } from "@/lib/helper/status-labels";
-
-import { ApplicationType } from "@/lib/types/application";
 import InformationPanel from "./InformationPanel";
 import { ArrowLeft } from "lucide-react";
-import { StatusType } from "@/lib/types/ip";
-import { useGetApplicationStatuses } from "@/hooks/status/useGetApplicationStatuses";
-import { formatDateTime, formatDate } from "@/lib/helper/format-date";
-import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
-import { InlineEdit } from "../form/input/InlineEdit";
-import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export type ApplicationViewMode = "applicant" | "admin";
@@ -28,12 +29,6 @@ interface ApplicationViewProps {
 function ApplicationView(props: ApplicationViewProps) {
   const { mode, initialApplication: application } = props;
 
-  const { statuses, isLoading: isLatestStatusLoading } =
-    useGetApplicationStatuses({
-      applicationId: application.id,
-      isLatest: true,
-    });
-
   const [ipTitle, setIpTitle] = useState(application.ip_title);
   const [ipNumber, setIpNumber] = useState(application.ip_number);
 
@@ -43,7 +38,8 @@ function ApplicationView(props: ApplicationViewProps) {
 
   const queryClient = useQueryClient();
 
-  const currentStatus = Array.isArray(statuses) ? statuses[0] : statuses;
+  const { status: currentStatus, isLoading: isLatestStatusLoading } =
+    useGetCurrStatus({ statusId: application.curr_status });
 
   const router = useRouter();
 
@@ -216,8 +212,8 @@ function ApplicationView(props: ApplicationViewProps) {
         {currentStatus ? (
           <ApplicationStepper
             ipType={application.ip_type}
-            statusType={currentStatus?.status_type as StatusType}
             currentStageDeadline={currentStatus?.deadline ?? undefined}
+            currentStatus={currentStatus}
           />
         ) : (
           <StatusPlaceholder
