@@ -93,27 +93,26 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
 
   return (
     <div className="w-full space-y-6 p-2">
+      <div
+        className={clsx(
+          "mb-4 flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-bold tracking-widest uppercase shadow-sm transition-colors",
+          inIpophilStages
+            ? "w-64 border-purple-200 bg-purple-50 text-purple-700"
+            : "w-48 border-teal-200 bg-teal-50 text-teal-700",
+        )}
+      >
+        <div
+          className={clsx(
+            "h-1.5 w-1.5 rounded-full",
+            inIpophilStages ? "bg-purple-500" : "bg-teal-500",
+          )}
+        />
+        {inIpophilStages
+          ? "Interal + External: IPOPHIL Phase"
+          : "Internal: TTBDO Phase"}
+      </div>
       <div className="w-full overflow-x-auto">
-        <div className="flex w-full justify-end px-2 sm:px-0">
-          <div
-            className={clsx(
-              "mb-4 flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-bold tracking-widest uppercase shadow-sm transition-colors",
-              inIpophilStages
-                ? "border-purple-200 bg-purple-50 text-purple-700"
-                : "border-indigo-200 bg-indigo-50 text-indigo-700",
-            )}
-          >
-            <div
-              className={clsx(
-                "h-1.5 w-1.5 rounded-full",
-                inIpophilStages ? "bg-purple-500" : "bg-indigo-500",
-              )}
-            />
-            {inIpophilStages
-              ? "Interal + External: IPOPHIL Phase"
-              : "Internal: TTBDO Phase"}
-          </div>
-        </div>
+        <div className="flex w-full justify-end px-2 sm:px-0"></div>
         <ol className="flex min-w-[600px] items-stretch gap-3 px-1 sm:min-w-0 sm:gap-4 sm:px-0">
           {steps.map((step, index) => {
             const isCompleted = index < currentIndex;
