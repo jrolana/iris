@@ -99,14 +99,14 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
             className={clsx(
               "mb-4 flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-bold tracking-widest uppercase shadow-sm transition-colors",
               inIpophilStages
-                ? "border-sky-200 bg-sky-50 text-sky-700"
-                : "border-amber-200 bg-amber-50 text-amber-700",
+                ? "border-purple-200 bg-purple-50 text-purple-700"
+                : "border-indigo-200 bg-indigo-50 text-indigo-700",
             )}
           >
             <div
               className={clsx(
                 "h-1.5 w-1.5 rounded-full",
-                inIpophilStages ? "bg-sky-500" : "bg-amber-500",
+                inIpophilStages ? "bg-purple-500" : "bg-indigo-500",
               )}
             />
             {inIpophilStages
