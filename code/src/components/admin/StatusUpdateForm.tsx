@@ -132,13 +132,15 @@ function StatusUpdateForm(props: PropsInterface) {
     useState<IprStatusType["Row"]["status_type"]>(currentStatusType);
   const [note, setNote] = useState(currentNote ?? "");
   const [deadline, setDeadline] = useState<Date | null>(currentDeadline);
-  const [date, setDate] = useState<Date>(
-    selectedStatus == "filed_with_ipophil"
-      ? currentFilingDate
-      : selectedStatus == "registered"
-        ? currentRegistrationDate
-        : new Date(),
-  );
+  const [date, setDate] = useState<Date>(() => {
+    let date = new Date();
+    if (selectedStatus == "filed_with_ipophil") {
+      date = currentFilingDate;
+    } else if (selectedStatus == "registered") {
+      date = currentRegistrationDate;
+    }
+    return date;
+  });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
