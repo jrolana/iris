@@ -97,7 +97,7 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
         className={clsx(
           "mb-4 flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-bold tracking-widest uppercase shadow-sm transition-colors",
           inIpophilStages
-            ? "w-64 border-purple-200 bg-purple-50 text-purple-700"
+            ? "w-[265px] border-purple-200 bg-purple-50 text-purple-700"
             : "w-48 border-teal-200 bg-teal-50 text-teal-700",
         )}
       >
@@ -108,7 +108,7 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
           )}
         />
         {inIpophilStages
-          ? "Interal + External: IPOPHIL Phase"
+          ? "Internal + External: IPOPHIL Phase"
           : "Internal: TTBDO Phase"}
       </div>
       <div className="w-full overflow-x-auto">

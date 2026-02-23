@@ -354,7 +354,7 @@ function StatusUpdateForm(props: PropsInterface) {
   };
 
   return (
-    <div className="flex max-h-[85vh] w-full max-w-lg min-w-[85vw] flex-col sm:max-h-[90vh] sm:min-w-[400px]">
+    <div className="flex max-h-[85vh] w-full max-w-lg min-w-[85vw] flex-col sm:max-h-[90vh] sm:w-[80vh] sm:min-w-[400px]">
       <p className="-mt-4 shrink-0 text-center text-sm leading-normal text-slate-600">
         Update the application status and add a note to notify technology
         generators.
