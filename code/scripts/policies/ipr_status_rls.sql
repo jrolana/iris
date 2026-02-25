@@ -24,10 +24,5 @@ FOR SELECT
 TO authenticated
 USING (
   private.is_admin()
-  OR (auth.uid() IN ( 
-    SELECT inventor.techgen_id 
-    FROM private.inventors inventor
-    JOIN private.ipr_applications app ON inventor.application_id = app.id OR inventor.application_id = app.parent_application_id
-    WHERE app.id = ipr_statuses.application_id
-  ))
+  OR private.check_inventor_access(application_id)
 )

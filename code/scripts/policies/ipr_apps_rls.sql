@@ -14,13 +14,7 @@ ON private.ipr_applications FOR SELECT
 USING (
   private.is_admin() 
   OR created_by = auth.uid() 
-  OR (auth.uid() IN (
-      SELECT techgen_id FROM private.inventors 
-      WHERE (
-        application_id = ipr_applications.id OR
-        application_id = private.ipr_applications.parent_application_id
-      )
-  ))
+  OR private.check_inventor_access(id)
 );
 
 -- INSERT: Any logged-in user can create (must own the row)
@@ -37,13 +31,7 @@ ON private.ipr_applications FOR UPDATE
 USING (
   private.is_admin() 
   OR created_by = auth.uid() 
-  OR (auth.uid() IN (
-      SELECT techgen_id FROM private.inventors 
-      WHERE (
-        application_id = ipr_applications.id OR
-        application_id = private.ipr_applications.parent_application_id
-      )
-  ))
+  OR private.check_inventor_access(id)
 );
 
 -- DELETE: Only Admins or the Original Creator can delete
