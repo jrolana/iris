@@ -4,12 +4,16 @@ import React, { useState, useEffect } from "react";
 import { IpType, StatusType } from "@/lib/types/ip";
 import { toSupabaseDate } from "@/lib/helper/format-date";
 import { ApplicationType } from "@/lib/types/application";
+import { STATUS_LABELS } from "@/lib/helper/status-labels";
+import { getSuggestedDeadline } from "@/lib/helper/get-status-deadline";
+import { ipApplicationFlows } from "@/lib/structs/ip-flow";
+import { IprStatusType } from "@/lib/types/status";
 
 import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
 import { useAddStatus } from "@/hooks/status/useAddStatus";
-import { IprStatusType } from "@/lib/types/status";
 import { useUpdateStatus } from "@/hooks/status/useUpdateStatus";
 import { useQueryClient } from "@tanstack/react-query";
+import { useDowngradeToUM } from "@/hooks/applications/useDowngradeToUM";
 
 import Select from "react-select";
 import { Calendar } from "@/components/ui/calendar";
@@ -22,10 +26,7 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { CalendarIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
-
-import { STATUS_LABELS } from "@/lib/helper/status-labels";
-import { getSuggestedDeadline } from "@/lib/helper/get-status-deadline";
-import { ipApplicationFlows } from "@/lib/structs/ip-flow";
+import { useRouter } from "next/navigation";
 
 // Options for TTBDO modal only
 const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
@@ -59,11 +60,14 @@ function StatusUpdateForm(props: PropsInterface) {
   const { updateApp } = useUpdateApplication({ appId: applicationId });
   const { updateStatus } = useUpdateStatus({ applicationId });
   const { addStatus } = useAddStatus();
+  const { downgradeApp } = useDowngradeToUM();
+  const [isDowngrading, setIsDowngrading] = useState(false);
+  const router = useRouter();
 
   const queryClient = useQueryClient();
 
   const currentIpType = application.ip_type;
-  const currentStatusType = currentStatus.status_type;
+  const currentStatusType = currentStatus.status_type as StatusType;
   const currentStatusId = currentStatus.id;
   const currentDeadline = currentStatus.deadline
     ? new Date(currentStatus.deadline)
@@ -78,7 +82,7 @@ function StatusUpdateForm(props: PropsInterface) {
 
   const [currentStage, setCurrentStage] = useState(() => {
     const stage = ipApplicationFlows[currentIpType].find((step) =>
-      step.statusTypes.includes(currentStatusType as StatusType),
+      step.statusTypes.includes(currentStatusType),
     );
     return { id: stage?.id ?? "", label: stage?.label ?? "" };
   });
@@ -151,7 +155,7 @@ function StatusUpdateForm(props: PropsInterface) {
   const [selectedIpType, setSelectedIpType] =
     useState<ApplicationType["Update"]["ip_type"]>(currentIpType);
   const [selectedStatus, setSelectedStatus] =
-    useState<IprStatusType["Row"]["status_type"]>(currentStatusType);
+    useState<StatusType>(currentStatusType);
   const [note, setNote] = useState(currentNote ?? "");
   const [deadline, setDeadline] = useState<Date | null>(currentDeadline);
   const [date, setDate] = useState<Date>(() => {
@@ -277,6 +281,12 @@ function StatusUpdateForm(props: PropsInterface) {
         );
       }
 
+      // downgrade patent to UM. create new application
+      if (selectedStatus == "downgraded_to_um") {
+        handleDowngradeToUM();
+        return;
+      }
+
       const changedDate = toSupabaseDate(date);
 
       if (selectedStatus == "filed_with_ipophil") {
@@ -352,6 +362,47 @@ function StatusUpdateForm(props: PropsInterface) {
     setIsSubmitting(false);
     closeModal();
   };
+
+  async function handleDowngradeToUM() {
+    handleClose();
+    setIsDowngrading(true);
+    const downgradeStatus = "filed_with_ipophil" as StatusType;
+    try {
+      const applicationData: ApplicationType["Insert"] = {
+        project_title: application.project_title,
+        ip_type: "utility_model",
+        funding_source: application.funding_source,
+        created_by: application.created_by,
+        id: application.id,
+        ip_number: application.ip_number,
+        ip_title: application.ip_title,
+      };
+      const { app } = await downgradeApp({
+        applicationData,
+        downgradeStatus: downgradeStatus,
+      });
+
+      router.push(`/admin/view-application?applicationID=${app.id}`);
+    } catch (e) {
+      console.error(
+        e instanceof Error
+          ? e.message
+          : "There was an error in downgrading application.",
+      );
+      toast.error("There was an error in downgrading application.");
+    } finally {
+      setIsDowngrading(false);
+    }
+  }
+  if (isDowngrading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <p className="text-lg font-medium text-slate-700">
+          Downgrading to Utility Model...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex max-h-[85vh] w-full max-w-lg min-w-[85vw] flex-col sm:max-h-[90vh] sm:w-[80vh] sm:min-w-[400px]">

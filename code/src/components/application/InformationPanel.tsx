@@ -11,10 +11,11 @@ type ApplicationViewMode = "applicant" | "admin";
 interface DetailsPanelProps {
   mode: ApplicationViewMode;
   applicationId: string;
+  parentApplicationId: string | null;
 }
 
 function InformationPanel(props: DetailsPanelProps) {
-  const { mode, applicationId } = props;
+  const { mode, applicationId, parentApplicationId } = props;
   const [activeTab, setActiveTab] = useState<"attachments" | "inventors">(
     "attachments",
   );
@@ -23,6 +24,7 @@ function InformationPanel(props: DetailsPanelProps) {
 
   const { inventors, isLoading: isFetchingInventors } = useGetInventorsByAppId({
     id: applicationId,
+    parentId: parentApplicationId,
   });
 
   const { files: groupedFiles, isLoading: isFetchingFiles } =

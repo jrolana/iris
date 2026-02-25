@@ -225,7 +225,11 @@ function ApplicationView(props: ApplicationViewProps) {
       <main className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* left panel for the attachments and inventors */}
         <section className="min-w-0 space-y-4 lg:col-span-7">
-          <InformationPanel applicationId={application.id} mode={mode} />
+          <InformationPanel
+            applicationId={application.id}
+            parentApplicationId={application.parent_application_id}
+            mode={mode}
+          />
         </section>
 
         {/* right panels, status history and the reminders (could be change later on for something more useful)*/}
