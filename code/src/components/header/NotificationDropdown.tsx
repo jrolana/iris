@@ -1,16 +1,21 @@
 "use client";
 import Link from "next/link";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { useGetNotifications } from "@/hooks/notifications/useGetNotifications";
 import { useMarkAsRead } from "@/hooks/notifications/useMarkAsRead";
 import { useQueryClient } from "@tanstack/react-query";
+import { formatDateTime, formatTime } from "@/lib/helper/format-date";
+import { isToday } from "date-fns";
 
 export default function NotificationDropdown() {
   const queryClient = useQueryClient();
   const { notifications, isLoading } = useGetNotifications();
   const { markNotificationAsRead } = useMarkAsRead();
+  const hasUnreadNotification = notifications?.some(
+    (notif) => notif.read_at === null,
+  );
 
   async function markAsRead(notifId: string, readAt: null | string) {
     if (readAt) {
@@ -37,7 +42,7 @@ export default function NotificationDropdown() {
   }
 
   return (
-    <NotificationContainer>
+    <NotificationContainer hasUnreadNotification={hasUnreadNotification}>
       <ul className="custom-scrollbar flex h-auto flex-col gap-1 overflow-y-auto">
         {notifications.map((notif) => (
           <li key={notif.id}>
@@ -60,10 +65,9 @@ export default function NotificationDropdown() {
                   <span className="h-1 w-1 rounded-full bg-gray-400"></span>
                   <span>
                     {notif.created_at &&
-                      new Date(notif.created_at).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      (isToday(new Date(notif.created_at))
+                        ? formatTime(notif.created_at)
+                        : formatDateTime(notif.created_at))}
                   </span>
                 </span>
               </span>
@@ -84,12 +88,12 @@ export default function NotificationDropdown() {
 
 interface PropsInterface {
   children: ReactNode;
+  hasUnreadNotification?: boolean;
 }
 
 function NotificationContainer(props: PropsInterface) {
-  const { children } = props;
+  const { children, hasUnreadNotification = false } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [notifying, setNotifying] = useState(true);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -101,7 +105,6 @@ function NotificationContainer(props: PropsInterface) {
 
   const handleClick = () => {
     toggleDropdown();
-    setNotifying(false);
   };
 
   return (
@@ -112,7 +115,7 @@ function NotificationContainer(props: PropsInterface) {
       >
         <span
           className={`absolute top-0.5 right-0 z-10 h-2 w-2 rounded-full bg-orange-400 ${
-            !notifying ? "hidden" : "flex"
+            !hasUnreadNotification ? "hidden" : "flex"
           }`}
         >
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"></span>
