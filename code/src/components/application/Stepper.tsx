@@ -157,15 +157,15 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
           className={clsx(
             "xsm:flex-row xsm:items-start xsm:justify-between flex flex-col items-start rounded-lg border p-3 shadow-sm transition-all",
             charterInfo.isOverdue
-              ? "border-rose-200 bg-rose-50 text-rose-800"
-              : "border-emerald-200 bg-emerald-50 text-emerald-700",
+              ? "border-rose-200 bg-white text-rose-800"
+              : "border-sky-200 bg-white text-sky-700",
           )}
         >
           <div className="flex items-center gap-3">
             <div
               className={clsx(
                 "hidden h-3 w-3 animate-pulse rounded-full sm:inline-block",
-                charterInfo.isOverdue ? "bg-rose-500" : "bg-emerald-500",
+                charterInfo.isOverdue ? "bg-rose-500" : "bg-sky-500",
               )}
             />
             <div>
@@ -197,7 +197,7 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
           className={clsx(
             "xsm:flex-row xsm:items-start xsm:justify-between -mt-4 flex flex-col justify-between rounded-lg border p-3 shadow-sm transition-all",
             deadlineInfo.isOverdue
-              ? "border-orange-300 bg-orange-50 text-orange-800"
+              ? "border-rose-300 bg-rose-50 text-rose-800"
               : "border-sky-200 bg-sky-50 text-sky-700",
           )}
         >
@@ -205,7 +205,7 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
             <div
               className={clsx(
                 "hidden h-3 w-3 animate-pulse rounded-full sm:inline-block",
-                deadlineInfo.isOverdue ? "bg-orange-500" : "bg-sky-500",
+                deadlineInfo.isOverdue ? "bg-rose-500" : "bg-sky-500",
               )}
             />
             <div>
