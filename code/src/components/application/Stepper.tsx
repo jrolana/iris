@@ -155,17 +155,17 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
       {charterInfo && (
         <div
           className={clsx(
-            "flex items-center justify-between rounded-lg border p-3 shadow-sm transition-all",
+            "xsm:flex-row xsm:items-start xsm:justify-between flex flex-col items-start rounded-lg border p-3 shadow-sm transition-all",
             charterInfo.isOverdue
-              ? "border-red-200 bg-red-50 text-red-700"
-              : "border-sky-200 bg-sky-50 text-sky-700",
+              ? "border-rose-200 bg-rose-50 text-rose-800"
+              : "border-emerald-200 bg-emerald-50 text-emerald-700",
           )}
         >
           <div className="flex items-center gap-3">
             <div
               className={clsx(
-                "h-3 w-3 animate-pulse rounded-full",
-                charterInfo.isOverdue ? "bg-red-500" : "bg-sky-500",
+                "hidden h-3 w-3 animate-pulse rounded-full sm:inline-block",
+                charterInfo.isOverdue ? "bg-rose-500" : "bg-emerald-500",
               )}
             />
             <div>
@@ -175,12 +175,12 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
               </p>
               <p className="text-sm font-semibold">
                 {charterInfo.isOverdue
-                  ? `Overdue by ${charterInfo.timeString}`
+                  ? `Charter Deadline Missed (${charterInfo.timeString} overdue)`
                   : `Within Processing Time (${charterInfo.timeString} remaining)`}
               </p>
             </div>
           </div>
-          <div className="text-right">
+          <div className="xsm:text-right xsm:mt-0 mt-2 flex flex-col text-left">
             <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">
               Target Completion
             </p>
@@ -195,32 +195,32 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
       {deadlineInfo && (
         <div
           className={clsx(
-            "-mt-4 flex items-center justify-between rounded-lg border p-3 shadow-sm transition-all",
+            "xsm:flex-row xsm:items-start xsm:justify-between -mt-4 flex flex-col justify-between rounded-lg border p-3 shadow-sm transition-all",
             deadlineInfo.isOverdue
-              ? "border-red-200 bg-red-50 text-red-700"
+              ? "border-orange-300 bg-orange-50 text-orange-800"
               : "border-sky-200 bg-sky-50 text-sky-700",
           )}
         >
           <div className="flex items-center gap-3">
             <div
               className={clsx(
-                "h-3 w-3 animate-pulse rounded-full",
-                deadlineInfo.isOverdue ? "bg-red-500" : "bg-sky-500",
+                "hidden h-3 w-3 animate-pulse rounded-full sm:inline-block",
+                deadlineInfo.isOverdue ? "bg-orange-500" : "bg-sky-500",
               )}
             />
             <div>
               <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">
-                Current Status:{" "}
+                Current Application Status:{" "}
                 {STATUS_LABELS[currentStatus.status_type as StatusType]}
               </p>
               <p className="text-sm font-semibold">
                 {deadlineInfo.isOverdue
-                  ? `Overdue by ${deadlineInfo.timeString}`
+                  ? `Step Delayed (${deadlineInfo.timeString} overdue)`
                   : `Within Processing Time (${deadlineInfo.timeString} remaining)`}
               </p>
             </div>
           </div>
-          <div className="text-right">
+          <div className="xsm:text-right xsm:mt-0 mt-2 flex flex-col text-left">
             <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">
               Target Completion
             </p>

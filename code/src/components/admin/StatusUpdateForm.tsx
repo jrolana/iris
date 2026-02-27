@@ -367,6 +367,7 @@ function StatusUpdateForm(props: PropsInterface) {
     handleClose();
     setIsDowngrading(true);
     const downgradeStatus = "filed_with_ipophil" as StatusType;
+    const downgradeNote = `This application has been downgraded to a Utility Model. The previous Patent application "${application.project_title}" will be archived.`;
     try {
       const applicationData: ApplicationType["Insert"] = {
         project_title: application.project_title,
@@ -380,6 +381,7 @@ function StatusUpdateForm(props: PropsInterface) {
       const { app } = await downgradeApp({
         applicationData,
         downgradeStatus: downgradeStatus,
+        downgradeNote: downgradeNote,
       });
 
       router.push(`/admin/view-application?applicationID=${app.id}`);

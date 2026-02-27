@@ -6,10 +6,11 @@ import { StatusType } from "@/lib/types/ip";
 interface DowngradeToUMProps {
     applicationData: ApplicationType["Insert"];
     downgradeStatus: StatusType;
+    downgradeNote: string;
 }   
 
 export const downgradeToUM = async (props: DowngradeToUMProps) => {
-    const { applicationData, downgradeStatus } = props;
+    const { applicationData, downgradeStatus, downgradeNote } = props;
     const {data: app, error} = await supabase.schema("private").from("ipr_applications").insert(
         {
             project_title: applicationData.project_title,
@@ -33,6 +34,7 @@ export const downgradeToUM = async (props: DowngradeToUMProps) => {
         {
             application_id: app.id,
             status_type: downgradeStatus,
+            note: downgradeNote
         }
     ).select().single();
 
