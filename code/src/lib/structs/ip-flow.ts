@@ -14,7 +14,7 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
     { 
       id: 'idf', 
       label: 'Submit Patent IDF', 
-      statusTypes: [ 'submitted_to_ttbdo', 'under_ttbdo_review'], 
+      statusTypes: ['draft_classification','draft_idf', 'submitted_to_ttbdo', 'under_ttbdo_review'], 
       charterStage: 'STAGE_1'
     },
     { id: 'prior-art', label: 'Prior Art Search', statusTypes: ['prior_art_search'], charterStage: 'STAGE_1' },
@@ -39,7 +39,7 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
     { id: 'grant', label: 'Grant / Registration', statusTypes: ['registered', 'published'] },
   ],
   utility_model: [
-    { id: 'idf', label: 'Submit Utility Model IDF', statusTypes: ['submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
+    { id: 'idf', label: 'Submit Utility Model IDF', statusTypes: ['draft_classification','draft_idf','submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
     { id: 'prior-art', label: 'Prior Art Search', statusTypes: ['prior_art_search'], charterStage: 'STAGE_1' },
     { id: 'draft', label: 'Draft Application', statusTypes: ['draft_application'], charterStage: 'STAGE_2' },
     { id: 'file', label: 'Filed with IPOPHL', statusTypes: ['filed_with_ipophil'], charterStage: 'STAGE_3' },
@@ -59,7 +59,7 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
     { id: 'grant', label: 'Grant / Registration', statusTypes: ['registered', 'published'] },
   ],
   industrial_design: [
-    { id: 'idf', label: 'Submit Industrial Design IDF', statusTypes: ['submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
+    { id: 'idf', label: 'Submit Industrial Design IDF', statusTypes: ['draft_classification','draft_idf','submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
     { id: 'prior-art', label: 'Prior Art Search', statusTypes: ['prior_art_search'], charterStage: 'STAGE_1' },
     { id: 'draft', label: 'Draft Application', statusTypes: ['draft_application'], charterStage: 'STAGE_2' },
     { id: 'file', label: 'Filed with IPOPHL', statusTypes: ['filed_with_ipophil'], charterStage: 'STAGE_3' },
@@ -79,7 +79,7 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
     { id: 'grant', label: 'Grant / Registration', statusTypes: ['registered', 'published'] },
   ],
   trademark: [
-    { id: 'idf', label: 'Submit Trademark IDF', statusTypes: ['submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
+    { id: 'idf', label: 'Submit Trademark IDF', statusTypes: ['draft_classification','draft_idf','submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
     { id: 'prior-art', label: 'Prior Art Search', statusTypes: ['prior_art_search'], charterStage: 'STAGE_2' },
     { id: 'nice_classification', label: 'Nice Classification & Search', statusTypes: ['prepare_nice_classification', 'approve_nice_classification']},
     { id: 'file', label: 'Filed with IPOPHL', statusTypes: ['filed_with_ipophil'], charterStage: 'STAGE_3' },
@@ -99,7 +99,7 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
     { id: 'grant', label: 'Grant / Registration', statusTypes: ['registered', 'published'] },
   ],
   copyright: [
-    { id: 'idf', label: 'Submit Copyright IDF', statusTypes: ['submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
+    { id: 'idf', label: 'Submit Copyright IDF', statusTypes: ['draft_classification','draft_idf','submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
     { id: 'sign', label: 'Signing of Documents', statusTypes: ['techgen_sign', 'chancellor_sign']},
     { id: 'notary', label: 'Notarization', statusTypes: ['notarization']},
     { id: 'file', label: 'File with IPOPHL', statusTypes: ['filed_with_ipophil'], charterStage: 'STAGE_3'},

@@ -12,19 +12,18 @@ import Badge from "../ui/badge/Badge";
 import Link from "next/link";
 import Button from "../ui/button/Button";
 import SearchInput from "./SearchInput";
-import { PencilIcon, TrashBinIcon } from "@/icons/index";
+import { PencilIcon, TrashBinIcon, PlusIcon, EyeIcon } from "@/icons/index";
 import FilterButton from "./FilterButton";
 import { dummyApplications } from "@/lib/dummy-data/application";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
-import { PlusIcon, EyeIcon } from "@/icons/index";
-import { statusTypeToTitle } from "@/lib/helper/get-status-title";
+import { STATUS_LABELS } from "@/lib/helper/status-labels";
 
-interface propsInterface {
+interface PropsInterface {
   isAdmin?: boolean;
   isTechgen?: boolean;
 }
 
-export default function ApplicationsTable(props: propsInterface) {
+export default function ApplicationsTable(props: PropsInterface) {
   const { isAdmin = false, isTechgen = false } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
@@ -68,7 +67,7 @@ export default function ApplicationsTable(props: propsInterface) {
             </Button>
           </div>
           <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <SearchInput />
+            <SearchInput onChange={() => {}} />
             <FilterButton />
           </div>
         </>
@@ -78,7 +77,12 @@ export default function ApplicationsTable(props: propsInterface) {
             Applications Registry
           </h1>
           <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <SearchInput />
+            {/* TODO: implement search here */}
+            <SearchInput
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                console.log(e.target.value);
+              }}
+            />
             <FilterButton />
           </div>
         </div>
@@ -143,7 +147,7 @@ export default function ApplicationsTable(props: propsInterface) {
                           : "warning"
                     }
                   >
-                    {statusTypeToTitle(record.currentStatus)}
+                    {STATUS_LABELS[record.currentStatus] || "Unknown Status"}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-theme-sm py-3 text-gray-800">
