@@ -164,7 +164,7 @@ export default function ViewAllNotifications() {
                     {/* Unread indicator */}
                     <span className="mt-1.5 flex h-5 w-5 items-center justify-center">
                       {notif.read_at === null ? (
-                        <span className="h-2 w-2 rounded-full bg-orange-500/75" />
+                      <span className="h-2 w-2 rounded-full bg-orange-500/75" />
                       ) : (
                         <span className="h-2 w-2 rounded-full border border-gray-300 bg-transparent" />
                       )}
