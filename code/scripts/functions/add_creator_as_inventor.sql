@@ -21,12 +21,12 @@ begin
   select full_name, email, college_code, other_college_name, external_institution
   into user_info
   from private.users
-  where uid = current_user_id;
+  where id = current_user_id;
 
   -- Insert the new inventor record
   insert into private.inventors (
     application_id,
-    user_id,
+    techgen_id,
     full_name,
     email,
     college_code,

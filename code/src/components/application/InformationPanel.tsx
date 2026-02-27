@@ -11,10 +11,11 @@ type ApplicationViewMode = "applicant" | "admin";
 interface DetailsPanelProps {
   mode: ApplicationViewMode;
   applicationId: string;
+  parentApplicationId: string | null;
 }
 
 function InformationPanel(props: DetailsPanelProps) {
-  const { mode, applicationId } = props;
+  const { mode, applicationId, parentApplicationId } = props;
   const [activeTab, setActiveTab] = useState<"attachments" | "inventors">(
     "attachments",
   );
@@ -23,6 +24,7 @@ function InformationPanel(props: DetailsPanelProps) {
 
   const { inventors, isLoading: isFetchingInventors } = useGetInventorsByAppId({
     id: applicationId,
+    parentId: parentApplicationId,
   });
 
   const { files: groupedFiles, isLoading: isFetchingFiles } =
@@ -33,7 +35,7 @@ function InformationPanel(props: DetailsPanelProps) {
   const isAdmin = mode === "admin";
   const tabIndex = +(activeTab === "inventors");
   const itemCount = [groupedFiles ?? [], inventors ?? []][tabIndex].length;
-  const countLabel = `${itemCount} ${["attachment", "inventor"][tabIndex]}${" s"[+(itemCount > 0)]}`;
+  const countLabel = `${itemCount} ${["attachment", "tech gen"][tabIndex]}${" s"[+(itemCount > 0)]}`;
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5">
@@ -42,23 +44,23 @@ function InformationPanel(props: DetailsPanelProps) {
           <button
             type="button"
             onClick={() => setActiveTab("attachments")}
-            className={`rounded-full px-3 py-1 ${activeTab === "attachments" ? "bg-white text-gray-900" : "text-gray-600"}`}
+            className={`md:text-md rounded-full px-3 py-1 text-sm ${activeTab === "attachments" ? "bg-white text-gray-900" : "text-gray-600"}`}
           >
             Attachments
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("inventors")}
-            className={`rounded-full px-3 py-1 ${
+            className={`sm:text-md rounded-full px-3 py-1 text-sm ${
               activeTab === "inventors"
                 ? "bg-white text-gray-900"
                 : "text-gray-600"
             }`}
           >
-            Inventors
+            Tech Gens
           </button>
         </div>
-        <span className="text-sm text-gray-500">{countLabel}</span>
+        <span className="text-center text-sm text-gray-500">{countLabel}</span>
       </div>
 
       {activeTab === "attachments" ? (

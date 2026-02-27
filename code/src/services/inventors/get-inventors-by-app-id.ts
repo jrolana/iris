@@ -2,11 +2,13 @@ import { supabaseClient as supabase } from "@/lib/supabase"
 
 interface GetInventorsByAppIdProps {
     id: string;
+    parentId: string | null;
 }
 
 export const getInventorsByAppId = async (props: GetInventorsByAppIdProps) => {
-    const { id } = props;
-    const {data, error} = await supabase.schema("private").from("inventors").select().eq("application_id", id);
+    const { id, parentId } = props;
+    const searchIds = parentId ? [id, parentId] : [id];
+    const {data, error} = await supabase.schema("private").from("inventors").select().in("application_id", searchIds);
 
     if (error) {
         throw new Error(error.message);

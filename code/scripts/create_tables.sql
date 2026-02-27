@@ -78,7 +78,9 @@ CREATE TABLE private.ipr_applications (
     created_by uuid NULL DEFAULT auth.uid(),
     ip_number TEXT NULL,
     curr_status uuid NULL,
+    parent_application_id UUID NULL,
 
+    CONSTRAINT fk_app_parent_application FOREIGN KEY(parent_application_id) REFERENCES private.ipr_applications(id) ON DELETE SET NULL,
     CONSTRAINT fk_app_created_by FOREIGN KEY(created_by) REFERENCES private.users(id) ON DELETE SET NULL,
     CONSTRAINT fk_app_curr_status FOREIGN KEY(curr_status) REFERENCES private.ipr_statuses(id) ON UPDATE CASCADE ON DELETE SET NULL,
     

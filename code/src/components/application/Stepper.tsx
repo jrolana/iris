@@ -6,19 +6,23 @@ import { IpType, StatusType } from "@/lib/types/ip";
 import { CHARTER_DEADLINES } from "@/lib/structs/charter";
 import clsx from "clsx";
 import Hint from "../common/Tooltip";
+import { IprStatusType } from "@/lib/types/status";
+import { STATUS_LABELS } from "@/lib/helper/status-labels";
 
 interface ApplicationStepperProps {
   ipType: IpType;
-  statusType: StatusType;
   currentStageDeadline?: string | Date; // From ipr_applications table
+  currentStatus: IprStatusType["Row"];
 }
 
-export default function ApplicationStepper({
-  ipType,
-  statusType,
-  currentStageDeadline,
-}: ApplicationStepperProps) {
+export default function ApplicationStepper(props: ApplicationStepperProps) {
+  const { ipType, currentStageDeadline, currentStatus } = props;
+  const statusType = currentStatus.status_type as StatusType;
   const steps = ipApplicationFlows[ipType];
+
+  const ipophilIndex = steps.findIndex((step) =>
+    step.statusTypes.includes("filed_with_ipophil"),
+  );
 
   // Calculate current progress
   const currentIndex = useMemo(
@@ -30,11 +34,13 @@ export default function ApplicationStepper({
     [steps, statusType],
   );
 
+  const inIpophilStages = currentIndex >= ipophilIndex;
+
   const currentStep = steps[currentIndex];
 
   // Deadline calculation logic
   const deadlineInfo = useMemo(() => {
-    if (!currentStageDeadline || !currentStep.charterStage) return null;
+    if (!currentStageDeadline) return null;
 
     const now = new Date();
     const deadline = new Date(currentStageDeadline);
@@ -54,11 +60,59 @@ export default function ApplicationStepper({
         year: "numeric",
       }),
     };
-  }, [currentStageDeadline, currentStep]);
+  }, [currentStageDeadline]);
+
+  // Deadline calculation logic
+  const charterInfo = useMemo(() => {
+    if (!currentStep.charterStage) return null;
+
+    const now = new Date();
+    const deadline = new Date(currentStatus.created_at!);
+    deadline.setDate(
+      deadline.getDate() +
+        CHARTER_DEADLINES[currentStep.charterStage].durationMs /
+          (1000 * 60 * 60 * 24),
+    );
+    const diff = deadline.getTime() - now.getTime();
+    const isOverdue = diff < 0;
+
+    const absDiff = Math.abs(diff);
+    const days = Math.floor(absDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((absDiff / (1000 * 60 * 60)) % 24);
+
+    return {
+      isOverdue,
+      timeString: `${days}d ${hours}h`,
+      formattedDate: deadline.toLocaleDateString("en-PH", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
+    };
+  }, [currentStatus.created_at, currentStep.charterStage]);
 
   return (
     <div className="w-full space-y-6 p-2">
+      <div
+        className={clsx(
+          "mb-4 flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-bold tracking-widest uppercase shadow-sm transition-colors",
+          inIpophilStages
+            ? "w-[265px] border-purple-200 bg-purple-50 text-purple-700"
+            : "w-48 border-teal-200 bg-teal-50 text-teal-700",
+        )}
+      >
+        <div
+          className={clsx(
+            "h-1.5 w-1.5 rounded-full",
+            inIpophilStages ? "bg-purple-500" : "bg-teal-500",
+          )}
+        />
+        {inIpophilStages
+          ? "Internal + External: IPOPHIL Phase"
+          : "Internal: TTBDO Phase"}
+      </div>
       <div className="w-full overflow-x-auto">
+        <div className="flex w-full justify-end px-2 sm:px-0"></div>
         <ol className="flex min-w-[600px] items-stretch gap-3 px-1 sm:min-w-0 sm:gap-4 sm:px-0">
           {steps.map((step, index) => {
             const isCompleted = index < currentIndex;
@@ -91,15 +145,6 @@ export default function ApplicationStepper({
                     </span>
                   </Hint>
                 </div>
-
-                {index !== steps.length - 1 && (
-                  <div
-                    className={clsx(
-                      "mx-2 mt-4.5 hidden h-0.5 flex-1 rounded-full sm:block",
-                      index < currentIndex ? "bg-emerald-500" : "bg-slate-200",
-                    )}
-                  />
-                )}
               </li>
             );
           })}
@@ -107,20 +152,20 @@ export default function ApplicationStepper({
       </div>
 
       {/* Citizen's Charter Status Indicator */}
-      {deadlineInfo && (
+      {charterInfo && (
         <div
           className={clsx(
-            "flex items-center justify-between rounded-lg border p-3 shadow-sm transition-all",
-            deadlineInfo.isOverdue
-              ? "border-red-200 bg-red-50 text-red-700"
-              : "border-sky-200 bg-sky-50 text-sky-700",
+            "xsm:flex-row xsm:items-start xsm:justify-between flex flex-col items-start rounded-lg border p-3 shadow-sm transition-all",
+            charterInfo.isOverdue
+              ? "border-rose-200 bg-white text-rose-800"
+              : "border-sky-200 bg-white text-sky-700",
           )}
         >
           <div className="flex items-center gap-3">
             <div
               className={clsx(
-                "h-3 w-3 animate-pulse rounded-full",
-                deadlineInfo.isOverdue ? "bg-red-500" : "bg-sky-500",
+                "hidden h-3 w-3 animate-pulse rounded-full sm:inline-block",
+                charterInfo.isOverdue ? "bg-rose-500" : "bg-sky-500",
               )}
             />
             <div>
@@ -129,13 +174,53 @@ export default function ApplicationStepper({
                 {CHARTER_DEADLINES[currentStep.charterStage!].label}
               </p>
               <p className="text-sm font-semibold">
+                {charterInfo.isOverdue
+                  ? `Charter Deadline Missed (${charterInfo.timeString} overdue)`
+                  : `Within Processing Time (${charterInfo.timeString} remaining)`}
+              </p>
+            </div>
+          </div>
+          <div className="xsm:text-right xsm:mt-0 mt-2 flex flex-col text-left">
+            <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">
+              Target Completion
+            </p>
+            <p className="font-mono text-sm font-bold">
+              {charterInfo.formattedDate}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Deadline Status Indicator */}
+      {deadlineInfo && (
+        <div
+          className={clsx(
+            "xsm:flex-row xsm:items-start xsm:justify-between -mt-4 flex flex-col justify-between rounded-lg border p-3 shadow-sm transition-all",
+            deadlineInfo.isOverdue
+              ? "border-rose-300 bg-rose-50 text-rose-800"
+              : "border-sky-200 bg-sky-50 text-sky-700",
+          )}
+        >
+          <div className="flex items-center gap-3">
+            <div
+              className={clsx(
+                "hidden h-3 w-3 animate-pulse rounded-full sm:inline-block",
+                deadlineInfo.isOverdue ? "bg-rose-500" : "bg-sky-500",
+              )}
+            />
+            <div>
+              <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">
+                Current Application Status:{" "}
+                {STATUS_LABELS[currentStatus.status_type as StatusType]}
+              </p>
+              <p className="text-sm font-semibold">
                 {deadlineInfo.isOverdue
-                  ? `Overdue by ${deadlineInfo.timeString}`
+                  ? `Step Delayed (${deadlineInfo.timeString} overdue)`
                   : `Within Processing Time (${deadlineInfo.timeString} remaining)`}
               </p>
             </div>
           </div>
-          <div className="text-right">
+          <div className="xsm:text-right xsm:mt-0 mt-2 flex flex-col text-left">
             <p className="text-[10px] font-bold tracking-widest uppercase opacity-70">
               Target Completion
             </p>

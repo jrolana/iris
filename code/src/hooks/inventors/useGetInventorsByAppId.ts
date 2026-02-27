@@ -3,14 +3,15 @@ import { getInventorsByAppId } from '@/services/inventors/get-inventors-by-app-i
 
 interface UseGetInventorsByAppIdProps {
     id: string;
+    parentId: string | null;
 }
 
 export function useGetInventorsByAppId(props: UseGetInventorsByAppIdProps) {
-    const { id } = props;
+    const { id, parentId } = props;
 
     const {data, isLoading, isFetching} =  useQuery({
-        queryKey: ['inventors', id],
-        queryFn: () => getInventorsByAppId({id}),
+        queryKey: ['inventors', id, parentId],
+        queryFn: () => getInventorsByAppId({id, parentId}),
     });
 
     return {inventors: data, isLoading: isLoading || isFetching}; 
