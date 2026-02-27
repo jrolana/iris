@@ -8,6 +8,8 @@ import { useMarkAsRead } from "@/hooks/notifications/useMarkAsRead";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatDateTime, formatTime } from "@/lib/helper/format-date";
 import { isToday } from "date-fns";
+import { supabaseClient as supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 
 export default function NotificationDropdown() {
   const queryClient = useQueryClient();
@@ -16,6 +18,13 @@ export default function NotificationDropdown() {
   const hasUnreadNotification = notifications?.some(
     (notif) => notif.read_at === null,
   );
+  const router = useRouter();
+
+  async function handleViewAll() {
+    const role = await supabase.rpc("get_user_role" as never);
+    console.log(role);
+    router.push(`/${role.data}/notifications`);
+  }
 
   async function markAsRead(notifId: string, readAt: null | string) {
     if (readAt) {
@@ -76,12 +85,12 @@ export default function NotificationDropdown() {
         ))}
       </ul>
 
-      <Link
-        href="/"
+      <button
+        onClick={handleViewAll}
         className="mt-3 block rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
       >
         View All Notifications
-      </Link>
+      </button>
     </NotificationContainer>
   );
 }

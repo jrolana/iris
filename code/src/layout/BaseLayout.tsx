@@ -48,7 +48,7 @@ export default function BaseLayout({
       <div
         className={`flex-1 transition-all duration-300 ease-in-out ${navItems ? mainContentMargin : ""}`}
       >
-        <AppHeader isPublic={isPublic} isFullWidth={isFullWidth} />
+        <AppHeader isPublic={isPublic} isFullWidth={isFullWidth}/>
 
         {/* Page Content */}
         <div className="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
