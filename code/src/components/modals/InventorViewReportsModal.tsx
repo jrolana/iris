@@ -25,6 +25,7 @@ export default function InventorReportsModal() {
       loading: `Removing ${subject.full_name} from the application...`,
       success: `${subject.full_name} has been removed from the application.`,
       error: `Failed to remove ${subject.full_name} from the application. Please try again.`,
+      finally: () => closeModal(),
     });
   }
 

@@ -295,5 +295,5 @@ CREATE TABLE private.reports (
 
   CONSTRAINT fk_report_app FOREIGN KEY (application_id) REFERENCES private.ipr_applications(id),
   CONSTRAINT fk_reporter FOREIGN KEY (reporter_id) REFERENCES private.inventors(id),
-  CONSTRAINT fk_subject FOREIGN KEY (subject_id) REFERENCES private.inventors(id)
+  CONSTRAINT fk_subject FOREIGN KEY (subject_id) REFERENCES private.inventors(id) ON DELETE CASCADE
 );
