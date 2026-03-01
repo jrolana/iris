@@ -41,6 +41,7 @@ export default function InventorFileReportModal() {
     toast.promise(fileReport({ reportData }), {
       loading: `Filing report against ${subject.full_name}...`,
       success: `Report against ${subject.full_name} has been filed.`,
+      finally: () => closeModal(),
       error: (e) => handleError(e, subject.full_name),
     });
   }
@@ -52,7 +53,7 @@ export default function InventorFileReportModal() {
       isOpen={isOpen}
       onChange={closeModal}
     >
-      <div className="w-2xl justify-center px-10">
+      <div className="w-full max-w-lg min-w-[85vw] justify-center px-0 sm:max-h-[90vh] sm:w-[80vh] sm:min-w-[400px] sm:px-10">
         <textarea
           disabled={isLoading}
           value={report}
@@ -63,8 +64,7 @@ export default function InventorFileReportModal() {
         />
         <Button
           disabled={!report.trim() || isLoading}
-          className="h-10 w-full"
-          variant={"danger"}
+          className="h-10 w-full border bg-rose-500 font-medium text-white transition-colors hover:border-rose-500 hover:bg-white hover:text-rose-600 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-200 disabled:text-slate-400"
           onClick={handleFileReport}
         >
           Report
