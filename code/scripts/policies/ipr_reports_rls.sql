@@ -11,7 +11,9 @@ CREATE POLICY "Inventors can insert their own reports"
 ON private.reports FOR INSERT TO authenticated
 WITH CHECK (
   -- make sure that the person logged in matches the techgen_id of the reporter
-  auth.uid() = (SELECT techgen_id FROM private.inventors WHERE id = reporter_id)
+  (auth.uid() = ( SELECT inventors.techgen_id
+   FROM private.inventors
+  WHERE (inventors.id = reports.reporter_id)))
   -- make sure that they actually have access to the application
   AND private.check_inventor_access(application_id)
 );

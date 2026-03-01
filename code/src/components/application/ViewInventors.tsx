@@ -1,7 +1,5 @@
-import { useEffect } from "react";
-import { useDeleteInventor } from "@/hooks/inventors/useDeleteInventorById";
 import useLinkInventorModal from "@/hooks/useLinkInventorModal";
-import useInventorCommentModal from "@/hooks/useInventorCommentModal";
+import useInventorFileReportModal from "@/hooks/useInventorFileReportModal";
 
 import { InventorType } from "@/lib/types/application";
 import { User } from "@supabase/supabase-js";
@@ -10,6 +8,7 @@ import Hint from "../common/Tooltip";
 import { Cable, BadgeCheck, MessageSquareWarning } from "lucide-react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import useInventorViewReportsModal from "@/hooks/useInventorViewReportsModal";
 
 interface ViewInventorsProps {
   inventors: InventorType["Row"][];
@@ -21,40 +20,29 @@ interface ViewInventorsProps {
 function ViewInventors(props: ViewInventorsProps) {
   const { inventors, isAdmin, isLoading, user } = props;
 
-  const { deleteInventor, isLoading: isDeleting } = useDeleteInventor();
-
-  // const reportsBySubject = reports.reduce(
-  //   (acc, report) => {
-  //     if (report.subject_id) {
-  //       acc[report.subject_id] = report;
-  //     }
-  //     return acc;
-  //   },
-  //   {} as Record<string, ReportType["Row"]>,
-  // );
+  const inventorUser = inventors.find((inv) => inv.techgen_id === user?.id);
 
   const {
     openModal: openLinkModal,
     setExcludedUIDs,
     setInventorUID,
   } = useLinkInventorModal();
-  const {
-    openModal: openCommentModal,
-    setInventorComment,
-    setIsAdmin,
-    setInventorId,
-  } = useInventorCommentModal();
 
-  useEffect(() => {
-    setIsAdmin(isAdmin);
-  }, [isAdmin, setIsAdmin]);
+  const {
+    openModal: openFileReportModal,
+    setSubject,
+    setReporter,
+  } = useInventorFileReportModal();
+
+  const { openModal: openViewReportsModal, setSubject: setViewReportsSubject } =
+    useInventorViewReportsModal();
 
   // TODO: show proper loading state
   if (isLoading) {
     return (
       <div className="mt-3 flex h-64 items-center justify-center overflow-x-auto overflow-y-auto">
         <p className="text-md mt-4 items-center justify-center text-center text-slate-500">
-          Loading inventors...
+          Loading tech gens...
         </p>
       </div>
     );
@@ -63,7 +51,7 @@ function ViewInventors(props: ViewInventorsProps) {
   if (inventors.length == 0) {
     return (
       <p className="mt-4 text-sm text-slate-500">
-        No inventors recorded yet.
+        No tech gens recorded yet.
         {isAdmin
           ? " Add the technology generators involved in this application."
           : " Please coordinate with TTBDO for updates to the inventor list."}
@@ -71,10 +59,21 @@ function ViewInventors(props: ViewInventorsProps) {
     );
   }
 
-  function handleCommentClicked(inventorId: string, comment: string | null) {
-    setInventorComment(comment);
-    setInventorId(inventorId);
-    openCommentModal();
+  function handleFileReportClicked(subject: InventorType["Row"]) {
+    if (!inventorUser) {
+      toast.error(
+        "You need to be a tech gen on this application to file a report.",
+      );
+      return;
+    }
+    setSubject(subject);
+    setReporter(inventorUser);
+    openFileReportModal();
+  }
+
+  function handleViewReportsClicked(subject: InventorType["Row"]) {
+    setViewReportsSubject(subject);
+    openViewReportsModal();
   }
 
   function handleLinkInventor(inventorId: string) {
@@ -83,14 +82,6 @@ function ViewInventors(props: ViewInventorsProps) {
     setInventorUID(inventorId);
     setExcludedUIDs(existingUserIds);
     openLinkModal();
-  }
-
-  function onRemoveInventor(inventor: InventorType["Row"]) {
-    toast.promise(deleteInventor({ id: inventor.id }), {
-      loading: `Removing ${inventor.full_name} from the application...`,
-      success: `${inventor.full_name} has been removed from the application.`,
-      error: `Failed to remove ${inventor.full_name} from the application. Please try again.`,
-    });
   }
 
   return (
@@ -139,22 +130,12 @@ function ViewInventors(props: ViewInventorsProps) {
                 )}
                 <Button
                   type="button"
-                  onClick={() =>
-                    handleCommentClicked(inventor.id, inventor.comments)
-                  }
-                  disabled={isDeleting}
+                  onClick={() => handleViewReportsClicked(inventor)}
+                  disabled={!inventor.techgen_id}
                   className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                 >
                   Reports <MessageSquareWarning size={24} />
                 </Button>
-                <button
-                  type="button"
-                  onClick={() => onRemoveInventor(inventor)}
-                  className="rounded-md border border-red-100 bg-red-50 px-2 py-1 text-sm font-medium text-red-600 hover:bg-red-100"
-                  disabled={isDeleting}
-                >
-                  Remove
-                </button>
               </div>
             ) : (
               <div className="flex shrink-0 items-center gap-2">
@@ -167,9 +148,7 @@ function ViewInventors(props: ViewInventorsProps) {
                       <Hint label="File a report regarding this tech gen">
                         <button
                           type="button"
-                          onClick={() =>
-                            handleCommentClicked(inventor.id, inventor.comments)
-                          }
+                          onClick={() => handleFileReportClicked(inventor)}
                           className="flex items-center gap-2 rounded-md border border-red-100 bg-red-50 px-2 py-1 text-sm font-medium text-red-600 hover:bg-red-100"
                         >
                           <MessageSquareWarning size={24} />

@@ -2,7 +2,7 @@ import { supabaseClient as supabase } from "@/lib/supabase"
 import { ReportType } from "@/lib/types/reports";
 
 interface FileReportProps {
-    reportData: ReportType["Insert"][];
+    reportData: ReportType["Insert"];
 }
 
 export const fileReport = async (props: FileReportProps) => {
