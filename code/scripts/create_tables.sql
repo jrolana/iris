@@ -281,6 +281,8 @@ CREATE TABLE private.reports (
   reporter_id uuid NOT NULL,      -- who filed the complaint
   subject_id uuid NOT NULL,       -- id of being reported
   content text NOT NULL,
+  reporter_name text not null,
+  subject_name text not null,
   created_at timestamp with time zone DEFAULT now(),
 
   CONSTRAINT reports_pkey PRIMARY KEY (id),
