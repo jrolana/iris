@@ -274,3 +274,24 @@ DROP INDEX IF EXISTS private.unique_active_registration_email;
 CREATE UNIQUE INDEX unique_active_registration_email
 ON private.user_registration_requests (lower(email))
 WHERE status = 'pending';
+
+CREATE TABLE private.reports (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  application_id uuid NOT NULL, 
+  reporter_id uuid NOT NULL,      -- who filed the complaint
+  subject_id uuid NOT NULL,       -- id of being reported
+  content text NOT NULL,
+  created_at timestamp with time zone DEFAULT now(),
+
+  CONSTRAINT reports_pkey PRIMARY KEY (id),
+
+  -- inventor A can only report inventor B once per application
+  CONSTRAINT unique_report_pair UNIQUE (reporter_id, subject_id, application_id),
+
+  -- prevent an inventor from filing a report against themselves
+  CONSTRAINT self_report_check CHECK (reporter_id <> subject_id),
+
+  CONSTRAINT fk_report_app FOREIGN KEY (application_id) REFERENCES private.ipr_applications(id),
+  CONSTRAINT fk_reporter FOREIGN KEY (reporter_id) REFERENCES private.inventors(id),
+  CONSTRAINT fk_subject FOREIGN KEY (subject_id) REFERENCES private.inventors(id)
+);
