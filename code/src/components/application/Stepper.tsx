@@ -211,11 +211,11 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
         <div className="xsm:flex-row xsm:items-center xsm:justify-between flex flex-col items-start justify-between gap-2 p-3">
           <div>
             <p className="text-[10px] font-bold tracking-widest text-rose-700 uppercase opacity-80">
-              CASE OVERDUE
+              Processing Delay Detected
             </p>
             <p className="text-sm text-slate-700">
-              One or more processing timelines have been exceeded. You may send
-              a ping to notify TTBDO.
+              This application has exceeded its expected processing time. You
+              may request a status update from TTBDO.
             </p>
           </div>
 
@@ -313,11 +313,10 @@ function PingStatus({
     return (
       <div className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3">
         <p className="text-xs font-bold tracking-widest text-emerald-700 uppercase">
-          Ping Acknowledged ✓
+          TTBDO Acknowledged Your Request ✓
         </p>
         <p className="mt-1 text-xs text-emerald-800">
-          Read by {ping.acknowledgedBy} at{" "}
-          {formatDateTime(ping.acknowledgedAt!)}
+          Acknowledged on {formatDateTime(ping.acknowledgedAt!)}
         </p>
       </div>
     );
@@ -326,7 +325,7 @@ function PingStatus({
   if (ping.status === "sent") {
     return (
       <div className="inline-flex items-center rounded-md border border-amber-300 bg-amber-50 px-4 py-2 text-xs font-semibold tracking-wide text-amber-700 uppercase">
-        Ping Sent · Awaiting Acknowledgment
+        Status Update Requested · Awaiting Response
       </div>
     );
   }
@@ -342,7 +341,7 @@ function PingStatus({
         isSending && "cursor-wait opacity-70",
       )}
     >
-      {isSending ? "Sending…" : "Send Ping"}
+      {isSending ? "Requesting..." : "Request Status Update"}
     </button>
   );
 }
