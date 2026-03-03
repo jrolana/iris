@@ -1,18 +1,38 @@
 import { InventorType } from "@/lib/types/application";
 import { User } from "@supabase/supabase-js";
 import InventorItems from "../common/InventorItems";
+import { useGetReportsByAppId } from "@/hooks/reports/useGetReportsByAppId";
+import { ReportType } from "@/lib/types/reports";
 
 interface ViewInventorsProps {
   inventors: InventorType["Row"][];
   isAdmin: boolean;
   isLoading: boolean;
   user: User | null;
+  appId: string;
+  parentId: string | null;
 }
 
 function ViewInventors(props: ViewInventorsProps) {
-  const { inventors, isAdmin, isLoading, user } = props;
+  const { inventors, isAdmin, isLoading, user, appId, parentId } = props;
 
   const inventorUser = inventors.find((inv) => inv.techgen_id === user?.id);
+  const { reports, isLoading: isReportsLoading } = useGetReportsByAppId({
+    id: appId,
+    parentId,
+  });
+
+  const reportsByInventorId = reports?.reduce(
+    (acc, report) => {
+      const inventorId = report.subject_id;
+      if (!acc[inventorId]) {
+        acc[inventorId] = [];
+      }
+      acc[inventorId].push(report);
+      return acc;
+    },
+    {} as Record<string, ReportType["Row"][]>,
+  );
 
   const existingUserIds =
     inventors.map((inv) => inv.techgen_id).filter((id) => id !== null) || [];
@@ -51,8 +71,12 @@ function ViewInventors(props: ViewInventorsProps) {
               inventor={inventor}
               isAdmin={isAdmin}
               isLoading={isLoading}
+              isFetchingReports={isReportsLoading}
               inventorUser={inventorUser}
               existingUserIds={existingUserIds}
+              reports={
+                reportsByInventorId ? reportsByInventorId[inventor.id] : []
+              }
             />
           </li>
         ))}

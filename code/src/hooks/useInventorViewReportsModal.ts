@@ -1,21 +1,21 @@
 
-import { isInventorViewReportsModalOpen, subject as subjectState} from "@/atom-states/inventor-view-reports-modal";
+import { isInventorViewReportsModalOpen, reports as reportsState} from "@/atom-states/inventor-view-reports-modal";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 
 function useInventorViewReportsModal(){
   const [isOpen, setIsOpen] = useAtom(isInventorViewReportsModalOpen);
-  const [subject, setSubject] = useAtom(subjectState);
+  const [reports, setReports] = useAtom(reportsState);
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
   useEffect(() => {
     if (!isOpen) {
-      // Reset subject when modal is closed
-      setSubject(null);
+      // Reset reports when modal is closed
+      setReports(null);
     }
-  }, [isOpen, setSubject]);
-  return {isOpen, openModal, closeModal, subject, setSubject};
+  }, [isOpen, setReports]);
+  return {isOpen, openModal, closeModal, reports, setReports};
 }
 
 export default useInventorViewReportsModal;

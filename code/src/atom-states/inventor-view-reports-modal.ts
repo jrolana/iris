@@ -1,6 +1,5 @@
-import { InventorType } from "@/lib/types/application";
+import { ReportType } from "@/lib/types/reports";
 import { atom } from "jotai";
 
 export const isInventorViewReportsModalOpen = atom(false);
-export const subject = atom<InventorType["Row"] | null>(null);
-export const reporter = atom<InventorType["Row"] | null>(null);
+export const reports = atom<ReportType["Row"][] | null>(null);

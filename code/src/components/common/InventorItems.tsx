@@ -1,24 +1,35 @@
 import useLinkInventorModal from "@/hooks/useLinkInventorModal";
 import useInventorFileReportModal from "@/hooks/useInventorFileReportModal";
+import useInventorViewReportsModal from "@/hooks/useInventorViewReportsModal";
 
-import Hint from "../common/Tooltip";
-import { Cable, BadgeCheck, MessageSquareWarning } from "lucide-react";
-import { Button } from "../ui/button";
+import { ReportType } from "@/lib/types/reports";
 import { InventorType } from "@/lib/types/application";
 
+import Hint from "../common/Tooltip";
+import { Cable, BadgeCheck, MessageSquareWarning, Loader } from "lucide-react";
+import { Button } from "../ui/button";
 import { toast } from "sonner";
-import useInventorViewReportsModal from "@/hooks/useInventorViewReportsModal";
 
 interface InventorItemsProps {
   inventor: InventorType["Row"];
   isAdmin: boolean;
   isLoading: boolean;
-  inventorUser?: InventorType["Row"] | undefined;
+  inventorUser?: InventorType["Row"];
   existingUserIds: string[];
+  reports?: ReportType["Row"][];
+  isFetchingReports: boolean;
 }
 
 export default function InventorItems(props: InventorItemsProps) {
-  const { inventor, isAdmin, isLoading, inventorUser, existingUserIds } = props;
+  const {
+    inventor,
+    isAdmin,
+    isLoading,
+    inventorUser,
+    existingUserIds,
+    reports,
+    isFetchingReports,
+  } = props;
 
   const {
     openModal: openLinkModal,
@@ -32,8 +43,12 @@ export default function InventorItems(props: InventorItemsProps) {
     setReporter,
   } = useInventorFileReportModal();
 
-  const { openModal: openViewReportsModal, setSubject: setViewReportsSubject } =
+  const { openModal: openViewReportsModal, setReports: setViewReportsReports } =
     useInventorViewReportsModal();
+
+  const hasFiledReport =
+    reports?.find((report) => report.reporter_id === inventorUser?.id) !==
+    undefined;
 
   function handleFileReportClicked(subject: InventorType["Row"]) {
     if (!inventorUser) {
@@ -47,8 +62,8 @@ export default function InventorItems(props: InventorItemsProps) {
     openFileReportModal();
   }
 
-  function handleViewReportsClicked(subject: InventorType["Row"]) {
-    setViewReportsSubject(subject);
+  function handleViewReportsClicked(reports: ReportType["Row"][]) {
+    setViewReportsReports(reports || []);
     openViewReportsModal();
   }
 
@@ -88,21 +103,29 @@ export default function InventorItems(props: InventorItemsProps) {
               Verified Account <BadgeCheck size={24} />
             </div>
           ) : (
-            <button
+            <Button
               type="button"
               onClick={() => handleLinkInventor(inventor.id)}
               className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
             >
               Link Account <Cable size={24} />
-            </button>
+            </Button>
           )}
           <Button
             type="button"
-            onClick={() => handleViewReportsClicked(inventor)}
-            disabled={!inventor.techgen_id || isLoading}
+            onClick={() => handleViewReportsClicked(reports || [])}
+            disabled={!inventor.techgen_id || isLoading || isFetchingReports}
             className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
           >
-            Reports <MessageSquareWarning size={24} />
+            <p>Reports</p>
+            <p className="text-center align-middle font-bold">
+              ({reports?.length ?? 0})
+            </p>
+            {isFetchingReports ? (
+              <Loader className="animate-spin" size={24} />
+            ) : (
+              <MessageSquareWarning size={24} />
+            )}
           </Button>
         </div>
       ) : (
@@ -113,14 +136,22 @@ export default function InventorItems(props: InventorItemsProps) {
                 Verified Account <BadgeCheck size={24} />
               </div>
               {inventor.techgen_id !== inventorUser?.techgen_id && (
-                <Hint label="File a report regarding this tech gen">
-                  <button
+                <Hint
+                  label={
+                    hasFiledReport
+                      ? "You have already filed a report for this tech gen"
+                      : "File a report regarding this tech gen"
+                  }
+                >
+                  <Button
                     type="button"
                     onClick={() => handleFileReportClicked(inventor)}
-                    className="flex items-center gap-2 rounded-md border border-red-100 bg-red-50 px-2 py-1 text-sm font-medium text-red-600 hover:bg-red-100"
+                    disabled={isFetchingReports || hasFiledReport}
+                    className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                   >
+                    {hasFiledReport ? "Report Filed" : "File Report"}
                     <MessageSquareWarning size={24} />
-                  </button>
+                  </Button>
                 </Hint>
               )}
             </>

@@ -76,6 +76,8 @@ function InformationPanel(props: DetailsPanelProps) {
           isAdmin={isAdmin}
           isLoading={isFetchingInventors || isFetchingUser}
           user={user}
+          appId={applicationId}
+          parentId={parentApplicationId}
         />
       )}
     </div>

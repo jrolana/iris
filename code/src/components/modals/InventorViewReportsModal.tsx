@@ -1,5 +1,5 @@
 import useInventorViewReportsModal from "@/hooks/useInventorViewReportsModal";
-import { useGetReportsByAppInventorId } from "@/hooks/reports/useGetReportsByAppInventorId";
+// import { useGetReportsByAppInventorId } from "@/hooks/reports/useGetReportsByAppInventorId";
 import { useDeleteInventor } from "@/hooks/inventors/useDeleteInventorById";
 
 import Modal from "./Modal";
@@ -9,37 +9,45 @@ import { toast } from "sonner";
 import { ReportType } from "@/lib/types/reports";
 
 export default function InventorReportsModal() {
-  const { isOpen, closeModal, subject } = useInventorViewReportsModal();
-  const { reports, isLoading: isFetchingReports } =
-    useGetReportsByAppInventorId({
-      id: subject?.application_id ?? "",
-      subjectId: subject?.id ?? "",
-      // TODO: confirm if parentId will be used (for downgrades)
-      parentId: null,
-    });
+  // TODO: confirm if parentId will be used (for downgrades)
+  const { isOpen, closeModal, reports } = useInventorViewReportsModal();
+  // const { reports, isLoading: isFetchingReports } =
+  //   useGetReportsByAppInventorId({
+  //     id: subject?.application_id ?? "",
+  //     subjectId: subject?.id ?? "",
+  //     parentId: null,
+  //   });
+
+  const subjectName =
+    reports && reports.length > 0 ? reports[0].subject_name : null;
+  const subjectId =
+    reports && reports.length > 0 ? reports[0].subject_id : null;
 
   const { deleteInventor, isLoading: isDeleting } = useDeleteInventor();
 
-  function onRemoveInventor(subject: InventorType["Row"]) {
-    toast.promise(deleteInventor({ id: subject.id }), {
-      loading: `Removing ${subject.full_name} from the application...`,
-      success: `${subject.full_name} has been removed from the application.`,
-      error: `Failed to remove ${subject.full_name} from the application. Please try again.`,
+  function onRemoveInventor(
+    subjectName: InventorType["Row"]["full_name"],
+    subjectId: InventorType["Row"]["id"],
+  ) {
+    toast.promise(deleteInventor({ id: subjectId }), {
+      loading: `Removing ${subjectName} from the application...`,
+      success: `${subjectName} has been removed from the application.`,
+      error: `Failed to remove ${subjectName} from the application. Please try again.`,
       finally: () => closeModal(),
     });
   }
 
   return (
     <Modal
-      title={`Reports for ${subject?.full_name ?? "Inventor"}`}
+      title={`Reports for ${subjectName ?? "Inventor"}`}
       description={`Here are the reports associated with this tech gen.`}
       isOpen={isOpen}
       onChange={closeModal}
     >
       <ReportsContent
-        isFetchingReports={isFetchingReports}
         reports={reports}
-        subject={subject}
+        subjectName={subjectName}
+        subjectId={subjectId}
         onRemoveInventor={onRemoveInventor}
         isDeleting={isDeleting}
       />
@@ -60,26 +68,19 @@ function formatTimestamp(dateString?: string) {
 }
 
 interface ReportsContentProps {
-  isFetchingReports: boolean;
   reports: ReportType["Row"][] | null | undefined;
-  subject: InventorType["Row"] | null;
-  onRemoveInventor: (subject: InventorType["Row"]) => void;
+  subjectName: InventorType["Row"]["full_name"] | null;
+  subjectId: InventorType["Row"]["id"] | null;
+  onRemoveInventor: (
+    subjectName: InventorType["Row"]["full_name"],
+    subjectId: InventorType["Row"]["id"],
+  ) => void;
   isDeleting: boolean;
 }
 
 function ReportsContent(props: ReportsContentProps) {
-  const { isFetchingReports, reports, subject, onRemoveInventor, isDeleting } =
+  const { reports, subjectName, subjectId, onRemoveInventor, isDeleting } =
     props;
-
-  if (isFetchingReports) {
-    return (
-      <div className="flex w-full max-w-2xl justify-center px-10 py-8">
-        <p className="text-md animate-pulse text-slate-500">
-          Loading reports...
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="w-full max-w-lg min-w-[85vw] px-10 sm:max-h-[90vh] sm:w-[80vh] sm:min-w-[400px]">
@@ -111,8 +112,10 @@ function ReportsContent(props: ReportsContentProps) {
       )}
 
       <Button
-        onClick={() => onRemoveInventor(subject!)}
-        disabled={isDeleting || !subject || reports?.length === 0}
+        onClick={() => onRemoveInventor(subjectName!, subjectId!)}
+        disabled={
+          isDeleting || !subjectName || !subjectId || reports?.length === 0
+        }
         className="mt-6 h-10 w-full border bg-rose-500 font-medium text-white transition-colors hover:border-rose-500 hover:bg-white hover:text-rose-600 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-200 disabled:text-slate-400"
       >
         Remove Tech Gen
