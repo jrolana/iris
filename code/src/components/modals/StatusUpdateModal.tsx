@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
 import { useSearchParams } from "next/navigation";
 import { useGetAppById } from "@/hooks/applications/useGetApplicationById";

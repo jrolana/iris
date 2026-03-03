@@ -21,3 +21,13 @@ USING (
     OR
     techgen_id = auth.uid()
 )
+
+DROP POLICY IF EXISTS "Admin can remove inventors" ON private.inventors;
+
+CREATE POLICY "Admin can remove inventors"
+ON private.inventors
+FOR DELETE
+TO authenticated
+USING (
+  private.is_admin()
+);

@@ -74,7 +74,10 @@ function InformationPanel(props: DetailsPanelProps) {
         <ViewInventors
           inventors={inventors ?? []}
           isAdmin={isAdmin}
-          isLoading={isFetchingInventors}
+          isLoading={isFetchingInventors || isFetchingUser}
+          user={user}
+          appId={applicationId}
+          parentId={parentApplicationId}
         />
       )}
     </div>
