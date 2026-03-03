@@ -25,15 +25,14 @@ export default function AddInventorModal() {
     return { value: college.toString(), label: college.toString() };
   });
 
+  const otherCollegeUnitTernary =
+    collegeUnit == CollegeUnits.Other ? !otherCollegeUnit : !collegeUnit;
+
   function handleSubmit() {
     if (
       !name ||
       !email ||
-      (isExternal
-        ? !externalInstitution
-        : collegeUnit == CollegeUnits.Other
-          ? !otherCollegeUnit
-          : !collegeUnit)
+      (isExternal ? !externalInstitution : otherCollegeUnitTernary)
     )
       return;
 
@@ -159,11 +158,7 @@ export default function AddInventorModal() {
           disabled={
             !name ||
             !email ||
-            (isExternal
-              ? !externalInstitution
-              : collegeUnit == CollegeUnits.Other
-                ? !otherCollegeUnit
-                : !collegeUnit)
+            (isExternal ? !externalInstitution : otherCollegeUnitTernary)
           }
           className="mt-1 h-10 border bg-sky-600 hover:bg-sky-600"
         >

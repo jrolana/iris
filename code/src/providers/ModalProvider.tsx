@@ -2,7 +2,8 @@
 
 import AddInventorModal from "@/components/modals/AddInventorModal";
 import AddNewUserModal from "@/components/modals/AddNewUserModal";
-import InventorCommentModal from "@/components/modals/InventorCommentModal";
+import InventorFileReportModal from "@/components/modals/InventorFileReportModal";
+import InventorViewReportsModals from "@/components/modals/InventorViewReportsModal";
 import LinkInventorModal from "@/components/modals/LinkInventorModal";
 import StatusUpdateModal from "@/components/modals/StatusUpdateModal";
 import UploadFilesModal from "@/components/modals/UploadFilesModal";
@@ -25,8 +26,9 @@ function ModalProvider() {
       <UploadFilesModal />
       <StatusUpdateModal />
       <AddInventorModal />
-      <InventorCommentModal />
+      <InventorFileReportModal />
       <AddNewUserModal />
+      <InventorViewReportsModals />
     </>
   );
 }

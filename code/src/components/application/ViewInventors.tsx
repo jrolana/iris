@@ -1,43 +1,48 @@
 import { InventorType } from "@/lib/types/application";
-
-import { Cable, BadgeCheck, NotepadText } from "lucide-react";
-import Hint from "../common/Tooltip";
-import useLinkInventorModal from "@/hooks/useLinkInventorModal";
-import useInventorCommentModal from "@/hooks/useInventorCommentModal";
-import { useEffect } from "react";
-import { Button } from "../ui/button";
+import { User } from "@supabase/supabase-js";
+import InventorItems from "../common/InventorItems";
+import { useGetReportsByAppId } from "@/hooks/reports/useGetReportsByAppId";
+import { ReportType } from "@/lib/types/reports";
 
 interface ViewInventorsProps {
   inventors: InventorType["Row"][];
   isAdmin: boolean;
   isLoading: boolean;
+  user: User | null;
+  appId: string;
+  parentId: string | null;
 }
 
 function ViewInventors(props: ViewInventorsProps) {
-  const { inventors, isAdmin, isLoading } = props;
+  const { inventors, isAdmin, isLoading, user, appId, parentId } = props;
 
-  const {
-    openModal: openLinkModal,
-    setExcludedUIDs,
-    setInventorUID,
-  } = useLinkInventorModal();
-  const {
-    openModal: openCommentModal,
-    setInventorComment,
-    setIsAdmin,
-    setInventorId,
-  } = useInventorCommentModal();
+  const inventorUser = inventors.find((inv) => inv.techgen_id === user?.id);
+  const { reports, isLoading: isReportsLoading } = useGetReportsByAppId({
+    id: appId,
+    parentId,
+  });
 
-  useEffect(() => {
-    setIsAdmin(isAdmin);
-  }, [isAdmin, setIsAdmin]);
+  const reportsByInventorId = reports?.reduce(
+    (acc, report) => {
+      const inventorId = report.subject_id;
+      if (!acc[inventorId]) {
+        acc[inventorId] = [];
+      }
+      acc[inventorId].push(report);
+      return acc;
+    },
+    {} as Record<string, ReportType["Row"][]>,
+  );
+
+  const existingUserIds =
+    inventors.map((inv) => inv.techgen_id).filter((id) => id !== null) || [];
 
   // TODO: show proper loading state
   if (isLoading) {
     return (
       <div className="mt-3 flex h-64 items-center justify-center overflow-x-auto overflow-y-auto">
         <p className="text-md mt-4 items-center justify-center text-center text-slate-500">
-          Loading inventors...
+          Loading tech gens...
         </p>
       </div>
     );
@@ -46,7 +51,7 @@ function ViewInventors(props: ViewInventorsProps) {
   if (inventors.length == 0) {
     return (
       <p className="mt-4 text-sm text-slate-500">
-        No inventors recorded yet.
+        No tech gens recorded yet.
         {isAdmin
           ? " Add the technology generators involved in this application."
           : " Please coordinate with TTBDO for updates to the inventor list."}
@@ -54,19 +59,6 @@ function ViewInventors(props: ViewInventorsProps) {
     );
   }
 
-  function handleCommentClicked(inventorId: string, comment: string | null) {
-    setInventorComment(comment);
-    setInventorId(inventorId);
-    openCommentModal();
-  }
-
-  function handleLinkInventor(inventorId: string) {
-    const existingUserIds =
-      inventors.map((inv) => inv.techgen_id).filter((id) => id !== null) || [];
-    setInventorUID(inventorId);
-    setExcludedUIDs(existingUserIds);
-    openLinkModal();
-  }
   return (
     <>
       <ul className="mt-3 max-h-64 divide-y divide-slate-100 overflow-x-auto overflow-y-auto">
@@ -75,74 +67,17 @@ function ViewInventors(props: ViewInventorsProps) {
             key={inventor.id}
             className="flex flex-col justify-between gap-2 py-3 sm:flex-row sm:items-start sm:justify-between"
           >
-            <div className="min-w-0 flex-1">
-              <p className="text-md truncate font-medium text-slate-900">
-                {inventor.full_name}
-              </p>
-              <p className="text-sm text-slate-600">{inventor.email}</p>
-
-              <Hint
-                label={
-                  inventor.external_institution ??
-                  inventor.college_code ??
-                  inventor.other_college_name ??
-                  ""
-                }
-              >
-                <span className="block w-fit max-w-32 truncate rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
-                  {inventor.external_institution ??
-                    inventor.college_code ??
-                    inventor.other_college_name}
-                </span>
-              </Hint>
-            </div>
-            {isAdmin ? (
-              <div className="flex shrink-0 items-center gap-2">
-                <Button
-                  type="button"
-                  onClick={() =>
-                    handleCommentClicked(inventor.id, inventor.comments)
-                  }
-                  className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                >
-                  Comment
-                </Button>
-                {inventor.techgen_id ? (
-                  <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-sky-600">
-                    Verified Account <BadgeCheck size={24} />
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleLinkInventor(inventor.id)}
-                    className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                  >
-                    Link Account <Cable size={24} />
-                  </button>
-                )}
-                {/* <button
-                  type="button"
-                  onClick={() => onRemoveInventor?.(inventor.inventorId)}
-                  className="rounded-md border border-red-100 bg-red-50 px-2 py-1 text-sm font-medium text-red-600 hover:bg-red-100"
-                >
-                  Remove
-                </button> */}
-              </div>
-            ) : (
-              <div className="flex shrink-0 items-center gap-2">
-                <Hint label="Click to see TTBDO annotations">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      handleCommentClicked(inventor.id, inventor.comments)
-                    }
-                    className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
-                  >
-                    <NotepadText />
-                  </button>
-                </Hint>
-              </div>
-            )}
+            <InventorItems
+              inventor={inventor}
+              isAdmin={isAdmin}
+              isLoading={isLoading}
+              isFetchingReports={isReportsLoading}
+              inventorUser={inventorUser}
+              existingUserIds={existingUserIds}
+              reports={
+                reportsByInventorId ? reportsByInventorId[inventor.id] : []
+              }
+            />
           </li>
         ))}
       </ul>
@@ -157,15 +92,15 @@ function ViewInventors(props: ViewInventorsProps) {
               Add inventor
             </button> */}
             <p className="mt-2 text-sm text-gray-500">
-              Link an IRIS account to an inventor to let them access this
-              application. For issues and concerns on an inventor, please
-              annotate or comment to inform the other inventors.
+              Link an IRIS account to a tech gen to let them access this
+              application.
             </p>
           </>
         ) : (
           <p className="mt-2 text-sm text-gray-500">
-            Read annotations for an inventor. For issues and concerns on an
-            inventor, please coordinate with TTBDO.
+            You can try to file a report <b>once</b> for issues and concerns on
+            a tech gen. For further concerns, please coordinate with TTBDO
+            directly.
           </p>
         )}
       </div>
