@@ -5,13 +5,19 @@ import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { useGetNotifications } from "@/hooks/notifications/useGetNotifications";
 import { useMarkAsRead } from "@/hooks/notifications/useMarkAsRead";
-import { useQueryClient } from "@tanstack/react-query";
 import { formatDateTime, formatTime } from "@/lib/helper/format-date";
 import { isToday } from "date-fns";
-import { supabaseClient as supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 
-export default function NotificationDropdown() {
+interface NotificationDropdownPropsInterface {
+  isAdmin?: boolean;
+}
+
+export default function NotificationDropdown(
+  props: NotificationDropdownPropsInterface,
+) {
+  const { isAdmin = false } = props;
+
   const { notifications, isLoading } = useGetNotifications();
   const { markNotificationAsRead } = useMarkAsRead();
   const hasUnreadNotification = notifications?.some(
@@ -20,8 +26,7 @@ export default function NotificationDropdown() {
   const router = useRouter();
 
   async function handleViewAll() {
-    const role = await supabase.rpc("get_user_role" as never);
-    router.push(`/${role.data}/notifications`);
+    router.push(`/${isAdmin ? "admin" : "techgen"}/notifications`);
   }
 
   async function markAsRead(notifId: string, readAt: null | string) {
@@ -95,12 +100,12 @@ export default function NotificationDropdown() {
   );
 }
 
-interface PropsInterface {
+interface NotificationContainerPropsInterface {
   children: ReactNode;
   hasUnreadNotification?: boolean;
 }
 
-function NotificationContainer(props: PropsInterface) {
+function NotificationContainer(props: NotificationContainerPropsInterface) {
   const { children, hasUnreadNotification = false } = props;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -115,19 +120,13 @@ function NotificationContainer(props: PropsInterface) {
   return (
     <div className="relative">
       <button
-        className={[
-          "relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition",
-          "hover:bg-gray-100 hover:text-gray-800",
-          "focus:ring-2 focus:ring-gray-200 focus:outline-none",
-          "dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100 dark:focus:ring-gray-800",
-        ].join(" ")}
+        className="text-gray-600transition relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-100 hover:text-gray-800"
         onClick={toggleDropdown}
         aria-label="Open notifications"
         title="Open notifications"
       >
         {hasUnreadNotification ? (
           <>
-            <span className="absolute -inset-1 rounded-full ring-2 ring-orange-300/70 dark:ring-orange-500/40" />
             <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-orange-400" />
             <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-orange-400">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" />

@@ -33,6 +33,8 @@ export default function Ping(props: PingProps) {
   });
   const { ping, isLoading: isFetchingPing } = useGetPing({
     applicationId: application_id,
+    stageDelayed: stage_delayed,
+    stepDelayed: step_delayed,
   });
 
   const isSending = isPinging || isAcknowledging || isFetchingPing;
@@ -136,7 +138,11 @@ export default function Ping(props: PingProps) {
             isSending && "cursor-wait opacity-70",
           )}
         >
-          {isSending ? "Submitting request…" : "Request a status update"}
+          {isFetchingPing
+            ? "Fetching request..."
+            : isSending
+              ? "Submitting request…"
+              : "Request a status update"}
         </button>
       </PingCard>
     );

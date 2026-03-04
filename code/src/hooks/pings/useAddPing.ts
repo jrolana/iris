@@ -10,7 +10,9 @@ export function useAddPing() {
         mutationFn: addPing,
         onSuccess: (_data, variables) => {
             const applicationId = variables?.pingData?.application_id;
-            queryClient.invalidateQueries({ queryKey: ["get-ping", applicationId] });
+            const stageDelayed = variables?.pingData?.stage_delayed;
+            const stepDelayed = variables?.pingData?.step_delayed;
+            queryClient.invalidateQueries({queryKey: ["ping", applicationId, stageDelayed, stepDelayed]});
         }
     })
 

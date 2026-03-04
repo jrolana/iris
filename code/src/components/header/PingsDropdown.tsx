@@ -6,23 +6,18 @@ import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { differenceInCalendarDays, isToday } from "date-fns";
 import { formatDateTime, formatTime } from "@/lib/helper/format-date";
 import { useRouter } from "next/navigation";
-
-type StatusUpdateRequest = {
-  id: string;
-  curr_stage: string;
-  app_id: string;
-  app_name: string;
-  target_date: string; // ISO
-  requested_at: string; // ISO
-  acknowledged_at: string | null; // ISO|null
-};
+import { PingType } from "@/lib/types/ping";
+import { useGetAllPings } from "@/hooks/pings/useGetAllPings";
+import { toast } from "sonner";
+import { toSupabaseDateTime } from "@/lib/helper/format-date";
+import { useUpdatePing } from "@/hooks/pings/useUpdatePing";
 
 export default function PingsDropdown() {
-  const [requests, setRequests] =
-    useState<StatusUpdateRequest[]>(dummyRequests);
-  const [savingId, setSavingId] = useState<string | null>(null);
-
+  const { pings, isLoading: isFetchingPings } = useGetAllPings();
+  const { isLoading: isAcknowledging, updatePing } = useUpdatePing();
   const router = useRouter();
+
+  const requests = pings ?? [];
 
   const pendingCount = useMemo(
     () => requests.reduce((acc, r) => acc + (r.acknowledged_at ? 0 : 1), 0),
@@ -41,35 +36,44 @@ export default function PingsDropdown() {
     });
   }, [requests]);
 
+  if (!requests) return <RequestContainer>No requests yet.</RequestContainer>;
+
   function handleViewAll() {
     router.push("/admin/pings");
   }
 
   function handleOpenApplication(appId: string) {
-    console.log("Open application:", appId);
+    router.push(`/admin/view-application?applicationID=${appId}`);
   }
 
-  async function acknowledgeRequest(requestId: string) {
-    if (savingId) return;
-    setSavingId(requestId);
-
-    await new Promise((r) => setTimeout(r, 350));
-
-    setRequests((prev) =>
-      prev.map((r) =>
-        r.id === requestId
-          ? { ...r, acknowledged_at: new Date().toISOString() }
-          : r,
-      ),
+  async function acknowledgeRequest(ping: PingType["Row"]) {
+    await updatePing(
+      {
+        pingData: {
+          acknowledged_at: toSupabaseDateTime(new Date()),
+        },
+        pingId: ping.id,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Request acknowledged", {
+            description:
+              "This confirms the office has received the request for review.",
+          });
+        },
+        onError: () => {
+          toast.error("Unable to acknowledge", {
+            description:
+              "Please try again. If it persists, refresh the page and retry.",
+          });
+        },
+      },
     );
-
-    setSavingId(null);
   }
 
-  const isLoading = false;
-  if (isLoading) return <RequestBody>Loading…</RequestBody>;
+  if (isFetchingPings) return <RequestContainer>Loading…</RequestContainer>;
   if (!visibleRequests.length)
-    return <RequestBody>No requests yet.</RequestBody>;
+    return <RequestContainer>No requests yet.</RequestContainer>;
 
   return (
     <RequestContainer hasPendingOfficeResponse={hasPendingOfficeResponse}>
@@ -97,20 +101,20 @@ export default function PingsDropdown() {
       <ul className="custom-scrollbar flex max-h-[340px] flex-col gap-2 overflow-y-auto pr-1">
         {visibleRequests.map((req) => {
           const isAck = Boolean(req.acknowledged_at);
-          const saving = savingId === req.id;
           const delayedDays = daysDelayed(req.target_date);
 
           return (
             <li key={req.id}>
               <DropdownItem
-                onItemClick={() => handleOpenApplication(req.app_id)}
+                tag="a"
+                onItemClick={() => handleOpenApplication(req.application_id)}
                 className="group rounded-xl border border-gray-200 bg-white px-3 py-2.5 transition hover:border-gray-300 hover:bg-gray-50"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-[11px] font-semibold tracking-widest text-gray-500 uppercase">
-                        {req.curr_stage}
+                        {req.stage_delayed}
                       </span>
 
                       {delayedDays > 0 ? (
@@ -122,7 +126,7 @@ export default function PingsDropdown() {
 
                     {/* App name */}
                     <div className="mt-1 truncate text-sm font-semibold text-gray-900">
-                      {req.app_name}
+                      {req.application_name}
                     </div>
 
                     {/* Meta row */}
@@ -143,7 +147,7 @@ export default function PingsDropdown() {
                           <span className="font-medium text-gray-700">
                             Requested:
                           </span>{" "}
-                          {formatSmartDate(req.requested_at)}
+                          {formatSmartDate(req.created_at)}
                         </span>
                       )}
                     </div>
@@ -151,7 +155,7 @@ export default function PingsDropdown() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleOpenApplication(req.app_id);
+                        handleOpenApplication(req.application_id);
                       }}
                       className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-semibold text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 focus:ring-2 focus:ring-emerald-300 focus:outline-none"
                       aria-label="Open application"
@@ -182,7 +186,6 @@ export default function PingsDropdown() {
                     </button>
                   </div>
 
-                  {/* Right: real button */}
                   <div className="shrink-0">
                     {isAck ? (
                       <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[11px] font-semibold text-emerald-700">
@@ -192,9 +195,9 @@ export default function PingsDropdown() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          acknowledgeRequest(req.id);
+                          acknowledgeRequest(req);
                         }}
-                        disabled={saving}
+                        disabled={isAcknowledging}
                         className={[
                           "inline-flex items-center justify-center rounded-lg px-3.5 py-2",
                           "text-[11px] font-semibold tracking-wide uppercase",
@@ -202,10 +205,10 @@ export default function PingsDropdown() {
                           "hover:bg-emerald-700 hover:shadow",
                           "active:translate-y-[0.5px] active:shadow-sm",
                           "focus:ring-2 focus:ring-emerald-300 focus:ring-offset-1 focus:outline-none",
-                          saving ? "cursor-wait opacity-80" : "",
+                          isAcknowledging ? "cursor-wait opacity-80" : "",
                         ].join(" ")}
                       >
-                        {saving ? "Saving…" : "Acknowledge"}
+                        {isAcknowledging ? "Saving…" : "Acknowledge"}
                       </button>
                     )}
                   </div>
@@ -216,7 +219,6 @@ export default function PingsDropdown() {
         })}
       </ul>
 
-      {/* Footer */}
       <button
         onClick={handleViewAll}
         className="mt-3 inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold tracking-wide text-gray-700 uppercase transition-colors hover:bg-gray-100 focus:ring-2 focus:ring-orange-200 focus:ring-offset-1 focus:outline-none"
@@ -224,14 +226,6 @@ export default function PingsDropdown() {
         View All Requests
       </button>
     </RequestContainer>
-  );
-}
-
-function RequestBody({ children }: { children: ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-3 text-sm text-gray-600 shadow-sm">
-      {children}
-    </div>
   );
 }
 
@@ -255,7 +249,7 @@ function RequestContainer({
   }
 
   const triggerBase =
-    "relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition";
+    "relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 transition";
   const triggerHover =
     "hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-200";
 
@@ -356,7 +350,7 @@ function Pill({
   );
 }
 
-/* ---------- Date helpers ---------- */
+// HELPERS
 
 function daysDelayed(targetISO: string) {
   const diff = differenceInCalendarDays(new Date(), new Date(targetISO));
@@ -366,51 +360,4 @@ function daysDelayed(targetISO: string) {
 function formatSmartDate(iso: string) {
   const d = new Date(iso);
   return isToday(d) ? formatTime(iso) : formatDateTime(iso);
-}
-
-/* ---------- Dummy data ---------- */
-
-function dummyRequests(): StatusUpdateRequest[] {
-  const now = new Date();
-  const iso = (d: Date) => d.toISOString();
-  const days = (n: number) => {
-    const d = new Date(now);
-    d.setDate(d.getDate() + n);
-    return d;
-  };
-  const hoursAgo = (h: number) => {
-    const d = new Date(now);
-    d.setHours(d.getHours() - h);
-    return d;
-  };
-
-  return [
-    {
-      id: "req_001",
-      curr_stage: "Evaluation",
-      app_id: "APP-10421",
-      app_name: "Techgen Permit Renewal",
-      target_date: iso(days(-5)),
-      requested_at: iso(hoursAgo(9)),
-      acknowledged_at: null,
-    },
-    {
-      id: "req_002",
-      curr_stage: "Payment",
-      app_id: "APP-10436",
-      app_name: "Business License — Santos Trading",
-      target_date: iso(days(-2)),
-      requested_at: iso(hoursAgo(20)),
-      acknowledged_at: null,
-    },
-    {
-      id: "req_003",
-      curr_stage: "Inspection",
-      app_id: "APP-10398",
-      app_name: "Fire Safety Clearance",
-      target_date: iso(days(1)),
-      requested_at: iso(hoursAgo(35)),
-      acknowledged_at: null,
-    },
-  ];
 }

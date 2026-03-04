@@ -338,7 +338,7 @@ export type Database = {
           id: string
           stage_delayed: string
           step_delayed: string
-          target_date: string | null
+          target_date: string
         }
         Insert: {
           acknowledged_at?: string | null
@@ -348,7 +348,7 @@ export type Database = {
           id?: string
           stage_delayed: string
           step_delayed: string
-          target_date?: string | null
+          target_date: string
         }
         Update: {
           acknowledged_at?: string | null
@@ -358,7 +358,7 @@ export type Database = {
           id?: string
           stage_delayed?: string
           step_delayed?: string
-          target_date?: string | null
+          target_date?: string
         }
         Relationships: [
           {

@@ -1,31 +1,24 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import Button from "@/components/ui/button/Button";
-import { differenceInCalendarDays, isToday } from "date-fns";
-import { formatDateTime, formatTime } from "@/lib/helper/format-date";
+import { smart, daysDelayed } from "@/lib/helper/format-date";
+import { useGetAllPings } from "@/hooks/pings/useGetAllPings";
+import { useUpdatePing } from "@/hooks/pings/useUpdatePing";
+import { PingType } from "@/lib/types/ping";
+import { toast } from "sonner";
+import { toSupabaseDateTime } from "@/lib/helper/format-date";
 
 type FilterType = "all" | "pending" | "acknowledged";
 
-type StatusUpdateRequest = {
-  id: string;
-  curr_stage: string;
-  app_id: string;
-  app_name: string;
-  target_date: string; // ISO
-  requested_at: string; // ISO
-  acknowledged_at: string | null; // ISO|null
-};
-
 export default function ViewAllPings() {
+  const { pings, isLoading: isFetchingPings } = useGetAllPings();
+  const { isLoading: isAcknowledging, updatePing } = useUpdatePing();
   const router = useRouter();
 
-  const [requests, setRequests] = useState<StatusUpdateRequest[]>(() =>
-    dummyRequests(),
-  );
+  const requests = pings ?? [];
+
   const [filter, setFilter] = useState<FilterType>("all");
-  const [savingId, setSavingId] = useState<string | null>(null);
 
   const pendingCount = useMemo(
     () => requests.filter((r) => r.acknowledged_at === null).length,
@@ -49,28 +42,38 @@ export default function ViewAllPings() {
       if (delayDiff !== 0) return delayDiff;
 
       return (
-        new Date(b.requested_at).getTime() - new Date(a.requested_at).getTime()
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
     });
   }, [filtered]);
 
-  async function acknowledgeOne(id: string) {
-    if (savingId) return;
-    setSavingId(id);
-
-    await new Promise((r) => setTimeout(r, 350));
-
-    setRequests((prev) =>
-      prev.map((x) =>
-        x.id === id ? { ...x, acknowledged_at: new Date().toISOString() } : x,
-      ),
+  async function acknowledgeOne(ping: PingType["Row"]) {
+    await updatePing(
+      {
+        pingData: {
+          acknowledged_at: toSupabaseDateTime(new Date()),
+        },
+        pingId: ping.id,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Request acknowledged", {
+            description:
+              "This confirms the office has received the request for review.",
+          });
+        },
+        onError: () => {
+          toast.error("Unable to acknowledge", {
+            description:
+              "Please try again. If it persists, refresh the page and retry.",
+          });
+        },
+      },
     );
-
-    setSavingId(null);
   }
 
   function openApplication(appId: string) {
-    router.push(`/applications/${appId}`);
+    router.push(`/admin/view-application?applicationID=${appId}`);
   }
 
   const isLoading = false;
@@ -182,7 +185,6 @@ export default function ViewAllPings() {
             sorted.map((req) => {
               const isAck = Boolean(req.acknowledged_at);
               const delayed = daysDelayed(req.target_date);
-              const saving = savingId === req.id;
 
               return (
                 <li key={req.id}>
@@ -207,7 +209,7 @@ export default function ViewAllPings() {
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="text-[11px] font-semibold tracking-widest text-gray-500 uppercase">
-                            {req.curr_stage}
+                            {req.stage_delayed}
                           </span>
 
                           {delayed > 0 ? (
@@ -228,19 +230,19 @@ export default function ViewAllPings() {
                         </div>
 
                         <p className="mt-1 truncate text-sm font-semibold text-gray-900">
-                          {req.app_name}
+                          {req.application_name}
                         </p>
 
                         <p className="mt-0.5 text-sm text-gray-500">
                           Target: {smart(req.target_date)}
                           <span className="mx-2 text-gray-300">•</span>
                           {!isAck
-                            ? `Requested ${smart(req.requested_at)}`
+                            ? `Requested ${smart(req.created_at)}`
                             : `Acknowledged ${smart(req.acknowledged_at!)}`}
                         </p>
 
                         <button
-                          onClick={() => openApplication(req.app_id)}
+                          onClick={() => openApplication(req.application_id)}
                           className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700"
                         >
                           Open application
@@ -268,14 +270,13 @@ export default function ViewAllPings() {
                         </button>
                       </div>
 
-                      {/* Right action: only for pending */}
                       {!isAck && (
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            acknowledgeOne(req.id);
+                            acknowledgeOne(req);
                           }}
-                          disabled={saving}
+                          disabled={isAcknowledging}
                           className={[
                             "shrink-0 rounded-lg px-3.5 py-2",
                             "text-[11px] font-semibold tracking-wide uppercase",
@@ -283,10 +284,10 @@ export default function ViewAllPings() {
                             "hover:bg-emerald-700 hover:shadow",
                             "active:translate-y-[0.5px] active:shadow-sm",
                             "focus:ring-2 focus:ring-emerald-300 focus:ring-offset-1 focus:outline-none",
-                            saving ? "cursor-wait opacity-80" : "",
+                            isAcknowledging ? "cursor-wait opacity-80" : "",
                           ].join(" ")}
                         >
-                          {saving ? "Saving…" : "Acknowledge"}
+                          {isAcknowledging ? "Saving…" : "Acknowledge"}
                         </button>
                       )}
                     </div>
@@ -299,72 +300,4 @@ export default function ViewAllPings() {
       </div>
     </div>
   );
-}
-
-/* ---------------- helpers ---------------- */
-
-function daysDelayed(targetISO: string) {
-  const diff = differenceInCalendarDays(new Date(), new Date(targetISO));
-  return Math.max(diff, 0);
-}
-
-function smart(iso: string) {
-  const d = new Date(iso);
-  return isToday(d) ? `Today at ${formatTime(iso)}` : formatDateTime(iso);
-}
-
-function dummyRequests(): StatusUpdateRequest[] {
-  const now = new Date();
-  const iso = (d: Date) => d.toISOString();
-
-  const days = (n: number) => {
-    const d = new Date(now);
-    d.setDate(d.getDate() + n);
-    return d;
-  };
-
-  const hoursAgo = (h: number) => {
-    const d = new Date(now);
-    d.setHours(d.getHours() - h);
-    return d;
-  };
-
-  return [
-    {
-      id: "req_001",
-      curr_stage: "Evaluation",
-      app_id: "APP-10421",
-      app_name: "Techgen Permit Renewal",
-      target_date: iso(days(-5)),
-      requested_at: iso(hoursAgo(9)),
-      acknowledged_at: null,
-    },
-    {
-      id: "req_002",
-      curr_stage: "Payment",
-      app_id: "APP-10436",
-      app_name: "Business License — Santos Trading",
-      target_date: iso(days(-2)),
-      requested_at: iso(hoursAgo(20)),
-      acknowledged_at: null,
-    },
-    {
-      id: "req_003",
-      curr_stage: "Inspection",
-      app_id: "APP-10398",
-      app_name: "Fire Safety Clearance",
-      target_date: iso(days(1)),
-      requested_at: iso(hoursAgo(35)),
-      acknowledged_at: null,
-    },
-    {
-      id: "req_004",
-      curr_stage: "Release",
-      app_id: "APP-10488",
-      app_name: "Occupancy Certificate — Rivera",
-      target_date: iso(days(-1)),
-      requested_at: iso(hoursAgo(52)),
-      acknowledged_at: iso(hoursAgo(8)),
-    },
-  ];
 }

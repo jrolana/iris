@@ -1,9 +1,9 @@
 "use client";
+
 import NotificationDropdown from "@/components/header/NotificationDropdown";
 import UserDropdown from "@/components/header/UserDropdown";
 import { useSidebar } from "@/context/SidebarContext";
-import Image from "next/image";
-import Link from "next/link";
+
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import PingsDropdown from "@/components/header/PingsDropdown";
@@ -11,11 +11,13 @@ import PingsDropdown from "@/components/header/PingsDropdown";
 interface PropsInterface {
   isPublic?: boolean;
   isFullWidth?: boolean;
+  isAdmin?: boolean;
 }
 
 const AppHeader: React.FC<PropsInterface> = ({
   isPublic,
   isFullWidth = false,
+  isAdmin = false,
 }) => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
@@ -129,8 +131,8 @@ const AppHeader: React.FC<PropsInterface> = ({
             </button>
           ) : (
             <>
-              <NotificationDropdown />
-              <PingsDropdown />
+              {isAdmin && <PingsDropdown />}
+              <NotificationDropdown isAdmin={isAdmin} />
               <UserDropdown />
             </>
           )}

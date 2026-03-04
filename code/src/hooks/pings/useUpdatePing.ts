@@ -2,10 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updatePing } from "@/services/pings/update-ping";
 
 interface PropsInterface {
-    applicationId: string
+    applicationId?: string
 } 
 
-export function useUpdatePing(props: PropsInterface) {
+export function useUpdatePing(props: PropsInterface = {}) {
     const { applicationId } = props; 
     const queryClient = useQueryClient();
 
@@ -14,7 +14,7 @@ export function useUpdatePing(props: PropsInterface) {
             mutationKey: ["update-ping"],
             mutationFn: updatePing,
             onSuccess: () => {
-                queryClient.invalidateQueries({queryKey:["get-ping", applicationId]})
+                applicationId ? queryClient.invalidateQueries({queryKey:["ping", applicationId]}) : queryClient.invalidateQueries({queryKey:["pings"]})
             }
         }
     )

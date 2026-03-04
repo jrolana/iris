@@ -3,14 +3,16 @@ import { getPing } from "@/services/pings/get-ping";
 
 interface PropsInterface {
     applicationId: string;
+    stageDelayed: string;
+    stepDelayed: string;
 }
 
 export function useGetPing(props: PropsInterface) {
-    const { applicationId } = props;
+    const { applicationId, stageDelayed, stepDelayed } = props;
 
     const {data, isLoading} = useQuery({
-        queryKey: ["get-ping", applicationId],
-        queryFn: () => getPing({applicationId}),
+        queryKey: ["ping", applicationId, stageDelayed, stepDelayed],
+        queryFn: () => getPing({applicationId, stageDelayed, stepDelayed}),
         enabled: !!applicationId && applicationId.trim() !== ''
     })
 

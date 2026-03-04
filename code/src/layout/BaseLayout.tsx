@@ -14,6 +14,7 @@ interface BaseLayoutProps {
   othersItems?: NavItem[];
   isPublic?: boolean;
   isFullWidth?: boolean;
+  isAdmin?: boolean;
 }
 
 export default function BaseLayout({
@@ -22,6 +23,7 @@ export default function BaseLayout({
   othersItems,
   isPublic = false,
   isFullWidth = false,
+  isAdmin = false,
 }: BaseLayoutProps) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
@@ -48,7 +50,11 @@ export default function BaseLayout({
       <div
         className={`flex-1 transition-all duration-300 ease-in-out ${navItems ? mainContentMargin : ""}`}
       >
-        <AppHeader isPublic={isPublic} isFullWidth={isFullWidth}/>
+        <AppHeader
+          isPublic={isPublic}
+          isFullWidth={isFullWidth}
+          isAdmin={isAdmin}
+        />
 
         {/* Page Content */}
         <div className="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">

@@ -24,5 +24,9 @@ const navItems: NavItem[] = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <BaseLayout navItems={navItems}>{children}</BaseLayout>;
+  return (
+    <BaseLayout navItems={navItems} isAdmin={true}>
+      {children}
+    </BaseLayout>
+  );
 }

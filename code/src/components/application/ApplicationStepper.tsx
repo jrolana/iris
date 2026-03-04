@@ -226,13 +226,16 @@ function StatusCard(props: StatusCardProps) {
     isCharter = false,
   } = props;
 
-  let stateClass = "border-sky-200 bg-sky-50 text-sky-700";
+  let stateClass = "border-sky-200 bg-sky-50 text-sky-700"; // !o !c
 
   if (isOverdue && isCharter) {
+    // o c
     stateClass = "border-rose-300 text-rose-800";
   } else if (isCharter) {
+    // !o c
     stateClass = "border-sky-200 text-sky-700";
-  } else {
+  } else if (isOverdue && !isCharter) {
+    // o !c
     stateClass = "border-rose-300 bg-rose-50 text-rose-800";
   }
 

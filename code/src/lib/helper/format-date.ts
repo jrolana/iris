@@ -1,3 +1,5 @@
+import { differenceInCalendarDays, isToday } from "date-fns";
+
 export const toSupabaseDateTime = (date: Date) => date.toISOString();
 
 export const formatDate = (date: string | Date) =>
@@ -22,13 +24,12 @@ export const formatDateTime = (date: string | Date) =>
     minute: "2-digit",
   });
 
-export const isToday = (date: string | Date) => {
-  const d = typeof date === "string" ? new Date(date) : date;
-  const now = new Date();
+export const daysDelayed = (targetISO: string) => {
+  const diff = differenceInCalendarDays(new Date(), new Date(targetISO));
+  return Math.max(diff, 0);
+}
 
-  return (
-    d.getDate() === now.getDate() &&
-    d.getMonth() === now.getMonth() &&
-    d.getFullYear() === now.getFullYear()
-  );
+export const smart = (iso: string) => {
+  const d = new Date(iso);
+  return isToday(d) ? `Today at ${formatTime(iso)}` : formatDateTime(iso);
 }
