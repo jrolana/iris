@@ -1,9 +1,8 @@
 "use client";
-import React, { useState } from "react";
-import Link from "next/link";
+
+import { useState } from "react";
 import { useGetNotifications } from "@/hooks/notifications/useGetNotifications";
 import { useMarkAsRead } from "@/hooks/notifications/useMarkAsRead";
-import { useQueryClient } from "@tanstack/react-query";
 import { formatDateTime, formatTime } from "@/lib/helper/format-date";
 import { isToday } from "date-fns";
 import Button from "@/components/ui/button/Button";
@@ -12,7 +11,6 @@ import { useRouter } from "next/navigation";
 type FilterType = "all" | "unread" | "read";
 
 export default function ViewAllNotifications() {
-  const queryClient = useQueryClient();
   const { notifications, isLoading } = useGetNotifications();
   const { markNotificationAsRead } = useMarkAsRead();
   const [filter, setFilter] = useState<FilterType>("all");
@@ -23,27 +21,13 @@ export default function ViewAllNotifications() {
 
   async function markAsRead(notifId: string, readAt: null | string) {
     if (readAt) return;
-    await markNotificationAsRead(
-      { notifId },
-      {
-        onSuccess: () =>
-          queryClient.invalidateQueries({ queryKey: ["notifications"] }),
-      },
-    );
+    await markNotificationAsRead({ notifId });
   }
 
   async function markAllAsRead() {
     const unread = notifications?.filter((n) => n.read_at === null) ?? [];
     await Promise.all(
-      unread.map((n) =>
-        markNotificationAsRead(
-          { notifId: n.id },
-          {
-            onSuccess: () =>
-              queryClient.invalidateQueries({ queryKey: ["notifications"] }),
-          },
-        ),
-      ),
+      unread.map((n) => markNotificationAsRead({ notifId: n.id })),
     );
   }
 
@@ -56,11 +40,12 @@ export default function ViewAllNotifications() {
   return (
     <div className="min-h-screen w-full bg-white px-6 py-8 transition-colors sm:px-8 lg:px-12">
       <div className="mx-auto max-w-3xl">
-        {/* Header */}
         <div className="relative mb-6 flex items-center justify-between">
           <button
             onClick={() => router.back()}
             className="absolute -left-20 flex inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-50"
+            aria-label="Back"
+            title="Back"
           >
             <svg
               width="18"
@@ -78,45 +63,57 @@ export default function ViewAllNotifications() {
               />
             </svg>
           </button>
-          <div className="flex items-center gap-4">
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-900">
-                Notifications
-              </h1>
-              {unreadCount > 0 && (
-                <p className="text-sm text-gray-500">{unreadCount} unread</p>
-              )}
-            </div>
+
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-900">
+              Notifications
+            </h1>
+            {unreadCount > 0 ? (
+              <p className="text-sm text-gray-500">{unreadCount} unread</p>
+            ) : (
+              <p className="text-sm text-gray-500">All caught up</p>
+            )}
           </div>
 
-          {unreadCount > 0 && (
+          {unreadCount > 0 ? (
             <Button size="sm" variant="primary" onClick={markAllAsRead}>
               Mark all as read
             </Button>
+          ) : (
+            <div className="w-[1px]" />
           )}
         </div>
 
-        {/* Filter Tabs */}
-        <div className="mb-4 flex gap-2">
-          {(["all", "unread", "read"] as FilterType[]).map((tab) => (
-            <Button
-              key={tab}
-              size="sm"
-              variant={filter === tab ? "primary" : "outline"}
-              onClick={() => setFilter(tab)}
-              className="relative flex-1 capitalize transition-colors"
-            >
-              {tab}
-              {tab === "unread" && unreadCount > 0 && (
-                <span className="absolute -top-1 -right-2 flex h-5 w-5 animate-pulse items-center justify-center rounded-full bg-orange-500 text-xs text-white">
-                  {unreadCount}
-                </span>
-              )}
-            </Button>
-          ))}
+        <div className="mb-4">
+          <div className="inline-flex w-full rounded-xl border border-gray-200 bg-gray-50 p-1">
+            {(["all", "unread", "read"] as FilterType[]).map((tab) => {
+              const active = filter === tab;
+
+              return (
+                <button
+                  key={tab}
+                  onClick={() => setFilter(tab)}
+                  className={[
+                    "relative flex-1 overflow-visible rounded-lg px-3 py-2 text-sm font-semibold capitalize transition",
+                    "focus:ring-2 focus:ring-gray-200 focus:ring-offset-1 focus:outline-none",
+                    active
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900",
+                  ].join(" ")}
+                >
+                  {tab}
+
+                  {tab === "unread" && unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-2 z-10 flex h-5 min-w-[20px] animate-pulse items-center justify-center rounded-full bg-orange-500 px-1 text-xs leading-none font-semibold text-white shadow-sm">
+                      {unreadCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Notifications List */}
         <ul className="flex flex-col gap-2">
           {isLoading ? (
             [...Array(5)].map((_, i) => (
@@ -148,60 +145,63 @@ export default function ViewAllNotifications() {
               </p>
             </li>
           ) : (
-            filtered.map((notif) => (
-              <li key={notif.id}>
-                <Button
-                  onClick={() => markAsRead(notif.id, notif.read_at)}
-                  size="md"
-                  variant="outline"
-                  className={`w-full justify-start gap-3 p-4 text-left transition-colors duration-200 ${
-                    notif.read_at === null
-                      ? "bg-orange-50 hover:bg-orange-100"
-                      : "bg-white hover:bg-gray-50"
-                  }`}
-                >
-                  <div className="flex w-full items-start gap-3">
-                    {/* Unread indicator */}
-                    <span className="mt-1.5 flex h-5 w-5 items-center justify-center">
-                      {notif.read_at === null ? (
-                      <span className="h-2 w-2 rounded-full bg-orange-500/75" />
-                      ) : (
-                        <span className="h-2 w-2 rounded-full border border-gray-300 bg-transparent" />
-                      )}
-                    </span>
+            filtered.map((notif) => {
+              const isUnread = notif.read_at === null;
 
-                    {/* Content */}
-                    <div className="min-w-0 flex-1">
-                      <p
-                        className={`text-sm font-medium transition-colors ${
-                          notif.read_at === null
-                            ? "text-gray-900"
-                            : "text-gray-700"
-                        }`}
-                      >
-                        {notif.title}
-                      </p>
-                      <p className="mt-0.5 text-sm text-gray-500">
-                        {notif.content}
-                      </p>
-                      <p className="mt-1 text-xs text-gray-400">
-                        {notif.created_at &&
-                          (isToday(new Date(notif.created_at))
-                            ? `Today at ${formatTime(notif.created_at)}`
-                            : formatDateTime(notif.created_at))}
-                      </p>
-                    </div>
-
-                    {/* Mark read hint */}
-                    {notif.read_at === null && (
-                      <span className="mt-1 shrink-0 text-xs text-orange-400 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                        Mark read
+              return (
+                <li key={notif.id}>
+                  <Button
+                    onClick={() => markAsRead(notif.id, notif.read_at)}
+                    size="md"
+                    variant="outline"
+                    className={`group w-full justify-start gap-3 p-4 text-left transition-all duration-200 ${
+                      isUnread
+                        ? "bg-orange-50/40 hover:bg-orange-50/60 hover:shadow-sm hover:ring-1 hover:ring-orange-200/70"
+                        : "bg-white hover:bg-gray-50 hover:shadow-sm hover:ring-1 hover:ring-gray-200/70"
+                    }`}
+                  >
+                    <div className="flex w-full items-start gap-3">
+                      {/* Unread indicator */}
+                      <span className="mt-1.5 flex h-5 w-5 items-center justify-center">
+                        {isUnread ? (
+                          <span className="h-2 w-2 rounded-full bg-orange-500/75" />
+                        ) : (
+                          <span className="h-2 w-2 rounded-full border border-gray-300 bg-transparent transition-colors group-hover:border-gray-400" />
+                        )}
                       </span>
-                    )}
-                  </div>
-                </Button>
-              </li>
-            ))
+
+                      {/* Content */}
+                      <div className="min-w-0 flex-1">
+                        <p
+                          className={`text-sm font-semibold transition-colors ${
+                            isUnread ? "text-gray-900" : "text-gray-800"
+                          }`}
+                        >
+                          {notif.title}
+                        </p>
+
+                        <p className="mt-0.5 text-sm text-gray-500">
+                          {notif.content}
+                        </p>
+
+                        <p className="mt-1 text-xs text-gray-400">
+                          {notif.created_at &&
+                            (isToday(new Date(notif.created_at))
+                              ? `Today at ${formatTime(notif.created_at)}`
+                              : formatDateTime(notif.created_at))}
+                        </p>
+                      </div>
+
+                      {isUnread && (
+                        <span className="mt-1 shrink-0 text-xs font-semibold text-orange-500 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                          Mark read
+                        </span>
+                      )}
+                    </div>
+                  </Button>
+                </li>
+              );
+            })
           )}
         </ul>
       </div>

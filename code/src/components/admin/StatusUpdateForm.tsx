@@ -356,9 +356,6 @@ function StatusUpdateForm(props: PropsInterface) {
     queryClient.invalidateQueries({
       queryKey: ["application", applicationId],
     });
-    queryClient.invalidateQueries({
-      queryKey: ["notifications"],
-    });
     setIsSubmitting(false);
     closeModal();
   };

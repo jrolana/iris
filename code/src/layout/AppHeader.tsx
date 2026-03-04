@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import PingsDropdown from "@/components/header/PingsDropdown";
 
 interface PropsInterface {
   isPublic?: boolean;
@@ -129,6 +130,7 @@ const AppHeader: React.FC<PropsInterface> = ({
           ) : (
             <>
               <NotificationDropdown />
+              <PingsDropdown />
               <UserDropdown />
             </>
           )}

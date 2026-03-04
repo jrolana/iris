@@ -99,6 +99,10 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
     };
   }, [currentStatus.created_at, currentStep.charterStage]);
 
+  const targetDate = currentStageDeadline
+    ? currentStageDeadline
+    : currentStatus.created_at;
+
   const isPingable = charterInfo?.isOverdue || deadlineInfo?.isOverdue;
 
   return (
@@ -193,6 +197,7 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
           application_name={applicationName}
           stage_delayed={currentStep.id as string}
           step_delayed={statusType as string}
+          target_date={targetDate!}
         />
       )}
     </div>

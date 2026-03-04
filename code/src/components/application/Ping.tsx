@@ -14,6 +14,7 @@ interface PingProps {
   application_name: string;
   step_delayed: string;
   stage_delayed: string;
+  target_date: string | Date;
 }
 
 export default function Ping(props: PingProps) {
@@ -23,6 +24,7 @@ export default function Ping(props: PingProps) {
     application_name,
     step_delayed,
     stage_delayed,
+    target_date,
   } = props;
 
   const { isLoading: isPinging, addPing } = useAddPing();
@@ -45,6 +47,10 @@ export default function Ping(props: PingProps) {
           application_name,
           stage_delayed,
           step_delayed,
+          target_date:
+            target_date instanceof Date
+              ? toSupabaseDateTime(target_date)
+              : target_date,
         },
       },
       {
