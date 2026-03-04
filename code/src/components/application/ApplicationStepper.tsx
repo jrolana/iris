@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo } from "react";
 import { ipApplicationFlows } from "@/lib/structs/ip-flow";
 import { IpType, StatusType } from "@/lib/types/ip";
 import { CHARTER_DEADLINES } from "@/lib/structs/charter";
@@ -8,24 +8,26 @@ import clsx from "clsx";
 import Hint from "../common/Tooltip";
 import { IprStatusType } from "@/lib/types/status";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
-import { formatDateTime } from "@/lib/helper/format-date";
-
-type PingStatusType = "none" | "sent" | "acknowledged";
-
-interface PingMeta {
-  status: PingStatusType;
-  acknowledgedBy?: string;
-  acknowledgedAt?: string;
-}
+import Ping from "./Ping";
 
 interface ApplicationStepperProps {
   ipType: IpType;
   currentStageDeadline?: string | Date; // From ipr_applications table
   currentStatus: IprStatusType["Row"];
+  isAdmin?: boolean;
+  applicationId: string;
+  applicationName: string;
 }
 
 export default function ApplicationStepper(props: ApplicationStepperProps) {
-  const { ipType, currentStageDeadline, currentStatus } = props;
+  const {
+    ipType,
+    currentStageDeadline,
+    currentStatus,
+    isAdmin = false,
+    applicationId,
+    applicationName,
+  } = props;
   const statusType = currentStatus.status_type as StatusType;
   const steps = ipApplicationFlows[ipType];
 
@@ -99,29 +101,6 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
 
   const isPingable = charterInfo?.isOverdue || deadlineInfo?.isOverdue;
 
-  // Ping State
-  const [ping, setPing] = useState<PingMeta>({
-    status: "none",
-  });
-
-  const handlePing = useCallback(async () => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // After success, mark as sent
-    setPing({ status: "sent" });
-  }, []);
-
-  // Simulate Acknowledgment
-  // (normally from backend)
-  const handleAcknowledge = useCallback(() => {
-    setPing({
-      status: "acknowledged",
-      acknowledgedBy: "Engr. Maria Santos (TTBDO)",
-      acknowledgedAt: new Date().toISOString(),
-    });
-  }, []);
-
   return (
     <div className="w-full space-y-4 p-2">
       <div
@@ -191,6 +170,7 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
           isOverdue={charterInfo.isOverdue}
           overdueText="Charter Deadline Missed"
           onTimeText="Within Processing Time"
+          isCharter={true}
         />
       )}
 
@@ -206,33 +186,14 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
         />
       )}
 
-      {/* Ping Section */}
       {isPingable && (
-        <div className="xsm:flex-row xsm:items-center xsm:justify-between flex flex-col items-start justify-between gap-2 p-3">
-          <div>
-            <p className="text-[10px] font-bold tracking-widest text-rose-700 uppercase opacity-80">
-              Processing Delay Detected
-            </p>
-            <p className="text-sm text-slate-700">
-              This application has exceeded its expected processing time. You
-              may request a status update from TTBDO.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <PingStatus ping={ping} onPing={handlePing} />
-
-            {/* Only for demo purposes: simulate acknowledgment */}
-            {ping.status === "sent" && (
-              <button
-                onClick={handleAcknowledge}
-                className="text-xs text-slate-500 underline"
-              >
-                (Simulate TTBDO Acknowledgment)
-              </button>
-            )}
-          </div>
-        </div>
+        <Ping
+          isAdmin={isAdmin}
+          application_id={applicationId}
+          application_name={applicationName}
+          stage_delayed={currentStep.id as string}
+          step_delayed={statusType as string}
+        />
       )}
     </div>
   );
@@ -246,19 +207,35 @@ interface StatusCardProps {
   isOverdue: boolean;
   overdueText: string;
   onTimeText: string;
+  isCharter?: boolean;
 }
 
 function StatusCard(props: StatusCardProps) {
-  const { title, timeString, target, isOverdue, overdueText, onTimeText } =
-    props;
+  const {
+    title,
+    timeString,
+    target,
+    isOverdue,
+    overdueText,
+    onTimeText,
+    isCharter = false,
+  } = props;
+
+  let stateClass = "border-sky-200 bg-sky-50 text-sky-700";
+
+  if (isOverdue && isCharter) {
+    stateClass = "border-rose-300 text-rose-800";
+  } else if (isCharter) {
+    stateClass = "border-sky-200 text-sky-700";
+  } else {
+    stateClass = "border-rose-300 bg-rose-50 text-rose-800";
+  }
 
   return (
     <div
       className={clsx(
         "xsm:flex-row xsm:items-start xsm:justify-between flex flex-col justify-between rounded-lg border p-3 transition-all",
-        isOverdue
-          ? "border-rose-300 bg-rose-50 text-rose-800"
-          : "border-sky-200 bg-sky-50 text-sky-700",
+        stateClass,
       )}
     >
       <div className="flex items-center gap-3">
@@ -286,62 +263,5 @@ function StatusCard(props: StatusCardProps) {
         <p className="font-mono text-sm font-bold">{target}</p>
       </div>
     </div>
-  );
-}
-
-// Ping Status Component
-function PingStatus({
-  ping,
-  onPing,
-}: {
-  ping: PingMeta;
-  onPing: () => Promise<void>;
-}) {
-  const [isSending, setIsSending] = useState(false);
-
-  const handlePing = async () => {
-    if (ping.status !== "none" || isSending) return;
-    try {
-      setIsSending(true);
-      await onPing();
-    } finally {
-      setIsSending(false);
-    }
-  };
-
-  if (ping.status === "acknowledged") {
-    return (
-      <div className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3">
-        <p className="text-xs font-bold tracking-widest text-emerald-700 uppercase">
-          TTBDO Acknowledged Your Request ✓
-        </p>
-        <p className="mt-1 text-xs text-emerald-800">
-          Acknowledged on {formatDateTime(ping.acknowledgedAt!)}
-        </p>
-      </div>
-    );
-  }
-
-  if (ping.status === "sent") {
-    return (
-      <div className="inline-flex items-center rounded-md border border-amber-300 bg-amber-50 px-4 py-2 text-xs font-semibold tracking-wide text-amber-700 uppercase">
-        Status Update Requested · Awaiting Response
-      </div>
-    );
-  }
-
-  return (
-    <button
-      onClick={handlePing}
-      disabled={isSending}
-      className={clsx(
-        "inline-flex items-center gap-2 rounded-md border px-4 py-2 text-xs font-semibold tracking-wide uppercase transition-colors",
-        "focus:ring-2 focus:ring-rose-300 focus:ring-offset-1 focus:outline-none",
-        "border-rose-500 text-rose-600 hover:bg-rose-50 hover:text-rose-700",
-        isSending && "cursor-wait opacity-70",
-      )}
-    >
-      {isSending ? "Requesting..." : "Request Status Update"}
-    </button>
   );
 }

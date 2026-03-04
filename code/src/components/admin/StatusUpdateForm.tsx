@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { IpType, StatusType } from "@/lib/types/ip";
-import { toSupabaseDate } from "@/lib/helper/format-date";
+import { toSupabaseDateTime } from "@/lib/helper/format-date";
 import { ApplicationType } from "@/lib/types/application";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import { getSuggestedDeadline } from "@/lib/helper/get-status-deadline";
@@ -240,7 +240,7 @@ function StatusUpdateForm(props: PropsInterface) {
         updatedStatus.note = note;
       }
       if (isDeadlineChanged) {
-        updatedStatus.deadline = deadline ? toSupabaseDate(deadline) : null;
+        updatedStatus.deadline = deadline ? toSupabaseDateTime(deadline) : null;
       }
 
       if (!isStatusChanged && (isNoteChanged || isDeadlineChanged)) {
@@ -287,7 +287,7 @@ function StatusUpdateForm(props: PropsInterface) {
         return;
       }
 
-      const changedDate = toSupabaseDate(date);
+      const changedDate = toSupabaseDateTime(date);
 
       if (selectedStatus == "filed_with_ipophil") {
         await updateApp(
