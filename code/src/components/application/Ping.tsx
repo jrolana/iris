@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import clsx from "clsx";
 import { formatDateTime, toSupabaseDateTime } from "@/lib/helper/format-date";
 import { useAddPing } from "@/hooks/pings/useAddPing";
 import { toast } from "sonner";
 import { useUpdatePing } from "@/hooks/pings/useUpdatePing";
 import { useGetPing } from "@/hooks/pings/useGetPing";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface PingProps {
   isAdmin?: boolean;
@@ -25,81 +24,73 @@ export default function Ping(props: PingProps) {
     step_delayed,
     stage_delayed,
   } = props;
-  const [isSending, setIsSending] = useState(false);
 
   const { isLoading: isPinging, addPing } = useAddPing();
-  const { isLoading: isAcknowledging, updatePing } = useUpdatePing();
+  const { isLoading: isAcknowledging, updatePing } = useUpdatePing({
+    applicationId: application_id,
+  });
   const { ping, isLoading: isFetchingPing } = useGetPing({
     applicationId: application_id,
   });
-  const queryClient = useQueryClient();
+
+  const isSending = isPinging || isAcknowledging || isFetchingPing;
 
   const handlePing = async () => {
     if (isSending) return;
 
-    try {
-      setIsSending(true);
-
-      await addPing(
-        {
-          pingData: {
-            application_id,
-            application_name,
-            stage_delayed,
-            step_delayed,
-          },
+    await addPing(
+      {
+        pingData: {
+          application_id,
+          application_name,
+          stage_delayed,
+          step_delayed,
         },
-        {
-          onSuccess: () => {
-            toast.success("Nasend na masaya ka na ba");
-            queryClient.invalidateQueries({
-              queryKey: ["get-ping", application_id],
-            });
-          },
-          onError: (error) => {
-            console.log(error);
-            toast.error("Sensya lods di na send, better luck next time");
-          },
+      },
+      {
+        onSuccess: () => {
+          toast.success("Request submitted", {
+            description:
+              "Your request has been received. The office will provide an update as soon as possible.",
+          });
         },
-      );
-    } catch {
-    } finally {
-      setIsSending(false);
-    }
+        onError: (error) => {
+          console.log(error);
+          toast.error("Request not submitted", {
+            description:
+              "Please try again. If the issue persists, refresh the page and retry.",
+          });
+        },
+      },
+    );
   };
 
   const handleAcknowledge = async () => {
     if (!ping || isSending) return;
 
-    try {
-      setIsSending(true);
-
-      await updatePing(
-        {
-          pingData: {
-            acknowledged_at: toSupabaseDateTime(new Date()),
-          },
-          pingId: ping.id,
+    await updatePing(
+      {
+        pingData: {
+          acknowledged_at: toSupabaseDateTime(new Date()),
         },
-        {
-          onSuccess: () => {
-            toast.success("Acknowledged na");
-            queryClient.invalidateQueries({
-              queryKey: ["get-ping", application_id],
-            });
-          },
-          onError: (error) => {
-            console.log(error);
-            toast.error(
-              "Sensya lods di na acknowledged, better luck next time",
-            );
-          },
+        pingId: ping.id,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Request acknowledged", {
+            description:
+              "This confirms the office has received the request for review.",
+          });
         },
-      );
-    } catch {
-    } finally {
-      setIsSending(false);
-    }
+        onError: (error) => {
+          console.log(error);
+          toast.error("Unable to acknowledge", {
+            description:
+              "Please try again. If it persists, refresh the page and retry.",
+          });
+        },
+      },
+    );
   };
 
   function PingCard({ children }: { children: ReactNode }) {
@@ -107,12 +98,13 @@ export default function Ping(props: PingProps) {
       <div className="xsm:flex-row xsm:items-center xsm:justify-between flex flex-col items-start justify-between gap-2 p-3">
         <div>
           <p className="text-[10px] font-bold tracking-widest text-rose-700 uppercase opacity-80">
-            Processing Delay Detected
+            Processing Update
           </p>
+
           <p className="text-sm text-slate-700">
             {isAdmin
-              ? "This application has exceeded the expected processing time. Please review the case and provide a status update to applicants."
-              : "This application has exceeded its expected processing time. You may request a status update from TTBDO."}
+              ? "This application is taking longer than expected. Please review the case and provide a status update for the applicant."
+              : "Your application is taking longer than expected. You may request a status update from the office."}
           </p>
         </div>
 
@@ -121,10 +113,10 @@ export default function Ping(props: PingProps) {
     );
   }
 
-  if (!ping && isAdmin) {
-    return null;
-  }
+  // Admin shouldn't see the card unless a request exists
+  if (!ping && isAdmin) return null;
 
+  // No request yet
   if (!ping) {
     return (
       <PingCard>
@@ -138,48 +130,47 @@ export default function Ping(props: PingProps) {
             isSending && "cursor-wait opacity-70",
           )}
         >
-          {isSending ? "Requesting..." : "Request Status Update"}
+          {isSending ? "Submitting request…" : "Request a status update"}
         </button>
       </PingCard>
     );
   }
 
+  // Request exists
   return (
     <PingCard>
       {ping?.acknowledged_at ? (
-        <>
-          <div className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3">
-            <p className="text-xs font-bold tracking-widest text-emerald-700 uppercase">
-              {isAdmin ? "" : "TTBDO "}Acknowledged the Request ✓
-            </p>
-            <p className="mt-1 text-xs text-emerald-800">
-              Acknowledged on {formatDateTime(ping.acknowledged_at)}
-            </p>
+        <div className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3">
+          <p className="text-xs font-bold tracking-widest text-emerald-700 uppercase">
+            Request received by the office ✓
+          </p>
+          <p className="mt-1 text-xs text-emerald-800">
+            Acknowledged on {formatDateTime(ping.acknowledged_at)}
+          </p>
+        </div>
+      ) : isAdmin ? (
+        <div className="xsm:items-end flex flex-col gap-2">
+          <div className="inline-flex items-center rounded-md border border-amber-300 bg-amber-50 px-4 py-2 text-xs font-semibold tracking-wide text-amber-700 uppercase">
+            Status update requested · For review
           </div>
-        </>
+
+          <button
+            onClick={handleAcknowledge}
+            disabled={isSending}
+            className={clsx(
+              "inline-flex items-center gap-2 rounded-md border px-4 py-2 text-xs font-semibold tracking-wide uppercase transition-colors",
+              "focus:ring-2 focus:ring-emerald-300 focus:ring-offset-1 focus:outline-none",
+              "border-emerald-500 text-emerald-700 hover:bg-emerald-50",
+              isSending && "cursor-wait opacity-70",
+            )}
+          >
+            {isSending ? "Saving…" : "Acknowledge request"}
+          </button>
+        </div>
       ) : (
-        <>
-          {isAdmin ? (
-            <button
-              onClick={handleAcknowledge}
-              disabled={isSending}
-              className={clsx(
-                "inline-flex items-center gap-2 rounded-md border px-4 py-2 text-xs font-semibold tracking-wide uppercase transition-colors",
-                "focus:ring-2 focus:ring-amber-300 focus:ring-offset-1 focus:outline-none",
-                "border-amber-500 text-amber-600 hover:bg-amber-50 hover:text-amber-700",
-                isSending && "cursor-wait opacity-70",
-              )}
-            >
-              {isSending
-                ? "Acknowledging Status Update..."
-                : "Status Update Requested · Awaiting Response"}
-            </button>
-          ) : (
-            <div className="inline-flex items-center rounded-md border border-amber-300 bg-amber-50 px-4 py-2 text-xs font-semibold tracking-wide text-amber-700 uppercase">
-              Status Update Requested · Awaiting Response
-            </div>
-          )}
-        </>
+        <div className="inline-flex items-center rounded-md border border-amber-300 bg-amber-50 px-4 py-2 text-xs font-semibold tracking-wide text-amber-700 uppercase">
+          Status update requested · Pending office response
+        </div>
       )}
     </PingCard>
   );
