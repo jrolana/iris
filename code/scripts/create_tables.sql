@@ -90,6 +90,13 @@ CREATE TABLE private.ipr_applications (
     updated_at TIMESTAMPTZ DEFAULT now()
 );
 
+alter table private.ipr_applications
+  alter column filing_date type date using filing_date::date,
+  alter column registration_date type date using registration_date::date;
+
+alter table private.ipr_statuses
+  alter column deadline type date using deadline::date;
+
 ALTER TABLE private.users
 ADD COLUMN college VARCHAR(20) DEFAULT 'Other' NOT NULL,
 ADD COLUMN is_active BOOLEAN DEFAULT TRUE NOT NULL,

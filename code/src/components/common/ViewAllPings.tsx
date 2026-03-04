@@ -2,12 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { smart, daysDelayed } from "@/lib/helper/format-date";
+import { formatSmartDate, daysDelayed } from "@/lib/helper/format-date";
 import { useGetAllPings } from "@/hooks/pings/useGetAllPings";
 import { useUpdatePing } from "@/hooks/pings/useUpdatePing";
 import { PingType } from "@/lib/types/ping";
 import { toast } from "sonner";
-import { toSupabaseDateTime } from "@/lib/helper/format-date";
+import { toSupabaseTimestamp } from "@/lib/helper/format-date";
 
 type FilterType = "all" | "pending" | "acknowledged";
 
@@ -51,7 +51,7 @@ export default function ViewAllPings() {
     await updatePing(
       {
         pingData: {
-          acknowledged_at: toSupabaseDateTime(new Date()),
+          acknowledged_at: toSupabaseTimestamp(new Date()),
         },
         pingId: ping.id,
       },
@@ -234,11 +234,11 @@ export default function ViewAllPings() {
                         </p>
 
                         <p className="mt-0.5 text-sm text-gray-500">
-                          Target: {smart(req.target_date)}
+                          Target: {formatSmartDate(req.target_date)}
                           <span className="mx-2 text-gray-300">•</span>
                           {!isAck
-                            ? `Requested ${smart(req.created_at)}`
-                            : `Acknowledged ${smart(req.acknowledged_at!)}`}
+                            ? `Requested ${formatSmartDate(req.created_at)}`
+                            : `Acknowledged ${formatSmartDate(req.acknowledged_at!)}`}
                         </p>
 
                         <button

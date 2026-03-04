@@ -1,4 +1,4 @@
-import { toSupabaseDateTime } from "@/lib/helper/format-date";
+import { toSupabaseTimestamp } from "@/lib/helper/format-date";
 import { supabaseClient as supabase } from "@/lib/supabase";
 
 interface PropsInterface {
@@ -10,7 +10,7 @@ export const markNotificationAsRead = async (props: PropsInterface) => {
     const { data, error } = await supabase
     .schema("private")
     .from("notifications")
-    .update({read_at: toSupabaseDateTime(new Date())})
+    .update({read_at: toSupabaseTimestamp(new Date())})
     .eq("id", notifId)
     .select();
 

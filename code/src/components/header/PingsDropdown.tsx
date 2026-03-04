@@ -3,13 +3,12 @@
 import { ReactNode, useMemo, useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import { differenceInCalendarDays, isToday } from "date-fns";
-import { formatDateTime, formatTime } from "@/lib/helper/format-date";
+import { formatSmartDate, daysDelayed } from "@/lib/helper/format-date";
 import { useRouter } from "next/navigation";
 import { PingType } from "@/lib/types/ping";
 import { useGetAllPings } from "@/hooks/pings/useGetAllPings";
 import { toast } from "sonner";
-import { toSupabaseDateTime } from "@/lib/helper/format-date";
+import { toSupabaseTimestamp } from "@/lib/helper/format-date";
 import { useUpdatePing } from "@/hooks/pings/useUpdatePing";
 
 export default function PingsDropdown() {
@@ -50,7 +49,7 @@ export default function PingsDropdown() {
     await updatePing(
       {
         pingData: {
-          acknowledged_at: toSupabaseDateTime(new Date()),
+          acknowledged_at: toSupabaseTimestamp(new Date()),
         },
         pingId: ping.id,
       },
@@ -348,16 +347,4 @@ function Pill({
       {children}
     </span>
   );
-}
-
-// HELPERS
-
-function daysDelayed(targetISO: string) {
-  const diff = differenceInCalendarDays(new Date(), new Date(targetISO));
-  return Math.max(diff, 0);
-}
-
-function formatSmartDate(iso: string) {
-  const d = new Date(iso);
-  return isToday(d) ? formatTime(iso) : formatDateTime(iso);
 }

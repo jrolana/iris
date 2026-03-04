@@ -18,7 +18,7 @@ import { RegistrationRequestType } from "@/lib/types/users";
 import { toast } from "sonner";
 import { useUpdateRegistrationRequest } from "@/hooks/registration-request/useUpdateRegistrationRequest";
 import { inviteUser } from "@/app/actions/invite-user";
-import { toSupabaseDateTime } from "@/lib/helper/format-date";
+import { toSupabaseTimestamp } from "@/lib/helper/format-date";
 
 export default function RegistrationRequestsTable() {
   const { registrationRequests: usersData, isLoading } =
@@ -61,7 +61,7 @@ export default function RegistrationRequestsTable() {
         id: userData.id,
         userData: {
           status: "approved",
-          invite_expires_at: toSupabaseDateTime(
+          invite_expires_at: toSupabaseTimestamp(
             new Date(Date.now() + 24 * 60 * 60 * 1000),
           ),
         },

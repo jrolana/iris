@@ -1,8 +1,8 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import clsx from "clsx";
-import { formatDateTime, toSupabaseDateTime } from "@/lib/helper/format-date";
+import { formatDateTime, toSupabaseTimestamp } from "@/lib/helper/format-date";
 import { useAddPing } from "@/hooks/pings/useAddPing";
 import { toast } from "sonner";
 import { useUpdatePing } from "@/hooks/pings/useUpdatePing";
@@ -51,7 +51,7 @@ export default function Ping(props: PingProps) {
           step_delayed,
           target_date:
             target_date instanceof Date
-              ? toSupabaseDateTime(target_date)
+              ? toSupabaseTimestamp(target_date)
               : target_date,
         },
       },
@@ -79,7 +79,7 @@ export default function Ping(props: PingProps) {
     await updatePing(
       {
         pingData: {
-          acknowledged_at: toSupabaseDateTime(new Date()),
+          acknowledged_at: toSupabaseTimestamp(new Date()),
         },
         pingId: ping.id,
       },
