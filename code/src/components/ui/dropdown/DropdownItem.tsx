@@ -2,7 +2,7 @@ import type React from "react";
 import Link from "next/link";
 
 interface DropdownItemProps {
-  tag?: "a" | "button";
+  tag?: "a" | "button" | "div";
   href?: string;
   onClick?: () => void;
   onItemClick?: () => void;
@@ -23,14 +23,14 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
   const combinedClasses = `${baseClassName} ${className}`.trim();
 
   const handleClick = (event: React.MouseEvent) => {
-    if (tag === "button") {
-      event.preventDefault();
-    }
-    if (onClick) onClick();
-    if (onItemClick) onItemClick();
+    // Only prevent default for actual buttons
+    if (tag === "button") event.preventDefault();
+    onClick?.();
+    onItemClick?.();
   };
 
-  if (tag === "a" && href) {
+  // Anchor behavior (navigation)
+  if ((tag === "a") && href) {
     return (
       <Link href={href} className={combinedClasses} onClick={handleClick}>
         {children}
@@ -38,8 +38,32 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
     );
   }
 
+  // If tag is explicitly "a" but no href, or tag is "div",
+  // use a non-button wrapper to avoid nested button issues.
+  if (tag === "a" || tag === "div") {
+    return (
+      <div
+        className={combinedClasses}
+        role="menuitem"
+        tabIndex={0}
+        onClick={handleClick}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            // trigger same click behavior
+            onClick?.();
+            onItemClick?.();
+          }
+        }}
+      >
+        {children}
+      </div>
+    );
+  }
+
+  // Default: real button item
   return (
-    <button onClick={handleClick} className={combinedClasses}>
+    <button type="button" onClick={handleClick} className={combinedClasses}>
       {children}
     </button>
   );

@@ -1,122 +1,151 @@
 "use client";
-import Link from "next/link";
-import React, { ReactNode, useState } from "react";
+
+import { ReactNode, useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { useGetNotifications } from "@/hooks/notifications/useGetNotifications";
 import { useMarkAsRead } from "@/hooks/notifications/useMarkAsRead";
-import { useQueryClient } from "@tanstack/react-query";
+import { formatDateTime, formatTime } from "@/lib/helper/format-date";
+import { isToday } from "date-fns";
+import { useRouter } from "next/navigation";
 
-export default function NotificationDropdown() {
-  const queryClient = useQueryClient();
+interface NotificationDropdownPropsInterface {
+  isAdmin?: boolean;
+}
+
+export default function NotificationDropdown(
+  props: NotificationDropdownPropsInterface,
+) {
+  const { isAdmin = false } = props;
+
   const { notifications, isLoading } = useGetNotifications();
   const { markNotificationAsRead } = useMarkAsRead();
+  const hasUnreadNotification = notifications?.some(
+    (notif) => notif.read_at === null,
+  );
+  const router = useRouter();
+
+  async function handleViewAll() {
+    router.push(`/${isAdmin ? "admin" : "techgen"}/notifications`);
+  }
 
   async function markAsRead(notifId: string, readAt: null | string) {
-    if (readAt) {
-      return;
-    }
-
-    await markNotificationAsRead(
-      { notifId },
-      {
-        onSuccess: () =>
-          queryClient.invalidateQueries({ queryKey: ["notifications"] }),
-      },
-    );
+    if (readAt) return;
+    await markNotificationAsRead({ notifId });
   }
 
   if (isLoading) {
     return (
-      <NotificationContainer>Fetching notifications...</NotificationContainer>
+      <NotificationContainer hasUnreadNotification={hasUnreadNotification}>
+        Fetching notifications...
+      </NotificationContainer>
     );
   }
 
   if (!notifications || notifications.length < 1) {
-    return <NotificationContainer>No notifications yet.</NotificationContainer>;
+    return (
+      <NotificationContainer hasUnreadNotification={hasUnreadNotification}>
+        No notifications yet.
+      </NotificationContainer>
+    );
   }
 
   return (
-    <NotificationContainer>
+    <NotificationContainer hasUnreadNotification={hasUnreadNotification}>
       <ul className="custom-scrollbar flex h-auto flex-col gap-1 overflow-y-auto">
-        {notifications.map((notif) => (
-          <li key={notif.id}>
-            <DropdownItem
-              onItemClick={() => markAsRead(notif.id, notif.read_at)}
-              className={`flex gap-3 rounded-lg p-3 px-4.5 py-3 hover:bg-gray-100 ${
-                notif.read_at ? "bg-white" : "bg-gray-50"
-              }`}
-            >
-              <span className="block">
-                <span className="text-theme-sm line-clamp-2 font-medium text-gray-800">
-                  {notif.title}
-                </span>
+        {notifications.map((notif) => {
+          const isUnread = notif.read_at === null;
 
-                <span className="text-theme-sm text-gray-500">
-                  {notif.content}
-                </span>
+          return (
+            <li key={notif.id}>
+              <DropdownItem
+                onItemClick={() => markAsRead(notif.id, notif.read_at)}
+                className={[
+                  "flex gap-3 rounded-lg p-3 px-4.5 py-3",
+                  isUnread
+                    ? "bg-orange-50 hover:bg-orange-100"
+                    : "bg-white hover:bg-gray-100",
+                ].join(" ")}
+              >
+                <span className="block">
+                  <span className="text-theme-sm line-clamp-2 font-medium text-gray-800">
+                    {notif.title}
+                  </span>
 
-                <span className="text-theme-xs mt-1 flex items-center gap-2 text-gray-500">
-                  <span className="h-1 w-1 rounded-full bg-gray-400"></span>
-                  <span>
-                    {notif.created_at &&
-                      new Date(notif.created_at).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                  <span className="text-theme-sm text-gray-500">
+                    {notif.content}
+                  </span>
+
+                  <span className="text-theme-xs mt-1 flex items-center gap-2 text-gray-500">
+                    <span
+                      className={[
+                        "h-1 w-1 rounded-full",
+                        isUnread ? "bg-orange-500" : "bg-gray-400",
+                      ].join(" ")}
+                    />
+                    <span>
+                      {notif.created_at &&
+                        (isToday(new Date(notif.created_at))
+                          ? formatTime(notif.created_at)
+                          : formatDateTime(notif.created_at))}
+                    </span>
                   </span>
                 </span>
-              </span>
-            </DropdownItem>
-          </li>
-        ))}
+              </DropdownItem>
+            </li>
+          );
+        })}
       </ul>
 
-      <Link
-        href="/"
-        className="mt-3 block rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+      <button
+        onClick={handleViewAll}
+        className={[
+          "mt-3 inline-flex w-full items-center justify-center rounded-md border px-4 py-2",
+          "text-xs font-semibold tracking-wide uppercase transition-colors",
+          "focus:ring-2 focus:ring-orange-200 focus:ring-offset-1 focus:outline-none",
+          "border-gray-300 bg-white text-gray-700 hover:bg-gray-100",
+        ].join(" ")}
       >
         View All Notifications
-      </Link>
+      </button>
     </NotificationContainer>
   );
 }
 
-interface PropsInterface {
+interface NotificationContainerPropsInterface {
   children: ReactNode;
+  hasUnreadNotification?: boolean;
 }
 
-function NotificationContainer(props: PropsInterface) {
-  const { children } = props;
+function NotificationContainer(props: NotificationContainerPropsInterface) {
+  const { children, hasUnreadNotification = false } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [notifying, setNotifying] = useState(true);
 
   function toggleDropdown() {
-    setIsOpen(!isOpen);
+    setIsOpen((v) => !v);
   }
 
   function closeDropdown() {
     setIsOpen(false);
   }
 
-  const handleClick = () => {
-    toggleDropdown();
-    setNotifying(false);
-  };
-
   return (
     <div className="relative">
       <button
-        className="dropdown-toggle relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
-        onClick={handleClick}
+        className="text-gray-600transition relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-100 hover:text-gray-800"
+        onClick={toggleDropdown}
+        aria-label="Open notifications"
+        title="Open notifications"
       >
-        <span
-          className={`absolute top-0.5 right-0 z-10 h-2 w-2 rounded-full bg-orange-400 ${
-            !notifying ? "hidden" : "flex"
-          }`}
-        >
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"></span>
-        </span>
+        {hasUnreadNotification ? (
+          <>
+            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-orange-400" />
+            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-orange-400">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" />
+            </span>
+          </>
+        ) : null}
+
         <svg
           className="fill-current"
           width="20"
@@ -132,23 +161,30 @@ function NotificationContainer(props: PropsInterface) {
           />
         </svg>
       </button>
+
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="shadow-theme-lg absolute left-0 mt-[17px] flex h-fit max-h-[400px] w-screen max-w-[360px] flex-col rounded-2xl border border-gray-200 bg-white p-3 lg:right-0 lg:left-auto"
+        className={[
+          "shadow-theme-lg absolute left-0 mt-[17px] flex h-fit max-h-[400px] w-screen max-w-[380px] flex-col rounded-2xl border border-gray-200 bg-white p-3",
+          "lg:right-0 lg:left-auto",
+          "dark:border-gray-800 dark:bg-gray-900",
+        ].join(" ")}
       >
-        <div className="mb-3 flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-700">
-          <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-            Notification
+        <div className="mb-3 flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-800">
+          <h5 className="text-base font-semibold text-gray-900 dark:text-gray-100">
+            Notifications
           </h5>
           <button
             onClick={toggleDropdown}
-            className="dropdown-toggle text-gray-500 transition hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            className="rounded-full p-1 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+            aria-label="Close"
+            title="Close"
           >
             <svg
               className="fill-current"
-              width="24"
-              height="24"
+              width="22"
+              height="22"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -161,6 +197,7 @@ function NotificationContainer(props: PropsInterface) {
             </svg>
           </button>
         </div>
+
         {children}
       </Dropdown>
     </div>
