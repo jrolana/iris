@@ -53,36 +53,48 @@ export default function NotificationDropdown(
   return (
     <NotificationContainer hasUnreadNotification={hasUnreadNotification}>
       <ul className="custom-scrollbar flex h-auto flex-col gap-1 overflow-y-auto">
-        {notifications.map((notif) => (
-          <li key={notif.id}>
-            <DropdownItem
-              onItemClick={() => markAsRead(notif.id, notif.read_at)}
-              className={`flex gap-3 rounded-lg p-3 px-4.5 py-3 hover:bg-gray-100 ${
-                notif.read_at ? "bg-white" : "bg-gray-50"
-              }`}
-            >
-              <span className="block">
-                <span className="text-theme-sm line-clamp-2 font-medium text-gray-800">
-                  {notif.title}
-                </span>
+        {notifications.map((notif) => {
+          const isUnread = notif.read_at === null;
 
-                <span className="text-theme-sm text-gray-500">
-                  {notif.content}
-                </span>
+          return (
+            <li key={notif.id}>
+              <DropdownItem
+                onItemClick={() => markAsRead(notif.id, notif.read_at)}
+                className={[
+                  "flex gap-3 rounded-lg p-3 px-4.5 py-3",
+                  isUnread
+                    ? "bg-orange-50 hover:bg-orange-100"
+                    : "bg-white hover:bg-gray-100",
+                ].join(" ")}
+              >
+                <span className="block">
+                  <span className="text-theme-sm line-clamp-2 font-medium text-gray-800">
+                    {notif.title}
+                  </span>
 
-                <span className="text-theme-xs mt-1 flex items-center gap-2 text-gray-500">
-                  <span className="h-1 w-1 rounded-full bg-gray-400"></span>
-                  <span>
-                    {notif.created_at &&
-                      (isToday(new Date(notif.created_at))
-                        ? formatTime(notif.created_at)
-                        : formatDateTime(notif.created_at))}
+                  <span className="text-theme-sm text-gray-500">
+                    {notif.content}
+                  </span>
+
+                  <span className="text-theme-xs mt-1 flex items-center gap-2 text-gray-500">
+                    <span
+                      className={[
+                        "h-1 w-1 rounded-full",
+                        isUnread ? "bg-orange-500" : "bg-gray-400",
+                      ].join(" ")}
+                    />
+                    <span>
+                      {notif.created_at &&
+                        (isToday(new Date(notif.created_at))
+                          ? formatTime(notif.created_at)
+                          : formatDateTime(notif.created_at))}
+                    </span>
                   </span>
                 </span>
-              </span>
-            </DropdownItem>
-          </li>
-        ))}
+              </DropdownItem>
+            </li>
+          );
+        })}
       </ul>
 
       <button

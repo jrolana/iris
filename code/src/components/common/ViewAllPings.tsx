@@ -140,7 +140,7 @@ export default function ViewAllPings() {
                   {tab}
 
                   {tab === "pending" && pendingCount > 0 && (
-                    <span className="absolute -top-1 -right-2 z-10 flex h-5 min-w-[20px] animate-pulse items-center justify-center rounded-full bg-rose-500 px-1 text-xs leading-none font-semibold text-white shadow-sm">
+                    <span className="absolute -top-1 right-1 z-10 flex h-5 min-w-[20px] animate-pulse items-center justify-center rounded-full bg-rose-500 px-1 text-xs leading-none font-semibold text-white shadow-sm">
                       {pendingCount}
                     </span>
                   )}

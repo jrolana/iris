@@ -12,7 +12,8 @@ type FilterType = "all" | "unread" | "read";
 
 export default function ViewAllNotifications() {
   const { notifications, isLoading } = useGetNotifications();
-  const { markNotificationAsRead } = useMarkAsRead();
+  const { markNotificationAsRead, isLoading: isMarkingAsRead } =
+    useMarkAsRead();
   const [filter, setFilter] = useState<FilterType>("all");
   const router = useRouter();
 
@@ -76,8 +77,13 @@ export default function ViewAllNotifications() {
           </div>
 
           {unreadCount > 0 ? (
-            <Button size="sm" variant="primary" onClick={markAllAsRead}>
-              Mark all as read
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={markAllAsRead}
+              disabled={isMarkingAsRead}
+            >
+              {isMarkingAsRead ? "Marking all as read…" : "Mark all as read"}
             </Button>
           ) : (
             <div className="w-[1px]" />
@@ -104,7 +110,7 @@ export default function ViewAllNotifications() {
                   {tab}
 
                   {tab === "unread" && unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-2 z-10 flex h-5 min-w-[20px] animate-pulse items-center justify-center rounded-full bg-orange-500 px-1 text-xs leading-none font-semibold text-white shadow-sm">
+                    <span className="absolute -top-1 right-1 z-10 flex h-5 min-w-[20px] animate-pulse items-center justify-center rounded-full bg-orange-500 px-1 text-xs leading-none font-semibold text-white shadow-sm">
                       {unreadCount}
                     </span>
                   )}
