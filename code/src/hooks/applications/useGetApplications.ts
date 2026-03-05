@@ -1,11 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
-import { getApplications } from '@/services/application/get-applications';
+import { getApplicationsByQuery } from '@/services/application/get-applications-with-query';
+import { CollegeUnitType } from '@/lib/types/college-units';
+import { StatusType } from '@/lib/types/ip';
 
-export function useApplications() {
+interface UseApplicationsGetApplicationsByQueryProps {
+    title?: string;
+    status?: StatusType;
+    colleges?: CollegeUnitType[];
+    techgens?: string[];
+}
+
+export function useApplicationsGetApplicationsByQuery(props: UseApplicationsGetApplicationsByQueryProps) {
+    const {title, status, colleges, techgens} = props;
 
     const {data, isLoading} =  useQuery({
         queryKey: ['applications'],
-        queryFn: getApplications,
+        queryFn: ()=> getApplicationsByQuery({title, status, colleges, techgens}),
     });
 
     return {application: data, isLoading}; 
