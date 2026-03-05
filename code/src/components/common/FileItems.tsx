@@ -99,7 +99,7 @@ export default function FileItem(props: FileItemProps) {
 
         {/* --- Action Buttons --- */}
         <div className="shrink-0 pt-2 text-right">
-          <div className="flex flex-wrap justify-end gap-2 text-sm">
+          <div className="flex flex-wrap justify-start gap-2 text-sm sm:justify-end">
             <Button
               type="button"
               variant="outline"
