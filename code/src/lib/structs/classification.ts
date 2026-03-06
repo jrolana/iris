@@ -68,15 +68,15 @@ export const ipClassificationTree: Record<string, WizardNode> = {
         nextNodeId: 'device-focus',
       },
       {
-        id: 'product-composition',
-        label: 'Product Composition',
-        description: 'Formulation, mixture, chemical/biological product.',
+        id: 'product-or-system',
+        label: 'Product Composition and Systems',
+        description: 'Systems with multiple components or formulation, mixture, chemical/biological product.',
         nextNodeId: 'product-novelty',
       },
       {
-        id: 'computer-program',
-        label: 'Computer Program',
-        description: 'Software, application, script, or system.',
+        id: 'computer-codes',
+        label: 'Computer Program Codes',
+        description: 'Software, algorithms, codebases, apps, or similar outputs.',
         nextNodeId: 'software-leaf',
       },
     ],
@@ -160,11 +160,11 @@ export const ipClassificationTree: Record<string, WizardNode> = {
     id: 'product-novelty',
     question: 'How would you describe the product composition?',
     helperText:
-      'For chemicals, food, biological products, and similar outputs.',
+      'For systems, chemicals, food, biological products, and similar outputs.',
     options: [
       {
         id: 'product-new-composition',
-        label: 'New composition or formulation',
+        label: 'New or uncommon composition/formulation',
         description: 'New combination of ingredients or components.',
         nextNodeId: 'product-patent-leaf',
       },
@@ -234,16 +234,60 @@ export const ipClassificationTree: Record<string, WizardNode> = {
         label: 'Technical process',
         description:
           'Laboratory, engineering, manufacturing, or similarly technical procedure.',
-        nextNodeId: 'process-technical-leaf',
+        nextNodeId: 'process-um-patent',
       },
       {
         id: 'procedural-guideline',
         label: 'Procedural guideline / manual',
-        description: 'Standard operating procedures, manuals, write-ups.',
+        description: 'IECs format, standard operating procedures, manuals, write-ups.',
         nextNodeId: 'process-copyright-leaf',
       },
     ],
   },
+
+
+  'process-um-patent':{
+    id: 'process-um-patent',
+    question: 'Recommended protection',
+    helperText: 'You could apply for either Patent or Utility Model',
+    options: [
+      {
+        id: 'process-patent-leaft',
+        label: 'Patent',
+        description: 'Apply for Patent protection, which requires novelty and inventive step.',
+        nextNodeId: 'process-patent-leaf',
+      },
+      {
+        id: 'process-utility-model',
+        label: 'Utility Model',
+        description: 'Apply for Utility Model protection, which is more suitable for incremental improvements.',
+        nextNodeId: 'process-um-leaf',
+      }
+    ]
+  },
+
+  'process-patent-leaf': {
+    id: 'process-patent-leaf',
+    question: 'Recommended protection',
+    result: {
+      ipType: 'patent',
+      formName: 'Patent Technology Disclosure Form', 
+      summary:
+        'Your output appears to be a novel and non-obvious technical process, which is typically evaluated under Patent.',
+    },
+  },
+
+  'process-um-leaf': {
+    id: 'process-um-leaf',
+    question: 'Recommended protection',
+    result: {
+      ipType: 'utility_model',
+      formName: 'Utility Model Disclosure Form',
+      summary:
+        'Your output seems to be an improvement or new application of existing processes, often suited for Utility Model protection.',
+    },
+  },
+
 
   'process-technical-leaf': {
     id: 'process-technical-leaf',
