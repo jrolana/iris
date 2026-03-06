@@ -64,11 +64,11 @@ BEGIN
         v_is_admin                           -- Admins see all
         OR v_is_official                     -- Officials see all
         OR private.check_inventor_access(app.id) -- Inventors see their own
-        OR stat.name = 'published'              -- Guests (and everyone else) see published
+        OR stat.is_public              -- Guests (and everyone else) see published
         
        
-        -- NOTE: (v_role = 'anon' AND stat.name = 'published') means inventors cannot see published apps that they don't have access to
-        -- stat.name = 'published' means that anyone can see published apps
+        -- NOTE: (v_role = 'anon' AND stat.is_public) means inventors cannot see published apps that they don't have access to
+        -- stat.is_public means that anyone can see published apps
         )
         
         -- apply filters only to the result of the access control, to avoid doing expensive operations

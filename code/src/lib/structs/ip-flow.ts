@@ -28,7 +28,7 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
     { 
       id: 'ser_exam', 
       label: 'Substantive Examination', 
-      statusTypes: ['wait_substantive_exam_report','resolve_ser_defects', 'downgraded_to_um', 'wait_notice_of_issuance']
+      statusTypes: ['resolve_ser_defects', 'downgraded_to_um', 'wait_notice_of_issuance']
     },
     {
       id: 'notice_of_issuance', label: 'Notice of Issuance', statusTypes: ['req_cert_of_registration', 'wait_cert_of_registration']
@@ -37,6 +37,7 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
       id: 'request_cert', label: 'Certificate of Registration', statusTypes: ['req_cert_of_registration', 'wait_cert_of_registration']
     },
     { id: 'grant', label: 'Grant / Registration', statusTypes: ['registered'] },
+    { id: 'expired', label: 'Lapsed / Expired', statusTypes: ['expired'] },
   ],
   utility_model: [
     { id: 'idf', label: 'Submit Utility Model IDF', statusTypes: ['draft_classification','draft_idf','submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
@@ -52,6 +53,7 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
       id: 'publish', label: 'Notice of Publication', statusTypes: ['published', 'req_cert_of_registration', 'wait_cert_of_registration']
     },
     { id: 'grant', label: 'Grant / Registration', statusTypes: ['registered'] },
+    { id: 'expired', label: 'Lapsed / Expired', statusTypes: ['expired'] },
   ],
   industrial_design: [
     { id: 'idf', label: 'Submit Industrial Design IDF', statusTypes: ['draft_classification','draft_idf','submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
@@ -72,6 +74,7 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
       id: 'request_cert', label: '2nd Publication & Certificate of Registration', statusTypes: ['wait_cert_of_registration']
     },
     { id: 'grant', label: 'Grant / Registration', statusTypes: ['registered'] },
+    { id: 'expired', label: 'Lapsed / Expired', statusTypes: ['expired'] },
   ],
   trademark: [
     { id: 'idf', label: 'Submit Trademark IDF', statusTypes: ['draft_classification','draft_idf','submitted_to_ttbdo', 'under_ttbdo_review'], charterStage: 'STAGE_1' },
@@ -92,6 +95,7 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
       id: 'request_cert', label: '2nd Publication & Certificate of Registration', statusTypes: ['req_cert_of_registration', '2nd_publication', 'wait_cert_of_registration']
     },
     { id: 'grant', label: 'Grant / Registration', statusTypes: ['registered'] },
+    { id: 'removal', label: 'Removal', statusTypes: ['removal_from_record'] },
   ],
   copyright: [
     { id: 'idf', label: 'Submit Copyright IDF', statusTypes: ['draft_classification','draft_idf','submitted_to_ttbdo', 'under_ttbdo_review', 'print_copyright_forms', 'endorse_copyright'], charterStage: 'STAGE_1' },
@@ -102,5 +106,6 @@ export const ipApplicationFlows: Record<IpType, FlowStep[]> = {
     { id: 'send_orig_docs', label: 'Send Original Signed Documents to IPOPHL', statusTypes: ['mailed_to_ipophl', 'wait_statement_of_acc']},
     { id: 'payment', label: 'Payment of Fees', statusTypes: ['pay_fee_application', 'wait_cert_of_registration']},
     { id: 'grant', label: 'Recordation / Registration', statusTypes: ['registered'] },
+    { id: 'expired', label: 'Lapsed / Expired', statusTypes: ['expired'] },
   ],
 };

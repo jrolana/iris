@@ -41,4 +41,6 @@ export const STATUS_LABELS: Record<StatusType, string> = {
   print_copyright_forms: 'Print Copyright Forms',
   submit_to_ovcre: 'Submit to OVCRE for Endoresement',
   request_substantive_exam_report: 'Request Substantive Exam Report',
+  removal_from_record: 'Removal from Record',
+  expired: 'Expired',
 };

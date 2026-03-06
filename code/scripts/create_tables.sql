@@ -156,6 +156,7 @@ CREATE TABLE private.ipr_files (
     file_name TEXT NOT NULL,
     file_description TEXT,
     file_type TEXT NOT NULL,
+    is_public BOOLEAN DEFAULT FALSE,
     comments TEXT,
     storage_id UUID NOT NULL,
 

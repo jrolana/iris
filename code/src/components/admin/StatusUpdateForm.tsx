@@ -69,6 +69,9 @@ function StatusUpdateForm(props: PropsInterface) {
   const currentIpType = application.ip_type;
   const currentStatusType = currentStatus.status_type as StatusType;
   const currentStatusId = currentStatus.id;
+  const publishedStageIndex = ipApplicationFlows[currentIpType].findIndex(
+    (step) => step.statusTypes.includes("published"),
+  );
 
   const currentDeadline = useMemo(
     () =>
@@ -313,6 +316,22 @@ function StatusUpdateForm(props: PropsInterface) {
 
       // Changing status_type => create new status row
       if (isStatusChanged) {
+        const selectedStageIndex = ipApplicationFlows[currentIpType].findIndex(
+          (step) => step.statusTypes.includes(selectedStatus),
+        );
+
+        // If moving to a stage beyond "published" stage, or changing status to "published" in the same stage, set is_public to true
+        const isBeyondPublished =
+          publishedStageIndex !== -1 &&
+          selectedStageIndex !== -1 &&
+          selectedStageIndex >= publishedStageIndex;
+
+        if (isBeyondPublished) {
+          updatedStatus.is_public = true;
+        } else {
+          updatedStatus.is_public = false;
+        }
+
         updatedStatus.status_type = selectedStatus;
         updatedStatus.application_id = applicationId;
 
