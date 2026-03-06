@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { IpType, StatusType } from "@/lib/types/ip";
-import { toSupabaseDate } from "@/lib/helper/format-date";
+import { toSupabaseDate, fromSupabaseDate } from "@/lib/helper/format-date";
 import { ApplicationType } from "@/lib/types/application";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import { getSuggestedDeadline } from "@/lib/helper/get-status-deadline";
@@ -23,7 +23,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns";
 import { CalendarIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -69,16 +69,26 @@ function StatusUpdateForm(props: PropsInterface) {
   const currentIpType = application.ip_type;
   const currentStatusType = currentStatus.status_type as StatusType;
   const currentStatusId = currentStatus.id;
-  const currentDeadline = currentStatus.deadline
-    ? new Date(currentStatus.deadline)
-    : null;
-  const currentNote = currentStatus.note;
-  const currentFilingDate = application.filing_date
-    ? new Date(application.filing_date)
-    : new Date();
-  const currentRegistrationDate = application.registration_date
-    ? new Date(application.registration_date)
-    : new Date();
+
+  const currentDeadline = useMemo(
+    () =>
+      currentStatus.deadline ? fromSupabaseDate(currentStatus.deadline) : null,
+    [currentStatus.deadline],
+  );
+
+  const currentNote = currentStatus.note ?? "";
+
+  const currentFilingDate = useMemo(() => {
+    return application.filing_date
+      ? fromSupabaseDate(application.filing_date)
+      : null;
+  }, [application.filing_date]);
+
+  const currentRegistrationDate = useMemo(() => {
+    return application.registration_date
+      ? fromSupabaseDate(application.registration_date)
+      : null;
+  }, [application.registration_date]);
 
   const [currentStage, setCurrentStage] = useState(() => {
     const stage = ipApplicationFlows[currentIpType].find((step) =>
@@ -122,6 +132,40 @@ function StatusUpdateForm(props: PropsInterface) {
 
   const [statusOptions, setStatusOptions] = useState(startStatusOptions);
 
+  const [selectedIpType, setSelectedIpType] =
+    useState<ApplicationType["Update"]["ip_type"]>(currentIpType);
+
+  const [selectedStatus, setSelectedStatus] =
+    useState<StatusType>(currentStatusType);
+
+  const [note, setNote] = useState(currentNote);
+
+  // start from DB deadline
+  const [deadline, setDeadline] = useState<Date | null>(currentDeadline);
+
+  // start from correct date depending on current status type
+  const [date, setDate] = useState<Date>(() => {
+    if (currentStatusType === "filed_with_ipophil") {
+      return currentFilingDate ?? new Date();
+    }
+    if (currentStatusType === "registered") {
+      return currentRegistrationDate ?? new Date();
+    }
+    return new Date();
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Keep deadline in sync when currentStatus changes (modal opened for another record)
+  useEffect(() => {
+    setDeadline(currentDeadline);
+  }, [currentDeadline]);
+
+  // Keep note in sync too (optional but prevents stale note if modal reused)
+  useEffect(() => {
+    setNote(currentNote);
+  }, [currentNote]);
+
   useEffect(() => {
     if (!currentStage.id) {
       setSelectedStatus(currentStatusType);
@@ -131,7 +175,6 @@ function StatusUpdateForm(props: PropsInterface) {
     const applicationStep = ipApplicationFlows[currentIpType].find(
       (step) => step.id === currentStage.id,
     );
-
     // Filter status options based on selected stage
     const newStatusOptions = applicationStep?.statusTypes.flatMap((status) => {
       const statusOption = STATUS_LABELS[status];
@@ -150,58 +193,71 @@ function StatusUpdateForm(props: PropsInterface) {
     ) {
       setSelectedStatus(() => newStatusOptions[0].value);
     }
-  }, [currentStage.id, currentIpType, currentStatusType]);
+  }, [currentStage.id, currentIpType, currentStatusType, selectedStatus]);
 
-  const [selectedIpType, setSelectedIpType] =
-    useState<ApplicationType["Update"]["ip_type"]>(currentIpType);
-  const [selectedStatus, setSelectedStatus] =
-    useState<StatusType>(currentStatusType);
-  const [note, setNote] = useState(currentNote ?? "");
-  const [deadline, setDeadline] = useState<Date | null>(currentDeadline);
-  const [date, setDate] = useState<Date>(() => {
-    let date = new Date();
-    if (selectedStatus == "filed_with_ipophil") {
-      date = currentFilingDate;
-    } else if (selectedStatus == "registered") {
-      date = currentRegistrationDate;
-    }
-    return date;
-  });
+  /**
+   * Runs only when selectedStatus actually changes (ref).
+   *
+   * - Does NOT wipe DB deadline.
+   * - Only suggests deadline if deadline is empty.
+   * - Prefills filing/registration date based on status change.
+   * - Avoids infinite loops with isSameDay guard.
+   */
+  const lastStatusRef = useRef<StatusType>(currentStatusType);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  useEffect(() => {
+    if (!selectedStatus) return;
 
-  const isNoteChanged = currentNote != note;
-  const isDeadlineChanged = currentDeadline?.getDate() != deadline?.getDate();
-  const isStatusChanged = currentStatusType != selectedStatus;
-  let isDateChanged = false;
+    const statusChanged = lastStatusRef.current !== selectedStatus;
+    if (!statusChanged) return;
+    lastStatusRef.current = selectedStatus;
 
-  if (selectedStatus == "filed_with_ipophil") {
-    isDateChanged = currentFilingDate?.getDate() != date.getDate();
-  } else if (selectedStatus == "registered") {
-    isDateChanged = currentRegistrationDate?.getDate() != date.getDate();
-  }
+    // Deadline suggestion ONLY if empty
+    setDeadline((prev) => {
+      if (prev) return prev;
+
+      const suggestion = getSuggestedDeadline(selectedStatus);
+      if (!suggestion) return null;
+
+      return typeof suggestion === "string"
+        ? fromSupabaseDate(suggestion)
+        : suggestion;
+    });
+
+    // Prefill filing/registration date when status changes
+    setDate((prev) => {
+      let next = prev;
+
+      if (selectedStatus === "filed_with_ipophil") {
+        next = currentFilingDate ?? new Date();
+      } else if (selectedStatus === "registered") {
+        next = currentRegistrationDate ?? new Date();
+      } else {
+        next = new Date();
+      }
+
+      return isSameDay(prev, next) ? prev : next;
+    });
+  }, [selectedStatus, currentFilingDate, currentRegistrationDate]);
+
+  const isNoteChanged = currentNote !== note;
+
+  const isDeadlineChanged =
+    !!currentDeadline !== !!deadline ||
+    (!!currentDeadline && !!deadline && !isSameDay(currentDeadline, deadline));
+
+  const isStatusChanged = currentStatusType !== selectedStatus;
+
+  const isDateChanged =
+    (selectedStatus === "filed_with_ipophil" &&
+      !!currentFilingDate &&
+      !isSameDay(currentFilingDate, date)) ||
+    (selectedStatus === "registered" &&
+      !!currentRegistrationDate &&
+      !isSameDay(currentRegistrationDate, date));
 
   const noChangesMade =
     !isNoteChanged && !isDeadlineChanged && !isStatusChanged && !isDateChanged;
-
-  useEffect(() => {
-    if (!selectedStatus) {
-      setDeadline(null);
-      return;
-    }
-    const suggestion = getSuggestedDeadline(selectedStatus);
-    setDeadline(suggestion ? new Date(suggestion) : null);
-
-    let filingDate = new Date();
-
-    if (selectedStatus == "filed_with_ipophil") {
-      filingDate = currentFilingDate;
-    } else if (selectedStatus == "registered") {
-      filingDate = currentRegistrationDate;
-    }
-
-    setDate(filingDate);
-  }, [selectedStatus]);
 
   async function onConfirm() {
     try {
@@ -209,7 +265,7 @@ function StatusUpdateForm(props: PropsInterface) {
       setIsSubmitting(true);
 
       // IP type change
-      if (currentIpType != selectedIpType) {
+      if (currentIpType !== selectedIpType) {
         await updateApp(
           {
             id: applicationId,
@@ -218,12 +274,9 @@ function StatusUpdateForm(props: PropsInterface) {
             },
           },
           {
-            onSuccess: () => {
-              toast.success("Successfully changed IP type.");
-            },
-            onError: () => {
-              toast.error("There was an error in changing IP type.");
-            },
+            onSuccess: () => toast.success("Successfully changed IP type."),
+            onError: () =>
+              toast.error("There was an error in changing IP type."),
           },
         );
       }
@@ -236,13 +289,13 @@ function StatusUpdateForm(props: PropsInterface) {
       // Changes on note or/and deadline
       const updatedStatus: Partial<IprStatusType["Insert"]> = {};
 
-      if (isNoteChanged) {
-        updatedStatus.note = note;
-      }
+      if (isNoteChanged) updatedStatus.note = note;
+
       if (isDeadlineChanged) {
         updatedStatus.deadline = deadline ? toSupabaseDate(deadline) : null;
       }
 
+      // If status_type isn't changing, just update existing status row
       if (!isStatusChanged && (isNoteChanged || isDeadlineChanged)) {
         await updateStatus(
           {
@@ -250,79 +303,63 @@ function StatusUpdateForm(props: PropsInterface) {
             statusData: updatedStatus,
           },
           {
-            onSuccess: () => {
-              toast.success("Successfully updated status.");
-            },
-            onError: () => {
-              toast.error("There was an error in updating status details.");
-            },
+            onSuccess: () => toast.success("Successfully updated status."),
+            onError: () =>
+              toast.error("There was an error in updating status details."),
           },
         );
         return;
       }
 
-      // Changes on status_type
+      // Changing status_type => create new status row
       if (isStatusChanged) {
         updatedStatus.status_type = selectedStatus;
         updatedStatus.application_id = applicationId;
 
         await addStatus(
+          { statusData: updatedStatus },
           {
-            statusData: updatedStatus,
-          },
-          {
-            onSuccess: () => {
-              toast.success("Successfully changed status.");
-            },
-            onError: () => {
-              toast.error("There was an error in changing status.");
-            },
+            onSuccess: () => toast.success("Successfully changed status."),
+            onError: () =>
+              toast.error("There was an error in changing status."),
           },
         );
       }
 
       // downgrade patent to UM. create new application
-      if (selectedStatus == "downgraded_to_um") {
+      if (selectedStatus === "downgraded_to_um") {
         handleDowngradeToUM();
         return;
       }
 
+      // Save filing/registration dates (DATE-only)
       const changedDate = toSupabaseDate(date);
 
-      if (selectedStatus == "filed_with_ipophil") {
+      if (selectedStatus === "filed_with_ipophil") {
         await updateApp(
           {
             id: applicationId,
-            applicationData: {
-              filing_date: changedDate,
-            },
+            applicationData: { filing_date: changedDate },
           },
           {
-            onSuccess: () => {
-              toast.success("Successfully changed filing date.");
-            },
-            onError: () => {
-              toast.error("There was an error in changing filing date.");
-            },
+            onSuccess: () => toast.success("Successfully changed filing date."),
+            onError: () =>
+              toast.error("There was an error in changing filing date."),
           },
         );
       }
 
-      if (selectedStatus == "registered") {
+      if (selectedStatus === "registered") {
         await updateApp(
           {
             id: applicationId,
-            applicationData: {
-              registration_date: changedDate,
-            },
+            applicationData: { registration_date: changedDate },
           },
           {
-            onSuccess: () => {
-              toast.success("Successfully changed registration date.");
-            },
-            onError: () => {
-              toast.error("There was an error in changing registration date.");
-            },
+            onSuccess: () =>
+              toast.success("Successfully changed registration date."),
+            onError: () =>
+              toast.error("There was an error in changing registration date."),
           },
         );
       }
@@ -353,12 +390,7 @@ function StatusUpdateForm(props: PropsInterface) {
     queryClient.invalidateQueries({
       queryKey: ["latest-status", applicationId],
     });
-    queryClient.invalidateQueries({
-      queryKey: ["application", applicationId],
-    });
-    queryClient.invalidateQueries({
-      queryKey: ["notifications"],
-    });
+    queryClient.invalidateQueries({ queryKey: ["application", applicationId] });
     setIsSubmitting(false);
     closeModal();
   };
@@ -366,8 +398,10 @@ function StatusUpdateForm(props: PropsInterface) {
   async function handleDowngradeToUM() {
     handleClose();
     setIsDowngrading(true);
+
     const downgradeStatus = "filed_with_ipophil" as StatusType;
     const downgradeNote = `This application has been downgraded to a Utility Model. The previous Patent application "${application.project_title}" will be archived.`;
+
     try {
       const applicationData: ApplicationType["Insert"] = {
         project_title: application.project_title,
@@ -378,10 +412,11 @@ function StatusUpdateForm(props: PropsInterface) {
         ip_number: application.ip_number,
         ip_title: application.ip_title,
       };
+
       const { app } = await downgradeApp({
         applicationData,
-        downgradeStatus: downgradeStatus,
-        downgradeNote: downgradeNote,
+        downgradeStatus,
+        downgradeNote,
       });
 
       router.push(`/admin/view-application?applicationID=${app.id}`);
@@ -396,6 +431,7 @@ function StatusUpdateForm(props: PropsInterface) {
       setIsDowngrading(false);
     }
   }
+
   if (isDowngrading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
@@ -407,7 +443,7 @@ function StatusUpdateForm(props: PropsInterface) {
   }
 
   return (
-    <div className="flex max-h-[85vh] w-full max-w-lg min-w-[85vw] flex-col sm:max-h-[90vh] sm:w-[80vh] sm:min-w-[400px]">
+    <div className="flex w-full max-w-lg min-w-[85vw] flex-col sm:w-[80vh] sm:min-w-[400px]">
       <p className="-mt-4 shrink-0 text-center text-sm leading-normal text-slate-600">
         Update the application status and add a note to notify technology
         generators.
@@ -415,9 +451,9 @@ function StatusUpdateForm(props: PropsInterface) {
 
       <form
         onSubmit={handleSubmit}
-        className="mt-4 flex h-full flex-col overflow-hidden text-sm"
+        className="mt-4 flex h-full flex-col text-sm"
       >
-        <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-1 pb-2">
+        <div className="min-h-0 flex-1 gap-4 overflow-y-auto px-1 pb-2">
           {/* stages carousel */}
           <div className="flex w-full shrink-0 flex-col items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50/50 p-4 shadow-sm">
             <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase">
@@ -454,7 +490,7 @@ function StatusUpdateForm(props: PropsInterface) {
             </div>
           </div>
 
-          <div className="grid shrink-0 grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid shrink-0 grid-cols-1 gap-4 py-2 md:grid-cols-2">
             <label className="flex w-full flex-col gap-1">
               <span className="font-medium text-slate-800">
                 Specific Status in flow <span className="text-red-500">*</span>
@@ -469,12 +505,18 @@ function StatusUpdateForm(props: PropsInterface) {
                 classNames={{
                   placeholder: () => "text-lg!",
                   control: ({ isFocused }) =>
-                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
+                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${
+                      isFocused
+                        ? "border-gray-400 ring-3 ring-gray-300"
+                        : "border-gray-300"
+                    }`,
                   menu: () =>
                     "bg-white border border-gray-200 mt-2 rounded-lg space-y-2 overflow-hidden",
                   input: () => "text-sm",
                   option: ({ isFocused }) =>
-                    `px-3 py-2 cursor-pointer ${isFocused ? "bg-sky-50 text-sky-900" : "bg-transparent"}`,
+                    `px-3 py-2 cursor-pointer ${
+                      isFocused ? "bg-sky-50 text-sky-900" : "bg-transparent"
+                    }`,
                 }}
                 onChange={(selectedOption) => {
                   setSelectedStatus(selectedOption?.value as StatusType);
@@ -493,7 +535,7 @@ function StatusUpdateForm(props: PropsInterface) {
                     <Button
                       variant="outline"
                       data-empty={!deadline}
-                      className={`data-[empty=true]:text-muted-foreground flex-1 justify-start text-left font-normal`}
+                      className="data-[empty=true]:text-muted-foreground flex-1 justify-start text-left font-normal"
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
                       {deadline ? (
@@ -508,7 +550,7 @@ function StatusUpdateForm(props: PropsInterface) {
                       fixedWeeks
                       mode="single"
                       selected={deadline ?? undefined}
-                      onSelect={setDeadline}
+                      onSelect={(d) => setDeadline(d ?? null)}
                       classNames={{
                         day_selected:
                           "bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white",
@@ -518,12 +560,14 @@ function StatusUpdateForm(props: PropsInterface) {
                     />
                   </PopoverContent>
                 </Popover>
+
                 {deadline && (
                   <Button
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8 shrink-0 text-slate-500 hover:text-red-500"
                     onClick={() => setDeadline(null)}
+                    type="button"
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -531,13 +575,14 @@ function StatusUpdateForm(props: PropsInterface) {
               </div>
             </div>
 
-            {(selectedStatus == "registered" ||
-              selectedStatus == "filed_with_ipophil") && (
+            {(selectedStatus === "registered" ||
+              selectedStatus === "filed_with_ipophil") && (
               <div className="col-span-1 flex w-full shrink-0 flex-col items-start gap-1 md:col-span-2">
                 <span className="font-medium text-slate-800">
-                  {selectedStatus == "registered" ? "Registration" : "Filing"}{" "}
+                  {selectedStatus === "registered" ? "Registration" : "Filing"}{" "}
                   Date
                 </span>
+
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -554,7 +599,7 @@ function StatusUpdateForm(props: PropsInterface) {
                       fixedWeeks
                       mode="single"
                       selected={date ?? undefined}
-                      onSelect={setDate}
+                      onSelect={(d) => setDate(d ?? new Date())}
                       classNames={{
                         day_selected:
                           "bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white",
@@ -564,6 +609,7 @@ function StatusUpdateForm(props: PropsInterface) {
                     />
                   </PopoverContent>
                 </Popover>
+
                 <p className="text-xs text-slate-500">
                   Pre-filled with today’s date based on the selected status. You
                   may adjust if needed.
@@ -598,12 +644,18 @@ function StatusUpdateForm(props: PropsInterface) {
                 classNames={{
                   placeholder: () => "text-lg! text-muted-foreground",
                   control: ({ isFocused }) =>
-                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${isFocused ? "border-gray-400 ring-3 ring-gray-300" : "border-gray-300"}`,
+                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${
+                      isFocused
+                        ? "border-gray-400 ring-3 ring-gray-300"
+                        : "border-gray-300"
+                    }`,
                   menu: () =>
                     "bg-white border border-gray-200 mt-2 rounded-lg space-y-2 overflow-hidden",
                   input: () => "text-sm",
                   option: ({ isFocused }) =>
-                    `px-3 py-2 cursor-pointer ${isFocused ? "bg-sky-50 text-sky-900" : "bg-transparent"}`,
+                    `px-3 py-2 cursor-pointer ${
+                      isFocused ? "bg-sky-50 text-sky-900" : "bg-transparent"
+                    }`,
                 }}
                 onChange={(selectedOption) =>
                   setSelectedIpType(selectedOption?.value as IpType)
@@ -617,7 +669,7 @@ function StatusUpdateForm(props: PropsInterface) {
           </div>
         </div>
 
-        <div className="z-10 mt-2 flex w-full shrink-0 items-center justify-end gap-3 border-t border-slate-100 bg-white pt-4 pb-2">
+        <div className="mt-2 flex w-full shrink-0 items-center justify-end gap-3 pb-2">
           <button
             type="button"
             onClick={closeModal}

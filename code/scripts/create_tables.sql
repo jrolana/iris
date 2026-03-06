@@ -90,6 +90,13 @@ CREATE TABLE private.ipr_applications (
     updated_at TIMESTAMPTZ DEFAULT now()
 );
 
+alter table private.ipr_applications
+  alter column filing_date type date using filing_date::date,
+  alter column registration_date type date using registration_date::date;
+
+alter table private.ipr_statuses
+  alter column deadline type date using deadline::date;
+
 ALTER TABLE private.users
 ADD COLUMN college VARCHAR(20) DEFAULT 'Other' NOT NULL,
 ADD COLUMN is_active BOOLEAN DEFAULT TRUE NOT NULL,
@@ -297,3 +304,22 @@ CREATE TABLE private.reports (
   CONSTRAINT fk_reporter FOREIGN KEY (reporter_id) REFERENCES private.inventors(id),
   CONSTRAINT fk_subject FOREIGN KEY (subject_id) REFERENCES private.inventors(id) ON DELETE CASCADE
 );
+
+CREATE TABLE private.pings (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    
+    stage_delayed VARCHAR(50) NOT NULL,
+    step_delayed VARCHAR(50) NOT NULL,
+    application_name TEXT NOT NULL,
+    application_id UUID NOT NULL,
+    target_date TIMESTAMPTZ,
+
+    acknowledged_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+    CONSTRAINT fk_pings_app_id FOREIGN KEY (application_id) REFERENCES private.ipr_applications(id) ON DELETE CASCADE
+);
+
+CREATE UNIQUE INDEX unique_active_ping
+ON private.pings(application_id, stage_delayed, step_delayed)
+WHERE acknowledged_at IS NULL;

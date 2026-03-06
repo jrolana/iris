@@ -13,7 +13,7 @@ import { StatusType } from "@/lib/types/ip";
 import { formatDateTime, formatDate } from "@/lib/helper/format-date";
 
 import { InlineEdit } from "../form/input/InlineEdit";
-import ApplicationStepper from "@/components/application/Stepper";
+import ApplicationStepper from "@/components/application/ApplicationStepper";
 import StatusHistoryPanel from "@/components/application/StatusHistoryPanel";
 import InformationPanel from "./InformationPanel";
 import { ArrowLeft } from "lucide-react";
@@ -214,6 +214,9 @@ function ApplicationView(props: ApplicationViewProps) {
             ipType={application.ip_type}
             currentStageDeadline={currentStatus?.deadline ?? undefined}
             currentStatus={currentStatus}
+            isAdmin={isAdmin}
+            applicationId={application.id}
+            applicationName={application.project_title}
           />
         ) : (
           <StatusPlaceholder
