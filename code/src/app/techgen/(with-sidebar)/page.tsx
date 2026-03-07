@@ -2,7 +2,6 @@
 
 import { Metrics } from "@/components/techgen/Metrics";
 import React, { useMemo } from "react";
-import ApplicationsTable from "@/components/common/ApplicationsTable";
 import StatusUpdatesPanel from "@/components/techgen/StatusUpdatesPanel";
 import { useGetUserApplicationIds } from "@/hooks/applications/useGetUserApplications";
 
@@ -35,10 +34,6 @@ export default function TechgenDashboard() {
             No status history available.
           </div>
         )}
-      </div>
-
-      <div className="col-span-12">
-        <ApplicationsTable isTechgen={true} />
       </div>
     </div>
   );
