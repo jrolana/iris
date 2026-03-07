@@ -1,6 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
+import { STATUS_LABELS } from "@/lib/helper/status-labels";
+import { useApplicationsGetApplicationsByQuery } from "@/hooks/applications/useGetApplicationsByQuery";
+import { formatDate } from "@/lib/helper/format-date";
+
 import {
   Table,
   TableBody,
@@ -14,9 +19,7 @@ import Button from "../ui/button/Button";
 import SearchInput from "./SearchInput";
 import { PencilIcon, TrashBinIcon, PlusIcon, EyeIcon } from "@/icons/index";
 import FilterButton from "./FilterButton";
-import { dummyApplications } from "@/lib/dummy-data/application";
-import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
-import { STATUS_LABELS } from "@/lib/helper/status-labels";
+import { IpType, StatusType } from "@/lib/types/ip";
 
 interface PropsInterface {
   isAdmin?: boolean;
@@ -25,16 +28,26 @@ interface PropsInterface {
 
 export default function ApplicationsTable(props: PropsInterface) {
   const { isAdmin = false, isTechgen = false } = props;
+  const { applications, isLoading, refetch } =
+    useApplicationsGetApplicationsByQuery({});
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 5;
+  const recordsPerPage = 20;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!applications || applications.length === 0) {
+    return <div>No applications found.</div>;
+  }
 
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = dummyApplications.slice(
+  const currentRecords = applications.slice(
     indexOfFirstRecord,
     indexOfLastRecord,
   );
-  const totalPages = Math.ceil(dummyApplications.length / recordsPerPage);
+  const totalPages = Math.ceil(applications.length / recordsPerPage);
 
   const tableHeaders = [
     "IP Title",
@@ -106,48 +119,52 @@ export default function ApplicationsTable(props: PropsInterface) {
 
           <TableBody className="divide-y divide-gray-100">
             {currentRecords.map((record) => (
-              <TableRow key={record.applicationId}>
+              <TableRow key={record.id}>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   <Link href={"/"} className="hover:text-brand-500">
-                    {record.ipTitle}
+                    {record.ip_title ?? "--"}
                   </Link>
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.projectTitle}
+                  {record.project_title.trim().length === 0 ||
+                  record.project_title === undefined
+                    ? "--"
+                    : record.project_title}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {ipTypeToTitle(record.ipType)}
+                  {ipTypeToTitle(record.ip_type as IpType) || "--"}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {typeof record.filingDate == "string"
-                    ? record.filingDate
-                    : record.filingDate?.toLocaleDateString()}
+                  {record.filing_date ? formatDate(record.filing_date) : "--"}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.registrationDate?.toLocaleDateString()}
+                  {record.registration_date
+                    ? formatDate(record.registration_date)
+                    : "--"}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.fundingAgency}
+                  {record.funding_agency || "--"}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.techGens?.join(", ")}
+                  {record.techgens?.join(", ") || "--"}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.colleges?.join(", ")}
+                  {record.colleges?.join(", ") || "--"}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   <Badge
                     size="sm"
                     color={
-                      record.currentStatus === "registered"
+                      record.status_type === "registered"
                         ? "success"
-                        : record.currentStatus === "closed" ||
-                            record.currentStatus === "downgraded_to_um"
+                        : record.status_type === "closed" ||
+                            record.status_type === "downgraded_to_um"
                           ? "error"
                           : "warning"
                     }
                   >
-                    {STATUS_LABELS[record.currentStatus] || "Unknown Status"}
+                    {STATUS_LABELS[record.status_type as StatusType] ||
+                      "Unknown Status"}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-theme-sm py-3 text-gray-800">

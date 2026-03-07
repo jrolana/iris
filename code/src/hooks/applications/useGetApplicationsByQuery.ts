@@ -8,15 +8,16 @@ interface UseApplicationsGetApplicationsByQueryProps {
     status?: StatusType;
     colleges?: CollegeUnitType[];
     techgens?: string[];
+    ip_type?: string;
 }
 
 export function useApplicationsGetApplicationsByQuery(props: UseApplicationsGetApplicationsByQueryProps) {
-    const {title, status, colleges, techgens} = props;
+    const {title, status, colleges, techgens, ip_type} = props;
 
-    const {data, isLoading} =  useQuery({
+    const {data, isLoading, refetch} =  useQuery({
         queryKey: ['applications'],
-        queryFn: ()=> getApplicationsByQuery({title, status, colleges, techgens}),
+        queryFn: ()=> getApplicationsByQuery({title, status, colleges, techgens, ip_type}),
     });
 
-    return {application: data, isLoading}; 
+    return {applications: data, isLoading, refetch}; 
 }
