@@ -5,20 +5,20 @@ import { StatusType } from "@/lib/types/ip";
 
 interface GetApplicationsByQueryProps{
     title?: string ;
-    status?: StatusType;
+    statuses?: StatusType[];
     colleges?: CollegeUnitType[];
     techgens?: string[];
-    ip_type?: string;
+    ip_types?: string[];
 }
 
 export const getApplicationsByQuery = async (props: GetApplicationsByQueryProps) => {
-    const { title, status, colleges, techgens, ip_type } = props;
+    const { title, statuses, colleges, techgens, ip_types } = props;
     const { data, error } = await supabase.rpc("search_applications", {
         p_title: title,
-        p_status: status,
+        p_statuses: statuses,
         p_colleges: colleges,
         p_techgens: techgens,
-        p_ip_type: ip_type,
+        p_ip_types: ip_types,
     });
 
 

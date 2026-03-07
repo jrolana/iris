@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import { useApplicationsGetApplicationsByQuery } from "@/hooks/applications/useGetApplicationsByQuery";
@@ -16,10 +16,13 @@ import {
 import Badge from "../ui/badge/Badge";
 import Link from "next/link";
 import Button from "../ui/button/Button";
-import SearchInput from "./SearchInput";
 import { PencilIcon, TrashBinIcon, PlusIcon, EyeIcon } from "@/icons/index";
-import FilterButton from "./FilterButton";
 import { IpType, StatusType } from "@/lib/types/ip";
+import { CollegeUnitType } from "@/lib/types/college-units";
+
+import { FilterPanel } from "./application-table/FilterPanel";
+import { ActiveFilters } from "./application-table/ActiveFilters";
+import { FilterIcon } from "lucide-react";
 
 interface PropsInterface {
   isAdmin?: boolean;
@@ -28,26 +31,45 @@ interface PropsInterface {
 
 export default function ApplicationsTable(props: PropsInterface) {
   const { isAdmin = false, isTechgen = false } = props;
+  const [title, setTitle] = useState<string>("");
+  const [statuses, setStatuses] = useState<StatusType[]>([]);
+  const [colleges, setColleges] = useState<CollegeUnitType[]>([]);
+  const [techgens, setTechgens] = useState<string[]>([]);
+  const [ipTypes, setIpTypes] = useState<string[]>([]);
   const { applications, isLoading, refetch } =
-    useApplicationsGetApplicationsByQuery({});
+    useApplicationsGetApplicationsByQuery({
+      title,
+      statuses,
+      colleges,
+      techgens,
+      ip_types: ipTypes,
+    });
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 20;
+
+  const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
+
+  useEffect(() => {
+    refetch();
+  }, [title, statuses, colleges, techgens, ipTypes, refetch]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!applications || applications.length === 0) {
-    return <div>No applications found.</div>;
-  }
+  // if (!applications || applications.length === 0) {
+  //   return <div>No applications found.</div>;
+  // }
 
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = applications.slice(
+  const currentRecords = applications?.slice(
     indexOfFirstRecord,
     indexOfLastRecord,
   );
-  const totalPages = Math.ceil(applications.length / recordsPerPage);
+  const totalPages = Math.ceil(
+    (applications ? applications.length : 0) / recordsPerPage,
+  );
 
   const tableHeaders = [
     "IP Title",
@@ -67,39 +89,103 @@ export default function ApplicationsTable(props: PropsInterface) {
     setCurrentPage(page);
   };
 
+  const applyFilters = (filters: {
+    title: string;
+    statuses: StatusType | StatusType[] | undefined;
+    colleges: CollegeUnitType[];
+    techgens: string[];
+    ip_types: string[];
+  }) => {
+    const statusArray = Array.isArray(filters.statuses)
+      ? filters.statuses
+      : [filters.statuses];
+
+    setTitle(filters.title);
+    setStatuses(filters.statuses ? (statusArray as StatusType[]) : []);
+    setColleges(filters.colleges);
+    setTechgens(filters.techgens);
+    setIpTypes(filters.ip_types);
+    // You might also want to reset to page 1 on new search
+    setCurrentPage(1);
+    refetch(); // This is the core instruction to refresh data
+  };
+
+  const handleRemoveFilterTag = (type: string, value: string) => {
+    if (type === "title") {
+      setTitle("");
+    } else if (type === "status") {
+      setStatuses((prev) => prev.filter((s) => s !== value));
+    } else if (type === "college") {
+      setColleges((prev) => prev.filter((c) => c !== value));
+    } else if (type === "techgen") {
+      setTechgens((prev) => prev.filter((t) => t !== value));
+    }
+    // and refetch
+    setCurrentPage(1);
+    refetch();
+  };
+
+  const clearAllFilters = () => {
+    setTitle("");
+    setStatuses([]);
+    setColleges([]);
+    setTechgens([]);
+    setIpTypes([]);
+    // and refetch
+    setCurrentPage(1);
+    refetch();
+  };
+
+  const toggleFilterPanel = () => {
+    setIsFilterPanelOpen(!isFilterPanelOpen);
+  };
+
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
-      {isTechgen ? (
-        <>
-          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <h1 className="text-2xl font-semibold text-gray-800">
-              Your Applications
-            </h1>
+      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-2xl font-semibold text-gray-800">
+          {isTechgen ? "Your Applications" : "Applications Registry"}
+        </h1>
+        <div className="flex gap-3">
+          {isTechgen && (
             <Button startIcon={<PlusIcon size={30} />}>
               Add New Application
             </Button>
-          </div>
-          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <SearchInput onChange={() => {}} />
-            <FilterButton />
-          </div>
-        </>
-      ) : (
-        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl font-semibold text-gray-800">
-            Applications Registry
-          </h1>
-          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            {/* TODO: implement search here */}
-            <SearchInput
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                console.log(e.target.value);
-              }}
-            />
-            <FilterButton />
-          </div>
+          )}
+          <Button
+            variant="outline"
+            startIcon={<FilterIcon size={18} />}
+            onClick={toggleFilterPanel}
+          >
+            {isFilterPanelOpen ? "Close Filters" : "Filter"}
+          </Button>
         </div>
-      )}
+      </div>
+
+      {/* --- New Sections: Filter Panel and Active Filters --- */}
+      <FilterPanel
+        isOpen={isFilterPanelOpen}
+        onApplyFilters={applyFilters}
+        onClose={() => setIsFilterPanelOpen(false)}
+        currentFilters={{
+          title,
+          statuses,
+          colleges,
+          techgens,
+          ip_types: ipTypes,
+        }}
+      />
+
+      <ActiveFilters
+        title={title}
+        statuses={statuses}
+        colleges={colleges}
+        techgens={techgens}
+        ip_types={ipTypes}
+        onRemove={handleRemoveFilterTag}
+        onClearAll={clearAllFilters}
+      />
+      {/* --- End New Sections --- */}
 
       <div className="overflow-x-auto">
         <Table>
@@ -118,7 +204,7 @@ export default function ApplicationsTable(props: PropsInterface) {
           </TableHeader>
 
           <TableBody className="divide-y divide-gray-100">
-            {currentRecords.map((record) => (
+            {currentRecords?.map((record) => (
               <TableRow key={record.id}>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   <Link href={"/"} className="hover:text-brand-500">

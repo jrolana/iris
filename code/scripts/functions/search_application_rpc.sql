@@ -1,9 +1,9 @@
 CREATE OR REPLACE FUNCTION public.search_applications(
     p_title TEXT DEFAULT NULL,
-    p_status TEXT DEFAULT NULL,
+    p_statuses TEXT[] DEFAULT NULL,
     p_colleges TEXT[] DEFAULT NULL,
     p_techgens TEXT[] DEFAULT NULL,
-    p_ip_type TEXT DEFAULT NULL
+    p_ip_types TEXT[] DEFAULT NULL
 )
 RETURNS TABLE (
     id UUID,
@@ -13,8 +13,11 @@ RETURNS TABLE (
     colleges TEXT[],
     techgens TEXT[],
     funding_agency TEXT,
-    filing_date DATE, 
-    registration_date DATE
+    ip_type TEXT,
+    registration_date DATE, 
+    filing_date DATE,
+    created_at TIMESTAMPTZ,
+    updated_at TIMESTAMPTZ
     ) AS $$
 DECLARE
     v_is_admin BOOLEAN;
@@ -59,10 +62,12 @@ BEGIN
         stat.status_type::TEXT AS status_type, 
         COALESCE(app_inventor.agg_colleges, ARRAY[]::TEXT[]) AS colleges,
         COALESCE(app_inventor.agg_techgens, ARRAY[]::TEXT[]) AS techgens,
-        app.funding_agency,
-        app.ip_type,
+        app.funding_source,
+        app.ip_type::TEXT,
         app.registration_date,
-        app.filing_date
+        app.filing_date,
+        app.created_at,
+        app.updated_at
     FROM private.ipr_applications app
     LEFT JOIN private.ipr_statuses stat ON app.curr_status = stat.id 
     LEFT JOIN app_inventors app_inventor ON app.id = app_inventor.application_id
@@ -85,7 +90,7 @@ BEGIN
         app.ip_title ILIKE '%' || p_title || '%' OR 
         app.project_title ILIKE '%' || p_title || '%'
         )
-        AND (p_status IS NULL OR p_status = '' OR stat.status_type = p_status)
+        AND (p_statuses IS NULL OR array_length(p_statuses, 1) IS NULL OR stat.status_type::TEXT = ANY(p_statuses))
         AND (
         p_colleges IS NULL OR 
         array_length(p_colleges, 1) IS NULL OR 
@@ -94,10 +99,16 @@ BEGIN
         AND (
         p_techgens IS NULL OR 
         array_length(p_techgens, 1) IS NULL OR 
-        app_inventor.agg_techgens && p_techgens
+        EXISTS (
+            -- Unpack the application's inventors and the user's search terms
+            SELECT 1 
+            FROM unnest(app_inventor.agg_techgens) AS app_inv
+            JOIN unnest(p_techgens) AS search_term 
+                ON app_inv ILIKE '%' || search_term || '%'
+        )
         )
         AND (
-            p_ip_type IS NULL OR p_ip_type = '' OR app.ip_type = p_ip_type
+            p_ip_types IS NULL OR array_length(p_ip_types, 1) IS NULL  OR app.ip_type::TEXT = ANY(p_ip_types)
         )
     )
     SELECT * FROM filtered_apps;

@@ -5,18 +5,18 @@ import { StatusType } from '@/lib/types/ip';
 
 interface UseApplicationsGetApplicationsByQueryProps {
     title?: string;
-    status?: StatusType;
+    statuses?: StatusType[];
     colleges?: CollegeUnitType[];
     techgens?: string[];
-    ip_type?: string;
+    ip_types?: string[];
 }
 
 export function useApplicationsGetApplicationsByQuery(props: UseApplicationsGetApplicationsByQueryProps) {
-    const {title, status, colleges, techgens, ip_type} = props;
+    const {title, statuses, colleges, techgens, ip_types} = props;
 
     const {data, isLoading, refetch} =  useQuery({
         queryKey: ['applications'],
-        queryFn: ()=> getApplicationsByQuery({title, status, colleges, techgens, ip_type}),
+        queryFn: ()=> getApplicationsByQuery({title, statuses, colleges, techgens, ip_types}),
     });
 
     return {applications: data, isLoading, refetch}; 
