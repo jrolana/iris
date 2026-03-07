@@ -21,14 +21,27 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { PencilIcon, TrashBinIcon, PlusIcon, EyeIcon } from "@/icons/index";
+import { PlusIcon } from "@/icons/index";
 import Badge, { BadgeProps } from "../ui/badge/Badge";
 import Link from "next/link";
 import Button from "../ui/button/Button";
 import { FilterPanel } from "./application-table/FilterPanel";
 import { ActiveFilters } from "./application-table/ActiveFilters";
-import { FilterIcon, Loader, ArrowUpDown, X } from "lucide-react";
+import {
+  FilterIcon,
+  Loader,
+  ArrowUpDown,
+  X,
+  ArrowRight,
+  Archive,
+  ArchiveRestore,
+} from "lucide-react";
 import { Application, sortApplications } from "@/lib/helper/sort-applications";
+import { cn } from "@/lib/utils";
+import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
+import { toast } from "sonner";
+import { buttonVariants } from "../ui/button";
+import Hint from "./Tooltip";
 
 interface PropsInterface {
   isAdmin?: boolean;
@@ -62,6 +75,10 @@ export default function ApplicationsTable(props: PropsInterface) {
       techgens,
       ip_types: ipTypes,
     });
+
+  const { isLoading: isUpdating, updateApp } = useUpdateApplication({
+    appId: "",
+  });
   const [sortedApplications, setSortedApplications] = useState(
     applications || [],
   );
@@ -74,6 +91,12 @@ export default function ApplicationsTable(props: PropsInterface) {
   useEffect(() => {
     refetch();
   }, [title, statuses, colleges, techgens, ipTypes, refetch]);
+
+  useEffect(() => {
+    if (!applications) return;
+    // setSortedApplications(applications);
+    handleSortChange(sortBy); // re-apply sorting whenever applications data changes
+  }, [applications]);
 
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
@@ -165,6 +188,30 @@ export default function ApplicationsTable(props: PropsInterface) {
     setSortedApplications(sorted);
   }
 
+  async function toggleArchiveStatus(
+    applicationId: string,
+    isCurrentlyArchived: boolean,
+  ) {
+    toast.promise(
+      updateApp({
+        id: applicationId,
+        applicationData: {
+          is_archived: !isCurrentlyArchived,
+        },
+      }),
+      {
+        loading: "Archiving application...",
+        success: () => {
+          refetch();
+          return isCurrentlyArchived
+            ? "Application unarchived."
+            : "Application archived.";
+        },
+        error: "Failed to archive application.",
+      },
+    );
+  }
+
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
       <div className="md::items-center mb-4 flex flex-col gap-2 md:flex-row md:justify-between">
@@ -175,22 +222,21 @@ export default function ApplicationsTable(props: PropsInterface) {
           <Button startIcon={<PlusIcon size={30} />}>
             Add New Application
           </Button>
-          <div className="flex justify-start gap-2">
+          <div className="xsm:flex-row flex flex-col justify-start gap-2">
             <div className="flex gap-0">
               <Popover open={isSortPanelOpen} onOpenChange={setIsSortPanelOpen}>
-                <PopoverTrigger>
-                  <Button
-                    variant="outline"
-                    className="data-[empty=true]:text-muted-foreground m-0 flex-1 justify-start bg-blue-500 text-left"
-                    data-empty={title === "" ? "true" : "false"}
-                  >
-                    {sortBy
-                      ? sortOptions.find((option) => option.value === sortBy)
-                          ?.label
-                      : "Sort By"}
-
-                    <ArrowUpDown size={18} />
-                  </Button>
+                <PopoverTrigger
+                  className={cn(
+                    // This applies your exact ghost or outline styles natively
+                    buttonVariants({ variant: "outline" }),
+                    "data-[empty=true]:text-muted-foreground m-0 flex h-auto w-fit justify-start px-3 py-3 text-left text-sm font-medium text-gray-700",
+                  )}
+                >
+                  {sortBy
+                    ? sortOptions.find((option) => option.value === sortBy)
+                        ?.label
+                    : "Sort By"}
+                  <ArrowUpDown size={18} className="ml-2 h-4 w-4 shrink-0" />
                 </PopoverTrigger>
                 <PopoverContent
                   className="max-h-[300px] w-[calc(100vw-2rem)] overflow-y-auto p-2 sm:w-64"
@@ -231,6 +277,7 @@ export default function ApplicationsTable(props: PropsInterface) {
               variant="outline"
               startIcon={<FilterIcon size={18} />}
               onClick={toggleFilterPanel}
+              className="max-w-32"
             >
               {isFilterPanelOpen ? "Close Filters" : "Filter"}
             </Button>
@@ -306,7 +353,14 @@ export default function ApplicationsTable(props: PropsInterface) {
                   statusColor = "error";
                 }
                 return (
-                  <TableRow key={record.id}>
+                  <TableRow
+                    key={record.id}
+                    className={cn(
+                      record.is_archived
+                        ? "text-muted-foreground bg-gray-100 line-through"
+                        : "",
+                    )}
+                  >
                     <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                       <Link href={"/"} className="hover:text-brand-500">
                         {record.ip_title ?? "--"}
@@ -350,18 +404,46 @@ export default function ApplicationsTable(props: PropsInterface) {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-theme-sm py-3 text-gray-800">
-                      {isAdmin ? (
+                      {(isAdmin || isTechgen) && (
                         <div className="flex items-center justify-center gap-2">
                           <Link
                             href={`${isAdmin ? "/admin" : "/techgen"}/view-application?applicationID=${record.id}`}
                             className="hover:text-brand-500"
                           >
-                            <PencilIcon />
+                            <Hint label="View application">
+                              <ArrowRight />
+                            </Hint>
                           </Link>
-                          <TrashBinIcon className="hover:text-error-500" />
+                          {isAdmin && (
+                            <Button
+                              variant="ghost"
+                              onClick={() =>
+                                toggleArchiveStatus(
+                                  record.id,
+                                  record.is_archived,
+                                )
+                              }
+                              className={cn(
+                                "hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0",
+                              )}
+                              disabled={isUpdating}
+                            >
+                              <Hint
+                                label={
+                                  record.is_archived
+                                    ? "Unarchive Application"
+                                    : "Archive Application"
+                                }
+                              >
+                                {record.is_archived ? (
+                                  <ArchiveRestore className="hover:text-success-500" />
+                                ) : (
+                                  <Archive className="hover:text-error-500" />
+                                )}
+                              </Hint>
+                            </Button>
+                          )}
                         </div>
-                      ) : (
-                        <EyeIcon className="hover:text-brand-500 m-auto" />
                       )}
                     </TableCell>
                   </TableRow>
