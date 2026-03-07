@@ -156,6 +156,8 @@ export default function ApplicationsTable(props: PropsInterface) {
       setColleges((prev) => prev.filter((c) => c !== value));
     } else if (type === "techgen") {
       setTechgens((prev) => prev.filter((t) => t !== value));
+    } else if (type === "ip_type") {
+      setIpTypes((prev) => prev.filter((i) => i !== value));
     }
     // and refetch
     setCurrentPage(1);
