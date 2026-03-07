@@ -14,10 +14,10 @@ interface UseApplicationsGetApplicationsByQueryProps {
 export function useApplicationsGetApplicationsByQuery(props: UseApplicationsGetApplicationsByQueryProps) {
     const {title, statuses, colleges, techgens, ip_types} = props;
 
-    const {data, isLoading, refetch} =  useQuery({
+    const {data, isLoading, refetch, isFetching} =  useQuery({
         queryKey: ['applications'],
         queryFn: ()=> getApplicationsByQuery({title, statuses, colleges, techgens, ip_types}),
     });
 
-    return {applications: data, isLoading, refetch}; 
+    return {applications: data, isLoading: isLoading || isFetching, refetch}; 
 }
