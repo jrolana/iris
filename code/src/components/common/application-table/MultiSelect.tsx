@@ -31,13 +31,14 @@ interface MultiSelectProps {
   className?: string;
 }
 
-export function MultiSelect({
-  options,
-  selected,
-  onChange,
-  placeholder = "Select...",
-  className,
-}: MultiSelectProps) {
+export function MultiSelect(props: MultiSelectProps) {
+  const {
+    options,
+    selected,
+    onChange,
+    placeholder = "Select...",
+    className,
+  } = props;
   const [open, setOpen] = useState(false);
 
   const handleUnselect = (value: string) => {
@@ -66,6 +67,7 @@ export function MultiSelect({
                     {label}
                     <button
                       className="focus:ring-ring ml-1 rounded-full outline-none focus:ring-2 focus:ring-offset-2"
+                      // Prevent the popover from closing when clicking the unselect button
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           handleUnselect(item);

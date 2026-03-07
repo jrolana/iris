@@ -130,7 +130,7 @@ export function FilterPanel({
                 value={tempTitle}
                 onChange={(e) => setTempTitle(e.target.value)}
                 placeholder="Search by title..."
-                className="bg-white"
+                className="bg-white text-sm font-normal"
               />
             </div>
             <div className="flex flex-col gap-1.5">
@@ -181,18 +181,20 @@ export function FilterPanel({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-end gap-3 border-t border-gray-100 pt-4">
+        <div className="xsm:items-center xsm:flex-row flex flex-col-reverse items-start justify-end gap-3 border-t border-gray-100 pt-4">
           <Button
             variant="ghost"
             onClick={handleClear}
-            className="text-gray-500"
+            className="h-10 py-2 text-gray-500"
           >
             Clear Filters
           </Button>
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={onClose} className="h-10 py-2">
             Cancel
           </Button>
-          <Button onClick={handleApply}>Apply Filters</Button>
+          <Button onClick={handleApply} className="h-10 py-2">
+            Apply Filters
+          </Button>
         </div>
       </div>
     </Transition>
