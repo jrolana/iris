@@ -21,6 +21,7 @@ interface FileItemProps {
   oldVersions: AttachmentType["Row"][];
   owner: User | null;
   isHistoryView?: boolean;
+  isArchived: boolean;
 }
 
 function getFileIcon(fileType: string) {
@@ -34,7 +35,7 @@ function getFileIcon(fileType: string) {
 }
 
 export default function FileItem(props: FileItemProps) {
-  const { file, owner, oldVersions, isHistoryView = false } = props;
+  const { file, owner, oldVersions, isHistoryView = false, isArchived } = props;
   const { fetchUrl, isLoading: isFetchingUrl } = useGetUrlByStoragePath();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -138,7 +139,7 @@ export default function FileItem(props: FileItemProps) {
             {!isHistoryView && (
               <UploadFileButton
                 currentFileType={file.file_type}
-                disabled={isFetchingUrl}
+                disabled={isFetchingUrl || isArchived}
                 folderName={file.storage_path.split("/")[1]}
                 className="disabled:text-muted-foreground flex flex-row gap-2 rounded-md border px-2 py-1 font-medium text-slate-600 hover:bg-slate-100"
               />
@@ -173,6 +174,7 @@ export default function FileItem(props: FileItemProps) {
               oldVersions={[]} // pass empty just in case, to prevent nesting
               owner={owner}
               isHistoryView={true} // indicate that these are old versions (in accordion view)
+              isArchived={isArchived}
             />
           ))}
         </div>

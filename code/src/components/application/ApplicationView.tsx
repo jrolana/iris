@@ -232,6 +232,7 @@ function ApplicationView(props: ApplicationViewProps) {
             applicationId={application.id}
             parentApplicationId={application.parent_application_id}
             mode={mode}
+            isArchived={application.is_archived}
           />
         </section>
 
