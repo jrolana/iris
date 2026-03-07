@@ -42,6 +42,7 @@ import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication"
 import { toast } from "sonner";
 import { buttonVariants } from "../ui/button";
 import Hint from "./Tooltip";
+import { useRouter } from "next/navigation";
 
 interface PropsInterface {
   isAdmin?: boolean;
@@ -61,6 +62,7 @@ const sortOptions = [
 
 export default function ApplicationsTable(props: PropsInterface) {
   const { isAdmin = false, isTechgen = false } = props;
+  const router = useRouter();
   const [title, setTitle] = useState<string>("");
   const [statuses, setStatuses] = useState<StatusType[]>([]);
   const [colleges, setColleges] = useState<CollegeUnitType[]>([]);
@@ -219,9 +221,20 @@ export default function ApplicationsTable(props: PropsInterface) {
           {isTechgen ? "Your Applications" : "Applications Registry"}
         </h1>
         <div className="flex flex-col gap-3 md:flex-row">
-          <Button startIcon={<PlusIcon size={30} />}>
-            Add New Application
-          </Button>
+          {(isAdmin || isTechgen) && (
+            <Button
+              startIcon={<PlusIcon size={30} />}
+              onClick={() => {
+                router.push(
+                  isAdmin
+                    ? "/admin/new-application"
+                    : "/techgen/new-application",
+                );
+              }}
+            >
+              Add New Application
+            </Button>
+          )}
           <div className="xsm:flex-row flex flex-col justify-start gap-2">
             <div className="flex gap-0">
               <Popover open={isSortPanelOpen} onOpenChange={setIsSortPanelOpen}>

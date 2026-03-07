@@ -79,6 +79,8 @@ CREATE TABLE private.ipr_applications (
     ip_number TEXT NULL,
     curr_status uuid NULL,
     parent_application_id UUID NULL,
+    is_archived BOOLEAN DEFAULT FALSE,
+    is_withdrawn BOOLEAN DEFAULT FALSE,
 
     CONSTRAINT fk_app_parent_application FOREIGN KEY(parent_application_id) REFERENCES private.ipr_applications(id) ON DELETE SET NULL,
     CONSTRAINT fk_app_created_by FOREIGN KEY(created_by) REFERENCES private.users(id) ON DELETE SET NULL,

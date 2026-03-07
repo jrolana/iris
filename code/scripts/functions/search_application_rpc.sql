@@ -77,7 +77,7 @@ BEGIN
         v_is_admin                           -- Admins see all
         OR v_is_official                     -- Officials see all
         OR private.check_inventor_access(app.id) -- Inventors see their own
-        OR stat.is_public              -- Guests (and everyone else) see published
+        OR (stat.is_public AND NOT app.is_archived)             -- Guests (and everyone else) see published except archived
         
        
         -- NOTE: (v_role = 'anon' AND stat.name = 'published') means inventors cannot see published apps that they don't have access to
