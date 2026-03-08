@@ -21,7 +21,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { PlusIcon } from "@/icons/index";
 import Badge, { BadgeProps } from "../ui/badge/Badge";
 import Link from "next/link";
 import Button from "../ui/button/Button";
@@ -30,19 +29,22 @@ import { ActiveFilters } from "./application-table/ActiveFilters";
 import {
   FilterIcon,
   Loader,
-  ArrowUpDown,
   X,
-  ArrowRight,
+  EyeIcon,
+  PlusIcon,
   Archive,
   ArchiveRestore,
+  ArrowDownNarrowWide,
+  ArrowUpNarrowWide,
 } from "lucide-react";
-import { Application, sortApplications } from "@/lib/helper/sort-applications";
+import { sortApplications } from "@/lib/helper/sort-applications";
 import { cn } from "@/lib/utils";
 import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
 import { toast } from "sonner";
 import { buttonVariants } from "../ui/button";
 import Hint from "./Tooltip";
 import { useRouter } from "next/navigation";
+import { SearchApplication } from "@/lib/types/application";
 
 interface PropsInterface {
   isAdmin?: boolean;
@@ -50,14 +52,11 @@ interface PropsInterface {
 }
 
 const sortOptions = [
-  { value: "ip_title-asc", label: "IP Title (A-Z)" },
-  { value: "ip_title-desc", label: "IP Title (Z-A)" },
-  { value: "filing_date-asc", label: "Filing Date (Oldest)" },
-  { value: "filing_date-desc", label: "Filing Date (Newest)" },
-  { value: "registration_date-asc", label: "Registration Date (Oldest)" },
-  { value: "registration_date-desc", label: "Registration Date (Newest)" },
-  { value: "created_at-asc", label: "Date Added (Oldest)" },
-  { value: "created_at-desc", label: "Date Added (Newest)" },
+  { value: "ip_title", label: "IP Title (A-Z)" },
+  { value: "filing_date", label: "Filing Date " },
+  { value: "registration_date", label: "Registration Date" },
+  { value: "created_at", label: "Date Added" },
+  { value: "updated_at", label: "Updated Date" },
 ];
 
 export default function ApplicationsTable(props: PropsInterface) {
@@ -68,7 +67,8 @@ export default function ApplicationsTable(props: PropsInterface) {
   const [colleges, setColleges] = useState<CollegeUnitType[]>([]);
   const [techgens, setTechgens] = useState<string[]>([]);
   const [ipTypes, setIpTypes] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState<string>("");
+  const [isAscendingSort, setIsAscendingSort] = useState<boolean>(false);
+  const [sortBy, setSortBy] = useState<string>("updated_at");
   const { applications, isLoading, refetch } =
     useApplicationsGetApplicationsByQuery({
       title,
@@ -81,9 +81,9 @@ export default function ApplicationsTable(props: PropsInterface) {
   const { isLoading: isUpdating, updateApp } = useUpdateApplication({
     appId: "",
   });
-  const [sortedApplications, setSortedApplications] = useState(
-    applications || [],
-  );
+  const [sortedApplications, setSortedApplications] = useState<
+    SearchApplication[]
+  >(applications || []);
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 20;
 
@@ -96,8 +96,8 @@ export default function ApplicationsTable(props: PropsInterface) {
 
   useEffect(() => {
     if (!applications) return;
-    // setSortedApplications(applications);
-    handleSortChange(sortBy); // re-apply sorting whenever applications data changes
+    handleSortChange(sortBy, isAscendingSort); // re-apply sorting whenever applications data changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applications]);
 
   const indexOfLastRecord = currentPage * recordsPerPage;
@@ -116,7 +116,6 @@ export default function ApplicationsTable(props: PropsInterface) {
     "Registration Date",
     "Funding Agency",
     "Technology Generators",
-    "Colleges",
     "Status",
     "Actions",
   ];
@@ -179,15 +178,14 @@ export default function ApplicationsTable(props: PropsInterface) {
     setIsFilterPanelOpen(!isFilterPanelOpen);
   }
 
-  function handleSortChange(sortValue: string) {
+  function handleSortChange(sortValue: string, order: boolean) {
     setSortBy(sortValue);
     setIsSortPanelOpen(false);
 
-    const [field, order] = sortValue.split("-");
     const sorted = sortApplications(
       applications || [],
-      field as keyof Application,
-      order === "asc",
+      sortValue as keyof SearchApplication,
+      order,
     );
     setSortedApplications(sorted);
   }
@@ -251,7 +249,6 @@ export default function ApplicationsTable(props: PropsInterface) {
                     ? sortOptions.find((option) => option.value === sortBy)
                         ?.label
                     : "Sort By"}
-                  <ArrowUpDown size={18} className="ml-2 h-4 w-4 shrink-0" />
                 </PopoverTrigger>
                 <PopoverContent
                   className="max-h-[300px] w-[calc(100vw-2rem)] overflow-y-auto p-2 sm:w-64"
@@ -266,7 +263,9 @@ export default function ApplicationsTable(props: PropsInterface) {
                     {sortOptions.map((option) => (
                       <button
                         key={option.value}
-                        onClick={() => handleSortChange(option.value)}
+                        onClick={() =>
+                          handleSortChange(option.value, isAscendingSort)
+                        }
                         className="flex w-full items-center justify-start rounded-md px-2 py-2 text-left text-sm transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50"
                       >
                         {option.label}
@@ -276,23 +275,45 @@ export default function ApplicationsTable(props: PropsInterface) {
                 </PopoverContent>
               </Popover>
               {sortBy && (
-                <Button
-                  onClick={() => {
-                    setSortBy("");
-                    setSortedApplications(applications || []);
-                  }}
-                  variant="ghost"
-                  className="text-muted-foreground hover:text-foreground h-auto w-auto shrink-0 p-0 hover:bg-transparent"
-                >
-                  <X size={20} />
-                </Button>
+                <>
+                  <button
+                    onClick={() => {
+                      const order = !isAscendingSort;
+                      setIsAscendingSort(order);
+                      handleSortChange(sortBy, order);
+                    }}
+                    className={cn(
+                      buttonVariants({ variant: "ghost" }),
+                      "text-muted-foreground hover:text-foreground flex h-auto w-auto shrink-0 items-center justify-center p-0 hover:bg-transparent",
+                    )}
+                  >
+                    {isAscendingSort ? (
+                      <ArrowDownNarrowWide className="h-6! w-6!" />
+                    ) : (
+                      <ArrowUpNarrowWide className="h-6! w-6!" />
+                    )}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSortBy("");
+                      setSortedApplications(applications || []);
+                      setIsAscendingSort(true);
+                    }}
+                    className={cn(
+                      buttonVariants({ variant: "ghost" }),
+                      "text-muted-foreground hover:text-foreground h-auto w-auto shrink-0 p-0 hover:bg-transparent",
+                    )}
+                  >
+                    <X className="h-6! w-6!" />
+                  </button>
+                </>
               )}
             </div>
             <Button
               variant="outline"
               startIcon={<FilterIcon size={18} />}
               onClick={toggleFilterPanel}
-              className="max-w-32"
+              className="max-w-fit"
             >
               {isFilterPanelOpen ? "Close Filters" : "Filter"}
             </Button>
@@ -371,15 +392,15 @@ export default function ApplicationsTable(props: PropsInterface) {
                   <TableRow
                     key={record.id}
                     className={cn(
-                      record.is_archived
-                        ? "text-muted-foreground bg-gray-100 line-through"
-                        : "",
+                      record.is_archived && "text-muted-foreground bg-gray-100",
                     )}
                   >
                     <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      <Link href={"/"} className="hover:text-brand-500">
-                        {record.ip_title ?? "--"}
-                      </Link>
+                      <div className="flex flex-row items-center gap-1">
+                        <Link href={"/"} className="hover:text-brand-500">
+                          {record.ip_title ?? "--"}
+                        </Link>
+                      </div>
                     </TableCell>
                     <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                       {record.project_title.trim().length === 0 ||
@@ -404,19 +425,48 @@ export default function ApplicationsTable(props: PropsInterface) {
                       {record.funding_agency || "--"}
                     </TableCell>
                     <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      {record.techgens?.join(", ") || "--"}
+                      <div className="flex flex-col gap-3">
+                        {" "}
+                        {/* Adds space between each person */}
+                        {record?.grouped_techgen_college?.map((item) => (
+                          <div
+                            key={item.full_name}
+                            className="flex flex-col leading-tight"
+                          >
+                            {/* Name is darker and medium weight */}
+                            <span className="font-medium text-gray-900">
+                              {item.full_name}
+                            </span>
+                            {/* College is smaller and lighter */}
+                            <span className="text-xs text-gray-500">
+                              {item.college}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </TableCell>
-                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      {record.colleges?.join(", ") || "--"}
-                    </TableCell>
-                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      <Badge
-                        size="sm"
-                        color={statusColor as BadgeProps["color"]}
-                      >
-                        {STATUS_LABELS[record.status_type as StatusType] ||
-                          "Unknown Status"}
-                      </Badge>
+
+                    <TableCell className="text-theme-sm gap-2 p-2 py-3 text-gray-800">
+                      <div className="flex flex-col gap-2">
+                        <Badge
+                          size="sm"
+                          color={statusColor as BadgeProps["color"]}
+                          className="max-w-fit truncate"
+                        >
+                          {STATUS_LABELS[record.status_type as StatusType] ||
+                            "Unknown Status"}
+                        </Badge>
+                        {record.is_withdrawn && (
+                          <Badge size="sm" color="error" className="max-w-fit">
+                            Withdrawn
+                          </Badge>
+                        )}
+                        {record.is_archived && (
+                          <Badge color="dark" size="sm" className="max-w-fit">
+                            Archived
+                          </Badge>
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell className="text-theme-sm py-3 text-gray-800">
                       {(isAdmin || isTechgen) && (
@@ -426,7 +476,7 @@ export default function ApplicationsTable(props: PropsInterface) {
                             className="hover:text-brand-500"
                           >
                             <Hint label="View application">
-                              <ArrowRight />
+                              <EyeIcon size={18} />
                             </Hint>
                           </Link>
                           {isAdmin && (
@@ -451,9 +501,15 @@ export default function ApplicationsTable(props: PropsInterface) {
                                 }
                               >
                                 {record.is_archived ? (
-                                  <ArchiveRestore className="hover:text-success-500" />
+                                  <ArchiveRestore
+                                    size={18}
+                                    className="hover:text-success-500"
+                                  />
                                 ) : (
-                                  <Archive className="hover:text-error-500" />
+                                  <Archive
+                                    size={18}
+                                    className="hover:text-error-500"
+                                  />
                                 )}
                               </Hint>
                             </Button>
@@ -484,9 +540,9 @@ export default function ApplicationsTable(props: PropsInterface) {
             Previous
           </Button>
           <div className="flex gap-2">
-            {[...Array(totalPages)].map((_, i) => (
+            {Array.from({ length: totalPages }).map((_, i) => (
               <Button
-                key={i}
+                key={i.toString() + "-page-button"}
                 variant={currentPage === i + 1 ? "primary" : "outline"}
                 size="sm"
                 onClick={() => handlePageChange(i + 1)}

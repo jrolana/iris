@@ -18,7 +18,7 @@ interface InventorItemsProps {
   existingUserIds: string[];
   reports?: ReportType["Row"][];
   isFetchingReports: boolean;
-  isArchived: boolean;
+  isUneditable: boolean;
 }
 
 export default function InventorItems(props: InventorItemsProps) {
@@ -30,7 +30,7 @@ export default function InventorItems(props: InventorItemsProps) {
     existingUserIds,
     reports,
     isFetchingReports,
-    isArchived,
+    isUneditable,
   } = props;
 
   const {
@@ -108,7 +108,7 @@ export default function InventorItems(props: InventorItemsProps) {
             <Button
               type="button"
               onClick={() => handleLinkInventor(inventor.id)}
-              disabled={isArchived}
+              disabled={isUneditable}
               className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
             >
               Link Account <Cable size={24} />
@@ -149,7 +149,9 @@ export default function InventorItems(props: InventorItemsProps) {
                   <Button
                     type="button"
                     onClick={() => handleFileReportClicked(inventor)}
-                    disabled={isFetchingReports || hasFiledReport || isArchived}
+                    disabled={
+                      isFetchingReports || hasFiledReport || isUneditable
+                    }
                     className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                   >
                     {hasFiledReport ? "Report Filed" : "File Report"}

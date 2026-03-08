@@ -8,11 +8,11 @@ interface ViewAttachmentProps {
   user: User | null;
   isFetchingUser: boolean;
   isLoading: boolean;
-  isArchived: boolean;
+  isUneditable: boolean;
 }
 
 function ViewAttachments(props: ViewAttachmentProps) {
-  const { groupedFiles, isLoading, isFetchingUser, user, isArchived } = props;
+  const { groupedFiles, isLoading, isFetchingUser, user, isUneditable } = props;
   const { openModal: openUploadModal } = useFilesUploadModal();
 
   // TODO: show loading state properly
@@ -60,7 +60,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
                 file={latestVersion}
                 owner={user}
                 oldVersions={folder.slice(1)}
-                isArchived={isArchived}
+                isUneditable={isUneditable}
               />
             </li>
           );
@@ -70,7 +70,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
       <div className="mt-4">
         <button
           type="button"
-          disabled={isArchived}
+          disabled={isUneditable}
           onClick={() => {
             openUploadModal();
           }}

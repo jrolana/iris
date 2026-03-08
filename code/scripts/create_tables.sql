@@ -125,10 +125,26 @@ CREATE TABLE private.inventors (
 
     CONSTRAINT fk_inventor_college FOREIGN KEY(college) REFERENCES private.college_units(code)
  
-    CHECK (
-    (college = 'Other' AND external_institution IS NOT NULL) OR 
-    (college != 'Other' AND external_institution IS NULL)
+    constraint inventors_affiliation_check check (
+    (
+      (
+        (college_code is not null)
+        and ((college_code)::text <> 'Other'::text)
+        and (other_college_name is null)
+        and (external_institution is null)
+      )
+      or (
+        ((college_code)::text = 'Other'::text)
+        and (other_college_name is not null)
+        and (external_institution is null)
+      )
+      or (
+        ((college_code)::text = 'Other'::text)
+        and (other_college_name is null)
+        and (external_institution is not null)
+      )
     )
+  )
 );
 
 CREATE TABLE private.ipr_statuses (

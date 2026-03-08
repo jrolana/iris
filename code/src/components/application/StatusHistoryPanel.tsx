@@ -7,22 +7,57 @@ import clsx from "clsx";
 
 import { useGetApplicationStatuses } from "@/hooks/status/useGetApplicationStatuses";
 import { formatDate, formatDateTime } from "@/lib/helper/format-date";
+import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
+import { toast } from "sonner";
+import { ApplicationType } from "@/lib/types/application";
+import { Button } from "../ui/button";
 
 interface StatusHistoryPanelProps {
-  applicationId: string;
+  application: ApplicationType["Row"];
   variant?: "techgen" | "ttbdo";
 }
 
 export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
-  const { applicationId, variant = "techgen" } = props;
+  const { application, variant = "techgen" } = props;
   const { openModal } = useStatusUpdateModal();
+  const { isLoading: isWithdrawing, updateApp } = useUpdateApplication({
+    appId: application.id,
+  });
 
   const { statuses, isLoading } = useGetApplicationStatuses({
-    applicationId,
+    applicationId: application.id,
   });
 
   function handleClickUpdate() {
     openModal();
+  }
+
+  function handleWithdrawApplication() {
+    toast.promise(
+      updateApp({
+        id: application.id,
+        applicationData: { is_withdrawn: true },
+      }),
+      {
+        loading: "Withdrawing application...",
+        success: "Application withdrawn successfully",
+        error: "Failed to withdraw application",
+      },
+    );
+  }
+
+  function handleUnwithdrawApplication() {
+    toast.promise(
+      updateApp({
+        id: application.id,
+        applicationData: { is_withdrawn: false },
+      }),
+      {
+        loading: "Reverting withdrawal...",
+        success: "Application is no longer withdrawn",
+        error: "Failed to revert withdrawal",
+      },
+    );
   }
 
   const statusArray = Array.isArray(statuses) ? statuses : [statuses];
@@ -34,13 +69,35 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
         <h2 className="text-lg font-semibold text-gray-900">Status history</h2>
 
         {variant === "ttbdo" && (
-          <button
-            type="button"
-            onClick={handleClickUpdate}
-            className="rounded-full bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-sky-700"
-          >
-            Update status
-          </button>
+          <div className="flex gap-2">
+            {application.is_withdrawn ? (
+              <Button
+                type="button"
+                onClick={handleUnwithdrawApplication}
+                disabled={isWithdrawing}
+                className="rounded-full border border-green-600 bg-green-50 px-3 py-1 text-sm font-medium text-green-700 transition-colors hover:bg-green-100 hover:text-green-800"
+              >
+                Revert Withdrawal
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                onClick={handleWithdrawApplication}
+                disabled={isWithdrawing}
+                className="rounded-full border bg-rose-600 px-3 py-1 text-sm font-medium text-white transition-colors hover:border-rose-600 hover:bg-white hover:text-rose-600"
+              >
+                Withdraw
+              </Button>
+            )}
+            <Button
+              type="button"
+              disabled={isWithdrawing || (application.is_withdrawn ?? false)}
+              onClick={handleClickUpdate}
+              className="rounded-full border border-sky-700 bg-sky-600 px-3 py-1 text-sm font-medium text-white transition-colors hover:border-sky-600 hover:bg-white hover:text-sky-600"
+            >
+              Update status
+            </Button>
+          </div>
         )}
       </div>
 

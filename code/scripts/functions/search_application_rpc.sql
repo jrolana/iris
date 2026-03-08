@@ -12,12 +12,15 @@ RETURNS TABLE (
     status_type TEXT,
     colleges TEXT[],
     techgens TEXT[],
+    college_names TEXT[],
     funding_agency TEXT,
     ip_type TEXT,
     registration_date DATE, 
     filing_date DATE,
     created_at TIMESTAMPTZ,
-    updated_at TIMESTAMPTZ
+    updated_at TIMESTAMPTZ,
+    is_archived BOOLEAN,
+    is_withdrawn BOOLEAN
     ) AS $$
 DECLARE
     v_is_admin BOOLEAN;
@@ -33,13 +36,13 @@ BEGIN
     -- merge application with inventors to get the colleges and techgens in an aggregated form
     WITH expanded_inventors AS (
     -- grab all direct inventors of an application
-    SELECT application_id, college_code, full_name
+    SELECT application_id, college_code, full_name, external_institution
     FROM private.inventors
 
     UNION
 
     -- copy the parent's inventors (college_code and name) and stamp the child's ID on them
-    SELECT child_app.id AS application_id, parent_inv.college_code, parent_inv.full_name
+    SELECT child_app.id AS application_id, parent_inv.college_code, parent_inv.full_name, parent_inv.external_institution
     FROM private.ipr_applications child_app
     JOIN private.inventors parent_inv ON child_app.parent_application_id = parent_inv.application_id
     WHERE child_app.parent_application_id IS NOT NULL
@@ -49,7 +52,8 @@ BEGIN
     SELECT
         application_id,
         array_agg(DISTINCT college_code::TEXT) AS agg_colleges,
-        array_agg(DISTINCT full_name) AS agg_techgens
+        array_agg(DISTINCT full_name) AS agg_techgens,
+        array_agg(DISTINCT external_institution) as agg_college_names
     FROM expanded_inventors
     GROUP BY application_id
     ),
@@ -62,12 +66,15 @@ BEGIN
         stat.status_type::TEXT AS status_type, 
         COALESCE(app_inventor.agg_colleges, ARRAY[]::TEXT[]) AS colleges,
         COALESCE(app_inventor.agg_techgens, ARRAY[]::TEXT[]) AS techgens,
+        COALESCE(app_inventor.agg_college_names, ARRAY[]::TEXT[]) as college_names,
         app.funding_source,
         app.ip_type::TEXT,
         app.registration_date,
         app.filing_date,
         app.created_at,
-        app.updated_at
+        app.updated_at,
+        app.is_archived,
+        app.is_withdrawn
     FROM private.ipr_applications app
     LEFT JOIN private.ipr_statuses stat ON app.curr_status = stat.id 
     LEFT JOIN app_inventors app_inventor ON app.id = app_inventor.application_id
@@ -76,8 +83,8 @@ BEGIN
         (
         v_is_admin                           -- Admins see all
         OR v_is_official                     -- Officials see all
-        OR private.check_inventor_access(app.id) -- Inventors see their own
-        OR (stat.is_public AND NOT app.is_archived)             -- Guests (and everyone else) see published except archived
+        OR (private.check_inventor_access(app.id) AND NOT app.is_archived) -- Inventors see their own except archived
+        OR (stat.is_public AND NOT app.is_archived)              -- Guests (and everyone else) see published except archived
         
        
         -- NOTE: (v_role = 'anon' AND stat.name = 'published') means inventors cannot see published apps that they don't have access to

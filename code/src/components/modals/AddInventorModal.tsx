@@ -7,6 +7,7 @@ import { Input } from "../ui/input";
 import { Button } from "@/components/ui/button";
 import Select from "react-select";
 import Checkbox from "@/components/form/input/Checkbox";
+import { InventorType } from "@/lib/types/application";
 
 export default function AddInventorModal() {
   const { isOpen, setNewInventorDetails, closeModal } = useAddInventorsModal();
@@ -36,11 +37,11 @@ export default function AddInventorModal() {
     )
       return;
 
-    const inventor = {
+    const inventor: InventorType["Insert"] = {
       comments: null,
       full_name: name,
       email: email,
-      college_code: collegeUnit,
+      college_code: isExternal ? "Other" : collegeUnit,
       // forced to be null instead of empty string for db constraints
       other_college_name: otherCollegeUnit == "" ? null : otherCollegeUnit,
       external_institution: externalInstitution,

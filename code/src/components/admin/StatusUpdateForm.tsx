@@ -594,7 +594,7 @@ function StatusUpdateForm(props: PropsInterface) {
               </div>
             </div>
 
-            {(selectedStatus === "registered" ||
+            {/* {(selectedStatus === "registered" ||
               selectedStatus === "filed_with_ipophil") && (
               <div className="col-span-1 flex w-full shrink-0 flex-col items-start gap-1 md:col-span-2">
                 <span className="font-medium text-slate-800">
@@ -634,7 +634,7 @@ function StatusUpdateForm(props: PropsInterface) {
                   may adjust if needed.
                 </p>
               </div>
-            )}
+            )} */}
           </div>
 
           <label className="flex w-full shrink-0 flex-col gap-1">
@@ -648,7 +648,7 @@ function StatusUpdateForm(props: PropsInterface) {
             />
           </label>
 
-          <div className="w-full shrink-0">
+          {/* <div className="w-full shrink-0">
             <label className="flex flex-col gap-1">
               <span className="font-medium text-slate-800">
                 IP type (optional)
@@ -685,7 +685,7 @@ function StatusUpdateForm(props: PropsInterface) {
                 changed.
               </p>
             </label>
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-2 flex w-full shrink-0 items-center justify-end gap-3 pb-2">

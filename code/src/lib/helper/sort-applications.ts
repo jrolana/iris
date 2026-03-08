@@ -1,12 +1,8 @@
-import { getApplicationsByQuery } from '../../services/application/get-applications-with-query';
+import { SearchApplication } from '../types/application';
 
-// get the type of the whole array returned by the function
-export type ApplicationsList = Awaited<ReturnType<typeof getApplicationsByQuery>>;
 
-// get the type of a single application from the array
-export type Application = NonNullable<ApplicationsList>[number];
 
-export function sortApplications(applications: ApplicationsList, sortByKey: keyof Application = "updated_at", ascending: boolean = true): ApplicationsList {
+export function sortApplications(applications: SearchApplication[], sortByKey: keyof SearchApplication = "updated_at", ascending: boolean = true): SearchApplication[] {
     if (!applications) return [];
     const sortedApplications = [...applications];
 

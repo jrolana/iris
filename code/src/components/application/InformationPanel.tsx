@@ -12,11 +12,11 @@ interface DetailsPanelProps {
   mode: ApplicationViewMode;
   applicationId: string;
   parentApplicationId: string | null;
-  isArchived: boolean | null;
+  isUneditable: boolean | null;
 }
 
 function InformationPanel(props: DetailsPanelProps) {
-  const { mode, applicationId, parentApplicationId, isArchived } = props;
+  const { mode, applicationId, parentApplicationId, isUneditable } = props;
   const [activeTab, setActiveTab] = useState<"attachments" | "inventors">(
     "attachments",
   );
@@ -72,7 +72,7 @@ function InformationPanel(props: DetailsPanelProps) {
           user={user}
           isFetchingUser={isFetchingUser}
           isLoading={isFetchingFiles}
-          isArchived={isArchived ?? false}
+          isUneditable={isUneditable ?? false}
         />
       ) : (
         <ViewInventors
@@ -82,7 +82,7 @@ function InformationPanel(props: DetailsPanelProps) {
           user={user}
           appId={applicationId}
           parentId={parentApplicationId}
-          isArchived={isArchived ?? false}
+          isUneditable={isUneditable ?? false}
         />
       )}
     </div>

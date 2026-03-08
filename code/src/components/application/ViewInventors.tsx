@@ -11,11 +11,11 @@ interface ViewInventorsProps {
   user: User | null;
   appId: string;
   parentId: string | null;
-  isArchived: boolean;
+  isUneditable: boolean;
 }
 
 function ViewInventors(props: ViewInventorsProps) {
-  const { inventors, isAdmin, isLoading, user, appId, parentId, isArchived } =
+  const { inventors, isAdmin, isLoading, user, appId, parentId, isUneditable } =
     props;
 
   const inventorUser = inventors.find((inv) => inv.techgen_id === user?.id);
@@ -79,7 +79,7 @@ function ViewInventors(props: ViewInventorsProps) {
               reports={
                 reportsByInventorId ? reportsByInventorId[inventor.id] : []
               }
-              isArchived={isArchived}
+              isUneditable={isUneditable}
             />
           </li>
         ))}
