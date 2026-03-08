@@ -72,7 +72,9 @@ function ApplicationView(props: ApplicationViewProps) {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <div className="flex flex-row items-center gap-3">
-            {isAdmin && !application.is_withdrawn ? (
+            {isAdmin &&
+            !application.is_withdrawn &&
+            !application.is_archived ? (
               <InlineEdit
                 value={ipTitle ?? ""}
                 onSave={async (newValue) => {
@@ -129,7 +131,9 @@ function ApplicationView(props: ApplicationViewProps) {
                 {statusLabel}
               </span>
             )}
-            {isAdmin && !application.is_withdrawn ? (
+            {isAdmin &&
+            !application.is_withdrawn &&
+            !application.is_archived ? (
               <div className="flex flex-row items-center gap-3 rounded-full bg-gray-600 px-3 py-1 text-white">
                 IP Number:{" "}
                 <InlineEdit
