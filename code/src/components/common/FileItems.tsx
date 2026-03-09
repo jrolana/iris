@@ -21,6 +21,7 @@ interface FileItemProps {
   oldVersions: AttachmentType["Row"][];
   owner: User | null;
   isHistoryView?: boolean;
+  isUneditable: boolean;
 }
 
 function getFileIcon(fileType: string) {
@@ -34,7 +35,13 @@ function getFileIcon(fileType: string) {
 }
 
 export default function FileItem(props: FileItemProps) {
-  const { file, owner, oldVersions, isHistoryView = false } = props;
+  const {
+    file,
+    owner,
+    oldVersions,
+    isHistoryView = false,
+    isUneditable,
+  } = props;
   const { fetchUrl, isLoading: isFetchingUrl } = useGetUrlByStoragePath();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -99,7 +106,7 @@ export default function FileItem(props: FileItemProps) {
 
         {/* --- Action Buttons --- */}
         <div className="shrink-0 pt-2 text-right">
-          <div className="flex flex-wrap justify-end gap-2 text-sm">
+          <div className="flex flex-wrap justify-start gap-2 text-sm sm:justify-end">
             <Button
               type="button"
               variant="outline"
@@ -138,7 +145,7 @@ export default function FileItem(props: FileItemProps) {
             {!isHistoryView && (
               <UploadFileButton
                 currentFileType={file.file_type}
-                disabled={isFetchingUrl}
+                disabled={isFetchingUrl || isUneditable}
                 folderName={file.storage_path.split("/")[1]}
                 className="disabled:text-muted-foreground flex flex-row gap-2 rounded-md border px-2 py-1 font-medium text-slate-600 hover:bg-slate-100"
               />
@@ -173,6 +180,7 @@ export default function FileItem(props: FileItemProps) {
               oldVersions={[]} // pass empty just in case, to prevent nesting
               owner={owner}
               isHistoryView={true} // indicate that these are old versions (in accordion view)
+              isUneditable={isUneditable}
             />
           ))}
         </div>

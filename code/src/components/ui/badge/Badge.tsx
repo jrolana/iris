@@ -1,6 +1,6 @@
 import React from "react";
 
-type BadgeVariant = "light" | "solid";
+type BadgeVariant = "light" | "solid" | "neutral";
 type BadgeSize = "sm" | "md";
 type BadgeColor =
   | "primary"
@@ -11,13 +11,14 @@ type BadgeColor =
   | "light"
   | "dark";
 
-interface BadgeProps {
+export interface BadgeProps {
   variant?: BadgeVariant; // Light or solid variant
   size?: BadgeSize; // Badge size
   color?: BadgeColor; // Badge color
   startIcon?: React.ReactNode; // Icon at the start
   endIcon?: React.ReactNode; // Icon at the end
   children: React.ReactNode; // Badge content
+  className?: string; // Additional custom classes
 }
 
 const Badge: React.FC<BadgeProps> = ({
@@ -27,6 +28,7 @@ const Badge: React.FC<BadgeProps> = ({
   startIcon,
   endIcon,
   children,
+  className = "",
 }) => {
   const baseStyles =
     "inline-flex items-center px-2.5 py-0.75 justify-center gap-1 rounded-full font-medium";
@@ -61,6 +63,17 @@ const Badge: React.FC<BadgeProps> = ({
       light: "bg-gray-400 dark:bg-white/5 text-white dark:text-white/80",
       dark: "bg-gray-700 text-white dark:text-white",
     },
+    neutral: {
+      primary: "bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200",
+      success:
+        "bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-200",
+      error: "bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-200",
+      warning:
+        "bg-yellow-200 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-200",
+      info: "bg-blue-200 text-blue-800 dark:bg-blue-700 dark:text-blue-200",
+      light: "bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200",
+      dark: "bg-gray-700 text-white dark:bg-gray-200 dark:text-gray-800",
+    },
   };
 
   // Get styles based on size and color variant
@@ -68,7 +81,7 @@ const Badge: React.FC<BadgeProps> = ({
   const colorStyles = variants[variant][color];
 
   return (
-    <span className={`${baseStyles} ${sizeClass} ${colorStyles}`}>
+    <span className={`${baseStyles} ${sizeClass} ${colorStyles} ${className}`}>
       {startIcon && <span className="mr-1">{startIcon}</span>}
       {children}
       {endIcon && <span className="ml-1">{endIcon}</span>}

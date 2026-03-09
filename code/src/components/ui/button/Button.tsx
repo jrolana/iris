@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 interface ButtonProps {
   children: ReactNode;
   size?: "sm" | "md";
-  variant?: "primary" | "outline" | "success" | "danger";
+  variant?: "primary" | "outline" | "success" | "danger" | "ghost";
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   onClick?: () => void;
@@ -38,6 +38,9 @@ const Button: React.FC<ButtonProps> = ({
 
     danger:
       "bg-white text-error-600 ring-1 ring-inset ring-error-300 hover:bg-error-50 disabled:hover:bg-white",
+
+    ghost:
+      "bg-transparent text-gray-700 hover:bg-gray-100 disabled:hover:bg-transparent",
   };
 
   return (

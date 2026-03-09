@@ -45,7 +45,9 @@ export type StatusType =
   | 'wait_statement_of_acc'
   | 'pay_fee_application'
   | 'mailed_to_ipophl'
-  | 'closed';
+  | 'closed'
+  | 'removal_from_record'
+  | 'expired';
 
 //specific ip statuses
 export const IpStatuses: Record<IpType, readonly StatusType[]> = {

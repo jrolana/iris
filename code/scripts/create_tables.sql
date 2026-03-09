@@ -79,6 +79,8 @@ CREATE TABLE private.ipr_applications (
     ip_number TEXT NULL,
     curr_status uuid NULL,
     parent_application_id UUID NULL,
+    is_archived BOOLEAN DEFAULT FALSE,
+    is_withdrawn BOOLEAN DEFAULT FALSE,
 
     CONSTRAINT fk_app_parent_application FOREIGN KEY(parent_application_id) REFERENCES private.ipr_applications(id) ON DELETE SET NULL,
     CONSTRAINT fk_app_created_by FOREIGN KEY(created_by) REFERENCES private.users(id) ON DELETE SET NULL,
@@ -123,10 +125,26 @@ CREATE TABLE private.inventors (
 
     CONSTRAINT fk_inventor_college FOREIGN KEY(college) REFERENCES private.college_units(code)
  
-    CHECK (
-    (college = 'Other' AND external_institution IS NOT NULL) OR 
-    (college != 'Other' AND external_institution IS NULL)
+    constraint inventors_affiliation_check check (
+    (
+      (
+        (college_code is not null)
+        and ((college_code)::text <> 'Other'::text)
+        and (other_college_name is null)
+        and (external_institution is null)
+      )
+      or (
+        ((college_code)::text = 'Other'::text)
+        and (other_college_name is not null)
+        and (external_institution is null)
+      )
+      or (
+        ((college_code)::text = 'Other'::text)
+        and (other_college_name is null)
+        and (external_institution is not null)
+      )
     )
+  )
 );
 
 CREATE TABLE private.ipr_statuses (
@@ -156,6 +174,7 @@ CREATE TABLE private.ipr_files (
     file_name TEXT NOT NULL,
     file_description TEXT,
     file_type TEXT NOT NULL,
+    is_public BOOLEAN DEFAULT FALSE,
     comments TEXT,
     storage_id UUID NOT NULL,
 

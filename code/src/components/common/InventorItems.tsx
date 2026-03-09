@@ -18,6 +18,7 @@ interface InventorItemsProps {
   existingUserIds: string[];
   reports?: ReportType["Row"][];
   isFetchingReports: boolean;
+  isUneditable: boolean;
 }
 
 export default function InventorItems(props: InventorItemsProps) {
@@ -29,6 +30,7 @@ export default function InventorItems(props: InventorItemsProps) {
     existingUserIds,
     reports,
     isFetchingReports,
+    isUneditable,
   } = props;
 
   const {
@@ -106,6 +108,7 @@ export default function InventorItems(props: InventorItemsProps) {
             <Button
               type="button"
               onClick={() => handleLinkInventor(inventor.id)}
+              disabled={isUneditable}
               className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
             >
               Link Account <Cable size={24} />
@@ -129,7 +132,7 @@ export default function InventorItems(props: InventorItemsProps) {
           </Button>
         </div>
       ) : (
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="xsm:flex-row xsm:items-center flex shrink-0 flex-col items-start gap-2">
           {inventor.techgen_id ? (
             <>
               <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-sky-600">
@@ -146,7 +149,9 @@ export default function InventorItems(props: InventorItemsProps) {
                   <Button
                     type="button"
                     onClick={() => handleFileReportClicked(inventor)}
-                    disabled={isFetchingReports || hasFiledReport}
+                    disabled={
+                      isFetchingReports || hasFiledReport || isUneditable
+                    }
                     className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
                   >
                     {hasFiledReport ? "Report Filed" : "File Report"}

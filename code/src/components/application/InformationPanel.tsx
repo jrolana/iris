@@ -12,10 +12,11 @@ interface DetailsPanelProps {
   mode: ApplicationViewMode;
   applicationId: string;
   parentApplicationId: string | null;
+  isUneditable: boolean | null;
 }
 
 function InformationPanel(props: DetailsPanelProps) {
-  const { mode, applicationId, parentApplicationId } = props;
+  const { mode, applicationId, parentApplicationId, isUneditable } = props;
   const [activeTab, setActiveTab] = useState<"attachments" | "inventors">(
     "attachments",
   );
@@ -40,18 +41,18 @@ function InformationPanel(props: DetailsPanelProps) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5">
       <div className="flex items-center justify-between gap-2">
-        <div className="text-md inline-flex rounded-full bg-gray-100 p-1 font-medium text-gray-600">
+        <div className="md:text-md xsm:text-sm inline-flex rounded-full bg-gray-100 p-1 text-xs font-medium text-gray-600">
           <button
             type="button"
             onClick={() => setActiveTab("attachments")}
-            className={`md:text-md rounded-full px-3 py-1 text-sm ${activeTab === "attachments" ? "bg-white text-gray-900" : "text-gray-600"}`}
+            className={`rounded-full px-3 py-1 ${activeTab === "attachments" ? "bg-white text-gray-900" : "text-gray-600"}`}
           >
             Attachments
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("inventors")}
-            className={`sm:text-md rounded-full px-3 py-1 text-sm ${
+            className={`rounded-full px-3 py-1 ${
               activeTab === "inventors"
                 ? "bg-white text-gray-900"
                 : "text-gray-600"
@@ -60,7 +61,9 @@ function InformationPanel(props: DetailsPanelProps) {
             Tech Gens
           </button>
         </div>
-        <span className="text-center text-sm text-gray-500">{countLabel}</span>
+        <span className="truncate text-center text-sm text-gray-500">
+          {countLabel}
+        </span>
       </div>
 
       {activeTab === "attachments" ? (
@@ -69,6 +72,7 @@ function InformationPanel(props: DetailsPanelProps) {
           user={user}
           isFetchingUser={isFetchingUser}
           isLoading={isFetchingFiles}
+          isUneditable={isUneditable ?? false}
         />
       ) : (
         <ViewInventors
@@ -78,6 +82,7 @@ function InformationPanel(props: DetailsPanelProps) {
           user={user}
           appId={applicationId}
           parentId={parentApplicationId}
+          isUneditable={isUneditable ?? false}
         />
       )}
     </div>

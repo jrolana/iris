@@ -8,10 +8,11 @@ interface ViewAttachmentProps {
   user: User | null;
   isFetchingUser: boolean;
   isLoading: boolean;
+  isUneditable: boolean;
 }
 
 function ViewAttachments(props: ViewAttachmentProps) {
-  const { groupedFiles, isLoading, isFetchingUser, user } = props;
+  const { groupedFiles, isLoading, isFetchingUser, user, isUneditable } = props;
   const { openModal: openUploadModal } = useFilesUploadModal();
 
   // TODO: show loading state properly
@@ -59,6 +60,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
                 file={latestVersion}
                 owner={user}
                 oldVersions={folder.slice(1)}
+                isUneditable={isUneditable}
               />
             </li>
           );
@@ -68,15 +70,16 @@ function ViewAttachments(props: ViewAttachmentProps) {
       <div className="mt-4">
         <button
           type="button"
+          disabled={isUneditable}
           onClick={() => {
             openUploadModal();
           }}
           className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
         >
-          Upload a file or link
+          Upload a file
         </button>
         <p className="mt-2 text-sm text-gray-500">
-          Attach necessary files or links related to this application.
+          Attach necessary files related to this application.
         </p>
       </div>
     </>

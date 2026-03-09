@@ -15,6 +15,11 @@ USING (
   private.is_admin() 
   OR created_by = auth.uid() 
   OR private.check_inventor_access(id)
+  OR private.is_official() 
+  OR (
+    auth.role() = 'anon' 
+    AND private.is_published_status(curr_status)
+  )
 );
 
 -- INSERT: Any logged-in user can create (must own the row)

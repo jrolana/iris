@@ -11,10 +11,12 @@ interface ViewInventorsProps {
   user: User | null;
   appId: string;
   parentId: string | null;
+  isUneditable: boolean;
 }
 
 function ViewInventors(props: ViewInventorsProps) {
-  const { inventors, isAdmin, isLoading, user, appId, parentId } = props;
+  const { inventors, isAdmin, isLoading, user, appId, parentId, isUneditable } =
+    props;
 
   const inventorUser = inventors.find((inv) => inv.techgen_id === user?.id);
   const { reports, isLoading: isReportsLoading } = useGetReportsByAppId({
@@ -77,6 +79,7 @@ function ViewInventors(props: ViewInventorsProps) {
               reports={
                 reportsByInventorId ? reportsByInventorId[inventor.id] : []
               }
+              isUneditable={isUneditable}
             />
           </li>
         ))}

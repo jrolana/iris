@@ -69,6 +69,9 @@ function StatusUpdateForm(props: PropsInterface) {
   const currentIpType = application.ip_type;
   const currentStatusType = currentStatus.status_type as StatusType;
   const currentStatusId = currentStatus.id;
+  const publishedStageIndex = ipApplicationFlows[currentIpType].findIndex(
+    (step) => step.statusTypes.includes("published"),
+  );
 
   const currentDeadline = useMemo(
     () =>
@@ -313,6 +316,22 @@ function StatusUpdateForm(props: PropsInterface) {
 
       // Changing status_type => create new status row
       if (isStatusChanged) {
+        const selectedStageIndex = ipApplicationFlows[currentIpType].findIndex(
+          (step) => step.statusTypes.includes(selectedStatus),
+        );
+
+        // If moving to a stage beyond "published" stage, or changing status to "published" in the same stage, set is_public to true
+        const isBeyondPublished =
+          publishedStageIndex !== -1 &&
+          selectedStageIndex !== -1 &&
+          selectedStageIndex >= publishedStageIndex;
+
+        if (isBeyondPublished) {
+          updatedStatus.is_public = true;
+        } else {
+          updatedStatus.is_public = false;
+        }
+
         updatedStatus.status_type = selectedStatus;
         updatedStatus.application_id = applicationId;
 
@@ -575,7 +594,7 @@ function StatusUpdateForm(props: PropsInterface) {
               </div>
             </div>
 
-            {(selectedStatus === "registered" ||
+            {/* {(selectedStatus === "registered" ||
               selectedStatus === "filed_with_ipophil") && (
               <div className="col-span-1 flex w-full shrink-0 flex-col items-start gap-1 md:col-span-2">
                 <span className="font-medium text-slate-800">
@@ -615,7 +634,7 @@ function StatusUpdateForm(props: PropsInterface) {
                   may adjust if needed.
                 </p>
               </div>
-            )}
+            )} */}
           </div>
 
           <label className="flex w-full shrink-0 flex-col gap-1">
@@ -629,7 +648,7 @@ function StatusUpdateForm(props: PropsInterface) {
             />
           </label>
 
-          <div className="w-full shrink-0">
+          {/* <div className="w-full shrink-0">
             <label className="flex flex-col gap-1">
               <span className="font-medium text-slate-800">
                 IP type (optional)
@@ -666,7 +685,7 @@ function StatusUpdateForm(props: PropsInterface) {
                 changed.
               </p>
             </label>
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-2 flex w-full shrink-0 items-center justify-end gap-3 pb-2">

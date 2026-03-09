@@ -72,7 +72,9 @@ function ApplicationView(props: ApplicationViewProps) {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <div className="flex flex-row items-center gap-3">
-            {isAdmin ? (
+            {isAdmin &&
+            !application.is_withdrawn &&
+            !application.is_archived ? (
               <InlineEdit
                 value={ipTitle ?? ""}
                 onSave={async (newValue) => {
@@ -129,7 +131,9 @@ function ApplicationView(props: ApplicationViewProps) {
                 {statusLabel}
               </span>
             )}
-            {isAdmin ? (
+            {isAdmin &&
+            !application.is_withdrawn &&
+            !application.is_archived ? (
               <div className="flex flex-row items-center gap-3 rounded-full bg-gray-600 px-3 py-1 text-white">
                 IP Number:{" "}
                 <InlineEdit
@@ -232,14 +236,15 @@ function ApplicationView(props: ApplicationViewProps) {
             applicationId={application.id}
             parentApplicationId={application.parent_application_id}
             mode={mode}
+            isUneditable={application.is_archived || application.is_withdrawn}
           />
         </section>
 
         {/* right panels, status history and the reminders (could be change later on for something more useful)*/}
         <section className="min-w-0 space-y-4 lg:col-span-5">
           <StatusHistoryPanel
-            applicationId={application.id}
             variant={isAdmin ? "ttbdo" : "techgen"}
+            application={application}
           />
 
           {mode === "applicant" ? <ApplicantReminders /> : <AdminReminders />}
