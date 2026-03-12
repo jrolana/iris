@@ -1,6 +1,9 @@
-DROP VIEW IF EXISTS private.v_dashboard_status CASCADE;
-CREATE VIEW private.v_dashboard_status AS  
-SELECT 
+DROP VIEW IF EXISTS v_dashboard_status CASCADE;
+CREATE VIEW v_dashboard_status
+-- security_invoker = to enforce currently logged in users rls
+-- security_barrier = added protection
+WITH (security_invoker = true, security_barrier = true)
+AS SELECT 
   a.id,
   a.ip_type,
   CASE
@@ -75,13 +78,14 @@ FROM private.ipr_applications AS a
 JOIN private.ipr_statuses AS s         
   ON s.id = a.curr_status;                                            
 
-DROP VIEW IF EXISTS private.v_dashboard_analytics;
-CREATE VIEW private.v_dashboard_analytics AS  
-SELECT 
+DROP VIEW IF EXISTS v_dashboard_analytics;
+CREATE VIEW v_dashboard_analytics
+WITH (security_invoker = true, security_barrier = true)
+AS SELECT 
   COUNT(*) AS total,
   ip_type,
   dashboard_status,
   EXTRACT(YEAR FROM time_concerned)::int AS year
-FROM private.v_dashboard_status             
+FROM v_dashboard_status             
 WHERE time_concerned IS NOT NULL             
 GROUP BY ip_type, dashboard_status, EXTRACT(YEAR FROM time_concerned);

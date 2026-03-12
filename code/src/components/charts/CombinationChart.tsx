@@ -1,12 +1,12 @@
 "use client";
-import React from "react";
-// import Chart from "react-apexcharts";
+
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
-import { COLORS } from "@/lib/constants/ui";
-import { COMBINATION_SERIES } from "@/lib/dummy-data/metrics";
+import { DashboardAnalyticsType } from "@/lib/types/views";
+import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
+import { useMemo } from "react";
+import { BarChart3 } from "lucide-react";
 
-// Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
@@ -14,10 +14,94 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 interface PropsInterface {
   title: string;
   showLegend?: boolean;
+  dashboardStatus: DashboardAnalyticsType["Row"]["dashboard_status"];
+  rawData: DashboardAnalyticsType["Row"][];
 }
 
+type SeriesItemType = {
+  name: string;
+  type: "column" | "line";
+  data: number[];
+};
+
+const IP_TYPE_ORDER = [
+  "patent",
+  "utility_model",
+  "industrial_design",
+  "copyright",
+  "trademark",
+] as const;
+
 export default function CombinationChart(props: PropsInterface) {
-  const { title, showLegend = false } = props;
+  const { title, showLegend = false, dashboardStatus, rawData } = props;
+
+  const filteredRows = useMemo(() => {
+    return rawData.filter((item) => {
+      return (
+        !!item &&
+        item.dashboard_status === dashboardStatus &&
+        !!item.ip_type &&
+        item.year !== null
+      );
+    });
+  }, [rawData, dashboardStatus]);
+
+  const categories = useMemo(() => {
+    return Array.from(
+      new Set(filteredRows.map((item) => Number(item.year))),
+    ).sort((a, b) => a - b);
+  }, [filteredRows]);
+
+  const groupedByIPAndYear = useMemo(() => {
+    return filteredRows.reduce<Record<string, Record<number, number>>>(
+      (acc, item) => {
+        if (!item.ip_type || item.year === null) return acc;
+
+        const ipType = item.ip_type;
+        const year = Number(item.year);
+
+        if (!acc[ipType]) {
+          acc[ipType] = {};
+        }
+
+        acc[ipType][year] = item.total ?? 0;
+        return acc;
+      },
+      {},
+    );
+  }, [filteredRows]);
+
+  const columnSeries: SeriesItemType[] = useMemo(() => {
+    return IP_TYPE_ORDER.filter((ipType) => groupedByIPAndYear[ipType]).map(
+      (ipType) => ({
+        name: ipTypeToTitle(ipType),
+        type: "column",
+        data: categories.map((year) => groupedByIPAndYear[ipType][year] ?? 0),
+      }),
+    );
+  }, [groupedByIPAndYear, categories]);
+
+  const totalSeries: SeriesItemType = useMemo(() => {
+    return {
+      name: "Total",
+      type: "line",
+      data: categories.map((year) =>
+        Object.values(groupedByIPAndYear).reduce(
+          (sum, totalsByYear) => sum + (totalsByYear[year] ?? 0),
+          0,
+        ),
+      ),
+    };
+  }, [categories, groupedByIPAndYear]);
+
+  const series: SeriesItemType[] = useMemo(() => {
+    return [...columnSeries, totalSeries];
+  }, [columnSeries, totalSeries]);
+
+  const strokeWidths = useMemo(() => {
+    return series.map((item) => (item.type === "line" ? 1 : 0));
+  }, [series]);
+
   const options: ApexOptions = {
     legend: {
       show: showLegend,
@@ -27,89 +111,90 @@ export default function CombinationChart(props: PropsInterface) {
         colors: "#344054",
       },
     },
-    colors: ["#465FFF", "#5A6FFF", "#7080FF", "#3745A0", "#2A3380"], // Define line colors
+    colors: ["#465FFF", "#5A6FFF", "#7080FF", "#3745A0", "#2A3380", "#465FFF"],
     chart: {
       fontFamily: "Outfit, sans-serif",
       height: 310,
-      type: "line", // Set the chart type to 'line'
+      width: "100%",
+      type: "line",
       toolbar: {
-        show: false, // Hide chart toolbar
+        show: false,
       },
     },
     stroke: {
-      curve: "straight", // Define the line style (straight, smooth, or step)
-      width: [0, 0, 0, 0, 0, 1], // Line width for each dataset
+      curve: "straight",
+      width: strokeWidths,
     },
-
     markers: {
-      size: 0, // Size of the marker points
-      strokeColors: "#fff", // Marker border color
+      size: 0,
+      strokeColors: "#fff",
       strokeWidth: 2,
       hover: {
-        size: 6, // Marker size on hover
+        size: 6,
       },
     },
     grid: {
       xaxis: {
         lines: {
-          show: false, // Hide grid lines on x-axis
+          show: false,
         },
       },
       yaxis: {
         lines: {
-          show: true, // Show grid lines on y-axis
+          show: true,
         },
       },
     },
     dataLabels: {
-      enabled: false, // Disable data labels
+      enabled: false,
     },
     tooltip: {
-      enabled: true, // Enable tooltip
-      x: {
-        format: "dd MMM yyyy", // Format for x-axis tooltip
-      },
+      enabled: true,
     },
     xaxis: {
-      type: "category", // Category-based x-axis
-      categories: [
-        "2013 - 2017",
-        2018,
-        2019,
-        2020,
-        2021,
-        2022,
-        2023,
-        2024,
-        2025,
-      ],
+      type: "category",
+      categories,
       axisBorder: {
-        show: false, // Hide x-axis border
+        show: false,
       },
       axisTicks: {
-        show: false, // Hide x-axis ticks
+        show: false,
       },
       tooltip: {
-        enabled: false, // Disable tooltip for x-axis points
+        enabled: false,
       },
     },
     yaxis: {
+      min: 0,
+      forceNiceScale: true,
       labels: {
+        formatter: (value) => Math.round(value).toString(),
         style: {
-          fontSize: "12px", // Adjust font size for y-axis labels
-          colors: ["#6B7280"], // Color of the labels
+          fontSize: "12px",
+          colors: ["#6B7280"],
         },
       },
       title: {
-        text: "", // Remove y-axis title
+        text: "",
         style: {
           fontSize: "0px",
         },
       },
     },
+    responsive: [
+      {
+        breakpoint: 640,
+        options: {
+          chart: {
+            height: 280,
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    ],
   };
-
-  const series = COMBINATION_SERIES;
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white px-5 pt-5 pb-5 sm:px-6 sm:pt-6">
@@ -122,16 +207,34 @@ export default function CombinationChart(props: PropsInterface) {
         </div>
       </div>
 
-      <div className="custom-scrollbar max-w-full overflow-x-auto">
-        <div className="w-full">
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="line"
-            height={310}
-          />
+      {!filteredRows.length || !categories.length ? (
+        <div className="flex h-[310px] w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60">
+          <div className="flex flex-col items-center px-6 text-center">
+            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white ring-1 ring-gray-200">
+              <BarChart3 className="h-5 w-5 text-gray-400" />
+            </div>
+
+            <p className="text-sm font-medium text-gray-700">
+              No data available
+            </p>
+            <p className="mt-1 max-w-[240px] text-xs leading-5 text-gray-500">
+              There is no data to visualize for the selected status yet.
+            </p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="custom-scrollbar max-w-full overflow-x-auto">
+          <div className="w-full min-w-0">
+            <ReactApexChart
+              options={options}
+              series={series}
+              type="line"
+              width="100%"
+              height={310}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
