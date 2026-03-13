@@ -10,6 +10,7 @@ import { ANALOGOUS_COLORS } from "@/lib/constants/ui";
 import { useGetDashboardAnalytics } from "@/hooks/views/useGetDashboardAnalytics";
 import { START_YEAR } from "@/lib/constants/dashboard_analytics";
 import { cn } from "@/lib/utils";
+import { DashboardAnalyticsType } from "@/lib/types/views";
 
 type TimelinePreset =
   | "current_year"
@@ -41,9 +42,7 @@ const getRangeFromPreset = (
 ): Pick<DashboardFilters, "yearFrom" | "yearTo"> => {
   if (preset === "current_year") {
     const safeCurrentYear =
-      currentYear >= minYear && currentYear <= maxYear
-        ? currentYear
-        : maxYear;
+      currentYear >= minYear && currentYear <= maxYear ? currentYear : maxYear;
 
     return {
       yearFrom: safeCurrentYear,
@@ -82,16 +81,19 @@ export default function Dashboard() {
   const { data, isLoading } = useGetDashboardAnalytics();
   const currentYear = new Date().getFullYear();
 
+  const sourceData = useMemo<DashboardAnalyticsType["Row"][]>(() => {
+    return (data ?? []) as DashboardAnalyticsType["Row"][];
+  }, [data]);
+
   const availableYears = useMemo(() => {
-    const years =
-      data
-        ?.map((item) => item.year)
-        .filter((year): year is number => year !== null)
-        .map(Number)
-        .sort((a, b) => a - b) ?? [];
+    const years = sourceData
+      .map((item) => item.year)
+      .filter((year): year is number => year !== null)
+      .map(Number)
+      .sort((a, b) => a - b);
 
     return Array.from(new Set(years));
-  }, [data]);
+  }, [sourceData]);
 
   const minAvailableYear = availableYears[0] ?? START_YEAR;
   const maxAvailableYear =
@@ -164,14 +166,12 @@ export default function Dashboard() {
   };
 
   const filteredData = useMemo(() => {
-    if (!data) return [];
-
-    return data.filter((item) => {
+    return sourceData.filter((item) => {
       if (item.year === null) return false;
       const year = Number(item.year);
       return year >= filters.yearFrom && year <= filters.yearTo;
     });
-  }, [data, filters.yearFrom, filters.yearTo]);
+  }, [sourceData, filters.yearFrom, filters.yearTo]);
 
   const backendQueryFilters = useMemo(
     () => ({
@@ -206,7 +206,7 @@ export default function Dashboard() {
         </Button>
       </div>
 
-      <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm lg:col-span-12">
+      <div className="rounded-2xl border border-gray-200 bg-white p-4 lg:col-span-12">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
           <div className="min-w-0">
             <h2 className="text-base font-semibold text-gray-800">
@@ -254,59 +254,93 @@ export default function Dashboard() {
               <label className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase">
                 From
               </label>
-              <select
-                value={filters.yearFrom}
-                onChange={(e) =>
-                  handleCustomYearFromChange(Number(e.target.value))
-                }
-                disabled={filters.preset !== "custom"}
-                className={cn(
-                  "w-full rounded-xl border px-3 py-2.5 text-sm transition outline-none",
-                  filters.preset === "custom"
-                    ? "border-gray-300 bg-white text-gray-700 focus:border-brand-500"
-                    : "border-gray-200 bg-gray-50 text-gray-400",
-                )}
-              >
-                {availableYears.map((year) => (
-                  <option key={`from-${year}`} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  value={filters.yearFrom}
+                  onChange={(e) =>
+                    handleCustomYearFromChange(Number(e.target.value))
+                  }
+                  disabled={filters.preset !== "custom"}
+                  className={cn(
+                    "w-full appearance-none rounded-xl border px-3 py-2.5 pr-10 text-sm transition outline-none",
+                    filters.preset === "custom"
+                      ? "focus:border-brand-500 border-gray-300 bg-white text-gray-700"
+                      : "border-gray-200 bg-gray-50 text-gray-400",
+                  )}
+                >
+                  {availableYears.map((year) => (
+                    <option key={`from-${year}`} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+
+                <svg
+                  className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
 
             <div className="min-w-[140px]">
               <label className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase">
                 To
               </label>
-              <select
-                value={filters.yearTo}
-                onChange={(e) =>
-                  handleCustomYearToChange(Number(e.target.value))
-                }
-                disabled={filters.preset !== "custom"}
-                className={cn(
-                  "w-full rounded-xl border px-3 py-2.5 text-sm transition outline-none",
-                  filters.preset === "custom"
-                    ? "border-gray-300 bg-white text-gray-700 focus:border-brand-500"
-                    : "border-gray-200 bg-gray-50 text-gray-400",
-                )}
-              >
-                {availableYears.map((year) => (
-                  <option key={`to-${year}`} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  value={filters.yearTo}
+                  onChange={(e) =>
+                    handleCustomYearToChange(Number(e.target.value))
+                  }
+                  disabled={filters.preset !== "custom"}
+                  className={cn(
+                    "w-full appearance-none rounded-xl border px-3 py-2.5 pr-10 text-sm transition outline-none",
+                    filters.preset === "custom"
+                      ? "focus:border-brand-500 border-gray-300 bg-white text-gray-700"
+                      : "border-gray-200 bg-gray-50 text-gray-400",
+                  )}
+                >
+                  {availableYears.map((year) => (
+                    <option key={`to-${year}`} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+
+                <svg
+                  className="pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
 
           <div className="flex flex-wrap gap-2">
             <div className="rounded-full bg-gray-100 px-3 py-2 text-sm text-gray-700">
-              <span className="font-medium">Showing:</span> {filters.yearFrom}–{filters.yearTo}
+              <span className="font-medium">Showing:</span> {filters.yearFrom}–
+              {filters.yearTo}
             </div>
             <div className="rounded-full bg-gray-100 px-3 py-2 text-sm text-gray-700">
-              <span className="font-medium">Mode:</span> {PRESET_LABELS[filters.preset]}
+              <span className="font-medium">Mode:</span>{" "}
+              {PRESET_LABELS[filters.preset]}
             </div>
           </div>
         </div>
@@ -335,7 +369,11 @@ export default function Dashboard() {
       </div>
 
       <div className="lg:col-span-5">
-        {/* <DonutChart title="Granted IPs" rawData={filteredData} /> */}
+        <DonutChart
+          title="Granted IPs"
+          subtitle="Grant rate of filed IPs"
+          rawData={filteredData}
+        />
       </div>
 
       <div className="my-6 text-2xl font-bold text-gray-700 lg:col-span-12">
@@ -343,29 +381,51 @@ export default function Dashboard() {
       </div>
 
       <div className="lg:col-span-6">
-        <CombinationChart title="Filed" rawData={filteredData} dashboardStatus="filed" />
+        <CombinationChart
+          title="Filed"
+          rawData={filteredData}
+          dashboardStatus="filed"
+        />
       </div>
 
       <div className="lg:col-span-6">
-        <CombinationChart title="Pending" rawData={filteredData} dashboardStatus="pending" />
+        <CombinationChart
+          title="Pending"
+          rawData={filteredData}
+          dashboardStatus="pending"
+        />
       </div>
 
       <div className="lg:col-span-12">
-        <CombinationChart title="Granted" rawData={filteredData} dashboardStatus="granted" />
+        <CombinationChart
+          title="Granted"
+          rawData={filteredData}
+          dashboardStatus="granted"
+        />
       </div>
 
       <div className="my-6 flex items-center space-x-3 lg:col-span-12">
         <span className="h-px flex-1 bg-gray-300"></span>
-        <h2 className="text-xl font-semibold text-gray-700">Alternative Outcomes</h2>
+        <h2 className="text-xl font-semibold text-gray-700">
+          Alternative Outcomes
+        </h2>
         <span className="h-px flex-1 bg-gray-300"></span>
       </div>
 
       <div className="lg:col-span-6">
-        <CombinationChart title="Withdrawn" rawData={filteredData} dashboardStatus="withdrawn" />
+        <CombinationChart
+          title="Withdrawn"
+          rawData={filteredData}
+          dashboardStatus="withdrawn"
+        />
       </div>
 
       <div className="lg:col-span-6">
-        <CombinationChart title="Downgraded" rawData={filteredData} dashboardStatus="downgraded" />
+        <CombinationChart
+          title="Downgraded"
+          rawData={filteredData}
+          dashboardStatus="downgraded"
+        />
       </div>
     </div>
   );

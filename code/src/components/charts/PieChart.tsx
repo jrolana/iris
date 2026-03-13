@@ -37,10 +37,20 @@ export default function PieChart(props: PropsInterface) {
       if (row.dashboard_status !== dashboardStatus) return acc;
       if (!row.ip_type) return acc;
 
+      // rawData is grouped by ip_type, dashboard_status, year already so no further manipulation is needed
+      // shaped as
+      // {
+      //   ipType: total
+      // }
+      // needs value from previous years for multiple timeline range
       acc[row.ip_type] = (acc[row.ip_type] ?? 0) + (row.total ?? 0);
       return acc;
     }, {});
 
+    // shaped as
+    // [
+    //  {ipType, total}
+    // ]
     return Object.entries(grouped).map(([ipType, total]) => ({
       ipType,
       total,

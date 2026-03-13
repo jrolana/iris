@@ -64,6 +64,13 @@ export default function CombinationChart(props: PropsInterface) {
           acc[ipType] = {};
         }
 
+        // rawData is grouped by ip_type, dashboard_status, year already so no further manipulation is needed
+        // shaped as
+        // {
+        //   ipType: {
+        //      year,
+        //   }
+        // }
         acc[ipType][year] = item.total ?? 0;
         return acc;
       },
@@ -76,23 +83,43 @@ export default function CombinationChart(props: PropsInterface) {
       (ipType) => ({
         name: ipTypeToTitle(ipType),
         type: "column",
+        // map each year and corresponding total
         data: categories.map((year) => groupedByIPAndYear[ipType][year] ?? 0),
       }),
     );
   }, [groupedByIPAndYear, categories]);
 
+  // total values across different IP types
+  const actualTotalSeries = useMemo<number[]>(() => {
+    return categories.map((year) =>
+      Object.values(groupedByIPAndYear).reduce(
+        (sum, totalsByYear) => sum + (totalsByYear[year] ?? 0),
+        0,
+      ),
+    );
+  }, [categories, groupedByIPAndYear]);
+
+  // scaled for better UI
+  // so that vertical gap between the actual total line series and the column series are not that big
   const totalSeries: SeriesItemType = useMemo(() => {
+    const maxColumnValue = Math.max(
+      1,
+      ...columnSeries.flatMap((series) => series.data),
+    );
+
+    const maxActualTotal = Math.max(1, ...actualTotalSeries);
+
+    // Lower multiplier = line sits closer to the columns
+    const targetLineMax = maxColumnValue * 1.08;
+
     return {
       name: "Total",
       type: "line",
-      data: categories.map((year) =>
-        Object.values(groupedByIPAndYear).reduce(
-          (sum, totalsByYear) => sum + (totalsByYear[year] ?? 0),
-          0,
-        ),
+      data: actualTotalSeries.map(
+        (value) => (value / maxActualTotal) * targetLineMax,
       ),
     };
-  }, [categories, groupedByIPAndYear]);
+  }, [columnSeries, actualTotalSeries]);
 
   const series: SeriesItemType[] = useMemo(() => {
     return [...columnSeries, totalSeries];
@@ -150,6 +177,20 @@ export default function CombinationChart(props: PropsInterface) {
     },
     tooltip: {
       enabled: true,
+      shared: true,
+      y: {
+        formatter: (value, { seriesIndex, dataPointIndex, w }) => {
+          const seriesName = w.config.series?.[seriesIndex]?.name;
+
+          if (seriesName === "Total") {
+            return Math.round(
+              actualTotalSeries[dataPointIndex] ?? 0,
+            ).toString();
+          }
+
+          return Math.round(Number(value) || 0).toString();
+        },
+      },
     },
     xaxis: {
       type: "category",
