@@ -203,9 +203,9 @@ export default function StartApplicationPage() {
           <h2 className="text-2xl font-medium">B. Collaborators</h2>
           <p className="mt-1 text-lg text-slate-500">
             List all the collaborators for this application. You are
-            automatically listed as an inventor so exclude yourself from this
-            list. Remember that you can no longer add or remove these names
-            after submission.
+            automatically listed as a technology generator so exclude yourself
+            from this list. Remember that you can no longer add or remove these
+            names after submission.
           </p>
         </div>
         <ScrollArea className="h-[300px] rounded-md border p-2 pr-4">
