@@ -2,6 +2,7 @@
 
 import ApplicationView from "@/components/application/ApplicationView";
 import { useGetAppById } from "@/hooks/applications/useGetApplicationById";
+import { Loader } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 function TtbdoViewApplicationPage() {
@@ -13,11 +14,20 @@ function TtbdoViewApplicationPage() {
   });
 
   if (isLoading || !isFetched) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
+        Fetching Application...
+        <Loader className="animate-spin" />
+      </div>
+    );
   }
 
   if (!application) {
-    return <div>Application not found.</div>;
+    return (
+      <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
+        Application not found.
+      </div>
+    );
   }
 
   return <ApplicationView mode="admin" initialApplication={application} />;

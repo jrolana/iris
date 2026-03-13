@@ -28,7 +28,6 @@ export default function LinkInventorModal() {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   async function handleLinkClicked(userId: string) {
-    // TODO: perform linking logic here
     if (!inventorUID) {
       toast.error("Failed to link inventor. Please try again.", {
         duration: 3000,
@@ -66,8 +65,8 @@ export default function LinkInventorModal() {
 
   return (
     <Modal
-      title="Link Existing Inventor or Collaborator"
-      description="Allow the inventor to access and manage their inventions. Remember that accounts cannot be unlinked later."
+      title="Link Existing Technology Generator"
+      description="Allow the tech gen to access and manage their inventions. Remember that accounts cannot be unlinked later."
       isOpen={isOpen}
       onChange={closeModal}
     >
@@ -75,19 +74,19 @@ export default function LinkInventorModal() {
         <SearchInput
           inputRef={searchInputRef}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search an inventor with their name or email..."
+          placeholder="Search a technology generator with their name or email..."
         />
         <ScrollArea className="mt-2 h-[300px] rounded-md border p-2 pr-4">
           {isSearching || isSearchingLoading ? (
             <div className="mt-28 flex h-full w-full items-center justify-center text-center">
               <p className="text-md mt-4 items-center justify-center text-center text-slate-500">
-                Searching inventors...
+                Searching tech gens...
               </p>
             </div>
           ) : null}
           {!isSearching && queryResults?.length === 0 && (
             <div className="text-muted-foreground text-md mt-28 flex h-full w-full items-center justify-center text-center">
-              No inventors or collaborators found. Try adjusting your search.
+              No tech gens found. Try adjusting your search.
             </div>
           )}
           {!isSearching && queryResults && queryResults.length > 0 && (

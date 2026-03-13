@@ -41,41 +41,42 @@ export default function ViewAllNotifications() {
   return (
     <div className="min-h-screen w-full bg-white px-6 py-8 transition-colors sm:px-8 lg:px-12">
       <div className="mx-auto max-w-3xl">
-        <div className="relative mb-6 flex items-center justify-between">
-          <button
-            onClick={() => router.back()}
-            className="absolute -left-20 flex inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-50"
-            aria-label="Back"
-            title="Back"
-          >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+        <div className="xsm:flex-row relative mb-6 flex flex-col items-start justify-between gap-2">
+          <div className="xsm:gap-6 flex flex-row gap-4 sm:gap-10">
+            <button
+              onClick={() => router.back()}
+              className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-50 lg:absolute lg:-left-20 lg:mb-0"
+              aria-label="Back"
+              title="Back"
             >
-              <path
-                d="M19 12H5M5 12L12 19M5 12L12 5"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 12H5M5 12L12 19M5 12L12 5"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
 
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-900">
-              Notifications
-            </h1>
-            {unreadCount > 0 ? (
-              <p className="text-sm text-gray-500">{unreadCount} unread</p>
-            ) : (
-              <p className="text-sm text-gray-500">All caught up</p>
-            )}
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-900">
+                Notifications
+              </h1>
+              {unreadCount > 0 ? (
+                <p className="text-sm text-gray-500">{unreadCount} unread</p>
+              ) : (
+                <p className="text-sm text-gray-500">All caught up</p>
+              )}
+            </div>
           </div>
-
           {unreadCount > 0 ? (
             <Button
               size="sm"
@@ -86,10 +87,9 @@ export default function ViewAllNotifications() {
               {isMarkingAsRead ? "Marking all as read…" : "Mark all as read"}
             </Button>
           ) : (
-            <div className="w-[1px]" />
+            <div className="w-px" />
           )}
         </div>
-
         <div className="mb-4">
           <div className="inline-flex w-full rounded-xl border border-gray-200 bg-gray-50 p-1">
             {(["all", "unread", "read"] as FilterType[]).map((tab) => {
@@ -110,7 +110,7 @@ export default function ViewAllNotifications() {
                   {tab}
 
                   {tab === "unread" && unreadCount > 0 && (
-                    <span className="absolute -top-1 right-1 z-10 flex h-5 min-w-[20px] animate-pulse items-center justify-center rounded-full bg-orange-500 px-1 text-xs leading-none font-semibold text-white shadow-sm">
+                    <span className="absolute -top-1 right-1 flex h-5 min-w-[20px] animate-pulse items-center justify-center rounded-full bg-orange-500 px-1 text-xs leading-none font-semibold text-white shadow-sm">
                       {unreadCount}
                     </span>
                   )}

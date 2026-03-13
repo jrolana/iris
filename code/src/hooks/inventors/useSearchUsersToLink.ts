@@ -8,12 +8,12 @@ interface UseSearchUsersToLink {
 
 export function useSearchUsersToLink(props: UseSearchUsersToLink) {
     const { queryString, excludedUserIds } = props;
-    const {data, isLoading, isFetching} =  useQuery({
+    const {data, isLoading, isFetching, refetch} =  useQuery({
         queryKey: ['users', queryString, excludedUserIds],
         queryFn: () => searchUsersToLink( { queryString,  excludedUserIds} ),
         enabled: queryString.length > 0,
         placeholderData: (prev) => prev,
     });
 
-    return {inventors: data, isLoading, isFetching}; 
+    return {inventors: data, isLoading, isFetching, refetch}; 
 }

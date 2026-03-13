@@ -2,6 +2,7 @@
 
 import AddInventorModal from "@/components/modals/AddInventorModal";
 import AddNewUserModal from "@/components/modals/AddNewUserModal";
+import AddVerifiedInventorModal from "@/components/modals/AddVerifiedInventorModal";
 import InventorFileReportModal from "@/components/modals/InventorFileReportModal";
 import InventorViewReportsModals from "@/components/modals/InventorViewReportsModal";
 import LinkInventorModal from "@/components/modals/LinkInventorModal";
@@ -29,6 +30,7 @@ function ModalProvider() {
       <InventorFileReportModal />
       <AddNewUserModal />
       <InventorViewReportsModals />
+      <AddVerifiedInventorModal />
     </>
   );
 }
