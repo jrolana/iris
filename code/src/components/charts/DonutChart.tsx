@@ -19,6 +19,7 @@ interface PropsInterface {
   rawData: DashboardAnalyticsType["Row"][];
   numeratorStatus?: DashboardStatus;
   denominatorStatus?: DashboardStatus;
+  chartId?: string;
 }
 
 type SummaryMetrics = {
@@ -42,6 +43,7 @@ export default function DonutChart(props: PropsInterface) {
     rawData,
     numeratorStatus = "granted",
     denominatorStatus = "filed",
+    chartId,
   } = props;
 
   const metrics = useMemo<SummaryMetrics>(() => {
@@ -137,6 +139,7 @@ export default function DonutChart(props: PropsInterface) {
 
   const options: ApexOptions = {
     chart: {
+      id: chartId,
       type: "radialBar",
       fontFamily: "Outfit, sans-serif",
       sparkline: {

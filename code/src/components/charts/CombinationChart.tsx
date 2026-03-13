@@ -16,6 +16,7 @@ interface PropsInterface {
   showLegend?: boolean;
   dashboardStatus: DashboardAnalyticsType["Row"]["dashboard_status"];
   rawData: DashboardAnalyticsType["Row"][];
+  chartId?: string;
 }
 
 type SeriesItemType = {
@@ -33,7 +34,13 @@ const IP_TYPE_ORDER = [
 ] as const;
 
 export default function CombinationChart(props: PropsInterface) {
-  const { title, showLegend = false, dashboardStatus, rawData } = props;
+  const {
+    title,
+    showLegend = false,
+    dashboardStatus,
+    rawData,
+    chartId,
+  } = props;
 
   const filteredRows = useMemo(() => {
     return rawData.filter((item) => {
@@ -140,6 +147,7 @@ export default function CombinationChart(props: PropsInterface) {
     },
     colors: ["#465FFF", "#5A6FFF", "#7080FF", "#3745A0", "#2A3380", "#465FFF"],
     chart: {
+      id: chartId,
       fontFamily: "Outfit, sans-serif",
       height: 310,
       width: "100%",

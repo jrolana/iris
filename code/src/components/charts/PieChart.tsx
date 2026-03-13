@@ -19,6 +19,7 @@ interface PropsInterface {
   colors?: string[];
   rawData: DashboardAnalyticsType["Row"][];
   dashboardStatus: DashboardAnalyticsType["Row"]["dashboard_status"];
+  chartId?: string;
 }
 
 export default function PieChart(props: PropsInterface) {
@@ -29,6 +30,7 @@ export default function PieChart(props: PropsInterface) {
     colors = COLORS,
     rawData,
     dashboardStatus,
+    chartId
   } = props;
 
   const aggregated = useMemo(() => {
@@ -62,6 +64,7 @@ export default function PieChart(props: PropsInterface) {
 
   const options: ApexOptions = {
     chart: {
+      id: chartId,
       type: "donut",
       fontFamily: "Outfit, sans-serif",
       width: "100%",
