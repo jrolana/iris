@@ -1,5 +1,5 @@
-GRANT SELECT ON public.v_dashboard_analytics TO authenticated, anon;
+REVOKE USAGE ON SCHEMA private FROM anon;
+REVOKE SELECT ON private.ipr_applications FROM anon;
+REVOKE SELECT ON private.ipr_statuses FROM anon;
 
-GRANT USAGE ON SCHEMA private TO anon;
-GRANT SELECT ON private.ipr_applications TO anon;
-GRANT SELECT ON private.ipr_statuses TO anon;
+GRANT SELECT ON public.v_dashboard_analytics TO authenticated, anon;
