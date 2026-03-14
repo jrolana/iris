@@ -1,6 +1,5 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { DashboardAnalyticsRowType } from "@/lib/types/views";
 import {
   SummaryTableRow,
   SummaryTotals,
@@ -10,8 +9,6 @@ import {
 type ExportDashboardCsvParams = {
   yearFrom: number;
   yearTo: number;
-  presetLabel: string;
-  filteredData: DashboardAnalyticsRowType[];
   summaryTableRows: SummaryTableRow[];
   summaryTotals: SummaryTotals;
 };
@@ -32,16 +29,13 @@ type ExportDashboardPdfParams = {
   filename: string;
   yearFrom: number;
   yearTo: number;
-  presetLabel: string;
   chartExports: ChartExportItem[];
   summaryTableRows: SummaryTableRow[];
   summaryTotals: SummaryTotals;
-  filteredData: DashboardAnalyticsRowType[];
 };
 
 type ApexDataUriResult = {
   imgURI: string;
-  blob?: Blob;
 };
 
 const downloadBlob = (blob: Blob, filename: string) => {
@@ -70,8 +64,6 @@ const escapeCsvValue = (value: string | number | null | undefined) => {
 export const exportDashboardCsv = ({
   yearFrom,
   yearTo,
-  presetLabel,
-  filteredData,
   summaryTableRows,
   summaryTotals,
 }: ExportDashboardCsvParams) => {
@@ -79,7 +71,6 @@ export const exportDashboardCsv = ({
 
   lines.push("IP Portfolio Dashboard Export");
   lines.push(`Timeline,${escapeCsvValue(`${yearFrom}-${yearTo}`)}`);
-  lines.push(`Mode,${escapeCsvValue(presetLabel)}`);
   lines.push(`Exported At,${escapeCsvValue(new Date().toISOString())}`);
   lines.push("");
 
@@ -194,11 +185,9 @@ export const exportDashboardPdf = async ({
   filename,
   yearFrom,
   yearTo,
-  presetLabel,
   chartExports,
   summaryTableRows,
   summaryTotals,
-  filteredData,
 }: ExportDashboardPdfParams) => {
   if (typeof window === "undefined") return;
 
@@ -229,9 +218,12 @@ export const exportDashboardPdf = async ({
     pdf.setTextColor(75, 85, 99);
     drawText(pdf, `Timeline: ${yearFrom}–${yearTo}`, margin, cursorY);
     cursorY += 5;
-    drawText(pdf, `Mode: ${presetLabel}`, margin, cursorY);
-    cursorY += 5;
-    drawText(pdf, `Exported At: ${new Date().toLocaleString()}`, margin, cursorY);
+    drawText(
+      pdf,
+      `Exported At: ${new Date().toLocaleString()}`,
+      margin,
+      cursorY,
+    );
     cursorY += 10;
   };
 
@@ -256,20 +248,8 @@ export const exportDashboardPdf = async ({
         imgWidth = (rawWidth / rawHeight) * imgHeight;
       }
 
-      const labelRows = chart.labels?.length
-        ? Math.ceil(
-            chart.labels.reduce((rows, item, index, arr) => {
-              return rows;
-            }, 1),
-          )
-        : 0;
-
       const estimatedLabelsHeight = chart.labels?.length ? 14 : 0;
-      const cardHeight =
-        12 + // title area
-        imgHeight +
-        estimatedLabelsHeight +
-        12;
+      const cardHeight = 12 + imgHeight + estimatedLabelsHeight + 12;
 
       ensureSpace(cardHeight);
 
@@ -319,7 +299,12 @@ export const exportDashboardPdf = async ({
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(9);
       pdf.setTextColor(107, 114, 128);
-      drawText(pdf, "This chart could not be exported.", margin + 6, cursorY + 11);
+      drawText(
+        pdf,
+        "This chart could not be exported.",
+        margin + 6,
+        cursorY + 11,
+      );
 
       cursorY += 24;
     }
@@ -331,15 +316,17 @@ export const exportDashboardPdf = async ({
 
   autoTable(pdf, {
     startY: cursorY,
-    head: [[
-      "IP Type",
-      "Filed",
-      "Pending",
-      "Granted",
-      "Withdrawn",
-      "Downgraded",
-      "Total",
-    ]],
+    head: [
+      [
+        "IP Type",
+        "Filed",
+        "Pending",
+        "Granted",
+        "Withdrawn",
+        "Downgraded",
+        "Total",
+      ],
+    ],
     body: [
       ...summaryTableRows.map((row) => [
         formatIpTypeLabel(row.ipType),
@@ -371,11 +358,6 @@ export const exportDashboardPdf = async ({
     headStyles: {
       fillColor: [243, 244, 246],
       textColor: [55, 65, 81],
-      fontStyle: "bold",
-    },
-    footStyles: {
-      fillColor: [249, 250, 251],
-      textColor: [17, 24, 39],
       fontStyle: "bold",
     },
     alternateRowStyles: {

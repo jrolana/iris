@@ -422,8 +422,6 @@ export default function Dashboard() {
     exportDashboardCsv({
       yearFrom: filters.yearFrom,
       yearTo: filters.yearTo,
-      presetLabel: PRESET_LABELS[filters.preset],
-      filteredData,
       summaryTableRows,
       summaryTotals,
     });
@@ -435,11 +433,9 @@ export default function Dashboard() {
       filename: `ip-portfolio-${filters.yearFrom}-${filters.yearTo}.pdf`,
       yearFrom: filters.yearFrom,
       yearTo: filters.yearTo,
-      presetLabel: PRESET_LABELS[filters.preset],
       chartExports: PDF_EXPORT_CHARTS,
       summaryTableRows,
       summaryTotals,
-      filteredData,
     });
 
     setShowExportMenu(false);

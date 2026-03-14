@@ -1,5 +1,10 @@
 DROP VIEW IF EXISTS public.v_dashboard_status CASCADE;
 CREATE VIEW public.v_dashboard_status
+-- secuirty_barrier for protection
+-- disabled security_invoker so that this uses the
+-- view's creator's privileges (security_definer)
+-- hence even when anon have limited rls policy on the underlying tables of this view,
+-- it can still see this view
 WITH (security_barrier = true)
 AS
 SELECT 
