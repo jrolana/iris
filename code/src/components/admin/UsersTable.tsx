@@ -13,13 +13,23 @@ import Button from "../ui/button/Button";
 import SearchInput from "../common/SearchInput";
 import { PencilIcon, TrashBinIcon, PlusIcon } from "@/icons";
 import FilterButton from "../common/FilterButton";
-import { usersData } from "@/lib/dummy-data/users";
 import useAddNewUserModal from "@/hooks/useAddNewUserModal";
+import { useGetUsers } from "@/hooks/users/useGetUsers";
 
 export default function UsersTable() {
+  const { data: usersData, isLoading } = useGetUsers();
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 5;
+  const { openModal } = useAddNewUserModal();
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!usersData) {
+    return <div>No data yet.</div>;
+  }
+
+  const recordsPerPage = 5;
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = usersData.slice(indexOfFirstRecord, indexOfLastRecord);
@@ -29,8 +39,6 @@ export default function UsersTable() {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
   };
-
-  const { openModal } = useAddNewUserModal();
 
   function handleClick() {
     openModal();
@@ -51,9 +59,7 @@ export default function UsersTable() {
         </Button>
       </div>
       <div className="mb-4 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
-        <div className="self-start sm:w-1/3">
-          <SearchInput />
-        </div>
+        <div className="self-start sm:w-1/3">{/* <SearchInput /> */}</div>
         <FilterButton />
       </div>
 
@@ -80,11 +86,13 @@ export default function UsersTable() {
               <TableRow key={record.id}>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   <Link href={"/"} className="hover:text-brand-500">
-                    {record.fullName}
+                    {record.full_name}
                   </Link>
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.college}
+                  {record.external_institution ??
+                    record.college_code ??
+                    record.other_college_name}
                 </TableCell>
                 <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                   {record.email}
