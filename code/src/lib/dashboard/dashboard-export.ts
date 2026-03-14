@@ -112,21 +112,6 @@ export const exportDashboardCsv = ({
     ].join(","),
   );
 
-  lines.push("");
-  lines.push("RAW FILTERED DATA");
-  lines.push("Year,IP Type,Dashboard Status,Total");
-
-  filteredData.forEach((item) => {
-    lines.push(
-      [
-        escapeCsvValue(item.year),
-        escapeCsvValue(item.ip_type),
-        escapeCsvValue(item.dashboard_status),
-        escapeCsvValue(item.total),
-      ].join(","),
-    );
-  });
-
   const blob = new Blob([lines.join("\n")], {
     type: "text/csv;charset=utf-8;",
   });
@@ -391,41 +376,6 @@ export const exportDashboardPdf = async ({
     footStyles: {
       fillColor: [249, 250, 251],
       textColor: [17, 24, 39],
-      fontStyle: "bold",
-    },
-    alternateRowStyles: {
-      fillColor: [249, 250, 251],
-    },
-    margin: { left: margin, right: margin },
-  });
-
-  pdf.addPage();
-
-  pdf.setFont("helvetica", "bold");
-  pdf.setFontSize(12);
-  pdf.setTextColor(17, 24, 39);
-  drawText(pdf, "Raw Filtered Data", margin, 18);
-
-  autoTable(pdf, {
-    startY: 24,
-    head: [["Year", "IP Type", "Dashboard Status", "Total"]],
-    body: filteredData.map((item) => [
-      item.year ?? "",
-      formatIpTypeLabel(String(item.ip_type ?? "")),
-      String(item.dashboard_status ?? ""),
-      Number(item.total ?? 0),
-    ]),
-    styles: {
-      font: "helvetica",
-      fontSize: 8,
-      cellPadding: 2,
-      textColor: [31, 41, 55],
-      lineColor: [229, 231, 235],
-      lineWidth: 0.1,
-    },
-    headStyles: {
-      fillColor: [243, 244, 246],
-      textColor: [55, 65, 81],
       fontStyle: "bold",
     },
     alternateRowStyles: {

@@ -23,6 +23,7 @@ import {
 import {
   buildSummaryTableRows,
   buildSummaryTotals,
+  IP_TYPE_ORDER,
 } from "@/lib/dashboard/dashboard-summary";
 import {
   exportDashboardCsv,
@@ -40,6 +41,33 @@ type YearSelectProps = {
   years: number[];
   disabled: boolean;
   onChange: (value: number) => void;
+};
+
+type DashboardStatus = DashboardAnalyticsRowType["dashboard_status"];
+
+type PieChartDatum = {
+  ipType: string;
+  total: number;
+};
+
+type CombinationChartData = {
+  categories: number[];
+  activeIpTypes: string[];
+  groupedByIPAndYear: Record<string, Record<number, number>>;
+  actualTotalSeries: number[];
+};
+
+type DonutMetrics = {
+  overallRate: number;
+  currentFiled: number;
+  previousFiled: number;
+  currentGranted: number;
+  previousGranted: number;
+  currentRate: number;
+  previousRate: number;
+  currentYear: number | null;
+  previousYear: number | null;
+  hasYearComparison: boolean;
 };
 
 function YearSelect({
@@ -105,7 +133,9 @@ export default function Dashboard() {
   });
 
   const sourceData = useMemo<DashboardAnalyticsRowType[]>(() => {
-    return (data ?? []) as DashboardAnalyticsRowType[];
+    return ((data ?? []) as DashboardAnalyticsRowType[]).sort(
+      (a, b) => Number(a.year) - Number(b.year),
+    );
   }, [data]);
 
   const availableYears = useMemo(() => {
@@ -125,16 +155,27 @@ export default function Dashboard() {
   useEffect(() => {
     if (!availableYears.length) return;
 
-    setFilters((prev) => ({
-      ...prev,
-      ...getRangeFromPreset(
+    setFilters((prev) => {
+      const nextRange = getRangeFromPreset(
         prev.preset,
         minAvailableYear,
         maxAvailableYear,
         currentYear,
         prev,
-      ),
-    }));
+      );
+
+      if (
+        prev.yearFrom === nextRange.yearFrom &&
+        prev.yearTo === nextRange.yearTo
+      ) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        ...nextRange,
+      };
+    });
   }, [availableYears, minAvailableYear, maxAvailableYear, currentYear]);
 
   const handlePresetChange = (preset: TimelinePreset) => {
@@ -143,16 +184,16 @@ export default function Dashboard() {
       return;
     }
 
-    setFilters({
+    setFilters((prev) => ({
       preset,
       ...getRangeFromPreset(
         preset,
         minAvailableYear,
         maxAvailableYear,
         currentYear,
-        filters,
+        prev,
       ),
-    });
+    }));
   };
 
   const handleCustomYearFromChange = (value: number) => {
@@ -181,6 +222,186 @@ export default function Dashboard() {
     });
   }, [sourceData, filters.yearFrom, filters.yearTo]);
 
+  const pieChartDataByStatus = useMemo(() => {
+    const grouped: Record<string, Record<string, number>> = {};
+
+    for (const row of filteredData) {
+      if (!row?.dashboard_status || !row.ip_type) continue;
+
+      const status = row.dashboard_status;
+      const ipType = row.ip_type;
+
+      if (!grouped[status]) {
+        grouped[status] = {};
+      }
+
+      grouped[status][ipType] =
+        (grouped[status][ipType] ?? 0) + Number(row.total ?? 0);
+    }
+
+    const result: Record<string, PieChartDatum[]> = {};
+
+    for (const [status, values] of Object.entries(grouped)) {
+      result[status] = Object.entries(values).map(([ipType, total]) => ({
+        ipType,
+        total,
+      }));
+    }
+
+    return result;
+  }, [filteredData]);
+
+  const combinationChartDataByStatus = useMemo(() => {
+    const statuses: DashboardStatus[] = [
+      "filed",
+      "granted",
+      "pending",
+      "withdrawn",
+      "downgraded",
+    ];
+
+    const result = {} as Record<string, CombinationChartData>;
+
+    for (const status of statuses) {
+      if (!status) continue;
+
+      const rows = filteredData.filter(
+        (item) =>
+          !!item &&
+          item.dashboard_status === status &&
+          !!item.ip_type &&
+          item.year !== null,
+      );
+
+      const categories = Array.from(
+        new Set(rows.map((item) => Number(item.year))),
+      ).sort((a, b) => a - b);
+
+      const groupedByIPAndYear = rows.reduce<
+        Record<string, Record<number, number>>
+      >((acc, item) => {
+        const ipType = item.ip_type!;
+        const year = Number(item.year);
+
+        if (!acc[ipType]) {
+          acc[ipType] = {};
+        }
+
+        acc[ipType][year] = Number(item.total ?? 0);
+        return acc;
+      }, {});
+
+      const activeIpTypes = IP_TYPE_ORDER.filter(
+        (ipType) => groupedByIPAndYear[ipType],
+      );
+
+      const actualTotalSeries = categories.map((year) =>
+        Object.values(groupedByIPAndYear).reduce(
+          (sum, totalsByYear) => sum + (totalsByYear[year] ?? 0),
+          0,
+        ),
+      );
+
+      result[status] = {
+        categories,
+        activeIpTypes,
+        groupedByIPAndYear,
+        actualTotalSeries,
+      };
+    }
+
+    return result;
+  }, [filteredData]);
+
+  const grantRateMetrics = useMemo<DonutMetrics>(() => {
+    const validRows = filteredData.filter(
+      (item) =>
+        item &&
+        item.dashboard_status !== null &&
+        item.total !== null &&
+        item.year !== null,
+    );
+
+    const years = Array.from(
+      new Set(
+        validRows
+          .map((item) => Number(item.year))
+          .filter((year) => !Number.isNaN(year))
+          .sort((a, b) => a - b),
+      ),
+    );
+
+    const computeTotalsAndRate = (rows: DashboardAnalyticsRowType[]) => {
+      const numerator = rows
+        .filter((item) => item.dashboard_status === "granted")
+        .reduce((sum, item) => sum + Number(item.total ?? 0), 0);
+
+      const denominator = rows
+        .filter((item) => item.dashboard_status === "filed")
+        .reduce((sum, item) => sum + Number(item.total ?? 0), 0);
+
+      const rate =
+        denominator > 0
+          ? Number(((numerator / denominator) * 100).toFixed(2))
+          : 0;
+
+      return {
+        numerator,
+        denominator,
+        rate,
+      };
+    };
+
+    const overall = computeTotalsAndRate(validRows);
+
+    const currentYear = years.length ? years[years.length - 1] : null;
+    const previousYear = years.length >= 2 ? years[years.length - 2] : null;
+
+    let currentFiled = 0;
+    let previousFiled = 0;
+    let currentGranted = 0;
+    let previousGranted = 0;
+    let currentRate = 0;
+    let previousRate = 0;
+    let hasYearComparison = false;
+
+    if (currentYear !== null) {
+      const currentRows = validRows.filter(
+        (item) => Number(item.year) === currentYear,
+      );
+      const current = computeTotalsAndRate(currentRows);
+
+      currentFiled = current.denominator;
+      currentGranted = current.numerator;
+      currentRate = current.rate;
+    }
+
+    if (previousYear !== null) {
+      const previousRows = validRows.filter(
+        (item) => Number(item.year) === previousYear,
+      );
+      const previous = computeTotalsAndRate(previousRows);
+
+      previousFiled = previous.denominator;
+      previousGranted = previous.numerator;
+      previousRate = previous.rate;
+      hasYearComparison = true;
+    }
+
+    return {
+      overallRate: overall.rate,
+      currentFiled,
+      previousFiled,
+      currentGranted,
+      previousGranted,
+      currentRate,
+      previousRate,
+      currentYear,
+      previousYear,
+      hasYearComparison,
+    };
+  }, [filteredData]);
+
   const summaryTableRows = useMemo(
     () => buildSummaryTableRows(filteredData),
     [filteredData],
@@ -190,6 +411,10 @@ export default function Dashboard() {
     () => buildSummaryTotals(summaryTableRows),
     [summaryTableRows],
   );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const pieSubtitle = `By IP type, ${filters.yearFrom}–${filters.yearTo}`;
 
@@ -220,13 +445,8 @@ export default function Dashboard() {
     setShowExportMenu(false);
   };
 
-  if (isLoading || !data) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-6">
         <div className="mt-3 mb-2 lg:col-span-6">
           <h1 className="text-2xl font-bold text-gray-700">
@@ -264,9 +484,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Main content */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-6">
-        {/* Reporting period */}
         <div className="rounded-2xl border border-gray-200 bg-white p-4 lg:col-span-12">
           <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             <div className="min-w-0">
@@ -334,7 +552,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Overview */}
         <div className="pt-2 lg:col-span-12">
           <h2 className="text-xl font-semibold text-gray-800">
             Portfolio Status Overview
@@ -344,7 +561,6 @@ export default function Dashboard() {
           </p>
         </div>
 
-        {/* Donut + KPIs */}
         <div className="lg:col-span-12">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
             <div className="lg:col-span-6">
@@ -352,7 +568,7 @@ export default function Dashboard() {
                 chartId="dashboard-grant-rate-donut"
                 title="Grant Rate"
                 subtitle={`Percent of filed applications that were granted, ${filters.yearFrom}–${filters.yearTo}`}
-                rawData={filteredData}
+                metrics={grantRateMetrics}
               />
             </div>
 
@@ -366,7 +582,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Pie charts */}
         <div className="space-y-4 lg:col-span-12">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {PIE_CHARTS.slice(0, 2).map((chart) => (
@@ -376,8 +591,7 @@ export default function Dashboard() {
                 title={chart.title}
                 subtitle={pieSubtitle}
                 colors={ANALOGOUS_COLORS}
-                dashboardStatus={chart.status}
-                rawData={filteredData}
+                data={pieChartDataByStatus[chart.status] ?? []}
               />
             ))}
           </div>
@@ -390,14 +604,12 @@ export default function Dashboard() {
                 title={chart.title}
                 subtitle={pieSubtitle}
                 colors={ANALOGOUS_COLORS}
-                dashboardStatus={chart.status}
-                rawData={filteredData}
+                data={pieChartDataByStatus[chart.status] ?? []}
               />
             ))}
           </div>
         </div>
 
-        {/* Trends */}
         <div className="border-t border-gray-100 pt-6 lg:col-span-12">
           <h2 className="text-2xl font-bold text-gray-700">
             Application Trends by Status
@@ -409,13 +621,18 @@ export default function Dashboard() {
             <CombinationChart
               chartId={chart.chartId}
               title={chart.title}
-              rawData={filteredData}
-              dashboardStatus={chart.status}
+              data={
+                combinationChartDataByStatus[chart.status] ?? {
+                  categories: [],
+                  activeIpTypes: [],
+                  groupedByIPAndYear: {},
+                  actualTotalSeries: [],
+                }
+              }
             />
           </div>
         ))}
 
-        {/* Other outcomes */}
         <div className="my-2 flex items-center space-x-3 lg:col-span-12">
           <span className="h-px flex-1 bg-gray-300"></span>
           <h2 className="text-xl font-semibold text-gray-700">
@@ -429,13 +646,18 @@ export default function Dashboard() {
             <CombinationChart
               chartId={chart.chartId}
               title={chart.title}
-              rawData={filteredData}
-              dashboardStatus={chart.status}
+              data={
+                combinationChartDataByStatus[chart.status] ?? {
+                  categories: [],
+                  activeIpTypes: [],
+                  groupedByIPAndYear: {},
+                  actualTotalSeries: [],
+                }
+              }
             />
           </div>
         ))}
 
-        {/* Summary table */}
         <div className="mt-2 border-t border-gray-100 pt-6 lg:col-span-12">
           <DashboardSummaryTable
             rows={summaryTableRows}

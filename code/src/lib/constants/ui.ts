@@ -47,5 +47,5 @@ export const IP_TYPE_COLOR_MAP: Record<string, string> = {
 export const FALLBACK_IP_COLOR = "#94A3B8";
 
 // separate color for the total line in combination chart
-export const TOTAL_LINE_COLOR = "#1F2937";
+export const TOTAL_LINE_COLOR = "#1D2A72";
   

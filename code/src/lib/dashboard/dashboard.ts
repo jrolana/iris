@@ -4,7 +4,7 @@ import { DashboardAnalyticsRowType } from "../types/views";
 export const PIE_CHARTS: {
   chartId: string;
   title: string;
-  status: DashboardAnalyticsRowType["dashboard_status"];
+  status: NonNullable<DashboardAnalyticsRowType["dashboard_status"]>;
 }[] = [
   {
     chartId: "dashboard-filed-pie",
@@ -36,7 +36,7 @@ export const PIE_CHARTS: {
 export const TREND_CHARTS: {
   chartId: string;
   title: string;
-  status: DashboardAnalyticsRowType["dashboard_status"];
+  status: NonNullable<DashboardAnalyticsRowType["dashboard_status"]>;
   colSpan?: string;
 }[] = [
   {

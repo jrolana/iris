@@ -1,14 +1,13 @@
 "use client";
 
+import { memo, useMemo } from "react";
+import { ApexOptions } from "apexcharts";
+import dynamic from "next/dynamic";
 import {
   COLORS,
   IP_TYPE_COLOR_MAP,
   FALLBACK_IP_COLOR,
 } from "@/lib/constants/ui";
-import { DashboardAnalyticsRowType } from "@/lib/types/views";
-import { useMemo } from "react";
-import { ApexOptions } from "apexcharts";
-import dynamic from "next/dynamic";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import { PieChartIcon } from "lucide-react";
 
@@ -16,131 +15,115 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
+type PieChartDatum = {
+  ipType: string;
+  total: number;
+};
+
 interface PropsInterface {
   title: string;
   subtitle: string;
   showLegend?: boolean;
   colors?: string[];
-  rawData: DashboardAnalyticsRowType[];
-  dashboardStatus: DashboardAnalyticsRowType["dashboard_status"];
+  data: PieChartDatum[];
   chartId?: string;
 }
 
-export default function PieChart(props: PropsInterface) {
+function PieChart(props: PropsInterface) {
   const {
     title,
     subtitle,
     showLegend = true,
     colors = COLORS,
-    rawData,
-    dashboardStatus,
+    data,
     chartId,
   } = props;
 
   const CHART_HEIGHT = 250;
 
-  const aggregated = useMemo(() => {
-    const grouped = rawData.reduce<Record<string, number>>((acc, row) => {
-      if (!row) return acc;
-      if (row.dashboard_status !== dashboardStatus) return acc;
-      if (!row.ip_type) return acc;
+  const series = useMemo(() => data.map((item) => item.total), [data]);
 
-      // rawData is grouped by ip_type, dashboard_status, year already so no further manipulation is needed
-      // shaped as
-      // {
-      //   ipType: total
-      // }
-      // needs value from previous years for multiple timeline range
-      acc[row.ip_type] = (acc[row.ip_type] ?? 0) + (row.total ?? 0);
-      return acc;
-    }, {});
-
-    // shaped as
-    // [
-    //  {ipType, total}
-    // ]
-    return Object.entries(grouped).map(([ipType, total]) => ({
-      ipType,
-      total,
-    }));
-  }, [rawData, dashboardStatus]);
-
-  const series = aggregated.map((item) => item.total);
-  const labels = aggregated.map((item) => ipTypeToTitle(item.ipType));
+  const labels = useMemo(
+    () => data.map((item) => ipTypeToTitle(item.ipType)),
+    [data],
+  );
 
   const chartColors = useMemo(() => {
-    return aggregated.map(
+    return data.map(
       (item) => IP_TYPE_COLOR_MAP[item.ipType] ?? FALLBACK_IP_COLOR,
     );
-  }, [aggregated]);
+  }, [data]);
 
-  const options: ApexOptions = {
-    chart: {
-      id: chartId,
-      type: "donut",
-      fontFamily: "Outfit, sans-serif",
-      width: "100%",
-      height: CHART_HEIGHT,
-      toolbar: {
-        show: false,
+  const options: ApexOptions = useMemo(
+    () => ({
+      chart: {
+        id: chartId,
+        type: "donut",
+        fontFamily: "Outfit, sans-serif",
+        width: "100%",
+        height: CHART_HEIGHT,
+        toolbar: {
+          show: false,
+        },
       },
-    },
-    legend: {
-      show: showLegend,
-      position: "bottom",
-      fontSize: "13px",
-      labels: {
-        colors: "#667085",
+      legend: {
+        show: showLegend,
+        position: "bottom",
+        fontSize: "13px",
+        labels: {
+          colors: "#667085",
+        },
       },
-    },
-    colors: chartColors.length ? chartColors : colors,
-    labels,
-    dataLabels: {
-      enabled: false,
-    },
-    plotOptions: {
-      pie: {
-        expandOnClick: false,
-        donut: {
-          size: "58%",
-          labels: {
-            show: false,
+      colors: chartColors.length ? chartColors : colors,
+      labels,
+      dataLabels: {
+        enabled: false,
+      },
+      plotOptions: {
+        pie: {
+          expandOnClick: false,
+          donut: {
+            size: "58%",
+            labels: {
+              show: false,
+            },
           },
         },
       },
-    },
-    stroke: {
-      width: 0,
-    },
-    fill: {
-      type: "solid",
-    },
-    states: {
-      hover: {
-        filter: {
-          type: "none",
-        },
+      stroke: {
+        width: 0,
       },
-      active: {
-        filter: {
-          type: "none",
-        },
+      fill: {
+        type: "solid",
       },
-    },
-    responsive: [
-      {
-        breakpoint: 640,
-        options: {
-          chart: {
-            height: CHART_HEIGHT,
+      states: {
+        hover: {
+          filter: {
+            type: "none",
           },
-          legend: {
-            position: "bottom",
+        },
+        active: {
+          filter: {
+            type: "none",
           },
         },
       },
-    ],
-  };
+      responsive: [
+        {
+          breakpoint: 640,
+          options: {
+            chart: {
+              height: CHART_HEIGHT,
+            },
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      ],
+    }),
+    [chartId, showLegend, chartColors, colors, labels],
+  );
 
   return (
     <div className="shadow-default flex h-full flex-col space-y-2 rounded-2xl border border-gray-200 bg-white px-5 pt-5 pb-11 sm:px-6 sm:pt-6">
@@ -179,6 +162,7 @@ export default function PieChart(props: PropsInterface) {
           style={{ minHeight: `${CHART_HEIGHT}px` }}
         >
           <ReactApexChart
+            key={`${chartId}-${labels.join("|")}-${series.join("|")}`}
             options={options}
             series={series}
             type="donut"
@@ -190,3 +174,5 @@ export default function PieChart(props: PropsInterface) {
     </div>
   );
 }
+
+export default memo(PieChart);
