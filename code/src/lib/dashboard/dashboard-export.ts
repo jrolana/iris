@@ -1,17 +1,17 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { DashboardAnalyticsType } from "@/lib/types/views";
+import { DashboardAnalyticsRowType } from "@/lib/types/views";
 import {
   SummaryTableRow,
   SummaryTotals,
   formatIpTypeLabel,
-} from "@/lib/helper/dashboard-summary";
+} from "@/lib/dashboard/dashboard-summary";
 
 type ExportDashboardCsvParams = {
   yearFrom: number;
   yearTo: number;
   presetLabel: string;
-  filteredData: DashboardAnalyticsType["Row"][];
+  filteredData: DashboardAnalyticsRowType[];
   summaryTableRows: SummaryTableRow[];
   summaryTotals: SummaryTotals;
 };
@@ -36,7 +36,7 @@ type ExportDashboardPdfParams = {
   chartExports: ChartExportItem[];
   summaryTableRows: SummaryTableRow[];
   summaryTotals: SummaryTotals;
-  filteredData: DashboardAnalyticsType["Row"][];
+  filteredData: DashboardAnalyticsRowType[];
 };
 
 type ApexDataUriResult = {

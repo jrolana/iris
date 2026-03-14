@@ -26,5 +26,26 @@ export const COLORS = [
 
 export const MONOCHROMATIC_COLORS = ["#4169E1", "#1B263B", "#89CFF0", "#E0E7FF", "#64748B"];
 
-export const ANALOGOUS_COLORS = ["#4169E1", "#2DD4BF", "#7941e1ff", "#06B6D4", "#94A3B8"];
+export const ANALOGOUS_COLORS = [
+  "#4169E1",
+  "#2DD4BF",
+  "#7941e1ff",
+  "#06B6D4",
+  "#94A3B8",
+];
+
+// fixed color per ip type
+export const IP_TYPE_COLOR_MAP: Record<string, string> = {
+  patent: "#4169E1",
+  utility_model: "#2DD4BF",
+  industrial_design: "#7941e1ff",
+  trademark: "#06B6D4",
+  copyright: "#94A3B8",
+};
+
+// fallback in case a new/unknown ip_type appears
+export const FALLBACK_IP_COLOR = "#94A3B8";
+
+// separate color for the total line in combination chart
+export const TOTAL_LINE_COLOR = "#1F2937";
   

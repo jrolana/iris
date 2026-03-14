@@ -1,4 +1,5 @@
 import { DashboardAnalyticsType } from "@/lib/types/views";
+import { ipTypeToTitle } from "../helper/get-ip-title";
 
 export const STATUS_ORDER = [
   "filed",
@@ -10,7 +11,7 @@ export const STATUS_ORDER = [
 
 export type DashboardStatus = (typeof STATUS_ORDER)[number];
 
-export const STATUS_LABELS: Record<DashboardStatus, string> = {
+export const DASHBOARD_STATUS_LABELS: Record<DashboardStatus, string> = {
   filed: "Filed",
   pending: "Pending",
   granted: "Granted",
@@ -25,14 +26,6 @@ export const IP_TYPE_ORDER = [
   "copyright",
   "trademark",
 ] as const;
-
-export const IP_TYPE_LABELS: Record<string, string> = {
-  patent: "Patent",
-  utility_model: "Utility Model",
-  industrial_design: "Industrial Design",
-  copyright: "Copyright",
-  trademark: "Trademark",
-};
 
 export type SummaryTableRow = {
   ipType: string;
@@ -55,7 +48,7 @@ export type SummaryTotals = {
 
 export const formatIpTypeLabel = (ipType: string) => {
   return (
-    IP_TYPE_LABELS[ipType] ??
+    ipTypeToTitle(ipType) ??
     ipType
       .split("_")
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -64,7 +57,7 @@ export const formatIpTypeLabel = (ipType: string) => {
 };
 
 export const buildSummaryTableRows = (
-  filteredData: DashboardAnalyticsType["Row"][],
+  filteredData: DashboardAnalyticsRowType[],
 ): SummaryTableRow[] => {
   const ipTypesFromData = Array.from(
     new Set(filteredData.map((item) => item.ip_type).filter(Boolean)),

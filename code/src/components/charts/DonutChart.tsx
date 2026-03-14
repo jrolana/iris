@@ -4,19 +4,19 @@ import { ApexOptions } from "apexcharts";
 import ThreeSummary from "../common/ThreeSummary";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import { DashboardAnalyticsType } from "@/lib/types/views";
+import { DashboardAnalyticsRowType } from "@/lib/types/views";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-type DashboardStatus = DashboardAnalyticsType["Row"]["dashboard_status"];
+type DashboardStatus = DashboardAnalyticsRowType["dashboard_status"];
 
 interface PropsInterface {
   title: string;
   subtitle?: string;
   colors?: string[];
-  rawData: DashboardAnalyticsType["Row"][];
+  rawData: DashboardAnalyticsRowType[];
   numeratorStatus?: DashboardStatus;
   denominatorStatus?: DashboardStatus;
   chartId?: string;
@@ -64,7 +64,7 @@ export default function DonutChart(props: PropsInterface) {
       ),
     );
 
-    const computeTotalsAndRate = (rows: DashboardAnalyticsType["Row"][]) => {
+    const computeTotalsAndRate = (rows: DashboardAnalyticsRowType[]) => {
       const numerator = rows
         .filter((item) => item.dashboard_status === numeratorStatus)
         .reduce((sum, item) => sum + Number(item.total ?? 0), 0);

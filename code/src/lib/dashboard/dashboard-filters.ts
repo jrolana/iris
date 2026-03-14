@@ -5,6 +5,14 @@ export type TimelinePreset =
   | "last_5_years"
   | "custom";
 
+export const TIMELINE_PRESETS: TimelinePreset[] = [
+  "current_year",
+  "all",
+  "last_3_years",
+  "last_5_years",
+  "custom",
+];
+
 export type DashboardFilters = {
   preset: TimelinePreset;
   yearFrom: number;

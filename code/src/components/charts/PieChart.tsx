@@ -1,7 +1,11 @@
 "use client";
 
-import { COLORS } from "@/lib/constants/ui";
-import { DashboardAnalyticsType } from "@/lib/types/views";
+import {
+  COLORS,
+  IP_TYPE_COLOR_MAP,
+  FALLBACK_IP_COLOR,
+} from "@/lib/constants/ui";
+import { DashboardAnalyticsRowType } from "@/lib/types/views";
 import { useMemo } from "react";
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
@@ -17,8 +21,8 @@ interface PropsInterface {
   subtitle: string;
   showLegend?: boolean;
   colors?: string[];
-  rawData: DashboardAnalyticsType["Row"][];
-  dashboardStatus: DashboardAnalyticsType["Row"]["dashboard_status"];
+  rawData: DashboardAnalyticsRowType[];
+  dashboardStatus: DashboardAnalyticsRowType["dashboard_status"];
   chartId?: string;
 }
 
@@ -30,8 +34,10 @@ export default function PieChart(props: PropsInterface) {
     colors = COLORS,
     rawData,
     dashboardStatus,
-    chartId
+    chartId,
   } = props;
+
+  const CHART_HEIGHT = 250;
 
   const aggregated = useMemo(() => {
     const grouped = rawData.reduce<Record<string, number>>((acc, row) => {
@@ -62,13 +68,19 @@ export default function PieChart(props: PropsInterface) {
   const series = aggregated.map((item) => item.total);
   const labels = aggregated.map((item) => ipTypeToTitle(item.ipType));
 
+  const chartColors = useMemo(() => {
+    return aggregated.map(
+      (item) => IP_TYPE_COLOR_MAP[item.ipType] ?? FALLBACK_IP_COLOR,
+    );
+  }, [aggregated]);
+
   const options: ApexOptions = {
     chart: {
       id: chartId,
       type: "donut",
       fontFamily: "Outfit, sans-serif",
       width: "100%",
-      height: 320,
+      height: CHART_HEIGHT,
       toolbar: {
         show: false,
       },
@@ -81,7 +93,7 @@ export default function PieChart(props: PropsInterface) {
         colors: "#667085",
       },
     },
-    colors,
+    colors: chartColors.length ? chartColors : colors,
     labels,
     dataLabels: {
       enabled: false,
@@ -120,7 +132,7 @@ export default function PieChart(props: PropsInterface) {
         breakpoint: 640,
         options: {
           chart: {
-            height: 280,
+            height: CHART_HEIGHT,
           },
           legend: {
             position: "bottom",
@@ -131,7 +143,7 @@ export default function PieChart(props: PropsInterface) {
   };
 
   return (
-    <div className="shadow-default space-y-2 rounded-2xl border border-gray-200 bg-white px-5 pt-5 pb-11 sm:px-6 sm:pt-6">
+    <div className="shadow-default flex h-full flex-col space-y-2 rounded-2xl border border-gray-200 bg-white px-5 pt-5 pb-11 sm:px-6 sm:pt-6">
       <div className="flex justify-between">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
@@ -144,7 +156,10 @@ export default function PieChart(props: PropsInterface) {
       </div>
 
       {!series.length ? (
-        <div className="flex min-h-[320px] w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60">
+        <div
+          className="flex w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60"
+          style={{ minHeight: `${CHART_HEIGHT}px` }}
+        >
           <div className="flex flex-col items-center px-6 text-center">
             <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white ring-1 ring-gray-200">
               <PieChartIcon className="h-5 w-5 text-gray-400" />
@@ -159,13 +174,16 @@ export default function PieChart(props: PropsInterface) {
           </div>
         </div>
       ) : (
-        <div className="w-full overflow-hidden">
+        <div
+          className="w-full overflow-hidden"
+          style={{ minHeight: `${CHART_HEIGHT}px` }}
+        >
           <ReactApexChart
             options={options}
             series={series}
             type="donut"
             width="100%"
-            height={320}
+            height={CHART_HEIGHT}
           />
         </div>
       )}

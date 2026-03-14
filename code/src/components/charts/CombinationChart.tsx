@@ -2,10 +2,16 @@
 
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
-import { DashboardAnalyticsType } from "@/lib/types/views";
+import { DashboardAnalyticsRowType } from "@/lib/types/views";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import { useMemo } from "react";
 import { BarChart3 } from "lucide-react";
+import { IP_TYPE_ORDER } from "@/lib/dashboard/dashboard-summary";
+import {
+  IP_TYPE_COLOR_MAP,
+  FALLBACK_IP_COLOR,
+  TOTAL_LINE_COLOR,
+} from "@/lib/constants/ui";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -14,8 +20,8 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 interface PropsInterface {
   title: string;
   showLegend?: boolean;
-  dashboardStatus: DashboardAnalyticsType["Row"]["dashboard_status"];
-  rawData: DashboardAnalyticsType["Row"][];
+  dashboardStatus: DashboardAnalyticsRowType["dashboard_status"];
+  rawData: DashboardAnalyticsRowType[];
   chartId?: string;
 }
 
@@ -25,22 +31,10 @@ type SeriesItemType = {
   data: number[];
 };
 
-const IP_TYPE_ORDER = [
-  "patent",
-  "utility_model",
-  "industrial_design",
-  "copyright",
-  "trademark",
-] as const;
-
 export default function CombinationChart(props: PropsInterface) {
-  const {
-    title,
-    showLegend = false,
-    dashboardStatus,
-    rawData,
-    chartId,
-  } = props;
+  const { title, showLegend = true, dashboardStatus, rawData, chartId } = props;
+
+  const CHART_HEIGHT = 310;
 
   const filteredRows = useMemo(() => {
     return rawData.filter((item) => {
@@ -58,6 +52,18 @@ export default function CombinationChart(props: PropsInterface) {
       new Set(filteredRows.map((item) => Number(item.year))),
     ).sort((a, b) => a - b);
   }, [filteredRows]);
+
+  const subtitle = useMemo(() => {
+    if (!categories.length) {
+      return "IP applications submitted each year";
+    }
+
+    if (categories.length === 1) {
+      return `IP applications submitted in ${categories[0]}`;
+    }
+
+    return `IP applications submitted from ${categories[0]} to ${categories[categories.length - 1]}`;
+  }, [categories]);
 
   const groupedByIPAndYear = useMemo(() => {
     return filteredRows.reduce<Record<string, Record<number, number>>>(
@@ -85,16 +91,18 @@ export default function CombinationChart(props: PropsInterface) {
     );
   }, [filteredRows]);
 
+  const activeIpTypes = useMemo(() => {
+    return IP_TYPE_ORDER.filter((ipType) => groupedByIPAndYear[ipType]);
+  }, [groupedByIPAndYear]);
+
   const columnSeries: SeriesItemType[] = useMemo(() => {
-    return IP_TYPE_ORDER.filter((ipType) => groupedByIPAndYear[ipType]).map(
-      (ipType) => ({
-        name: ipTypeToTitle(ipType),
-        type: "column",
-        // map each year and corresponding total
-        data: categories.map((year) => groupedByIPAndYear[ipType][year] ?? 0),
-      }),
-    );
-  }, [groupedByIPAndYear, categories]);
+    return activeIpTypes.map((ipType) => ({
+      name: ipTypeToTitle(ipType),
+      type: "column",
+      // map each year and corresponding total
+      data: categories.map((year) => groupedByIPAndYear[ipType][year] ?? 0),
+    }));
+  }, [activeIpTypes, groupedByIPAndYear, categories]);
 
   // total values across different IP types
   const actualTotalSeries = useMemo<number[]>(() => {
@@ -132,8 +140,17 @@ export default function CombinationChart(props: PropsInterface) {
     return [...columnSeries, totalSeries];
   }, [columnSeries, totalSeries]);
 
+  const seriesColors = useMemo(() => {
+    return [
+      ...activeIpTypes.map(
+        (ipType) => IP_TYPE_COLOR_MAP[ipType] ?? FALLBACK_IP_COLOR,
+      ),
+      TOTAL_LINE_COLOR,
+    ];
+  }, [activeIpTypes]);
+
   const strokeWidths = useMemo(() => {
-    return series.map((item) => (item.type === "line" ? 1 : 0));
+    return series.map((item) => (item.type === "line" ? 2 : 0));
   }, [series]);
 
   const options: ApexOptions = {
@@ -145,11 +162,11 @@ export default function CombinationChart(props: PropsInterface) {
         colors: "#344054",
       },
     },
-    colors: ["#465FFF", "#5A6FFF", "#7080FF", "#3745A0", "#2A3380", "#465FFF"],
+    colors: seriesColors,
     chart: {
       id: chartId,
       fontFamily: "Outfit, sans-serif",
-      height: 310,
+      height: CHART_HEIGHT,
       width: "100%",
       type: "line",
       toolbar: {
@@ -235,7 +252,7 @@ export default function CombinationChart(props: PropsInterface) {
         breakpoint: 640,
         options: {
           chart: {
-            height: 280,
+            height: CHART_HEIGHT,
           },
           legend: {
             position: "bottom",
@@ -250,14 +267,15 @@ export default function CombinationChart(props: PropsInterface) {
       <div className="mb-6 flex flex-col gap-5 sm:flex-row sm:justify-between">
         <div className="w-full">
           <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-          <p className="text-theme-sm mt-1 text-gray-500">
-            IP applications submitted each year
-          </p>
+          <p className="text-theme-sm mt-1 text-gray-500">{subtitle}</p>
         </div>
       </div>
 
       {!filteredRows.length || !categories.length ? (
-        <div className="flex h-[310px] w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60">
+        <div
+          className="flex w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60"
+          style={{ height: CHART_HEIGHT }}
+        >
           <div className="flex flex-col items-center px-6 text-center">
             <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white ring-1 ring-gray-200">
               <BarChart3 className="h-5 w-5 text-gray-400" />
@@ -279,7 +297,7 @@ export default function CombinationChart(props: PropsInterface) {
               series={series}
               type="line"
               width="100%"
-              height={310}
+              height={CHART_HEIGHT}
             />
           </div>
         </div>

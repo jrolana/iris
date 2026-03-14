@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/table";
 import {
   STATUS_ORDER,
-  STATUS_LABELS,
+  DASHBOARD_STATUS_LABELS,
   SummaryTableRow,
   SummaryTotals,
   formatIpTypeLabel,
-} from "@/lib/helper/dashboard-summary";
+} from "@/lib/dashboard/dashboard-summary";
 
 interface DashboardSummaryTableProps {
   rows: SummaryTableRow[];
@@ -56,7 +56,7 @@ const DashboardSummaryTable: React.FC<DashboardSummaryTableProps> = ({
                   isHeader
                   className="px-5 py-3 text-right text-xs font-semibold tracking-wide text-gray-500 uppercase"
                 >
-                  {STATUS_LABELS[status]}
+                  {DASHBOARD_STATUS_LABELS[status]}
                 </TableCell>
               ))}
 
