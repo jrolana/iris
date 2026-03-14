@@ -1,12 +1,16 @@
 "use client";
-import React from "react";
-// import Chart from "react-apexcharts";
+
+import { memo, useMemo } from "react";
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
-import { COLORS } from "@/lib/constants/ui";
-import { COMBINATION_SERIES } from "@/lib/dummy-data/metrics";
+import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
+import { BarChart3 } from "lucide-react";
+import {
+  IP_TYPE_COLOR_MAP,
+  FALLBACK_IP_COLOR,
+  TOTAL_LINE_COLOR,
+} from "@/lib/constants/ui";
 
-// Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
@@ -14,124 +18,244 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 interface PropsInterface {
   title: string;
   showLegend?: boolean;
+  data: {
+    categories: number[];
+    activeIpTypes: string[];
+    groupedByIPAndYear: Record<string, Record<number, number>>;
+    actualTotalSeries: number[];
+  };
+  chartId?: string;
 }
 
-export default function CombinationChart(props: PropsInterface) {
-  const { title, showLegend = false } = props;
-  const options: ApexOptions = {
-    legend: {
-      show: showLegend,
-      position: "top",
-      horizontalAlign: "left",
-      labels: {
-        colors: "#344054",
-      },
-    },
-    colors: ["#465FFF", "#5A6FFF", "#7080FF", "#3745A0", "#2A3380"], // Define line colors
-    chart: {
-      fontFamily: "Outfit, sans-serif",
-      height: 310,
-      type: "line", // Set the chart type to 'line'
-      toolbar: {
-        show: false, // Hide chart toolbar
-      },
-    },
-    stroke: {
-      curve: "straight", // Define the line style (straight, smooth, or step)
-      width: [0, 0, 0, 0, 0, 1], // Line width for each dataset
-    },
+type SeriesItemType = {
+  name: string;
+  type: "column" | "line";
+  data: number[];
+};
 
-    markers: {
-      size: 0, // Size of the marker points
-      strokeColors: "#fff", // Marker border color
-      strokeWidth: 2,
-      hover: {
-        size: 6, // Marker size on hover
+function CombinationChart(props: PropsInterface) {
+  const { title, showLegend = true, data, chartId } = props;
+  const { categories, activeIpTypes, groupedByIPAndYear, actualTotalSeries } =
+    data;
+
+  const CHART_HEIGHT = 310;
+
+  const subtitle = useMemo(() => {
+    if (!categories.length) {
+      return "IP applications submitted each year";
+    }
+
+    if (categories.length === 1) {
+      return `IP applications submitted in ${categories[0]}`;
+    }
+
+    return `IP applications submitted from ${categories[0]} to ${categories[categories.length - 1]}`;
+  }, [categories]);
+
+  const columnSeries: SeriesItemType[] = useMemo(() => {
+    return activeIpTypes.map((ipType) => ({
+      name: ipTypeToTitle(ipType),
+      type: "column",
+      data: categories.map((year) => groupedByIPAndYear[ipType]?.[year] ?? 0),
+    }));
+  }, [activeIpTypes, groupedByIPAndYear, categories]);
+
+  const totalSeries: SeriesItemType = useMemo(() => {
+    const maxColumnValue = Math.max(
+      1,
+      ...columnSeries.flatMap((series) => series.data),
+    );
+
+    const maxActualTotal = Math.max(1, ...actualTotalSeries);
+    const targetLineMax = maxColumnValue * 1.08;
+
+    return {
+      name: "Total",
+      type: "line",
+      data: actualTotalSeries.map(
+        (value) => (value / maxActualTotal) * targetLineMax,
+      ),
+    };
+  }, [columnSeries, actualTotalSeries]);
+
+  const series: SeriesItemType[] = useMemo(() => {
+    return [...columnSeries, totalSeries];
+  }, [columnSeries, totalSeries]);
+
+  const seriesColors = useMemo(() => {
+    return [
+      ...activeIpTypes.map(
+        (ipType) => IP_TYPE_COLOR_MAP[ipType] ?? FALLBACK_IP_COLOR,
+      ),
+      TOTAL_LINE_COLOR,
+    ];
+  }, [activeIpTypes]);
+
+  const strokeWidths = useMemo(() => {
+    return series.map((item) => (item.type === "line" ? 2 : 0));
+  }, [series]);
+
+  const options: ApexOptions = useMemo(
+    () => ({
+      legend: {
+        show: showLegend,
+        position: "top",
+        horizontalAlign: "left",
+        labels: {
+          colors: "#344054",
+        },
       },
-    },
-    grid: {
+      colors: seriesColors,
+      chart: {
+        id: chartId,
+        fontFamily: "Outfit, sans-serif",
+        height: CHART_HEIGHT,
+        width: "100%",
+        type: "line",
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: "straight",
+        width: strokeWidths,
+      },
+      markers: {
+        size: 0,
+        strokeColors: "#fff",
+        strokeWidth: 2,
+        hover: {
+          size: 6,
+        },
+      },
+      grid: {
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      tooltip: {
+        enabled: true,
+        shared: true,
+        y: {
+          formatter: (value, { seriesIndex, dataPointIndex, w }) => {
+            const seriesName = w.config.series?.[seriesIndex]?.name;
+
+            if (seriesName === "Total") {
+              return Math.round(
+                actualTotalSeries[dataPointIndex] ?? 0,
+              ).toString();
+            }
+
+            return Math.round(Number(value) || 0).toString();
+          },
+        },
+      },
       xaxis: {
-        lines: {
-          show: false, // Hide grid lines on x-axis
+        type: "category",
+        categories,
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        tooltip: {
+          enabled: false,
         },
       },
       yaxis: {
-        lines: {
-          show: true, // Show grid lines on y-axis
+        min: 0,
+        forceNiceScale: true,
+        labels: {
+          formatter: (value) => Math.round(value).toString(),
+          style: {
+            fontSize: "12px",
+            colors: ["#6B7280"],
+          },
+        },
+        title: {
+          text: "",
+          style: {
+            fontSize: "0px",
+          },
         },
       },
-    },
-    dataLabels: {
-      enabled: false, // Disable data labels
-    },
-    tooltip: {
-      enabled: true, // Enable tooltip
-      x: {
-        format: "dd MMM yyyy", // Format for x-axis tooltip
-      },
-    },
-    xaxis: {
-      type: "category", // Category-based x-axis
-      categories: [
-        "2013 - 2017",
-        2018,
-        2019,
-        2020,
-        2021,
-        2022,
-        2023,
-        2024,
-        2025,
+      responsive: [
+        {
+          breakpoint: 640,
+          options: {
+            chart: {
+              height: CHART_HEIGHT,
+            },
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
       ],
-      axisBorder: {
-        show: false, // Hide x-axis border
-      },
-      axisTicks: {
-        show: false, // Hide x-axis ticks
-      },
-      tooltip: {
-        enabled: false, // Disable tooltip for x-axis points
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          fontSize: "12px", // Adjust font size for y-axis labels
-          colors: ["#6B7280"], // Color of the labels
-        },
-      },
-      title: {
-        text: "", // Remove y-axis title
-        style: {
-          fontSize: "0px",
-        },
-      },
-    },
-  };
-
-  const series = COMBINATION_SERIES;
+    }),
+    [
+      showLegend,
+      seriesColors,
+      chartId,
+      strokeWidths,
+      actualTotalSeries,
+      categories,
+    ],
+  );
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white px-5 pt-5 pb-5 sm:px-6 sm:pt-6">
       <div className="mb-6 flex flex-col gap-5 sm:flex-row sm:justify-between">
         <div className="w-full">
           <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-          <p className="text-theme-sm mt-1 text-gray-500">
-            IP applications submitted each year
-          </p>
+          <p className="text-theme-sm mt-1 text-gray-500">{subtitle}</p>
         </div>
       </div>
 
-      <div className="custom-scrollbar max-w-full overflow-x-auto">
-        <div className="w-full">
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="line"
-            height={310}
-          />
+      {!activeIpTypes.length || !categories.length ? (
+        <div
+          className="flex w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60"
+          style={{ height: CHART_HEIGHT }}
+        >
+          <div className="flex flex-col items-center px-6 text-center">
+            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white ring-1 ring-gray-200">
+              <BarChart3 className="h-5 w-5 text-gray-400" />
+            </div>
+
+            <p className="text-sm font-medium text-gray-700">
+              No data available
+            </p>
+            <p className="mt-1 max-w-[240px] text-xs leading-5 text-gray-500">
+              There is no data to visualize for the selected status yet.
+            </p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="custom-scrollbar max-w-full overflow-x-auto">
+          <div className="w-full min-w-0">
+            <ReactApexChart
+              options={options}
+              series={series}
+              type="line"
+              width="100%"
+              height={CHART_HEIGHT}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
+export default memo(CombinationChart);

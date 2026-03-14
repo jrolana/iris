@@ -1,5 +1,6 @@
 "use client";
 
+import { memo, useMemo } from "react";
 import { ApexOptions } from "apexcharts";
 import ThreeSummary from "../common/ThreeSummary";
 import dynamic from "next/dynamic";
@@ -8,69 +9,88 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
+type SummaryMetrics = {
+  overallRate: number;
+  currentFiled: number;
+  previousFiled: number;
+  currentGranted: number;
+  previousGranted: number;
+  currentRate: number;
+  previousRate: number;
+  currentYear: number | null;
+  previousYear: number | null;
+  hasYearComparison: boolean;
+};
+
 interface PropsInterface {
   title: string;
   subtitle?: string;
   colors?: string[];
-  series?: number[];
-  labels?: string[];
+  metrics: SummaryMetrics;
+  chartId?: string;
 }
 
-export default function DonutChart(props: PropsInterface) {
+function DonutChart(props: PropsInterface) {
   const {
     title,
     subtitle = "Grant rate of filed IPs",
     colors = ["#465FFF"],
-    series = [75.68],
-    labels = ["Progress"],
+    metrics,
+    chartId,
   } = props;
 
-  const options: ApexOptions = {
-    chart: {
-      type: "radialBar",
-      fontFamily: "Outfit, sans-serif",
-      sparkline: {
-        enabled: true,
+  const series = useMemo(() => [metrics.overallRate], [metrics.overallRate]);
+
+  const options: ApexOptions = useMemo(
+    () => ({
+      chart: {
+        id: chartId,
+        type: "radialBar",
+        fontFamily: "Outfit, sans-serif",
+        sparkline: {
+          enabled: true,
+        },
       },
-    },
-    colors,
-    labels,
-    legend: {
-      show: false,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    plotOptions: {
-      radialBar: {
-        startAngle: -80,
-        endAngle: 80,
-        hollow: {
-          size: "75%",
-        },
-        track: {
-          background: "#E4E7EC",
-          margin: 0,
-        },
-        dataLabels: {
-          name: { show: false },
-          value: {
-            fontSize: "32px",
-            fontWeight: "600",
-            offsetY: -8,
-            color: "#1D2939",
-            formatter: (val: number) => `${val}%`,
+      colors,
+      labels: ["Progress"],
+      legend: {
+        show: false,
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      plotOptions: {
+        radialBar: {
+          startAngle: -80,
+          endAngle: 80,
+          hollow: {
+            size: "75%",
+          },
+          track: {
+            background: "#E4E7EC",
+            margin: 0,
+          },
+          dataLabels: {
+            name: { show: false },
+            value: {
+              fontSize: "32px",
+              fontWeight: "600",
+              offsetY: -8,
+              color: "#1D2939",
+              formatter: (val: number) => `${val}%`,
+            },
           },
         },
       },
-    },
-    fill: {
-      type: "solid",
-    },
-    stroke: {
-      lineCap: "round",
-    },
-  };
+      fill: {
+        type: "solid",
+      },
+      stroke: {
+        lineCap: "round",
+      },
+    }),
+    [chartId, colors],
+  );
 
   return (
     <div className="shadow-default relative rounded-2xl border border-gray-200 bg-gray-100">
@@ -80,6 +100,7 @@ export default function DonutChart(props: PropsInterface) {
 
         <div className="mt-4 h-[250px] w-full sm:h-[300px]">
           <ReactApexChart
+            key={`${chartId}-${metrics.overallRate}-${metrics.currentYear}-${metrics.previousYear}`}
             options={options}
             series={series}
             type="radialBar"
@@ -90,8 +111,20 @@ export default function DonutChart(props: PropsInterface) {
       </div>
 
       <div className="absolute bottom-0 w-full">
-        <ThreeSummary />
+        <ThreeSummary
+          currentFiled={metrics.currentFiled}
+          previousFiled={metrics.previousFiled}
+          currentGranted={metrics.currentGranted}
+          previousGranted={metrics.previousGranted}
+          currentRate={metrics.currentRate}
+          previousRate={metrics.previousRate}
+          currentYear={metrics.currentYear}
+          previousYear={metrics.previousYear}
+          hasYearComparison={metrics.hasYearComparison}
+        />
       </div>
     </div>
   );
 }
+
+export default memo(DonutChart);

@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "../ui/table";
 import Button from "../ui/button/Button";
-import SearchInput from "../common/SearchInput";
 import FilterButton from "../common/FilterButton";
 import { dummyAuditTrail } from "@/lib/dummy-data/audit_trail";
 import { AuditLogType } from "@/lib/types/audit_trail";
@@ -52,7 +51,6 @@ export default function AuditTrailTable() {
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold text-gray-800">Audit Trail</h1>
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <SearchInput />
           <FilterButton />
         </div>
       </div>
