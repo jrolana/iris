@@ -16,9 +16,16 @@ type ExportDashboardCsvParams = {
   summaryTotals: SummaryTotals;
 };
 
+type ChartLabelItem = {
+  label: string;
+  value: string | number;
+};
+
 type ChartExportItem = {
   chartId: string;
   title: string;
+  subtitle?: string;
+  labels?: ChartLabelItem[];
 };
 
 type ExportDashboardPdfParams = {
@@ -142,6 +149,62 @@ const getChartImage = async (chartId: string) => {
   return result.imgURI;
 };
 
+const drawText = (
+  pdf: jsPDF,
+  text: string,
+  x: number,
+  y: number,
+  options?: Parameters<jsPDF["text"]>[3],
+) => {
+  pdf.text(text, x, y, options);
+};
+
+const drawSectionHeader = (
+  pdf: jsPDF,
+  title: string,
+  margin: number,
+  y: number,
+) => {
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(12);
+  drawText(pdf, title, margin, y);
+};
+
+const drawLabelChips = (
+  pdf: jsPDF,
+  labels: ChartLabelItem[],
+  startX: number,
+  startY: number,
+  maxWidth: number,
+) => {
+  let x = startX;
+  let y = startY;
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(8);
+
+  for (const item of labels) {
+    const chipText = `${item.label}: ${item.value}`;
+    const textWidth = pdf.getTextWidth(chipText);
+    const chipWidth = textWidth + 8;
+    const chipHeight = 6;
+
+    if (x + chipWidth > startX + maxWidth) {
+      x = startX;
+      y += 8;
+    }
+
+    pdf.setDrawColor(220, 224, 230);
+    pdf.setFillColor(248, 250, 252);
+    pdf.roundedRect(x, y - 4.5, chipWidth, chipHeight, 2, 2, "FD");
+
+    pdf.setTextColor(55, 65, 81);
+    drawText(pdf, chipText, x + 4, y, { baseline: "middle" });
+
+    x += chipWidth + 4;
+  }
+};
+
 export const exportDashboardPdf = async ({
   filename,
   yearFrom,
@@ -152,68 +215,133 @@ export const exportDashboardPdf = async ({
   summaryTotals,
   filteredData,
 }: ExportDashboardPdfParams) => {
-  if (typeof window === "undefined") {
-    return;
-  }
+  if (typeof window === "undefined") return;
 
   const pdf = new jsPDF("p", "mm", "a4");
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
   const margin = 14;
   const contentWidth = pageWidth - margin * 2;
+  const bottomLimit = pageHeight - 14;
 
   let cursorY = 18;
 
   const ensureSpace = (neededHeight: number) => {
-    if (cursorY + neededHeight > pageHeight - 14) {
+    if (cursorY + neededHeight > bottomLimit) {
       pdf.addPage();
       cursorY = 18;
     }
   };
 
-  pdf.setFont("helvetica", "bold");
-  pdf.setFontSize(16);
-  pdf.text("IP Portfolio Dashboard Report", margin, cursorY);
-  cursorY += 8;
+  const drawPageTitle = () => {
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(16);
+    drawText(pdf, "IP Portfolio Dashboard Report", margin, cursorY);
+    cursorY += 8;
 
-  pdf.setFont("helvetica", "normal");
-  pdf.setFontSize(10);
-  pdf.text(`Timeline: ${yearFrom}–${yearTo}`, margin, cursorY);
-  cursorY += 5;
-  pdf.text(`Mode: ${presetLabel}`, margin, cursorY);
-  cursorY += 5;
-  pdf.text(`Exported At: ${new Date().toLocaleString()}`, margin, cursorY);
-  cursorY += 10;
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(10);
+    pdf.setTextColor(75, 85, 99);
+    drawText(pdf, `Timeline: ${yearFrom}–${yearTo}`, margin, cursorY);
+    cursorY += 5;
+    drawText(pdf, `Mode: ${presetLabel}`, margin, cursorY);
+    cursorY += 5;
+    drawText(pdf, `Exported At: ${new Date().toLocaleString()}`, margin, cursorY);
+    cursorY += 10;
+  };
+
+  drawPageTitle();
 
   for (const chart of chartExports) {
     try {
       const imgURI = await getChartImage(chart.chartId);
 
-      ensureSpace(75);
+      const imgProps = pdf.getImageProperties(imgURI);
+      const rawWidth = imgProps.width || 1;
+      const rawHeight = imgProps.height || 1;
+
+      const imageMaxWidth = contentWidth - 10;
+      const imageMaxHeight = 95;
+
+      let imgWidth = imageMaxWidth;
+      let imgHeight = (rawHeight / rawWidth) * imgWidth;
+
+      if (imgHeight > imageMaxHeight) {
+        imgHeight = imageMaxHeight;
+        imgWidth = (rawWidth / rawHeight) * imgHeight;
+      }
+
+      const labelRows = chart.labels?.length
+        ? Math.ceil(
+            chart.labels.reduce((rows, item, index, arr) => {
+              return rows;
+            }, 1),
+          )
+        : 0;
+
+      const estimatedLabelsHeight = chart.labels?.length ? 14 : 0;
+      const cardHeight =
+        12 + // title area
+        imgHeight +
+        estimatedLabelsHeight +
+        12;
+
+      ensureSpace(cardHeight);
+
+      pdf.setDrawColor(229, 231, 235);
+      pdf.setFillColor(255, 255, 255);
+      pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "FD");
+
+      let cardY = cursorY + 8;
 
       pdf.setFont("helvetica", "bold");
       pdf.setFontSize(12);
-      pdf.text(chart.title, margin, cursorY);
-      cursorY += 4;
+      pdf.setTextColor(17, 24, 39);
+      drawText(pdf, chart.title, margin + 6, cardY);
 
-      const imgWidth = contentWidth;
-      const imgHeight = 60;
+      cardY += 5;
 
-      pdf.addImage(imgURI, "PNG", margin, cursorY, imgWidth, imgHeight);
-      cursorY += imgHeight + 8;
+      if (chart.subtitle) {
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9);
+        pdf.setTextColor(107, 114, 128);
+        drawText(pdf, chart.subtitle, margin + 6, cardY);
+        cardY += 5;
+      }
+
+      const imageX = margin + (contentWidth - imgWidth) / 2;
+      pdf.addImage(imgURI, "PNG", imageX, cardY, imgWidth, imgHeight);
+
+      cardY += imgHeight + 6;
+
+      if (chart.labels?.length) {
+        drawLabelChips(pdf, chart.labels, margin + 6, cardY, contentWidth - 12);
+      }
+
+      cursorY += cardHeight + 8;
     } catch {
-      ensureSpace(10);
+      ensureSpace(16);
+
+      pdf.setDrawColor(229, 231, 235);
+      pdf.setFillColor(255, 255, 255);
+      pdf.roundedRect(margin, cursorY, contentWidth, 16, 3, 3, "FD");
+
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(11);
+      pdf.setTextColor(17, 24, 39);
+      drawText(pdf, chart.title, margin + 6, cursorY + 6);
+
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(9);
-      pdf.text(`${chart.title} could not be exported.`, margin, cursorY);
-      cursorY += 8;
+      pdf.setTextColor(107, 114, 128);
+      drawText(pdf, "This chart could not be exported.", margin + 6, cursorY + 11);
+
+      cursorY += 24;
     }
   }
 
-  ensureSpace(16);
-  pdf.setFont("helvetica", "bold");
-  pdf.setFontSize(12);
-  pdf.text("Detailed Breakdown", margin, cursorY);
+  ensureSpace(18);
+  drawSectionHeader(pdf, "Detailed Breakdown", margin, cursorY);
   cursorY += 4;
 
   autoTable(pdf, {
@@ -251,14 +379,19 @@ export const exportDashboardPdf = async ({
       font: "helvetica",
       fontSize: 9,
       cellPadding: 2.5,
+      textColor: [31, 41, 55],
+      lineColor: [229, 231, 235],
+      lineWidth: 0.1,
     },
     headStyles: {
       fillColor: [243, 244, 246],
       textColor: [55, 65, 81],
       fontStyle: "bold",
     },
-    bodyStyles: {
-      textColor: [31, 41, 55],
+    footStyles: {
+      fillColor: [249, 250, 251],
+      textColor: [17, 24, 39],
+      fontStyle: "bold",
     },
     alternateRowStyles: {
       fillColor: [249, 250, 251],
@@ -270,7 +403,8 @@ export const exportDashboardPdf = async ({
 
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(12);
-  pdf.text("Raw Filtered Data", margin, 18);
+  pdf.setTextColor(17, 24, 39);
+  drawText(pdf, "Raw Filtered Data", margin, 18);
 
   autoTable(pdf, {
     startY: 24,
@@ -285,14 +419,14 @@ export const exportDashboardPdf = async ({
       font: "helvetica",
       fontSize: 8,
       cellPadding: 2,
+      textColor: [31, 41, 55],
+      lineColor: [229, 231, 235],
+      lineWidth: 0.1,
     },
     headStyles: {
       fillColor: [243, 244, 246],
       textColor: [55, 65, 81],
       fontStyle: "bold",
-    },
-    bodyStyles: {
-      textColor: [31, 41, 55],
     },
     alternateRowStyles: {
       fillColor: [249, 250, 251],
@@ -305,7 +439,8 @@ export const exportDashboardPdf = async ({
     pdf.setPage(i);
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(8);
-    pdf.text(`Page ${i} of ${pageCount}`, pageWidth - 28, pageHeight - 8);
+    pdf.setTextColor(107, 114, 128);
+    drawText(pdf, `Page ${i} of ${pageCount}`, pageWidth - 28, pageHeight - 8);
   }
 
   pdf.save(filename);

@@ -275,7 +275,7 @@ export default function Dashboard() {
                     className={cn(
                       "w-full appearance-none rounded-xl border px-3 py-2.5 pr-10 text-sm transition outline-none",
                       filters.preset === "custom"
-                        ? "border-gray-300 bg-white text-gray-700 focus:border-brand-500"
+                        ? "focus:border-brand-500 border-gray-300 bg-white text-gray-700"
                         : "border-gray-200 bg-gray-50 text-gray-400",
                     )}
                   >
@@ -316,7 +316,7 @@ export default function Dashboard() {
                     className={cn(
                       "w-full appearance-none rounded-xl border px-3 py-2.5 pr-10 text-sm transition outline-none",
                       filters.preset === "custom"
-                        ? "border-gray-300 bg-white text-gray-700 focus:border-brand-500"
+                        ? "focus:border-brand-500 border-gray-300 bg-white text-gray-700"
                         : "border-gray-200 bg-gray-50 text-gray-400",
                     )}
                   >
