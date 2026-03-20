@@ -7,6 +7,7 @@ import { IpType } from "@/lib/types/ip";
 import useAddVerifiedInventorsModal from "@/hooks/useAddVerifiedInventorModal";
 import { useCreateApplication } from "@/hooks/applications/useCreateApplication";
 import { useUploadFile } from "@/hooks/attachments/useUploadFile";
+import { useGetCurrentUser } from "@/hooks/useGetCurrentUser";
 
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -14,7 +15,7 @@ import FileUploader from "@/components/common/FileUploader";
 import { ArrowLeft, X, VerifiedIcon, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Hint from "@/components/common/Tooltip";
-import { useGetCurrentUser } from "@/hooks/useGetCurrentUser";
+import { toast } from "sonner";
 
 type extendedAttachmentType = AttachmentType["Insert"] & {
   fileObject?: File;
@@ -55,27 +56,27 @@ export default function StartApplicationPage() {
   async function handleSubmit() {
     if (projectTitle.trim() === "") return;
 
-    const appId = await createApp(
-      {
-        applicationData: {
-          project_title: projectTitle,
-          ip_type: ipTypeParam as IpType,
-          funding_source: fundingSource,
-        },
-        inventorsData: inventors,
+    toast.promise(createAndUpload(), {
+      loading: "Submitting application...",
+      success: "Application submitted successfully!",
+      error: (e: Error) => {
+        if (e.message.includes("inventors_application_id_email_key")) {
+          return "Error: Duplicate email address. Please remove the duplicate collaborator and try again.";
+        }
+        return "Failed to create application. Please check the instructions and try again.";
       },
-      {
-        onSuccess: () => {
-          console.log("Application created successfully.");
-        },
-        onError: (error) => {
-          console.error("Error creating application:", error);
-        },
-        onSettled: () => {
-          console.log("Create application mutation settled.");
-        },
+    });
+  }
+
+  async function createAndUpload() {
+    const appId = await createApp({
+      applicationData: {
+        project_title: projectTitle,
+        ip_type: ipTypeParam as IpType,
+        funding_source: fundingSource,
       },
-    );
+      inventorsData: inventors,
+    });
     await handleUpload(appId, fileItems);
     router.push(`/techgen/view-application?applicationID=${appId}`);
   }
@@ -88,25 +89,10 @@ export default function StartApplicationPage() {
       await uploadFile(
         { file: item, appId },
         {
-          onSuccess: () => handleSuccess(item),
-          onError: (error: unknown) => handleError(item, error),
           onSettled: handleSettled,
         },
       );
     }
-  }
-
-  function handleSuccess(item: extendedAttachmentType) {
-    console.log(`Uploaded: ${item.file_name}`);
-  }
-
-  function handleError(item: extendedAttachmentType, error: unknown) {
-    console.log(
-      "Something went wrong with",
-      item,
-      "error: ",
-      (error as Error).message,
-    );
   }
 
   function handleSettled() {
@@ -202,10 +188,10 @@ export default function StartApplicationPage() {
         <div>
           <h2 className="text-2xl font-medium">B. Collaborators</h2>
           <p className="mt-1 text-lg text-slate-500">
-            List all the collaborators for this application. You are
-            automatically listed as a technology generator so exclude yourself
-            from this list. Remember that you can no longer add or remove these
-            names after submission.
+            List all the collaborators for this application.{" "}
+            <b>You are automatically listed</b> as a technology generator so
+            exclude yourself from this list. Remember that you can no longer add
+            or remove these names after submission.
           </p>
         </div>
         <ScrollArea className="h-[300px] rounded-md border p-2 pr-4">
