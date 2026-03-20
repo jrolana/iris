@@ -31,7 +31,6 @@ export default function UsersTable() {
   const [nameEmail, setNameEmail] = useState<string>("");
   const [colleges, setColleges] = useState<CollegeUnitType[]>([]);
   const [roles, setRoles] = useState<RoleType[]>([]);
-  const [statuses, setStatuses] = useState<RequestStatusType[]>([]);
   const [filteredData, setFilteredData] = useState(usersData ?? []);
 
   useEffect(() => {
@@ -43,7 +42,7 @@ export default function UsersTable() {
     });
     setFilteredData(filtered);
     setCurrentPage(1);
-  }, [nameEmail, colleges, roles, statuses, usersData]);
+  }, [nameEmail, colleges, roles, usersData]);
 
   const recordsPerPage = 5;
   const indexOfLastRecord = currentPage * recordsPerPage;
@@ -83,15 +82,12 @@ export default function UsersTable() {
       setColleges((prev) => prev.filter((c) => c !== value));
     } else if (type === "role") {
       setRoles((prev) => prev.filter((r) => r !== value));
-    } else if (type === "status") {
-      setStatuses((prev) => prev.filter((s) => s !== value));
     }
     setCurrentPage(1);
   }
 
   function clearAllFilters() {
     setNameEmail("");
-    setStatuses([]);
     setColleges([]);
     setRoles([]);
     setCurrentPage(1);
@@ -108,17 +104,19 @@ export default function UsersTable() {
           User Management
         </h1>
       </div>
-      <div className="mb-4 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+      <div className="mb-4 flex flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
         <Button
           variant="outline"
           startIcon={<FilterIcon size={18} />}
           onClick={toggleFilterPanel}
           className="max-w-fit"
+          disabled={isLoading}
         >
           {isFilterPanelOpen ? "Close Filters" : "Filter"}
         </Button>
         <Button
           onClick={handleClick}
+          disabled={isLoading}
           startIcon={<PlusIcon size={30} />}
           size="sm"
         >
@@ -133,7 +131,7 @@ export default function UsersTable() {
         onClose={() => setIsFilterPanelOpen(false)}
         currentFilters={{
           nameEmail: nameEmail,
-          statuses: statuses.length > 0 ? statuses : [],
+          statuses: [],
           colleges,
           roles,
         }}
@@ -141,7 +139,6 @@ export default function UsersTable() {
 
       <ActiveFilters
         name_email={nameEmail}
-        status={statuses}
         colleges={colleges}
         roles={roles}
         onRemove={handleRemoveFilterTag}

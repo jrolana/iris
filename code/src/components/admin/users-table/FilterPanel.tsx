@@ -30,14 +30,14 @@ interface FilterPanelProps {
   isForUserRequests?: boolean; // If true, show status filter
   onApplyFilters: (filters: {
     nameEmail: string;
-    statuses: RequestStatusType[] | RequestStatusType;
+    statuses: RequestStatusType[];
     colleges: CollegeUnitType[];
     roles: RoleType[];
   }) => void;
   onClose: () => void;
   currentFilters: {
     nameEmail: string;
-    statuses: RequestStatusType[] | RequestStatusType;
+    statuses: RequestStatusType[];
     colleges: CollegeUnitType[];
     roles: RoleType[];
   };
@@ -53,12 +53,9 @@ export function FilterPanel({
   isForUserRequests = false,
 }: FilterPanelProps) {
   const [tempNameEmail, setTempNameEmail] = useState(currentFilters.nameEmail);
-  const [tempStatuses, setTempStatuses] = useState<RequestStatusType[]>(() => {
-    if (!currentFilters.statuses) return [];
-    return Array.isArray(currentFilters.statuses)
-      ? currentFilters.statuses
-      : [currentFilters.statuses];
-  });
+  const [tempStatuses, setTempStatuses] = useState<RequestStatusType[]>(
+    currentFilters.statuses,
+  );
   const [tempColleges, setTempColleges] = useState<CollegeUnitType[]>(
     currentFilters.colleges,
   );
@@ -66,12 +63,8 @@ export function FilterPanel({
 
   // Sync state if currentFilters props change
   useEffect(() => {
-    const statusArray = Array.isArray(currentFilters.statuses)
-      ? currentFilters.statuses
-      : [currentFilters.statuses];
-
     setTempNameEmail(currentFilters.nameEmail);
-    setTempStatuses(currentFilters.statuses ? statusArray : []);
+    setTempStatuses(currentFilters.statuses);
     setTempColleges(currentFilters.colleges);
     setTempRoles(currentFilters.roles);
   }, [currentFilters]);
