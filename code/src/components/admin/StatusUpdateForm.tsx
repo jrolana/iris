@@ -334,6 +334,8 @@ function StatusUpdateForm(props: PropsInterface) {
 
         updatedStatus.status_type = selectedStatus;
         updatedStatus.application_id = applicationId;
+        updatedStatus.status_name =
+          STATUS_LABELS[selectedStatus] ?? selectedStatus;
 
         await addStatus(
           { statusData: updatedStatus },
