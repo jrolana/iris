@@ -65,11 +65,11 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-4">
-      <div className="mb-3 flex items-center justify-between">
+      <div className="xsm:flex-row xsm:items-center xsm:justify-between mb-3 flex flex-col justify-start gap-2">
         <h2 className="text-lg font-semibold text-gray-900">Status history</h2>
 
         {variant === "ttbdo" && (
-          <div className="flex gap-2">
+          <div className="flex justify-between gap-2">
             {application.is_withdrawn ? (
               <Button
                 type="button"
