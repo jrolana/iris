@@ -1,6 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGetUsers } from "@/hooks/users/useGetUsers";
+import useAddNewUserModal from "@/hooks/useAddNewUserModal";
+import { filterUsers } from "@/lib/helper/filter-users";
+
 import {
   Table,
   TableBody,
@@ -10,30 +14,45 @@ import {
 } from "../ui/table";
 import Link from "next/link";
 import Button from "../ui/button/Button";
-import SearchInput from "../common/SearchInput";
 import { PencilIcon, TrashBinIcon, PlusIcon } from "@/icons";
-import FilterButton from "../common/FilterButton";
-import useAddNewUserModal from "@/hooks/useAddNewUserModal";
-import { useGetUsers } from "@/hooks/users/useGetUsers";
+import { ActiveFilters } from "./users-table/ActiveFilters";
+import { FilterPanel } from "./users-table/FilterPanel";
+import { FilterIcon, Loader } from "lucide-react";
+import { CollegeUnitType } from "@/lib/types/college-units";
+import { RoleType } from "@/lib/types/role";
+
+type RequestStatusType = "approved" | "rejected" | "pending";
 
 export default function UsersTable() {
   const { data: usersData, isLoading } = useGetUsers();
   const [currentPage, setCurrentPage] = useState(1);
   const { openModal } = useAddNewUserModal();
+  const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
+  const [nameEmail, setNameEmail] = useState<string>("");
+  const [colleges, setColleges] = useState<CollegeUnitType[]>([]);
+  const [roles, setRoles] = useState<RoleType[]>([]);
+  const [statuses, setStatuses] = useState<RequestStatusType[]>([]);
+  const [filteredData, setFilteredData] = useState(usersData ?? []);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!usersData) {
-    return <div>No data yet.</div>;
-  }
+  useEffect(() => {
+    // Whenever filters change, reset to first page and apply filters to data
+    const filtered = filterUsers(usersData || [], {
+      nameEmail,
+      colleges,
+      roles,
+    });
+    setFilteredData(filtered);
+    setCurrentPage(1);
+  }, [nameEmail, colleges, roles, statuses, usersData]);
 
   const recordsPerPage = 5;
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = usersData.slice(indexOfFirstRecord, indexOfLastRecord);
-  const totalPages = Math.ceil(usersData.length / recordsPerPage);
+  const currentRecords = filteredData.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord,
+  );
+  const totalPages = Math.ceil(filteredData.length / recordsPerPage);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
@@ -44,12 +63,60 @@ export default function UsersTable() {
     openModal();
   }
 
+  function applyFilters(filters: {
+    nameEmail: string;
+    statuses: RequestStatusType[] | RequestStatusType;
+    colleges: CollegeUnitType[];
+    roles: RoleType[];
+  }) {
+    setNameEmail(filters.nameEmail);
+    setColleges(filters.colleges);
+    setRoles(filters.roles);
+    // reset to first page whenever filters are applied
+    setCurrentPage(1);
+  }
+
+  function handleRemoveFilterTag(type: string, value: string) {
+    if (type === "name_email") {
+      setNameEmail("");
+    } else if (type === "college") {
+      setColleges((prev) => prev.filter((c) => c !== value));
+    } else if (type === "role") {
+      setRoles((prev) => prev.filter((r) => r !== value));
+    } else if (type === "status") {
+      setStatuses((prev) => prev.filter((s) => s !== value));
+    }
+    setCurrentPage(1);
+  }
+
+  function clearAllFilters() {
+    setNameEmail("");
+    setStatuses([]);
+    setColleges([]);
+    setRoles([]);
+    setCurrentPage(1);
+  }
+
+  function toggleFilterPanel() {
+    setIsFilterPanelOpen(!isFilterPanelOpen);
+  }
+
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold text-gray-800">
           User Management
         </h1>
+      </div>
+      <div className="mb-4 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+        <Button
+          variant="outline"
+          startIcon={<FilterIcon size={18} />}
+          onClick={toggleFilterPanel}
+          className="max-w-fit"
+        >
+          {isFilterPanelOpen ? "Close Filters" : "Filter"}
+        </Button>
         <Button
           onClick={handleClick}
           startIcon={<PlusIcon size={30} />}
@@ -58,60 +125,95 @@ export default function UsersTable() {
           Add New User
         </Button>
       </div>
-      <div className="mb-4 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
-        <div className="self-start sm:w-1/3">{/* <SearchInput /> */}</div>
-        <FilterButton />
-      </div>
+
+      {/* Filter Panel and Active Filters*/}
+      <FilterPanel
+        isOpen={isFilterPanelOpen}
+        onApplyFilters={applyFilters}
+        onClose={() => setIsFilterPanelOpen(false)}
+        currentFilters={{
+          nameEmail: nameEmail,
+          statuses: statuses.length > 0 ? statuses : [],
+          colleges,
+          roles,
+        }}
+      />
+
+      <ActiveFilters
+        name_email={nameEmail}
+        status={statuses}
+        colleges={colleges}
+        roles={roles}
+        onRemove={handleRemoveFilterTag}
+        onClearAll={clearAllFilters}
+      />
 
       <div className="overflow-x-auto">
-        <Table>
-          <TableHeader className="border-y border-gray-100">
-            <TableRow>
-              {["Full Name", "Colleges", "Email", "Role", "Actions"].map(
-                (header) => (
-                  <TableCell
-                    key={header}
-                    isHeader
-                    className="text-theme-xs p-2 py-3 text-start font-medium text-gray-500"
-                  >
-                    {header}
-                  </TableCell>
-                ),
-              )}
-            </TableRow>
-          </TableHeader>
-
-          <TableBody className="divide-y divide-gray-100">
-            {currentRecords.map((record) => (
-              <TableRow key={record.id}>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  <Link href={"/"} className="hover:text-brand-500">
-                    {record.full_name}
-                  </Link>
-                </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.external_institution ??
-                    record.college_code ??
-                    record.other_college_name}
-                </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.email}
-                </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.role}
-                </TableCell>
-                <TableCell className="text-theme-sm py-3 text-gray-800">
-                  <div className="flex items-center gap-2">
-                    <Link href="/" className="hover:text-brand-500">
-                      <PencilIcon />
-                    </Link>
-                    <TrashBinIcon className="hover:text-error-500" />
-                  </div>
-                </TableCell>
+        {isLoading ? (
+          <div className="flex h-60 items-center justify-center py-5 text-gray-500">
+            Fetching users...{"  "}
+            <Loader className="animate-spin text-gray-500" size={18} />
+          </div>
+        ) : (
+          <Table>
+            <TableHeader className="border-y border-gray-100">
+              <TableRow>
+                {["Full Name", "Colleges", "Email", "Role", "Actions"].map(
+                  (header) => (
+                    <TableCell
+                      key={header}
+                      isHeader
+                      className="text-theme-xs p-2 py-3 text-start font-medium text-gray-500"
+                    >
+                      {header}
+                    </TableCell>
+                  ),
+                )}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+
+            <TableBody className="divide-y divide-gray-100">
+              {currentRecords?.length === 0 && (
+                <TableRow>
+                  <TableCell
+                    className="text-theme-sm p-2 py-10 text-center text-gray-500"
+                    colSpan={10}
+                  >
+                    No Users found.
+                  </TableCell>
+                </TableRow>
+              )}
+              {currentRecords.map((record) => (
+                <TableRow key={record.id}>
+                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                    <Link href={"/"} className="hover:text-brand-500">
+                      {record.full_name}
+                    </Link>
+                  </TableCell>
+                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                    {record.external_institution ??
+                      record.college_code ??
+                      record.other_college_name}
+                  </TableCell>
+                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                    {record.email}
+                  </TableCell>
+                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                    {record.role}
+                  </TableCell>
+                  <TableCell className="text-theme-sm py-3 text-gray-800">
+                    <div className="flex items-center gap-2">
+                      <Link href="/" className="hover:text-brand-500">
+                        <PencilIcon />
+                      </Link>
+                      <TrashBinIcon className="hover:text-error-500" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
       <hr className="border border-gray-100"></hr>
       <div className="mt-4 flex justify-between">
