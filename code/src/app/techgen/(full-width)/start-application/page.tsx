@@ -7,7 +7,8 @@ import { IpType } from "@/lib/types/ip";
 import useAddVerifiedInventorsModal from "@/hooks/useAddVerifiedInventorModal";
 import { useCreateApplication } from "@/hooks/applications/useCreateApplication";
 import { useUploadFile } from "@/hooks/attachments/useUploadFile";
-import { useGetCurrentUser } from "@/hooks/useGetCurrentUser";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atom-states/user";
 
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -32,7 +33,7 @@ export default function StartApplicationPage() {
     openModal: openAddVerifiedInventorModal,
     setExcludedUIDs,
   } = useAddVerifiedInventorsModal();
-  const { user, loading: gettingUser } = useGetCurrentUser();
+  const user = useAtomValue(userAtom);
   const [fileItems, setFileItems] = useState<extendedAttachmentType[]>([]);
   const [inventors, setInventors] = useState<InventorType["Insert"][]>([]);
   const [projectTitle, setProjectTitle] = useState("");
@@ -112,12 +113,12 @@ export default function StartApplicationPage() {
   }, [inventor, isAddVerifiedInventorModalOpen]);
 
   useEffect(() => {
-    if (user === null) return;
+    if (user === null || user === undefined) return;
     setExcludedUIDs((prev) => [...prev, user.id]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  if (gettingUser) {
+  if (user === null || user === undefined) {
     return (
       <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
         <span className="text-lg font-medium">Loading user information...</span>

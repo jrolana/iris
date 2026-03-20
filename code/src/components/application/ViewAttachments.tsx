@@ -1,11 +1,11 @@
 import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 import { AttachmentType } from "@/lib/types/application";
-import { User } from "@supabase/supabase-js";
 import FileItem from "../common/FileItems";
+import { UserType } from "@/lib/types/users";
 
 interface ViewAttachmentProps {
   groupedFiles: AttachmentType["Row"][][];
-  user: User | null;
+  user: UserType["Row"] | null;
   isFetchingUser: boolean;
   isLoading: boolean;
   isUneditable: boolean;

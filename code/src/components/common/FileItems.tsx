@@ -13,13 +13,12 @@ import {
 import Hint from "./Tooltip";
 import UploadFileButton from "./UploadFileButton";
 import { Button } from "../ui/button";
-import { User } from "@supabase/supabase-js";
 import { formatDateTime } from "@/lib/helper/format-date";
-
+import { UserType } from "@/lib/types/users";
 interface FileItemProps {
   file: AttachmentType["Row"];
   oldVersions: AttachmentType["Row"][];
-  owner: User | null;
+  owner: UserType["Row"] | null;
   isHistoryView?: boolean;
   isUneditable: boolean;
 }

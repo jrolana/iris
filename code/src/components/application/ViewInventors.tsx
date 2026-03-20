@@ -1,14 +1,14 @@
 import { InventorType } from "@/lib/types/application";
-import { User } from "@supabase/supabase-js";
 import InventorItems from "../common/InventorItems";
 import { useGetReportsByAppId } from "@/hooks/reports/useGetReportsByAppId";
 import { ReportType } from "@/lib/types/reports";
+import { UserType } from "@/lib/types/users";
 
 interface ViewInventorsProps {
   inventors: InventorType["Row"][];
   isAdmin: boolean;
   isLoading: boolean;
-  user: User | null;
+  user: UserType["Row"] | null;
   appId: string;
   parentId: string | null;
   isUneditable: boolean;
