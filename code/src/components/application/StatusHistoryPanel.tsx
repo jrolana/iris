@@ -84,7 +84,7 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
                 type="button"
                 onClick={handleWithdrawApplication}
                 disabled={isWithdrawing}
-                className="rounded-full border bg-rose-600 px-3 py-1 text-sm font-medium text-white transition-colors hover:border-rose-600 hover:bg-white hover:text-rose-600"
+                className="rounded-full border bg-rose-500 px-3 py-1 text-sm font-medium text-white transition-colors hover:border-rose-600 hover:bg-white hover:text-rose-600"
               >
                 Withdraw
               </Button>

@@ -73,14 +73,14 @@ function InformationPanel(props: DetailsPanelProps) {
           groupedFiles={groupedFiles ?? []}
           user={user!}
           isFetchingUser={isFetchingUser}
-          isLoading={isFetchingFiles}
+          isLoading={isFetchingFiles || true}
           isUneditable={isUneditable ?? false}
         />
       ) : (
         <ViewInventors
           inventors={inventors ?? []}
           isAdmin={isAdmin}
-          isLoading={isFetchingInventors || isFetchingUser}
+          isLoading={isFetchingInventors || isFetchingUser || true}
           user={user!}
           appId={applicationId}
           parentId={parentApplicationId}

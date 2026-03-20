@@ -2,6 +2,7 @@ import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 import { AttachmentType } from "@/lib/types/application";
 import FileItem from "../common/FileItems";
 import { UserType } from "@/lib/types/users";
+import { Loader } from "lucide-react";
 
 interface ViewAttachmentProps {
   groupedFiles: AttachmentType["Row"][][];
@@ -18,14 +19,19 @@ function ViewAttachments(props: ViewAttachmentProps) {
   // TODO: show loading state properly
   if (isLoading || isFetchingUser) {
     return (
-      <p className="mt-4 text-sm text-slate-500">Loading attachments...</p>
+      <div className="flex h-72 flex-row items-center justify-center gap-2 align-middle">
+        <p className="align-middle text-sm text-slate-500">
+          Fetching documents...
+        </p>
+        <Loader className="animate-spin text-slate-500" size={18} />
+      </div>
     );
   }
 
   if (groupedFiles.length == 0) {
     return (
       <>
-        <p className="mt-4 text-sm text-slate-500">
+        <p className="my-10 text-center text-sm text-slate-500">
           No attachments yet. Please upload appropriate files or links.
         </p>
         <div className="mt-4">
