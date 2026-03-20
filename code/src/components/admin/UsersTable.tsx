@@ -15,8 +15,8 @@ import {
 import Link from "next/link";
 import Button from "../ui/button/Button";
 import { PencilIcon, TrashBinIcon, PlusIcon } from "@/icons";
-import { ActiveFilters } from "./users-table/ActiveFilters";
-import { FilterPanel } from "./users-table/FilterPanel";
+import { ActiveFilters } from "./filter/ActiveFilters";
+import { FilterPanel } from "./filter/FilterPanel";
 import { FilterIcon, Loader } from "lucide-react";
 import { CollegeUnitType } from "@/lib/types/college-units";
 import { RoleType } from "@/lib/types/role";

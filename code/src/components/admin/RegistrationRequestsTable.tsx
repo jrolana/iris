@@ -20,8 +20,8 @@ import {
 import Link from "next/link";
 import Button from "../ui/button/Button";
 import Badge from "../ui/badge/Badge";
-import { ActiveFilters } from "./users-table/ActiveFilters";
-import { FilterPanel } from "./users-table/FilterPanel";
+import { ActiveFilters } from "./filter/ActiveFilters";
+import { FilterPanel } from "./filter/FilterPanel";
 import { toast } from "sonner";
 import { FilterIcon, Loader } from "lucide-react";
 
