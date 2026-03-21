@@ -8,6 +8,19 @@ import { createClient } from "../../../utils/supabase/client";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atom-states/user";
 
+function AvatarSkeleton() {
+  return (
+    <div className="flex w-36 flex-row justify-between rounded-lg bg-slate-50 px-2 text-center">
+      <div className="h-11 w-11 animate-pulse rounded bg-slate-200" />
+
+      <div className="flex min-w-16 flex-col items-center justify-center gap-1">
+        <div className="h-5 w-full animate-pulse rounded bg-slate-200" />
+        <div className="h-5 w-full animate-pulse rounded bg-slate-200" />
+      </div>
+    </div>
+  );
+}
+
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const user = useAtomValue(userAtom);
@@ -42,43 +55,47 @@ export default function UserDropdown() {
 
   return (
     <div className="relative">
-      <button
-        onClick={toggleDropdown}
-        className="dropdown-toggle flex items-center text-gray-700 dark:text-gray-400"
-      >
-        {/* TODO: Fallback for image while loading */}
-        <span className="mr-3 h-11 w-11 overflow-hidden rounded-full">
-          <Image
-            width={44}
-            height={44}
-            src={user?.image_url || "/images/user/owner.jpg"}
-            alt="User"
-          />
-        </span>
-
-        <span className="text-theme-sm mr-1 block font-medium">
-          {user?.full_name || "Loading..."}
-        </span>
-
-        <svg
-          className={`stroke-gray-500 transition-transform duration-200 dark:stroke-gray-400 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-          width="18"
-          height="20"
-          viewBox="0 0 18 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      {user === undefined ? (
+        <AvatarSkeleton />
+      ) : (
+        <button
+          onClick={toggleDropdown}
+          disabled={!user}
+          className="dropdown-toggle flex items-center text-gray-700 dark:text-gray-400"
         >
-          <path
-            d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
+          <span className="mr-3 h-11 w-11 overflow-hidden rounded-full">
+            <Image
+              width={44}
+              height={44}
+              src={user?.image_url || "/images/user/owner.jpg"}
+              alt="User"
+            />
+          </span>
+
+          <span className="text-theme-sm mr-1 block font-medium">
+            {user?.full_name || "Loading..."}
+          </span>
+
+          <svg
+            className={`stroke-gray-500 transition-transform duration-200 dark:stroke-gray-400 ${
+              isOpen ? "rotate-180" : ""
+            }`}
+            width="18"
+            height="20"
+            viewBox="0 0 18 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      )}
 
       <Dropdown
         isOpen={isOpen}
