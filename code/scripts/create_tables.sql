@@ -194,6 +194,7 @@ CREATE TABLE private.notifications (
     content TEXT NOT NULL,
     category TEXT NULL,
     read_at TIMESTAMPTZ,
+    has_email_sent BOOLEAN NOT NULL DEFAULT FALSE,
 
     created_at TIMESTAMPTZ DEFAULT now(),
 
