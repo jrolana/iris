@@ -87,3 +87,7 @@ SELECT
 FROM public.v_dashboard_status
 WHERE time_concerned IS NOT NULL
 GROUP BY ip_type, dashboard_status, EXTRACT(YEAR FROM time_concerned);
+
+DROP VIEW IF EXISTS public.v_dashboard_analytics_techgen CASCADE;
+
+CREATE VIEW public.v_dashboard_analytics_techgen
