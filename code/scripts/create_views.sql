@@ -8,6 +8,7 @@ CREATE VIEW public.v_dashboard_status
 WITH (security_barrier = true)
 AS
 SELECT 
+  a.id,
   a.ip_type,
   CASE
     WHEN a.is_withdrawn = true THEN 'withdrawn'
@@ -89,5 +90,17 @@ WHERE time_concerned IS NOT NULL
 GROUP BY ip_type, dashboard_status, EXTRACT(YEAR FROM time_concerned);
 
 DROP VIEW IF EXISTS public.v_dashboard_analytics_techgen CASCADE;
-
 CREATE VIEW public.v_dashboard_analytics_techgen
+WITH (security_barrier = true)
+AS
+SELECT
+  COUNT(*) AS total,
+  ip_type,
+  dashboard_status,
+  EXTRACT(YEAR FROM time_concerned)::int AS year,
+  techgen_id
+FROM public.v_dashboard_status AS v_d
+INNER JOIN private.inventors AS i
+ON v_d.id = i.application_id
+WHERE time_concerned IS NOT NULL
+GROUP BY ip_type, dashboard_status, EXTRACT(YEAR FROM time_concerned), techgen_id;

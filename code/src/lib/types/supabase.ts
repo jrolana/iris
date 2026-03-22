@@ -263,6 +263,7 @@ export type Database = {
           id: string
           is_public: boolean | null
           note: string | null
+          status_name: string | null
           status_type: string
         }
         Insert: {
@@ -272,6 +273,7 @@ export type Database = {
           id?: string
           is_public?: boolean | null
           note?: string | null
+          status_name?: string | null
           status_type: string
         }
         Update: {
@@ -281,6 +283,7 @@ export type Database = {
           id?: string
           is_public?: boolean | null
           note?: string | null
+          status_name?: string | null
           status_type?: string
         }
         Relationships: [
@@ -296,8 +299,10 @@ export type Database = {
       notifications: {
         Row: {
           application_id: string | null
+          category: string | null
           content: string
           created_at: string | null
+          has_email_sent: boolean
           id: string
           read_at: string | null
           receiver_id: string
@@ -305,8 +310,10 @@ export type Database = {
         }
         Insert: {
           application_id?: string | null
+          category?: string | null
           content: string
           created_at?: string | null
+          has_email_sent?: boolean
           id?: string
           read_at?: string | null
           receiver_id: string
@@ -314,8 +321,10 @@ export type Database = {
         }
         Update: {
           application_id?: string | null
+          category?: string | null
           content?: string
           created_at?: string | null
+          has_email_sent?: boolean
           id?: string
           read_at?: string | null
           receiver_id?: string
@@ -539,6 +548,7 @@ export type Database = {
       is_admin: { Args: never; Returns: boolean }
       is_official: { Args: never; Returns: boolean }
       is_published_status: { Args: { p_status_id: string }; Returns: boolean }
+      process_daily_deadline_reminders: { Args: never; Returns: undefined }
     }
     Enums: {
       actionresult: "success" | "pending" | "failure"
@@ -572,6 +582,16 @@ export type Database = {
         Row: {
           dashboard_status: string | null
           ip_type: Database["private"]["Enums"]["iprtype"] | null
+          total: number | null
+          year: number | null
+        }
+        Relationships: []
+      }
+      v_dashboard_analytics_techgen: {
+        Row: {
+          dashboard_status: string | null
+          ip_type: Database["private"]["Enums"]["iprtype"] | null
+          techgen_id: string | null
           total: number | null
           year: number | null
         }

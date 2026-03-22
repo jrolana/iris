@@ -12,7 +12,7 @@ import { ANALOGOUS_COLORS } from "@/lib/constants/ui";
 import { useGetDashboardAnalytics } from "@/hooks/views/useGetDashboardAnalytics";
 import { START_YEAR } from "@/lib/constants/dashboard_analytics";
 import { cn } from "@/lib/utils";
-import { DashboardAnalyticsRowType } from "@/lib/types/views";
+import { DashboardAnalyticsType } from "@/lib/types/views";
 import {
   DashboardFilters,
   PRESET_LABELS,
@@ -24,6 +24,7 @@ import {
   buildSummaryTableRows,
   buildSummaryTotals,
   IP_TYPE_ORDER,
+  STATUS_ORDER,
 } from "@/lib/dashboard/dashboard-summary";
 import {
   exportDashboardCsv,
@@ -43,7 +44,7 @@ type YearSelectProps = {
   onChange: (value: number) => void;
 };
 
-type DashboardStatus = DashboardAnalyticsRowType["dashboard_status"];
+type DashboardStatus = DashboardAnalyticsType["dashboard_status"];
 
 type PieChartDatum = {
   ipType: string;
@@ -132,8 +133,8 @@ export default function Dashboard() {
     yearTo: currentYear,
   });
 
-  const sourceData = useMemo<DashboardAnalyticsRowType[]>(() => {
-    return ((data ?? []) as DashboardAnalyticsRowType[]).sort(
+  const sourceData = useMemo<DashboardAnalyticsType[]>(() => {
+    return ((data ?? []) as DashboardAnalyticsType[]).sort(
       (a, b) => Number(a.year) - Number(b.year),
     );
   }, [data]);
@@ -252,17 +253,9 @@ export default function Dashboard() {
   }, [filteredData]);
 
   const combinationChartDataByStatus = useMemo(() => {
-    const statuses: DashboardStatus[] = [
-      "filed",
-      "granted",
-      "pending",
-      "withdrawn",
-      "downgraded",
-    ];
-
     const result = {} as Record<string, CombinationChartData>;
 
-    for (const status of statuses) {
+    for (const status of STATUS_ORDER) {
       if (!status) continue;
 
       const rows = filteredData.filter(
@@ -331,7 +324,7 @@ export default function Dashboard() {
       ),
     );
 
-    const computeTotalsAndRate = (rows: DashboardAnalyticsRowType[]) => {
+    const computeTotalsAndRate = (rows: DashboardAnalyticsType[]) => {
       const numerator = rows
         .filter((item) => item.dashboard_status === "granted")
         .reduce((sum, item) => sum + Number(item.total ?? 0), 0);
