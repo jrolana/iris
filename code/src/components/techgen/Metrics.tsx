@@ -41,7 +41,7 @@ function MetricCard({
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5">
       <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100">
-        <Icon className="h-6 w-6 text-gray-700" />
+        <Icon className="h-6 w-6 text-gray-600" />
       </div>
 
       <div className="mt-4">
@@ -50,6 +50,28 @@ function MetricCard({
         <p className="mt-1 text-xs text-gray-400">
           {isEmpty ? emptyText : subtitle}
         </p>
+      </div>
+    </div>
+  );
+}
+
+type MetricCardSkeletonProps = {
+  icon: React.ElementType;
+};
+
+function MetricCardSkeleton({ icon }: MetricCardSkeletonProps) {
+  const Icon = icon;
+
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5">
+      <div className="flex h-12 w-12 animate-pulse items-center justify-center rounded-xl bg-gray-100">
+        <Icon className="h-6 w-6 text-gray-400" />
+      </div>
+
+      <div className="mt-4 space-y-3">
+        <div className="h-4 w-24 animate-pulse rounded bg-gray-100" />
+        <div className="h-8 w-16 animate-pulse rounded bg-gray-200" />
+        <div className="h-3 w-36 animate-pulse rounded bg-gray-100" />
       </div>
     </div>
   );
@@ -74,7 +96,7 @@ function BreakdownItem({
     <div className="space-y-2 rounded-xl bg-gray-50 p-4">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
-          {Icon ? <Icon className="h-4 w-4" /> : null}
+          {Icon ? <Icon className="h-4 w-4 text-gray-500" /> : null}
           <span>{label}</span>
         </div>
         <span className="text-sm font-semibold text-gray-900">{value}</span>
@@ -82,7 +104,7 @@ function BreakdownItem({
 
       <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
         <div
-          className="h-full rounded-full bg-gray-800"
+          className="bg-brand-500 h-full rounded-full"
           style={{ width: `${percentage}%` }}
         />
       </div>
@@ -90,6 +112,26 @@ function BreakdownItem({
       <p className="text-xs text-gray-500">
         {percentage}% of total applications
       </p>
+    </div>
+  );
+}
+
+function BreakdownItemSkeleton() {
+  return (
+    <div className="space-y-2 rounded-xl bg-gray-50 p-4">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <div className="h-4 w-4 animate-pulse rounded bg-gray-200" />
+          <div className="h-4 w-28 animate-pulse rounded bg-gray-100" />
+        </div>
+        <div className="h-4 w-8 animate-pulse rounded bg-gray-100" />
+      </div>
+
+      <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+        <div className="bg-brand-100 h-full w-2/3 animate-pulse rounded-full" />
+      </div>
+
+      <div className="h-3 w-24 animate-pulse rounded bg-gray-100" />
     </div>
   );
 }
@@ -112,9 +154,24 @@ function YearItem({ year, total, max }: YearItemProps) {
 
       <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
         <div
-          className="h-full rounded-full bg-gray-800"
+          className="bg-brand-500 h-full rounded-full"
           style={{ width: `${percentage}%` }}
         />
+      </div>
+    </div>
+  );
+}
+
+function YearItemSkeleton() {
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <div className="h-4 w-14 animate-pulse rounded bg-gray-100" />
+        <div className="h-4 w-8 animate-pulse rounded bg-gray-100" />
+      </div>
+
+      <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+        <div className="bg-brand-100 h-full w-1/2 animate-pulse rounded-full" />
       </div>
     </div>
   );
@@ -128,7 +185,7 @@ type EmptyPanelProps = {
 
 function EmptyPanel({ title, description, icon: Icon }: EmptyPanelProps) {
   return (
-    <div className="flex h-full min-h-[260px] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-white px-6 py-10 text-center">
+    <div className="flex min-h-[260px] flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-white px-6 py-10 text-center">
       <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100">
         <Icon className="h-6 w-6 text-gray-500" />
       </div>
@@ -138,9 +195,78 @@ function EmptyPanel({ title, description, icon: Icon }: EmptyPanelProps) {
   );
 }
 
+function BreakdownPanelSkeleton({
+  title,
+  description,
+  icon,
+  children,
+}: {
+  title: string;
+  description: string;
+  icon: React.ElementType;
+  children: React.ReactNode;
+}) {
+  const Icon = icon;
+
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5">
+      <div className="mb-4">
+        <div className="flex items-center gap-2">
+          <div className="bg-brand-50 flex h-8 w-8 animate-pulse items-center justify-center rounded-lg">
+            <Icon className="text-brand-600 h-4 w-4" />
+          </div>
+          <div className="h-5 w-40 animate-pulse rounded bg-gray-100" />
+        </div>
+        <div className="mt-2 h-4 w-64 animate-pulse rounded bg-gray-100" />
+      </div>
+
+      <div className="space-y-3">{children}</div>
+    </div>
+  );
+}
+
+function DashboardLoadingState() {
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <MetricCardSkeleton icon={FileText} />
+        <MetricCardSkeleton icon={Send} />
+        <MetricCardSkeleton icon={Clock3} />
+        <MetricCardSkeleton icon={CheckCircle2} />
+        <MetricCardSkeleton icon={Undo2} />
+        <MetricCardSkeleton icon={ArrowDown} />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <BreakdownPanelSkeleton
+          title="Applications by IP Type"
+          description="Loading filing distribution across IP categories"
+          icon={Layers3}
+        >
+          <BreakdownItemSkeleton />
+          <BreakdownItemSkeleton />
+          <BreakdownItemSkeleton />
+          <BreakdownItemSkeleton />
+          <BreakdownItemSkeleton />
+        </BreakdownPanelSkeleton>
+
+        <BreakdownPanelSkeleton
+          title="Applications by Year"
+          description="Loading yearly filing activity"
+          icon={CalendarRange}
+        >
+          <YearItemSkeleton />
+          <YearItemSkeleton />
+          <YearItemSkeleton />
+          <YearItemSkeleton />
+        </BreakdownPanelSkeleton>
+      </div>
+    </div>
+  );
+}
+
 export function Metrics() {
   const { data, isLoading } = useGetDashboardAnalyticsTechgen();
-  console.log(data);
 
   const summary = useMemo(() => {
     const temp = {
@@ -152,16 +278,18 @@ export function Metrics() {
       downgraded: 0,
     };
 
-    if (!data || data.length == 0) {
+    if (!data || data.length === 0) {
       return temp;
     }
 
-    temp.totalApplications = data?.reduce((acc, row) => {
+    temp.totalApplications = data.reduce((acc, row) => {
       return acc + (row.total ?? 0);
     }, 0);
 
     for (const status of STATUS_ORDER) {
-      const filteredRows = data.filter((row) => row.dashboard_status == status);
+      const filteredRows = data.filter(
+        (row) => row.dashboard_status === status,
+      );
 
       temp[status as keyof typeof temp] = filteredRows.reduce((acc, row) => {
         return acc + (row.total ?? 0);
@@ -180,14 +308,15 @@ export function Metrics() {
   };
 
   const applicationsByType = useMemo(() => {
-    const temp: { label: string; value: number; icon: any }[] = [];
+    const temp: { label: string; value: number; icon: React.ElementType }[] =
+      [];
 
-    if (!data || data.length == 0) {
+    if (!data || data.length === 0) {
       return temp;
     }
 
     for (const ipType of IP_TYPE_ORDER) {
-      const filteredRows = data.filter((row) => row.ip_type == ipType);
+      const filteredRows = data.filter((row) => row.ip_type === ipType);
 
       const value = filteredRows.reduce((acc, row) => {
         return acc + (row.total ?? 0);
@@ -206,20 +335,22 @@ export function Metrics() {
   const applicationsByYear = useMemo(() => {
     const temp: Record<number, number> = {};
 
-    if (!data || data.length == 0) {
-      return [];
+    if (!data || data.length === 0) {
+      return temp;
     }
 
     data.forEach((item) => {
       if (!item || !item.year) return;
 
-      const year = item.year;
-
-      temp[year] = (temp[year] ?? 0) + (item.total ?? 0);
+      temp[item.year] = (temp[item.year] ?? 0) + (item.total ?? 0);
     });
 
     return temp;
   }, [data]);
+
+  if (isLoading) {
+    return <DashboardLoadingState />;
+  }
 
   const hasApplications = summary.totalApplications > 0;
   const highestYearTotal =
@@ -229,7 +360,6 @@ export function Metrics() {
 
   return (
     <div className="space-y-6">
-      {/* Summary cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <MetricCard
           title="Total Applications"
@@ -281,14 +411,18 @@ export function Metrics() {
         />
       </div>
 
-      {/* Breakdown panels */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <div className="rounded-2xl border border-gray-200 bg-white p-5">
           <div className="mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Applications by IP Type
-            </h2>
-            <p className="mt-1 text-sm text-gray-500">
+            <div className="flex items-center gap-2">
+              <div className="bg-brand-50 flex h-8 w-8 items-center justify-center rounded-lg">
+                <Layers3 className="text-brand-600 h-4 w-4" />
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Applications by IP Type
+              </h2>
+            </div>
+            <p className="mt-2 text-sm text-gray-500">
               Distribution of your filings across IP categories
             </p>
           </div>
@@ -316,10 +450,15 @@ export function Metrics() {
 
         <div className="rounded-2xl border border-gray-200 bg-white p-5">
           <div className="mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Applications by Year
-            </h2>
-            <p className="mt-1 text-sm text-gray-500">
+            <div className="flex items-center gap-2">
+              <div className="bg-brand-50 flex h-8 w-8 items-center justify-center rounded-lg">
+                <CalendarRange className="text-brand-600 h-4 w-4" />
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Applications by Year
+              </h2>
+            </div>
+            <p className="mt-2 text-sm text-gray-500">
               Filing activity over the years
             </p>
           </div>
