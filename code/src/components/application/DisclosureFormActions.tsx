@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import clsx from "clsx";
 import {
   Download,
   Eye,
@@ -13,8 +14,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-import { IpType } from "@/lib/types/ip";
 import { useGetPublicResourcesByIpType } from "@/hooks/public-resources/useGetPublicResourcesByIpType";
+import { IpType } from "@/lib/types/ip";
 
 type FileAction = "view" | "download";
 
@@ -22,10 +23,14 @@ interface DisclosureFormActionsProps {
   title: string;
   description: string;
   finalIpType: IpType | null;
-  canProceed: boolean;
-  onProceed: () => void;
+  canProceed?: boolean;
+  onProceed?: () => void;
   proceedLabel?: string;
   proceedHint?: string;
+  showHeader?: boolean;
+  showProceed?: boolean;
+  filesTitle?: string | null;
+  showFooterNote?: boolean;
 }
 
 function getFileIcon(fileName: string) {
@@ -63,6 +68,13 @@ function getFileIcon(fileName: string) {
   }
 }
 
+function formatFileSize(size?: number) {
+  if (typeof size !== "number") return null;
+  if (size < 1024) return `${size} B`;
+  if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
+  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 export default function DisclosureFormActions(
   props: DisclosureFormActionsProps,
 ) {
@@ -70,10 +82,14 @@ export default function DisclosureFormActions(
     title,
     description,
     finalIpType,
-    canProceed,
+    canProceed = true,
     onProceed,
     proceedLabel = "Proceed to application",
     proceedHint = "You can still update the details during review.",
+    showHeader = true,
+    showProceed = true,
+    filesTitle = "Documents",
+    showFooterNote = true,
   } = props;
 
   const { files, isLoading } = useGetPublicResourcesByIpType({
@@ -88,6 +104,7 @@ export default function DisclosureFormActions(
       name: string;
       viewUrl: string;
       downloadUrl: string;
+      size?: number;
     },
     action: FileAction,
   ) {
@@ -120,10 +137,10 @@ export default function DisclosureFormActions(
       console.error(error);
 
       toast.error(
-        action === "view" ? "Failed to open form" : "Failed to download form",
+        action === "view" ? "Failed to open file" : "Failed to download file",
         {
           description:
-            "There was problem downloading the form, please try again.",
+            "There was a problem accessing the file. Please try again.",
         },
       );
     } finally {
@@ -133,27 +150,59 @@ export default function DisclosureFormActions(
 
   return (
     <section className="space-y-4">
-      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-700">
-        <h3 className="text-xl font-semibold text-slate-900">{title}</h3>
-        <p className="mt-2 text-lg/snug text-slate-700">{description}</p>
+      <div
+        className={clsx(
+          showHeader
+            ? "rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-700"
+            : "bg-white",
+        )}
+      >
+        {showHeader ? (
+          <>
+            <h3 className="text-xl font-semibold text-slate-900">{title}</h3>
+            <p className="mt-2 text-lg/snug text-slate-700">{description}</p>
+          </>
+        ) : null}
 
-        <div className="mt-5 rounded-xl border border-slate-200 bg-white p-4">
-          <h4 className="text-base font-semibold text-slate-900">
-            Forms to review
-          </h4>
+        <div
+          className={clsx(
+            "rounded-xl border border-slate-200 bg-white",
+            showHeader ? "mt-5 p-4" : "border-0 p-0",
+          )}
+        >
+          {filesTitle ? (
+            <h4 className="text-base font-semibold text-slate-900">
+              {filesTitle}
+            </h4>
+          ) : null}
 
           {isLoading ? (
-            <div className="mt-3 flex items-center gap-2 text-sm text-slate-500">
+            <div
+              className={clsx(
+                "flex items-center gap-2 text-sm text-slate-500",
+                filesTitle ? "mt-3" : "",
+              )}
+            >
               <Loader2 className="h-4 w-4 animate-spin" />
-              Loading forms...
+              Loading files...
             </div>
           ) : files.length === 0 ? (
-            <p className="mt-3 text-sm text-slate-500">
-              No forms are configured yet for this protection type.
-            </p>
+            <div
+              className={clsx(
+                "rounded-xl border border-dashed border-slate-200 bg-slate-50 p-6 text-sm text-slate-500",
+                filesTitle ? "mt-3" : "",
+              )}
+            >
+              No files are configured yet for this protection type.
+            </div>
           ) : (
             <>
-              <ul className="mt-3 divide-y divide-slate-100">
+              <ul
+                className={clsx(
+                  "divide-y divide-slate-100",
+                  filesTitle ? "mt-3" : "",
+                )}
+              >
                 {files.map((file) => {
                   const isViewing = activeActionKey === `${file.fullPath}-view`;
                   const isDownloading =
@@ -175,13 +224,9 @@ export default function DisclosureFormActions(
                             {file.name}
                           </p>
 
-                          {typeof file.size === "number" ? (
+                          {formatFileSize(file.size) ? (
                             <p className="mt-0.5 text-xs text-slate-500">
-                              {file.size < 1024
-                                ? `${file.size} B`
-                                : file.size < 1024 * 1024
-                                  ? `${(file.size / 1024).toFixed(1)} KB`
-                                  : `${(file.size / (1024 * 1024)).toFixed(1)} MB`}
+                              {formatFileSize(file.size)}
                             </p>
                           ) : null}
                         </div>
@@ -206,7 +251,7 @@ export default function DisclosureFormActions(
                           type="button"
                           onClick={() => handleFileAction(file, "download")}
                           disabled={isBusy}
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-sky-300 sm:w-auto"
+                          className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 sm:w-auto"
                         >
                           {isDownloading ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
@@ -221,25 +266,29 @@ export default function DisclosureFormActions(
                 })}
               </ul>
 
-              <p className="mt-3 text-xs/tight text-gray-500">
-                Review the needed templates first, then proceed once you are
-                ready to continue.
-              </p>
+              {showFooterNote ? (
+                <p className="mt-3 text-xs/tight text-slate-500">
+                  Review the relevant files carefully before moving on to your
+                  application.
+                </p>
+              ) : null}
             </>
           )}
         </div>
 
-        <div className="mt-4">
-          <button
-            type="button"
-            onClick={onProceed}
-            disabled={!canProceed}
-            className="w-full rounded-md bg-sky-600 px-4 py-2 text-center text-base font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
-          >
-            {proceedLabel}
-          </button>
-          <p className="mt-2 text-xs/tight text-gray-500">{proceedHint}</p>
-        </div>
+        {showProceed ? (
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={onProceed}
+              disabled={!canProceed}
+              className="w-full rounded-md bg-sky-600 px-4 py-2 text-center text-base font-semibold text-white hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+            >
+              {proceedLabel}
+            </button>
+            <p className="mt-2 text-xs/tight text-slate-500">{proceedHint}</p>
+          </div>
+        ) : null}
       </div>
     </section>
   );

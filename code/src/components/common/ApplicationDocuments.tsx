@@ -1,70 +1,127 @@
-import React from "react";
-import Button from "@/components/ui/button/Button";
-import CallToAction from "@/components/common/CallToAction";
-import { APPLICATION_SECTION_GUIDES } from "@/lib/dummy-data/application_guide";
+"use client";
 
-interface propsInterface {
+import { useState } from "react";
+import clsx from "clsx";
+import { CircleHelp, ShieldCheck } from "lucide-react";
+
+import CallToAction from "@/components/common/CallToAction";
+import DisclosureFormActions from "@/components/application/DisclosureFormActions";
+import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
+import { IpType } from "@/lib/types/ip";
+import { IP_TYPE_ORDER } from "@/lib/dashboard/dashboard-summary";
+
+interface PropsInterface {
   isApplicant?: boolean;
 }
-export default function ApplicationDocuments(props: propsInterface)  {
-  const { isApplicant = true } = props;
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 gap-y-8">
-      <div className="lg:col-span-8">
-        <h1 className="text-2xl font-semibold">Application Documents</h1>
-        <p className="mt-2 text-gray-600">
-          Prepare the required documents before submitting your Intellectual
-          Property (IP) application through IRIS.
-        </p>
-        <div className="mt-4 flex flex-wrap justify-between gap-4">
-          {APPLICATION_SECTION_GUIDES.map((section, idx) => (
-            <div
-              key={idx}
-              className="shadow-default flex flex-1/2 flex-col rounded-2xl border border-gray-200 bg-white p-5"
-            >
-              <h2 className="mb-4 text-lg font-medium">{section.title}</h2>
-              <div className="space-y-3">
-                {section.items.map((item, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center justify-between gap-2 rounded-lg border border-gray-100 p-3 transition hover:bg-gray-50 flex-col sm:flex-row"
-                  >
-                    <div>
-                      <p className="font-medium">{item.name}</p>
-                      <p className="text-sm text-gray-500">{item.desc}</p>
-                    </div>
-                    <Button size="sm" variant="outline" className="w-full sm:w-fit">
-                      {item.action}
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      <div className="lg:col-span-4">
-        <CallToAction isApplicant={isApplicant} />
-        <div className="p-5">
-          <h2 className="text-xl font-semibold">Notes</h2>
-          <ul className="mt-2 list-inside list-disc space-y-1 text-gray-700">
-            <li>
-              Prepare all documents before submitting your application on the
-              Application Page in IRIS.
-            </li>
-            <li>
-              TTBDO will review your documents and provide guidance throughout
-              the application process.
-            </li>
-            <li>
-              Ensure that all documents are complete to avoid delays in
-              processing.
-            </li>
-          </ul>
-        </div>
+export default function ApplicationDocuments(props: PropsInterface) {
+  const { isApplicant = true } = props;
+  const [activeIpType, setActiveIpType] = useState<IpType>("patent");
+
+  return (
+    <div className="space-y-6">
+      <section className="max-w-3xl">
+        <p className="text-sm font-medium text-blue-700">Document hub</p>
+        <h1 className="mt-1 text-2xl font-semibold text-slate-900 sm:text-3xl">
+          Application Documents
+        </h1>
+        <p className="mt-2 text-sm text-slate-600 sm:text-base">
+          Browse forms and reference files by IP type before starting your
+          application in IRIS.
+        </p>
+      </section>
+
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+        <section className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-6">
+          <div className="rounded-2xl bg-slate-100 p-1.5">
+            <div className="flex gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {IP_TYPE_ORDER.map((ipType) => {
+                const isActive = ipType === activeIpType;
+
+                return (
+                  <button
+                    key={ipType}
+                    type="button"
+                    onClick={() => setActiveIpType(ipType)}
+                    className={clsx(
+                      "shrink-0 rounded-xl px-4 py-2.5 text-sm font-medium whitespace-nowrap transition",
+                      isActive
+                        ? "bg-white text-blue-700 ring-1 ring-blue-100 ring-inset"
+                        : "text-slate-600 hover:bg-white/70 hover:text-slate-900",
+                    )}
+                  >
+                    {ipTypeToTitle(ipType)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <DisclosureFormActions
+              title={ipTypeToTitle(activeIpType)}
+              description=""
+              finalIpType={activeIpType}
+              showHeader={false}
+              showProceed={false}
+              showFooterNote={false}
+              filesTitle={null}
+            />
+          </div>
+        </section>
+
+        <aside className="space-y-4">
+          <CallToAction
+            isApplicant={isApplicant}
+            title={isApplicant ? "Ready to begin?" : "Ready to apply?"}
+            description={
+              isApplicant
+                ? "Start a new IP application once you’re ready."
+                : "Sign in to IRIS when you’re ready to begin your application."
+            }
+            primaryLabel={
+              isApplicant
+                ? "Start a New IP Application"
+                : "Apply for IP Protection"
+            }
+            primaryHref={isApplicant ? "/techgen/new-application" : "/signin"}
+            showSecondaryButton={false}
+          />
+
+          <section className="rounded-3xl border border-slate-200 bg-white p-5">
+            <div className="flex items-center gap-2">
+              <div className="rounded-xl bg-slate-100 p-2">
+                <ShieldCheck className="h-5 w-5 text-slate-700" />
+              </div>
+              <h2 className="text-base font-semibold text-slate-900">
+                Reminders
+              </h2>
+            </div>
+
+            <ul className="mt-3 space-y-2 text-sm text-slate-600">
+              <li>Use files that match your selected IP type.</li>
+              <li>Check the forms before filling them out.</li>
+              <li>Prepare complete supporting requirements early.</li>
+            </ul>
+          </section>
+
+          <section className="rounded-3xl border border-slate-200 bg-white p-5">
+            <div className="flex items-center gap-2">
+              <div className="rounded-xl bg-slate-100 p-2">
+                <CircleHelp className="h-5 w-5 text-slate-700" />
+              </div>
+              <h2 className="text-base font-semibold text-slate-900">
+                Need help?
+              </h2>
+            </div>
+
+            <p className="mt-3 text-sm text-slate-600">
+              You can review the files here first, then use the application
+              wizard when you are ready to begin.
+            </p>
+          </section>
+        </aside>
       </div>
     </div>
   );
-};
-
+}
