@@ -10,13 +10,10 @@ export const autolinkInventors = async (props: AutolinkInventorsProps) => {
     const { data, error } = await supabase.schema('private').from("users").select("*").eq("email", email.trim()).maybeSingle();
 
     if (error) {
-        alert("Failed to fetch user data. Please try again. " + email);
         throw new Error(error.message);
     }
 
     if (!data) {
-        
-        alert("Failed to fetch user data. Please try again. " + email);
         throw new Error("No user found with the provided email.");
     }
 
