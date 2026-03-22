@@ -20,7 +20,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     ].includes(ipTypeParam)
   ) {
     return (
-      <div>Invalid IP Type. Please go back and select a valid IP Type.</div>
+      <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
+        Invalid IP Type. Please go back and select a valid IP Type.
+      </div>
     );
   }
 

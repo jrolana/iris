@@ -65,11 +65,11 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-4">
-      <div className="mb-3 flex items-center justify-between">
+      <div className="xsm:flex-row xsm:items-center xsm:justify-between mb-3 flex flex-col justify-start gap-2">
         <h2 className="text-lg font-semibold text-gray-900">Status history</h2>
 
         {variant === "ttbdo" && (
-          <div className="flex gap-2">
+          <div className="flex justify-between gap-2">
             {application.is_withdrawn ? (
               <Button
                 type="button"
@@ -84,7 +84,7 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
                 type="button"
                 onClick={handleWithdrawApplication}
                 disabled={isWithdrawing}
-                className="rounded-full border bg-rose-600 px-3 py-1 text-sm font-medium text-white transition-colors hover:border-rose-600 hover:bg-white hover:text-rose-600"
+                className="rounded-full border bg-rose-500 px-3 py-1 text-sm font-medium text-white transition-colors hover:border-rose-600 hover:bg-white hover:text-rose-600"
               >
                 Withdraw
               </Button>

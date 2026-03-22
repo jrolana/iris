@@ -141,9 +141,9 @@ export default function ApplicationsTable(props: PropsInterface) {
     setColleges(filters.colleges);
     setTechgens(filters.techgens);
     setIpTypes(filters.ip_types);
-    // Reset to first page whenever filters are applied
+    // reset to first page whenever filters are applied
     setCurrentPage(1);
-    refetch(); // This is the core instruction to refresh data
+    refetch(); // refetch with new filters
   }
 
   function handleRemoveFilterTag(type: string, value: string) {
@@ -235,12 +235,13 @@ export default function ApplicationsTable(props: PropsInterface) {
               Add New Application
             </Button>
           )}
+
           <div className="xsm:flex-row flex flex-col justify-start gap-2">
+            {/* Sort Panel */}
             <div className="flex gap-0">
               <Popover open={isSortPanelOpen} onOpenChange={setIsSortPanelOpen}>
                 <PopoverTrigger
                   className={cn(
-                    // This applies your exact ghost or outline styles natively
                     buttonVariants({ variant: "outline" }),
                     "data-[empty=true]:text-muted-foreground m-0 flex h-auto w-fit justify-start px-3 py-3 text-left text-sm font-medium text-gray-700",
                   )}
