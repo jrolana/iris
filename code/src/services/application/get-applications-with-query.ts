@@ -26,7 +26,6 @@ export const getApplicationsByQuery = async (props: GetApplicationsByQueryProps)
 
 
     if (error) {
-        alert("An error occurred while fetching applications: " + error.message);
         throw new Error(error.message);
     }
     const formattedData =  data.map((application) => {

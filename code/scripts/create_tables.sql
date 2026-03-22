@@ -154,6 +154,7 @@ CREATE TABLE private.ipr_statuses (
     status_type VARCHAR(50) NOT NULL,
     deadline DATE,
     note TEXT,
+    status_name TEXT,
     
     created_at TIMESTAMPTZ DEFAULT now(),
 
@@ -191,11 +192,14 @@ CREATE TABLE private.notifications (
     
     title TEXT NOT NULL,
     content TEXT NOT NULL,
+    category TEXT NULL,
     read_at TIMESTAMPTZ,
+    has_email_sent BOOLEAN NOT NULL DEFAULT FALSE,
 
     created_at TIMESTAMPTZ DEFAULT now(),
 
-    CONSTRAINT fk_notifs_user_id FOREIGN KEY(user_id) REFERENCES private.users(id) ON DELETE CASCADE,
+    CONSTRAINT unique_category_per_app_user UNIQUE (receiver_id, application_id, category),
+    CONSTRAINT fk_notifs_user_id FOREIGN KEY(receiver_id) REFERENCES private.users(id) ON DELETE CASCADE,
     CONSTRAINT fk_notifs_app_id FOREIGN KEY(application_id) REFERENCES private.ipr_applications(id) ON DELETE CASCADE
 );
 

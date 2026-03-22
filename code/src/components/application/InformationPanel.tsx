@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useGetInventorsByAppId } from "@/hooks/inventors/useGetInventorsByAppId";
 import { useGetFilesByAppId } from "@/hooks/attachments/useGetFilesByAppId";
-import { useGetCurrentUser } from "@/hooks/useGetCurrentUser";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atom-states/user";
 
 import ViewAttachments from "./ViewAttachments";
 import ViewInventors from "./ViewInventors";
@@ -21,7 +22,8 @@ function InformationPanel(props: DetailsPanelProps) {
     "attachments",
   );
 
-  const { user, loading: isFetchingUser } = useGetCurrentUser();
+  const user = useAtomValue(userAtom);
+  const isFetchingUser = user === undefined;
 
   const { inventors, isLoading: isFetchingInventors } = useGetInventorsByAppId({
     id: applicationId,
@@ -69,7 +71,7 @@ function InformationPanel(props: DetailsPanelProps) {
       {activeTab === "attachments" ? (
         <ViewAttachments
           groupedFiles={groupedFiles ?? []}
-          user={user}
+          user={user!}
           isFetchingUser={isFetchingUser}
           isLoading={isFetchingFiles}
           isUneditable={isUneditable ?? false}
@@ -79,7 +81,7 @@ function InformationPanel(props: DetailsPanelProps) {
           inventors={inventors ?? []}
           isAdmin={isAdmin}
           isLoading={isFetchingInventors || isFetchingUser}
-          user={user}
+          user={user!}
           appId={applicationId}
           parentId={parentApplicationId}
           isUneditable={isUneditable ?? false}

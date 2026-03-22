@@ -10,16 +10,16 @@ USING (
     private.check_inventor_access(application_id)
 )
 
-DROP POLICY IF EXISTS "Inventors update their own, Admin update everyone" ON private.inventors;
+DROP POLICY IF EXISTS "Inventors update others in same app, Admin update everyone" ON private.inventors;
 
-CREATE POLICY "Inventors update their own, Admin update everyone"
+CREATE POLICY "Inventors update others in same app, Admin update everyone"
 ON private.inventors
 FOR UPDATE
 TO authenticated
 USING (
     private.is_admin()
     OR
-    techgen_id = auth.uid()
+    private.check_inventor_access(application_id)
 )
 
 DROP POLICY IF EXISTS "Admin can remove inventors" ON private.inventors;

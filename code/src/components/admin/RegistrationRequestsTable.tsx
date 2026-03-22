@@ -1,6 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUpdateRegistrationRequest } from "@/hooks/registration-request/useUpdateRegistrationRequest";
+import { inviteUser } from "@/app/actions/invite-user";
+import { toSupabaseTimestamp } from "@/lib/helper/format-date";
+import { CollegeUnitType } from "@/lib/types/college-units";
+import { RoleType } from "@/lib/types/role";
+import { filterRegistrationRequests } from "@/lib/helper/filter-users";
+import { useGetRegistrationRequests } from "@/hooks/registration-request/useGetRegistrationRequests";
+import { RegistrationRequestType } from "@/lib/types/users";
+
 import {
   Table,
   TableBody,
@@ -10,15 +19,13 @@ import {
 } from "../ui/table";
 import Link from "next/link";
 import Button from "../ui/button/Button";
-import SearchInput from "../common/SearchInput";
-import FilterButton from "../common/FilterButton";
-import { useGetRegistrationRequests } from "@/hooks/registration-request/useGetRegistrationRequests";
 import Badge from "../ui/badge/Badge";
-import { RegistrationRequestType } from "@/lib/types/users";
+import { ActiveFilters } from "./filter/ActiveFilters";
+import { FilterPanel } from "./filter/FilterPanel";
 import { toast } from "sonner";
-import { useUpdateRegistrationRequest } from "@/hooks/registration-request/useUpdateRegistrationRequest";
-import { inviteUser } from "@/app/actions/invite-user";
-import { toSupabaseTimestamp } from "@/lib/helper/format-date";
+import { FilterIcon, Loader } from "lucide-react";
+
+type RequestStatusType = "approved" | "rejected" | "pending";
 
 export default function RegistrationRequestsTable() {
   const { registrationRequests: usersData, isLoading } =
@@ -27,22 +34,74 @@ export default function RegistrationRequestsTable() {
     updateRegistrationRequest,
     isLoading: isUpdatingRegistrationRequest,
   } = useUpdateRegistrationRequest();
+  const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
+  const [nameEmail, setNameEmail] = useState<string>("");
+  const [colleges, setColleges] = useState<CollegeUnitType[]>([]);
+  const [roles, setRoles] = useState<RoleType[]>([]);
+  const [statuses, setStatuses] = useState<RequestStatusType[]>([]);
+  const [filteredData, setFilteredData] = useState(usersData ?? []);
+
+  useEffect(() => {
+    // Whenever filters change, reset to first page and apply filters to data
+    const filtered = filterRegistrationRequests(usersData || [], {
+      nameEmail,
+      colleges,
+      roles,
+      statuses,
+    });
+    setFilteredData(filtered);
+    setCurrentPage(1);
+  }, [nameEmail, colleges, roles, statuses, usersData]);
+
+  function applyFilters(filters: {
+    nameEmail: string;
+    statuses: RequestStatusType[];
+    colleges: CollegeUnitType[];
+    roles: RoleType[];
+  }) {
+    setNameEmail(filters.nameEmail);
+    setColleges(filters.colleges);
+    setRoles(filters.roles);
+    setStatuses(filters.statuses);
+    // reset to first page whenever filters are applied
+    setCurrentPage(1);
+  }
+
+  function handleRemoveFilterTag(type: string, value: string) {
+    if (type === "name_email") {
+      setNameEmail("");
+    } else if (type === "college") {
+      setColleges((prev) => prev.filter((c) => c !== value));
+    } else if (type === "role") {
+      setRoles((prev) => prev.filter((r) => r !== value));
+    } else if (type === "status") {
+      setStatuses((prev) => prev.filter((s) => s !== value));
+    }
+    setCurrentPage(1);
+  }
+
+  function clearAllFilters() {
+    setNameEmail("");
+    setStatuses([]);
+    setColleges([]);
+    setRoles([]);
+    setCurrentPage(1);
+  }
+
+  function toggleFilterPanel() {
+    setIsFilterPanelOpen(!isFilterPanelOpen);
+  }
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!usersData) {
-    return <div>No data yet.</div>;
-  }
-
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = usersData.slice(indexOfFirstRecord, indexOfLastRecord);
-  const totalPages = Math.ceil(usersData.length / recordsPerPage);
+  const currentRecords = filteredData.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord,
+  );
+  const totalPages = Math.ceil(filteredData.length / recordsPerPage);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
@@ -112,102 +171,149 @@ export default function RegistrationRequestsTable() {
           User Registration Requests
         </h1>
       </div>
-      <div className="mb-4 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
-        <div className="self-start sm:w-1/3">{/* <SearchInput /> */}</div>
-        <FilterButton />
+      <div className="mb-4 flex flex-col justify-start gap-2 sm:flex-row sm:items-center">
+        <Button
+          variant="outline"
+          startIcon={<FilterIcon size={18} />}
+          disabled={isLoading}
+          onClick={toggleFilterPanel}
+          className="max-w-fit"
+        >
+          {isFilterPanelOpen ? "Close Filters" : "Filter"}
+        </Button>
       </div>
 
-      <div className="overflow-x-auto">
-        <Table>
-          <TableHeader className="border-y border-gray-100">
-            <TableRow>
-              {[
-                "Full Name",
-                "Email",
-                "College",
-                "Role",
-                "Status",
-                "Actions",
-              ].map((header) => (
-                <TableCell
-                  key={header}
-                  isHeader
-                  className="text-theme-xs p-2 py-3 text-start font-medium text-gray-500"
-                >
-                  {header}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHeader>
+      {/* Filter Panel and Active Filters*/}
+      <FilterPanel
+        isOpen={isFilterPanelOpen}
+        isForUserRequests={true}
+        onApplyFilters={applyFilters}
+        onClose={() => setIsFilterPanelOpen(false)}
+        currentFilters={{
+          nameEmail: nameEmail,
+          statuses: statuses.length > 0 ? statuses : [],
+          colleges,
+          roles,
+        }}
+      />
 
-          <TableBody className="divide-y divide-gray-100">
-            {currentRecords.map((record) => (
-              <TableRow key={record.id}>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  <Link href={"/"} className="hover:text-brand-500">
-                    {record.full_name}
-                  </Link>
-                </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.email}
-                </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.college_code ??
-                    record.other_college_name ??
-                    record.external_institution}
-                </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  {record.role}
-                </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  <Badge
-                    color={
-                      record.status == "pending"
-                        ? "warning"
-                        : record.status == "approved"
-                          ? "success"
-                          : "error"
-                    }
+      <ActiveFilters
+        name_email={nameEmail}
+        status={statuses}
+        colleges={colleges}
+        roles={roles}
+        onRemove={handleRemoveFilterTag}
+        onClearAll={clearAllFilters}
+      />
+
+      <div className="overflow-x-auto">
+        {isLoading ? (
+          <div className="flex h-60 items-center justify-center py-5 text-gray-500">
+            Fetching user requests...{"  "}
+            <Loader className="animate-spin text-gray-500" size={18} />
+          </div>
+        ) : (
+          <Table>
+            <TableHeader className="border-y border-gray-100">
+              <TableRow>
+                {[
+                  "Full Name",
+                  "Email",
+                  "College",
+                  "Role",
+                  "Status",
+                  "Actions",
+                ].map((header) => (
+                  <TableCell
+                    key={header}
+                    isHeader
+                    className="text-theme-xs p-2 py-3 text-start font-medium text-gray-500"
                   >
-                    {record.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="success"
-                      disabled={
-                        record.status != "pending" ||
-                        isUpdatingRegistrationRequest
-                      }
-                      onClick={() => {
-                        handleApprove(record);
-                      }}
-                      className="h-8"
-                    >
-                      Approve
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="danger"
-                      disabled={
-                        record.status != "pending" ||
-                        isUpdatingRegistrationRequest
-                      }
-                      onClick={() => {
-                        handleReject(record);
-                      }}
-                      className="h-8"
-                    >
-                      Reject
-                    </Button>
-                  </div>
-                </TableCell>
+                    {header}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+
+            <TableBody className="divide-y divide-gray-100">
+              {currentRecords?.length === 0 && (
+                <TableRow>
+                  <TableCell
+                    className="text-theme-sm p-2 py-10 text-center text-gray-500"
+                    colSpan={10}
+                  >
+                    No User Requests found.
+                  </TableCell>
+                </TableRow>
+              )}
+              {currentRecords.map((record) => (
+                <TableRow key={record.id}>
+                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                    <Link href={"/"} className="hover:text-brand-500">
+                      {record.full_name}
+                    </Link>
+                  </TableCell>
+                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                    {record.email}
+                  </TableCell>
+                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                    {record.college_code ??
+                      record.other_college_name ??
+                      record.external_institution}
+                  </TableCell>
+                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                    {record.role}
+                  </TableCell>
+                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                    <Badge
+                      color={
+                        record.status == "pending"
+                          ? "warning"
+                          : record.status == "approved"
+                            ? "success"
+                            : "error"
+                      }
+                    >
+                      {record.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="success"
+                        disabled={
+                          record.status != "pending" ||
+                          isUpdatingRegistrationRequest
+                        }
+                        onClick={() => {
+                          handleApprove(record);
+                        }}
+                        className="h-8"
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        disabled={
+                          record.status != "pending" ||
+                          isUpdatingRegistrationRequest
+                        }
+                        onClick={() => {
+                          handleReject(record);
+                        }}
+                        className="h-8"
+                      >
+                        Reject
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
       <hr className="border border-gray-100"></hr>
       <div className="mt-4 flex justify-between">

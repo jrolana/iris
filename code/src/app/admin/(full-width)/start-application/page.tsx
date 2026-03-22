@@ -4,16 +4,19 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AttachmentType, InventorType } from "@/lib/types/application";
 import { IpType } from "@/lib/types/ip";
-import useAddInventorsModal from "@/hooks/useAddInventorModal";
+import useAddVerifiedInventorsModal from "@/hooks/useAddVerifiedInventorModal";
 import { useCreateApplication } from "@/hooks/applications/useCreateApplication";
 import { useUploadFile } from "@/hooks/attachments/useUploadFile";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atom-states/user";
 
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FileUploader from "@/components/common/FileUploader";
-import { ArrowLeft, X } from "lucide-react";
+import { ArrowLeft, Loader, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Hint from "@/components/common/Tooltip";
+import { toast } from "sonner";
 
 type extendedAttachmentType = AttachmentType["Insert"] & {
   fileObject?: File;
@@ -21,10 +24,12 @@ type extendedAttachmentType = AttachmentType["Insert"] & {
 export default function StartApplicationPage() {
   const router = useRouter();
   const {
-    inventorDetails,
-    openModal: addInventorModal,
-    isOpen,
-  } = useAddInventorsModal();
+    isOpen: isAddVerifiedInventorModalOpen,
+    inventor,
+    openModal: openAddVerifiedInventorModal,
+    setExcludedUIDs,
+  } = useAddVerifiedInventorsModal();
+  const user = useAtomValue(userAtom);
   const searchParams = useSearchParams();
   const ipTypeParam = searchParams.get("ipType");
   const { isLoading: isCreatingApp, createApp } = useCreateApplication();
@@ -38,38 +43,41 @@ export default function StartApplicationPage() {
     router.back();
   }
 
-  function removeInventor(index: number) {
+  function removeInventor(index: number, techgenId: string | undefined | null) {
     setInventors((prev) => prev.filter((_, i) => i !== index));
+    if (techgenId) {
+      setExcludedUIDs((prev) => prev.filter((id) => id !== techgenId));
+    }
   }
 
   function addInventor() {
-    addInventorModal();
+    openAddVerifiedInventorModal();
   }
 
   async function handleSubmit() {
     if (projectTitle.trim() === "") return;
 
-    const appId = await createApp(
-      {
-        applicationData: {
-          project_title: projectTitle,
-          ip_type: ipTypeParam as IpType,
-          funding_source: fundingSource,
-        },
-        inventorsData: inventors,
+    toast.promise(createAndUpload(), {
+      loading: "Submitting application...",
+      success: "Application submitted successfully!",
+      error: (e: Error) => {
+        if (e.message.includes("inventors_application_id_email_key")) {
+          return "Error: Duplicate email address. Please remove the duplicate collaborator and try again.";
+        }
+        return "Failed to create application. Please check the instructions and try again.";
       },
-      {
-        onSuccess: () => {
-          console.log("Application created successfully.");
-        },
-        onError: (error) => {
-          console.error("Error creating application:", error);
-        },
-        onSettled: () => {
-          console.log("Create application mutation settled.");
-        },
+    });
+  }
+
+  async function createAndUpload() {
+    const appId = await createApp({
+      applicationData: {
+        project_title: projectTitle,
+        ip_type: ipTypeParam as IpType,
+        funding_source: fundingSource,
       },
-    );
+      inventorsData: inventors,
+    });
     await handleUpload(appId, fileItems);
     router.push(`/admin/view-application?applicationID=${appId}`);
   }
@@ -82,25 +90,10 @@ export default function StartApplicationPage() {
       await uploadFile(
         { file: item, appId },
         {
-          onSuccess: () => handleSuccess(item),
-          onError: (error: unknown) => handleError(item, error),
           onSettled: handleSettled,
         },
       );
     }
-  }
-
-  function handleSuccess(item: extendedAttachmentType) {
-    console.log(`Uploaded: ${item.file_name}`);
-  }
-
-  function handleError(item: extendedAttachmentType, error: unknown) {
-    console.log(
-      "Something went wrong with",
-      item,
-      "error: ",
-      (error as Error).message,
-    );
   }
 
   function handleSettled() {
@@ -111,23 +104,42 @@ export default function StartApplicationPage() {
   }
 
   useEffect(() => {
-    if (inventorDetails === null) return;
-    setInventors((prev) => [...prev, inventorDetails]);
-  }, [inventorDetails, isOpen]);
+    if (inventor === null) return;
+    setInventors((prev) => [...prev, inventor]);
+    if (inventor.techgen_id !== undefined && inventor.techgen_id !== null) {
+      setExcludedUIDs((prev) => [...prev, inventor.techgen_id as string]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inventor, isAddVerifiedInventorModalOpen]);
 
-  // TODO: Add proper loading state
+  useEffect(() => {
+    if (user === null || user === undefined) return;
+    setExcludedUIDs((prev) => [...prev, user.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  if (user === null || user === undefined) {
+    return (
+      <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
+        <span className="text-lg font-medium">Loading user information...</span>
+        <Loader className="animate-spin" />
+      </div>
+    );
+  }
   if (isCreatingApp) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
         <span className="text-lg font-medium">Creating application...</span>
+        <Loader className="animate-spin" />
       </div>
     );
   }
 
   if (isUploadingFiles) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
         <span className="text-lg font-medium">Uploading files...</span>
+        <Loader className="animate-spin" />
       </div>
     );
   }
@@ -185,7 +197,7 @@ export default function StartApplicationPage() {
         <ScrollArea className="h-[300px] rounded-md border p-2 pr-4">
           {inventors.length === 0 && (
             <div className="text-muted-foreground mt-28 flex h-full w-full items-center justify-center text-center text-lg">
-              No inventors or collaborators added yet.
+              No technology generator collaborators added yet.
             </div>
           )}
           {inventors.map((inventor, index) => (
@@ -220,7 +232,7 @@ export default function StartApplicationPage() {
                   variant="ghost"
                   size="icon"
                   className="text-muted-foreground hover:text-destructive h-8 w-8"
-                  onClick={() => removeInventor(index)}
+                  onClick={() => removeInventor(index, inventor.techgen_id)}
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -233,7 +245,7 @@ export default function StartApplicationPage() {
           onClick={addInventor}
           className="h-10 w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
         >
-          List an inventor or collaborator
+          List technology generator collaborators
         </button>
 
         <div>

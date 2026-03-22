@@ -15,7 +15,13 @@ import { useUpdateStatus } from "@/hooks/status/useUpdateStatus";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDowngradeToUM } from "@/hooks/applications/useDowngradeToUM";
 
-import Select from "react-select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -334,6 +340,8 @@ function StatusUpdateForm(props: PropsInterface) {
 
         updatedStatus.status_type = selectedStatus;
         updatedStatus.application_id = applicationId;
+        updatedStatus.status_name =
+          STATUS_LABELS[selectedStatus] ?? selectedStatus;
 
         await addStatus(
           { statusData: updatedStatus },
@@ -515,33 +523,37 @@ function StatusUpdateForm(props: PropsInterface) {
                 Specific Status in flow <span className="text-red-500">*</span>
               </span>
               <Select
-                unstyled
-                value={STATUS_OPTIONS.find(
-                  (opt) => opt.value === selectedStatus,
-                )}
-                options={statusOptions}
-                className="h-10 w-full"
-                classNames={{
-                  placeholder: () => "text-lg!",
-                  control: ({ isFocused }) =>
-                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${
-                      isFocused
-                        ? "border-gray-400 ring-3 ring-gray-300"
-                        : "border-gray-300"
-                    }`,
-                  menu: () =>
-                    "bg-white border border-gray-200 mt-2 rounded-lg space-y-2 overflow-hidden",
-                  input: () => "text-sm",
-                  option: ({ isFocused }) =>
-                    `px-3 py-2 cursor-pointer ${
-                      isFocused ? "bg-sky-50 text-sky-900" : "bg-transparent"
-                    }`,
-                }}
-                onChange={(selectedOption) => {
-                  setSelectedStatus(selectedOption?.value as StatusType);
+                value={
+                  statusOptions!.find((opt) => opt.value === selectedStatus)
+                    ?.value
+                }
+                onValueChange={(value) => {
+                  setSelectedStatus(value as StatusType);
                   setNote("");
                 }}
-              />
+              >
+                <SelectTrigger
+                  className={`h-10 w-full bg-white ${selectedStatus === currentStage.label ? "text-slate-500" : "text-slate-900"} `}
+                >
+                  <SelectValue placeholder="Select Status" />
+                </SelectTrigger>
+
+                <SelectContent
+                  position="popper"
+                  side="bottom"
+                  className="z-9999 max-h-60 overflow-y-auto"
+                >
+                  {statusOptions!.map((option) => (
+                    <SelectItem
+                      key={option.value}
+                      value={option.value}
+                      className="cursor-pointer"
+                    >
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </label>
 
             <div className="flex w-full shrink-0 flex-col items-start gap-1">

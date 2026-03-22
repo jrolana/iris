@@ -61,4 +61,36 @@ export const InviteUserSchema = UserSchemaBase.pick({
   role: true,
 })
 
+export const LinkUserSchema = UserSchemaBase.pick({
+  email: true,
+  college_code: true,
+  other_college_name: true,
+  external_institution: true
+}).superRefine((data, ctx) => {
+      if (!data.external_institution && !data.email.endsWith("up.edu.ph")) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Email must be a UP mail address.",
+          path: ["email"],  
+        });
+      }
+
+      if (data.college_code == "Other" && !data.other_college_name) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Unit is required.",
+          path: ["otherCollegeName"]
+        })
+      }
+
+      if ((!data.college_code && !data.other_college_name) && !data.external_institution) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Institution is required",
+          path: ["externalInstitution"]
+        })
+      }
+  });
+
+export type LinkUserType = z.infer<typeof LinkUserSchema>
 export type InviteUserType = z.infer<typeof InviteUserSchema>

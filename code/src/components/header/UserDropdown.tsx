@@ -3,89 +3,111 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 // import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { createClient } from "../../../utils/supabase/client";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atom-states/user";
+
+function AvatarSkeleton() {
+  return (
+    <div className="flex w-36 flex-row justify-between rounded-lg bg-slate-50 px-2 text-center">
+      <div className="h-11 w-11 animate-pulse rounded bg-slate-200" />
+
+      <div className="flex min-w-16 flex-col items-center justify-center gap-1">
+        <div className="h-5 w-full animate-pulse rounded bg-slate-200" />
+        <div className="h-5 w-full animate-pulse rounded bg-slate-200" />
+      </div>
+    </div>
+  );
+}
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  
+  const user = useAtomValue(userAtom);
 
-function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-  e.stopPropagation();
-  setIsOpen((prev) => !prev);
-}
+  function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation();
+    setIsOpen((prev) => !prev);
+  }
 
   function closeDropdown() {
     setIsOpen(false);
   }
 
-  const router = useRouter()
+  const router = useRouter();
 
   const handleLogout = async () => {
-    const supabase = createClient()
+    const supabase = createClient();
 
     // Sign out client-side; this also clears the Supabase cookies set in middleware
-    const { error } = await supabase.auth.signOut()
+    const { error } = await supabase.auth.signOut();
     if (error) {
-      console.error('Error signing out:', error.message)
-      return
+      console.error("Error signing out:", error.message);
+      return;
     }
 
     // Optional: clear your custom role cookie
-    document.cookie = 'user-role=; path=/; max-age=0'
+    document.cookie = "user-role=; path=/; max-age=0";
 
     // Redirect
-    router.push('/signin')
-  }
-  
+    router.push("/signin");
+  };
+
   return (
     <div className="relative">
-      <button
-        onClick={toggleDropdown} 
-        className="flex items-center text-gray-700 dark:text-gray-400 dropdown-toggle"
-      >
-        <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
-          <Image
-            width={44}
-            height={44}
-            src="/images/user/owner.jpg"
-            alt="User"
-          />
-        </span>
-
-        <span className="block mr-1 font-medium text-theme-sm">Musharof</span>
-
-        <svg
-          className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-          width="18"
-          height="20"
-          viewBox="0 0 18 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      {user === undefined ? (
+        <AvatarSkeleton />
+      ) : (
+        <button
+          onClick={toggleDropdown}
+          disabled={!user}
+          className="dropdown-toggle flex items-center text-gray-700 dark:text-gray-400"
         >
-          <path
-            d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
+          <span className="mr-3 h-11 w-11 overflow-hidden rounded-full">
+            <Image
+              width={44}
+              height={44}
+              src={user?.image_url || "/images/user/owner.jpg"}
+              alt="User"
+            />
+          </span>
+
+          <span className="text-theme-sm mr-1 block font-medium">
+            {user?.full_name || "Loading..."}
+          </span>
+
+          <svg
+            className={`stroke-gray-500 transition-transform duration-200 dark:stroke-gray-400 ${
+              isOpen ? "rotate-180" : ""
+            }`}
+            width="18"
+            height="20"
+            viewBox="0 0 18 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      )}
 
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
+        className="shadow-theme-lg dark:bg-gray-dark absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 dark:border-gray-800"
       >
         <div>
-          <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-            Musharof Chowdhury
+          <span className="text-theme-sm block font-medium text-gray-700 dark:text-gray-400">
+            {user?.full_name || "Loading..."}
           </span>
-          <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-            randomuser@pimjo.com
+          <span className="text-theme-xs mt-0.5 block text-gray-500 dark:text-gray-400">
+            {user?.email || "Loading..."}
           </span>
         </div>
 
@@ -167,8 +189,8 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
           </li>
         </ul> */}
         <button
-           onClick={handleLogout}
-          className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+          onClick={handleLogout}
+          className="group text-theme-sm mt-3 flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
         >
           <svg
             className="fill-gray-500 group-hover:fill-gray-700 dark:group-hover:fill-gray-300"

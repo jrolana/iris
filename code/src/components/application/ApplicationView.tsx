@@ -60,12 +60,12 @@ function ApplicationView(props: ApplicationViewProps) {
   }
 
   return (
-    <div className="relative mx-auto max-w-6xl space-y-6 px-4 py-8">
+    <div className="relative mx-auto w-full max-w-6xl space-y-6 px-4 py-8">
       <button
         type="button"
         onClick={handleBack}
         aria-label="Return to homepage"
-        className="absolute -left-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-50 focus:outline-none"
+        className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-50 focus:outline-none xl:absolute xl:-left-20 xl:mb-0"
       >
         <ArrowLeft size={18} className="text-gray-700" />
       </button>

@@ -1,6 +1,7 @@
 import useLinkInventorModal from "@/hooks/useLinkInventorModal";
 import useInventorFileReportModal from "@/hooks/useInventorFileReportModal";
 import useInventorViewReportsModal from "@/hooks/useInventorViewReportsModal";
+import { useAutoLinkInventor } from "@/hooks/inventors/useAutoLinkInventor";
 
 import { ReportType } from "@/lib/types/reports";
 import { InventorType } from "@/lib/types/application";
@@ -48,6 +49,8 @@ export default function InventorItems(props: InventorItemsProps) {
   const { openModal: openViewReportsModal, setReports: setViewReportsReports } =
     useInventorViewReportsModal();
 
+  const { autoLinkInventor, isLoading: isAutoLinking } = useAutoLinkInventor();
+
   const hasFiledReport =
     reports?.find((report) => report.reporter_id === inventorUser?.id) !==
     undefined;
@@ -73,6 +76,20 @@ export default function InventorItems(props: InventorItemsProps) {
     setInventorUID(inventorId);
     setExcludedUIDs(existingUserIds);
     openLinkModal();
+  }
+
+  function handleAutoLinkInventor() {
+    toast.promise(
+      autoLinkInventor({
+        email: inventor.email,
+        toBeLinkedInventorId: inventor.id,
+      }),
+      {
+        loading: "Linking inventor...",
+        success: "Inventor linked successfully!",
+        error: (err) => `Failed to link inventor: ${err.message}`,
+      },
+    );
   }
 
   return (
@@ -161,12 +178,21 @@ export default function InventorItems(props: InventorItemsProps) {
               )}
             </>
           ) : (
-            <button
-              type="button"
-              className="text-muted-foreground flex cursor-not-allowed items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium"
-            >
-              Unverified Account <BadgeCheck size={24} />
-            </button>
+            <>
+              <button
+                type="button"
+                className="text-muted-foreground flex cursor-not-allowed items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium"
+              >
+                Unverified Account <BadgeCheck size={24} />
+              </button>
+              <Button
+                onClick={handleAutoLinkInventor}
+                disabled={isAutoLinking || isUneditable}
+                className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-50"
+              >
+                Link Account <Cable size={24} />
+              </Button>
+            </>
           )}
         </div>
       )}

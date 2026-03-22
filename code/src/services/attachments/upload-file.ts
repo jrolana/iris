@@ -1,6 +1,7 @@
 import { sanitizeFileName } from "@/lib/helper/sanitize-input";
 import { supabaseClient as supabase } from "@/lib/supabase"
 import { AttachmentType } from "@/lib/types/application";
+import { v4 as uuidv4 } from 'uuid';
 
 
 interface UploadFileProps {
@@ -18,7 +19,7 @@ export const uploadFile = async (props: UploadFileProps) => {
     if (!appId) {
         throw new Error("Application ID is missing. Cannot upload file.");
     }
-    const newId = crypto.randomUUID();
+    const newId = uuidv4();
     const fullPath = `${appId}/${folderName ?? file.file_name}/${newId}`;
 
     if (!file.fileObject) {

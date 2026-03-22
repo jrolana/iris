@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { SidebarProvider } from "@/context/SidebarContext";
 import TanStackProvider from "../providers/TanStackProvider";
+import UserProvider from "@/providers/UserProvider";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -19,7 +20,9 @@ export default function RootLayout({
       <body className={`${outfit.className}`}>
         <Toaster />
         <TanStackProvider>
-          <SidebarProvider>{children}</SidebarProvider>
+          <UserProvider>
+            <SidebarProvider>{children}</SidebarProvider>
+          </UserProvider>
         </TanStackProvider>
       </body>
     </html>

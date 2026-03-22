@@ -1,14 +1,15 @@
 import { InventorType } from "@/lib/types/application";
-import { User } from "@supabase/supabase-js";
 import InventorItems from "../common/InventorItems";
 import { useGetReportsByAppId } from "@/hooks/reports/useGetReportsByAppId";
 import { ReportType } from "@/lib/types/reports";
+import { UserType } from "@/lib/types/users";
+import { Loader } from "lucide-react";
 
 interface ViewInventorsProps {
   inventors: InventorType["Row"][];
   isAdmin: boolean;
   isLoading: boolean;
-  user: User | null;
+  user: UserType["Row"] | null;
   appId: string;
   parentId: string | null;
   isUneditable: boolean;
@@ -39,20 +40,20 @@ function ViewInventors(props: ViewInventorsProps) {
   const existingUserIds =
     inventors.map((inv) => inv.techgen_id).filter((id) => id !== null) || [];
 
-  // TODO: show proper loading state
   if (isLoading) {
     return (
-      <div className="mt-3 flex h-64 items-center justify-center overflow-x-auto overflow-y-auto">
-        <p className="text-md mt-4 items-center justify-center text-center text-slate-500">
-          Loading tech gens...
+      <div className="flex h-72 flex-row items-center justify-center gap-2 align-middle">
+        <p className="align-middle text-sm text-slate-500">
+          Fetching collaborators...
         </p>
+        <Loader className="animate-spin text-slate-500" size={18} />
       </div>
     );
   }
 
   if (inventors.length == 0) {
     return (
-      <p className="mt-4 text-sm text-slate-500">
+      <p className="my-10 text-center text-sm text-slate-500">
         No tech gens recorded yet.
         {isAdmin
           ? " Add the technology generators involved in this application."

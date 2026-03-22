@@ -35,7 +35,7 @@ export default function BaseLayout({
       : "lg:ml-[90px]";
 
   return (
-    <div className="min-h-screen xl:flex">
+    <div className="flex min-h-screen flex-col xl:flex-row">
       <ModalProvider />
       {/* Sidebar + Backdrop */}
       {!isFullWidth && navItems && (
@@ -48,7 +48,7 @@ export default function BaseLayout({
       {navItems && <Backdrop />}
 
       <div
-        className={`flex-1 transition-all duration-300 ease-in-out ${navItems ? mainContentMargin : ""}`}
+        className={`flex flex-1 flex-col transition-all duration-300 ease-in-out ${navItems ? mainContentMargin : ""}`}
       >
         <AppHeader
           isPublic={isPublic}
@@ -57,7 +57,7 @@ export default function BaseLayout({
         />
 
         {/* Page Content */}
-        <div className="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
+        <div className="mx-auto flex w-full max-w-(--breakpoint-2xl) flex-1 flex-col p-4 md:p-6">
           {children}
         </div>
       </div>
