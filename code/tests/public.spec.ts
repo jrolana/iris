@@ -19,9 +19,13 @@ test.describe("public experience", () => {
 
     await page.goto("/application-guide");
     await expect(
-      page.getByRole("heading", {
-        name: "Apply for Intellectual Property Rights Online",
-      }),
+      page.getByRole("heading", { name: "Application Guide" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Steps to apply" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Apply for IP Protection" }),
     ).toBeVisible();
 
     await page.goto("/application-document");

@@ -17,9 +17,11 @@ test.describe("techgen workflows", () => {
   test("shows the techgen dashboard status history", async ({ page }) => {
     await page.goto("/techgen");
 
-    await expect(page.getByText("Status history")).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Recent Updates" }),
+    ).toBeVisible();
     await expect(page.getByText("Solar Water Purifier")).toBeVisible();
-    await expect(page.getByText("IRIS Brandmark")).toBeVisible();
+    await expect(page.getByText("IRIS Brand Identity")).toBeVisible();
   });
 
   test("creates a new application from the direct selection flow", async ({
