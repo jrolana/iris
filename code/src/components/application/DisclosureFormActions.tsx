@@ -179,7 +179,7 @@ export default function DisclosureFormActions(
           {isLoading ? (
             <div
               className={clsx(
-                "flex items-center justify-center gap-2 text-sm text-slate-500",
+                "flex items-center justify-center gap-2 py-50 text-sm text-slate-500",
                 filesTitle ? "mt-3" : "",
               )}
             >
