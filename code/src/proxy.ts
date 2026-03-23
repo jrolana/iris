@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { ROLE_CONFIG, VALID_ROLES, type Role } from '@/lib/roles'
 import { E2E_AUTH_COOKIES, isE2ETestMode } from '@/lib/e2e-auth'
 
+<<<<<<< HEAD
 const PUBLIC_ROUTES = [
   '/signin',
   '/signup',
@@ -12,6 +13,9 @@ const PUBLIC_ROUTES = [
   '/application-guide',
   '/application-document',
 ]
+=======
+const PUBLIC_ROUTES = ['/signin', '/signup', '/welcome', '/', '/application-registry', '/application-document', '/application-guide']
+>>>>>>> 6a05ed987c4632305b517090fcc9bc8f48f6a520
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request })

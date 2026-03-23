@@ -57,7 +57,7 @@ export const formatIpTypeLabel = (ipType: string) => {
 };
 
 export const buildSummaryTableRows = (
-  filteredData: DashboardAnalyticsRowType[],
+  filteredData: DashboardAnalyticsType[],
 ): SummaryTableRow[] => {
   const ipTypesFromData = Array.from(
     new Set(filteredData.map((item) => item.ip_type).filter(Boolean)),

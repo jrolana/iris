@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import { DashboardAnalyticsRowType } from "@/lib/types/views";
+import { DashboardAnalyticsType } from "@/lib/types/views";
 
 interface OverviewKpisProps {
-  rawData: DashboardAnalyticsRowType[];
+  rawData: DashboardAnalyticsType[];
   yearFrom: number;
   yearTo: number;
 }
@@ -26,7 +26,7 @@ export default function OverviewKPIs({
     );
 
     const totalByStatus = (
-      status: DashboardAnalyticsRowType["dashboard_status"],
+      status: DashboardAnalyticsType["dashboard_status"],
     ) =>
       validRows
         .filter((item) => item.dashboard_status === status)
