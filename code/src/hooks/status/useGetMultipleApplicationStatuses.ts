@@ -10,15 +10,11 @@ export function useGetMultipleApplicationStatuses(props: PropsInterface) {
     const {applicationIds, isLatest } = props;
     const validApplicationIds = applicationIds.filter(id => id!=null && id!="");
 
-    if (validApplicationIds.length < 1) {
-        return { statuses: [], isLoading: []};
-    }
-
     const queries = useQueries(
         {
             queries: validApplicationIds.map((applicationId) => (
             {
-                queryKey: ["multiple-status", applicationId],
+                queryKey: ["multiple-status", applicationId, isLatest],
                 queryFn: () => getApplicationStatuses({applicationId, isLatest}),
             }
             ))

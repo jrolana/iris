@@ -1,11 +1,11 @@
 import { Database } from "./supabase";
 
-export type DashboardAnalyticsType = Database["public"]["Views"]["v_dashboard_analytics"];
-export type DashboardAnalyticsRowType = DashboardAnalyticsType["Row"];
+export type DashboardAnalyticsType =  Database["public"]["Views"]["v_dashboard_analytics"]["Row"];
+export type DashboardAnalyticsTechgenType = Database["public"]["Views"]["v_dashboard_analytics_techgen"]["Row"];
 
 export type GetDashboardAnalyticsParams = {
   year_from?: number;
   year_to?: number;
-  dashboard_status?: DashboardAnalyticsRowType["dashboard_status"];
-  ip_type?: DashboardAnalyticsRowType["ip_type"];
+  dashboard_status?: DashboardAnalyticsType["dashboard_status"];
+  ip_type?: DashboardAnalyticsType["ip_type"];
 };

@@ -1,22 +1,20 @@
-import React from "react";
-
 export default function SidebarWidget() {
   return (
     <div
-      className={`
-        mx-auto mb-10 w-full max-w-60 rounded-2xl bg-gray-50 px-4 py-5 text-center dark:bg-white/[0.03]`}
+      className={`mx-auto mb-10 w-full max-w-60 rounded-2xl bg-gray-50 px-4 py-5 text-center dark:bg-white/[0.03]`}
     >
       <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
         Protect Your Invention
       </h3>
-      <p className="mb-4 text-gray-500 text-theme-sm dark:text-gray-400">
-        Turn your idea into a secured invention with a simple IP application process.
+      <p className="text-theme-sm mb-4 text-gray-500 dark:text-gray-400">
+        Turn your idea into a secured invention with a simple IP application
+        process.
       </p>
       <a
-        href=""
+        href="/signin"
         target="_blank"
         rel="nofollow"
-        className="flex items-center justify-center p-3 font-medium text-white rounded-lg bg-brand-500 text-theme-sm hover:bg-brand-600"
+        className="bg-brand-500 text-theme-sm hover:bg-brand-600 flex items-center justify-center rounded-lg p-3 font-medium text-white"
       >
         Apply for IP
       </a>

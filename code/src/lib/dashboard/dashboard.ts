@@ -1,10 +1,10 @@
 
-import { DashboardAnalyticsRowType } from "../types/views";
+import { DashboardAnalyticsType } from "../types/views";
 
 export const PIE_CHARTS: {
   chartId: string;
   title: string;
-  status: NonNullable<DashboardAnalyticsRowType["dashboard_status"]>;
+  status: NonNullable<DashboardAnalyticsType["dashboard_status"]>;
 }[] = [
   {
     chartId: "dashboard-filed-pie",
@@ -36,7 +36,7 @@ export const PIE_CHARTS: {
 export const TREND_CHARTS: {
   chartId: string;
   title: string;
-  status: NonNullable<DashboardAnalyticsRowType["dashboard_status"]>;
+  status: NonNullable<DashboardAnalyticsType["dashboard_status"]>;
   colSpan?: string;
 }[] = [
   {
