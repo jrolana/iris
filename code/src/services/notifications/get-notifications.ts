@@ -1,7 +1,10 @@
 import { supabaseClient as supabase } from "@/lib/supabase";
+import { getE2EAuthUser } from "@/lib/e2e-auth";
 
 export const getNotifications = async function() {
-    const { data: { user } } = await supabase.auth.getUser();
+    const e2eUser = getE2EAuthUser();
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+    const user = e2eUser ?? authUser;
 
     if (!user) {
         throw new Error("User not found.");

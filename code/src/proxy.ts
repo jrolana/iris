@@ -1,12 +1,62 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { ROLE_CONFIG, type Role } from '@/lib/roles'
+import { ROLE_CONFIG, VALID_ROLES, type Role } from '@/lib/roles'
+import { E2E_AUTH_COOKIES, isE2ETestMode } from '@/lib/e2e-auth'
 
-const PUBLIC_ROUTES = ['/signin', '/signup', '/welcome', '/', '/application-registry']
+const PUBLIC_ROUTES = [
+  '/signin',
+  '/signup',
+  '/welcome',
+  '/',
+  '/application-registry',
+  '/application-guide',
+  '/application-document',
+]
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request })
   const pathname = request.nextUrl.pathname
+  const isPublicRoute = PUBLIC_ROUTES.some(route => pathname === route || pathname.startsWith(route + '/'))
+
+  if (isE2ETestMode()) {
+    const roleValue = request.cookies.get(E2E_AUTH_COOKIES.role)?.value
+    const userId = request.cookies.get(E2E_AUTH_COOKIES.userId)?.value
+
+    const role = VALID_ROLES.includes(roleValue as Role)
+      ? (roleValue as Role)
+      : undefined
+
+    if (!role || !userId) {
+      if (!isPublicRoute) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/'
+        return NextResponse.redirect(url)
+      }
+
+      return response
+    }
+
+    if (!request.cookies.get('user-role')?.value) {
+      response.cookies.set('user-role', role, { path: '/' })
+    }
+
+    if (isPublicRoute) {
+      return response
+    }
+
+    const allowedPrefixes = ROLE_CONFIG[role].allowedPrefixes
+    const isRouteAllowed = allowedPrefixes.some(prefix => pathname.startsWith(prefix))
+
+    if (!isRouteAllowed) {
+      const url = request.nextUrl.clone()
+      url.pathname = ROLE_CONFIG[role].home
+      const redirectResponse = NextResponse.redirect(url)
+      redirectResponse.cookies.set('user-role', role, { path: '/' })
+      return redirectResponse
+    }
+
+    return response
+  }
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -34,7 +84,6 @@ export async function proxy(request: NextRequest) {
   console.log('user sub:', user?.sub)
 
   // Redirect unauthenticated users from protected routes
-  const isPublicRoute = PUBLIC_ROUTES.some(route => pathname === route || pathname.startsWith(route + '/'))
   if (!user && !isPublicRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/'

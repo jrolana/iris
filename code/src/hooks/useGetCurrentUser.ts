@@ -1,6 +1,7 @@
 import { supabaseClient as supabase } from '@/lib/supabase';
 import { useEffect, useState } from 'react';
 import { UserType } from '@/lib/types/users';
+import { getE2EAuthUser, getE2EUserFromDocument } from '@/lib/e2e-auth';
 
 export const  useGetCurrentUser =  () => {
     
@@ -10,7 +11,15 @@ export const  useGetCurrentUser =  () => {
     useEffect(() => {
         const getUser = async () => {
             try {
-                const { data: { user } } = await supabase.auth.getUser();
+                const e2eUser = getE2EUserFromDocument();
+                if (e2eUser) {
+                    setUser(e2eUser);
+                    return;
+                }
+
+                const fallbackUser = getE2EAuthUser();
+                const { data: { user: authUser } } = await supabase.auth.getUser();
+                const user = fallbackUser ?? authUser;
                 const { data: userData } = await supabase.schema("private").from("users").select("*").eq("id", user?.id ?? "").maybeSingle();
                 setUser(userData ?? null);
             } catch (error) {

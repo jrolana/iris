@@ -2,6 +2,7 @@ import { sanitizeFileName } from "@/lib/helper/sanitize-input";
 import { supabaseClient as supabase } from "@/lib/supabase"
 import { AttachmentType } from "@/lib/types/application";
 import { v4 as uuidv4 } from 'uuid';
+import { getE2EAuthUser } from "@/lib/e2e-auth";
 
 
 interface UploadFileProps {
@@ -13,7 +14,9 @@ interface UploadFileProps {
 export const uploadFile = async (props: UploadFileProps) => {
     const { file, appId, folderName } = props;
     file.file_name = sanitizeFileName(file.file_name)
-    const { data: { user } } = await supabase.auth.getUser();
+    const e2eUser = getE2EAuthUser();
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+    const user = e2eUser ?? authUser;
     if (!user) throw new Error("User not authenticated");
 
     if (!appId) {

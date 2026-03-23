@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "../../../../utils/supabase/client";
 import { ChevronLeft } from "lucide-react";
+import { getE2EAuthUser, getE2EUserFromDocument } from "@/lib/e2e-auth";
 
 const LoadingState = () => (
   <div className="py-6 text-center">
@@ -117,11 +118,25 @@ export default function WelcomePage() {
         return;
       }
 
+      const e2eUser = getE2EUserFromDocument();
+      if (e2eUser) {
+        setUserName(e2eUser.full_name);
+        setStatus("welcome");
+
+        setTimeout(async () => {
+          setIsRedirecting(true);
+          router.push(`/${e2eUser.role}`);
+        }, 3000);
+
+        return;
+      }
+
       // Get current user session
       const {
-        data: { user },
+        data: { user: authUser },
         error: userError,
       } = await supabase.auth.getUser();
+      const user = getE2EAuthUser() ?? authUser;
 
       if (userError || !user) {
         setErrorMessage(

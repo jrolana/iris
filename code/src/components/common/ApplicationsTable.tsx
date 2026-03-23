@@ -475,6 +475,7 @@ export default function ApplicationsTable(props: PropsInterface) {
                           <Link
                             href={`${isAdmin ? "/admin" : "/techgen"}/view-application?applicationID=${record.id}`}
                             className="hover:text-brand-500"
+                            aria-label={`View ${record.project_title}`}
                           >
                             <Hint label="View application">
                               <EyeIcon size={18} />
@@ -493,6 +494,11 @@ export default function ApplicationsTable(props: PropsInterface) {
                                 "hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0",
                               )}
                               disabled={isUpdating}
+                              aria-label={
+                                record.is_archived
+                                  ? `Unarchive ${record.project_title}`
+                                  : `Archive ${record.project_title}`
+                              }
                             >
                               <Hint
                                 label={

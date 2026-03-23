@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "../../../utils/supabase/client";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atom-states/user";
+import { clearE2EAuthCookies } from "@/lib/e2e-auth";
 
 function AvatarSkeleton() {
   return (
@@ -48,6 +49,7 @@ export default function UserDropdown() {
 
     // Optional: clear your custom role cookie
     document.cookie = "user-role=; path=/; max-age=0";
+    clearE2EAuthCookies();
 
     // Redirect
     router.push("/signin");

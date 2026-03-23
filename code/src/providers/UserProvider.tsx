@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useSetAtom } from "jotai";
 import { userAtom } from "@/atom-states/user";
 import { createClient } from "../../utils/supabase/client";
+import { getE2EUserFromDocument } from "@/lib/e2e-auth";
 
 export default function UserProvider({
   children,
@@ -17,6 +18,15 @@ export default function UserProvider({
     let isMounted = true;
 
     const fetchUserDetails = async () => {
+      const e2eUser = getE2EUserFromDocument();
+
+      if (e2eUser) {
+        if (isMounted) {
+          setUser(e2eUser);
+        }
+        return;
+      }
+
       // check if they are actually authenticated first
       const {
         data: { session },
