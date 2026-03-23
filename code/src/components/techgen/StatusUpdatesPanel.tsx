@@ -17,7 +17,7 @@ interface PropsInterface {
 
 type StatusListItem = {
   applicationId: string;
-  ipTitle: string;
+  projectTitle: string;
   status: IprStatusType["Row"];
   timestamp: number;
 };
@@ -64,7 +64,7 @@ export default function StatusUpdatesPanel(props: PropsInterface) {
 
       return {
         applicationId: application.id,
-        ipTitle: application.ip_title,
+        projectTitle: application.project_title,
         status,
         timestamp,
       };
@@ -88,7 +88,7 @@ export default function StatusUpdatesPanel(props: PropsInterface) {
                 <TimelineItem
                   key={`${item.applicationId}-${item.status.created_at}`}
                   applicationId={item.applicationId}
-                  ipTitle={item.ipTitle}
+                  projectTitle={item.projectTitle}
                   label={label}
                   createdAt={item.status.created_at!}
                   note={item.status.note}
@@ -105,7 +105,7 @@ export default function StatusUpdatesPanel(props: PropsInterface) {
 
 interface TimelineItemProps {
   applicationId: string;
-  ipTitle: string;
+  projectTitle: string;
   label: string;
   createdAt: string;
   note?: string | null;
@@ -114,7 +114,7 @@ interface TimelineItemProps {
 
 function TimelineItem({
   applicationId,
-  ipTitle,
+  projectTitle,
   label,
   createdAt,
   note,
@@ -134,7 +134,7 @@ function TimelineItem({
                 href={`/applications/${applicationId}`}
                 className="truncate text-sm font-medium text-[var(--color-gray-900)] hover:text-[var(--color-brand-600)]"
               >
-                {ipTitle}
+                {projectTitle}
               </Link>
 
               <p className="shrink-0 text-[11px] text-[var(--color-gray-500)]">

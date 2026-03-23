@@ -1,6 +1,6 @@
 "use client";
 
-import { Metrics } from "@/components/techgen/Metrics";
+import { MetricsTechgen } from "@/components/techgen/MetricsTechgen";
 import React, { useMemo } from "react";
 import StatusUpdatesPanel from "@/components/techgen/StatusUpdatesPanel";
 import { useGetUserApplicationIds } from "@/hooks/applications/useGetUserApplications";
@@ -18,7 +18,7 @@ export default function TechgenDashboard() {
   return (
     <div className="grid grid-cols-12 gap-4 md:gap-8">
       <div className="col-span-12 xl:col-span-8">
-        <Metrics />
+        <MetricsTechgen />
       </div>
 
       <div className="col-span-12 xl:col-span-4">

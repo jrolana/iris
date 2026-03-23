@@ -265,7 +265,7 @@ function DashboardLoadingState() {
   );
 }
 
-export function Metrics() {
+export function MetricsTechgen() {
   const { data, isLoading } = useGetDashboardAnalyticsTechgen();
 
   const summary = useMemo(() => {
@@ -360,7 +360,7 @@ export function Metrics() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         <MetricCard
           title="Total Applications"
           value={summary.totalApplications}

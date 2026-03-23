@@ -12,9 +12,9 @@ const STEPS = [
 
 export default function ApplicationGuide() {
   return (
-    <section className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
-      <div className="flex items-center gap-2">
-        <div className="rounded-xl bg-white p-2">
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+      <div className="flex items-center gap-3">
+        <div className="rounded-xl bg-slate-100 p-2">
           <ListChecks className="h-5 w-5 text-slate-700" />
         </div>
         <h3 className="text-base font-semibold text-slate-900">
@@ -22,13 +22,15 @@ export default function ApplicationGuide() {
         </h3>
       </div>
 
-      <ol className="mt-4 space-y-3 text-sm text-slate-600">
+      <ol className="mt-4 space-y-3">
         {STEPS.map((step, index) => (
           <li key={step} className="flex items-start gap-3">
-            <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
+            <span className="bg-brand-50 text-brand-700 ring-brand-100 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ring-1">
               {index + 1}
             </span>
-            <span>{step}</span>
+            <span className="pt-1 text-sm leading-6 text-slate-700">
+              {step}
+            </span>
           </li>
         ))}
       </ol>

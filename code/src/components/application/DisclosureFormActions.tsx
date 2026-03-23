@@ -10,7 +10,7 @@ import {
   FileImage,
   FileSpreadsheet,
   FileText,
-  Loader2,
+  Loader,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -179,11 +179,11 @@ export default function DisclosureFormActions(
           {isLoading ? (
             <div
               className={clsx(
-                "flex items-center gap-2 text-sm text-slate-500",
+                "flex items-center justify-center gap-2 text-sm text-slate-500",
                 filesTitle ? "mt-3" : "",
               )}
             >
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader className="h-4 w-4 animate-spin" />
               Loading files...
             </div>
           ) : files.length === 0 ? (
@@ -240,7 +240,7 @@ export default function DisclosureFormActions(
                           className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 sm:w-auto"
                         >
                           {isViewing ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <Loader className="h-4 w-4 animate-spin" />
                           ) : (
                             <Eye className="h-4 w-4" />
                           )}
@@ -254,7 +254,7 @@ export default function DisclosureFormActions(
                           className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 sm:w-auto"
                         >
                           {isDownloading ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <Loader className="h-4 w-4 animate-spin" />
                           ) : (
                             <Download className="h-4 w-4" />
                           )}
