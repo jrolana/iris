@@ -28,21 +28,26 @@ import { FilterIcon, Loader } from "lucide-react";
 type RequestStatusType = "approved" | "rejected" | "pending";
 
 export default function RegistrationRequestsTable() {
-  const { registrationRequests: usersData, isLoading } =
-    useGetRegistrationRequests();
   const {
-    updateRegistrationRequest,
-    isLoading: isUpdatingRegistrationRequest,
-  } = useUpdateRegistrationRequest();
+    registrationRequests: usersData,
+    isLoading,
+    isFetching,
+  } = useGetRegistrationRequests();
+
+  const { updateRegistrationRequest } = useUpdateRegistrationRequest();
+
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
   const [nameEmail, setNameEmail] = useState<string>("");
   const [colleges, setColleges] = useState<CollegeUnitType[]>([]);
   const [roles, setRoles] = useState<RoleType[]>([]);
   const [statuses, setStatuses] = useState<RequestStatusType[]>([]);
   const [filteredData, setFilteredData] = useState(usersData ?? []);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [processingRequestId, setProcessingRequestId] = useState<string | null>(null);
+  const [processingAction, setProcessingAction] = useState<"approve" | "reject" | null>(null);
 
   useEffect(() => {
-    // Whenever filters change, reset to first page and apply filters to data
     const filtered = filterRegistrationRequests(usersData || [], {
       nameEmail,
       colleges,
@@ -63,7 +68,6 @@ export default function RegistrationRequestsTable() {
     setColleges(filters.colleges);
     setRoles(filters.roles);
     setStatuses(filters.statuses);
-    // reset to first page whenever filters are applied
     setCurrentPage(1);
   }
 
@@ -92,9 +96,7 @@ export default function RegistrationRequestsTable() {
     setIsFilterPanelOpen(!isFilterPanelOpen);
   }
 
-  const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
-
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = filteredData.slice(
@@ -110,10 +112,14 @@ export default function RegistrationRequestsTable() {
 
   async function handleApprove(userData: RegistrationRequestType["Row"]) {
     try {
+      setProcessingRequestId(userData.id);
+      setProcessingAction("approve");
+
       await inviteUser({
         email: userData.email,
         userData,
       });
+
       toast.success("Successfully approved the registration request.");
 
       await updateRegistrationRequest({
@@ -131,11 +137,17 @@ export default function RegistrationRequestsTable() {
           ? e.message
           : "There was a problem in approving the registration request.",
       );
+    } finally {
+      setProcessingRequestId(null);
+      setProcessingAction(null);
     }
   }
 
   async function handleReject(userData: RegistrationRequestType["Row"]) {
     try {
+      setProcessingRequestId(userData.id);
+      setProcessingAction("reject");
+
       await updateRegistrationRequest(
         {
           id: userData.id,
@@ -161,16 +173,29 @@ export default function RegistrationRequestsTable() {
           ? e.message
           : "There was a problem in rejecting the registration request.",
       );
+    } finally {
+        setProcessingRequestId(null);
+        setProcessingAction(null);
     }
   }
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-semibold text-gray-800">
-          User Registration Requests
-        </h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-semibold text-gray-800">
+            User Registration Requests
+          </h1>
+
+          {!isLoading && isFetching && (
+            <span className="inline-flex items-center gap-2 text-sm text-gray-500">
+              <Loader className="animate-spin text-gray-500" size={16} />
+              Refreshing...
+            </span>
+          )}
+        </div>
       </div>
+
       <div className="mb-4 flex flex-col justify-start gap-2 sm:flex-row sm:items-center">
         <Button
           variant="outline"
@@ -183,14 +208,13 @@ export default function RegistrationRequestsTable() {
         </Button>
       </div>
 
-      {/* Filter Panel and Active Filters*/}
       <FilterPanel
         isOpen={isFilterPanelOpen}
         isForUserRequests={true}
         onApplyFilters={applyFilters}
         onClose={() => setIsFilterPanelOpen(false)}
         currentFilters={{
-          nameEmail: nameEmail,
+          nameEmail,
           statuses: statuses.length > 0 ? statuses : [],
           colleges,
           roles,
@@ -208,123 +232,151 @@ export default function RegistrationRequestsTable() {
 
       <div className="overflow-x-auto">
         {isLoading ? (
-          <div className="flex h-60 items-center justify-center py-5 text-gray-500">
-            Fetching user requests...{"  "}
+          <div className="flex h-60 items-center justify-center gap-2 py-5 text-gray-500">
+            <span>Fetching user requests...</span>
             <Loader className="animate-spin text-gray-500" size={18} />
           </div>
         ) : (
-          <Table>
-            <TableHeader className="border-y border-gray-100">
-              <TableRow>
-                {[
-                  "Full Name",
-                  "Email",
-                  "College",
-                  "Role",
-                  "Status",
-                  "Actions",
-                ].map((header) => (
-                  <TableCell
-                    key={header}
-                    isHeader
-                    className="text-theme-xs p-2 py-3 text-start font-medium text-gray-500"
-                  >
-                    {header}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHeader>
+          <div className="relative">
+            {!isLoading && isFetching && (
+              <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden rounded-full bg-transparent">
+                <div className="h-full w-full animate-pulse bg-gray-300" />
+              </div>
+            )}
 
-            <TableBody className="divide-y divide-gray-100">
-              {currentRecords?.length === 0 && (
+            <Table>
+              <TableHeader className="border-y border-gray-100">
                 <TableRow>
-                  <TableCell
-                    className="text-theme-sm p-2 py-10 text-center text-gray-500"
-                    colSpan={10}
-                  >
-                    No User Requests found.
-                  </TableCell>
-                </TableRow>
-              )}
-              {currentRecords.map((record) => (
-                <TableRow key={record.id}>
-                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                    <Link href={"/"} className="hover:text-brand-500">
-                      {record.full_name}
-                    </Link>
-                  </TableCell>
-                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                    {record.email}
-                  </TableCell>
-                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                    {record.college_code ??
-                      record.other_college_name ??
-                      record.external_institution}
-                  </TableCell>
-                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                    {record.role}
-                  </TableCell>
-                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                    <Badge
-                      color={
-                        record.status == "pending"
-                          ? "warning"
-                          : record.status == "approved"
-                            ? "success"
-                            : "error"
-                      }
+                  {[
+                    "Full Name",
+                    "Email",
+                    "College",
+                    "Role",
+                    "Status",
+                    "Actions",
+                  ].map((header) => (
+                    <TableCell
+                      key={header}
+                      isHeader
+                      className="text-theme-xs p-2 py-3 text-start font-medium text-gray-500"
                     >
-                      {record.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                    <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="success"
-                        disabled={
-                          record.status != "pending" ||
-                          isUpdatingRegistrationRequest
-                        }
-                        onClick={() => {
-                          handleApprove(record);
-                        }}
-                        className="h-8"
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="danger"
-                        disabled={
-                          record.status != "pending" ||
-                          isUpdatingRegistrationRequest
-                        }
-                        onClick={() => {
-                          handleReject(record);
-                        }}
-                        className="h-8"
-                      >
-                        Reject
-                      </Button>
-                    </div>
-                  </TableCell>
+                      {header}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+
+              <TableBody className="divide-y divide-gray-100">
+                {currentRecords?.length === 0 && (
+                  <TableRow>
+                    <TableCell
+                      className="text-theme-sm p-2 py-10 text-center text-gray-500"
+                      colSpan={10}
+                    >
+                      No user requests found.
+                    </TableCell>
+                  </TableRow>
+                )}
+
+                {currentRecords.map((record) => {
+                  const isThisRowProcessing = processingRequestId === record.id;
+                  const isApprovingThisRow =
+                    isThisRowProcessing && processingAction === "approve";
+                  const isRejectingThisRow =
+                    isThisRowProcessing && processingAction === "reject";
+
+                  return (
+                    <TableRow key={record.id}>
+                      <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                        <Link href={"/"} className="hover:text-brand-500">
+                          {record.full_name}
+                        </Link>
+                      </TableCell>
+
+                      <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                        {record.email}
+                      </TableCell>
+
+                      <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                        {record.college_code ??
+                          record.other_college_name ??
+                          record.external_institution}
+                      </TableCell>
+
+                      <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                        {record.role}
+                      </TableCell>
+
+                      <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                        <Badge
+                          color={
+                            record.status == "pending"
+                              ? "warning"
+                              : record.status == "approved"
+                                ? "success"
+                                : "error"
+                          }
+                        >
+                          {record.status}
+                        </Badge>
+                      </TableCell>
+
+                      <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="success"
+                            disabled={
+                              record.status !== "pending" ||
+                              isThisRowProcessing ||
+                              isFetching
+                            }
+                            onClick={() => {
+                              handleApprove(record);
+                            }}
+                            className="h-8"
+                          >
+                            {isApprovingThisRow ? "Approving..." : "Approve"}
+                          </Button>
+
+                          <Button
+                            size="sm"
+                            variant="danger"
+                            disabled={
+                              record.status !== "pending" ||
+                              isThisRowProcessing ||
+                              isFetching
+                            }
+                            onClick={() => {
+                              handleReject(record);
+                            }}
+                            className="h-8"
+                          >
+                            {isRejectingThisRow ? "Rejecting..." : "Reject"}
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
         )}
       </div>
-      <hr className="border border-gray-100"></hr>
+
+      <hr className="border border-gray-100" />
+
       <div className="mt-4 flex justify-between">
         <Button
           variant="outline"
           size="sm"
           onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
+          disabled={currentPage === 1 || isLoading || isFetching}
         >
           Previous
         </Button>
+
         <div className="flex gap-2">
           {[...Array(totalPages)].map((_, i) => (
             <Button
@@ -332,16 +384,18 @@ export default function RegistrationRequestsTable() {
               variant={currentPage === i + 1 ? "primary" : "outline"}
               size="sm"
               onClick={() => handlePageChange(i + 1)}
+              disabled={isLoading || isFetching}
             >
               {i + 1}
             </Button>
           ))}
         </div>
+
         <Button
           variant="outline"
           size="sm"
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages || isLoading || isFetching}
         >
           Next
         </Button>

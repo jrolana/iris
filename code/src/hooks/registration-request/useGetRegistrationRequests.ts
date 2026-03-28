@@ -2,12 +2,12 @@ import { getRegistrationRequests } from "@/services/registration-request/get-reg
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetRegistrationRequests() {
-    const { data, isLoading } = useQuery(
+    const { data, isLoading, isFetching } = useQuery(
         {
             queryKey: ["registration-requests"],
             queryFn: getRegistrationRequests
         }
     )
 
-    return { registrationRequests: data, isLoading };
+    return { registrationRequests: data, isLoading, isFetching };
 }
