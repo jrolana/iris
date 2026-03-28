@@ -12,8 +12,12 @@ type FilterType = "all" | "unread" | "read";
 
 export default function ViewAllNotifications() {
   const { notifications, isLoading } = useGetNotifications();
-  const { markNotificationAsRead, isLoading: isMarkingAsRead } =
-    useMarkAsRead();
+  const {
+    markNotificationAsRead,
+    markAllNotifcationsAsRead,
+    isMarkingOne,
+    isMarkingAll,
+  } = useMarkAsRead();
   const [filter, setFilter] = useState<FilterType>("all");
   const router = useRouter();
 
@@ -27,9 +31,9 @@ export default function ViewAllNotifications() {
 
   async function markAllAsRead() {
     const unread = notifications?.filter((n) => n.read_at === null) ?? [];
-    await Promise.all(
-      unread.map((n) => markNotificationAsRead({ notifId: n.id })),
-    );
+    if (unread.length === 0) return;
+
+    await markAllNotifcationsAsRead(unread);
   }
 
   const filtered = notifications?.filter((n) => {
@@ -82,9 +86,9 @@ export default function ViewAllNotifications() {
               size="sm"
               variant="primary"
               onClick={markAllAsRead}
-              disabled={isMarkingAsRead}
+              disabled={isMarkingAll || notifications?.length == 0}
             >
-              {isMarkingAsRead ? "Marking all as read…" : "Mark all as read"}
+              {isMarkingAll ? "Marking all as read…" : "Mark all as read"}
             </Button>
           ) : (
             <div className="w-px" />
@@ -200,7 +204,9 @@ export default function ViewAllNotifications() {
 
                       {isUnread && (
                         <span className="mt-1 shrink-0 text-xs font-semibold text-orange-500 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                          Mark read
+                          {isMarkingOne(notif.id)
+                            ? "Marking as read..."
+                            : "Mark read"}
                         </span>
                       )}
                     </div>
