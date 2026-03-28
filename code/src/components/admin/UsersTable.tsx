@@ -100,9 +100,7 @@ export default function UsersTable() {
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
       <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-semibold text-gray-800">
-          User Management
-        </h1>
+        <h1 className="text-2xl font-semibold text-gray-800">Users</h1>
       </div>
       <div className="mb-4 flex flex-col-reverse justify-between gap-2 sm:flex-row sm:items-center">
         <Button
@@ -155,17 +153,15 @@ export default function UsersTable() {
           <Table>
             <TableHeader className="border-y border-gray-100">
               <TableRow>
-                {["Full Name", "Colleges", "Email", "Role", "Actions"].map(
-                  (header) => (
-                    <TableCell
-                      key={header}
-                      isHeader
-                      className="text-theme-xs p-2 py-3 text-start font-medium text-gray-500"
-                    >
-                      {header}
-                    </TableCell>
-                  ),
-                )}
+                {["Full Name", "Colleges", "Email", "Role"].map((header) => (
+                  <TableCell
+                    key={header}
+                    isHeader
+                    className="text-theme-xs p-2 py-3 text-start font-medium text-gray-500"
+                  >
+                    {header}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHeader>
 
@@ -197,14 +193,6 @@ export default function UsersTable() {
                   </TableCell>
                   <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                     {record.role}
-                  </TableCell>
-                  <TableCell className="text-theme-sm py-3 text-gray-800">
-                    <div className="flex items-center gap-2">
-                      <Link href="/" className="hover:text-brand-500">
-                        <PencilIcon />
-                      </Link>
-                      <TrashBinIcon className="hover:text-error-500" />
-                    </div>
                   </TableCell>
                 </TableRow>
               ))}
