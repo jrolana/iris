@@ -11,13 +11,14 @@ import { useRouter } from "next/navigation";
 type FilterType = "all" | "unread" | "read";
 
 export default function ViewAllNotifications() {
-  const { notifications, isLoading } = useGetNotifications();
+  const { notifications, isLoading, isFetching } = useGetNotifications();
   const {
     markNotificationAsRead,
     markAllNotifcationsAsRead,
     isMarkingOne,
     isMarkingAll,
   } = useMarkAsRead();
+
   const [filter, setFilter] = useState<FilterType>("all");
   const router = useRouter();
 
@@ -74,26 +75,38 @@ export default function ViewAllNotifications() {
               <h1 className="text-2xl font-semibold text-gray-900">
                 Notifications
               </h1>
-              {unreadCount > 0 ? (
-                <p className="text-sm text-gray-500">{unreadCount} unread</p>
-              ) : (
-                <p className="text-sm text-gray-500">All caught up</p>
-              )}
+
+              <div className="mt-1 flex items-center gap-2">
+                {unreadCount > 0 ? (
+                  <p className="text-sm text-gray-500">{unreadCount} unread</p>
+                ) : (
+                  <p className="text-sm text-gray-500">All caught up</p>
+                )}
+
+                {!isLoading && isFetching && (
+                  <>
+                    <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-gray-300 border-t-gray-500" />
+                    <span className="text-xs text-gray-400">Refreshing...</span>
+                  </>
+                )}
+              </div>
             </div>
           </div>
+
           {unreadCount > 0 ? (
             <Button
               size="sm"
               variant="primary"
               onClick={markAllAsRead}
-              disabled={isMarkingAll || notifications?.length == 0}
+              disabled={isMarkingAll || notifications?.length === 0}
             >
-              {isMarkingAll ? "Marking all as read…" : "Mark all as read"}
+              {isMarkingAll ? "Marking all as read..." : "Mark all as read"}
             </Button>
           ) : (
             <div className="w-px" />
           )}
         </div>
+
         <div className="mb-4">
           <div className="inline-flex w-full rounded-xl border border-gray-200 bg-gray-50 p-1">
             {(["all", "unread", "read"] as FilterType[]).map((tab) => {
@@ -103,12 +116,14 @@ export default function ViewAllNotifications() {
                 <button
                   key={tab}
                   onClick={() => setFilter(tab)}
+                  disabled={isLoading}
                   className={[
                     "relative flex-1 overflow-visible rounded-lg px-3 py-2 text-sm font-semibold capitalize transition",
                     "focus:ring-2 focus:ring-gray-200 focus:ring-offset-1 focus:outline-none",
                     active
                       ? "bg-white text-gray-900 shadow-sm"
                       : "text-gray-600 hover:text-gray-900",
+                    isLoading ? "cursor-not-allowed opacity-60" : "",
                   ].join(" ")}
                 >
                   {tab}
@@ -157,6 +172,7 @@ export default function ViewAllNotifications() {
           ) : (
             filtered.map((notif) => {
               const isUnread = notif.read_at === null;
+              const isThisNotifLoading = isMarkingOne(notif.id);
 
               return (
                 <li key={notif.id}>
@@ -164,23 +180,28 @@ export default function ViewAllNotifications() {
                     onClick={() => markAsRead(notif.id, notif.read_at)}
                     size="md"
                     variant="outline"
+                    disabled={isMarkingAll || isThisNotifLoading}
                     className={`group w-full justify-start gap-3 p-4 text-left transition-all duration-200 ${
                       isUnread
                         ? "bg-orange-50/40 hover:bg-orange-50/60 hover:shadow-sm hover:ring-1 hover:ring-orange-200/70"
                         : "bg-white hover:bg-gray-50 hover:shadow-sm hover:ring-1 hover:ring-gray-200/70"
+                    } ${
+                      isMarkingAll || isThisNotifLoading
+                        ? "cursor-not-allowed opacity-80"
+                        : ""
                     }`}
                   >
                     <div className="flex w-full items-start gap-3">
-                      {/* Unread indicator */}
                       <span className="mt-1.5 flex h-5 w-5 items-center justify-center">
-                        {isUnread ? (
+                        {isThisNotifLoading ? (
+                          <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-gray-300 border-t-orange-500" />
+                        ) : isUnread ? (
                           <span className="h-2 w-2 rounded-full bg-orange-500/75" />
                         ) : (
                           <span className="h-2 w-2 rounded-full border border-gray-300 bg-transparent transition-colors group-hover:border-gray-400" />
                         )}
                       </span>
 
-                      {/* Content */}
                       <div className="min-w-0 flex-1">
                         <p
                           className={`text-sm font-semibold transition-colors ${
@@ -204,9 +225,7 @@ export default function ViewAllNotifications() {
 
                       {isUnread && (
                         <span className="mt-1 shrink-0 text-xs font-semibold text-orange-500 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                          {isMarkingOne(notif.id)
-                            ? "Marking as read..."
-                            : "Mark read"}
+                          {isThisNotifLoading ? "Marking as read..." : "Mark read"}
                         </span>
                       )}
                     </div>
