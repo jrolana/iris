@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import PieChart from "@/components/charts/PieChart";
-import CombinationChart from "@/components/charts/CombinationChart";
+import BarChart from "@/components/charts/BarChart";
 import DonutChart from "@/components/charts/DonutChart";
 import DashboardSummaryTable from "@/components/dashboard/DashboardSummaryTable";
 import DashboardLoadingState from "@/components/dashboard/DashboardLoadingState";
@@ -56,7 +56,6 @@ type CombinationChartData = {
   categories: number[];
   activeIpTypes: string[];
   groupedByIPAndYear: Record<string, Record<number, number>>;
-  actualTotalSeries: number[];
 };
 
 type DonutMetrics = {
@@ -293,18 +292,10 @@ export default function Dashboard() {
         (ipType) => groupedByIPAndYear[ipType],
       );
 
-      const actualTotalSeries = categories.map((year) =>
-        Object.values(groupedByIPAndYear).reduce(
-          (sum, totalsByYear) => sum + (totalsByYear[year] ?? 0),
-          0,
-        ),
-      );
-
       result[status] = {
         categories,
         activeIpTypes,
         groupedByIPAndYear,
-        actualTotalSeries,
       };
     }
 
@@ -502,7 +493,9 @@ export default function Dashboard() {
                     : "text-gray-700 hover:bg-gray-50",
                 )}
               >
-                <span>{isExportingCsv ? "Exporting CSV..." : "Export CSV"}</span>
+                <span>
+                  {isExportingCsv ? "Exporting CSV..." : "Export CSV"}
+                </span>
                 {isExportingCsv && <Loader2 className="h-4 w-4 animate-spin" />}
               </button>
 
@@ -517,7 +510,9 @@ export default function Dashboard() {
                     : "text-gray-700 hover:bg-gray-50",
                 )}
               >
-                <span>{isExportingPdf ? "Exporting PDF..." : "Export PDF"}</span>
+                <span>
+                  {isExportingPdf ? "Exporting PDF..." : "Export PDF"}
+                </span>
                 {isExportingPdf && <Loader2 className="h-4 w-4 animate-spin" />}
               </button>
             </div>
@@ -659,7 +654,7 @@ export default function Dashboard() {
 
         {TREND_CHARTS.slice(0, 3).map((chart) => (
           <div key={chart.chartId} className={chart.colSpan}>
-            <CombinationChart
+            <BarChart
               chartId={chart.chartId}
               title={chart.title}
               data={
@@ -667,7 +662,6 @@ export default function Dashboard() {
                   categories: [],
                   activeIpTypes: [],
                   groupedByIPAndYear: {},
-                  actualTotalSeries: [],
                 }
               }
             />
@@ -684,7 +678,7 @@ export default function Dashboard() {
 
         {TREND_CHARTS.slice(3).map((chart) => (
           <div key={chart.chartId} className={chart.colSpan}>
-            <CombinationChart
+            <BarChart
               chartId={chart.chartId}
               title={chart.title}
               data={
@@ -692,7 +686,6 @@ export default function Dashboard() {
                   categories: [],
                   activeIpTypes: [],
                   groupedByIPAndYear: {},
-                  actualTotalSeries: [],
                 }
               }
             />
