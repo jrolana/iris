@@ -29,3 +29,8 @@ AFTER INSERT OR UPDATE ON private.inventors
 FOR EACH ROW
 EXECUTE FUNCTION private.notify_added_to_application()
 
+CREATE TRIGGER trg_notify_added_report
+AFTER INSERT ON private.reports
+FOR EACH ROW
+EXECUTE FUNCTION private.notify_added_report()
+
