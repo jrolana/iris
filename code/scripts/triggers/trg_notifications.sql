@@ -19,3 +19,8 @@ AFTER DELETE ON private.ipr_files
 FOR EACH ROW
 EXECUTE FUNCTION private.notify_deleted_files()
 
+CREATE TRIGGER trg_notify_withdraw_archive
+AFTER UPDATE ON private.ipr_applications
+FOR EACH ROW
+EXECUTE FUNCTION private.notify_withdraw_archive()
+
