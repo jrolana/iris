@@ -24,3 +24,8 @@ AFTER UPDATE ON private.ipr_applications
 FOR EACH ROW
 EXECUTE FUNCTION private.notify_withdraw_archive()
 
+CREATE TRIGGER trg_notify_added_to_application
+AFTER INSERT OR UPDATE ON private.inventors
+FOR EACH ROW
+EXECUTE FUNCTION private.notify_added_to_application()
+
