@@ -216,11 +216,11 @@ export default function ApplicationsTable(props: PropsInterface) {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 sm:px-6">
-      <div className="md::items-center mb-4 flex flex-col gap-2 md:flex-row md:justify-between">
+      <div className="md::items-center mb-4 flex flex-col gap-5 md:flex-row md:justify-between md:gap-2">
         <h1 className="text-2xl font-semibold text-gray-800">
           {isTechgen ? "Your Applications" : "Applications Registry"}
         </h1>
-        <div className="flex flex-col gap-3 md:flex-row">
+        <div className="flex flex-col gap-3 sm:flex-row">
           {(isAdmin || isTechgen) && (
             <Button
               startIcon={<PlusIcon size={30} />}
@@ -231,19 +231,20 @@ export default function ApplicationsTable(props: PropsInterface) {
                     : "/techgen/new-application",
                 );
               }}
+              className="h-12 max-w-xs p-0"
             >
               Add New Application
             </Button>
           )}
 
-          <div className="xsm:flex-row flex flex-col justify-start gap-2">
+          <div className="flex flex-row items-start justify-start">
             {/* Sort Panel */}
             <div className="flex gap-0">
               <Popover open={isSortPanelOpen} onOpenChange={setIsSortPanelOpen}>
                 <PopoverTrigger
                   className={cn(
                     buttonVariants({ variant: "outline" }),
-                    "data-[empty=true]:text-muted-foreground m-0 flex h-auto w-fit justify-start px-3 py-3 text-left text-sm font-medium text-gray-700",
+                    "data-[empty=true]:text-muted-foreground m-0 flex h-12 w-fit justify-start px-3 py-3 text-left text-sm font-medium text-gray-700",
                   )}
                 >
                   {sortBy
@@ -314,7 +315,7 @@ export default function ApplicationsTable(props: PropsInterface) {
               variant="outline"
               startIcon={<FilterIcon size={18} />}
               onClick={toggleFilterPanel}
-              className="max-w-fit"
+              className="h-12 max-w-fit p-0"
             >
               {isFilterPanelOpen ? "Close Filters" : "Filter"}
             </Button>

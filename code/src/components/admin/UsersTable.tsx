@@ -109,7 +109,7 @@ export default function UsersTable() {
           variant="outline"
           startIcon={<FilterIcon size={18} />}
           onClick={toggleFilterPanel}
-          className="max-w-fit"
+          className="h-12 max-w-fit"
           disabled={isLoading}
         >
           {isFilterPanelOpen ? "Close Filters" : "Filter"}
@@ -119,6 +119,7 @@ export default function UsersTable() {
           disabled={isLoading}
           startIcon={<PlusIcon size={30} />}
           size="sm"
+          className="h-12"
         >
           Add New User
         </Button>
