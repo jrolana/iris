@@ -296,6 +296,14 @@ CREATE TABLE private.user_registration_requests (
     )
 );
 
+CREATE TABLE private.api_tokens (
+    id uuid NOT NULL DEFAULT gen_random_uuid (),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    token TEXT NOT NULL,
+    CONSTRAINT api_tokens_pkey PRIMARY KEY (id),
+    CONSTRAINT api_tokens_token_key UNIQUE (token)
+);
+
 ALTER TABLE private.user_registration_requests
 ADD COLUMN invite_expires_at TIMESTAMPTZ NULL;
 
