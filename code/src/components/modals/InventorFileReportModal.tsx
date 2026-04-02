@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useInventorFileReportModal from "@/hooks/useInventorFileReportModal";
 import { useFileReport } from "@/hooks/reports/useFileReport";
 import { ReportType } from "@/lib/types/reports";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import Modal from "./Modal";
 import Button from "../ui/button/Button";
@@ -20,6 +21,7 @@ export default function InventorFileReportModal() {
   const [report, setReport] = useState("");
 
   const { fileReport, isLoading } = useFileReport();
+  const confirm = useConfirm();
 
   useEffect(() => {
     if (isOpen) {
@@ -28,6 +30,13 @@ export default function InventorFileReportModal() {
   }, [isOpen, setReport]);
 
   async function handleFileReport() {
+    const isConfirmed = await confirm({
+      title: "Confirm Report",
+      message: `Are you sure you want to file this report against ${subject?.full_name}? This action cannot be undone.`,
+    });
+
+    if (!isConfirmed) return;
+
     if (!subject || !reporter) return;
     const reportData: ReportType["Insert"] = {
       subject_id: subject.id,
