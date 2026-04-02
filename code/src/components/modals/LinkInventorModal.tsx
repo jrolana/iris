@@ -3,6 +3,7 @@ import { useUpdateInventor } from "@/hooks/inventors/useUpdateInventor";
 import { useSearchUsersToLink } from "@/hooks/inventors/useSearchUsersToLink";
 import useDebounce from "@/hooks/useDebounce";
 import useLinkInventorModal from "@/hooks/useLinkInventorModal";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import Modal from "./Modal";
 import SearchInput from "../common/SearchInput";
@@ -24,10 +25,18 @@ export default function LinkInventorModal() {
     excludedUserIds: excludedUIDs,
   });
   const { updateInventor, isLoading } = useUpdateInventor();
+  const confirm = useConfirm();
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   async function handleLinkClicked(userId: string) {
+    const confirmed = await confirm({
+      title: "Confirm Linking",
+      message:
+        "Are you sure you want to link this technology generator? This action cannot be undone.",
+    });
+    if (!confirmed) return;
+
     if (!inventorUID) {
       toast.error("Failed to link inventor. Please try again.", {
         duration: 3000,
