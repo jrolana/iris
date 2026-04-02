@@ -95,7 +95,7 @@ function ReportsContent(props: ReportsContentProps) {
             >
               <div className="mb-2 flex flex-col items-center justify-between sm:flex-row sm:items-center sm:gap-4 sm:align-middle">
                 <p className="font-semibold text-slate-800">
-                  {report.reporter_name}
+                  {report.reporter_name ?? "[Removed Tech Gen]"}
                 </p>
                 <span className="shrink-0 text-xs font-medium text-slate-400">
                   {formatTimestamp(report.created_at ?? "")}
