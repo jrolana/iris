@@ -413,7 +413,10 @@ export default function ApplicationsTable(props: PropsInterface) {
                   >
                     <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                       <div className="flex flex-row items-center gap-1">
-                        <Link href={"/"} className="hover:text-brand-500">
+                        <Link
+                          href={`${isAdmin ? "/admin" : "/techgen"}/view-application?applicationID=${record.id}`}
+                          className="hover:text-brand-500"
+                        >
                           {record.ip_title ?? "--"}
                         </Link>
                       </div>
