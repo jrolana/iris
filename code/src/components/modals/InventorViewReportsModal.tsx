@@ -1,6 +1,6 @@
 import useInventorViewReportsModal from "@/hooks/useInventorViewReportsModal";
-// import { useGetReportsByAppInventorId } from "@/hooks/reports/useGetReportsByAppInventorId";
 import { useDeleteInventor } from "@/hooks/inventors/useDeleteInventorById";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import Modal from "./Modal";
 import Button from "../ui/button/Button";
@@ -11,12 +11,7 @@ import { ReportType } from "@/lib/types/reports";
 export default function InventorReportsModal() {
   // TODO: confirm if parentId will be used (for downgrades)
   const { isOpen, closeModal, reports } = useInventorViewReportsModal();
-  // const { reports, isLoading: isFetchingReports } =
-  //   useGetReportsByAppInventorId({
-  //     id: subject?.application_id ?? "",
-  //     subjectId: subject?.id ?? "",
-  //     parentId: null,
-  //   });
+  const confirm = useConfirm();
 
   const subjectName =
     reports && reports.length > 0 ? reports[0].subject_name : null;
@@ -25,10 +20,17 @@ export default function InventorReportsModal() {
 
   const { deleteInventor, isLoading: isDeleting } = useDeleteInventor();
 
-  function onRemoveInventor(
+  async function onRemoveInventor(
     subjectName: InventorType["Row"]["full_name"],
     subjectId: InventorType["Row"]["id"],
   ) {
+    const isConfirmed = await confirm({
+      title: "Confirm Removal",
+      message: `Are you sure you want to remove ${subjectName} from the application? This action cannot be undone.`,
+    });
+
+    if (!isConfirmed) return;
+
     toast.promise(deleteInventor({ id: subjectId }), {
       loading: `Removing ${subjectName} from the application...`,
       success: `${subjectName} has been removed from the application.`,
