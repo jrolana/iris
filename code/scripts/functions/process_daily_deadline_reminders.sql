@@ -1,7 +1,3 @@
-CREATE OR REPLACE FUNCTION private.process_daily_deadline_reminders()
-RETURNS void
-LANGUAGE plpgsql
-AS $$
 DECLARE
     app_record RECORD;
     inv_record RECORD;
@@ -10,22 +6,46 @@ DECLARE
     v_title text;
     v_content text;
     v_days_left integer;
+    v_is_annual_reminder boolean;
+    v_today date;
+    v_next_anniversary date;
 BEGIN
+    v_today := (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Manila')::date;
     -- app_record is all apps that have status deadlines
+    -- and apps that are either patent or trademark with filing dates
     FOR app_record IN
         SELECT 
             app.id, 
-            app.project_title, 
+            app.project_title,
+            app.filing_date,
+            app.ip_type,
             stat.deadline,
             stat.status_type,
             stat.status_name
         FROM private.ipr_applications app
-        JOIN private.ipr_statuses stat ON app.curr_status = stat.id
-        WHERE stat.deadline IS NOT NULL
+        LEFT JOIN private.ipr_statuses stat ON app.curr_status = stat.id
+        WHERE stat.deadline IS NOT NULL OR ((app.ip_type = 'patent' OR app.ip_type = 'trademark') AND app.filing_date IS NOT NULL)
     -- do this loop for each app_record
     LOOP
+        v_is_annual_reminder := FALSE;
         -- calculate exact days left to deadline
-        v_days_left := (app_record.deadline::date - (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Manila')::date);
+            
+        IF app_record.deadline IS NULL THEN -- if true, then we are checking for annual fees reminder
+
+            -- calculate the most recent past or current anniversary
+            v_next_anniversary := (app_record.filing_date::date + 
+                (EXTRACT(year FROM age(v_today, app_record.filing_date::date))::int || ' years')::interval)::date;
+            
+            -- if that anniversary has already passed this year, the next deadline is next year
+            IF v_next_anniversary < v_today THEN
+                v_next_anniversary := (v_next_anniversary + interval '1 year')::date;
+            END IF;
+
+            v_days_left := v_next_anniversary - v_today;
+            v_is_annual_reminder := TRUE; -- set this so that we can know that we are notifying for annual fee, and not status deadlines
+        ELSE
+            v_days_left := app_record.deadline - v_today;
+        END IF;
 
         RAISE NOTICE 'Found App: %, Deadline: %, Days Left: %', app_record.project_title, app_record.deadline, v_days_left;
 
@@ -49,9 +69,17 @@ BEGIN
         v_title := 'Deadline Approaching: ' || app_record.project_title;
         
         IF v_deadline_tier = 'today' THEN
-            v_content := 'Action Required: The deadline to complete the ' || COALESCE(app_record.status_name, app_record.status_type, 'current') || ' phase is today.';
+            IF v_is_annual_reminder THEN
+                v_content := 'Action Required: The deadline to pay for your annual fee to maintain the  ' || app_record.ip_type || ' protection is today.';
+            ELSE
+                v_content := 'Action Required: The deadline to complete the ' || COALESCE(app_record.status_name, app_record.status_type, 'current') || ' phase is today.';
+            END IF;
         ELSE
-            v_content := 'Action Required: You have ' || v_deadline_tier || ' left to complete the ' || COALESCE(app_record.status_name, app_record.status_type, 'current') || ' phase.';
+            IF v_is_annual_reminder THEN
+                v_content := 'Action Required: You have ' || v_deadline_tier || ' left to pay for your annual fee to maintain the  ' || app_record.ip_type || ' protection.';
+            ELSE
+                v_content := 'Action Required: You have ' || v_deadline_tier || ' left to complete the ' || COALESCE(app_record.status_name, app_record.status_type, 'current') || ' phase.';
+            END IF;
         END IF;
 
         RAISE NOTICE 'Attempting to insert notifications for Category: %', v_category;
@@ -74,4 +102,3 @@ BEGIN
         ON CONFLICT (receiver_id, application_id, category) DO NOTHING;
     END LOOP;
 END;
-$$;
