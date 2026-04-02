@@ -1,5 +1,6 @@
 "use client";
 
+import { useConfirm } from "@/hooks/useConfirm";
 import { useEffect, useState } from "react";
 import { useApplicationsGetApplicationsByQuery } from "@/hooks/applications/useGetApplicationsByQuery";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
@@ -62,6 +63,7 @@ const sortOptions = [
 export default function ApplicationsTable(props: PropsInterface) {
   const { isAdmin = false, isTechgen = false } = props;
   const router = useRouter();
+  const confirm = useConfirm();
   const [title, setTitle] = useState<string>("");
   const [statuses, setStatuses] = useState<StatusType[]>([]);
   const [colleges, setColleges] = useState<CollegeUnitType[]>([]);
@@ -192,6 +194,13 @@ export default function ApplicationsTable(props: PropsInterface) {
     applicationId: string,
     isCurrentlyArchived: boolean,
   ) {
+    const isConfirmed = await confirm({
+      title: isCurrentlyArchived ? "Confirm Unarchive" : "Confirm Archive",
+      message: `Are you sure you want to ${isCurrentlyArchived ? "unarchive" : "archive"} this application? ${isCurrentlyArchived ? "Unarchiving" : "Archiving"} an application will ${isCurrentlyArchived ? "make it visible again in the applications registry and to all users" : "hide it from the applications registry and from all users, but it can be unarchived later if needed"}.`,
+    });
+
+    if (!isConfirmed) return;
+
     toast.promise(
       updateApp({
         id: applicationId,
