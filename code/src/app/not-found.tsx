@@ -1,14 +1,15 @@
 "use client";
 
 import GridShape from "@/components/common/GridShape";
-import { useGetCurrentUser } from "@/hooks/useGetCurrentUser";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { userAtom } from "@/atom-states/user";
+import { useAtomValue } from "jotai";
 
 export default function NotFound() {
-  const { user } = useGetCurrentUser();
+  const user = useAtomValue(userAtom);
   const role = user?.role;
 
   let redirectUrl = "/";
