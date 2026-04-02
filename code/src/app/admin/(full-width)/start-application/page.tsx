@@ -9,6 +9,7 @@ import { useCreateApplication } from "@/hooks/applications/useCreateApplication"
 import { useUploadFile } from "@/hooks/attachments/useUploadFile";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atom-states/user";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -30,6 +31,7 @@ export default function StartApplicationPage() {
     setExcludedUIDs,
   } = useAddVerifiedInventorsModal();
   const user = useAtomValue(userAtom);
+  const confirm = useConfirm();
   const searchParams = useSearchParams();
   const ipTypeParam = searchParams.get("ipType");
   const { isLoading: isCreatingApp, createApp } = useCreateApplication();
@@ -55,6 +57,14 @@ export default function StartApplicationPage() {
   }
 
   async function handleSubmit() {
+    const isConfirmed = await confirm({
+      title: "Confirm Submission",
+      message:
+        "Are you sure you want to submit this application? Please ensure that all details are correct before confirming.",
+    });
+
+    if (!isConfirmed) return;
+
     if (projectTitle.trim() === "") return;
 
     toast.promise(createAndUpload(), {
