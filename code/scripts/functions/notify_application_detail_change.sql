@@ -15,7 +15,7 @@ DECLARE
     is_withdraw_changed BOOLEAN;
     is_archive_changed BOOLEAN;
 BEGIN
-    safe_project_title := COALESCE(NULLIF(BTRIM(NEW.project_title), ''), 'this application');
+    safe_project_title := COALESCE(NULLIF(BTRIM(NEW.ip_title), ''), 'this application');
 
     IF OLD.ip_type IS DISTINCT FROM NEW.ip_type THEN
         notif_title := FORMAT('IP type changed for %s', safe_project_title);

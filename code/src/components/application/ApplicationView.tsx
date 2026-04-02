@@ -74,8 +74,8 @@ function ApplicationView(props: ApplicationViewProps) {
             </div>
           ) : null}
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div className="min-w-0">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-2">
+            <div className="space-y-2 lg:col-span-2">
               <h1 className="text-lg font-semibold text-gray-900 sm:text-2xl!">
                 {ipTitle}
               </h1>
@@ -86,7 +86,7 @@ function ApplicationView(props: ApplicationViewProps) {
                 </p>
               )}
 
-              <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-sm">
                 <span className="rounded-full bg-sky-100 px-3 py-1 font-medium text-sky-700">
                   {ipTypeToTitle(application.ip_type)}
                 </span>
@@ -105,7 +105,7 @@ function ApplicationView(props: ApplicationViewProps) {
               </div>
             </div>
 
-            <div className="text-md text-gray-600 sm:text-right">
+            <div className="text-md text-gray-600 lg:text-right">
               <p className="font-bold text-gray-900">
                 {application.created_at
                   ? "Ongoing application"
