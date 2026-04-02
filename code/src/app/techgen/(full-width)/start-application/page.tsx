@@ -68,8 +68,6 @@ export default function StartApplicationPage() {
     if (projectTitle.trim() === "") return;
 
     toast.promise(createAndUpload(), {
-      loading: "Submitting application...",
-      success: "Application submitted successfully!",
       error: (e: Error) => {
         if (e.message.includes("inventors_application_id_email_key")) {
           return "Error: Duplicate email address. Please remove the duplicate collaborator and try again.";
