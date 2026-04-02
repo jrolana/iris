@@ -5,6 +5,7 @@ import { useUploadFile } from "@/hooks/attachments/useUploadFile";
 import { AttachmentType } from "@/lib/types/application";
 import { getFileType } from "@/lib/helper/get-file-type";
 import { useSearchParams } from "next/navigation";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import { Button } from "@/components/ui/button";
 import { FileText, ImageIcon, LinkIcon, Loader, Upload, X } from "lucide-react";
@@ -43,6 +44,7 @@ type ExtendedAttachmentType = AttachmentType["Insert"] & { fileObject?: File };
 export default function UpdateFileButton(props: UpdateFileButtonProps) {
   const { currentFileType, className, disabled, folderName } = props;
   const { uploadFile, isLoading } = useUploadFile();
+  const confirm = useConfirm();
   const searchParams = useSearchParams();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [description, setDescription] = useState("");
@@ -66,6 +68,12 @@ export default function UpdateFileButton(props: UpdateFileButtonProps) {
   });
 
   const handleConfirmUpload = async () => {
+    const isConfirmed = await confirm({
+      title: "Confirm Upload",
+      message:
+        "Are you sure you want to upload this new version? This will not replace the existing file but will create a new version linked to it. Remember that files cannot be removed once uploaded.",
+    });
+    if (!isConfirmed) return;
     if (!selectedFile) return;
 
     const newItemVersion: ExtendedAttachmentType = {

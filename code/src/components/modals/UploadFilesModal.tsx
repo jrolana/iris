@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { AttachmentType } from "@/lib/types/application";
 import { useSearchParams } from "next/navigation";
 import { useUploadFile } from "@/hooks/attachments/useUploadFile";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import Modal from "./Modal";
 import FileUploader from "../common/FileUploader";
@@ -16,6 +17,7 @@ type extendedAttachmentType = AttachmentType["Insert"] & {
 };
 function UploadFilesModal() {
   const { isOpen, closeModal } = useFilesUploadModal();
+  const confirm = useConfirm();
   const [fileItems, setFileItems] = useState<extendedAttachmentType[]>([]);
   const searchParams = useSearchParams();
   const appId = searchParams.get("applicationID") || "";
@@ -27,6 +29,12 @@ function UploadFilesModal() {
   }
 
   async function handleUpload(fileItems: extendedAttachmentType[]) {
+    const isConfirmed = await confirm({
+      title: "Confirm Upload",
+      message:
+        "Are you sure you want to upload these files? Remember that files cannot be removed once uploaded.",
+    });
+    if (!isConfirmed) return;
     for (const item of fileItems) {
       await uploadFile(
         { file: item, appId },
