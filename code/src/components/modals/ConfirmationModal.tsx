@@ -23,18 +23,20 @@ function ConfirmationModal() {
       description={modalState.message}
       isOpen={modalState.isOpen}
       onChange={() => closeAndResolve(false)}
+      layer={1}
+      descriptionWidth="max-w-lg"
     >
       <div className="w-full max-w-lg min-w-[85vw] justify-center px-0 sm:max-h-[90vh] sm:w-[80vh] sm:min-w-[400px] sm:px-10">
         <div className="flex justify-end space-x-3">
           <button
             onClick={() => closeAndResolve(false)}
-            className="rounded bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
+            className="rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
           >
             Cancel
           </button>
           <button
             onClick={() => closeAndResolve(true)}
-            className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+            className="rounded-full bg-sky-600 px-6 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-300"
           >
             Confirm
           </button>

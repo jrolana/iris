@@ -7,23 +7,59 @@ interface ModalProps {
   title: string;
   description: string;
   children: React.ReactNode;
+  layer?: 0 | 1 | 2; // for z-index layering of multiple modals
+  descriptionWidth?:
+    | "max-w-sm"
+    | "max-w-md"
+    | "max-w-lg"
+    | "max-w-xl"
+    | "max-w-2xl"
+    | "max-w-4xl"; // allows custom width for description text
 }
 
+const layerStyleZIndex = [
+  {
+    backdrop: "z-9",
+    content: "z-99",
+  },
+  {
+    backdrop: "z-99",
+    content: "z-999",
+  },
+  {
+    backdrop: "z-999",
+    content: "z-9999",
+  },
+];
+
 function Modal(props: ModalProps) {
-  const { isOpen, onChange, title, description, children } = props;
+  const {
+    isOpen,
+    onChange,
+    title,
+    description,
+    children,
+    layer = 0,
+    descriptionWidth = "max-w-2xl",
+  } = props;
+  const { backdrop, content } = layerStyleZIndex[layer];
   return (
     <Dialog.Root open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
       <Dialog.Trigger />
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-999 bg-neutral-800/50 backdrop-blur-xs" />
+        <Dialog.Overlay
+          className={`fixed inset-0 ${backdrop} bg-neutral-800/50 backdrop-blur-xs`}
+        />
         <Dialog.Content
           onOpenAutoFocus={(e) => e.preventDefault()}
-          className="h-content fixed top-[50%] left-[50%] z-9999 flex w-auto max-w-4xl translate-x-[-50%] translate-y-[-50%] flex-col items-center justify-center rounded-2xl bg-white p-5 shadow-xl drop-shadow-md focus:outline-none md:w-auto"
+          className={`h-content fixed top-[50%] left-[50%] ${content} flex w-auto max-w-4xl translate-x-[-50%] translate-y-[-50%] flex-col items-center justify-center rounded-2xl bg-white p-5 shadow-xl drop-shadow-md focus:outline-none md:w-auto`}
         >
           <Dialog.Title className="mb-4 text-center text-xl font-bold text-neutral-900">
             {title}
           </Dialog.Title>
-          <Dialog.Description className="mb-5 max-w-2xl px-10 text-center text-sm leading-normal text-slate-600">
+          <Dialog.Description
+            className={`mb-5 ${descriptionWidth} px-10 text-center text-sm leading-normal text-slate-600`}
+          >
             {description}
           </Dialog.Description>
           <div>{children}</div>
