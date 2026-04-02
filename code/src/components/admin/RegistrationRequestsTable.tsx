@@ -202,7 +202,7 @@ export default function RegistrationRequestsTable() {
           startIcon={<FilterIcon size={18} />}
           disabled={isLoading}
           onClick={toggleFilterPanel}
-          className="max-w-fit"
+          className="h-12 max-w-fit"
         >
           {isFilterPanelOpen ? "Close Filters" : "Filter"}
         </Button>

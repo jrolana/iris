@@ -2,7 +2,7 @@ import React from "react";
 import BaseLayout from "@/layout/BaseLayout";
 import { NavItem } from "@/lib/types/nav";
 import { GridIcon, TableIcon, UserCircleIcon } from "@/icons";
-import { HistoryIcon } from "lucide-react";
+import { HistoryIcon, CodeXml } from "lucide-react";
 
 const navItems: NavItem[] = [
   { icon: <GridIcon />, name: "Dashboard", path: "/admin" },
@@ -15,6 +15,11 @@ const navItems: NavItem[] = [
     icon: <UserCircleIcon />,
     name: "User Management",
     path: "/admin/user-management",
+  },
+  {
+    icon: <CodeXml />,
+    name: "Developer Settings",
+    path: "/admin/developer-settings",
   },
   {
     icon: <HistoryIcon />,
