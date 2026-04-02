@@ -450,7 +450,13 @@ export default function ApplicationsTable(props: PropsInterface) {
                       <div className="grid w-3xs grid-cols-2 gap-x-4 gap-y-3">
                         {" "}
                         {/* Adds space between each person */}
-                        {record?.grouped_techgen_college?.map((item) => (
+                        {(
+                          record?.inventors as {
+                            full_name: string;
+                            college: string;
+                            college_name: string;
+                          }[]
+                        ).map((item) => (
                           <div
                             key={item.full_name}
                             className="flex flex-col leading-tight"
@@ -461,7 +467,7 @@ export default function ApplicationsTable(props: PropsInterface) {
                             </span>
                             {/* College is smaller and lighter */}
                             <span className="text-xs text-gray-500">
-                              {item.college}
+                              {item.college_name ?? "Unspecified"}
                             </span>
                           </div>
                         ))}
