@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import useAddNewUserModal from "@/hooks/useAddNewUserModal";
 import Modal from "./Modal";
@@ -14,7 +14,6 @@ import { inviteUser } from "@/app/actions/invite-user";
 import Select, { Option } from "../form/Select";
 import { ChevronDownIcon } from "lucide-react";
 import { UserSchema } from "@/lib/schemas/user";
-import { RegistrationRequestType } from "@/lib/types/users";
 
 function AddNewUserModal() {
   const [isLoading, setIsLoading] = useState(false);
