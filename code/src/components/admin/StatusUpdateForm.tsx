@@ -249,10 +249,11 @@ function StatusUpdateForm(props: PropsInterface) {
     !isNoteChanged && !isDeadlineChanged && !isStatusChanged && !isDateChanged;
 
   async function onConfirm() {
-    const isConfirmed = await confirm(
-      "Confirm Status Update",
-      "Are you sure you want to update the status of this application? This action will notify the technology generators about the change.",
-    );
+    const isConfirmed = await confirm({
+      title: "Confirm Status Update",
+      message:
+        "Are you sure you want to update the status of this application? This action will notify the technology generators about the change.",
+    });
 
     if (!isConfirmed) {
       return;
