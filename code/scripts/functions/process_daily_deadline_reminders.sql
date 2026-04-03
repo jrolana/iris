@@ -1,3 +1,8 @@
+CREATE OR REPLACE FUNCTION private.process_daily_deadline_reminders()
+RETURNS void
+LANGUAGE plpgsql
+AS $$
+
 DECLARE
     app_record RECORD;
     inv_record RECORD;
