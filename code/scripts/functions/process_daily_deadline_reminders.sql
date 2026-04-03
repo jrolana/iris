@@ -24,7 +24,11 @@ BEGIN
             stat.status_name
         FROM private.ipr_applications app
         LEFT JOIN private.ipr_statuses stat ON app.curr_status = stat.id
-        WHERE stat.deadline IS NOT NULL OR ((app.ip_type = 'patent' OR app.ip_type = 'trademark') AND app.filing_date IS NOT NULL)
+        WHERE (
+            stat.deadline IS NOT NULL OR ((app.ip_type = 'patent' OR app.ip_type = 'trademark')) AND app.filing_date IS NOT NULL
+            ) 
+            AND NOT 
+            (app.is_withdrawn = TRUE OR app.is_archived = TRUE)
     -- do this loop for each app_record
     LOOP
         v_is_annual_reminder := FALSE;
