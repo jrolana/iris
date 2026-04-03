@@ -19,8 +19,8 @@ interface ModalProps {
 
 const layerStyleZIndex = [
   {
-    backdrop: "z-9",
-    content: "z-99",
+    backdrop: "z-50",
+    content: "z-50",
   },
   {
     backdrop: "z-99",

@@ -14,6 +14,7 @@ import { inviteUser } from "@/app/actions/invite-user";
 import Select, { Option } from "../form/Select";
 import { ChevronDownIcon } from "lucide-react";
 import { UserSchema } from "@/lib/schemas/user";
+import { useConfirm } from "@/hooks/useConfirm";
 
 function AddNewUserModal() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +22,7 @@ function AddNewUserModal() {
   const { isOpen, closeModal } = useAddNewUserModal();
   const successModal = useModal();
   const errorModal = useModal();
+  const confirm = useConfirm();
 
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -44,6 +46,14 @@ function AddNewUserModal() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const isConfirmed = await confirm({
+      title: "Confirm Invitation",
+      message: `Are you sure you want to invite ${email} as ${role}?`,
+    });
+    if (!isConfirmed) {
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
 
     const userData = {
@@ -99,6 +109,7 @@ function AddNewUserModal() {
             closeModal();
             resetForm();
           }}
+          layer={0}
         >
           <form onSubmit={handleSubmit} className="w-[70vw] lg:w-[20vw]">
             <div className="-mt-4 space-y-2">
