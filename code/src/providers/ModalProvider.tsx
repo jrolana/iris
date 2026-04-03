@@ -1,14 +1,16 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import AddInventorModal from "@/components/modals/AddInventorModal";
 import AddNewUserModal from "@/components/modals/AddNewUserModal";
 import AddVerifiedInventorModal from "@/components/modals/AddVerifiedInventorModal";
+import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import InventorFileReportModal from "@/components/modals/InventorFileReportModal";
 import InventorViewReportsModals from "@/components/modals/InventorViewReportsModal";
 import LinkInventorModal from "@/components/modals/LinkInventorModal";
 import StatusUpdateModal from "@/components/modals/StatusUpdateModal";
 import UploadFilesModal from "@/components/modals/UploadFilesModal";
-import { useEffect, useState } from "react";
 
 function ModalProvider() {
   const [isMounted, setIsMounted] = useState(false);
@@ -31,6 +33,7 @@ function ModalProvider() {
       <AddNewUserModal />
       <InventorViewReportsModals />
       <AddVerifiedInventorModal />
+      <ConfirmationModal />
     </>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useConfirm } from "@/hooks/useConfirm";
 import { useEffect, useState } from "react";
 import { useApplicationsGetApplicationsByQuery } from "@/hooks/applications/useGetApplicationsByQuery";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
@@ -62,6 +63,7 @@ const sortOptions = [
 export default function ApplicationsTable(props: PropsInterface) {
   const { isAdmin = false, isTechgen = false } = props;
   const router = useRouter();
+  const confirm = useConfirm();
   const [title, setTitle] = useState<string>("");
   const [statuses, setStatuses] = useState<StatusType[]>([]);
   const [colleges, setColleges] = useState<CollegeUnitType[]>([]);
@@ -192,6 +194,13 @@ export default function ApplicationsTable(props: PropsInterface) {
     applicationId: string,
     isCurrentlyArchived: boolean,
   ) {
+    const isConfirmed = await confirm({
+      title: isCurrentlyArchived ? "Confirm Unarchive" : "Confirm Archive",
+      message: `Are you sure you want to ${isCurrentlyArchived ? "unarchive" : "archive"} this application? ${isCurrentlyArchived ? "Unarchiving" : "Archiving"} an application will ${isCurrentlyArchived ? "make it visible again in the applications registry and to all users" : "hide it from the applications registry and from all users, but it can be unarchived later if needed"}.`,
+    });
+
+    if (!isConfirmed) return;
+
     toast.promise(
       updateApp({
         id: applicationId,
@@ -404,7 +413,10 @@ export default function ApplicationsTable(props: PropsInterface) {
                   >
                     <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                       <div className="flex flex-row items-center gap-1">
-                        <Link href={"/"} className="hover:text-brand-500">
+                        <Link
+                          href={`${isAdmin ? "/admin" : "/techgen"}/view-application?applicationID=${record.id}`}
+                          className="hover:text-brand-500"
+                        >
                           {record.ip_title ?? "--"}
                         </Link>
                       </div>
@@ -438,7 +450,13 @@ export default function ApplicationsTable(props: PropsInterface) {
                       <div className="grid w-3xs grid-cols-2 gap-x-4 gap-y-3">
                         {" "}
                         {/* Adds space between each person */}
-                        {record?.grouped_techgen_college?.map((item) => (
+                        {(
+                          record?.inventors as {
+                            full_name: string;
+                            college: string;
+                            college_name: string;
+                          }[]
+                        ).map((item) => (
                           <div
                             key={item.full_name}
                             className="flex flex-col leading-tight"
@@ -449,7 +467,7 @@ export default function ApplicationsTable(props: PropsInterface) {
                             </span>
                             {/* College is smaller and lighter */}
                             <span className="text-xs text-gray-500">
-                              {item.college}
+                              {item.college_name ?? "Unspecified"}
                             </span>
                           </div>
                         ))}

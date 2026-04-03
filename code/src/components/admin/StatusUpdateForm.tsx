@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { IpType, StatusType } from "@/lib/types/ip";
+import { StatusType } from "@/lib/types/ip";
 import { toSupabaseDate, fromSupabaseDate } from "@/lib/helper/format-date";
 import { ApplicationType } from "@/lib/types/application";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
@@ -14,6 +14,7 @@ import { useAddStatus } from "@/hooks/status/useAddStatus";
 import { useUpdateStatus } from "@/hooks/status/useUpdateStatus";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDowngradeToUM } from "@/hooks/applications/useDowngradeToUM";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import {
   Select,
@@ -34,22 +35,6 @@ import { CalendarIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-// Options for TTBDO modal only
-const STATUS_OPTIONS: { value: StatusType; label: string }[] = Object.entries(
-  STATUS_LABELS as Record<string, string>,
-).map(([value, label]) => ({
-  value: value as StatusType,
-  label,
-}));
-
-const IP_TYPE_OPTIONS: { value: IpType; label: string }[] = [
-  { value: "patent", label: "Patent" },
-  { value: "utility_model", label: "Utility Model" },
-  { value: "industrial_design", label: "Industrial Design" },
-  { value: "trademark", label: "Trademark" },
-  { value: "copyright", label: "Copyright" },
-];
-
 interface PropsInterface {
   application: ApplicationType["Row"];
   currentStatus: IprStatusType["Row"];
@@ -58,15 +43,13 @@ interface PropsInterface {
 
 function StatusUpdateForm(props: PropsInterface) {
   const { application, currentStatus, closeModal } = props;
-
-  const ipTypeOptions = IP_TYPE_OPTIONS;
-
   const applicationId = application.id;
 
   const { updateApp } = useUpdateApplication({ appId: applicationId });
   const { updateStatus } = useUpdateStatus({ applicationId });
   const { addStatus } = useAddStatus();
   const { downgradeApp } = useDowngradeToUM();
+  const confirm = useConfirm();
   const [isDowngrading, setIsDowngrading] = useState(false);
   const router = useRouter();
 
@@ -140,9 +123,6 @@ function StatusUpdateForm(props: PropsInterface) {
     });
 
   const [statusOptions, setStatusOptions] = useState(startStatusOptions);
-
-  const [selectedIpType, setSelectedIpType] =
-    useState<ApplicationType["Update"]["ip_type"]>(currentIpType);
 
   const [selectedStatus, setSelectedStatus] =
     useState<StatusType>(currentStatusType);
@@ -269,26 +249,21 @@ function StatusUpdateForm(props: PropsInterface) {
     !isNoteChanged && !isDeadlineChanged && !isStatusChanged && !isDateChanged;
 
   async function onConfirm() {
+    const isDowngradeToUM = selectedStatus === "downgraded_to_um";
+    const isConfirmed = await confirm({
+      title: isDowngradeToUM ? "Confirm Downgrade" : "Confirm Status Update",
+      message: isDowngradeToUM
+        ? "Are you sure you want to downgrade this application to a Utility Model? This action will archive the current Patent application and create a new Utility Model application with the same details."
+        : "Are you sure you want to update the status of this application? This action will notify the technology generators about the change.",
+    });
+
+    if (!isConfirmed) {
+      return;
+    }
+
     try {
       if (isSubmitting) return;
       setIsSubmitting(true);
-
-      // IP type change
-      if (currentIpType !== selectedIpType) {
-        await updateApp(
-          {
-            id: applicationId,
-            applicationData: {
-              ip_type: selectedIpType,
-            },
-          },
-          {
-            onSuccess: () => toast.success("Successfully changed IP type."),
-            onError: () =>
-              toast.error("There was an error in changing IP type."),
-          },
-        );
-      }
 
       // No changes on status
       if (noChangesMade) {
@@ -605,48 +580,6 @@ function StatusUpdateForm(props: PropsInterface) {
                 )}
               </div>
             </div>
-
-            {/* {(selectedStatus === "registered" ||
-              selectedStatus === "filed_with_ipophil") && (
-              <div className="col-span-1 flex w-full shrink-0 flex-col items-start gap-1 md:col-span-2">
-                <span className="font-medium text-slate-800">
-                  {selectedStatus === "registered" ? "Registration" : "Filing"}{" "}
-                  Date
-                </span>
-
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      data-empty={!date}
-                      className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date ? format(date, "PPP") : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="z-9999 w-auto p-0">
-                    <Calendar
-                      fixedWeeks
-                      mode="single"
-                      selected={date ?? undefined}
-                      onSelect={(d) => setDate(d ?? new Date())}
-                      classNames={{
-                        day_selected:
-                          "bg-blue-600 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white",
-                        day_today: "bg-slate-100 text-slate-900",
-                      }}
-                      required
-                    />
-                  </PopoverContent>
-                </Popover>
-
-                <p className="text-xs text-slate-500">
-                  Pre-filled with today’s date based on the selected status. You
-                  may adjust if needed.
-                </p>
-              </div>
-            )} */}
           </div>
 
           <label className="flex w-full shrink-0 flex-col gap-1">
@@ -659,45 +592,6 @@ function StatusUpdateForm(props: PropsInterface) {
               placeholder="Briefly describe what changed, what TTBDO did, and what the tech gens should expect next."
             />
           </label>
-
-          {/* <div className="w-full shrink-0">
-            <label className="flex flex-col gap-1">
-              <span className="font-medium text-slate-800">
-                IP type (optional)
-              </span>
-              <Select
-                unstyled
-                value={IP_TYPE_OPTIONS.find(
-                  (opt) => opt.value === selectedIpType,
-                )}
-                options={ipTypeOptions}
-                className="h-10"
-                classNames={{
-                  placeholder: () => "text-lg! text-muted-foreground",
-                  control: ({ isFocused }) =>
-                    `overflow-hidden border rounded-lg px-3 transition-all focus-ring ${
-                      isFocused
-                        ? "border-gray-400 ring-3 ring-gray-300"
-                        : "border-gray-300"
-                    }`,
-                  menu: () =>
-                    "bg-white border border-gray-200 mt-2 rounded-lg space-y-2 overflow-hidden",
-                  input: () => "text-sm",
-                  option: ({ isFocused }) =>
-                    `px-3 py-2 cursor-pointer ${
-                      isFocused ? "bg-sky-50 text-sky-900" : "bg-transparent"
-                    }`,
-                }}
-                onChange={(selectedOption) =>
-                  setSelectedIpType(selectedOption?.value as IpType)
-                }
-              />
-              <p className="mt-1 text-xs text-slate-500">
-                Only change this if the application type has fundamentally
-                changed.
-              </p>
-            </label>
-          </div> */}
         </div>
 
         <div className="mt-2 flex w-full shrink-0 items-center justify-end gap-3 pb-2">

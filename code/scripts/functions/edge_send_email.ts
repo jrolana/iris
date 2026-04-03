@@ -66,9 +66,9 @@ serve(async (req) => {
 
 
     // Nodemailer batch payload format: https://nodemailer.com/message/
-    let sentCount = 0;
-    for (const [email, data] of Object.entries(userBatches)) {
-      await transporter.sendMail({
+    // Prepare all emails to send simultaneously
+    const emailPromises = Object.entries(userBatches).map(([email, data]: [string, any]) => {
+      return transporter.sendMail({
         from: `IP Management System <${Deno.env.get('GMAIL_EMAIL')}>`,
         to: email,
         subject: `[IRIS] Action Required: ${data.htmlItems.length} IP Application Deadline(s)`,
@@ -85,10 +85,14 @@ serve(async (req) => {
           </div>
         `
       })
-      sentCount++;
-    }
+    })
 
-    // toggle the notifs 'has_email_sent = true', use the collected ids
+    // execute batch email sending in parallel
+    await Promise.all(emailPromises);
+    const sentCount = emailPromises.length;
+
+
+    // toggle the notifs 'email_sent = true', use the collected ids
     const allProcessedIds = notifications.map((n: any) => n.id)
     const { error: updateError } = await supabaseAdmin
       .schema('private')
@@ -104,6 +108,7 @@ serve(async (req) => {
     )
 
   } catch (err: any) {
+    console.error("CRITICAL FUNCTION ERROR:", err);
     return new Response(
       JSON.stringify({ error: err.message }), 
       { headers: { "Content-Type": "application/json" }, status: 500 }

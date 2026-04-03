@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { ApplicationType } from "@/lib/types/application";
 import useEditApplicationDetailsModal from "@/hooks/useEditApplicationDetailsModal";
 import { fromSupabaseDate, toSupabaseDate } from "@/lib/helper/format-date";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -42,6 +43,7 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
   } = props;
 
   const { closeModal, isOpen } = useEditApplicationDetailsModal();
+  const confirm = useConfirm();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editIpTitle, setEditIpTitle] = useState(ipTitle ?? "");
@@ -91,6 +93,13 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    const isConfirmed = await confirm({
+      title: "Confirm changes",
+      message: "Are you sure you want to update the application details?",
+    });
+
+    if (!isConfirmed) return;
 
     if (!trimmedTitle) {
       toast.error("IP title is required.");
