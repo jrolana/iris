@@ -18,11 +18,13 @@ export default function NotificationDropdown(
 ) {
   const { isAdmin = false } = props;
 
-  const { notifications, isLoading } = useGetNotifications();
-  const { markNotificationAsRead } = useMarkAsRead();
+  const { notifications, isLoading, isFetching } = useGetNotifications();
+  const { markNotificationAsRead, isMarkingOne } = useMarkAsRead();
+
   const hasUnreadNotification = notifications?.some(
     (notif) => notif.read_at === null,
   );
+
   const router = useRouter();
 
   async function handleViewAll() {
@@ -37,7 +39,22 @@ export default function NotificationDropdown(
   if (isLoading) {
     return (
       <NotificationContainer hasUnreadNotification={hasUnreadNotification}>
-        Fetching notifications...
+        <div className="flex flex-col gap-2 px-1 py-2">
+          <p className="text-sm text-gray-500">Fetching notifications...</p>
+
+          {[...Array(4)].map((_, i) => (
+            <div
+              key={i}
+              className="animate-pulse rounded-lg bg-gray-50 px-4 py-3"
+            >
+              <div className="space-y-2">
+                <div className="h-3 w-2/3 rounded bg-gray-200" />
+                <div className="h-3 w-full rounded bg-gray-200" />
+                <div className="h-3 w-1/3 rounded bg-gray-200" />
+              </div>
+            </div>
+          ))}
+        </div>
       </NotificationContainer>
     );
   }
@@ -45,31 +62,55 @@ export default function NotificationDropdown(
   if (!notifications || notifications.length < 1) {
     return (
       <NotificationContainer hasUnreadNotification={hasUnreadNotification}>
-        No notifications yet.
+        <div className="py-3 text-sm text-gray-500">No notifications yet.</div>
       </NotificationContainer>
     );
   }
 
   return (
     <NotificationContainer hasUnreadNotification={hasUnreadNotification}>
+      <div className="mb-2 flex items-center justify-between px-1">
+        <span className="text-xs text-gray-500">
+          {notifications.filter((notif) => notif.read_at === null).length} unread
+        </span>
+
+        {!isLoading && isFetching && (
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-gray-300 border-t-gray-500" />
+            <span>Refreshing...</span>
+          </div>
+        )}
+      </div>
+
       <ul className="custom-scrollbar flex h-auto flex-col gap-1 overflow-y-auto">
         {notifications.map((notif) => {
           const isUnread = notif.read_at === null;
+          const isThisNotifLoading = isMarkingOne(notif.id);
 
           return (
             <li key={notif.id}>
               <DropdownItem
                 onItemClick={() => markAsRead(notif.id, notif.read_at)}
                 className={[
-                  "flex gap-3 rounded-lg p-3 px-4.5 py-3",
+                  "flex gap-3 rounded-lg p-3 px-4.5 py-3 transition-opacity",
                   isUnread
                     ? "bg-orange-50 hover:bg-orange-100"
                     : "bg-white hover:bg-gray-100",
+                  isThisNotifLoading ? "opacity-80" : "",
+                  isFetching ? "cursor-not-allowed" : "",
                 ].join(" ")}
               >
-                <span className="block">
-                  <span className="text-theme-sm line-clamp-2 font-medium text-gray-800">
-                    {notif.title}
+                <span className="block w-full">
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="text-theme-sm line-clamp-2 font-medium text-gray-800">
+                      {notif.title}
+                    </span>
+
+                    {isThisNotifLoading && (
+                      <span className="shrink-0 text-xs font-medium text-orange-500">
+                        Marking...
+                      </span>
+                    )}
                   </span>
 
                   <span className="text-theme-sm text-gray-500">
@@ -77,12 +118,17 @@ export default function NotificationDropdown(
                   </span>
 
                   <span className="text-theme-xs mt-1 flex items-center gap-2 text-gray-500">
-                    <span
-                      className={[
-                        "h-1 w-1 rounded-full",
-                        isUnread ? "bg-orange-500" : "bg-gray-400",
-                      ].join(" ")}
-                    />
+                    {isThisNotifLoading ? (
+                      <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-gray-300 border-t-orange-500" />
+                    ) : (
+                      <span
+                        className={[
+                          "h-1 w-1 rounded-full",
+                          isUnread ? "bg-orange-500" : "bg-gray-400",
+                        ].join(" ")}
+                      />
+                    )}
+
                     <span>
                       {notif.created_at &&
                         (isToday(new Date(notif.created_at))
@@ -99,14 +145,16 @@ export default function NotificationDropdown(
 
       <button
         onClick={handleViewAll}
+        disabled={isFetching}
         className={[
           "mt-3 inline-flex w-full items-center justify-center rounded-md border px-4 py-2",
           "text-xs font-semibold tracking-wide uppercase transition-colors",
           "focus:ring-2 focus:ring-orange-200 focus:ring-offset-1 focus:outline-none",
           "border-gray-300 bg-white text-gray-700 hover:bg-gray-100",
+          isFetching ? "cursor-not-allowed opacity-70" : "",
         ].join(" ")}
       >
-        View All Notifications
+        {isFetching ? "Refreshing..." : "View All Notifications"}
       </button>
     </NotificationContainer>
   );

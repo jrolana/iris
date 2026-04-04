@@ -1,6 +1,7 @@
 "use client";
 
 import useStatusUpdateModal from "@/hooks/useStatusUpdateModal";
+import { useConfirm } from "@/hooks/useConfirm";
 import { StatusType } from "@/lib/types/ip";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import clsx from "clsx";
@@ -20,6 +21,7 @@ interface StatusHistoryPanelProps {
 export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
   const { application, variant = "techgen" } = props;
   const { openModal } = useStatusUpdateModal();
+  const confirm = useConfirm();
   const { isLoading: isWithdrawing, updateApp } = useUpdateApplication({
     appId: application.id,
   });
@@ -32,7 +34,15 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
     openModal();
   }
 
-  function handleWithdrawApplication() {
+  async function handleWithdrawApplication() {
+    const isConfirmed = await confirm({
+      title: "Withdraw Application",
+      message:
+        "Are you sure you want to withdraw this application? You can revert this action later if needed.",
+    });
+
+    if (!isConfirmed) return;
+
     toast.promise(
       updateApp({
         id: application.id,
@@ -46,7 +56,15 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
     );
   }
 
-  function handleUnwithdrawApplication() {
+  async function handleUnwithdrawApplication() {
+    const isConfirmed = await confirm({
+      title: "Revert Withdrawal",
+      message:
+        "Are you sure you want to revert the withdrawal of this application?",
+    });
+
+    if (!isConfirmed) return;
+
     toast.promise(
       updateApp({
         id: application.id,

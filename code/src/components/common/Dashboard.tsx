@@ -2,9 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import PieChart from "@/components/charts/PieChart";
-import CombinationChart from "@/components/charts/CombinationChart";
+import BarChart from "@/components/charts/BarChart";
 import DonutChart from "@/components/charts/DonutChart";
 import DashboardSummaryTable from "@/components/dashboard/DashboardSummaryTable";
+import DashboardLoadingState from "@/components/dashboard/DashboardLoadingState";
 import OverviewKPIs from "../dashboard/OverviewKPIs";
 import Button from "@/components/ui/button/Button";
 import { CiExport } from "react-icons/ci";
@@ -35,6 +36,8 @@ import {
   TREND_CHARTS,
   PDF_EXPORT_CHARTS,
 } from "@/lib/dashboard/dashboard";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 type YearSelectProps = {
   label: string;
@@ -43,8 +46,6 @@ type YearSelectProps = {
   disabled: boolean;
   onChange: (value: number) => void;
 };
-
-type DashboardStatus = DashboardAnalyticsType["dashboard_status"];
 
 type PieChartDatum = {
   ipType: string;
@@ -55,7 +56,6 @@ type CombinationChartData = {
   categories: number[];
   activeIpTypes: string[];
   groupedByIPAndYear: Record<string, Record<number, number>>;
-  actualTotalSeries: number[];
 };
 
 type DonutMetrics = {
@@ -126,6 +126,10 @@ export default function Dashboard() {
   const currentYear = new Date().getFullYear();
 
   const [showExportMenu, setShowExportMenu] = useState(false);
+  const [isExportingCsv, setIsExportingCsv] = useState(false);
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
+
+  const isExporting = isExportingCsv || isExportingPdf;
 
   const [filters, setFilters] = useState<DashboardFilters>({
     preset: "current_year",
@@ -288,18 +292,10 @@ export default function Dashboard() {
         (ipType) => groupedByIPAndYear[ipType],
       );
 
-      const actualTotalSeries = categories.map((year) =>
-        Object.values(groupedByIPAndYear).reduce(
-          (sum, totalsByYear) => sum + (totalsByYear[year] ?? 0),
-          0,
-        ),
-      );
-
       result[status] = {
         categories,
         activeIpTypes,
         groupedByIPAndYear,
-        actualTotalSeries,
       };
     }
 
@@ -347,7 +343,7 @@ export default function Dashboard() {
 
     const overall = computeTotalsAndRate(validRows);
 
-    const currentYear = years.length ? years[years.length - 1] : null;
+    const latestYear = years.length ? years[years.length - 1] : null;
     const previousYear = years.length >= 2 ? years[years.length - 2] : null;
 
     let currentFiled = 0;
@@ -358,9 +354,9 @@ export default function Dashboard() {
     let previousRate = 0;
     let hasYearComparison = false;
 
-    if (currentYear !== null) {
+    if (latestYear !== null) {
       const currentRows = validRows.filter(
-        (item) => Number(item.year) === currentYear,
+        (item) => Number(item.year) === latestYear,
       );
       const current = computeTotalsAndRate(currentRows);
 
@@ -389,7 +385,7 @@ export default function Dashboard() {
       previousGranted,
       currentRate,
       previousRate,
-      currentYear,
+      currentYear: latestYear,
       previousYear,
       hasYearComparison,
     };
@@ -406,32 +402,55 @@ export default function Dashboard() {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <DashboardLoadingState />;
   }
 
   const pieSubtitle = `By IP type, ${filters.yearFrom}–${filters.yearTo}`;
 
-  const handleExportCsv = () => {
-    exportDashboardCsv({
-      yearFrom: filters.yearFrom,
-      yearTo: filters.yearTo,
-      summaryTableRows,
-      summaryTotals,
-    });
-    setShowExportMenu(false);
+  const handleExportCsv = async () => {
+    try {
+      setIsExportingCsv(true);
+
+      await Promise.resolve(
+        exportDashboardCsv({
+          yearFrom: filters.yearFrom,
+          yearTo: filters.yearTo,
+          summaryTableRows,
+          summaryTotals,
+        }),
+      );
+
+      setShowExportMenu(false);
+      toast.success("CSV exported successfully.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to export CSV.");
+    } finally {
+      setIsExportingCsv(false);
+    }
   };
 
   const handleExportPdf = async () => {
-    await exportDashboardPdf({
-      filename: `ip-portfolio-${filters.yearFrom}-${filters.yearTo}.pdf`,
-      yearFrom: filters.yearFrom,
-      yearTo: filters.yearTo,
-      chartExports: PDF_EXPORT_CHARTS,
-      summaryTableRows,
-      summaryTotals,
-    });
+    try {
+      setIsExportingPdf(true);
 
-    setShowExportMenu(false);
+      await exportDashboardPdf({
+        filename: `ip-portfolio-${filters.yearFrom}-${filters.yearTo}.pdf`,
+        yearFrom: filters.yearFrom,
+        yearTo: filters.yearTo,
+        chartExports: PDF_EXPORT_CHARTS,
+        summaryTableRows,
+        summaryTotals,
+      });
+
+      setShowExportMenu(false);
+      toast.success("PDF exported successfully.");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to export PDF.");
+    } finally {
+      setIsExportingPdf(false);
+    }
   };
 
   return (
@@ -445,10 +464,20 @@ export default function Dashboard() {
 
         <div className="relative mt-3 mb-2 flex justify-end lg:col-span-6">
           <Button
-            startIcon={<CiExport size="18" />}
-            onClick={() => setShowExportMenu((prev) => !prev)}
+            startIcon={
+              isExporting ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <CiExport size="18" />
+              )
+            }
+            onClick={() => {
+              if (isExporting) return;
+              setShowExportMenu((prev) => !prev);
+            }}
+            disabled={isExporting}
           >
-            Export
+            {isExporting ? "Exporting..." : "Export"}
           </Button>
 
           {showExportMenu && (
@@ -456,17 +485,35 @@ export default function Dashboard() {
               <button
                 type="button"
                 onClick={handleExportCsv}
-                className="w-full rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                disabled={isExporting}
+                className={cn(
+                  "flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm",
+                  isExporting
+                    ? "cursor-not-allowed text-gray-400"
+                    : "text-gray-700 hover:bg-gray-50",
+                )}
               >
-                Export CSV
+                <span>
+                  {isExportingCsv ? "Exporting CSV..." : "Export CSV"}
+                </span>
+                {isExportingCsv && <Loader2 className="h-4 w-4 animate-spin" />}
               </button>
 
               <button
                 type="button"
                 onClick={handleExportPdf}
-                className="w-full rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                disabled={isExporting}
+                className={cn(
+                  "flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm",
+                  isExporting
+                    ? "cursor-not-allowed text-gray-400"
+                    : "text-gray-700 hover:bg-gray-50",
+                )}
               >
-                Export PDF
+                <span>
+                  {isExportingPdf ? "Exporting PDF..." : "Export PDF"}
+                </span>
+                {isExportingPdf && <Loader2 className="h-4 w-4 animate-spin" />}
               </button>
             </div>
           )}
@@ -607,7 +654,7 @@ export default function Dashboard() {
 
         {TREND_CHARTS.slice(0, 3).map((chart) => (
           <div key={chart.chartId} className={chart.colSpan}>
-            <CombinationChart
+            <BarChart
               chartId={chart.chartId}
               title={chart.title}
               data={
@@ -615,7 +662,6 @@ export default function Dashboard() {
                   categories: [],
                   activeIpTypes: [],
                   groupedByIPAndYear: {},
-                  actualTotalSeries: [],
                 }
               }
             />
@@ -632,7 +678,7 @@ export default function Dashboard() {
 
         {TREND_CHARTS.slice(3).map((chart) => (
           <div key={chart.chartId} className={chart.colSpan}>
-            <CombinationChart
+            <BarChart
               chartId={chart.chartId}
               title={chart.title}
               data={
@@ -640,7 +686,6 @@ export default function Dashboard() {
                   categories: [],
                   activeIpTypes: [],
                   groupedByIPAndYear: {},
-                  actualTotalSeries: [],
                 }
               }
             />

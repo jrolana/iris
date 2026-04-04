@@ -1,4 +1,3 @@
-import { groupTechgenCollege } from "@/lib/helper/group-techgen-college";
 import { supabaseClient as supabase } from "@/lib/supabase"
 import { CollegeUnitType } from "@/lib/types/college-units";
 import { StatusType } from "@/lib/types/ip";
@@ -28,13 +27,7 @@ export const getApplicationsByQuery = async (props: GetApplicationsByQueryProps)
     if (error) {
         throw new Error(error.message);
     }
-    const formattedData =  data.map((application) => {
-        const grouped_techgen_college = groupTechgenCollege(application.techgens, application.colleges, application.college_names);
-        return {
-            ...application,
-            grouped_techgen_college
-        };
-    })
 
-    return formattedData;
+
+    return data;
 }

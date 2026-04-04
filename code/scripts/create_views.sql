@@ -46,6 +46,7 @@ WITH status_class AS (
   FROM private.ipr_applications AS a
   JOIN private.ipr_statuses AS s
     ON s.id = a.curr_status
+  WHERE a.is_archived = FALSE
 )
 SELECT 
   id,

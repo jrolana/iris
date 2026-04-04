@@ -5,11 +5,7 @@ import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import { BarChart3 } from "lucide-react";
-import {
-  IP_TYPE_COLOR_MAP,
-  FALLBACK_IP_COLOR,
-  TOTAL_LINE_COLOR,
-} from "@/lib/constants/ui";
+import { IP_TYPE_COLOR_MAP, FALLBACK_IP_COLOR } from "@/lib/constants/ui";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -22,21 +18,18 @@ interface PropsInterface {
     categories: number[];
     activeIpTypes: string[];
     groupedByIPAndYear: Record<string, Record<number, number>>;
-    actualTotalSeries: number[];
   };
   chartId?: string;
 }
 
 type SeriesItemType = {
   name: string;
-  type: "column" | "line";
   data: number[];
 };
 
-function CombinationChart(props: PropsInterface) {
+function BarChart(props: PropsInterface) {
   const { title, showLegend = true, data, chartId } = props;
-  const { categories, activeIpTypes, groupedByIPAndYear, actualTotalSeries } =
-    data;
+  const { categories, activeIpTypes, groupedByIPAndYear } = data;
 
   const CHART_HEIGHT = 310;
 
@@ -52,48 +45,18 @@ function CombinationChart(props: PropsInterface) {
     return `IP applications submitted from ${categories[0]} to ${categories[categories.length - 1]}`;
   }, [categories]);
 
-  const columnSeries: SeriesItemType[] = useMemo(() => {
+  const series: SeriesItemType[] = useMemo(() => {
     return activeIpTypes.map((ipType) => ({
       name: ipTypeToTitle(ipType),
-      type: "column",
       data: categories.map((year) => groupedByIPAndYear[ipType]?.[year] ?? 0),
     }));
   }, [activeIpTypes, groupedByIPAndYear, categories]);
 
-  const totalSeries: SeriesItemType = useMemo(() => {
-    const maxColumnValue = Math.max(
-      1,
-      ...columnSeries.flatMap((series) => series.data),
-    );
-
-    const maxActualTotal = Math.max(1, ...actualTotalSeries);
-    const targetLineMax = maxColumnValue * 1.08;
-
-    return {
-      name: "Total",
-      type: "line",
-      data: actualTotalSeries.map(
-        (value) => (value / maxActualTotal) * targetLineMax,
-      ),
-    };
-  }, [columnSeries, actualTotalSeries]);
-
-  const series: SeriesItemType[] = useMemo(() => {
-    return [...columnSeries, totalSeries];
-  }, [columnSeries, totalSeries]);
-
   const seriesColors = useMemo(() => {
-    return [
-      ...activeIpTypes.map(
-        (ipType) => IP_TYPE_COLOR_MAP[ipType] ?? FALLBACK_IP_COLOR,
-      ),
-      TOTAL_LINE_COLOR,
-    ];
+    return activeIpTypes.map(
+      (ipType) => IP_TYPE_COLOR_MAP[ipType] ?? FALLBACK_IP_COLOR,
+    );
   }, [activeIpTypes]);
-
-  const strokeWidths = useMemo(() => {
-    return series.map((item) => (item.type === "line" ? 2 : 0));
-  }, [series]);
 
   const options: ApexOptions = useMemo(
     () => ({
@@ -111,21 +74,17 @@ function CombinationChart(props: PropsInterface) {
         fontFamily: "Outfit, sans-serif",
         height: CHART_HEIGHT,
         width: "100%",
-        type: "line",
+        type: "bar",
+        stacked: false,
         toolbar: {
           show: false,
         },
       },
-      stroke: {
-        curve: "straight",
-        width: strokeWidths,
-      },
-      markers: {
-        size: 0,
-        strokeColors: "#fff",
-        strokeWidth: 2,
-        hover: {
-          size: 6,
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "52%",
+          borderRadius: 4,
         },
       },
       grid: {
@@ -139,6 +98,7 @@ function CombinationChart(props: PropsInterface) {
             show: true,
           },
         },
+        strokeDashArray: 4,
       },
       dataLabels: {
         enabled: false,
@@ -146,18 +106,9 @@ function CombinationChart(props: PropsInterface) {
       tooltip: {
         enabled: true,
         shared: true,
+        intersect: false,
         y: {
-          formatter: (value, { seriesIndex, dataPointIndex, w }) => {
-            const seriesName = w.config.series?.[seriesIndex]?.name;
-
-            if (seriesName === "Total") {
-              return Math.round(
-                actualTotalSeries[dataPointIndex] ?? 0,
-              ).toString();
-            }
-
-            return Math.round(Number(value) || 0).toString();
-          },
+          formatter: (value) => Math.round(Number(value) || 0).toString(),
         },
       },
       xaxis: {
@@ -172,10 +123,15 @@ function CombinationChart(props: PropsInterface) {
         tooltip: {
           enabled: false,
         },
+        labels: {
+          style: {
+            fontSize: "12px",
+            colors: "#6B7280",
+          },
+        },
       },
       yaxis: {
         min: 0,
-        forceNiceScale: true,
         labels: {
           formatter: (value) => Math.round(value).toString(),
           style: {
@@ -185,9 +141,6 @@ function CombinationChart(props: PropsInterface) {
         },
         title: {
           text: "",
-          style: {
-            fontSize: "0px",
-          },
         },
       },
       responsive: [
@@ -200,18 +153,16 @@ function CombinationChart(props: PropsInterface) {
             legend: {
               position: "bottom",
             },
+            plotOptions: {
+              bar: {
+                columnWidth: "60%",
+              },
+            },
           },
         },
       ],
     }),
-    [
-      showLegend,
-      seriesColors,
-      chartId,
-      strokeWidths,
-      actualTotalSeries,
-      categories,
-    ],
+    [showLegend, seriesColors, chartId, categories],
   );
 
   return (
@@ -247,7 +198,7 @@ function CombinationChart(props: PropsInterface) {
             <ReactApexChart
               options={options}
               series={series}
-              type="line"
+              type="bar"
               width="100%"
               height={CHART_HEIGHT}
             />
@@ -258,4 +209,4 @@ function CombinationChart(props: PropsInterface) {
   );
 }
 
-export default memo(CombinationChart);
+export default memo(BarChart);

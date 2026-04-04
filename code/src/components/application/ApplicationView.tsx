@@ -2,9 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
-import { useQueryClient } from "@tanstack/react-query";
 import { useGetCurrStatus } from "@/hooks/applications/useGetCurrStatus";
+import useEditApplicationDetailsModal from "@/hooks/useEditApplicationDetailsModal";
 
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
@@ -12,12 +11,12 @@ import { ApplicationType } from "@/lib/types/application";
 import { StatusType } from "@/lib/types/ip";
 import { formatDateTime, formatDate } from "@/lib/helper/format-date";
 
-import { InlineEdit } from "../form/input/InlineEdit";
 import ApplicationStepper from "@/components/application/ApplicationStepper";
 import StatusHistoryPanel from "@/components/application/StatusHistoryPanel";
 import InformationPanel from "./InformationPanel";
+import EditApplicationDetailsModal from "../modals/EditApplicationDetailsModal";
 import { ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 export type ApplicationViewMode = "applicant" | "admin";
 
@@ -31,12 +30,9 @@ function ApplicationView(props: ApplicationViewProps) {
 
   const [ipTitle, setIpTitle] = useState(application.ip_title);
   const [ipNumber, setIpNumber] = useState(application.ip_number);
+  const [filingDate, setFilingDate] = useState(application.filing_date);
 
-  const { updateApp } = useUpdateApplication({
-    appId: application.id,
-  });
-
-  const queryClient = useQueryClient();
+  const { openModal } = useEditApplicationDetailsModal();
 
   const { status: currentStatus, isLoading: isLatestStatusLoading } =
     useGetCurrStatus({ statusId: application.curr_status });
@@ -47,210 +43,148 @@ function ApplicationView(props: ApplicationViewProps) {
     STATUS_LABELS[currentStatus?.status_type as StatusType] ??
     currentStatus?.status_type;
 
-  // handlers for admin, could be moved later on
   const isAdmin = mode === "admin";
-  if (!isAdmin) {
-    console.log("not admin", application.ip_number);
-  } else {
-    console.log("admin", application.ip_number);
-  }
 
   function handleBack() {
     router.back();
   }
 
   return (
-    <div className="relative mx-auto w-full max-w-6xl space-y-6 px-4 py-8">
-      <button
-        type="button"
-        onClick={handleBack}
-        aria-label="Return to homepage"
-        className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-50 focus:outline-none xl:absolute xl:-left-20 xl:mb-0"
-      >
-        <ArrowLeft size={18} className="text-gray-700" />
-      </button>
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div className="min-w-0">
-          <div className="flex flex-row items-center gap-3">
-            {isAdmin &&
-            !application.is_withdrawn &&
-            !application.is_archived ? (
-              <InlineEdit
-                value={ipTitle ?? ""}
-                onSave={async (newValue) => {
-                  if (newValue == ipTitle || !newValue) return;
+    <>
+      <div className="relative mx-auto w-full max-w-6xl space-y-6 px-4 py-8">
+        <button
+          type="button"
+          onClick={handleBack}
+          aria-label="Return to homepage"
+          className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-50 focus:outline-none xl:absolute xl:-left-20 xl:mb-0"
+        >
+          <ArrowLeft size={18} className="text-gray-700" />
+        </button>
 
-                  try {
-                    await updateApp(
-                      {
-                        id: application.id,
-                        applicationData: { ip_title: newValue },
-                      },
-                      {
-                        onSuccess: () => {
-                          setIpTitle(newValue);
-                          queryClient.invalidateQueries({
-                            queryKey: ["application", application.id],
-                          });
-                          toast.success("Successfully changed IP title.");
-                        },
-                        onError: () => {
-                          toast.error(
-                            "There was a problem changing the IP title.",
-                          );
-                        },
-                      },
-                    );
-                  } catch (e) {
-                    console.error(
-                      e instanceof Error
-                        ? e.message
-                        : "There was a problem changing the IP title.",
-                    );
-                  }
-                }}
-                className="text-lg font-semibold text-gray-900 sm:text-2xl!"
-              />
-            ) : (
+        <header className="flex flex-col gap-4">
+          {isAdmin && !application.is_withdrawn && !application.is_archived ? (
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                onClick={openModal}
+                className="border-brand-700 bg-brand-600 hover:border-brand-600 hover:text-brand-600 rounded-full border px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-white"
+              >
+                Edit details
+              </Button>
+            </div>
+          ) : null}
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
               <h1 className="text-lg font-semibold text-gray-900 sm:text-2xl!">
                 {ipTitle}
               </h1>
-            )}
-          </div>
-          {application.project_title && (
-            <p className="mt-1 text-lg text-gray-600">
-              {application.project_title}
-            </p>
-          )}
-          <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
-            <span className="rounded-full bg-sky-100 px-3 py-1 font-medium text-sky-700">
-              {ipTypeToTitle(application.ip_type)}
-            </span>
-            {statusLabel && (
-              <span className="rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-700">
-                {statusLabel}
-              </span>
-            )}
-            {isAdmin &&
-            !application.is_withdrawn &&
-            !application.is_archived ? (
-              <div className="flex flex-row items-center gap-3 rounded-full bg-gray-600 px-3 py-1 text-white">
-                IP Number:{" "}
-                <InlineEdit
-                  value={ipNumber ?? ""}
-                  onSave={async (newValue) => {
-                    if (newValue == ipNumber || !newValue) return;
 
-                    try {
-                      await updateApp(
-                        {
-                          id: application.id,
-                          applicationData: { ip_number: newValue },
-                        },
-                        {
-                          onSuccess: () => {
-                            setIpNumber(newValue);
-                            queryClient.invalidateQueries({
-                              queryKey: ["application", application.id],
-                            });
-                            toast.success("Successfully changed IP number.");
-                          },
-                          onError: () => {
-                            toast.error(
-                              "There was a problem changing the IP number.",
-                            );
-                          },
-                        },
-                      );
-                    } catch (e) {
-                      console.error(
-                        e instanceof Error
-                          ? e.message
-                          : "There was a problem changing the IP number.",
-                      );
-                    }
-                  }}
-                  className="h-full text-sm"
-                />
-              </div>
-            ) : (
-              !!ipNumber && (
-                <p className="flex flex-row items-center gap-3 rounded-full bg-gray-600 px-3 py-1 text-white">
-                  IP Number: {ipNumber}
+              {application.project_title && (
+                <p className="mt-1 text-lg text-gray-600">
+                  {application.project_title}
                 </p>
-              )
-            )}
+              )}
+
+              <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
+                <span className="rounded-full bg-sky-100 px-3 py-1 font-medium text-sky-700">
+                  {ipTypeToTitle(application.ip_type)}
+                </span>
+
+                {statusLabel && (
+                  <span className="rounded-full bg-amber-100 px-3 py-1 font-medium text-amber-700">
+                    {statusLabel}
+                  </span>
+                )}
+
+                {!!ipNumber && (
+                  <p className="flex flex-row items-center gap-3 rounded-full bg-gray-600 px-3 py-1 text-white">
+                    IP Number: {ipNumber}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="text-md text-gray-600 sm:text-right">
+              <p className="font-bold text-gray-900">
+                {application.created_at
+                  ? "Ongoing application"
+                  : "Draft application"}
+              </p>
+
+              {application.created_at && (
+                <p className="mt-1">
+                  {`Application Start: ${formatDate(application.created_at)}`}
+                </p>
+              )}
+
+              {filingDate && (
+                <p className="mt-1">{`Filing Date: ${formatDate(filingDate)}`}</p>
+              )}
+
+              {application.registration_date && (
+                <p className="mt-1">
+                  {`Registration Date: ${formatDate(application.registration_date)}`}
+                </p>
+              )}
+
+              {isAdmin && application.updated_at && (
+                <p className="mt-1">
+                  {`Last Updated: ${formatDateTime(application.updated_at)}`}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
+        </header>
 
-        <div className="text-md text-gray-600 sm:text-right">
-          <p className="font-bold text-gray-900">
-            {application.created_at
-              ? "Ongoing application"
-              : "Draft application"}
-          </p>
-          {application.created_at && (
-            <p className="mt-1">
-              {`Application Start: ${formatDate(application.created_at)}`}
-            </p>
+        <section className="rounded-2xl border border-gray-200 bg-white p-3 sm:p-4">
+          {currentStatus ? (
+            <ApplicationStepper
+              ipType={application.ip_type}
+              currentStageDeadline={currentStatus?.deadline ?? undefined}
+              currentStatus={currentStatus}
+              isAdmin={isAdmin}
+              applicationId={application.id}
+              applicationName={application.project_title}
+            />
+          ) : (
+            <StatusPlaceholder
+              type={isLatestStatusLoading ? "loading" : "empty"}
+            />
           )}
-          {application.filing_date && (
-            <p className="mt-1">
-              {`Filing Date: ${formatDate(application.filing_date)}`}
-            </p>
-          )}
-          {application.registration_date && (
-            <p className="mt-1">
-              {`Registration Date: ${formatDate(application.registration_date)}`}
-            </p>
-          )}
-          {isAdmin && application.updated_at && (
-            <p className="mt-1">
-              {`Last Updated: ${formatDateTime(application.updated_at)}`}
-            </p>
-          )}
-        </div>
-      </header>
-
-      <section className="rounded-2xl border border-gray-200 bg-white p-3 sm:p-4">
-        {currentStatus ? (
-          <ApplicationStepper
-            ipType={application.ip_type}
-            currentStageDeadline={currentStatus?.deadline ?? undefined}
-            currentStatus={currentStatus}
-            isAdmin={isAdmin}
-            applicationId={application.id}
-            applicationName={application.project_title}
-          />
-        ) : (
-          <StatusPlaceholder
-            type={isLatestStatusLoading ? "loading" : "empty"}
-          />
-        )}
-      </section>
-
-      <main className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-        {/* left panel for the attachments and inventors */}
-        <section className="min-w-0 space-y-4 lg:col-span-7">
-          <InformationPanel
-            applicationId={application.id}
-            parentApplicationId={application.parent_application_id}
-            mode={mode}
-            isUneditable={application.is_archived || application.is_withdrawn}
-          />
         </section>
 
-        {/* right panels, status history and the reminders (could be change later on for something more useful)*/}
-        <section className="min-w-0 space-y-4 lg:col-span-5">
-          <StatusHistoryPanel
-            variant={isAdmin ? "ttbdo" : "techgen"}
-            application={application}
-          />
+        <main className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <section className="min-w-0 space-y-4 lg:col-span-7">
+            <InformationPanel
+              applicationId={application.id}
+              parentApplicationId={application.parent_application_id}
+              mode={mode}
+              isUneditable={application.is_archived || application.is_withdrawn}
+            />
+          </section>
 
-          {mode === "applicant" ? <ApplicantReminders /> : <AdminReminders />}
-        </section>
-      </main>
-    </div>
+          <section className="min-w-0 space-y-4 lg:col-span-5">
+            <StatusHistoryPanel
+              variant={isAdmin ? "ttbdo" : "techgen"}
+              application={application}
+            />
+
+            {mode === "applicant" ? <ApplicantReminders /> : <AdminReminders />}
+          </section>
+        </main>
+      </div>
+
+      <EditApplicationDetailsModal
+        application={application}
+        ipTitle={ipTitle}
+        ipNumber={ipNumber}
+        filingDate={filingDate}
+        setIpTitle={setIpTitle}
+        setIpNumber={setIpNumber}
+        setFilingDate={setFilingDate}
+      />
+    </>
   );
 }
 
