@@ -28,6 +28,18 @@ function readCookieValue(
   return value === undefined || value === "" ? undefined : value;
 }
 
+function normalizeRoleValue(roleValue: string | undefined) {
+  if (!roleValue) {
+    return undefined;
+  }
+
+  const normalized = roleValue
+    .trim()
+    .replace(/^['"]|['"]$/g, "");
+
+  return VALID_ROLES.find((validRole) => validRole === normalized);
+}
+
 function parseCookieHeader(cookieHeader: string) {
   return cookieHeader
     .split(";")
@@ -66,7 +78,7 @@ export function getE2EUserFromCookies(
   const email = readCookie(E2E_AUTH_COOKIES.email);
   const fullName = readCookie(E2E_AUTH_COOKIES.fullName);
 
-  const role = VALID_ROLES.find((validRole) => validRole === roleValue);
+  const role = normalizeRoleValue(roleValue);
 
   if (!role) {
     return null;

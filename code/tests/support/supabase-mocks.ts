@@ -10,6 +10,7 @@ import {
   type ReportRecord,
   type StatusRecord,
   type TestRole,
+  type ViewerRole,
 } from "./mock-data";
 
 const CORS_HEADERS = {
@@ -65,6 +66,22 @@ function wantsSingleObject(route: Route) {
   return accept?.includes("application/vnd.pgrst.object+json") ?? false;
 }
 
+function isApplicationPublicForGuest(
+  state: MockState,
+  applicationId: string | null | undefined,
+) {
+  if (!applicationId) {
+    return false;
+  }
+
+  const application = state.applications.find((item) => item.id === applicationId);
+  const latestStatus = state.statuses.find(
+    (status) => status.id === application?.curr_status,
+  );
+
+  return latestStatus?.is_public === true;
+}
+
 function buildSearchApplications(state: MockState) {
   return state.applications.map((application) => {
     const latestStatus = state.statuses.find(
@@ -111,6 +128,7 @@ function buildSearchApplications(state: MockState) {
           "",
       ),
       status_type: latestStatus?.status_type ?? "submitted_to_ttbdo",
+      is_public: latestStatus?.is_public === true,
       is_archived: application.is_archived ?? false,
       is_withdrawn: application.is_withdrawn ?? false,
       created_at: application.created_at,
@@ -352,13 +370,17 @@ function upsertUploadedFile(state: MockState, storagePath: string) {
   return record;
 }
 
-async function handleAuth(route: Route, state: MockState) {
+async function handleAuth(route: Route, state: MockState, viewerRole: ViewerRole) {
   if (route.request().method() === "OPTIONS") {
     return fulfillEmpty(route);
   }
 
   const url = new URL(route.request().url());
   if (url.pathname.endsWith("/auth/v1/user")) {
+    if (viewerRole === "guest") {
+      return fulfillJson(route, { message: "Auth session missing!" }, 401);
+    }
+
     return fulfillJson(route, state.currentUser);
   }
 
@@ -369,7 +391,12 @@ async function handleAuth(route: Route, state: MockState) {
   return fulfillJson(route, {});
 }
 
-async function handleRpc(route: Route, state: MockState, rpcName: string) {
+async function handleRpc(
+  route: Route,
+  state: MockState,
+  rpcName: string,
+  viewerRole: ViewerRole,
+) {
   const body = readBody(route);
 
   switch (rpcName) {
@@ -378,8 +405,10 @@ async function handleRpc(route: Route, state: MockState, rpcName: string) {
     case "search_applications":
       return fulfillJson(
         route,
-        buildSearchApplications(state).filter((record) =>
-          matchesSearchFilters(record, body),
+        buildSearchApplications(state).filter(
+          (record) =>
+            (viewerRole !== "guest" || record.is_public === true) &&
+            matchesSearchFilters(record, body),
         ),
       );
     case "search_users_for_linking": {
@@ -518,7 +547,12 @@ function updateRows<T extends { id: string } & Record<string, unknown>>(
   return updatedRows;
 }
 
-async function handleTable(route: Route, state: MockState, tableName: string) {
+async function handleTable(
+  route: Route,
+  state: MockState,
+  tableName: string,
+  viewerRole: ViewerRole,
+) {
   const method = route.request().method();
   if (method === "OPTIONS") {
     return fulfillEmpty(route);
@@ -534,9 +568,16 @@ async function handleTable(route: Route, state: MockState, tableName: string) {
   }
 
   const rows = tableRows(state, tableName) as Array<Record<string, unknown>>;
+  const guestFilteredRows =
+    viewerRole === "guest" && tableName === "ipr_applications"
+      ? rows.filter((row) => isApplicationPublicForGuest(state, String(row.id)))
+      : rows;
 
   if (method === "GET") {
-    const results = sortRows(filterRows(rows, url.searchParams), url.searchParams);
+    const results = sortRows(
+      filterRows(guestFilteredRows, url.searchParams),
+      url.searchParams,
+    );
     if (wantsSingleObject(route)) {
       return fulfillJson(route, results[0] ?? null, results[0] ? 200 : 404);
     }
@@ -606,11 +647,12 @@ async function handleStorage(route: Route, state: MockState) {
   return fulfillJson(route, { Key: objectPath });
 }
 
-export async function installSupabaseMocks(page: Page, role: TestRole) {
-  const state = createMockState(role);
+export async function installSupabaseMocks(page: Page, role: ViewerRole) {
+  const state = createMockState(role === "guest" ? "techgen" : role);
+  const viewerRole = role;
 
   await page.route("**/auth/v1/**", async (route) => {
-    await handleAuth(route, state);
+    await handleAuth(route, state, viewerRole);
   });
 
   await page.route("**/storage/v1/object/sign**", async (route) => {
@@ -633,7 +675,7 @@ export async function installSupabaseMocks(page: Page, role: TestRole) {
     const rpcMatch = url.pathname.match(/\/rest\/v1\/rpc\/([^/]+)$/);
 
     if (rpcMatch) {
-      await handleRpc(route, state, rpcMatch[1]);
+      await handleRpc(route, state, rpcMatch[1], viewerRole);
       return;
     }
 
@@ -643,7 +685,7 @@ export async function installSupabaseMocks(page: Page, role: TestRole) {
       return;
     }
 
-    await handleTable(route, state, tableName);
+    await handleTable(route, state, tableName, viewerRole);
   });
 
   return state;

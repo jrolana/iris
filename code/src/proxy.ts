@@ -14,6 +14,20 @@ const PUBLIC_ROUTES = [
   "/api",
 ];
 
+function normalizeRoleCookie(roleValue: string | undefined) {
+  if (!roleValue) {
+    return undefined;
+  }
+
+  const normalized = roleValue
+    .trim()
+    .replace(/^['"]|['"]$/g, "");
+
+  return VALID_ROLES.includes(normalized as Role)
+    ? (normalized as Role)
+    : undefined;
+}
+
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
   const pathname = request.nextUrl.pathname;
@@ -22,12 +36,12 @@ export async function proxy(request: NextRequest) {
   );
 
   if (isE2ETestMode()) {
-    const roleValue = request.cookies.get(E2E_AUTH_COOKIES.role)?.value;
+    const roleValue =
+      request.cookies.get(E2E_AUTH_COOKIES.role)?.value ??
+      request.cookies.get("user-role")?.value;
     const userId = request.cookies.get(E2E_AUTH_COOKIES.userId)?.value;
 
-    const role = VALID_ROLES.includes(roleValue as Role)
-      ? (roleValue as Role)
-      : undefined;
+    const role = normalizeRoleCookie(roleValue);
 
     if (!role || !userId) {
       if (!isPublicRoute) {

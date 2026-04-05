@@ -1,4 +1,5 @@
 export type TestRole = "admin" | "techgen" | "up-official";
+export type ViewerRole = TestRole | "guest";
 
 export type TestUser = {
   id: string;
@@ -305,7 +306,7 @@ const STATUSES: StatusRecord[] = [
     application_id: "app-1",
     created_at: "2025-02-02T10:00:00.000Z",
     deadline: "2025-03-15T00:00:00.000Z",
-    is_public: true,
+    is_public: false,
     note: "TTBDO is reviewing the disclosure packet.",
     status_name: null,
     status_type: "under_ttbdo_review",
@@ -315,7 +316,7 @@ const STATUSES: StatusRecord[] = [
     application_id: "app-1",
     created_at: "2025-01-15T08:30:00.000Z",
     deadline: null,
-    is_public: true,
+    is_public: false,
     note: "Application submitted to TTBDO.",
     status_name: null,
     status_type: "submitted_to_ttbdo",

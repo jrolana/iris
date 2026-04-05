@@ -14,6 +14,7 @@ export async function setRoleCookies(
     { name: "iris-e2e-email", value: user.email },
     { name: "iris-e2e-full-name", value: user.full_name },
     { name: "iris-e2e-role", value: user.role },
+    { name: "user-role", value: user.role },
     { name: "iris-e2e-is-active", value: String(user.is_active) },
     { name: "iris-e2e-created-at", value: user.created_at },
   ];
