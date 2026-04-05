@@ -52,14 +52,6 @@ interface PropsInterface {
   isTechgen?: boolean;
 }
 
-const sortOptions = [
-  { value: "ip_title", label: "IP Title (A-Z)" },
-  { value: "filing_date", label: "Filing Date " },
-  { value: "registration_date", label: "Registration Date" },
-  { value: "created_at", label: "Date Added" },
-  { value: "updated_at", label: "Updated Date" },
-];
-
 export default function ApplicationsTable(props: PropsInterface) {
   const { isAdmin = false, isTechgen = false } = props;
   const router = useRouter();
@@ -91,6 +83,17 @@ export default function ApplicationsTable(props: PropsInterface) {
 
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
   const [isSortPanelOpen, setIsSortPanelOpen] = useState(false);
+
+  const sortOptions = [
+    {
+      value: "ip_title",
+      label: `${isAscendingSort ? "IP Title (A-Z)" : "IP Title (Z-A)"}`,
+    },
+    { value: "filing_date", label: "Filing Date " },
+    { value: "registration_date", label: "Registration Date" },
+    { value: "created_at", label: "Date Added" },
+    { value: "updated_at", label: "Updated Date" },
+  ];
 
   useEffect(() => {
     refetch();
