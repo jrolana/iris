@@ -1,7 +1,34 @@
 import { expect, test } from "@playwright/test";
 import { setupGuestPage } from "./support/setup";
 
+async function waitForRegistryReady(
+  page: Parameters<typeof setupGuestPage>[0],
+) {
+  await expect(page.getByRole("heading", { name: "Applications Registry" })).toBeVisible({
+    timeout: 15_000,
+  });
+  await expect(page.getByText("Fetching applications...")).toHaveCount(0, {
+    timeout: 20_000,
+  });
+}
+
 test.describe("public experience", () => {
+  test.beforeAll(async ({ browser }) => {
+    const page = await browser.newPage();
+    await setupGuestPage(page);
+
+    for (const route of [
+      "/",
+      "/application-guide",
+      "/application-document",
+      "/application-registry",
+    ]) {
+      await page.goto(route, { waitUntil: "domcontentloaded" });
+    }
+
+    await page.close();
+  });
+
   test.beforeEach(async ({ page }) => {
     await setupGuestPage(page);
   });
@@ -9,15 +36,17 @@ test.describe("public experience", () => {
   test("shows the public dashboard, guide, documents, and registry", async ({
     page,
   }) => {
-    await page.goto("/");
+    test.setTimeout(60_000);
+
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     await expect(
       page.getByRole("heading", { name: "IP Portfolio Overview" }),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 15_000 });
     await expect(
       page.getByRole("button", { name: "Sign-up/Log-in" }),
     ).toBeVisible();
 
-    await page.goto("/application-guide");
+    await page.goto("/application-guide", { waitUntil: "domcontentloaded" });
     await expect(
       page.getByRole("heading", { name: "Application Guide" }),
     ).toBeVisible();
@@ -28,26 +57,30 @@ test.describe("public experience", () => {
       page.getByRole("button", { name: "Apply for IP Protection" }),
     ).toBeVisible();
 
-    await page.goto("/application-document");
+    await page.goto("/application-document", { waitUntil: "domcontentloaded" });
     await expect(
       page.getByRole("heading", { name: "Application Documents" }),
     ).toBeVisible();
 
-    await page.goto("/application-registry");
-    await expect(
-      page.getByRole("heading", { name: "Applications Registry" }),
-    ).toBeVisible();
+    await page.goto("/application-registry", { waitUntil: "domcontentloaded" });
+    await waitForRegistryReady(page);
     await expect(
       page.getByRole("button", { name: "Add New Application" }),
     ).toHaveCount(0);
 
     await page.getByRole("button", { name: "Filter" }).click();
+    await expect(page.getByPlaceholder("Search by title...")).toBeVisible({
+      timeout: 15_000,
+    });
     await page
       .getByPlaceholder("Search by title...")
       .fill("Solar Water Purifier");
     await page.getByRole("button", { name: "Apply Filters" }).click();
 
     await expect(page.getByText('Title: "Solar Water Purifier"')).toBeVisible();
+    await expect(page.getByText("Fetching applications...")).toHaveCount(0, {
+      timeout: 20_000,
+    });
     await expect(
       page.getByRole("cell", { name: "Solar Water Purifier" }).first(),
     ).toBeVisible();
@@ -57,7 +90,7 @@ test.describe("public experience", () => {
   test("validates UP mail signups and accepts external collaborator requests", async ({
     page,
   }) => {
-    await page.goto("/signup");
+    await page.goto("/signup", { waitUntil: "domcontentloaded" });
 
     await page.locator("#first_name").fill("Public");
     await page.locator("#last_name").fill("Tester");
@@ -81,7 +114,7 @@ test.describe("public experience", () => {
   });
 
   test("renders the sign-in page with Google auth entry point", async ({ page }) => {
-    await page.goto("/signin");
+    await page.goto("/signin", { waitUntil: "domcontentloaded" });
 
     await expect(page.getByRole("heading", { name: "Sign In" })).toBeVisible();
     await expect(

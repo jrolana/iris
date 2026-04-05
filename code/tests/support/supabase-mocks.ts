@@ -5,7 +5,9 @@ import {
   type DashboardAnalyticsRecord,
   type FileRecord,
   type MockState,
+  type PingRecord,
   type RegistrationRequestRecord,
+  type ReportRecord,
   type StatusRecord,
   type TestRole,
 } from "./mock-data";
@@ -81,6 +83,19 @@ function buildSearchApplications(state: MockState) {
       registration_date: application.registration_date,
       funding_agency: application.funding_source,
       techgens: inventors.map((inventor) => inventor.full_name),
+      inventors: inventors.map((inventor) => ({
+        full_name: inventor.full_name,
+        college:
+          inventor.college_code ??
+          inventor.external_institution ??
+          inventor.other_college_name ??
+          "",
+        college_name:
+          inventor.external_institution ??
+          inventor.other_college_name ??
+          inventor.college_code ??
+          "",
+      })),
       colleges: inventors.map(
         (inventor) =>
           inventor.college_code ??
@@ -242,6 +257,42 @@ function createRegistrationRequest(
   return id;
 }
 
+function createPing(state: MockState, body: Record<string, unknown>) {
+  const id = `ping-${state.nextGeneratedPingId}`;
+  const record: PingRecord = {
+    id,
+    acknowledged_at: null,
+    application_id: String(body.application_id ?? ""),
+    application_name: String(body.application_name ?? ""),
+    created_at: "2026-04-05T09:00:00.000Z",
+    stage_delayed: String(body.stage_delayed ?? ""),
+    step_delayed: String(body.step_delayed ?? ""),
+    target_date: String(body.target_date ?? ""),
+  };
+
+  state.pings.unshift(record);
+  state.nextGeneratedPingId += 1;
+  return record;
+}
+
+function createReport(state: MockState, body: Record<string, unknown>) {
+  const id = `report-${state.nextGeneratedReportId}`;
+  const record: ReportRecord = {
+    id,
+    application_id: String(body.application_id ?? ""),
+    content: String(body.content ?? ""),
+    created_at: "2026-04-05T09:10:00.000Z",
+    reporter_id: (body.reporter_id as string | null) ?? null,
+    reporter_name: (body.reporter_name as string | null) ?? null,
+    subject_id: String(body.subject_id ?? ""),
+    subject_name: (body.subject_name as string | null) ?? null,
+  };
+
+  state.reports.unshift(record);
+  state.nextGeneratedReportId += 1;
+  return record;
+}
+
 function filterDashboardData(
   data: DashboardAnalyticsRecord[],
   searchParams: URLSearchParams,
@@ -382,6 +433,8 @@ function tableRows(state: MockState, tableName: string) {
       return state.notifications;
     case "pings":
       return state.pings;
+    case "reports":
+      return state.reports;
     case "v_dashboard_analytics":
       return state.dashboardAnalytics;
     default:
@@ -508,6 +561,33 @@ async function handleTable(route: Route, state: MockState, tableName: string) {
     return fulfillJson(route, updatedRows);
   }
 
+  if (method === "POST") {
+    const body = readBody(route);
+    const payload = Array.isArray(body) ? body : body ? [body] : [];
+
+    if (tableName === "pings") {
+      const inserted = payload.map((item) =>
+        createPing(state, item as Record<string, unknown>),
+      );
+      return fulfillJson(
+        route,
+        wantsSingleObject(route) ? inserted[0] ?? null : inserted,
+      );
+    }
+
+    if (tableName === "reports") {
+      const inserted = payload.map((item) =>
+        createReport(state, item as Record<string, unknown>),
+      );
+      return fulfillJson(
+        route,
+        wantsSingleObject(route) ? inserted[0] ?? null : inserted,
+      );
+    }
+
+    return fulfillJson(route, []);
+  }
+
   return fulfillJson(route, []);
 }
 
@@ -531,6 +611,17 @@ export async function installSupabaseMocks(page: Page, role: TestRole) {
 
   await page.route("**/auth/v1/**", async (route) => {
     await handleAuth(route, state);
+  });
+
+  await page.route("**/storage/v1/object/sign**", async (route) => {
+    const url = new URL(route.request().url());
+    const prefix = "/storage/v1/object/sign/";
+    const fullStoragePath = decodeURIComponent(url.pathname.slice(prefix.length));
+    const signedPath = `/object/sign/${fullStoragePath}?token=playwright-token`;
+
+    await fulfillJson(route, {
+      signedURL: signedPath,
+    });
   });
 
   await page.route("**/storage/v1/object/**", async (route) => {

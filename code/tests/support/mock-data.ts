@@ -96,6 +96,17 @@ export type PingRecord = {
   target_date: string;
 };
 
+export type ReportRecord = {
+  application_id: string;
+  content: string;
+  created_at: string | null;
+  id: string;
+  reporter_id: string | null;
+  reporter_name: string | null;
+  subject_id: string;
+  subject_name: string | null;
+};
+
 export type RegistrationRequestRecord = {
   college_code: string | null;
   email: string;
@@ -131,11 +142,14 @@ export type MockState = {
   files: FileRecord[];
   notifications: NotificationRecord[];
   pings: PingRecord[];
+  reports: ReportRecord[];
   registrationRequests: RegistrationRequestRecord[];
   dashboardAnalytics: DashboardAnalyticsRecord[];
   nextGeneratedApplicationId: number;
   nextGeneratedStatusId: number;
   nextGeneratedFileId: number;
+  nextGeneratedPingId: number;
+  nextGeneratedReportId: number;
   nextGeneratedRequestId: number;
 };
 
@@ -290,7 +304,7 @@ const STATUSES: StatusRecord[] = [
     id: "status-1-current",
     application_id: "app-1",
     created_at: "2025-02-02T10:00:00.000Z",
-    deadline: "2026-04-15T00:00:00.000Z",
+    deadline: "2025-03-15T00:00:00.000Z",
     is_public: true,
     note: "TTBDO is reviewing the disclosure packet.",
     status_name: null,
@@ -363,6 +377,17 @@ const INVENTORS: InventorRecord[] = [
     techgen_id: TECHGEN_USER.id,
   },
   {
+    id: "inventor-5",
+    application_id: "app-1",
+    college_code: null,
+    comments: "Awaiting account linking",
+    email: "jhoannaolana91@gmail.com",
+    external_institution: "Harvard",
+    full_name: "Jhoanna O.",
+    other_college_name: null,
+    techgen_id: null,
+  },
+  {
     id: "inventor-4",
     application_id: "app-3",
     college_code: null,
@@ -379,16 +404,44 @@ const FILES: FileRecord[] = [
   {
     id: "file-1",
     application_id: "app-1",
-    comments: null,
-    file_description: "Signed patent disclosure bundle",
+    comments: "Latest version",
+    file_description: "Signed patent disclosure bundle v2",
+    file_name: "disclosure.pdf",
+    file_type: "PDF",
+    modified_at: "2025-01-20T09:00:00.000Z",
+    owner_id: TECHGEN_USER.id,
+    owner_name: TECHGEN_USER.full_name,
+    storage_id: "storage-1",
+    storage_path: "app-1/disclosure.pdf/storage-1",
+    uploaded_at: "2025-01-20T09:00:00.000Z",
+  },
+  {
+    id: "file-2",
+    application_id: "app-1",
+    comments: "Superseded version",
+    file_description: "Signed patent disclosure bundle v1",
     file_name: "disclosure.pdf",
     file_type: "PDF",
     modified_at: "2025-01-15T09:00:00.000Z",
     owner_id: TECHGEN_USER.id,
     owner_name: TECHGEN_USER.full_name,
-    storage_id: "storage-1",
-    storage_path: "app-1/disclosure.pdf/storage-1",
+    storage_id: "storage-2",
+    storage_path: "app-1/disclosure.pdf/storage-2",
     uploaded_at: "2025-01-15T09:00:00.000Z",
+  },
+  {
+    id: "file-3",
+    application_id: "app-1",
+    comments: null,
+    file_description: "Market validation summary",
+    file_name: "market-summary.pdf",
+    file_type: "PDF",
+    modified_at: "2025-01-18T09:00:00.000Z",
+    owner_id: "user-techgen-2",
+    owner_name: "jrolana",
+    storage_id: "storage-3",
+    storage_path: "app-1/market-summary.pdf/storage-3",
+    uploaded_at: "2025-01-18T09:00:00.000Z",
   },
 ];
 
@@ -447,16 +500,6 @@ const NOTIFICATIONS: NotificationRecord[] = [
 
 const PINGS: PingRecord[] = [
   {
-    id: "ping-1",
-    acknowledged_at: null,
-    application_id: "app-1",
-    application_name: "Solar Water Purifier",
-    created_at: "2026-03-19T08:00:00.000Z",
-    stage_delayed: "TTBDO Review",
-    step_delayed: "under_ttbdo_review",
-    target_date: "2026-03-10T00:00:00.000Z",
-  },
-  {
     id: "ping-2",
     acknowledged_at: "2026-03-18T12:00:00.000Z",
     application_id: "app-2",
@@ -467,6 +510,8 @@ const PINGS: PingRecord[] = [
     target_date: "2026-03-12T00:00:00.000Z",
   },
 ];
+
+const REPORTS: ReportRecord[] = [];
 
 const REGISTRATION_REQUESTS: RegistrationRequestRecord[] = [
   {
@@ -524,11 +569,14 @@ export function createMockState(role: TestRole): MockState {
     files: FILES,
     notifications: NOTIFICATIONS,
     pings: PINGS,
+    reports: REPORTS,
     registrationRequests: REGISTRATION_REQUESTS,
     dashboardAnalytics: DASHBOARD_ANALYTICS,
     nextGeneratedApplicationId: 4,
     nextGeneratedStatusId: 4,
-    nextGeneratedFileId: 2,
+    nextGeneratedFileId: 4,
+    nextGeneratedPingId: 3,
+    nextGeneratedReportId: 1,
     nextGeneratedRequestId: 3,
   });
 }

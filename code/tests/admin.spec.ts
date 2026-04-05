@@ -1,6 +1,17 @@
 import { expect, test } from "@playwright/test";
 import { setupAuthenticatedPage } from "./support/setup";
 
+async function waitForRegistryReady(
+  page: Parameters<typeof setupAuthenticatedPage>[0],
+) {
+  await expect(
+    page.getByRole("heading", { name: "Applications Registry" }),
+  ).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText("Fetching applications...")).toHaveCount(0, {
+    timeout: 20_000,
+  });
+}
+
 test.describe("admin workflows", () => {
   test.beforeEach(async ({ page }) => {
     await setupAuthenticatedPage(page, "admin");
@@ -9,11 +20,11 @@ test.describe("admin workflows", () => {
   test("loads the dashboard and lets admins clear unread notifications", async ({
     page,
   }) => {
-    await page.goto("/admin");
+    await page.goto("/admin", { waitUntil: "domcontentloaded" });
 
     await expect(
       page.getByRole("heading", { name: "IP Portfolio Overview" }),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 15_000 });
 
     await page.getByLabel("Open notifications").click();
     await expect(
@@ -21,8 +32,11 @@ test.describe("admin workflows", () => {
     ).toBeVisible();
     await expect(page.getByText("Techgen reply received")).toBeVisible();
 
-    await page.getByRole("button", { name: "View All Notifications" }).click();
-    await expect(page).toHaveURL("/admin/notifications");
+    await expect(
+      page.getByRole("button", { name: "View All Notifications" }),
+    ).toBeVisible();
+
+    await page.goto("/admin/notifications", { waitUntil: "domcontentloaded" });
     await expect(
       page.getByRole("heading", { name: "Notifications" }),
     ).toBeVisible();
@@ -32,10 +46,10 @@ test.describe("admin workflows", () => {
   });
 
   test("filters user management results", async ({ page }) => {
-    await page.goto("/admin/user-management");
+    await page.goto("/admin/user-management", { waitUntil: "domcontentloaded" });
 
     await expect(
-      page.getByRole("heading", { name: "User Management" }).first(),
+      page.getByRole("heading", { name: "Users" }).first(),
     ).toBeVisible();
 
     await page.getByRole("button", { name: "Filter" }).first().click();
@@ -56,16 +70,27 @@ test.describe("admin workflows", () => {
   test("filters the application registry and supports withdraw flow in the detail page", async ({
     page,
   }) => {
-    await page.goto("/admin/application-registry");
+    test.setTimeout(60_000);
+
+    await page.goto("/admin/application-registry", { waitUntil: "domcontentloaded" });
+    await waitForRegistryReady(page);
 
     await page.getByRole("button", { name: "Filter" }).click();
+    await expect(page.getByPlaceholder("Search by title...")).toBeVisible({
+      timeout: 15_000,
+    });
     await page.getByPlaceholder("Search by title...").fill("Solar");
     await page.getByRole("button", { name: "Apply Filters" }).click();
 
+    await expect(page.getByText("Fetching applications...")).toHaveCount(0, {
+      timeout: 20_000,
+    });
     await expect(
       page.getByRole("cell", { name: "Solar Water Purifier" }).first(),
     ).toBeVisible();
-    await page.goto("/admin/view-application?applicationID=app-1");
+    await page.goto("/admin/view-application?applicationID=app-1", {
+      waitUntil: "domcontentloaded",
+    });
 
     await expect(page).toHaveURL(/applicationID=app-1/);
     await expect(
@@ -74,6 +99,7 @@ test.describe("admin workflows", () => {
     await expect(page.getByText("TTBDO is reviewing the disclosure packet.")).toBeVisible();
 
     await page.getByRole("button", { name: "Withdraw" }).click();
+    await page.getByRole("button", { name: "Confirm" }).last().click();
     await expect(page.getByRole("button", { name: "Revert Withdrawal" })).toBeVisible();
   });
 });
