@@ -33,7 +33,7 @@ BEGIN
         receivers := array_cat(receivers, admins);
     END IF;
 
-    SELECT ip_title INTO ip_name
+SELECT project_title INTO ip_name
         FROM private.ipr_applications WHERE id = OLD.application_id;
     ip_name := COALESCE(ip_name, 'Unknown application');
 
