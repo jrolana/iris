@@ -9,6 +9,7 @@ import { useCreateApplication } from "@/hooks/applications/useCreateApplication"
 import { useUploadFile } from "@/hooks/attachments/useUploadFile";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atom-states/user";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -24,6 +25,7 @@ type extendedAttachmentType = AttachmentType["Insert"] & {
 export default function StartApplicationPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const confirm = useConfirm();
   const ipTypeParam = searchParams.get("ipType");
   const { isLoading: isCreatingApp, createApp } = useCreateApplication();
   const { isLoading: isUploadingFiles, uploadFile } = useUploadFile();
@@ -55,11 +57,17 @@ export default function StartApplicationPage() {
   }
 
   async function handleSubmit() {
+    const isConfirmed = await confirm({
+      title: "Confirm Submission",
+      message:
+        "Are you sure you want to submit this application? Please ensure that all details are correct before confirming.",
+    });
+
+    if (!isConfirmed) return;
+
     if (projectTitle.trim() === "") return;
 
     toast.promise(createAndUpload(), {
-      loading: "Submitting application...",
-      success: "Application submitted successfully!",
       error: (e: Error) => {
         if (e.message.includes("inventors_application_id_email_key")) {
           return "Error: Duplicate email address. Please remove the duplicate collaborator and try again.";

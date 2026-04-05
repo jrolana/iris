@@ -9,6 +9,7 @@ import { RoleType } from "@/lib/types/role";
 import { filterRegistrationRequests } from "@/lib/helper/filter-users";
 import { useGetRegistrationRequests } from "@/hooks/registration-request/useGetRegistrationRequests";
 import { RegistrationRequestType } from "@/lib/types/users";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import {
   Table,
@@ -35,6 +36,7 @@ export default function RegistrationRequestsTable() {
   } = useGetRegistrationRequests();
 
   const { updateRegistrationRequest } = useUpdateRegistrationRequest();
+  const confirm = useConfirm();
 
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
   const [nameEmail, setNameEmail] = useState<string>("");
@@ -44,8 +46,12 @@ export default function RegistrationRequestsTable() {
   const [filteredData, setFilteredData] = useState(usersData ?? []);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [processingRequestId, setProcessingRequestId] = useState<string | null>(null);
-  const [processingAction, setProcessingAction] = useState<"approve" | "reject" | null>(null);
+  const [processingRequestId, setProcessingRequestId] = useState<string | null>(
+    null,
+  );
+  const [processingAction, setProcessingAction] = useState<
+    "approve" | "reject" | null
+  >(null);
 
   useEffect(() => {
     const filtered = filterRegistrationRequests(usersData || [], {
@@ -111,6 +117,11 @@ export default function RegistrationRequestsTable() {
   };
 
   async function handleApprove(userData: RegistrationRequestType["Row"]) {
+    const isConfirmed = await confirm({
+      title: "Confirm Approval",
+      message: `Are you sure you want to approve the registration request of ${userData.full_name}? This action cannot be undone.`,
+    });
+    if (!isConfirmed) return;
     try {
       setProcessingRequestId(userData.id);
       setProcessingAction("approve");
@@ -144,6 +155,12 @@ export default function RegistrationRequestsTable() {
   }
 
   async function handleReject(userData: RegistrationRequestType["Row"]) {
+    const isConfirmed = await confirm({
+      title: "Confirm Rejection",
+      message: `Are you sure you want to reject the registration request of ${userData.full_name}? This action cannot be undone.`,
+    });
+    if (!isConfirmed) return;
+
     try {
       setProcessingRequestId(userData.id);
       setProcessingAction("reject");
@@ -174,8 +191,8 @@ export default function RegistrationRequestsTable() {
           : "There was a problem in rejecting the registration request.",
       );
     } finally {
-        setProcessingRequestId(null);
-        setProcessingAction(null);
+      setProcessingRequestId(null);
+      setProcessingAction(null);
     }
   }
 

@@ -316,10 +316,10 @@ WHERE status = 'pending';
 CREATE TABLE private.reports (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
   application_id uuid NOT NULL, 
-  reporter_id uuid NOT NULL,      -- who filed the complaint
+  reporter_id uuid NULL,      -- who filed the complaint
   subject_id uuid NOT NULL,       -- id of being reported
   content text NOT NULL,
-  reporter_name text not null,
+  reporter_name text null,
   subject_name text not null,
   created_at timestamp with time zone DEFAULT now(),
 
@@ -332,7 +332,7 @@ CREATE TABLE private.reports (
   CONSTRAINT self_report_check CHECK (reporter_id <> subject_id),
 
   CONSTRAINT fk_report_app FOREIGN KEY (application_id) REFERENCES private.ipr_applications(id),
-  CONSTRAINT fk_reporter FOREIGN KEY (reporter_id) REFERENCES private.inventors(id),
+  CONSTRAINT fk_reporter FOREIGN KEY (reporter_id) REFERENCES private.inventors(id) ON DELETE SET NULL,
   CONSTRAINT fk_subject FOREIGN KEY (subject_id) REFERENCES private.inventors(id) ON DELETE CASCADE
 );
 

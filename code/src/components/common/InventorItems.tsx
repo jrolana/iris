@@ -2,6 +2,7 @@ import useLinkInventorModal from "@/hooks/useLinkInventorModal";
 import useInventorFileReportModal from "@/hooks/useInventorFileReportModal";
 import useInventorViewReportsModal from "@/hooks/useInventorViewReportsModal";
 import { useAutoLinkInventor } from "@/hooks/inventors/useAutoLinkInventor";
+import { useConfirm } from "@/hooks/useConfirm";
 
 import { ReportType } from "@/lib/types/reports";
 import { InventorType } from "@/lib/types/application";
@@ -50,6 +51,7 @@ export default function InventorItems(props: InventorItemsProps) {
     useInventorViewReportsModal();
 
   const { autoLinkInventor, isLoading: isAutoLinking } = useAutoLinkInventor();
+  const confirm = useConfirm();
 
   const hasFiledReport =
     reports?.find((report) => report.reporter_id === inventorUser?.id) !==
@@ -78,7 +80,14 @@ export default function InventorItems(props: InventorItemsProps) {
     openLinkModal();
   }
 
-  function handleAutoLinkInventor() {
+  async function handleAutoLinkInventor() {
+    const confirmed = await confirm({
+      title: "Confirm Auto-Linking",
+      message:
+        "Are you sure you want to auto-link this technology generator? This action cannot be undone.",
+    });
+    if (!confirmed) return;
+
     toast.promise(
       autoLinkInventor({
         email: inventor.email,
