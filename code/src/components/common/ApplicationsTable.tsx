@@ -8,6 +8,9 @@ import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import { formatDate } from "@/lib/helper/format-date";
 import { IpType, StatusType } from "@/lib/types/ip";
 import { CollegeUnitType } from "@/lib/types/college-units";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
 
 import {
   Table,
@@ -39,29 +42,19 @@ import {
   ArrowUpNarrowWide,
 } from "lucide-react";
 import { sortApplications } from "@/lib/helper/sort-applications";
-import { cn } from "@/lib/utils";
-import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
 import { toast } from "sonner";
 import { buttonVariants } from "../ui/button";
 import Hint from "./Tooltip";
-import { useRouter } from "next/navigation";
 import { SearchApplication } from "@/lib/types/application";
 
 interface PropsInterface {
   isAdmin?: boolean;
   isTechgen?: boolean;
+  isOfficial?: boolean;
 }
 
-const sortOptions = [
-  { value: "ip_title", label: "IP Title (A-Z)" },
-  { value: "filing_date", label: "Filing Date " },
-  { value: "registration_date", label: "Registration Date" },
-  { value: "created_at", label: "Date Added" },
-  { value: "updated_at", label: "Updated Date" },
-];
-
 export default function ApplicationsTable(props: PropsInterface) {
-  const { isAdmin = false, isTechgen = false } = props;
+  const { isAdmin = false, isTechgen = false, isOfficial = false } = props;
   const router = useRouter();
   const confirm = useConfirm();
   const [title, setTitle] = useState<string>("");
@@ -92,6 +85,17 @@ export default function ApplicationsTable(props: PropsInterface) {
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
   const [isSortPanelOpen, setIsSortPanelOpen] = useState(false);
 
+  const sortOptions = [
+    {
+      value: "ip_title",
+      label: `${isAscendingSort ? "IP Title (A-Z)" : "IP Title (Z-A)"}`,
+    },
+    { value: "filing_date", label: "Filing Date " },
+    { value: "registration_date", label: "Registration Date" },
+    { value: "created_at", label: "Date Added" },
+    { value: "updated_at", label: "Updated Date" },
+  ];
+
   useEffect(() => {
     refetch();
   }, [title, statuses, colleges, techgens, ipTypes, refetch]);
@@ -118,7 +122,9 @@ export default function ApplicationsTable(props: PropsInterface) {
     "Registration Date",
     "Funding Agency",
     "Technology Generators",
-  ].concat(isAdmin || isTechgen ? ["Status", "Actions"] : []);
+  ]
+    .concat(isOfficial ? ["Status"] : [])
+    .concat(isAdmin || isTechgen ? ["Status", "Actions"] : []);
 
   function handlePageChange(page: number) {
     if (page < 1 || page > totalPages) return;
@@ -415,7 +421,10 @@ export default function ApplicationsTable(props: PropsInterface) {
                       <div className="flex flex-row items-center gap-1">
                         <Link
                           href={`${isAdmin ? "/admin" : "/techgen"}/view-application?applicationID=${record.id}`}
-                          className="hover:text-brand-500"
+                          className={cn(
+                            (isTechgen || isAdmin) && "hover:text-brand-500",
+                            !isTechgen && !isAdmin && "pointer-events-none",
+                          )}
                         >
                           {record.ip_title ?? "--"}
                         </Link>
@@ -447,7 +456,15 @@ export default function ApplicationsTable(props: PropsInterface) {
                       className="text-theme-sm p-2 py-3 text-gray-800"
                       colSpan={2}
                     >
-                      <div className="grid w-3xs grid-cols-2 gap-x-4 gap-y-3">
+                      <div
+                        className={cn(
+                          "grid w-3xs gap-x-4 gap-y-3",
+                          record?.inventors &&
+                            (record.inventors as []).length > 1
+                            ? "grid-cols-2"
+                            : "flex justify-center",
+                        )}
+                      >
                         {" "}
                         {/* Adds space between each person */}
                         {(
@@ -474,7 +491,7 @@ export default function ApplicationsTable(props: PropsInterface) {
                       </div>
                     </TableCell>
 
-                    {(isAdmin || isTechgen) && (
+                    {(isAdmin || isTechgen || isOfficial) && (
                       <TableCell className="text-theme-sm gap-2 p-2 py-3 text-gray-800">
                         <div className="flex flex-col gap-2">
                           <Badge
