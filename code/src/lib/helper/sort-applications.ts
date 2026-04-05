@@ -18,6 +18,7 @@ export function sortApplications(applications: SearchApplication[], sortByKey: k
         // proceed with sorting by the specified key, handling null/undefined values
         const aValue = a[sortByKey];
         const bValue = b[sortByKey];
+        
 
         const aIsFalsy = aValue === null || aValue === undefined;
         const bIsFalsy = bValue === null || bValue === undefined;
@@ -30,6 +31,11 @@ export function sortApplications(applications: SearchApplication[], sortByKey: k
         if (bIsFalsy) return -1;
 
         // compare actual values based on the sort direction
+        if(typeof aValue === 'string' && typeof bValue === 'string') {
+            if (aValue.toLowerCase() < bValue.toLowerCase()) return ascending ? -1 : 1;
+            if (aValue.toLowerCase() > bValue.toLowerCase()) return ascending ? 1 : -1;
+            return 0;
+        }
         if (aValue < bValue) return ascending ? -1 : 1;
         if (aValue > bValue) return ascending ? 1 : -1;
         
