@@ -1,4 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
+import {
+  clickIpTitleSortOption,
+  expectTitlesSortedByCurrentIpTitleLabel,
+} from "./support/application-registry";
 import { setupAuthenticatedPage } from "./support/setup";
 
 async function waitForUpOfficialRegistryReady(page: Page) {
@@ -8,12 +12,6 @@ async function waitForUpOfficialRegistryReady(page: Page) {
   await expect(page.getByText("Fetching applications...")).toHaveCount(0, {
     timeout: 20_000,
   });
-}
-
-async function getRegistryTitles(page: Page) {
-  return (await page.locator("tbody tr td:first-child a").allInnerTexts()).map(
-    (text) => text.trim(),
-  );
 }
 
 async function openUpOfficialRegistry(page: Page) {
@@ -87,13 +85,11 @@ test.describe("up-official workflows", () => {
   test("sorts the registry alphabetically by IP title", async ({ page }) => {
     await openUpOfficialRegistry(page);
 
-    await page.getByRole("button", { name: "Updated Date" }).click();
-    await page.getByRole("button", { name: "IP Title (A-Z)" }).click();
-
-    await expect.poll(() => getRegistryTitles(page)).toEqual([
-      "IRIS Brandmark",
-      "Solar Water Purifier",
-      "Campus Analytics Toolkit",
-    ]);
+    await clickIpTitleSortOption(page);
+    await expectTitlesSortedByCurrentIpTitleLabel(
+      page,
+      ["Campus Analytics Toolkit", "IRIS Brandmark", "Solar Water Purifier"],
+      ["Solar Water Purifier", "IRIS Brandmark", "Campus Analytics Toolkit"],
+    );
   });
 });

@@ -1,4 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
+import {
+  clickIpTitleSortOption,
+  expectTitlesSortedByCurrentIpTitleLabel,
+} from "./support/application-registry";
 import { setupGuestPage } from "./support/setup";
 
 async function waitForPublicRegistryReady(page: Page) {
@@ -63,12 +67,12 @@ test.describe("guest workflows", () => {
     await page.goto("/application-registry", { waitUntil: "domcontentloaded" });
     await waitForPublicRegistryReady(page);
 
-    await page.getByRole("button", { name: "Updated Date" }).click();
-    await page.getByRole("button", { name: "IP Title (A-Z)" }).click();
-
-    await expect(
-      page.getByRole("button", { name: "IP Title (A-Z)" }).first(),
-    ).toBeVisible();
+    await clickIpTitleSortOption(page);
+    await expectTitlesSortedByCurrentIpTitleLabel(
+      page,
+      ["Campus Analytics Toolkit", "IRIS Brandmark"],
+      ["IRIS Brandmark", "Campus Analytics Toolkit"],
+    );
     await expect(page.getByText("Solar Water Purifier")).toHaveCount(0);
   });
 

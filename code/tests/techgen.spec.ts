@@ -213,10 +213,13 @@ test.describe("techgen workflows", () => {
   }) => {
     await goToApplication(page, "app-1");
 
-    const fileChooserPromise = page.waitForEvent("filechooser");
-    await page.getByRole("button", { name: "Update" }).first().click();
-    const fileChooser = await fileChooserPromise;
-    await fileChooser.setFiles(uploadFixture);
+    const disclosureItem = page
+      .locator("li")
+      .filter({ has: page.getByText("disclosure.pdf").first() })
+      .first();
+
+    await expect(disclosureItem.getByRole("button", { name: "Update" })).toBeEnabled();
+    await disclosureItem.locator('input[type="file"]').setInputFiles(uploadFixture);
 
     await expect(page.getByText("Update File Version")).toBeVisible();
     await page.getByPlaceholder("e.g., Revised based on comments").fill(
