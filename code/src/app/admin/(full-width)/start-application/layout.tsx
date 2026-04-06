@@ -6,9 +6,6 @@ import { useSearchParams } from "next/navigation";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
   const ipTypeParam = searchParams.get("ipType");
-
-  // TODO: create proper error page for invalid IP Type
-  // TODO: create proper type checking utility
   if (
     !ipTypeParam ||
     ![

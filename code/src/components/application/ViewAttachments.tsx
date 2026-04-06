@@ -16,7 +16,6 @@ function ViewAttachments(props: ViewAttachmentProps) {
   const { groupedFiles, isLoading, isFetchingUser, user, isUneditable } = props;
   const { openModal: openUploadModal } = useFilesUploadModal();
 
-  // TODO: show loading state properly
   if (isLoading || isFetchingUser) {
     return (
       <div className="flex h-72 flex-row items-center justify-center gap-2 align-middle">
@@ -32,7 +31,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
     return (
       <>
         <p className="my-10 text-center text-sm text-slate-500">
-          No attachments yet. Please upload appropriate files or links.
+          No attachments yet. Please upload appropriate files.
         </p>
         <div className="mt-4">
           <button
@@ -42,10 +41,10 @@ function ViewAttachments(props: ViewAttachmentProps) {
             }}
             className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
           >
-            Upload a file or link
+            Upload a file
           </button>
           <p className="mt-2 text-sm text-gray-500">
-            Attach necessary files or links related to this application.
+            Attach necessary files related to this application.
           </p>
         </div>
       </>
