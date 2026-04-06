@@ -18,7 +18,8 @@ import {
   Layers3,
 } from "lucide-react";
 import { useGetDashboardAnalyticsTechgen } from "@/hooks/views/useGetDashboardAnalyticsTechgen";
-import { IP_TYPE_ORDER, STATUS_ORDER } from "@/lib/dashboard/dashboard-summary";
+import { STATUS_ORDER } from "@/lib/dashboard/dashboard-summary";
+import { IpType, IP_TYPES } from "@/lib/types/ip";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 
 type MetricCardProps = {
@@ -315,7 +316,7 @@ export function MetricsTechgen() {
       return temp;
     }
 
-    for (const ipType of IP_TYPE_ORDER) {
+    for (const ipType of IP_TYPES) {
       const filteredRows = data.filter((row) => row.ip_type === ipType);
 
       const value = filteredRows.reduce((acc, row) => {
