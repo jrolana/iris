@@ -10,12 +10,12 @@ export function formatAcceptedExtensions(accept?: Accept): string {
     new Set(extensions.map((ext) => ext.replace(".", "").toUpperCase()))
     );
 
-    // 4. Return formatted string
+    // Return formatted string
     if (uniqueExtensions.length === 0) return "Supports PDF, Images, Word, Excel, etc.";
 
     // truncate if too long
-    if (uniqueExtensions.length > 5) {
-        return `Supports ${uniqueExtensions.slice(0, 4).join(", ")} and others`;
+    if (uniqueExtensions.length > 6) {
+        return `Supports ${uniqueExtensions.slice(0, 6).join(", ")} and others`;
     }
 
     return `Supports ${uniqueExtensions.join(", ")}`;

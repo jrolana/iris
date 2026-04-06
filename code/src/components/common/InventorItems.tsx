@@ -94,9 +94,9 @@ export default function InventorItems(props: InventorItemsProps) {
         toBeLinkedInventorId: inventor.id,
       }),
       {
-        loading: "Linking inventor...",
-        success: "Inventor linked successfully!",
-        error: (err) => `Failed to link inventor: ${err.message}`,
+        loading: "Linking account...",
+        success: "Account linked successfully!",
+        error: (err) => `Failed to link account: ${err.message}`,
       },
     );
   }

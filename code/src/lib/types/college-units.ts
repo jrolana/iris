@@ -1,5 +1,3 @@
-// Make sure that the right value matches with the DB
-// TODO: to be safe, generate enum in db and use it here later
 export const CollegeUnits = {
   "CAS": "CAS",
   "CAS-Bio": "CAS-Bio",
