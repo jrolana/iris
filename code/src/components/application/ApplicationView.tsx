@@ -160,7 +160,11 @@ function ApplicationView(props: ApplicationViewProps) {
               applicationId={application.id}
               parentApplicationId={application.parent_application_id}
               mode={mode}
-              isUneditable={application.is_archived || application.is_withdrawn}
+              isUneditable={
+                application.is_archived ||
+                application.is_withdrawn ||
+                currentStatus?.status_type === "downgraded_to_um"
+              }
             />
           </section>
 

@@ -157,8 +157,6 @@ export default function FileUploader(props: FileUploaderProps) {
         </div>
       </div>
 
-      {/* handle adding a link */}
-      {/* TODO: finalize if adding a link is needed. For now, it is hidden */}
       <div className="hidden items-center gap-2">
         <div className="relative flex-1">
           <LinkIcon className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />

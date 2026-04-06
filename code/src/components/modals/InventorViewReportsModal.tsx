@@ -9,7 +9,6 @@ import { toast } from "sonner";
 import { ReportType } from "@/lib/types/reports";
 
 export default function InventorReportsModal() {
-  // TODO: confirm if parentId will be used (for downgrades)
   const { isOpen, closeModal, reports } = useInventorViewReportsModal();
   const confirm = useConfirm();
 
