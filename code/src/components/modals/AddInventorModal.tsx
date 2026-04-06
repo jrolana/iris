@@ -49,7 +49,6 @@ export default function AddInventorModal() {
     };
 
     setNewInventorDetails(inventor);
-    console.log(inventor);
     closeModal();
   }
 

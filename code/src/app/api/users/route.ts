@@ -53,9 +53,8 @@ export async function GET(request: Request) {
   );
 
   } catch (error) {
-    console.error('API Error:', error);
     return NextResponse.json(
-      { error: 'Internal Server Error' }, 
+      { error: 'Internal Server Error: ' + error }, 
       { status: 500, headers: corsHeaders }
     );
   }

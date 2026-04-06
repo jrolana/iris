@@ -108,7 +108,6 @@ serve(async (req) => {
     )
 
   } catch (err: any) {
-    console.error("CRITICAL FUNCTION ERROR:", err);
     return new Response(
       JSON.stringify({ error: err.message }), 
       { headers: { "Content-Type": "application/json" }, status: 500 }

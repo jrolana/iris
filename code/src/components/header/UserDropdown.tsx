@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "../../../utils/supabase/client";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atom-states/user";
-import { clearE2EAuthCookies } from "@/lib/e2e-auth";
+import { toast } from "sonner";
 
 function AvatarSkeleton() {
   return (
@@ -43,7 +43,7 @@ export default function UserDropdown() {
     // Sign out client-side; this also clears the Supabase cookies set in middleware
     const { error } = await supabase.auth.signOut();
     if (error) {
-      console.error("Error signing out:", error.message);
+      toast.error("Error signing out: " + error.message);
       return;
     }
 

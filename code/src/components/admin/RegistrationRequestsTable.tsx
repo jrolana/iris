@@ -185,7 +185,7 @@ export default function RegistrationRequestsTable() {
         },
       );
     } catch (e) {
-      console.error(
+      toast.error(
         e instanceof Error
           ? e.message
           : "There was a problem in rejecting the registration request.",
