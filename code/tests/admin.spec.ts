@@ -213,10 +213,28 @@ test.describe("admin workflows", () => {
       .filter({ has: page.getByText("disclosure.pdf").first() })
       .first();
 
-    await refreshedDisclosureItem.locator('input[type="file"]').setInputFiles(uploadFixture);
-    await expect(page.getByText("Update File Version")).toBeVisible();
-    await page.getByRole("button", { name: "Cancel" }).click();
-    await expect(page.getByText("Update File Version")).toHaveCount(0);
+    const fileChooserPromise = page.waitForEvent("filechooser");
+    await refreshedDisclosureItem.getByRole("button", { name: "Update" }).click();
+    const fileChooser = await fileChooserPromise;
+    await fileChooser.setFiles(uploadFixture);
+    const versionDialogTitle = page.getByText("Update File Version");
+    await expect(versionDialogTitle).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(versionDialogTitle).toHaveCount(0);
+
+    const confirmVersionFileChooserPromise = page.waitForEvent("filechooser");
+    await refreshedDisclosureItem.getByRole("button", { name: "Update" }).click();
+    const confirmVersionFileChooser = await confirmVersionFileChooserPromise;
+    await confirmVersionFileChooser.setFiles(uploadFixture);
+    await expect(versionDialogTitle).toBeVisible();
+    await page.getByPlaceholder("e.g., Revised based on comments").fill(
+      "Revised after admin review",
+    );
+    await page.getByRole("button", { name: "Upload New Version" }).click();
+    await confirmAction(page);
+    await expect(
+      page.getByRole("button", { name: /Show 2 previous versions/i }),
+    ).toBeVisible();
 
     await page.getByRole("button", { name: "Tech Gens" }).click();
     const unverifiedInventor = page
@@ -232,22 +250,28 @@ test.describe("admin workflows", () => {
       .getByPlaceholder("Search a technology generator with their name or email...")
       .fill("jhoannaolana91@gmail.com");
 
+    const linkDialog = page
+      .getByRole("dialog")
+      .filter({
+        has: page.getByRole("heading", {
+          name: "Link Existing Technology Generator",
+        }),
+      });
     const linkOption = page
-      .locator("li")
+      .getByRole("listitem")
       .filter({ has: page.getByText("jhoannaolana91@gmail.com") });
     await linkOption.getByRole("button", { name: "Link Account" }).click();
     await cancelAction(page);
-    await expect(unverifiedInventor.getByRole("button", { name: "Link Account" })).toBeVisible();
-
-    await unverifiedInventor.getByRole("button", { name: "Link Account" }).click();
-    await page
-      .getByPlaceholder("Search a technology generator with their name or email...")
-      .fill("jhoannaolana91@gmail.com");
+    await expect(linkDialog).toBeVisible();
+    await expect(linkOption.getByRole("button", { name: "Link Account" })).toBeVisible();
     await linkOption.getByRole("button", { name: "Link Account" }).click();
     await confirmAction(page);
 
     await expect(unverifiedInventor.getByText("Verified Account")).toBeVisible();
-    await expect(page.getByText("Jhoanna Olana", { exact: true })).toBeVisible();
+    await expect(unverifiedInventor.getByText("Jhoanna O.", { exact: true })).toBeVisible();
+    await expect(
+      unverifiedInventor.getByText("jhoannaolana91@gmail.com", { exact: true }),
+    ).toBeVisible();
 
     await page.getByRole("button", { name: "Attachments" }).click();
     await disclosureItem.getByRole("button", { name: "View" }).click();
