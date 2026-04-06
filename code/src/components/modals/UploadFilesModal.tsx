@@ -80,6 +80,20 @@ function UploadFilesModal() {
           items={fileItems}
           setItems={setFileItems}
           isLoading={isLoading}
+          acceptedFileTypes={{
+            "application/pdf": [".pdf"],
+            "application/msword": [".doc"],
+
+            // Microsoft Office (Works on all OS if exported to these formats)
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+              [".docx"],
+
+            // OpenDocument Formats (Native to Linux/LibreOffice/OpenOffice)
+            "application/vnd.oasis.opendocument.text": [".odt"],
+
+            // Apple iWork Formats (Native to Mac/iOS)
+            "application/vnd.apple.pages": [".pages"],
+          }}
         />
         <DialogFooter className="mt-6">
           <Button variant="outline" onClick={closeModal}>
