@@ -10,6 +10,10 @@ export const formatDate = (date: string | Date) =>
   });
 
 export const fromSupabaseDate = (s: string) => {
+  if (s.includes("T")) {
+    return new Date(s);
+  }
+
   const [y, m, d] = s.split("-").map(Number);
   return new Date(y, m - 1, d); // local date, no timezone shift
 };

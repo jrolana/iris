@@ -501,6 +501,16 @@ const NOTIFICATIONS: NotificationRecord[] = [
 
 const PINGS: PingRecord[] = [
   {
+    id: "ping-1",
+    acknowledged_at: null,
+    application_id: "app-3",
+    application_name: "Campus Analytics Toolkit",
+    created_at: "2026-04-04T08:00:00.000Z",
+    stage_delayed: "grant",
+    step_delayed: "registered",
+    target_date: "2026-04-01T00:00:00.000Z",
+  },
+  {
     id: "ping-2",
     acknowledged_at: "2026-03-18T12:00:00.000Z",
     application_id: "app-2",
@@ -512,7 +522,19 @@ const PINGS: PingRecord[] = [
   },
 ];
 
-const REPORTS: ReportRecord[] = [];
+const REPORTS: ReportRecord[] = [
+  {
+    id: "report-1",
+    application_id: "app-3",
+    content:
+      "Please review the collaborator assignment before the registration record is finalized.",
+    created_at: "2026-04-02T09:10:00.000Z",
+    reporter_id: TECHGEN_USER.id,
+    reporter_name: TECHGEN_USER.full_name,
+    subject_id: "inventor-4",
+    subject_name: "Jhoanna Olana",
+  },
+];
 
 const REGISTRATION_REQUESTS: RegistrationRequestRecord[] = [
   {
@@ -577,7 +599,7 @@ export function createMockState(role: TestRole): MockState {
     nextGeneratedStatusId: 4,
     nextGeneratedFileId: 4,
     nextGeneratedPingId: 3,
-    nextGeneratedReportId: 1,
+    nextGeneratedReportId: 2,
     nextGeneratedRequestId: 3,
   });
 }

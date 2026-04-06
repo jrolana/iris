@@ -13,6 +13,39 @@ import {
   type ViewerRole,
 } from "./mock-data";
 
+const PUBLIC_RESOURCE_FILES: Record<
+  string,
+  Array<{
+    id: string;
+    name: string;
+    updated_at: string;
+    metadata: { size: number; mimetype: string };
+  }>
+> = {
+  patent: [
+    {
+      id: "public-patent-disclosure",
+      name: "patent-disclosure-form.pdf",
+      updated_at: "2026-03-01T09:00:00.000Z",
+      metadata: {
+        size: 245_760,
+        mimetype: "application/pdf",
+      },
+    },
+  ],
+  utility_model: [
+    {
+      id: "public-um-disclosure",
+      name: "utility-model-disclosure-form.pdf",
+      updated_at: "2026-03-01T09:00:00.000Z",
+      metadata: {
+        size: 233_472,
+        mimetype: "application/pdf",
+      },
+    },
+  ],
+};
+
 const CORS_HEADERS = {
   "access-control-allow-origin": "*",
   "access-control-allow-methods": "GET,POST,PATCH,PUT,DELETE,OPTIONS",
@@ -370,6 +403,44 @@ function upsertUploadedFile(state: MockState, storagePath: string) {
   return record;
 }
 
+function createStatus(state: MockState, body: Record<string, unknown>) {
+  const applicationId = String(body.application_id ?? "");
+  const id = `status-${state.nextGeneratedStatusId}-current`;
+  const now = "2026-04-06T09:30:00.000Z";
+
+  const record: StatusRecord = {
+    id,
+    application_id: applicationId,
+    created_at: now,
+    deadline: (body.deadline as string | null) ?? null,
+    is_public: (body.is_public as boolean | null) ?? false,
+    note: (body.note as string | null) ?? null,
+    status_name: (body.status_name as string | null) ?? null,
+    status_type: String(body.status_type ?? ""),
+  };
+
+  state.statuses.unshift(record);
+
+  const applicationIndex = state.applications.findIndex(
+    (application) => application.id === applicationId,
+  );
+
+  if (applicationIndex >= 0) {
+    state.applications[applicationIndex] = {
+      ...state.applications[applicationIndex],
+      curr_status: id,
+      updated_at: now,
+    };
+  }
+
+  state.nextGeneratedStatusId += 1;
+  return record;
+}
+
+function createApiToken() {
+  return `iris-e2e-token-${Math.random().toString(36).slice(2, 10)}`;
+}
+
 async function handleAuth(route: Route, state: MockState, viewerRole: ViewerRole) {
   if (route.request().method() === "OPTIONS") {
     return fulfillEmpty(route);
@@ -547,6 +618,26 @@ function updateRows<T extends { id: string } & Record<string, unknown>>(
   return updatedRows;
 }
 
+function deleteRows<T extends { id: string } & Record<string, unknown>>(
+  rows: T[],
+  searchParams: URLSearchParams,
+) {
+  const id = parseEqValue(searchParams.get("id"));
+  if (!id) {
+    return [];
+  }
+
+  const deletedRows = rows.filter((row) => row.id === id);
+
+  for (let index = rows.length - 1; index >= 0; index -= 1) {
+    if (rows[index].id === id) {
+      rows.splice(index, 1);
+    }
+  }
+
+  return deletedRows;
+}
+
 async function handleTable(
   route: Route,
   state: MockState,
@@ -606,6 +697,27 @@ async function handleTable(
     const body = readBody(route);
     const payload = Array.isArray(body) ? body : body ? [body] : [];
 
+    if (tableName === "ipr_statuses") {
+      const inserted = payload.map((item) =>
+        createStatus(state, item as Record<string, unknown>),
+      );
+      return fulfillJson(
+        route,
+        wantsSingleObject(route) ? inserted[0] ?? null : inserted,
+      );
+    }
+
+    if (tableName === "api_tokens") {
+      const inserted = payload.map((item) => ({
+        ...(item as Record<string, unknown>),
+        token: createApiToken(),
+      }));
+      return fulfillJson(
+        route,
+        wantsSingleObject(route) ? inserted[0] ?? null : inserted,
+      );
+    }
+
     if (tableName === "pings") {
       const inserted = payload.map((item) =>
         createPing(state, item as Record<string, unknown>),
@@ -629,6 +741,23 @@ async function handleTable(
     return fulfillJson(route, []);
   }
 
+  if (method === "DELETE") {
+    const deletedRows = deleteRows(
+      rows as Array<{ id: string } & Record<string, unknown>>,
+      url.searchParams,
+    );
+
+    if (wantsSingleObject(route)) {
+      return fulfillJson(
+        route,
+        deletedRows[0] ?? null,
+        deletedRows[0] ? 200 : 404,
+      );
+    }
+
+    return fulfillJson(route, deletedRows);
+  }
+
   return fulfillJson(route, []);
 }
 
@@ -638,6 +767,20 @@ async function handleStorage(route: Route, state: MockState) {
   }
 
   const url = new URL(route.request().url());
+
+  const listMatch = url.pathname.match(/\/storage\/v1\/object\/list\/([^/]+)$/);
+  if (listMatch) {
+    const bucketName = listMatch[1];
+    const body = readBody(route);
+    const prefix = String(body?.prefix ?? "");
+
+    if (bucketName === "ipr_public_resources_bucket") {
+      return fulfillJson(route, PUBLIC_RESOURCE_FILES[prefix] ?? []);
+    }
+
+    return fulfillJson(route, []);
+  }
+
   const prefix = "/storage/v1/object/";
   const fullStoragePath = decodeURIComponent(url.pathname.slice(prefix.length));
   const [, ...objectPathParts] = fullStoragePath.split("/");
