@@ -236,7 +236,7 @@ export default function ApplicationsTable(props: PropsInterface) {
         <div className="flex flex-col gap-3 sm:flex-row">
           {(isAdmin || isTechgen) && (
             <Button
-              startIcon={<PlusIcon size={30} />}
+              startIcon={<PlusIcon size={20} />}
               onClick={() => {
                 router.push(
                   isAdmin
@@ -250,7 +250,7 @@ export default function ApplicationsTable(props: PropsInterface) {
             </Button>
           )}
 
-          <div className="flex flex-row items-start justify-start">
+          <div className="flex flex-row items-start justify-start gap-2">
             {/* Sort Panel */}
             <div className="flex gap-0">
               <Popover open={isSortPanelOpen} onOpenChange={setIsSortPanelOpen}>
@@ -471,7 +471,8 @@ export default function ApplicationsTable(props: PropsInterface) {
                           record?.inventors as {
                             full_name: string;
                             college: string;
-                            college_name: string;
+                            other_college_name: string;
+                            external_institution: string;
                           }[]
                         ).map((item) => (
                           <div
@@ -484,7 +485,10 @@ export default function ApplicationsTable(props: PropsInterface) {
                             </span>
                             {/* College is smaller and lighter */}
                             <span className="text-xs text-gray-500">
-                              {item.college_name ?? "Unspecified"}
+                              {item.college ||
+                                item.other_college_name ||
+                                item.external_institution ||
+                                "--"}
                             </span>
                           </div>
                         ))}
