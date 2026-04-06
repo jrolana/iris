@@ -236,7 +236,7 @@ export default function ApplicationsTable(props: PropsInterface) {
         <div className="flex flex-col gap-3 sm:flex-row">
           {(isAdmin || isTechgen) && (
             <Button
-              startIcon={<PlusIcon size={30} />}
+              startIcon={<PlusIcon size={20} />}
               onClick={() => {
                 router.push(
                   isAdmin
@@ -250,7 +250,7 @@ export default function ApplicationsTable(props: PropsInterface) {
             </Button>
           )}
 
-          <div className="flex flex-row items-start justify-start">
+          <div className="flex flex-row items-start justify-start gap-2">
             {/* Sort Panel */}
             <div className="flex gap-0">
               <Popover open={isSortPanelOpen} onOpenChange={setIsSortPanelOpen}>
