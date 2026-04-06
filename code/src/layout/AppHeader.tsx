@@ -131,8 +131,10 @@ const AppHeader: React.FC<PropsInterface> = ({
             </button>
           ) : (
             <>
-              {isAdmin && <PingsDropdown />}
-              <NotificationDropdown isAdmin={isAdmin} />
+              <div className="gap-4 flex">
+                {isAdmin && <PingsDropdown />}
+                <NotificationDropdown isAdmin={isAdmin} />
+              </div>
               <UserDropdown />
             </>
           )}

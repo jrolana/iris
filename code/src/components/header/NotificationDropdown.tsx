@@ -214,9 +214,8 @@ function NotificationContainer(props: NotificationContainerPropsInterface) {
         isOpen={isOpen}
         onClose={closeDropdown}
         className={[
-          "shadow-theme-lg absolute left-0 mt-[17px] flex h-fit max-h-[400px] w-screen max-w-[380px] flex-col rounded-2xl border border-gray-200 bg-white p-3",
+          "shadow-theme-lg absolute left-0 mt-3 flex h-fit max-h-[400px] w-screen max-w-[380px] flex-col rounded-2xl border border-gray-200 bg-white p-3",
           "lg:right-0 lg:left-auto",
-          "dark:border-gray-800 dark:bg-gray-900",
         ].join(" ")}
       >
         <div className="mb-3 flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-800">

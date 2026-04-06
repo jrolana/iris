@@ -14,7 +14,7 @@ import {
 } from "../ui/table";
 import Link from "next/link";
 import Button from "../ui/button/Button";
-import { PlusIcon } from "@/icons";
+import { PlusIcon } from "lucide-react";
 import { ActiveFilters } from "./filter/ActiveFilters";
 import { FilterPanel } from "./filter/FilterPanel";
 import { FilterIcon, Loader } from "lucide-react";
@@ -124,7 +124,7 @@ export default function UsersTable() {
         <Button
           onClick={handleClick}
           disabled={isLoading}
-          startIcon={<PlusIcon size={30} />}
+          startIcon={<PlusIcon size={20} />}
           size="sm"
           className="h-12"
         >

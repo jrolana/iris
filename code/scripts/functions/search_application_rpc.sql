@@ -34,13 +34,23 @@ BEGIN
     -- merge application with inventors to get the colleges and techgens in an aggregated form
     WITH expanded_inventors AS (
         -- grab all direct inventors of an application
-        SELECT application_id, college_code, full_name, external_institution
+        SELECT
+            application_id,
+            college_code,
+            full_name,
+            other_college_name,
+            external_institution
         FROM private.inventors
 
         UNION
 
         -- copy the parent's inventors (college_code and name) and stamp the child's ID on them
-        SELECT child_app.id AS application_id, parent_inv.college_code, parent_inv.full_name, parent_inv.external_institution
+        SELECT
+            child_app.id AS application_id,
+            parent_inv.college_code,
+            parent_inv.full_name,
+            parent_inv.other_college_name,
+            parent_inv.external_institution
         FROM private.ipr_applications child_app
         JOIN private.inventors parent_inv ON child_app.parent_application_id = parent_inv.application_id
         WHERE child_app.parent_application_id IS NOT NULL
@@ -54,7 +64,8 @@ BEGIN
                 jsonb_build_object(
                     'full_name', full_name,
                     'college', college_code,
-                    'college_name', external_institution
+                    'other_college_name', other_college_name,
+                    'external_institution', external_institution
                 )
             ) AS aggregated_inventors
         FROM expanded_inventors
