@@ -1,5 +1,6 @@
 import { DashboardAnalyticsType } from "@/lib/types/views";
 import { ipTypeToTitle } from "../helper/get-ip-title";
+import { IP_TYPES } from "../types/ip";
 
 export const STATUS_ORDER = [
   "filed",
@@ -18,14 +19,6 @@ export const DASHBOARD_STATUS_LABELS: Record<DashboardStatus, string> = {
   withdrawn: "Withdrawn",
   downgraded: "Downgraded",
 };
-
-export const IP_TYPE_ORDER = [
-  "patent",
-  "utility_model",
-  "industrial_design",
-  "copyright",
-  "trademark",
-] as const;
 
 export type SummaryTableRow = {
   ipType: string;
@@ -64,10 +57,10 @@ export const buildSummaryTableRows = (
   ) as string[];
 
   const orderedIpTypes = [
-    ...IP_TYPE_ORDER.filter((ipType) => ipTypesFromData.includes(ipType)),
+    ...IP_TYPES.filter((ipType) => ipTypesFromData.includes(ipType)),
     ...ipTypesFromData.filter(
       (ipType) =>
-        !IP_TYPE_ORDER.includes(ipType as (typeof IP_TYPE_ORDER)[number]),
+        !IP_TYPES.includes(ipType as (typeof IP_TYPES)[number]),
     ),
   ];
 
