@@ -471,7 +471,8 @@ export default function ApplicationsTable(props: PropsInterface) {
                           record?.inventors as {
                             full_name: string;
                             college: string;
-                            college_name: string;
+                            other_college_name: string;
+                            external_institution: string;
                           }[]
                         ).map((item) => (
                           <div
@@ -484,7 +485,10 @@ export default function ApplicationsTable(props: PropsInterface) {
                             </span>
                             {/* College is smaller and lighter */}
                             <span className="text-xs text-gray-500">
-                              {item.college_name ?? "Unspecified"}
+                              {item.college ||
+                                item.other_college_name ||
+                                item.external_institution ||
+                                "--"}
                             </span>
                           </div>
                         ))}
