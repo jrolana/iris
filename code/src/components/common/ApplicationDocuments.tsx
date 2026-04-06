@@ -7,8 +7,7 @@ import { CircleHelp, ShieldCheck } from "lucide-react";
 import CallToAction from "@/components/common/CallToAction";
 import DisclosureFormActions from "@/components/application/DisclosureFormActions";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
-import { IpType } from "@/lib/types/ip";
-import { IP_TYPE_ORDER } from "@/lib/dashboard/dashboard-summary";
+import { IpType, IP_TYPES } from "@/lib/types/ip";
 
 interface PropsInterface {
   isApplicant?: boolean;
@@ -35,7 +34,7 @@ export default function ApplicationDocuments(props: PropsInterface) {
         <section className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-6">
           <div className="rounded-2xl bg-slate-100 p-1.5">
             <div className="flex gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {IP_TYPE_ORDER.map((ipType) => {
+              {IP_TYPES.map((ipType) => {
                 const isActive = ipType === activeIpType;
 
                 return (

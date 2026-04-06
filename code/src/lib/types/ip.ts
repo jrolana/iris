@@ -1,9 +1,12 @@
-export type IpType =
-  | 'patent'
-  | 'utility_model'
-  | 'industrial_design'
-  | 'trademark'
-  | 'copyright';
+export const IP_TYPES = [
+  "patent",
+  "utility_model",
+  "industrial_design",
+  "trademark",
+  "copyright",
+] as const;
+
+export type IpType = (typeof IP_TYPES)[number];
 
 //global StatusType
 export type StatusType =
