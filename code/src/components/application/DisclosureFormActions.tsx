@@ -134,10 +134,10 @@ export default function DisclosureFormActions(
       anchor.click();
       anchor.remove();
     } catch (error) {
-      console.error(error);
-
       toast.error(
-        action === "view" ? "Failed to open file" : "Failed to download file",
+        action === "view"
+          ? "Failed to open file: " + error
+          : "Failed to download file: " + error,
         {
           description:
             "There was a problem accessing the file. Please try again.",

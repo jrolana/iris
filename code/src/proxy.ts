@@ -29,10 +29,6 @@ export async function proxy(request: NextRequest) {
   const { data } = await supabase.auth.getClaims()
   const user = data?.claims
 
-  console.log('=== MIDDLEWARE DEBUG ===')
-  console.log('pathname:', pathname)
-  console.log('user sub:', user?.sub)
-
   // Redirect unauthenticated users from protected routes
   const isPublicRoute = PUBLIC_ROUTES.some(route => pathname === route || pathname.startsWith(route + '/'))
   if (!user && !isPublicRoute) {
@@ -43,31 +39,23 @@ export async function proxy(request: NextRequest) {
 
   if (user && !isPublicRoute) {
     const rawCookie = request.cookies.get('user-role')
-    console.log('raw cookie object:', rawCookie)
-    console.log('cookie value:', rawCookie?.value)
 
     let userRole = rawCookie?.value as Role | undefined
 
     // If no role cookie, fetch from DB
     if (!userRole) {
-      console.log('No role cookie, fetching from DB...')
       const { data: userData, error } = await supabase
         .schema("private")
         .from('users')
         .select('role')
         .eq('id', user.sub)
         .single()
-      console.log('DB result:', userData, 'error:', error)
       userRole = userData?.role as Role | undefined
-      console.log('userRole from DB:', userRole)
     }
 
     // If the user is trying to access a route outside their allowed prefixes
     const allowedPrefixes = ROLE_CONFIG[userRole!]?.allowedPrefixes || []
     const isRouteAllowed = allowedPrefixes.some(prefix => pathname.startsWith(prefix))
-    console.log('allowedPrefixes:', allowedPrefixes)
-    console.log('isRouteAllowed:', allowedPrefixes.some(prefix => pathname.startsWith(prefix)))
-    console.log('======================')
     
     if (!isRouteAllowed) {
       const url = request.nextUrl.clone()

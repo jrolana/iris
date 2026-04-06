@@ -63,8 +63,7 @@ export default function Ping(props: PingProps) {
           });
         },
         onError: (error) => {
-          console.log(error);
-          toast.error("Request not submitted", {
+          toast.error("Request not submitted: " + error, {
             description:
               "Please try again. If the issue persists, refresh the page and retry.",
           });
@@ -91,8 +90,7 @@ export default function Ping(props: PingProps) {
           });
         },
         onError: (error) => {
-          console.log(error);
-          toast.error("Unable to acknowledge", {
+          toast.error("Unable to acknowledge: " + error, {
             description:
               "Please try again. If it persists, refresh the page and retry.",
           });
