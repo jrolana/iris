@@ -24,7 +24,6 @@ import {
 import {
   buildSummaryTableRows,
   buildSummaryTotals,
-  IP_TYPE_ORDER,
   STATUS_ORDER,
 } from "@/lib/dashboard/dashboard-summary";
 import {
@@ -38,6 +37,7 @@ import {
 } from "@/lib/dashboard/dashboard";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { IP_TYPES } from "@/lib/types/ip";
 
 type YearSelectProps = {
   label: string;
@@ -288,7 +288,7 @@ export default function Dashboard() {
         return acc;
       }, {});
 
-      const activeIpTypes = IP_TYPE_ORDER.filter(
+      const activeIpTypes = IP_TYPES.filter(
         (ipType) => groupedByIPAndYear[ipType],
       );
 
