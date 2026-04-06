@@ -76,7 +76,6 @@ export default function SignUpForm() {
     try {
       UserRegistrationSchema.parse(data);
       const { first_name, last_name, ...userData } = data;
-      console.log(userData);
       await addRegistrationRequest(
         {
           userData,
@@ -129,7 +128,7 @@ export default function SignUpForm() {
         <div>
           <form
             onSubmit={handleSubmit(onSubmit, (errors) =>
-              console.log("Validation errors:", errors),
+              toast.error("Check your input and try again"),
             )}
           >
             <div className="space-y-5">

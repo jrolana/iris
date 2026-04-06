@@ -423,8 +423,7 @@ export default function Dashboard() {
       setShowExportMenu(false);
       toast.success("CSV exported successfully.");
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to export CSV.");
+      toast.error("Failed to export CSV: " + error);
     } finally {
       setIsExportingCsv(false);
     }
@@ -446,8 +445,7 @@ export default function Dashboard() {
       setShowExportMenu(false);
       toast.success("PDF exported successfully.");
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to export PDF.");
+      toast.error("Failed to export PDF: " + error);
     } finally {
       setIsExportingPdf(false);
     }

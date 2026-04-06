@@ -36,7 +36,6 @@ export default function UserProvider({
         .single();
 
       if (error) {
-        console.error("Error fetching user data:", error);
         if (isMounted) setUser(null);
         return;
       }

@@ -373,7 +373,7 @@ function StatusUpdateForm(props: PropsInterface) {
         queryKey: ["multiple-status", applicationId],
       });
     } catch (e) {
-      console.error(
+      toast.error(
         e instanceof Error
           ? e.message
           : "There was an error in changing status.",
@@ -423,7 +423,7 @@ function StatusUpdateForm(props: PropsInterface) {
 
       router.push(`/admin/view-application?applicationID=${app.id}`);
     } catch (e) {
-      console.error(
+      toast.error(
         e instanceof Error
           ? e.message
           : "There was an error in downgrading application.",

@@ -32,7 +32,6 @@ export default function SignInForm() {
     } catch (e) {
       const error =
         e instanceof Error ? e.message : "There was a problem signing you in.";
-      console.error("OAuth Error:", error);
       toast.error(`Sign in failed: ${error}`);
     } finally {
       setLoading(false);

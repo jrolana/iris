@@ -39,7 +39,5 @@ export const getFilesByAppId = async (props: GetFilesByAppIdProps) => {
         });
     });
 
-    console.log(JSON.stringify(result, null, 2))
-
   return result;
 }
