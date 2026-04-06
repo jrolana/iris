@@ -253,7 +253,7 @@ function StatusUpdateForm(props: PropsInterface) {
     const isConfirmed = await confirm({
       title: isDowngradeToUM ? "Confirm Downgrade" : "Confirm Status Update",
       message: isDowngradeToUM
-        ? "Are you sure you want to downgrade this application to a Utility Model? This action will archive the current Patent application and create a new Utility Model application with the same details."
+        ? "Are you sure you want to downgrade this application to a Utility Model? This action will downgrade the current Patent application and create a new Utility Model application with the same details."
         : "Are you sure you want to update the status of this application? This action will notify the technology generators about the change.",
     });
 
