@@ -120,7 +120,7 @@ const AppHeader: React.FC<PropsInterface> = ({
         <div
           className={`${
             isApplicationMenuOpen ? "flex" : "hidden"
-          } shadow-theme-md w-full items-center justify-between gap-4 px-5 py-4 lg:flex lg:justify-end lg:px-0 lg:shadow-none`}
+          } shadow-theme-md relative w-full items-center justify-between gap-4 px-5 py-4 lg:flex lg:justify-end lg:px-0 lg:shadow-none`}
         >
           {isPublic ? (
             <button
@@ -131,7 +131,7 @@ const AppHeader: React.FC<PropsInterface> = ({
             </button>
           ) : (
             <>
-              <div className="gap-4 flex">
+              <div className="flex gap-4">
                 {isAdmin && <PingsDropdown />}
                 <NotificationDropdown isAdmin={isAdmin} />
               </div>

@@ -71,7 +71,8 @@ export default function NotificationDropdown(
     <NotificationContainer hasUnreadNotification={hasUnreadNotification}>
       <div className="mb-2 flex items-center justify-between px-1">
         <span className="text-xs text-gray-500">
-          {notifications.filter((notif) => notif.read_at === null).length} unread
+          {notifications.filter((notif) => notif.read_at === null).length}{" "}
+          unread
         </span>
 
         {!isLoading && isFetching && (
@@ -178,9 +179,9 @@ function NotificationContainer(props: NotificationContainerPropsInterface) {
   }
 
   return (
-    <div className="relative">
+    <div className="">
       <button
-        className="text-gray-600transition relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-100 hover:text-gray-800"
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 transition hover:bg-gray-100 hover:text-gray-800"
         onClick={toggleDropdown}
         aria-label="Open notifications"
         title="Open notifications"
@@ -214,7 +215,7 @@ function NotificationContainer(props: NotificationContainerPropsInterface) {
         isOpen={isOpen}
         onClose={closeDropdown}
         className={[
-          "shadow-theme-lg absolute left-0 mt-3 flex h-fit max-h-[400px] w-screen max-w-[380px] flex-col rounded-2xl border border-gray-200 bg-white p-3",
+          "shadow-theme-lg xsm:left-5 xsm:mx-0 absolute inset-x-0 mx-auto mt-3 flex h-fit max-h-[400px] w-screen max-w-[380px] flex-col rounded-2xl border border-gray-200 bg-white p-3",
           "lg:right-0 lg:left-auto",
         ].join(" ")}
       >
