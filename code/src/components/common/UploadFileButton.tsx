@@ -127,7 +127,7 @@ export default function UpdateFileButton(props: UpdateFileButtonProps) {
         )}
       </Button>
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="flex w-full max-w-[95vw] min-w-[75vw] flex-col sm:w-[80vh] sm:min-w-[400px]">
           <DialogHeader>
             <DialogTitle>Update File Version</DialogTitle>
             <DialogDescription>
@@ -146,7 +146,7 @@ export default function UpdateFileButton(props: UpdateFileButtonProps) {
                     {getFileIcon(getFileType(selectedFile))}
                   </div>
                   <div className="flex min-w-0 flex-col">
-                    <span className="block max-w-[250px] truncate text-sm font-medium">
+                    <span className="line-clamp-2 text-sm font-medium">
                       {selectedFile.name}
                     </span>
                     <span className="text-muted-foreground flex items-center gap-1 text-xs">

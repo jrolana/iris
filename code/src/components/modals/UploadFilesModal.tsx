@@ -75,7 +75,7 @@ function UploadFilesModal() {
       isOpen={isOpen}
       onChange={handleChange}
     >
-      <div className="w-full sm:min-w-md md:w-2xl">
+      <div className="flex w-full max-w-lg min-w-[85vw] flex-col sm:w-[80vh] sm:min-w-[400px]">
         <FileUploader
           items={fileItems}
           setItems={setFileItems}

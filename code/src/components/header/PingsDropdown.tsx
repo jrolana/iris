@@ -250,10 +250,10 @@ function RequestContainer({
   const triggerBase =
     "relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 transition";
   const triggerHover =
-    "hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-200";
+    "relative hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-200";
 
   return (
-    <div className="relative">
+    <div className="">
       <button
         className={[triggerBase, triggerHover].join(" ")}
         onClick={toggleDropdown}
@@ -286,7 +286,7 @@ function RequestContainer({
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="shadow-theme-lg absolute left-0 mt-3 flex h-fit w-screen max-w-[380px] flex-col rounded-2xl border border-gray-200 bg-white p-3 lg:right-0 lg:left-auto"
+        className="shadow-theme-lg xsm:left-5 xsm:mx-0 absolute inset-x-0 mx-auto mt-3 flex h-fit w-screen max-w-[380px] flex-col rounded-2xl border border-gray-200 bg-white p-3 lg:right-0 lg:left-auto"
       >
         <div className="mb-3 flex items-center justify-between border-b border-gray-100 pb-3">
           <h5 className="text-base font-semibold text-gray-900">
