@@ -181,7 +181,7 @@ function NotificationContainer(props: NotificationContainerPropsInterface) {
   return (
     <div className="">
       <button
-        className="flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 transition hover:bg-gray-100 hover:text-gray-800"
+        className="relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 transition hover:bg-gray-100 hover:text-gray-800"
         onClick={toggleDropdown}
         aria-label="Open notifications"
         title="Open notifications"
