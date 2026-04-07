@@ -193,7 +193,7 @@ export default function FileUploader(props: FileUploaderProps) {
                       {getFileIcon(item.file_type)}
                     </div>
                     <div className="flex min-w-0 flex-col">
-                      <span className="xsm:max-w-[300px] block w-full max-w-[200px] truncate text-sm font-medium sm:max-w-[350px]">
+                      <span className="line-clamp-2 text-sm font-medium">
                         {item.file_name}
                       </span>
                       <span className="text-muted-foreground flex items-center gap-1 text-xs">

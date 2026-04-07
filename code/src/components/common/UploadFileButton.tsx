@@ -146,7 +146,7 @@ export default function UpdateFileButton(props: UpdateFileButtonProps) {
                     {getFileIcon(getFileType(selectedFile))}
                   </div>
                   <div className="flex min-w-0 flex-col">
-                    <span className="xsm:max-w-[400px] line-clamp-2 block max-w-[200px] truncate text-sm font-medium sm:max-w-[500px]">
+                    <span className="line-clamp-2 text-sm font-medium">
                       {selectedFile.name}
                     </span>
                     <span className="text-muted-foreground flex items-center gap-1 text-xs">
