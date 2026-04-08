@@ -224,7 +224,7 @@ export default function ViewAllNotifications() {
                       </div>
 
                       {isUnread && (
-                        <span className="mt-1 hidden shrink-0 text-xs font-semibold text-orange-500 transition-opacity duration-200 group-hover:block">
+                        <span className="mt-1 hidden shrink-0 text-xs font-semibold text-orange-500 group-hover:block">
                           {isThisNotifLoading
                             ? "Marking as read..."
                             : "Mark read"}
