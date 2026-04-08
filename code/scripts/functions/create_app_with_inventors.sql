@@ -1,5 +1,4 @@
--- Drop the old one if you created it, to avoid confusion
-DROP FUNCTION IF EXISTS create_application_with_inventors;
+DROP FUNCTION IF EXISTS public.create_application_with_inventors;
 
 CREATE OR REPLACE FUNCTION public.create_application_with_inventors(
   p_project_title TEXT,
@@ -10,7 +9,7 @@ CREATE OR REPLACE FUNCTION public.create_application_with_inventors(
 RETURNS UUID -- Returns the id of the new app to use later
 LANGUAGE plpgsql
 SECURITY DEFINER -- Optional: ensures function runs with owner privileges if needed
-SET search_path = private
+SET search_path = '' -- to force references to be fully qualified/defined and to prevent malicious objects in any schema from being accidentally called instead of the intended ones
 AS $$
 DECLARE
   new_app_id UUID; 
@@ -24,14 +23,23 @@ BEGIN
   -- Loop through inventors params and insert to the db
   FOR inv IN SELECT * FROM jsonb_array_elements(p_inventors)
   LOOP
-    INSERT INTO private.inventors (application_id, full_name, email, college_code, other_college_name, external_institution)
+    INSERT INTO private.inventors (
+      application_id,
+      techgen_id,
+      full_name,
+      email,
+      college_code,
+      other_college_name,
+      external_institution
+    )
     VALUES (
-      new_app_id, 
-      inv->>'full_name', 
-      inv->>'email', 
-      inv->>'college_code',
-      inv->>'other_college_name',
-      inv->>'external_institution'
+      new_app_id,
+      NULLIF(inv->>'techgen_id', '')::UUID,
+      inv->>'full_name',
+      inv->>'email',
+      NULLIF(inv->>'college_code', ''),
+      NULLIF(inv->>'other_college_name', ''),
+      NULLIF(inv->>'external_institution', '')
     );
   END LOOP;
 

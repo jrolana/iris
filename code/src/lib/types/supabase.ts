@@ -663,14 +663,26 @@ export type Database = {
         }[]
       }
       search_users_for_linking: {
-        Args: { excluded_ids: string[]; search_query: string }
-        Returns: Database["private"]["Tables"]["users"]["Row"][]
-        SetofOptions: {
-          from: "*"
-          to: "users"
-          isOneToOne: false
-          isSetofReturn: true
-        }
+        Args: { excluded_ids?: string[]; search_query: string }
+        Returns: {
+          college_code: string
+          email: string
+          external_institution: string
+          full_name: string
+          id: string
+          other_college_name: string
+        }[]
+      }
+      search_users_for_linking_secure: {
+        Args: { excluded_ids?: string[]; search_query: string }
+        Returns: {
+          college_code: string
+          email: string
+          external_institution: string
+          full_name: string
+          id: string
+          other_college_name: string
+        }[]
       }
       submit_registration_request: {
         Args: {
