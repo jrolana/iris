@@ -140,4 +140,8 @@ BEGIN
     )
     SELECT * FROM filtered_apps;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = ''; -- to force references to be fully qualified/defined and to prevent malicious objects in any schema from being accidentally called instead of the intended ones
+
+REVOKE EXECUTE ON FUNCTION public.search_applications(text, text[], text[], text[], text[]) FROM public;
+GRANT EXECUTE ON FUNCTION public.search_applications(text, text[], text[], text[], text[]) TO anon;
+GRANT EXECUTE ON FUNCTION public.search_applications(text, text[], text[], text[], text[]) TO authenticated;

@@ -1,11 +1,11 @@
 import { useSearchUsersToLink } from "@/hooks/inventors/useSearchUsersToLink";
 import useDebounce from "@/hooks/useDebounce";
 import { InventorType } from "@/lib/types/application";
-import { UserType } from "@/lib/types/users";
 import { Cable } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useState } from "react";
 import SearchInput from "../../common/SearchInput";
 import { ScrollArea } from "../../ui/scroll-area";
+import type { SearchUsersToLinkResult } from "@/services/inventors/search-users-to-link";
 
 interface SearchTabProps {
   isOpen: boolean;
@@ -13,16 +13,16 @@ interface SearchTabProps {
   setInventor: (inventor: InventorType["Insert"]) => void;
   closeModal: () => void;
 }
+
 export default function SearchTab(props: SearchTabProps) {
-  const { isOpen, excludedUIDs, setInventor, closeModal } = props;
+  const { excludedUIDs, setInventor, closeModal } = props;
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery);
-  const [queryResults, setQueryResults] = useState<UserType["Row"][]>([]);
+
   const {
     inventors,
     isFetching: isSearching,
     isLoading: isSearchingLoading,
-    refetch,
   } = useSearchUsersToLink({
     queryString: debouncedSearchQuery,
     excludedUserIds: excludedUIDs,
@@ -30,20 +30,7 @@ export default function SearchTab(props: SearchTabProps) {
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (!isOpen) {
-      setQueryResults([]);
-      setSearchQuery("");
-      refetch();
-      return;
-    }
-    if (inventors) {
-      setQueryResults(inventors);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inventors, isOpen]);
-
-  function handleAddVerifiedInventor(techgen: UserType["Row"]) {
+  function handleAddVerifiedInventor(techgen: SearchUsersToLinkResult) {
     const inventorData: InventorType["Insert"] = {
       application_id: "",
       techgen_id: techgen.id,
@@ -53,6 +40,7 @@ export default function SearchTab(props: SearchTabProps) {
       external_institution: techgen.external_institution,
       other_college_name: techgen.other_college_name,
     };
+
     setInventor(inventorData);
     closeModal();
   }
@@ -64,6 +52,7 @@ export default function SearchTab(props: SearchTabProps) {
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search with their name or email..."
       />
+
       <ScrollArea className="mt-2 h-[300px] w-full rounded-md border p-2">
         {isSearching || isSearchingLoading ? (
           <div className="mt-28 flex h-full w-full items-center justify-center text-center">
@@ -72,14 +61,16 @@ export default function SearchTab(props: SearchTabProps) {
             </p>
           </div>
         ) : null}
-        {!isSearching && queryResults?.length === 0 && (
+
+        {!isSearching && inventors.length === 0 && (
           <div className="text-md text-muted-foreground mt-28 flex h-full w-full items-center justify-center text-center">
             No tech gens found. Try adjusting your search.
           </div>
         )}
-        {!isSearching && queryResults && queryResults.length > 0 && (
+
+        {!isSearching && inventors.length > 0 && (
           <ul className="divide-y divide-slate-100 pr-3">
-            {queryResults?.map((user) => (
+            {inventors.map((user) => (
               <li
                 key={user.id}
                 className="flex flex-col items-start justify-between gap-4 py-3 sm:flex-row sm:items-center"
@@ -97,6 +88,7 @@ export default function SearchTab(props: SearchTabProps) {
                       user.other_college_name}
                   </span>
                 </div>
+
                 <div className="flex w-full shrink-0 items-center gap-2 sm:w-auto">
                   <button
                     type="button"
