@@ -211,7 +211,7 @@ export default function ViewAllNotifications() {
                           {notif.title}
                         </p>
 
-                        <p className="mt-0.5 text-sm text-gray-500">
+                        <p className="mt-0.5 text-sm break-words text-gray-500">
                           {notif.content}
                         </p>
 
@@ -224,8 +224,10 @@ export default function ViewAllNotifications() {
                       </div>
 
                       {isUnread && (
-                        <span className="mt-1 shrink-0 text-xs font-semibold text-orange-500 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                          {isThisNotifLoading ? "Marking as read..." : "Mark read"}
+                        <span className="mt-1 hidden shrink-0 text-xs font-semibold text-orange-500 transition-opacity duration-200 group-hover:block">
+                          {isThisNotifLoading
+                            ? "Marking as read..."
+                            : "Mark read"}
                         </span>
                       )}
                     </div>
