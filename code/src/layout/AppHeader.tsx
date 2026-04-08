@@ -3,10 +3,14 @@
 import NotificationDropdown from "@/components/header/NotificationDropdown";
 import UserDropdown from "@/components/header/UserDropdown";
 import { useSidebar } from "@/context/SidebarContext";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atom-states/user";
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import PingsDropdown from "@/components/header/PingsDropdown";
+import Link from "next/link";
+import { getHomeRoute } from "@/lib/helper/get-home-route";
 
 interface PropsInterface {
   isPublic?: boolean;
@@ -22,6 +26,9 @@ const AppHeader: React.FC<PropsInterface> = ({
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
+
+  const user = useAtomValue(userAtom);
+  const role = user?.role;
 
   const handleToggle = () => {
     if (window.innerWidth >= 1024) {
@@ -95,6 +102,14 @@ const AppHeader: React.FC<PropsInterface> = ({
                 </svg>
               )}
             </button>
+          )}
+
+          {isFullWidth && (
+            <Link href={getHomeRoute(role)}>
+              <span className="text-brand-500 text-2xl font-bold tracking-[0.25em]">
+                IRIS
+              </span>
+            </Link>
           )}
 
           <button

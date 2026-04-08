@@ -250,7 +250,7 @@ export default function ApplicationsTable(props: PropsInterface) {
             </Button>
           )}
 
-          <div className="flex flex-row items-start justify-start gap-2">
+          <div className="flex flex-row flex-wrap items-start justify-start gap-2">
             {/* Sort Panel */}
             <div className="flex gap-0">
               <Popover open={isSortPanelOpen} onOpenChange={setIsSortPanelOpen}>
