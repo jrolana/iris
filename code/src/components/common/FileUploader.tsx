@@ -180,7 +180,7 @@ export default function FileUploader(props: FileUploaderProps) {
       {/* preview list of files */}
       {items.length > 0 && (
         <ScrollArea className="rounded-md border p-2 pr-4">
-          <div className="max-h-[300px] space-y-3">
+          <div className="max-h-[200px] space-y-3 sm:max-h-[300px]">
             {items.map((item, index) => (
               <div
                 key={item.id + index.toString()}
