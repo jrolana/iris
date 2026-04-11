@@ -117,15 +117,15 @@ Data was gathered through multiple methods to ensure an accurate understanding o
 
 \subsection{Functional Requirements}
 
-The functional requirements (FRs) of IRIS define the specific system behaviors, capabilities, and interactions necessary to address the inefficiencies of TTBDO’s current manual IP management process. These requirements translate the project objectives into specific system behaviors and are organized into seven key functional areas namely: authentication, application submission, application tracking, dashboards, notifications, document management, and public access. 
+The functional requirements (FRs) of IRIS defined the specific system behaviors, capabilities, and interactions that addressed the inefficiencies of TTBDO’s current manual IP management process. These requirements translated the project objectives into specific system behaviors and are organized into seven key functional areas namely: authentication, application submission, application tracking, dashboards, notifications, document management, and public access. 
 
-For authentication, the system will require all users to authenticate before accessing internal features and will implement role-based access control. In the submission of applications, IRIS will allow users to guide users in selecting the IDFs by IP type and enable review of IP-related documents. The system will also log timestamps whenever application statuses are updated.
+For authentication, the system requires all users to authenticate before accessing internal features and implements role-based access control. In the submission of applications, IRIS guides users in selecting the IDFs by IP type and enables review of IP-related documents. The system also logs timestamps whenever application statuses are updated.
 
-The application tracking functionality will maintain a registry of applicants and their submissions, allow authorized users to search and review submission histories, and support filtered and faceted searches over the registry. Dashboards and reporting will provide real-time statistics, trends, and breakdowns, with options to generate and export reports in both machine and human-readable formats.
+The application tracking functionality maintains a registry of applicants and their submissions, allows authorized users to search and review submission histories, and supports filtered and faceted searches over the registry. Dashboards and reporting provides real-time statistics, trends, and breakdowns, with options to generate and export reports in both machine and human-readable formats.
 
-In terms of notifications, the system will send in-app alerts for application status changes or approaching deadlines, allow users to configure notification preferences, and maintain a notification history for each user. The document management capabilities will enable TTBDO staff to upload and securely store supporting documents linked to application records, with access enforced according to user roles.
+In terms of notifications, the system sends in-app alerts for application status changes or approaching deadlines and maintain a notification history for each user. The deadline notifications are also automatically emailed to all collaborators and the admin, which follows three tiers: a week before the deadline, three days before, and on the deadline itself. The deadline for the annual fees of Patent and Trademark IP types are also automatically sent by the system, following the same notification schedule. The document management capabilities enables the TTBDO staff to upload and securely store supporting documents linked to application records, with access enforced according to user roles.
 
-Finally, the public portal will provide read-only access for guest users to browse published IPs, display summary statistics, and, where appropriate, allow document access requests via a public form.
+Finally, the public portal provides read-only access for guest users to browse published IPs, display summary statistics, and publicly available IDF documents.
 
 The complete set of functional requirements, including all detailed specifications, is provided in Appendix~\ref{sec:appendixa} (Tables~\ref{tab:fr_auth_roles}--\ref{tab:fr_public_portal}).
 
@@ -133,13 +133,13 @@ The complete set of functional requirements, including all detailed specificatio
 
 Non-functional requirements (NFRs) define the standards that IRIS must meet for performance, security, reliability, usability, maintainability, and compliance. NFRs are critical for a system handling sensitive IP data, serving diverse users with varying technical skills, and maintaining public trust through consistent availability.
 
-In terms of performance, IRIS is expected to return 95\% of requests within two seconds under normal load and support at least 100 concurrent users. For security, the system will encrypt all traffic using TLS 1.2 or higher and enforce role-based access control.
+In terms of performance, IRIS is expected to return 95\% of requests within two seconds under normal load and support at least 100 concurrent users. For security, the system will encrypt all traffic using TLS 1.2 or higher and enforce role-based access control. To meet this requirement, the system is built with Supabase framework, which has built-in authentication and access control features. Moreover, the Supabase framework protects all data with encryption of TLS 1.2+ and AES-256 for data at rest.
 
 Regarding reliability and availability, IRIS is designed to achieve 99.5\% uptime during business hours, recover to the last stable state within four hours in case of failure, and perform daily backups stored in two separate locations. Usability and accessibility considerations include a responsive web interface for desktop, consistent UI and navigation patterns, meaningful error messages, and compliance with WCAG 2.1 Level AA accessibility standards. 
 
-For maintainability, portability, and scalability, the system will follow a modular design with separation of concerns, include developer and API documentation, support deployment across multiple environments and horizontal scaling.
+For maintainability, portability, and scalability, the system followed a modular design with separation of concerns, included API implementation for interoperability, and deployed to run across multiple environments.
 
-Finally, compliance and legal requirements ensure that IRIS adheres to the Philippine Data Privacy Act of 2012, retains records according to UP and IPOPHL retention policies, and can export logs and reports in standard formats. 
+Finally, IRIS adheres to the Philippine Data Privacy Act of 2012, retains records according to UP and IPOPHL retention policies, and can export logs and reports in standard formats. 
 
 Appendix~\ref{sec:appendixb} (Tables~\ref{tab:nfr_performance}--\ref{tab:nfr_compliance}) provides the complete set of non-functional requirements. The main text above lists only mandatory SHALL requirements; additional SHOULD and MAY requirements are included in the appendix.
 
