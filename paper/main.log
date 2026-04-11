@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.28)  22 JAN 2026 23:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.28)  11 APR 2026 19:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1298,14 +1298,8 @@ L3 programming layer <2024-01-04>
 
 LaTeX Warning: There were multiply-defined labels.
 
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 098D87F74346542B63969A1388593EFF;12257
-(rerunfilecheck)             After:  910266E67EF9D6BC31A3D4E7D2B81E5F;12191.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 910266E67EF9D6BC31A3D4E7D2B81E5F;12191.
  ) 
 Here is how much of TeX's memory you used:
  15817 strings out of 474486
@@ -1341,7 +1335,7 @@ rs/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pf
 b><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmtt10.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmtt12.pfb>
-Output written on main.pdf (99 pages, 5189404 bytes).
+Output written on main.pdf (99 pages, 5189399 bytes).
 PDF statistics:
  1190 PDF objects out of 1200 (max. 8388607)
  271 named destinations out of 1000 (max. 500000)
