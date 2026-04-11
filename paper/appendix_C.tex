@@ -1,0 +1,161 @@
+\chapter{DB Schema SQL Code}
+\label{sec:appendixc}
+This appendix contains the SQL code for the database schema of IRIS. The schema defines the structure of the database, including tables, columns, data types, constraints, and relationships between tables. This code is essential for setting up the database that supports the functionality of IRIS as described in the paper.
+
+CREATE TABLE private.api_tokens (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  token text NOT NULL UNIQUE,
+  CONSTRAINT api_tokens_pkey PRIMARY KEY (id)
+);
+CREATE TABLE private.audit_trail (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  event_at timestamp with time zone DEFAULT now(),
+  snapshot_user_name text NOT NULL,
+  snapshot_user_role text NOT NULL,
+  action_type USER-DEFINED NOT NULL,
+  action_taken text NOT NULL,
+  action_result USER-DEFINED NOT NULL,
+  record_type USER-DEFINED NOT NULL,
+  snapshot_record_reference text NOT NULL,
+  changed_fields jsonb,
+  CONSTRAINT audit_trail_pkey PRIMARY KEY (id)
+);
+CREATE TABLE private.college_units (
+  code character varying NOT NULL,
+  full_name text NOT NULL,
+  CONSTRAINT college_units_pkey PRIMARY KEY (code)
+);
+CREATE TABLE private.inventors (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  application_id uuid NOT NULL,
+  techgen_id uuid,
+  full_name text NOT NULL,
+  email text NOT NULL,
+  comments text,
+  external_institution text,
+  college_code character varying,
+  other_college_name text,
+  CONSTRAINT inventors_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_inventor_application FOREIGN KEY (application_id) REFERENCES private.ipr_applications(id),
+  CONSTRAINT fk_inventor_techgen FOREIGN KEY (techgen_id) REFERENCES private.users(id),
+  CONSTRAINT fk_inventor_collegecode FOREIGN KEY (college_code) REFERENCES private.college_units(code)
+);
+CREATE TABLE private.ipr_applications (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  ip_title text,
+  project_title text NOT NULL,
+  ip_type USER-DEFINED NOT NULL,
+  funding_source text NOT NULL,
+  filing_date date,
+  registration_date date,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  created_by uuid DEFAULT auth.uid(),
+  ip_number text,
+  curr_status uuid,
+  parent_application_id uuid,
+  is_archived boolean DEFAULT false,
+  is_withdrawn boolean DEFAULT false,
+  CONSTRAINT ipr_applications_pkey PRIMARY KEY (id),
+  CONSTRAINT ipr_applications_curr_status_fkey FOREIGN KEY (curr_status) REFERENCES private.ipr_statuses(id),
+  CONSTRAINT ipr_applications_parent_application_id_fkey FOREIGN KEY (parent_application_id) REFERENCES private.ipr_applications(id)
+);
+CREATE TABLE private.ipr_files (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  application_id uuid NOT NULL,
+  owner_id uuid NOT NULL,
+  uploaded_at timestamp with time zone DEFAULT now(),
+  storage_path text NOT NULL,
+  file_name text NOT NULL,
+  file_description text,
+  file_type text NOT NULL,
+  comments text,
+  storage_id uuid,
+  owner_name text,
+  modified_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT ipr_files_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_ipr_files_app_id FOREIGN KEY (application_id) REFERENCES private.ipr_applications(id),
+  CONSTRAINT fk_ipr_files_owner_id FOREIGN KEY (owner_id) REFERENCES private.users(id),
+  CONSTRAINT ipr_files_storage_id_fkey FOREIGN KEY (storage_id) REFERENCES storage.objects(id)
+);
+CREATE TABLE private.ipr_statuses (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  application_id uuid NOT NULL,
+  status_type character varying NOT NULL CHECK (status_type::text = ANY (ARRAY['draft_classification'::character varying, 'draft_idf'::character varying, 'submitted_to_ttbdo'::character varying, 'under_ttbdo_review'::character varying, 'prior_art_search'::character varying, 'draft_application'::character varying, 'filed_with_ipophil'::character varying, 'wait_notice_publication'::character varying, 'wait_substantive_exam_report'::character varying, 'resolve_ser_defects'::character varying, 'downgraded_to_um'::character varying, 'wait_notice_of_issuance'::character varying, 'req_cert_of_registration'::character varying, 'wait_cert_of_registration'::character varying, 'registered'::character varying, 'published'::character varying, 'request_substantive_exam_report'::character varying, 'wait_formality_exam_report'::character varying, 'resolve_fer_defects'::character varying, 'request_revival'::character varying, '2nd_publication'::character varying, 'prepare_nice_classification'::character varying, 'approve_nice_classification'::character varying, 'wait_registrability_report'::character varying, 'resolve_rr_defects'::character varying, 'req_for_issuance_of_cert_and_2nd_publication'::character varying, 'endorse_copyright'::character varying, 'print_copyright_forms'::character varying, 'submit_to_ovcre'::character varying, 'techgen_sign'::character varying, 'chancellor_sign'::character varying, 'notarization'::character varying, 'wait_notice_of_action'::character varying, 'discussing_downgrade'::character varying, 'resolve_additional_requirements'::character varying, 'wait_statement_of_acc'::character varying, 'pay_fee_application'::character varying, 'mailed_to_ipophl'::character varying, 'closed'::character varying, 'removal_from_record'::character varying, 'expired'::character varying]::text[])),
+  deadline date,
+  note text,
+  created_at timestamp with time zone DEFAULT now(),
+  is_public boolean DEFAULT false,
+  status_name text,
+  CONSTRAINT ipr_statuses_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_statuses_application_id FOREIGN KEY (application_id) REFERENCES private.ipr_applications(id)
+);
+CREATE TABLE private.notifications (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  receiver_id uuid NOT NULL,
+  application_id uuid,
+  title text NOT NULL,
+  content text NOT NULL,
+  read_at timestamp with time zone,
+  created_at timestamp with time zone DEFAULT now(),
+  category text,
+  has_email_sent boolean NOT NULL DEFAULT false,
+  CONSTRAINT notifications_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_notifs_user_id FOREIGN KEY (receiver_id) REFERENCES private.users(id),
+  CONSTRAINT fk_notifs_app_id FOREIGN KEY (application_id) REFERENCES private.ipr_applications(id)
+);
+CREATE TABLE private.pings (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  stage_delayed character varying NOT NULL,
+  step_delayed character varying NOT NULL,
+  application_name text NOT NULL,
+  application_id uuid NOT NULL,
+  target_date timestamp with time zone NOT NULL,
+  acknowledged_at timestamp with time zone,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT pings_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_pings_app_id FOREIGN KEY (application_id) REFERENCES private.ipr_applications(id)
+);
+CREATE TABLE private.reports (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  application_id uuid NOT NULL,
+  reporter_id uuid,
+  subject_id uuid NOT NULL,
+  content text NOT NULL,
+  created_at timestamp with time zone DEFAULT now(),
+  reporter_name text NOT NULL,
+  subject_name text NOT NULL,
+  CONSTRAINT reports_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_report_app FOREIGN KEY (application_id) REFERENCES private.ipr_applications(id),
+  CONSTRAINT fk_subject FOREIGN KEY (subject_id) REFERENCES private.inventors(id),
+  CONSTRAINT fk_reporter FOREIGN KEY (reporter_id) REFERENCES private.inventors(id)
+);
+CREATE TABLE private.user_registration_requests (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  full_name text NOT NULL,
+  email text NOT NULL,
+  role USER-DEFINED NOT NULL,
+  college_code character varying,
+  other_college_name text,
+  external_institution text,
+  status USER-DEFINED NOT NULL DEFAULT 'pending'::private.registrationrequestsstatus,
+  requested_at timestamp with time zone NOT NULL DEFAULT now(),
+  invite_expires_at timestamp with time zone,
+  CONSTRAINT user_registration_requests_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_user_registration_college FOREIGN KEY (college_code) REFERENCES private.college_units(code)
+);
+CREATE TABLE private.users (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  full_name text NOT NULL,
+  email text NOT NULL UNIQUE,
+  role USER-DEFINED NOT NULL DEFAULT 'admin'::private.user_role,
+  created_at timestamp with time zone DEFAULT now(),
+  is_active boolean NOT NULL DEFAULT true,
+  college_code character varying,
+  other_college_name text,
+  external_institution text,
+  CONSTRAINT users_pkey PRIMARY KEY (id),
+  CONSTRAINT users_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id),
+  CONSTRAINT fk_users_collegecode FOREIGN KEY (college_code) REFERENCES private.college_units(code)
+);
