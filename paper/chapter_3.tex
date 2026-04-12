@@ -50,6 +50,8 @@ OS & Windows 10, 11 & Development environment \\
 \hline
 Browsers & Google Chrome, Microsoft Edge & Testing and compatibility checks \\
 \hline
+Testing & Playwright Test & Automated end-to-end testing \\
+\hline
 \end{tabular}
 \end{table}
 \endgroup
@@ -57,7 +59,7 @@ Browsers & Google Chrome, Microsoft Edge & Testing and compatibility checks \\
 Visual Studio Code serves as the primary Integrated Development Environment (IDE), enabling efficient writing, editing, and debugging of code. Supabase is used for database management, supporting the modeling and handling of system data. For visual design needs, Figma and Canva are used to create UI/UX layouts, prototypes, and system diagrams.
 
 GitHub serves as a version control platform, enabling source code management and collaboration among developers. The development environment runs on Windows 10 and Windows 11, while Google Chrome and Microsoft Edge are used to test the system’s compatibility and performance across different browsers.
-
+Playwright Test is utilized for automated end-to-end testing, ensuring the system functions correctly under various scenarios.
 
 \subsubsection{Hardware Specifications}
 The following hardware specifications outline the minimum requirements used during development and testing. 
@@ -292,6 +294,61 @@ Performance testing will evaluate system responsiveness and stability to validat
 Penetration testing will validate FR-02 and NFR-04 (role-based access control). Tests will attempt unauthorized access to restricted functions by simulating users accessing features outside their assigned roles, such as Applicant users attempting to access TTBDO document upload functions (FR-15). Authentication (FR-01) will be tested by attempting access to protected routes without valid credentials. Input validation will be tested by submitting malicious or unexpected data to verify that security mechanisms properly sanitize inputs and prevent unauthorized access.
 
 User Acceptance Testing will involve end-users from each role (TTBDO staff, applicants, UP officials) completing representative tasks: application submission and document review (FR-03 to FR-06), applicant tracking (FR-07 to FR-08), notifications (FR-12 to FR-14), and dashboard reporting (FR-10 to FR-11). The responsive interface (NFR-09) will be tested across desktop devices, and navigation consistency (NFR-10) will be assessed through user feedback on interface clarity and ease of use.
+
+\subsubsection{Automated Testing}
+The Playwright Test framework was used to automate the end-to-end tests of the system. The tests were written to simulate real-life use-case scenarios, and the diagrams from section 3.4.3 were used as a foundation to derive the tests; as such, 31 use-case tests were identified. The tests were divided by user roles, and another group of tests was created to verify that users can access only the routes they are allowed to. The tests were defined as follows:
+\begin{itemize}
+    \item \textbf{Technology Generator}
+    \begin{itemize}
+        \item Shows the techgen dashboard updates and summary cards.
+        \item Filters the registry and opens an application from the results.
+        \item Shows application details, collaborator states, owned files, and version history.
+        \item Lets a techgen request a status update when an application is overdue.
+        \item Files a collaborator report only after confirmation.
+        \item Auto-links an unverified collaborator after confirmation.
+        \item Views an existing file and uploads a new attachment through the modal flow.
+        \item Uploads a new file version instead of replacing the existing one.
+        \item Creates a new application after confirmation and keeps collaborators visible in the detail page.
+        \item Shows techgen notifications and lets the user clear unread reminders.
+    \end{itemize}
+
+    \item \textbf{TTBDO Admin}
+    \begin{itemize}
+        \item Manages dashboard exports, year filters, and status update requests.
+        \item Handles attachment actions and links tech generator accounts.
+        \item Edits application details, updates status, and withdraws applications.
+        \item Views collaborator reports and removes a tech generator.
+        \item Invites a new user from user management.
+        \item Approves user registration requests.
+        \item Rejects user registration requests.
+        \item Generates and copies an API token.
+        \item Creates a new application from the registry through the guided wizard.
+        \item Validates required start-application inputs and supports manual collaborators.
+    \end{itemize}
+
+    \item \textbf{Guest}
+    \begin{itemize}
+        \item Shows only public applications in the registry.
+        \item Filters and sorts the public registry without exposing private applications.
+        \item Lets guests request registration and validates UP mail signups.
+    \end{itemize}
+
+    \item \textbf{UP-Official}
+    \begin{itemize}
+        \item Shows the dashboard for evaluating the university IP portfolio.
+        \item Shows all applications in the registry regardless of public status.
+        \item Filters registry results.
+        \item Sorts the registry alphabetically by IP title.
+    \end{itemize}
+
+    \item \textbf{Routing}
+    \begin{itemize}
+        \item Redirects unauthenticated users away from protected pages.
+        \item Keeps admins inside admin routes.
+        \item Keeps techgens inside techgen routes.
+        \item Keeps UP officials inside up-official routes.
+    \end{itemize}
+\end{itemize}
 
 \subsubsection{Evaluation Criteria}
 
