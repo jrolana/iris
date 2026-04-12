@@ -165,7 +165,7 @@ The TTBDO Admins are the key stakeholders of the system, and as such have full a
 
 The Tech Generators, or the university researchers and IPR applicants, have the primary interaction of overseeing the current status of the IPs related to them. That is, if they are a member of the tech generators of a certain IP. They can also access and file disclosure forms to start their IPR application. The Tech Generators are notified by the system every time there is a status change to their IPR, may it is in the process of applying or while maintaining their rights to it. Aside from this, they also have viewing privileges to the IP portfolio summary and the published IPs of the university.
 
-\subsubsection{UP Officials and Guests.}
+\subsubsection{UP Officials and Guests}
 
 These stakeholders in the system only have viewing capabilities with the IP portfolio summary as well as the published IPs of the university. The UP officials, however, have extended privileges to have an overview of the unpublished IPs or the ongoing IPR applications.
 
@@ -181,7 +181,7 @@ These stakeholders in the system only have viewing capabilities with the IP port
     \label{fig:db_design}
 \end{figure}
 
-\subsection{Use Case Diagram}
+\subsection{Use Case Diagram}\label{sec:us_diagram}
 The following figures illustrate each use case diagram for each user of the system. It shows the functionalities available for each type of user, their interaction with the system, and their particular use cases they have for the system.
 
 It is shown in \figref{fig:uc_guest} that the Guests' only use case for the system is to view the published IPs of the university and to see its IP portfolio summary. It could be for research purposes or to get an overview of the IP-generation power of the university. It is shown in \figref{fig:uc_official} that the UP Officials have an extended use case where they want to view the entire IP portfolio of the university, including unpublished IPs. With this, they have to authenticate with the system first, adding another use case with the system.
@@ -296,7 +296,7 @@ Penetration testing will validate FR-02 and NFR-04 (role-based access control). 
 User Acceptance Testing will involve end-users from each role (TTBDO staff, applicants, UP officials) completing representative tasks: application submission and document review (FR-03 to FR-06), applicant tracking (FR-07 to FR-08), notifications (FR-12 to FR-14), and dashboard reporting (FR-10 to FR-11). The responsive interface (NFR-09) will be tested across desktop devices, and navigation consistency (NFR-10) will be assessed through user feedback on interface clarity and ease of use.
 
 \subsubsection{Automated Testing}
-The Playwright Test framework was used to automate the end-to-end tests of the system. The tests were written to simulate real-life use-case scenarios, and the diagrams from section 3.4.3 were used as a foundation to derive the tests; as such, 31 use-case tests were identified. The tests were divided by user roles, and another group of tests was created to verify that users can access only the routes they are allowed to. The tests were defined as follows:
+The Playwright Test framework was used to automate the end-to-end tests of the system. The tests were written to simulate real-life use-case scenarios, and the diagrams from section \ref{sec:us_diagram} were used as a foundation to derive the tests; as such, 31 use-case tests were identified. The tests were divided by user roles, and another group of tests was created to verify that users can access only the routes they are allowed to. The tests were defined as follows:
 \begin{itemize}
     \item \textbf{Technology Generator}
     \begin{itemize}
