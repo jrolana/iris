@@ -1,0 +1,213 @@
+@startuml
+' Maximize spacing to give orthogonal lines plenty of routing channels
+skinparam linetype ortho
+skinparam nodesep 210
+skinparam ranksep 240
+hide circle
+hide empty members
+
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
+
+'==============================
+' Main Entities
+'==============================
+
+class ipr_applications {
+    id : uuid <<PK>>
+    ip_title : text
+    project_title : text
+    ip_type : USER-DEFINED
+    funding_source : text
+    filing_date : date
+    registration_date : date
+    created_at : timestamptz
+    updated_at : timestamptz
+    created_by : uuid
+    ip_number : text
+    curr_status : uuid <<FK>>
+    parent_application_id : uuid <<FK>>
+    is_archived : boolean
+    is_withdrawn : boolean
+}
+
+class users {
+    id : uuid <<PK>>
+    full_name : text
+    email : text
+    role : USER-DEFINED
+    created_at : timestamptz
+    is_active : boolean
+    college_code : varchar <<FK>>
+    other_college_name : text
+    external_institution : text
+}
+
+class college_units {
+    code : varchar <<PK>>
+    full_name : text
+}
+
+'==============================
+' Application Details & Attachments
+'==============================
+
+class inventors {
+    id : uuid <<PK>>
+    application_id : uuid <<FK>>
+    techgen_id : uuid <<FK>>
+    full_name : text
+    email : text
+    comments : text
+    external_institution : text
+    college_code : varchar <<FK>>
+    other_college_name : text
+}
+
+class ipr_files {
+    id : uuid <<PK>>
+    application_id : uuid <<FK>>
+    owner_id : uuid <<FK>>
+    uploaded_at : timestamptz
+    storage_path : text
+    file_name : text
+    file_description : text
+    file_type : text
+    comments : text
+    storage_id : uuid <<FK>>
+    owner_name : text
+    modified_at : timestamptz
+}
+
+class ipr_statuses {
+    id : uuid <<PK>>
+    application_id : uuid <<FK>>
+    status_type : varchar
+    deadline : date
+    note : text
+    created_at : timestamptz
+    is_public : boolean
+    status_name : text
+}
+
+'==============================
+' Tracking & Notifications
+'==============================
+
+class notifications {
+    id : uuid <<PK>>
+    receiver_id : uuid <<FK>>
+    application_id : uuid <<FK>>
+    title : text
+    content : text
+    read_at : timestamptz
+    created_at : timestamptz
+    category : text
+    has_email_sent : boolean
+}
+
+class pings {
+    id : uuid <<PK>>
+    stage_delayed : varchar
+    step_delayed : varchar
+    application_name : text
+    application_id : uuid <<FK>>
+    target_date : timestamptz
+    acknowledged_at : timestamptz
+    created_at : timestamptz
+}
+
+class reports {
+    id : uuid <<PK>>
+    application_id : uuid <<FK>>
+    reporter_id : uuid <<FK>>
+    subject_id : uuid <<FK>>
+    content : text
+    created_at : timestamptz
+    reporter_name : text
+    subject_name : text
+}
+
+class user_registration_requests {
+    id : uuid <<PK>>
+    full_name : text
+    email : text
+    role : USER-DEFINED
+    college_code : varchar <<FK>>
+    other_college_name : text
+    external_institution : text
+    status : USER-DEFINED
+    requested_at : timestamptz
+    invite_expires_at : timestamptz
+}
+
+'==============================
+' System & Logs (Standalone)
+'==============================
+
+class audit_trail {
+    id : uuid <<PK>>
+    event_at : timestamptz
+    snapshot_user_name : text
+    snapshot_user_role : text
+    action_type : USER-DEFINED
+    action_taken : text
+    action_result : USER-DEFINED
+    record_type : USER-DEFINED
+    snapshot_record_reference : text
+    changed_fields : jsonb
+}
+
+class api_tokens {
+    id : uuid <<PK>>
+    created_at : timestamptz
+    token : text
+}
+
+'==============================
+' Relationships (Padded & Routed)
+'==============================
+
+' --- Top Level / System ---
+college_units "  1  " -up- "  * " user_registration_requests
+
+' --- Upper Tier (Tracking) ---
+notifications "  * " -down- "  1  " users : "  receiver  "
+notifications "  * " -down- "  1  " ipr_applications
+pings "  * " -down- "  1  " ipr_applications
+
+' --- Core Horizontal Flow ---
+college_units "  1  " -right- "  * " users
+users "  1  " -right- "  * " ipr_applications : "  created_by  "
+
+' --- Statuses ---
+ipr_applications "  1  " -right- "  * " ipr_statuses
+ipr_applications "  * " -right- "  1  " ipr_statuses : "  curr_status  "
+
+' --- Self Relation ---
+ipr_applications "  0..1  " -- "  * " ipr_applications : " parent_app "
+
+' --- Lower Tier Details ---
+ipr_applications "  1  " -down- " *" inventors
+users "  1  " -down- "  *  " inventors : "  techgen  "
+college_units "  1  " -down- "  * " inventors
+
+ipr_applications "  1  " -down- "  * " ipr_files
+users "  1  " -down- "  * " ipr_files : "  owner  "
+
+ipr_applications "  1  " -down- "  * " reports
+inventors "  1  " -right- "  * " reports : "  subject/reporter  "
+
+' --- Structural Enforcement ---
+' Forces layout engine to sequence the bottom tier, preventing the subject/reporter line from crossing the files block
+inventors -[hidden]right- reports
+reports -[hidden]right- ipr_files
+
+' Keep logs out of the tangled web
+ipr_files -[hidden]down- audit_trail
+audit_trail -[hidden]left- api_tokens
+
+@enduml

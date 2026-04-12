@@ -67,25 +67,27 @@
 \contentsline {subsubsection}{TTBDO Admin Application Status Update View}{71}{section*.60}%
 \contentsline {subsubsection}{TTBDO Admin Application Details Update View}{72}{section*.62}%
 \contentsline {section}{\numberline {4.3}Start an Application}{72}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Notification}{73}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Dashboard}{75}{section.4.5}%
-\contentsline {section}{\numberline {4.6}User Management}{79}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Application Registry}{79}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Application Documents}{82}{section.4.8}%
-\contentsline {section}{\numberline {4.9}Application Guide}{84}{section.4.9}%
-\contentsline {section}{\numberline {4.10}Audit Trail}{86}{section.4.10}%
-\contentsline {chapter}{\numberline {A}Functional Requirements Tables}{90}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Authentication \& User Roles}{90}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Submission of Application}{91}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Application Tracking}{91}{section.A.3}%
-\contentsline {section}{\numberline {A.4}Dashboards \& Reporting}{91}{section.A.4}%
-\contentsline {section}{\numberline {A.5}Notifications}{92}{section.A.5}%
-\contentsline {section}{\numberline {A.6}Document Management}{92}{section.A.6}%
-\contentsline {section}{\numberline {A.7}Public Portal}{92}{section.A.7}%
-\contentsline {chapter}{\numberline {B}Non-Functional Requirements Tables}{93}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Performance}{93}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Security}{94}{section.B.2}%
-\contentsline {section}{\numberline {B.3}Reliability \& Availability}{94}{section.B.3}%
-\contentsline {section}{\numberline {B.4}Usability \& Accessibility}{94}{section.B.4}%
-\contentsline {section}{\numberline {B.5}Maintainability, Portability \& Scalability}{95}{section.B.5}%
-\contentsline {section}{\numberline {B.6}Compliance \& Legal}{95}{section.B.6}%
+\contentsline {subsubsection}{Application Wizard}{73}{section*.64}%
+\contentsline {subsubsection}{New Application Form}{74}{section*.67}%
+\contentsline {section}{\numberline {4.4}Notification}{77}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Dashboard}{78}{section.4.5}%
+\contentsline {section}{\numberline {4.6}User Management}{82}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Application Registry}{82}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Application Documents}{85}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Application Guide}{87}{section.4.9}%
+\contentsline {section}{\numberline {4.10}Audit Trail}{89}{section.4.10}%
+\contentsline {chapter}{\numberline {A}Functional Requirements Tables}{93}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Authentication \& User Roles}{93}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Submission of Application}{94}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Application Tracking}{94}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Dashboards \& Reporting}{94}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Notifications}{95}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Document Management}{95}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Public Portal}{95}{section.A.7}%
+\contentsline {chapter}{\numberline {B}Non-Functional Requirements Tables}{96}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Performance}{96}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Security}{97}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Reliability \& Availability}{97}{section.B.3}%
+\contentsline {section}{\numberline {B.4}Usability \& Accessibility}{97}{section.B.4}%
+\contentsline {section}{\numberline {B.5}Maintainability, Portability \& Scalability}{98}{section.B.5}%
+\contentsline {section}{\numberline {B.6}Compliance \& Legal}{98}{section.B.6}%

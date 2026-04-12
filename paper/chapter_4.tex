@@ -2,7 +2,7 @@
 This chapter presents the IRIS web application, highlighting its key features and user interfaces. The system demonstrates functionalities such as authentication with role-based access control, application creation and management, notifications, dashboards, and access to IP application documents and guides. Screenshots illustrate the perspectives of Technology Generators, TTBDO admins, UP officials, and Guests, showing both view-only and full management capabilities, as well as the workflow of starting and tracking IP right applications.
 
 \section{Authentication}
-The IRIS system prototype can handle authentication for registered accounts. It has protected routing for role-based access control (RBAC). It facilitates sign-in with Google emails that should already be registered with Supabase. 
+The IRIS prototype can handle authentication for registered accounts. It has protected routing for role-based access control (RBAC). It facilitates sign-in with Google emails that should already be registered with Supabase. 
 
 \begin{figure}[H]                
     \centering 
@@ -14,6 +14,7 @@ The IRIS system prototype can handle authentication for registered accounts. It 
 
 \section{Specific Application View}
 Both the technology generators and the TTBDO admin can view a list of applications. They can also interact with a specific application, which prompts them to a different web page that shows specific details about that application.
+This section will show the different views of a specific application for both the technology generator and the TTBDO admin, as well as the different features that are available for each user role on that specific application page.
 
 \subsubsection{Technology Generator General Application View}
 The web page shown in \figref{fig:techgen_appview} shows the perspective of a  
@@ -221,30 +222,92 @@ They are responsible for inputting the IP number, filing date, and IP title when
 \end{figure}
 
 \section{Start an Application}
-It is seen in  \figref{fig:new_application} that the IRIS system can guide technology generators in choosing the proper disclosure form through a simple application wizard. Technology generators can also choose to skip the wizard entirely, as some technology generators already know what disclosure forms to use. The page starts their IP right application into motion.
-\begin{figure}[]                
+The IRIS enables technology generators to start their IP right application through the system. 
+For cases that all collaborators of the IP right application do not have IRIS accounts, the admin can start the application on behalf of the technology generator, and then link the technology generator to the application later on when they have an account in the system.
+It is important that the system allows admins to create applications so that these can be tracked in the system, even if the technology generators would not use the system.
+
+\subsubsection{Application Wizard}
+Not all technology generators, as mentioned by the IP officer, are familiar with the IP application process so the system provides a simple application wizard to guide them in choosing the right disclosure form to start their application as seen in \figref{fig:new_application}.
+Technology generators can also choose to skip the wizard entirely, as some technology generators already know what disclosure forms to use. 
+The page starts their IP right application into motion.
+\begin{figure}[H]                
     \centering 
     %(a)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.225]{new_applicationA.jpeg}     
+        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_applicationA.png}     
         \caption{}
         \label{fig:new_applicationA}
-        \vspace{1cm}
     \end{subfigure}
+\end{figure}
+
+\begin{figure}[H] 
+    \ContinuedFloat % <--- IMPORTANT: Keeps the same Figure number
+    \centering
 
     % (b)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.225]{new_applicationB.jpeg}     
+        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_applicationB.png}     
         \caption{}
         \label{fig:new_applicationB}
     \end{subfigure}
 
     \caption[New Application Page]{New Application Page. The page helps technology generators choose the right disclosure form and starts their IP right application.}
-    \label{fig:new_application}                 
+    \label{fig:new_application}      
+
 \end{figure}
 
+
+
+\subsubsection{New Application Form}
+After choosing the right IP type and disclosure form, the technology generator or the TTBDO admin is then prompted to a new application form page as shown in \figref{fig:new_application_form}.
+The form includes the necessary information to start the application such as the project title, funding source, list of collaborators, and the IP Disclosure Form. 
+As shown in figures \ref{fig:new_application_formB} and \ref{fig:new_application_formC}, the collaboratos are added at the start of the application. 
+When a collaborator does not have an account in the system, they are added as plain text and then they can be linked to their IRIS accounts later on. 
+It is also shown in \figref{fig:new_application_formD} that the system only allows one pdf file upload for the formal application form.
+\begin{figure}[H]                
+    \centering 
+    %(a)
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_application_formA.png}     
+        \caption{}
+        \label{fig:new_application_formA}
+    \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_application_formB.png}     
+        \caption{}
+        \label{fig:new_application_formB}
+    \end{subfigure}
+    
+    
+\end{figure}
+
+\begin{figure}[H] 
+    \ContinuedFloat % <--- IMPORTANT: Keeps the same Figure number
+    \centering
+
+    
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_application_formC.png}     
+        \caption{}
+        \label{fig:new_application_formC}
+    \end{subfigure}    
+
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_application_formD.png}     
+        \caption{}
+        \label{fig:new_application_formD}
+    \end{subfigure}
+
+    \caption[New Application Form Page]{New Application Form Page. The page is where the technology generators and the TTBDO admin fills out the necessary information to start the application. The form details include the project title, funding source, list of collaborators, and the IP Disclosure Form}
+    \label{fig:new_application_form} 
+
+\end{figure}
 
 \section{Notification}
 IRIS has a notification component that is only available for technology generators and the TTBDO admin. Whenever there are changes (e.g., attachments submitted, status updated, title updated, application stage moved etc.) on an application, the technology generator is notified. Moreover, the TTBDO can also see notification whenever there are new applications started, or they have been contacted by a technology generator. \figref{fig:notification} shows the panel that pops up whenever the authenticated users interact with the bell icon on the top bar. The panel shows the notifications that are chronologically ordered to show the latest notification at the top.
