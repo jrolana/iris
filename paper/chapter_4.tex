@@ -299,6 +299,32 @@ IRIS has a notification component that is only available for technology generato
     \label{fig:notification}                 
 \end{figure}
 
+\subsubsection{Automatic Deadline Notifications}
+The system automatically sends notifications to the TTBDO admin and collaborators of the concerned application when a deadline is approaching.
+The reminder notifications are sent in three stages: a week before the deadline, three days before, and day of the deadline.
+The automatic notifications are sent both in-app and via email as shown in \figref{fig:automatic_notification}.
+
+\begin{figure}[H]                
+    \centering 
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.6]{notification/notification_deadline_in_app.png}     
+        \caption{}
+        \label{fig:automatic_notification_inapp}
+        \vspace{1cm}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.6]{notification/notification_deadline_email.png}     
+        \caption{}
+        \label{fig:automatic_notification_email}
+    \end{subfigure}
+    
+    \caption[Automatic Deadline Notification Email]{Automatic Deadline Notification Email. The system automatically sends notifications to the TTBDO admin and collaborators of the concerned application when a deadline is approaching.}
+    \label{fig:automatic_notification}
+\end{figure}
+
 \section{Dashboard}
 The dashboard presents a unified interface for admins, UP officials, and guests, where all users can access the same graphical representations derived from the existing Google Sheets charts maintained by the TTBDO, as seen in \figref{fig:dashboard_admin_guest_a} and \figref{fig:dashboard_admin_guest_b}. Technology generators, however, have a distinct perspective: their dashboard emphasizes key metrics and includes a dedicated table of their own applications. \figref{fig:dashboard_techgen_metrics} and \figref{fig:dashboard_techgen_table} show the metrics and table views for technology generators, respectively, allowing them to track progress efficiently.
 
