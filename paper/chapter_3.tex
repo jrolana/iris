@@ -285,18 +285,18 @@ Figures \ref{fig:copyright_seqA} \& \ref{fig:copyright_seqB} illustrates the cop
 
 \section{Testing and Evaluation}
 
-\subsubsection{Testing Approach}
+\subsection{Testing Approach}
 
 The system underwent Penetration Testing, User Acceptance Testing, and Automated End-to-End Testing to validate functional and non-functional requirements (FRs and NFRs, listed in Appendix~\ref{sec:appendixa} and \ref{sec:appendixb}).
 
-\subsubsection{Penetration Testing}
+\subsection{Penetration Testing}
 Penetration testing validated if the system implemented FR-02 and NFR-04 (role-based access control). The tests attempted unauthorized access to restricted functions by simulating users accessing features outside their assigned roles, such as Applicant users attempting to access TTBDO document upload functions (FR-15). Input validation was be tested by submitting malicious or unexpected data to verify that security mechanisms properly sanitize inputs and prevent unauthorized access.
 
 
-\subsubsection{User Acceptance Testing}
+\subsection{User Acceptance Testing}
 User Acceptance Testing involved end-users from each role (TTBDO staff, applicants, UP officials) that completed representative tasks: application submission and document review (FR-03 to FR-06), applicant tracking (FR-07 to FR-08), notifications (FR-12 to FR-14), and dashboard reporting (FR-10 to FR-11). The responsive interface (NFR-09) was tested across desktop devices, and navigation consistency (NFR-10) was assessed through user feedback on interface clarity and ease of use.
 
-\subsubsection{Automated Testing}
+\subsection{Automated Testing}
 The Playwright Test framework was used to automate the end-to-end tests of the system. 
 The tests were written to simulate real-life use-case scenarios, and the diagrams from section \ref{sec:us_diagram} were used as a foundation to derive the tests; as such, 31 use-case tests were identified. 
 The tests were divided by user roles, and another group of tests was created to verify that users can access only the routes they are allowed to as described by the authentication FR (FR-01). 
@@ -354,7 +354,7 @@ The tests were defined as followed:
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Evaluation Criteria}
+\subsection{Evaluation Criteria}
 
 The evaluation of the system focuses on key aspects aligned with the Testing Approach to ensure overall effectiveness and readiness.
 

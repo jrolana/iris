@@ -1,7 +1,8 @@
 \chapter{Results and Discussion}
 This chapter presents the IRIS web application, highlighting its key features and user interfaces. The system demonstrates functionalities such as authentication with role-based access control, application creation and management, notifications, dashboards, and access to IP application documents and guides. Screenshots illustrate the perspectives of Technology Generators, TTBDO admins, UP officials, and Guests, showing both view-only and full management capabilities, as well as the workflow of starting and tracking IP right applications.
 
-\section{Authentication}
+\section{System}
+\subsection{Authentication}
 The IRIS prototype can handle authentication for registered accounts. It has protected routing for role-based access control (RBAC). It facilitates sign-in with Google emails that should already be registered with Supabase. 
 
 \begin{figure}[H]                
@@ -12,7 +13,7 @@ The IRIS prototype can handle authentication for registered accounts. It has pro
 \end{figure}
 
 
-\section{Specific Application View}
+\subsection{Specific Application View}
 Both the technology generators and the TTBDO admin can view a list of applications. They can also interact with a specific application, which prompts them to a different web page that shows specific details about that application.
 This section will show the different views of a specific application for both the technology generator and the TTBDO admin, as well as the different features that are available for each user role on that specific application page.
 
@@ -201,7 +202,7 @@ They are responsible for inputting the IP number, filing date, and IP title when
 
 \end{figure}
 
-\section{Start an Application}
+\subsection{Start an Application}
 The IRIS enables technology generators to start their IP right application through the system. 
 For cases that all collaborators of the IP right application do not have IRIS accounts, the admin can start the application on behalf of the technology generator, and then link the technology generator to the application later on when they have an account in the system.
 It is important that the system allows admins to create applications so that these can be tracked in the system, even if the technology generators would not use the system.
@@ -289,7 +290,7 @@ It is also shown in \figref{fig:new_application_formD} that the system only allo
 
 \end{figure}
 
-\section{Notification}
+\subsection{Notification}
 IRIS has a notification component that is only available for technology generators and the TTBDO admin. Whenever there are changes (e.g., attachments submitted, status updated, title updated, application stage moved etc.) on an application, the technology generator is notified. Moreover, the TTBDO can also see notification whenever there are new applications started, or they have been contacted by a technology generator. \figref{fig:notification} shows the panel that pops up whenever the authenticated users interact with the bell icon on the top bar. The panel shows the notifications that are chronologically ordered to show the latest notification at the top.
 
 \begin{figure}[H]                
@@ -375,7 +376,7 @@ The dashboard presents a unified interface for admins, UP officials, and guests,
     \label{fig:dashboard_techgen}
 \end{figure}
 
-\section{User Management}
+\subsection{User Management}
 The User Management page is exclusively accessible to administrators. It provides a centralized interface for managing the accounts of UP Officials and Technology Generators. Administrators can view detailed information for each user, including contact details and assigned roles. Moreover, they can modify roles and account privileges as needed, ensuring that the system maintains appropriate access controls for all users. \figref{fig:user_management} shows the interface where administrators can perform these actions.
 
 \begin{figure}[H]                
@@ -385,7 +386,7 @@ The User Management page is exclusively accessible to administrators. It provide
     \label{fig:user_management}                 
 \end{figure}
 
-\section{Application Registry}
+\subsection{Application Registry}
 The Application Registry provides users with a quick overview of all IPs, allowing them to easily browse and reference relevant information. 
 The registry is similar across user roles as seen in \figref{fig:registry}, but there are certain differences based on user roles. 
 \figref{fig:registry_techgen} shows that the technology generators can only see the applications that they are involved in. They also have an action button to view the details of each application in their registry.
@@ -446,7 +447,7 @@ The sorting options include sorting by filing date, IP title, registration date,
     \label{fig:registry_filters}
 \end{figure}
 
-\section{Application Documents}
+\subsection{Application Documents}
 The Application Documents page provides a centralized location for users to view all forms and related documents associated with the IP application process. Both Guests and Technology Generators can access the page and initiate applications using the call-to-action buttons. However, only Technology Generators can track their latest submissions, as illustrated in \figref{fig:documents_techgen}. Clicking the button redirects Technology Generators to a dedicated application page that displays detailed information about their specific IP right applications (\figref{fig:applicant_appview}), enabling them to monitor progress, while Guests are primarily guided to apply.
 
 \begin{figure}[H]                
@@ -472,7 +473,7 @@ The Application Documents page provides a centralized location for users to view
     \label{fig:documents}
 \end{figure}
 
-\section{Application Guide}
+\subsection{Application Guide}
 The application guide provides users with step-by-step instructions to navigate the IP application process. Guests are guided to submit new applications, while Technology Generators have the additional capability to track and manage their existing submissions. The guide content is identical for both roles, the only difference is the call-to-action functionality. 
 
 \begin{figure}[H]                
@@ -498,7 +499,7 @@ The application guide provides users with step-by-step instructions to navigate 
     \label{fig:application_guide}
 \end{figure}
 
-\section{Audit Trail}
+\subsection{Audit Trail}
 The audit trail provides the administrator with a comprehensive, chronological record of all system activities performed by users across the system. As shown in Figure~\ref{fig:audit_trail}, each audit entry captures the timestamp, user information, action type, outcome, and specific field changes in a structured format.
 
 \begin{figure}[htbp]
@@ -513,7 +514,11 @@ Add manual tests here (i.e., the gforms).
 
 On top of that, automated end-to-end tests were written for the use-case features of the system.
 
-\subsubsection{Automated Testing}
+\subsection{Penetration Testing}
+
+\subsection{Usability Testing}
+
+\subsection{Automated Testing}
 The Playwright framework was utilized to evaluate the end-to-end tests of the system. 
 There were 31 use-case tests written, and on the final version of the test run, it failed on one case as shown in \figref{fig:test_fail}.
 
