@@ -1,4 +1,4 @@
-\chapter{System}
+\chapter{Results and Discussion}
 This chapter presents the IRIS web application, highlighting its key features and user interfaces. The system demonstrates functionalities such as authentication with role-based access control, application creation and management, notifications, dashboards, and access to IP application documents and guides. Screenshots illustrate the perspectives of Technology Generators, TTBDO admins, UP officials, and Guests, showing both view-only and full management capabilities, as well as the workflow of starting and tracking IP right applications.
 
 \section{Authentication}
@@ -508,4 +508,59 @@ The audit trail provides the administrator with a comprehensive, chronological r
     \label{fig:audit_trail}
 \end{figure}
 
+\section{Testing}
+Add manual tests here (i.e., the gforms).
 
+On top of that, automated end-to-end tests were written for the use-case features of the system.
+
+\subsubsection{Automated Testing}
+The Playwright framework was utilized to evaluate the end-to-end tests of the system. 
+There were 31 use-case tests written, and on the final version of the test run, it failed on one case as shown in \figref{fig:test_fail}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{tests/test_fail.png}
+    \caption{Failed Test Case. A failed test case in the automated test suite regarding UI mismatch.}
+    \label{fig:test_fail}
+    \vspace{1cm}
+\end{figure}
+
+The test failed on a UI mismatch and was eventually fixed through modifications in the frontend. The final test summary is shown in \figref{fig:test_summary}.
+
+\begin{figure}[H]                
+    \centering 
+    % (a)
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{tests/tests_A.png}     
+        \caption{}
+        \label{fig:test_summaryA}
+        \vspace{1cm}
+    \end{subfigure}
+
+
+    
+\end{figure}
+
+\begin{figure}[H]                
+    \centering 
+    \ContinuedFloat
+
+    
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{tests/tests_B.png}     
+        \caption{}
+        \label{fig:test_summaryB}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{tests/tests_C.png}     
+        \caption{}
+        \label{fig:test_summaryC}
+    \end{subfigure}
+
+    \caption[Test Summary]{Summary of automated test results. The figures show the test outcomes for different scenarios, produced by the Playwright Tests framework.}
+    \label{fig:test_summary}
+\end{figure}
