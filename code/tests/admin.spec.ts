@@ -41,6 +41,12 @@ async function goToApplication(page: Page, applicationId: string) {
   });
 }
 
+function versionDialog(page: Page) {
+  return page
+    .getByRole("dialog")
+    .filter({ has: page.getByRole("heading", { name: "Update File Version" }) });
+}
+
 async function installBrowserCapture(page: Page) {
   await page.addInitScript(() => {
     (window as typeof window & {
@@ -197,14 +203,18 @@ test.describe("admin workflows", () => {
       .first();
 
     await page.getByRole("button", { name: "Upload a file" }).click();
-    const uploadDialog = page.getByRole("dialog").first();
+    const uploadDialog = page
+      .getByRole("dialog")
+      .filter({
+        has: page.getByText("Upload files related to this application."),
+      });
     await expect(uploadDialog.getByText("Upload files related to this application.")).toBeVisible();
     await uploadDialog.locator('input[type="file"]').setInputFiles(uploadFixture);
     await expect(uploadDialog.getByText("sample-upload.pdf")).toBeVisible();
-    await page.getByRole("button", { name: "Upload 1 Item" }).click();
+    await uploadDialog.getByRole("button", { name: "Upload 1 Item" }).click();
     await cancelAction(page);
     await expect(uploadDialog.getByText("sample-upload.pdf")).toBeVisible();
-    await page.getByRole("button", { name: "Upload 1 Item" }).click();
+    await uploadDialog.getByRole("button", { name: "Upload 1 Item" }).click();
     await confirmAction(page);
     await expect(page.getByText("sample-upload.pdf")).toBeVisible();
 
@@ -212,25 +222,23 @@ test.describe("admin workflows", () => {
       .locator("li")
       .filter({ has: page.getByText("disclosure.pdf").first() })
       .first();
+    const disclosureUpdateInput = refreshedDisclosureItem.getByRole("button", {
+      name: "Choose File",
+    });
 
-    const fileChooserPromise = page.waitForEvent("filechooser");
-    await refreshedDisclosureItem.getByRole("button", { name: "Update" }).click();
-    const fileChooser = await fileChooserPromise;
-    await fileChooser.setFiles(uploadFixture);
-    const versionDialogTitle = page.getByText("Update File Version");
-    await expect(versionDialogTitle).toBeVisible();
+    await disclosureUpdateInput.setInputFiles(uploadFixture);
+    const updateVersionDialog = versionDialog(page);
+    await expect(updateVersionDialog).toBeVisible();
     await page.keyboard.press("Escape");
-    await expect(versionDialogTitle).toHaveCount(0);
+    await expect(updateVersionDialog).toHaveCount(0);
 
-    const confirmVersionFileChooserPromise = page.waitForEvent("filechooser");
-    await refreshedDisclosureItem.getByRole("button", { name: "Update" }).click();
-    const confirmVersionFileChooser = await confirmVersionFileChooserPromise;
-    await confirmVersionFileChooser.setFiles(uploadFixture);
-    await expect(versionDialogTitle).toBeVisible();
-    await page.getByPlaceholder("e.g., Revised based on comments").fill(
+    await disclosureUpdateInput.setInputFiles([]);
+    await disclosureUpdateInput.setInputFiles(uploadFixture);
+    await expect(updateVersionDialog).toBeVisible();
+    await updateVersionDialog.getByPlaceholder("e.g., Revised based on comments").fill(
       "Revised after admin review",
     );
-    await page.getByRole("button", { name: "Upload New Version" }).click();
+    await updateVersionDialog.getByRole("button", { name: "Upload New Version" }).click();
     await confirmAction(page);
     await expect(
       page.getByRole("button", { name: /Show 2 previous versions/i }),
@@ -275,10 +283,9 @@ test.describe("admin workflows", () => {
 
     await page.getByRole("button", { name: "Attachments" }).click();
     await disclosureItem.getByRole("button", { name: "View" }).click();
-    await disclosureItem.getByRole("button", { name: "Download" }).click();
-
     const capture = await readBrowserCapture(page);
     expect(capture.openCalls.length).toBeGreaterThan(0);
+    await disclosureItem.getByRole("button", { name: "Download" }).click();
   });
 
   test("edits application details, updates status, and withdraws applications", async ({

@@ -14,6 +14,38 @@ async function waitForPublicRegistryReady(page: Page) {
   });
 }
 
+async function goToSignup(page: Page) {
+  await page.goto("/signup", { waitUntil: "domcontentloaded" });
+  await expect(page.getByRole("heading", { name: "Sign Up" })).toBeVisible();
+  await expect(page.getByText("Compiling")).toHaveCount(0, { timeout: 30_000 });
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => resolve());
+        });
+      }),
+  );
+  const firstNameField = page.locator("#first_name");
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const probeValue = `signup-ready-${attempt}`;
+    await firstNameField.fill(probeValue);
+    await page.waitForTimeout(150);
+    if ((await firstNameField.inputValue()) === probeValue) {
+      await firstNameField.fill("");
+      break;
+    }
+  }
+}
+
+function externalCollaboratorCheckbox(page: Page) {
+  return page.getByRole("checkbox").first();
+}
+
+function termsCheckbox(page: Page) {
+  return page.getByRole("checkbox").nth(1);
+}
+
 test.describe("guest workflows", () => {
   test.beforeEach(async ({ page }) => {
     await setupGuestPage(page);
@@ -79,26 +111,42 @@ test.describe("guest workflows", () => {
   test("lets guests request registration and validates UP mail signups", async ({
     page,
   }) => {
-    await page.goto("/signup", { waitUntil: "domcontentloaded" });
+    await goToSignup(page);
 
     await page.locator("#first_name").fill("Public");
+    await expect(page.locator("#first_name")).toHaveValue("Public");
     await page.locator("#last_name").fill("Tester");
+    await expect(page.locator("#last_name")).toHaveValue("Tester");
     await page.locator("#email").fill("public@gmail.com");
+    await expect(page.locator("#email")).toHaveValue("public@gmail.com");
     await page.locator("select").selectOption("CAS");
-    await page.locator('input[type="checkbox"]').nth(1).check();
+    await expect(page.locator("select")).toHaveValue("CAS");
+    await termsCheckbox(page).check();
+    await expect(termsCheckbox(page)).toBeChecked();
+    await expect(page.getByRole("button", { name: "Sign up" })).toBeEnabled();
     await page.getByRole("button", { name: "Sign up" }).click();
 
     await expect(
       page.getByText("Email must be a UP mail address."),
     ).toBeVisible();
 
-    await page.reload();
-    await page.locator('input[type="checkbox"]').nth(0).check();
+    await goToSignup(page);
+    await externalCollaboratorCheckbox(page).check();
+    await expect(externalCollaboratorCheckbox(page)).toBeChecked();
+    await expect(
+      page.getByPlaceholder("ex. WVSU - Bio"),
+    ).toBeVisible();
     await page.locator("#first_name").fill("External");
+    await expect(page.locator("#first_name")).toHaveValue("External");
     await page.locator("#last_name").fill("Collaborator");
+    await expect(page.locator("#last_name")).toHaveValue("Collaborator");
     await page.locator("#email").fill("external.collab@example.com");
+    await expect(page.locator("#email")).toHaveValue("external.collab@example.com");
     await page.getByPlaceholder("ex. WVSU - Bio").fill("WVSU");
-    await page.locator('input[type="checkbox"]').nth(1).check();
+    await expect(page.getByPlaceholder("ex. WVSU - Bio")).toHaveValue("WVSU");
+    await termsCheckbox(page).check();
+    await expect(termsCheckbox(page)).toBeChecked();
+    await expect(page.getByRole("button", { name: "Sign up" })).toBeEnabled();
     await page.getByRole("button", { name: "Sign up" }).click();
 
     await expect(page.getByText("Registration submitted!")).toBeVisible();
