@@ -1,13 +1,13 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.28)  11 APR 2026 21:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.28)  12 APR 2026 14:19
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
-**./main.tex
-(main.tex
+**"c:/Users/andry/Downloads/iskwela/25-26_1st Sem/CMSC 198.1/iris/paper/main.tex"
+(c:/Users/andry/Downloads/iskwela/25-26_1st Sem/CMSC 198.1/iris/paper/main.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
-(preamble.tex
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
+(preamble.tex (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
 Document Class: report 2023/05/17 v1.4n Standard LaTeX document class
 (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo
 File: size12.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
@@ -24,14 +24,11 @@ File: size12.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip48
 \belowcaptionskip=\skip49
 \bibindent=\dimen140
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/pdfpages\pdfpages.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/pdfpages\pdfpages.sty
 Package: pdfpages 2025/07/23 v0.6g Insert pages of external PDF documents (AM)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
 Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
 Package: calc 2023/07/08 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count196
 \calc@Bcount=\count197
@@ -43,28 +40,22 @@ LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count198
 \calc@Cskip=\skip52
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/eso-pic\eso-pic.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/eso-pic\eso-pic.sty
 Package: eso-pic 2023/05/03 v3.0c eso-pic (RN)
 \ESO@tempdima=\dimen143
 \ESO@tempdimb=\dimen144
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
 Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 274.
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
 File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1350.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1354.
 Package xcolor Info: Model `RGB' extended on input line 1366.
@@ -74,22 +65,16 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1371.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1372.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
-))
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+)) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count199
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
 Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
 Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
-fg
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
@@ -100,8 +85,7 @@ Package graphics Info: Driver file: pdftex.def on input line 107.
 \AM@pagewidth=\dimen147
 \AM@pageheight=\dimen148
 \AM@fboxrule=\dimen149
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/pdfpages\pppdftex.def
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/pdfpages\pppdftex.def
 File: pppdftex.def 2025/07/23 v0.6g Pdfpages driver for pdfTeX (AM)
 )
 \pdfpages@includegraphics@status=\count266
@@ -114,8 +98,7 @@ File: pppdftex.def 2025/07/23 v0.6g Pdfpages driver for pdfTeX (AM)
 \AM@templatesizebox=\box52
 ) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
 \caption@tempdima=\dimen150
 \captionmargin=\dimen151
@@ -129,16 +112,14 @@ Package caption Info: Standard document class detected.
 )
 \c@caption@flags=\count269
 \c@continuedfloat=\count270
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count271
 \float@exts=\toks21
 \float@box=\box53
 \@float@everytoks=\toks22
 \@floatcapt=\box54
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/apacite\apacite.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/apacite\apacite.sty
 Package: apacite 2013/07/21 v6.03 APA citation
 \c@BibCnt=\count272
 \bibleftmargin=\skip53
@@ -146,8 +127,7 @@ Package: apacite 2013/07/21 v6.03 APA citation
 \bibparsep=\skip55
 \bibitemsep=\skip56
 \biblabelsep=\skip57
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip58
 \bibsep=\skip59
@@ -155,60 +135,38 @@ LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count273
 )
 LaTeX Info: Redefining \BBA on input line 17.
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
 Package: hyperref 2023-11-26 v7.01g Hypertext links for LaTeX
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
-ty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
-keys.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
-ty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
-.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
-)
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-))
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
+)) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/letltxmacro\letltxmacro
-.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/letltxmacro\letltxmacro.sty
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/auxhook\auxhook.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/auxhook\auxhook.sty
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
 Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
-lestring.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
 \c@section@level=\count274
@@ -237,21 +195,16 @@ Package hyperref Info: Backreferencing OFF on input line 4201.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4448.
 \c@Hy@tempcnt=\count278
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4786.
 \XeTeXLinkMargin=\dimen159
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
-.sty
-Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
-)
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
 \Fld@menulength=\count279
 \Field@Width=\dimen160
@@ -263,8 +216,7 @@ Package hyperref Info: backreferencing OFF on input line 6080.
 Package hyperref Info: Link coloring OFF on input line 6085.
 Package hyperref Info: Link coloring with OCG OFF on input line 6090.
 Package hyperref Info: PDF/A mode OFF on input line 6095.
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/base\atbegshi-ltx.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/base\atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
@@ -273,48 +225,37 @@ package with kernel methods
 \c@Hfootnote=\count282
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
 File: hpdftex.def 2023-11-26 v7.01g Hyperref driver for pdfTeX
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/base\atveryend-ltx.sty
-Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
-kage
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/base\atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
 )
 \Fld@listcount=\count283
 \c@bookmark@seq@number=\count284
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
-echeck.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfilecheck.sty
 Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
-ounter.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
-84.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
 )
 \Hy@SectionHShift=\skip60
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
 Package: amsmath 2023/05/13 v2.17o AMS math features
 \@mathmargin=\skip61
 
 For additional information on amsmath, use the `?' option.
 (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks23
 \ex@=\dimen162
-))
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+)) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen163
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count285
@@ -364,46 +305,35 @@ LaTeX Info: Redefining \Relbar on input line 971.
 \mathdisplay@stack=\toks27
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbatim.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbatim.sty
 Package: verbatim 2023-11-06 v1.5v LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks28
 \verbatim@line=\toks29
 \verbatim@in@stream=\read2
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\adjustbox.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\adjustbox.sty
 Package: adjustbox 2025/02/26 v1.3c Adjusting TeX boxes (trim, clip, ...)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
 Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex
 \XKV@toks=\toks30
 \XKV@tempa@toks=\toks31
 )
 \XKV@depth=\count297
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
-))
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\adjcalc.sty
-Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
--ends (calc, etex, pgfmath)
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\trimclip.sty
+)) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\trimclip.sty
 Package: trimclip 2025/02/21 v1.2a Trim and clip general TeX material
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/collectbox\collectbox.s
-ty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/collectbox\collectbox.sty
 Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
 \collectedbox=\box57
 )
@@ -412,8 +342,7 @@ Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
 \tc@urx=\dimen173
 \tc@ury=\dimen174
 Package trimclip Info: Using driver 'tc-pdftex.def'.
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\tc-pdftex.def
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/adjustbox\tc-pdftex.def
 File: tc-pdftex.def 2025/02/26 v2.3 Clipping driver for pdftex
 ))
 \adjbox@Width=\dimen175
@@ -424,8 +353,7 @@ File: tc-pdftex.def 2025/02/26 v2.3 Clipping driver for pdftex
 \adjbox@pheight=\dimen180
 \adjbox@pdepth=\dimen181
 \adjbox@ptotalheight=\dimen182
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/ifoddpage\ifoddpage.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/ifoddpage\ifoddpage.sty
 Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
 \c@checkoddpage=\count298
 ) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/varwidth\varwidth.sty
@@ -434,27 +362,19 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \sift@deathcycles=\count299
 \@vwid@loff=\dimen183
 \@vwid@roff=\dimen184
-))
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
+)) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape.sty
 Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape-nom
-etadata.sty
-Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PD
-F (HO)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\lscape.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape-nometadata.sty
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PDF (HO)
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/graphics\lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
-))
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+)) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
 Package: tabularx 2023/07/08 v2.11c `tabularx' package (DPC)
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
 Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
 \col@sep=\dimen185
 \ar@mcellbox=\box59
@@ -471,8 +391,7 @@ Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
 \TX@delta=\dimen191
 \TX@cols=\count300
 \TX@ftn=\toks33
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/caption\subcaption.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/caption\subcaption.sty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
 Package caption Info: New subtype `subfigure' on input line 238.
 \c@subfigure=\count301
@@ -495,9 +414,7 @@ Package: lineno 2025/05/13 line numbers on paragraphs v5.5
 \bframesep=\dimen196
 \bframebox=\box61
 \@LN@amsmath@ams@eqpen=\count310
-))
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
-tex.def
+)) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count311
 \l__pdf_internal_box=\box62
@@ -506,12 +423,7 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 LaTeX Warning: Unused global option(s):
     [onepage].
 
-(main.aux (title_page.aux) (abstract.aux) (chapter_1.aux) (chapter_2.aux)
-(chapter_3.aux) (chapter_4.aux
-
-LaTeX Warning: Label `fig:applicant_appview' multiply defined.
-
-) (appendix_A.aux) (appendix_B.aux))
+(main.aux (title_page.aux) (abstract.aux) (chapter_1.aux) (chapter_2.aux) (chapter_3.aux) (chapter_4.aux) (appendix_A.aux) (appendix_B.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
@@ -532,9 +444,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 6.
 LaTeX Font Info:    ... okay on input line 6.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 6.
 LaTeX Font Info:    ... okay on input line 6.
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
-ii
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count312
 \scratchdimen=\dimen197
@@ -547,15 +457,10 @@ ii
 \MPnumerator=\count316
 \makeMPintoPDFobject=\count317
 \everyMPtoPDFconversion=\toks36
-)
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
-ase.sty
+) (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-85.
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
-fg
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package caption Info: Begin \AtBeginDocument code.
@@ -563,15 +468,13 @@ Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@maskedRefs=\count318
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/apacite\english.apc
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/apacite\english.apc
 File: english.apc 2013/07/21 v6.03 apacite language file
 LaTeX Info: Redefining \BPBI on input line 129.
 LaTeX Info: Redefining \BHBI on input line 130.
 )
 Package hyperref Info: Link coloring OFF on input line 6.
-
-(main.out) (main.out)
+ (main.out) (main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
@@ -585,17 +488,14 @@ Package hyperref Info: Link coloring OFF on input line 6.
 
  (abstract.tex
 LaTeX Font Info:    Trying to load font information for U+msa on input line 7.
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
-
-(C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+ (C:\Users\andry\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.11 \end{abstract}
@@ -617,8 +517,7 @@ l.11 \end{abstract}
 \tf@lof=\write5
 \openout5 = `main.lof'.
 
- [7]
-(main.lot [8
+ [7] (main.lot [8
 
 ])
 \tf@lot=\write6
@@ -630,8 +529,7 @@ l.11 \end{abstract}
  (chapter_1.tex
 Chapter 1.
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.8 
@@ -640,8 +538,7 @@ l.8
 
 ] [2]
 Overfull \hbox (1.23347pt too wide) in paragraph at lines 15--16
-\OT1/cmr/m/n/12 With ex-ten-sive col-lab-o-ra-tion and re-search on the in-ter-
-nal pro-cesses of the TTBDO,
+\OT1/cmr/m/n/12 With ex-ten-sive col-lab-o-ra-tion and re-search on the in-ter-nal pro-cesses of the TTBDO,
  []
 
 [3] [4] [5] [6] [7] [8] [9]) [10]
@@ -675,22 +572,19 @@ Overfull \hbox (16.78604pt too wide) in paragraph at lines 50--88
  []
 
 [16] [17]
-<figures/flowchart_general.png, id=568, 1975.38pt x 1735.23282pt>
+<figures/flowchart_general.png, id=579, 1975.38pt x 1735.23282pt>
 File: figures/flowchart_general.png Graphic file (type png)
 <use figures/flowchart_general.png>
 Package pdftex.def Info: figures/flowchart_general.png  used on input line 96.
 (pdftex.def)             Requested size: 355.55305pt x 312.32843pt.
-<figures/flowchart_copyright.png, id=569, 676.02562pt x 1590.69281pt>
+<figures/flowchart_copyright.png, id=580, 676.02562pt x 1590.69281pt>
 File: figures/flowchart_copyright.png Graphic file (type png)
 <use figures/flowchart_copyright.png>
-Package pdftex.def Info: figures/flowchart_copyright.png  used on input line 10
-3.
+Package pdftex.def Info: figures/flowchart_copyright.png  used on input line 103.
 (pdftex.def)             Requested size: 236.6125pt x 556.75084pt.
- [18 <./figures/flowchart_general.png (PNG copy)>] [19 <./figures/flowchart_cop
-yright.png (PNG copy)>]
+ [18 <./figures/flowchart_general.png (PNG copy)>] [19 <./figures/flowchart_copyright.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 113--113
-[][][]$\OT1/cmtt/m/n/10 https :// docs [] .google [] .com / forms / d / e / 1FA
-IpQLSe5 [] -3752JG4qOiUdv93xWs1kdtW []
+[][][]$\OT1/cmtt/m/n/10 https :// docs [] .google [] .com / forms / d / e / 1FAIpQLSe5 [] -3752JG4qOiUdv93xWs1kdtW []
  []
 
 [20] [21]
@@ -835,13 +729,13 @@ Overfull \hbox (26.07652pt too wide) in paragraph at lines 88--99
  []
 
 [38] [39] [40] [41] [42]
-<figures/context_model.png, id=718, 1150.2975pt x 580.41844pt>
+<figures/context_model.png, id=729, 1150.2975pt x 580.41844pt>
 File: figures/context_model.png Graphic file (type png)
 <use figures/context_model.png>
 Package pdftex.def Info: figures/context_model.png  used on input line 154.
 (pdftex.def)             Requested size: 402.61017pt x 203.14949pt.
  [43] [44 <./figures/context_model.png (PNG copy)>]
-<figures/db_design.png, id=730, 1437.37pt x 1709.38625pt>
+<figures/db_design.png, id=741, 1437.37pt x 1709.38625pt>
 File: figures/db_design.png Graphic file (type png)
 <use figures/db_design.png>
 Package pdftex.def Info: figures/db_design.png  used on input line 177.
@@ -852,12 +746,12 @@ Overfull \hbox (58.78108pt too wide) in paragraph at lines 177--178
  []
 
 [45] [46 <./figures/db_design.png (PNG copy)>]
-<figures/uc_guest.png, id=743, 472.76625pt x 214.8025pt>
+<figures/uc_guest.png, id=754, 472.76625pt x 214.8025pt>
 File: figures/uc_guest.png Graphic file (type png)
 <use figures/uc_guest.png>
 Package pdftex.def Info: figures/uc_guest.png  used on input line 189.
 (pdftex.def)             Requested size: 330.93411pt x 150.36072pt.
-<figures/uc_official.png, id=744, 678.535pt x 214.8025pt>
+<figures/uc_official.png, id=755, 678.535pt x 214.8025pt>
 File: figures/uc_official.png Graphic file (type png)
 <use figures/uc_official.png>
 Package pdftex.def Info: figures/uc_official.png  used on input line 196.
@@ -868,13 +762,13 @@ Overfull \hbox (59.41876pt too wide) in paragraph at lines 196--197
  []
 
 [47 <./figures/uc_guest.png (PNG copy)>]
-<figures/uc_techgen.png, id=750, 495.8525pt x 563.10374pt>
+<figures/uc_techgen.png, id=761, 495.8525pt x 563.10374pt>
 File: figures/uc_techgen.png Graphic file (type png)
 <use figures/uc_techgen.png>
 Package pdftex.def Info: figures/uc_techgen.png  used on input line 206.
 (pdftex.def)             Requested size: 347.09438pt x 394.16994pt.
  [48 <./figures/uc_official.png (PNG copy)>]
-<figures/uc_admin.png, id=756, 1593.955pt x 204.765pt>
+<figures/uc_admin.png, id=767, 1593.955pt x 204.765pt>
 File: figures/uc_admin.png Graphic file (type png)
 <use figures/uc_admin.png>
 Package pdftex.def Info: figures/uc_admin.png  used on input line 216.
@@ -885,11 +779,10 @@ Overfull \hbox (62.63771pt too wide) in paragraph at lines 216--217
  []
 
 [49 <./figures/uc_techgen.png (PNG copy)>]
-<figures/general_sequenceA.png, id=763, 842.39719pt x 817.55438pt>
+<figures/general_sequenceA.png, id=774, 842.39719pt x 817.55438pt>
 File: figures/general_sequenceA.png Graphic file (type png)
 <use figures/general_sequenceA.png>
 Package pdftex.def Info: figures/general_sequenceA.png  used on input line 230.
-
 (pdftex.def)             Requested size: 421.19756pt x 408.7762pt.
 
 Overfull \hbox (5.64507pt too wide) in paragraph at lines 230--231
@@ -897,11 +790,10 @@ Overfull \hbox (5.64507pt too wide) in paragraph at lines 230--231
  []
 
 [50 <./figures/uc_admin.png (PNG copy)>]
-<figures/general_sequenceB.png, id=770, 842.39719pt x 699.36281pt>
+<figures/general_sequenceB.png, id=781, 842.39719pt x 699.36281pt>
 File: figures/general_sequenceB.png Graphic file (type png)
 <use figures/general_sequenceB.png>
 Package pdftex.def Info: figures/general_sequenceB.png  used on input line 237.
-
 (pdftex.def)             Requested size: 421.19756pt x 349.68054pt.
 
 Overfull \hbox (5.64507pt too wide) in paragraph at lines 237--238
@@ -909,30 +801,28 @@ Overfull \hbox (5.64507pt too wide) in paragraph at lines 237--238
  []
 
 [51 <./figures/general_sequenceA.png>]
-<figures/tm_sequence.png, id=780, 1051.93pt x 1458.44875pt>
+<figures/tm_sequence.png, id=791, 1051.93pt x 1458.44875pt>
 File: figures/tm_sequence.png Graphic file (type png)
 <use figures/tm_sequence.png>
 Package pdftex.def Info: figures/tm_sequence.png  used on input line 249.
 (pdftex.def)             Requested size: 368.18102pt x 510.46472pt.
  [52 <./figures/general_sequenceB.png>]
-<figures/um_id_sequence.png, id=789, 1078.0275pt x 1426.32875pt>
+<figures/um_id_sequence.png, id=800, 1078.0275pt x 1426.32875pt>
 File: figures/um_id_sequence.png Graphic file (type png)
 <use figures/um_id_sequence.png>
 Package pdftex.def Info: figures/um_id_sequence.png  used on input line 256.
 (pdftex.def)             Requested size: 377.31528pt x 499.22255pt.
-
-[53 <./figures/tm_sequence.png (PNG copy)>]
-<figures/patent_sequence.png, id=796, 1110.1475pt x 1410.26875pt>
+ [53 <./figures/tm_sequence.png (PNG copy)>]
+<figures/patent_sequence.png, id=807, 1110.1475pt x 1410.26875pt>
 File: figures/patent_sequence.png Graphic file (type png)
 <use figures/patent_sequence.png>
 Package pdftex.def Info: figures/patent_sequence.png  used on input line 263.
 (pdftex.def)             Requested size: 388.55745pt x 493.60146pt.
  [54 <./figures/um_id_sequence.png (PNG copy)>]
-<figures/copyright_sequenceA.png, id=805, 897.3525pt x 1112.65688pt>
+<figures/copyright_sequenceA.png, id=816, 897.3525pt x 1112.65688pt>
 File: figures/copyright_sequenceA.png Graphic file (type png)
 <use figures/copyright_sequenceA.png>
-Package pdftex.def Info: figures/copyright_sequenceA.png  used on input line 27
-2.
+Package pdftex.def Info: figures/copyright_sequenceA.png  used on input line 272.
 (pdftex.def)             Requested size: 448.67514pt x 556.32709pt.
 
 Overfull \hbox (33.12265pt too wide) in paragraph at lines 272--273
@@ -940,11 +830,10 @@ Overfull \hbox (33.12265pt too wide) in paragraph at lines 272--273
  []
 
 [55 <./figures/patent_sequence.png (PNG copy)>]
-<figures/copyright_sequenceB.png, id=812, 897.3525pt x 948.54375pt>
+<figures/copyright_sequenceB.png, id=823, 897.3525pt x 948.54375pt>
 File: figures/copyright_sequenceB.png Graphic file (type png)
 <use figures/copyright_sequenceB.png>
-Package pdftex.def Info: figures/copyright_sequenceB.png  used on input line 27
-8.
+Package pdftex.def Info: figures/copyright_sequenceB.png  used on input line 278.
 (pdftex.def)             Requested size: 448.67514pt x 474.2707pt.
 
 Overfull \hbox (33.12265pt too wide) in paragraph at lines 278--279
@@ -954,9 +843,7 @@ Overfull \hbox (33.12265pt too wide) in paragraph at lines 278--279
 [56]
 Overfull \vbox (10.03207pt too high) has occurred while \output is active []
 
-
-[57 <./figures/copyright_sequenceA.png>] [58 <./figures/copyright_sequenceB.png
->] [59]
+ [57 <./figures/copyright_sequenceA.png>] [58 <./figures/copyright_sequenceB.png>] [59]
 Underfull \hbox (badness 2111) in paragraph at lines 328--328
 []|\OT1/cmr/m/n/12 Requirements Spec-i-fi-ca-
  []
@@ -971,7 +858,7 @@ Overfull \hbox (13.80531pt too wide) in paragraph at lines 320--343
 
  (chapter_4.tex
 Chapter 4.
-<figures/signin.png, id=848, 1927.2pt x 910.40125pt>
+<figures/signin.png, id=859, 1927.2pt x 910.40125pt>
 File: figures/signin.png Graphic file (type png)
 <use figures/signin.png>
 Package pdftex.def Info: figures/signin.png  used on input line 9.
@@ -981,232 +868,230 @@ Package pdftex.def Info: figures/signin.png  used on input line 9.
 
 
 
-] [63 <./figures/signin.png>]
-<figures/techgen_view_applicationA.png, id=861, 1445.4pt x 776.9025pt>
-File: figures/techgen_view_applicationA.png Graphic file (type png)
-<use figures/techgen_view_applicationA.png>
-Package pdftex.def Info: figures/techgen_view_applicationA.png  used on input l
-ine 28.
-(pdftex.def)             Requested size: 433.62335pt x 233.07254pt.
+]
+<figures/view_application/techgen_general_appview.png, id=865, 1444.64719pt x 786.68906pt>
+File: figures/view_application/techgen_general_appview.png Graphic file (type png)
+<use figures/view_application/techgen_general_appview.png>
+Package pdftex.def Info: figures/view_application/techgen_general_appview.png  used on input line 28.
+(pdftex.def)             Requested size: 415.55249pt x 226.28539pt.
+ [63 <./figures/signin.png>] [64 <./figures/view_application/techgen_general_appview.png>]
+<figures/view_application/techgen_view_attachmentA.png, id=882, 533.74406pt x 387.69844pt>
+File: figures/view_application/techgen_view_attachmentA.png Graphic file (type png)
+<use figures/view_application/techgen_view_attachmentA.png>
+Package pdftex.def Info: figures/view_application/techgen_view_attachmentA.png  used on input line 52.
+(pdftex.def)             Requested size: 415.55249pt x 301.8593pt.
+<figures/view_application/techgen_view_attachmentC.png, id=883, 874.01532pt x 639.89063pt>
+File: figures/view_application/techgen_view_attachmentC.png Graphic file (type png)
+<use figures/view_application/techgen_view_attachmentC.png>
+Package pdftex.def Info: figures/view_application/techgen_view_attachmentC.png  used on input line 87.
+(pdftex.def)             Requested size: 415.55249pt x 304.23436pt.
+ [65 <./figures/view_application/techgen_view_attachmentA.png>]
+<figures/view_application/techgen_view_collaboratorsA.png, id=893, 546.54187pt x 359.09157pt>
+File: figures/view_application/techgen_view_collaboratorsA.png Graphic file (type png)
+<use figures/view_application/techgen_view_collaboratorsA.png>
+Package pdftex.def Info: figures/view_application/techgen_view_collaboratorsA.png  used on input line 107.
+(pdftex.def)             Requested size: 273.27026pt x 179.54533pt.
+<figures/view_application/techgen_view_collaboratorsB.png, id=894, 835.62187pt x 570.63188pt>
+File: figures/view_application/techgen_view_collaboratorsB.png Graphic file (type png)
+<use figures/view_application/techgen_view_collaboratorsB.png>
+Package pdftex.def Info: figures/view_application/techgen_view_collaboratorsB.png  used on input line 113.
+(pdftex.def)             Requested size: 415.55249pt x 283.77408pt.
+ [66 <./figures/view_application/techgen_view_attachmentC.png>] [67 <./figures/view_application/techgen_view_collaboratorsA.png> <./figures/view_application/techgen_view_collaboratorsB.png>]
+<figures/view_application/admin_general_appview.png, id=908, 1440.13031pt x 777.65532pt>
+File: figures/view_application/admin_general_appview.png Graphic file (type png)
+<use figures/view_application/admin_general_appview.png>
+Package pdftex.def Info: figures/view_application/admin_general_appview.png  used on input line 139.
+(pdftex.def)             Requested size: 415.55249pt x 224.387pt.
+ [68 <./figures/view_application/admin_general_appview.png>]
+<figures/view_application/admin_view_collaboratorsA.png, id=918, 539.76656pt x 328.22626pt>
+File: figures/view_application/admin_view_collaboratorsA.png Graphic file (type png)
+<use figures/view_application/admin_view_collaboratorsA.png>
+Package pdftex.def Info: figures/view_application/admin_view_collaboratorsA.png  used on input line 156.
+(pdftex.def)             Requested size: 415.55249pt x 252.69994pt.
+<figures/view_application/admin_view_collaboratorsB.png, id=919, 730.22812pt x 499.11469pt>
+File: figures/view_application/admin_view_collaboratorsB.png Graphic file (type png)
+<use figures/view_application/admin_view_collaboratorsB.png>
+Package pdftex.def Info: figures/view_application/admin_view_collaboratorsB.png  used on input line 172.
+(pdftex.def)             Requested size: 365.11316pt x 249.55672pt.
+<figures/view_application/admin_view_collaboratorsC.png, id=920, 630.10406pt x 357.58594pt>
+File: figures/view_application/admin_view_collaboratorsC.png Graphic file (type png)
+<use figures/view_application/admin_view_collaboratorsC.png>
+Package pdftex.def Info: figures/view_application/admin_view_collaboratorsC.png  used on input line 181.
+(pdftex.def)             Requested size: 315.05125pt x 178.79253pt.
+ [69 <./figures/view_application/admin_view_collaboratorsA.png>] [70 <./figures/view_application/admin_view_collaboratorsB.png> <./figures/view_application/admin_view_collaboratorsC.png>]
+<figures/view_application/admin_status_update.png, id=936, 874.01532pt x 601.4972pt>
+File: figures/view_application/admin_status_update.png Graphic file (type png)
+<use figures/view_application/admin_status_update.png>
+Package pdftex.def Info: figures/view_application/admin_status_update.png  used on input line 201.
+(pdftex.def)             Requested size: 415.55249pt x 285.9803pt.
+ [71 <./figures/view_application/admin_status_update.png>]
+<figures/view_application/admin_view_app_details.png, id=944, 925.95938pt x 627.84563pt>
+File: figures/view_application/admin_view_app_details.png Graphic file (type png)
+<use figures/view_application/admin_view_app_details.png>
+Package pdftex.def Info: figures/view_application/admin_view_app_details.png  used on input line 216.
+(pdftex.def)             Requested size: 415.55249pt x 281.7615pt.
 
-Overfull \hbox (18.07086pt too wide) in paragraph at lines 28--29
- [][] 
- []
 
-<figures/techgen_view_applicationB.png, id=862, 1445.4pt x 776.9025pt>
-File: figures/techgen_view_applicationB.png Graphic file (type png)
-<use figures/techgen_view_applicationB.png>
-Package pdftex.def Info: figures/techgen_view_applicationB.png  used on input l
-ine 37.
-(pdftex.def)             Requested size: 433.62335pt x 233.07254pt.
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 225.
 
-Overfull \hbox (18.07086pt too wide) in paragraph at lines 37--38
- [][] 
- []
-
-[64] [65 <./figures/techgen_view_applicationA.png> <./figures/techgen_view_appl
-icationB.png>]
-<figures/admin_view_applicationA.png, id=876, 1445.4pt x 776.9025pt>
-File: figures/admin_view_applicationA.png Graphic file (type png)
-<use figures/admin_view_applicationA.png>
-Package pdftex.def Info: figures/admin_view_applicationA.png  used on input lin
-e 91.
-(pdftex.def)             Requested size: 415.55249pt x 223.35179pt.
-<figures/admin_view_applicationB.png, id=877, 1445.4pt x 776.9025pt>
-File: figures/admin_view_applicationB.png Graphic file (type png)
-<use figures/admin_view_applicationB.png>
-Package pdftex.def Info: figures/admin_view_applicationB.png  used on input lin
-e 100.
-(pdftex.def)             Requested size: 415.55249pt x 223.35179pt.
- [66] [67 <./figures/admin_view_applicationA.png> <./figures/admin_view_applica
-tionB.png>]
-<figures/admin_status_update.png, id=890, 1108.14pt x 653.44125pt>
-File: figures/admin_status_update.png Graphic file (type png)
-<use figures/admin_status_update.png>
-Package pdftex.def Info: figures/admin_status_update.png  used on input line 11
-9.
-(pdftex.def)             Requested size: 415.55249pt x 245.03986pt.
-<figures/new_applicationA.jpeg, id=892, 1728.4575pt x 1180.41pt>
+<figures/new_applicationA.jpeg, id=946, 1728.4575pt x 1180.41pt>
 File: figures/new_applicationA.jpeg Graphic file (type jpg)
 <use figures/new_applicationA.jpeg>
-Package pdftex.def Info: figures/new_applicationA.jpeg  used on input line 136.
-
+Package pdftex.def Info: figures/new_applicationA.jpeg  used on input line 230.
 (pdftex.def)             Requested size: 388.91254pt x 265.5988pt.
-<figures/new_applicationB.jpeg, id=893, 1728.4575pt x 1116.17pt>
+<figures/new_applicationB.jpeg, id=947, 1728.4575pt x 1116.17pt>
 File: figures/new_applicationB.jpeg Graphic file (type jpg)
 <use figures/new_applicationB.jpeg>
-Package pdftex.def Info: figures/new_applicationB.jpeg  used on input line 145.
-
+Package pdftex.def Info: figures/new_applicationB.jpeg  used on input line 239.
 (pdftex.def)             Requested size: 388.91254pt x 251.14444pt.
- [68
 
- <./figures/admin_status_update.png>]
-Overfull \vbox (10.10095pt too high) has occurred while \output is active []
+LaTeX Warning: Float too large for page by 10.10095pt on input line 246.
 
-
-[69 <./figures/new_applicationA.jpeg> <./figures/new_applicationB.jpeg>]
-<figures/notification.png, id=905, 395.4775pt x 588.1975pt>
+[72 <./figures/view_application/admin_view_app_details.png>]
+<figures/notification.png, id=955, 395.4775pt x 588.1975pt>
 File: figures/notification.png Graphic file (type png)
 <use figures/notification.png>
-Package pdftex.def Info: figures/notification.png  used on input line 160.
+Package pdftex.def Info: figures/notification.png  used on input line 254.
 (pdftex.def)             Requested size: 237.28833pt x 352.92122pt.
-
-[70] [71 <./figures/notification.png>]
-<figures/admin_dashboard_1.png, id=919, 1475.5125pt x 797.98125pt>
+ [73] [74 <./figures/new_applicationA.jpeg> <./figures/new_applicationB.jpeg>] [75 <./figures/notification.png>]
+<figures/admin_dashboard_1.png, id=974, 1475.5125pt x 797.98125pt>
 File: figures/admin_dashboard_1.png Graphic file (type png)
 <use figures/admin_dashboard_1.png>
-Package pdftex.def Info: figures/admin_dashboard_1.png  used on input line 173.
-
+Package pdftex.def Info: figures/admin_dashboard_1.png  used on input line 267.
 (pdftex.def)             Requested size: 442.65717pt x 239.39621pt.
 
-Overfull \hbox (27.10468pt too wide) in paragraph at lines 173--174
+Overfull \hbox (27.10468pt too wide) in paragraph at lines 267--268
  [][] 
  []
 
-<figures/admin_dashboard_2.jpg, id=920, 951.555pt x 455.20062pt>
+<figures/admin_dashboard_2.jpg, id=975, 951.555pt x 455.20062pt>
 File: figures/admin_dashboard_2.jpg Graphic file (type jpg)
 <use figures/admin_dashboard_2.jpg>
-Package pdftex.def Info: figures/admin_dashboard_2.jpg  used on input line 182.
-
+Package pdftex.def Info: figures/admin_dashboard_2.jpg  used on input line 276.
 (pdftex.def)             Requested size: 428.19579pt x 204.83838pt.
 
-Overfull \hbox (12.6433pt too wide) in paragraph at lines 182--183
- [][] 
- []
-
-[72]
-<figures/techgen_dashboard_1.png, id=925, 1424.32124pt x 682.80093pt>
-File: figures/techgen_dashboard_1.png Graphic file (type png)
-<use figures/techgen_dashboard_1.png>
-Package pdftex.def Info: figures/techgen_dashboard_1.png  used on input line 19
-7.
-(pdftex.def)             Requested size: 427.29967pt x 204.84186pt.
-
-Overfull \hbox (11.74718pt too wide) in paragraph at lines 197--198
- [][] 
- []
-
-<figures/techgen_dashboard_2.png, id=926, 1426.57968pt x 682.80093pt>
-File: figures/techgen_dashboard_2.png Graphic file (type png)
-<use figures/techgen_dashboard_2.png>
-Package pdftex.def Info: figures/techgen_dashboard_2.png  used on input line 20
-6.
-(pdftex.def)             Requested size: 427.9772pt x 204.84186pt.
-
-Overfull \hbox (12.42471pt too wide) in paragraph at lines 206--207
- [][] 
- []
-
-[73 <./figures/admin_dashboard_1.png> <./figures/admin_dashboard_2.jpg>]
-[74 <./figures/techgen_dashboard_1.png> <./figures/techgen_dashboard_2.png>]
-<figures/admin_user_management.png, id=939, 1424.32124pt x 682.80093pt>
-File: figures/admin_user_management.png Graphic file (type png)
-<use figures/admin_user_management.png>
-Package pdftex.def Info: figures/admin_user_management.png  used on input line 
-220.
-(pdftex.def)             Requested size: 427.29967pt x 204.84186pt.
-
-Overfull \hbox (11.74718pt too wide) in paragraph at lines 220--221
- [][] 
- []
-
-[75 <./figures/admin_user_management.png>]
-<figures/admin_applications_registry.jpeg, id=949, 1728.4575pt x 1042.89626pt>
-File: figures/admin_applications_registry.jpeg Graphic file (type jpg)
-<use figures/admin_applications_registry.jpeg>
-Package pdftex.def Info: figures/admin_applications_registry.jpeg  used on inpu
-t line 233.
-(pdftex.def)             Requested size: 432.11331pt x 260.72342pt.
-
-Overfull \hbox (16.56082pt too wide) in paragraph at lines 233--234
- [][] 
- []
-
-<figures/guest_applications_registry.jpeg, id=950, 1728.4575pt x 1042.89626pt>
-File: figures/guest_applications_registry.jpeg Graphic file (type jpg)
-<use figures/guest_applications_registry.jpeg>
-Package pdftex.def Info: figures/guest_applications_registry.jpeg  used on inpu
-t line 242.
-(pdftex.def)             Requested size: 432.11331pt x 260.72342pt.
-
-Overfull \hbox (16.56082pt too wide) in paragraph at lines 242--243
+Overfull \hbox (12.6433pt too wide) in paragraph at lines 276--277
  [][] 
  []
 
 [76]
+<figures/techgen_dashboard_1.png, id=980, 1424.32124pt x 682.80093pt>
+File: figures/techgen_dashboard_1.png Graphic file (type png)
+<use figures/techgen_dashboard_1.png>
+Package pdftex.def Info: figures/techgen_dashboard_1.png  used on input line 291.
+(pdftex.def)             Requested size: 427.29967pt x 204.84186pt.
+
+Overfull \hbox (11.74718pt too wide) in paragraph at lines 291--292
+ [][] 
+ []
+
+<figures/techgen_dashboard_2.png, id=981, 1426.57968pt x 682.80093pt>
+File: figures/techgen_dashboard_2.png Graphic file (type png)
+<use figures/techgen_dashboard_2.png>
+Package pdftex.def Info: figures/techgen_dashboard_2.png  used on input line 300.
+(pdftex.def)             Requested size: 427.9772pt x 204.84186pt.
+
+Overfull \hbox (12.42471pt too wide) in paragraph at lines 300--301
+ [][] 
+ []
+
+[77 <./figures/admin_dashboard_1.png> <./figures/admin_dashboard_2.jpg>] [78 <./figures/techgen_dashboard_1.png> <./figures/techgen_dashboard_2.png>]
+<figures/admin_user_management.png, id=994, 1424.32124pt x 682.80093pt>
+File: figures/admin_user_management.png Graphic file (type png)
+<use figures/admin_user_management.png>
+Package pdftex.def Info: figures/admin_user_management.png  used on input line 314.
+(pdftex.def)             Requested size: 427.29967pt x 204.84186pt.
+
+Overfull \hbox (11.74718pt too wide) in paragraph at lines 314--315
+ [][] 
+ []
+
+[79 <./figures/admin_user_management.png>]
+<figures/admin_applications_registry.jpeg, id=1003, 1728.4575pt x 1042.89626pt>
+File: figures/admin_applications_registry.jpeg Graphic file (type jpg)
+<use figures/admin_applications_registry.jpeg>
+Package pdftex.def Info: figures/admin_applications_registry.jpeg  used on input line 327.
+(pdftex.def)             Requested size: 432.11331pt x 260.72342pt.
+
+Overfull \hbox (16.56082pt too wide) in paragraph at lines 327--328
+ [][] 
+ []
+
+<figures/guest_applications_registry.jpeg, id=1004, 1728.4575pt x 1042.89626pt>
+File: figures/guest_applications_registry.jpeg Graphic file (type jpg)
+<use figures/guest_applications_registry.jpeg>
+Package pdftex.def Info: figures/guest_applications_registry.jpeg  used on input line 336.
+(pdftex.def)             Requested size: 432.11331pt x 260.72342pt.
+
+Overfull \hbox (16.56082pt too wide) in paragraph at lines 336--337
+ [][] 
+ []
+
+[80]
 Overfull \vbox (14.80455pt too high) has occurred while \output is active []
 
-
-[77 <./figures/admin_applications_registry.jpeg> <./figures/guest_applications_
-registry.jpeg>]
-<figures/guest_application_documents.png, id=961, 1428.08531pt x 682.80093pt>
+ [81 <./figures/admin_applications_registry.jpeg> <./figures/guest_applications_registry.jpeg>]
+<figures/guest_application_documents.png, id=1016, 1428.08531pt x 682.80093pt>
 File: figures/guest_application_documents.png Graphic file (type png)
 <use figures/guest_application_documents.png>
-Package pdftex.def Info: figures/guest_application_documents.png  used on input
- line 259.
+Package pdftex.def Info: figures/guest_application_documents.png  used on input line 353.
 (pdftex.def)             Requested size: 428.42891pt x 204.84186pt.
 
-Overfull \hbox (12.87642pt too wide) in paragraph at lines 259--260
+Overfull \hbox (12.87642pt too wide) in paragraph at lines 353--354
  [][] 
  []
 
-<figures/techgen_application_documents.png, id=962, 1426.57968pt x 682.80093pt>
-
+<figures/techgen_application_documents.png, id=1017, 1426.57968pt x 682.80093pt>
 File: figures/techgen_application_documents.png Graphic file (type png)
 <use figures/techgen_application_documents.png>
-Package pdftex.def Info: figures/techgen_application_documents.png  used on inp
-ut line 268.
+Package pdftex.def Info: figures/techgen_application_documents.png  used on input line 362.
 (pdftex.def)             Requested size: 427.9772pt x 204.84186pt.
 
-Overfull \hbox (12.42471pt too wide) in paragraph at lines 268--269
+Overfull \hbox (12.42471pt too wide) in paragraph at lines 362--363
  [][] 
  []
 
-[78] [79 <./figures/guest_application_documents.png> <./figures/techgen_applica
-tion_documents.png>]
+[82] [83 <./figures/guest_application_documents.png> <./figures/techgen_application_documents.png>]
 File: figures/guest_application_documents.png Graphic file (type png)
 <use figures/guest_application_documents.png>
-Package pdftex.def Info: figures/guest_application_documents.png  used on input
- line 285.
+Package pdftex.def Info: figures/guest_application_documents.png  used on input line 379.
 (pdftex.def)             Requested size: 428.42891pt x 204.84186pt.
 
-Overfull \hbox (12.87642pt too wide) in paragraph at lines 285--286
+Overfull \hbox (12.87642pt too wide) in paragraph at lines 379--380
  [][] 
  []
 
 File: figures/techgen_application_documents.png Graphic file (type png)
 <use figures/techgen_application_documents.png>
-Package pdftex.def Info: figures/techgen_application_documents.png  used on inp
-ut line 294.
+Package pdftex.def Info: figures/techgen_application_documents.png  used on input line 388.
 (pdftex.def)             Requested size: 427.9772pt x 204.84186pt.
 
-Overfull \hbox (12.42471pt too wide) in paragraph at lines 294--295
+Overfull \hbox (12.42471pt too wide) in paragraph at lines 388--389
  [][] 
  []
 
-[80] [81]
-<audit_trail.png, id=983, 1456.44125pt x 688.5725pt>
+[84] [85]
+<audit_trail.png, id=1037, 1456.44125pt x 688.5725pt>
 File: audit_trail.png Graphic file (type png)
 <use audit_trail.png>
-Package pdftex.def Info: audit_trail.png  used on input line 308.
+Package pdftex.def Info: audit_trail.png  used on input line 402.
 (pdftex.def)             Requested size: 373.99469pt x 176.8077pt.
-) [82 <./audit_trail.png>] (main.bbl [83
+) [86 <./audit_trail.png>] (main.bbl [87
 
 
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 381--390
-\OT1/cmtt/m/n/12 2014 [] -04 [] -27 [] -01 [] -59 [] -53 / republic [] -acts / 
-file / 288 [] -republic [] -act [] -no []
+\OT1/cmtt/m/n/12 2014 [] -04 [] -27 [] -01 [] -59 [] -53 / republic [] -acts / file / 288 [] -republic [] -act [] -no []
  []
 
-[84]
+[88]
 Underfull \hbox (badness 10000) in paragraph at lines 475--488
-\OT1/cmtt/m/n/12 uploads / 2014 / 04 / IP [] -Patents [] -and [] -Licences [] -
-Researcher [] -Booklet []
+\OT1/cmtt/m/n/12 uploads / 2014 / 04 / IP [] -Patents [] -and [] -Licences [] -Researcher [] -Booklet []
  []
 
-) [85]
+) [89]
 \openout2 = `appendix_A.aux'.
 
  (appendix_A.tex
@@ -1216,7 +1101,7 @@ Overfull \hbox (13.67651pt too wide) in paragraph at lines 18--27
  [][] 
  []
 
-[86
+[90
 
 
 ]
@@ -1234,7 +1119,7 @@ Overfull \hbox (13.67651pt too wide) in paragraph at lines 84--93
  [][] 
  []
 
-[87]
+[91]
 Overfull \hbox (13.67651pt too wide) in paragraph at lines 104--113
  [][] 
  []
@@ -1249,7 +1134,7 @@ Overfull \hbox (13.67651pt too wide) in paragraph at lines 145--154
  [][] 
  []
 
-) [88]
+) [92]
 \openout2 = `appendix_B.aux'.
 
  (appendix_B.tex
@@ -1259,7 +1144,7 @@ Overfull \hbox (13.67651pt too wide) in paragraph at lines 16--25
  [][] 
  []
 
-[89
+[93
 
 
 
@@ -1284,61 +1169,40 @@ Overfull \hbox (13.67651pt too wide) in paragraph at lines 106--121
  [][] 
  []
 
-[90]
+[94]
 Overfull \hbox (13.67651pt too wide) in paragraph at lines 133--146
  [][] 
  []
 
-) [91] (main.aux (title_page.aux) (abstract.aux) (chapter_1.aux) (chapter_2.aux
-) (chapter_3.aux) (chapter_4.aux) (appendix_A.aux) (appendix_B.aux))
+) [95] (main.aux (title_page.aux) (abstract.aux) (chapter_1.aux) (chapter_2.aux) (chapter_3.aux) (chapter_4.aux) (appendix_A.aux) (appendix_B.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 910266E67EF9D6BC31A3D4E7D2B81E5F;12191.
+(rerunfilecheck)             Checksum: 9F9496FFD50D9C649982E157BF90E192;12138.
  ) 
 Here is how much of TeX's memory you used:
- 15819 strings out of 474486
- 262804 string characters out of 5743755
+ 15899 strings out of 474486
+ 267478 string characters out of 5743755
  1943542 words of memory out of 5000000
- 37536 multiletter control sequences out of 15000+600000
+ 37599 multiletter control sequences out of 15000+600000
  570687 words of font info for 86 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 80i,10n,82p,1814b,852s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 80i,10n,82p,1883b,848s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exist
-, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist
-, replaced by a fixed one
+pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exist, replaced by a fixed one
 
 
-pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
-, replaced by a fixed one
+pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist, replaced by a fixed one
 
- <C:\Users\andry\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm12
-00.pk><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmbx12.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/typ
-e1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/andry/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/andry/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/andry/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/andry
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Use
-rs/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pf
-b><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmtt10.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
-fonts/cm/cmtt12.pfb>
-Output written on main.pdf (101 pages, 5312230 bytes).
+
+pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist, replaced by a fixed one
+
+ <C:\Users\andry\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/andry/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on main.pdf (105 pages, 5857623 bytes).
 PDF statistics:
- 1197 PDF objects out of 1200 (max. 8388607)
- 273 named destinations out of 1000 (max. 500000)
- 699 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1254 PDF objects out of 1440 (max. 8388607)
+ 288 named destinations out of 1000 (max. 500000)
+ 729 words of extra memory for PDF output out of 10000 (max. 10000000)
 
