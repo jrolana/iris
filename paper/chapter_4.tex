@@ -30,8 +30,8 @@ Whenever the deadline of the current status is due past, the system allows the t
     \caption{}
     \vspace{1cm}
 
-    \caption[Technology Generator Application View Page]{Technology Generator Application View Page on the perspective of a technology generator. 
-    The page shows more details about an IP right application such as list of attachments, co-applicants, current application stage, deadlines, and status changes.}
+    \caption[Technology Generator Application View Page]{Technology Generator Application View Page.   
+    The page shows more details about an IP right application such as list of attachments, co-applicants, current application stage, deadlines, and status changes on the perspective of a technology generator..}
     \label{fig:techgen_appview}                 
 \end{figure}
 
@@ -56,26 +56,6 @@ It is also seen in \figref{fig:techgen_view_attachmentC} that the system allows 
         \vspace{1cm}
     \end{subfigure}
 
-    % % (b)
-    % \begin{subfigure}[b]{\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{view_application/techgen_view_attachmentB.png}     
-    %     \caption{}
-    %     \label{fig:techgen_view_attachmentB}
-    %     \vspace{1cm}
-    % \end{subfigure}
-
-    % (c)
-    % \begin{subfigure}[c]{\textwidth}
-    %     \centering
-    %     \includegraphics[width=\textwidth]{view_application/techgen_view_attachmentC.png}     
-    %     \caption{}
-    %     \label{fig:techgen_view_attachmentC}
-    %     \vspace{2cm}
-    % \end{subfigure}
-
-    % \caption[Technology Generator Application Attachments View]{Technology Generator Application Attachments View. The page shows the attachments of an IP right application on the perspective of a technology generator.}
-    % \label{fig:techgen_attachments}                 
 \end{figure}
 
 \begin{figure}[H]
@@ -253,7 +233,7 @@ The page starts their IP right application into motion.
         \label{fig:new_applicationB}
     \end{subfigure}
 
-    \caption[New Application Page]{New Application Page. The page helps technology generators choose the right disclosure form and starts their IP right application.}
+    \caption[New Application Guide Page]{New Application Guide Page. The page helps technology generators choose the right disclosure form and starts their IP right application.}
     \label{fig:new_application}      
 
 \end{figure}
@@ -380,29 +360,64 @@ The User Management page is exclusively accessible to administrators. It provide
 \end{figure}
 
 \section{Application Registry}
-The Application Registry provides users with a quick overview of all IPs, allowing them to easily browse and reference relevant information. The registry is largely uniform across user roles, with some exceptions. Technology Generators do not require a separate registry since their applications are already accessible from the dashboard (\figref{fig:dashboard_techgen_table}). Admins have full control to manage IP rights, as illustrated in \figref{fig:registry_admin}, while UP officials and Guests have read-only access to view IP information (\figref{fig:registry_guest}). Guests have an additional constraint: they can request access to view more details about a specific IP, a feature planned but not yet implemented in the current prototype.
+The Application Registry provides users with a quick overview of all IPs, allowing them to easily browse and reference relevant information. 
+The registry is similar across user roles as seen in \figref{fig:registry}, but there are certain differences based on user roles. 
+\figref{fig:registry_techgen} shows that the technology generators can only see the applications that they are involved in. They also have an action button to view the details of each application in their registry.
+On the other hand, admins have total access, as illustrated in \figref{fig:registry_admin}, to all the IP portfolio of the system. Aside from viewing the details of each application, they can archive an application which hides the application from the registry but does not delete it from the system. 
+It is important to note that archived applications are not counted in the system's metrics, ensuring that the data reflects only active applications. 
 
-\begin{figure}[H]                
+Guests and UP Officials have a similar view of the registry which is a read-only access, as shown in \figref{fig:registry_guest_official}. 
+Guests can only see public applications while UP Officials can see all applications in the portfolio.
+
+\begin{figure}[H]
     \centering 
-    % (a)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.25]{admin_applications_registry.jpeg}     
+        \includegraphics[scale=0.25]{app_registry/techgen_registry.png}     
+        \caption{}
+        \label{fig:registry_techgen}
+        \vspace{1cm}
+    \end{subfigure}
+
+\end{figure}
+
+\begin{figure}[H]
+    \ContinuedFloat % Tells LaTeX to continue the subfigure lettering (c) and keep the same main Figure number
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.25]{app_registry/admin_registry.png}     
         \caption{}
         \label{fig:registry_admin}
         \vspace{1cm}
     \end{subfigure}
+    
 
-    % (b)
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \includegraphics[scale=0.25]{guest_applications_registry.jpeg}     
+        \includegraphics[scale=0.25]{app_registry/guest_official_registry.png}     
         \caption{}
-        \label{fig:registry_guest}
+        \label{fig:registry_guest_official}
     \end{subfigure}
 
-    \caption[Application Registry Views]{Application Registry views. (a) Admin view with full management capabilities. (b) UP Officials and Guests have read-only access to IP information.}
+    \caption[Application Registry Views]{Application Registry. It is shown here that different user roles have varying levels of access and functionality.}
     \label{fig:registry}
+\end{figure}
+
+\subsubsection{Application Registry Filters and Sorting}
+The application registry includes a filtering system that allows users to easily find specific applications based on various criteria as shown in \figref{fig:registry_filters}.
+The filters include status, IP type, college names, names of technology generators, IP title, and project title.
+The filters are available for all user roles, however, the guests cannot filter by status as this information is not available to them. 
+On top of that, the application registry also supports sorting functionality to help users organize and prioritize their search results.
+The sorting options include sorting by filing date, IP title, registration date, date added, and date.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{app_registry/app_registry_filter.png}     
+    \caption[Application Registry Filters]{Application Registry Filters. 
+    The filters allow users to easily find specific applications based on various criteria such as application status, IP type, and college names.
+    The users can also sort the applications based on filing date, IP title, registration date, date added, and date updated.}
+    \label{fig:registry_filters}
 \end{figure}
 
 \section{Application Documents}
