@@ -1,1 +1,13 @@
 paper/main.pdf
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.toc
+paper/*.synctex.gz
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.lof
+paper/*.lot
+paper/*.blg
+paper/*.bbl
+paper/*.nav

@@ -50,6 +50,8 @@ OS & Windows 10, 11 & Development environment \\
 \hline
 Browsers & Google Chrome, Microsoft Edge & Testing and compatibility checks \\
 \hline
+Testing & Playwright Test & Automated end-to-end testing \\
+\hline
 \end{tabular}
 \end{table}
 \endgroup
@@ -57,7 +59,7 @@ Browsers & Google Chrome, Microsoft Edge & Testing and compatibility checks \\
 Visual Studio Code serves as the primary Integrated Development Environment (IDE), enabling efficient writing, editing, and debugging of code. Supabase is used for database management, supporting the modeling and handling of system data. For visual design needs, Figma and Canva are used to create UI/UX layouts, prototypes, and system diagrams.
 
 GitHub serves as a version control platform, enabling source code management and collaboration among developers. The development environment runs on Windows 10 and Windows 11, while Google Chrome and Microsoft Edge are used to test the system’s compatibility and performance across different browsers.
-
+Playwright Test is utilized for automated end-to-end testing, ensuring the system functions correctly under various scenarios.
 
 \subsubsection{Hardware Specifications}
 The following hardware specifications outline the minimum requirements used during development and testing. 
@@ -117,15 +119,15 @@ Data was gathered through multiple methods to ensure an accurate understanding o
 
 \subsection{Functional Requirements}
 
-The functional requirements (FRs) of IRIS define the specific system behaviors, capabilities, and interactions necessary to address the inefficiencies of TTBDO’s current manual IP management process. These requirements translate the project objectives into specific system behaviors and are organized into seven key functional areas namely: authentication, application submission, application tracking, dashboards, notifications, document management, and public access. 
+The functional requirements (FRs) of IRIS defined the specific system behaviors, capabilities, and interactions that addressed the inefficiencies of TTBDO’s current manual IP management process. These requirements translated the project objectives into specific system behaviors and are organized into seven key functional areas namely: authentication, application submission, application tracking, dashboards, notifications, document management, and public access. 
 
-For authentication, the system will require all users to authenticate before accessing internal features and will implement role-based access control. In the submission of applications, IRIS will allow users to guide users in selecting the IDFs by IP type and enable review of IP-related documents. The system will also log timestamps whenever application statuses are updated.
+For authentication, the system requires all users to authenticate before accessing internal features and implements role-based access control. In the submission of applications, IRIS guides users in selecting the IDFs by IP type and enables review of IP-related documents. The system also logs timestamps whenever application statuses are updated.
 
-The application tracking functionality will maintain a registry of applicants and their submissions, allow authorized users to search and review submission histories, and support filtered and faceted searches over the registry. Dashboards and reporting will provide real-time statistics, trends, and breakdowns, with options to generate and export reports in both machine and human-readable formats.
+The application tracking functionality maintains a registry of applicants and their submissions, allows authorized users to search and review submission histories, and supports filtered and faceted searches over the registry. Dashboards and reporting provide real-time statistics, trends, and breakdowns, with options to generate and export reports in both machine and human-readable formats.
 
-In terms of notifications, the system will send in-app alerts for application status changes or approaching deadlines, allow users to configure notification preferences, and maintain a notification history for each user. The document management capabilities will enable TTBDO staff to upload and securely store supporting documents linked to application records, with access enforced according to user roles.
+In terms of notifications, the system sends in-app alerts for application status changes or approaching deadlines and maintains a notification history for each user. The deadline notifications are also automatically emailed to all collaborators and the admin, which follows three tiers: a week before the deadline, three days before, and on the deadline itself. The deadline for the annual fees of Patent and Trademark IP types are also automatically sent by the system, following the same notification schedule. The document management capabilities enable the TTBDO staff to upload and securely store supporting documents linked to application records, with access enforced according to user roles.
 
-Finally, the public portal will provide read-only access for guest users to browse published IPs, display summary statistics, and, where appropriate, allow document access requests via a public form.
+Finally, the public portal provides read-only access for guest users to browse published IPs, display summary statistics, and publicly available IDF documents.
 
 The complete set of functional requirements, including all detailed specifications, is provided in Appendix~\ref{sec:appendixa} (Tables~\ref{tab:fr_auth_roles}--\ref{tab:fr_public_portal}).
 
@@ -133,13 +135,13 @@ The complete set of functional requirements, including all detailed specificatio
 
 Non-functional requirements (NFRs) define the standards that IRIS must meet for performance, security, reliability, usability, maintainability, and compliance. NFRs are critical for a system handling sensitive IP data, serving diverse users with varying technical skills, and maintaining public trust through consistent availability.
 
-In terms of performance, IRIS is expected to return 95\% of requests within two seconds under normal load and support at least 100 concurrent users. For security, the system will encrypt all traffic using TLS 1.2 or higher and enforce role-based access control.
+In terms of performance, IRIS is expected to return 95\% of requests within two seconds under normal load and support at least 100 concurrent users. For security, the system will encrypt all traffic using TLS 1.2 or higher and enforce role-based access control. To meet this requirement, the system is built with Supabase framework, which has built-in authentication and access control features. Moreover, the Supabase framework protects all data with encryption of TLS 1.2+ and AES-256 for data at rest.
 
 Regarding reliability and availability, IRIS is designed to achieve 99.5\% uptime during business hours, recover to the last stable state within four hours in case of failure, and perform daily backups stored in two separate locations. Usability and accessibility considerations include a responsive web interface for desktop, consistent UI and navigation patterns, meaningful error messages, and compliance with WCAG 2.1 Level AA accessibility standards. 
 
-For maintainability, portability, and scalability, the system will follow a modular design with separation of concerns, include developer and API documentation, support deployment across multiple environments and horizontal scaling.
+For maintainability, portability, and scalability, the system followed a modular design with separation of concerns, included API implementation for interoperability, and deployed to run across multiple environments.
 
-Finally, compliance and legal requirements ensure that IRIS adheres to the Philippine Data Privacy Act of 2012, retains records according to UP and IPOPHL retention policies, and can export logs and reports in standard formats. 
+Finally, IRIS adheres to the Philippine Data Privacy Act of 2012, retains records according to UP and IPOPHL retention policies, and can export logs and reports in standard formats. 
 
 Appendix~\ref{sec:appendixb} (Tables~\ref{tab:nfr_performance}--\ref{tab:nfr_compliance}) provides the complete set of non-functional requirements. The main text above lists only mandatory SHALL requirements; additional SHOULD and MAY requirements are included in the appendix.
 
@@ -163,7 +165,7 @@ The TTBDO Admins are the key stakeholders of the system, and as such have full a
 
 The Tech Generators, or the university researchers and IPR applicants, have the primary interaction of overseeing the current status of the IPs related to them. That is, if they are a member of the tech generators of a certain IP. They can also access and file disclosure forms to start their IPR application. The Tech Generators are notified by the system every time there is a status change to their IPR, may it is in the process of applying or while maintaining their rights to it. Aside from this, they also have viewing privileges to the IP portfolio summary and the published IPs of the university.
 
-\subsubsection{UP Officials and Guests.}
+\subsubsection{UP Officials and Guests}
 
 These stakeholders in the system only have viewing capabilities with the IP portfolio summary as well as the published IPs of the university. The UP officials, however, have extended privileges to have an overview of the unpublished IPs or the ongoing IPR applications.
 
@@ -179,7 +181,7 @@ These stakeholders in the system only have viewing capabilities with the IP port
     \label{fig:db_design}
 \end{figure}
 
-\subsection{Use Case Diagram}
+\subsection{Use Case Diagram}\label{sec:us_diagram}
 The following figures illustrate each use case diagram for each user of the system. It shows the functionalities available for each type of user, their interaction with the system, and their particular use cases they have for the system.
 
 It is shown in \figref{fig:uc_guest} that the Guests' only use case for the system is to view the published IPs of the university and to see its IP portfolio summary. It could be for research purposes or to get an overview of the IP-generation power of the university. It is shown in \figref{fig:uc_official} that the UP Officials have an extended use case where they want to view the entire IP portfolio of the university, including unpublished IPs. With this, they have to authenticate with the system first, adding another use case with the system.
@@ -283,17 +285,76 @@ Figures \ref{fig:copyright_seqA} \& \ref{fig:copyright_seqB} illustrates the cop
 
 \section{Testing and Evaluation}
 
-\subsubsection{Testing Approach}
+\subsection{Testing Approach}
 
-The system will undergo Performance Testing, Penetration Testing, and User Acceptance Testing to validate functional and non-functional requirements (FRs and NFRs, listed in Appendix~\ref{sec:appendixa} and \ref{sec:appendixb}).
+The system underwent Penetration Testing, User Acceptance Testing, and Automated End-to-End Testing to validate functional and non-functional requirements (FRs and NFRs, listed in Appendix~\ref{sec:appendixa} and \ref{sec:appendixb}).
 
-Performance testing will evaluate system responsiveness and stability to validate NFR-01 (95\% of requests within 2 seconds). Testing will focus on application submission (FR-03 to FR-06), dashboard access (FR-10), and search functionality (FR-08 to FR-09), measuring page load times and response rates under normal usage conditions.
+\subsection{Penetration Testing}
+Penetration testing validated if the system implemented FR-02 and NFR-04 (role-based access control). The tests attempted unauthorized access to restricted functions by simulating users accessing features outside their assigned roles, such as Applicant users attempting to access TTBDO document upload functions (FR-15). Input validation was tested by submitting malicious or unexpected data to verify that security mechanisms properly sanitize inputs and prevent unauthorized access.
 
-Penetration testing will validate FR-02 and NFR-04 (role-based access control). Tests will attempt unauthorized access to restricted functions by simulating users accessing features outside their assigned roles, such as Applicant users attempting to access TTBDO document upload functions (FR-15). Authentication (FR-01) will be tested by attempting access to protected routes without valid credentials. Input validation will be tested by submitting malicious or unexpected data to verify that security mechanisms properly sanitize inputs and prevent unauthorized access.
 
-User Acceptance Testing will involve end-users from each role (TTBDO staff, applicants, UP officials) completing representative tasks: application submission and document review (FR-03 to FR-06), applicant tracking (FR-07 to FR-08), notifications (FR-12 to FR-14), and dashboard reporting (FR-10 to FR-11). The responsive interface (NFR-09) will be tested across desktop devices, and navigation consistency (NFR-10) will be assessed through user feedback on interface clarity and ease of use.
+\subsection{User Acceptance Testing}
+User Acceptance Testing involved end-users from each role (TTBDO staff, applicants, UP officials) that completed representative tasks: application submission and document review (FR-03 to FR-06), applicant tracking (FR-07 to FR-08), notifications (FR-12 to FR-14), and dashboard reporting (FR-10 to FR-11). The responsive interface (NFR-09) was tested across desktop devices, and navigation consistency (NFR-10) was assessed through user feedback on interface clarity and ease of use.
 
-\subsubsection{Evaluation Criteria}
+\subsection{Automated Testing}
+The Playwright Test framework was used to automate the end-to-end tests of the system. 
+The tests were written to simulate real-life use-case scenarios, and the diagrams from section \ref{sec:us_diagram} were used as a foundation to derive the tests; as such, 31 use-case tests were identified. 
+The tests were divided by user roles, and another group of tests was created to verify that users can access only the routes they are allowed to as described by the authentication FR (FR-01). 
+The tests were defined as followed:
+\begin{itemize}
+    \item \textbf{Technology Generator}
+    \begin{itemize}
+        \item Shows the techgen dashboard updates and summary cards.
+        \item Filters the registry and opens an application from the results.
+        \item Shows application details, collaborator states, owned files, and version history.
+        \item Lets a techgen request a status update when an application is overdue.
+        \item Files a collaborator report only after confirmation.
+        \item Auto-links an unverified collaborator after confirmation.
+        \item Views an existing file and uploads a new attachment through the modal flow.
+        \item Uploads a new file version instead of replacing the existing one.
+        \item Creates a new application after confirmation and keeps collaborators visible in the detail page.
+        \item Shows techgen notifications and lets the user clear unread reminders.
+    \end{itemize}
+
+    \item \textbf{TTBDO Admin}
+    \begin{itemize}
+        \item Manages dashboard exports, year filters, and status update requests.
+        \item Handles attachment actions and links tech generator accounts.
+        \item Edits application details, updates status, and withdraws applications.
+        \item Views collaborator reports and removes a tech generator.
+        \item Invites a new user from user management.
+        \item Approves user registration requests.
+        \item Rejects user registration requests.
+        \item Generates and copies an API token.
+        \item Creates a new application from the registry through the guided wizard.
+        \item Validates required start-application inputs and supports manual collaborators.
+    \end{itemize}
+
+    \item \textbf{Guest}
+    \begin{itemize}
+        \item Shows only public applications in the registry.
+        \item Filters and sorts the public registry without exposing private applications.
+        \item Lets guests request registration and validates UP mail signups.
+    \end{itemize}
+
+    \item \textbf{UP-Official}
+    \begin{itemize}
+        \item Shows the dashboard for evaluating the university IP portfolio.
+        \item Shows all applications in the registry regardless of public status.
+        \item Filters registry results.
+        \item Sorts the registry alphabetically by IP title.
+    \end{itemize}
+
+    \item \textbf{Routing}
+    \begin{itemize}
+        \item Redirects unauthenticated users away from protected pages.
+        \item Keeps admins inside admin routes.
+        \item Keeps techgens inside techgen routes.
+        \item Keeps UP officials inside up-official routes.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Evaluation Criteria}
 
 The evaluation of the system focuses on key aspects aligned with the Testing Approach to ensure overall effectiveness and readiness.
 
