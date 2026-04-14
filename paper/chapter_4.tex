@@ -536,7 +536,9 @@ As shown in \figref{fig:api_integration}, the dummy external system successfully
 \section{Testing}
 Add manual tests here (i.e., the gforms).
 
-On top of that, automated end-to-end tests were written for the use-case features of the system.
+On top of that, end-to-end tests were written for the features of the system.
+The goal for the end-to-end tests is to ensure that the system works as expected from the perspective of the users, and to catch any bugs or issues that may arise during the development process.
+Furthermore, the tests served as simulation of real-world scenarios, thus focused more on use-case scenarios while ensuring the components work as intended.
 
 \subsection{Penetration Testing}
 
@@ -544,7 +546,7 @@ On top of that, automated end-to-end tests were written for the use-case feature
 
 \subsection{End-to-End Testing}
 The Playwright framework was utilized to evaluate the end-to-end tests of the system. 
-There were 31 use-case tests written, and on the final version of the test run, it failed on one case as shown in \figref{fig:test_fail}.
+There were 31 test scripts were written, each directly derived from the system's use-case scenarios. In the final version of the test suite, a test run showed a high success rate but failed on one test case as shown in \figref{fig:test_fail}.
 
 \begin{figure}[H]
     \centering
