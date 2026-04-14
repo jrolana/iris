@@ -517,14 +517,14 @@ On top of that, automated end-to-end tests were written for the use-case feature
 
 \subsection{Usability Testing}
 
-\subsection{Automated Testing}
+\subsection{End-to-End Testing}
 The Playwright framework was utilized to evaluate the end-to-end tests of the system. 
 There were 31 use-case tests written, and on the final version of the test run, it failed on one case as shown in \figref{fig:test_fail}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{tests/test_fail.png}
-    \caption{Failed Test Case. A failed test case in the automated test suite regarding UI mismatch.}
+    \caption{Failed Test Case. A failed test case in the end-to-end test suite regarding UI mismatch.}
     \label{fig:test_fail}
     \vspace{1cm}
 \end{figure}
@@ -565,6 +565,6 @@ The test failed on a UI mismatch and was eventually fixed through modifications 
         \label{fig:test_summaryC}
     \end{subfigure}
 
-    \caption[Test Summary]{Summary of automated test results. The figures show the test outcomes for different scenarios, produced by the Playwright Tests framework.}
+    \caption[Test Summary]{Summary of end-to-end test results. The figures show the test outcomes for different scenarios, produced by the Playwright Tests framework.}
     \label{fig:test_summary}
 \end{figure}
