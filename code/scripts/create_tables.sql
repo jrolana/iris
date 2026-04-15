@@ -323,6 +323,7 @@ CREATE TABLE private.reports (
   reporter_name text null,
   subject_name text not null,
   created_at timestamp with time zone DEFAULT now(),
+  is_resolved boolean DEFAULT FALSE,
 
   CONSTRAINT reports_pkey PRIMARY KEY (id),
 
