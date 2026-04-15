@@ -101,11 +101,20 @@ function ViewInventors(props: ViewInventorsProps) {
             </p>
           </>
         ) : (
-          <p className="mt-2 text-sm text-gray-500">
-            You can try to file a report <b>once</b> for issues and concerns on
-            a tech gen. For further concerns, please coordinate with TTBDO
-            directly.
-          </p>
+          <>
+            <button
+              type="button"
+              onClick={() => {}}
+              className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
+            >
+              Add technology generator
+            </button>
+            <p className="mt-2 text-sm text-gray-500">
+              You can try to file a report <b>once</b> for issues and concerns
+              on a tech gen. For further concerns, please coordinate with TTBDO
+              directly.
+            </p>
+          </>
         )}
       </div>
     </>
