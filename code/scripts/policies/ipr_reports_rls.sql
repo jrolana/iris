@@ -18,4 +18,11 @@ WITH CHECK (
   AND private.check_inventor_access(application_id)
 );
 
--- no update (since it is always one to one) and delete policies
+
+CREATE POLICY "Admin can update reports"
+ON private.reports FOR UPDATE TO authenticated
+WITH CHECK (
+  private.is_admin()
+);
+
+-- delete policies

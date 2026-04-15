@@ -7,9 +7,12 @@ import Button from "../ui/button/Button";
 import { InventorType } from "@/lib/types/application";
 import { toast } from "sonner";
 import { ReportType } from "@/lib/types/reports";
+import { cn } from "@/lib/utils";
+import { useResolveReport } from "@/hooks/reports/useResolveReport";
 
 export default function InventorReportsModal() {
-  const { isOpen, closeModal, reports } = useInventorViewReportsModal();
+  const { isOpen, closeModal, reports, setReports } =
+    useInventorViewReportsModal();
   const confirm = useConfirm();
 
   const subjectName =
@@ -51,6 +54,7 @@ export default function InventorReportsModal() {
         subjectId={subjectId}
         onRemoveInventor={onRemoveInventor}
         isDeleting={isDeleting}
+        setReports={setReports}
       />
     </Modal>
   );
@@ -76,12 +80,39 @@ interface ReportsContentProps {
     subjectName: InventorType["Row"]["full_name"],
     subjectId: InventorType["Row"]["id"],
   ) => void;
+  setReports: (reports: ReportType["Row"][]) => void;
   isDeleting: boolean;
 }
 
 function ReportsContent(props: ReportsContentProps) {
-  const { reports, subjectName, subjectId, onRemoveInventor, isDeleting } =
-    props;
+  const {
+    reports,
+    subjectName,
+    subjectId,
+    onRemoveInventor,
+    setReports,
+    isDeleting,
+  } = props;
+
+  const isAllResolved = reports
+    ? reports.every((report) => report.is_resolved)
+    : true;
+
+  const { resolveReport, isLoading: isResolving } = useResolveReport();
+
+  async function handleResolveReport(reportId: string) {
+    toast.promise(resolveReport({ reportId }), {
+      loading: `Resolving report...`,
+      success: `Report has been resolved.`,
+    });
+    // Update the local state to mark the report as resolved
+    const updatedReports = reports
+      ? reports.map((report) =>
+          report.id === reportId ? { ...report, is_resolved: true } : report,
+        )
+      : [];
+    setReports(updatedReports);
+  }
 
   return (
     <div className="w-full max-w-lg min-w-[85vw] px-10 sm:max-h-[90vh] sm:w-[80vh] sm:min-w-[400px]">
@@ -90,7 +121,10 @@ function ReportsContent(props: ReportsContentProps) {
           {reports.map((report) => (
             <li
               key={report.id}
-              className="flex flex-col rounded-lg border border-slate-200 bg-white p-4 text-left shadow-sm transition-shadow hover:shadow-md"
+              className={cn(
+                "flex flex-col rounded-lg border border-slate-200 bg-white p-4 text-left shadow-sm transition-shadow hover:shadow-md",
+                report.is_resolved ? "opacity-50" : "opacity-100",
+              )}
             >
               <div className="mb-2 flex flex-col items-center justify-between sm:flex-row sm:items-center sm:gap-4 sm:align-middle">
                 <p className="font-semibold text-slate-800">
@@ -103,6 +137,17 @@ function ReportsContent(props: ReportsContentProps) {
               <p className="text-balanced text-sm leading-relaxed text-slate-600 sm:text-left">
                 {report.content}
               </p>
+              <div className="item-start flex w-full">
+                <Button
+                  className="mt-10 h-8 py-0 hover:bg-slate-100"
+                  disabled={report.is_resolved || isResolving}
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleResolveReport(report.id)}
+                >
+                  Resolve
+                </Button>
+              </div>
             </li>
           ))}
         </ul>
@@ -115,7 +160,12 @@ function ReportsContent(props: ReportsContentProps) {
       <Button
         onClick={() => onRemoveInventor(subjectName!, subjectId!)}
         disabled={
-          isDeleting || !subjectName || !subjectId || reports?.length === 0
+          isDeleting ||
+          !subjectName ||
+          !subjectId ||
+          reports?.length === 0 ||
+          isAllResolved ||
+          isResolving
         }
         className="mt-6 h-10 w-full border bg-rose-500 font-medium text-white transition-colors hover:border-rose-500 hover:bg-white hover:text-rose-600 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-200 disabled:text-slate-400"
       >
