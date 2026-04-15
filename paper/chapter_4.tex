@@ -12,7 +12,7 @@ Registered users can sign in only if their Google email is already recorded in t
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{authentication/signin.png}     
-    \caption[Sign-in Page]{Sign-in page for registered users using Google-based authentication.}
+    \caption[Sign-in Page]{Sign-in Page. The page allows registered users to access IRIS through Google-based authentication and redirects authenticated users to the homepage associated with their assigned role.}
     \label{fig:signin}                 
 \end{figure}
 
@@ -24,28 +24,28 @@ Once the administrator approves a request or sends an invitation, the user recei
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{authentication/signup.png}     
-    \caption[Sign-up Page]{Sign-up page for submitting a registration request for administrator approval.}
+    \caption[Sign-up Page]{Sign-up Page. The page allows unregistered users to submit a registration request for administrator approval before they can access IRIS.}
     \label{fig:signup}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{user_management/invite_user.png}     
-    \caption[Invite User Page]{Administrator interface for inviting a user and assigning a system role.}
+    \caption[Invite User Page]{Invite User Page. This administrator interface allows a user to be invited by entering the user's email address and assigning a system role.}
     \label{fig:invite_user}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{authentication/email_invite_link.png}     
-    \caption[Email Invite Link]{Email notification containing the time-limited invite link for account access.}
+    \caption[Email Invite Link]{Email Invite Link. This email notification contains the 24-hour invite link sent to an approved or invited user for account access.}
     \label{fig:email_invite_link}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{authentication/welcome_page.png}     
-    \caption[Welcome Page]{Welcome page shown before redirecting the user to the homepage of their assigned role.}
+    \caption[Welcome Page]{Welcome Page. The page is shown after a user opens a valid invite link and confirms entry into IRIS before redirecting the user to the homepage associated with their assigned role.}
     \label{fig:welcome_page}                 
 \end{figure}
 
@@ -151,7 +151,7 @@ This feature provides technology generators with a formal way to follow up delay
     \begin{subfigure}{0.98\textwidth}
         \centering
         \includegraphics[width=\linewidth,height=0.36\textheight,keepaspectratio]{status_update_request/to_request.png}
-        \caption{Available request action for overdue statuses.}
+        \caption{}
         \label{fig:status_request_to_request}
     \end{subfigure}
 
@@ -160,7 +160,7 @@ This feature provides technology generators with a formal way to follow up delay
     \begin{subfigure}{0.98\textwidth}
         \centering
         \includegraphics[width=\linewidth,height=0.36\textheight,keepaspectratio]{status_update_request/requested.png}
-        \caption{Submitted request awaiting administrative review.}
+        \caption{}
         \label{fig:status_request_requested}
     \end{subfigure}
 \end{figure}
@@ -172,11 +172,11 @@ This feature provides technology generators with a formal way to follow up delay
     \begin{subfigure}{0.98\textwidth}
         \centering
         \includegraphics[width=\linewidth,height=0.76\textheight,keepaspectratio]{status_update_request/acknowledged_techgen.png}
-        \caption{Acknowledged request after TTBDO admin review.}
+        \caption{}
         \label{fig:status_request_acknowledged_techgen}
     \end{subfigure}
 
-    \caption[Status Update Request Sequence]{Technology generator status update request flow.}
+    \caption[Status Update Request Sequence]{Status Update Request Sequence. This figure shows the technology generator status update request flow: (a) the available follow-up action for an overdue application status, (b) the submitted request awaiting TTBDO admin review, and (c) the acknowledged request after administrative review.}
     \label{fig:status_update_request}
 \end{figure}
 \clearpage
@@ -250,8 +250,7 @@ Certain steps that require deadlines are automatically calculated by the system,
     \centering 
 
     \includegraphics[width=0.98\textwidth,height=0.82\textheight,keepaspectratio]{view_application/admin_status_update.png}     
-    \caption[TTBDO Admin Application Status Update View]{TTBDO Admin Application Status Update View. This section of the page shows the interface for updating the status of an IP right application from the perspective of a TTBDO admin.
-    } 
+    \caption[TTBDO Admin Application Status Update View]{TTBDO Admin Application Status Update View. This section of the page shows the interface for updating the status of an IP right application from the perspective of a TTBDO admin.}
     \label{fig:admin_status_update}  
 
 \end{figure}
@@ -264,8 +263,7 @@ They are responsible for inputting the IP number, filing date, and IP title when
     \centering 
 
     \includegraphics[width=0.98\textwidth,height=0.82\textheight,keepaspectratio]{view_application/admin_view_app_details.png}     
-    \caption[TTBDO Admin Application Details Update View]{TTBDO Admin Application Details Update View. This section of the page shows the interface for updating the details of an IP right application from the perspective of a TTBDO admin.
-    } 
+    \caption[TTBDO Admin Application Details Update View]{TTBDO Admin Application Details Update View. This section shows the interface for updating the details of an IP right application from the perspective of a TTBDO admin.} 
     \label{fig:admin_app_details_update}  
 
 \end{figure}
@@ -279,14 +277,14 @@ Once submitted, the request appears in the admin notification dropdown and in th
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.75\textwidth]{status_update_request/dropdown.png}     
-    \caption[Status Update Request Dropdown]{Status update request dropdown showing follow-up requests submitted by technology generators.}
+    \caption[Status Update Request Dropdown]{Status Update Request Dropdown. This shows newly submitted follow-up requests from technology generators and allows TTBDO admins to identify applications that require attention due to overdue statuses.}
     \label{fig:status_update_request_dropdown}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{status_update_request/view_all.png}     
-    \caption[Status Update Requests Page]{Status Update Requests page showing the complete list of follow-up requests for administrator review.}
+    \caption[Status Update Requests Page]{Status Update Requests Page. The page shows the complete list of follow-up requests submitted by technology generators and allows TTBDO admins to review and acknowledge overdue application concerns.}
     \label{fig:status_update_requests}                 
 \end{figure}
 
@@ -296,16 +294,18 @@ Once submitted, the request appears in the admin notification dropdown and in th
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[scale=0.3]{status_update_request/specific_application_view.png}     
-        \caption{Pending status update request in the application record.}
+        \caption{}
+        \label{fig:status_request_pending_admin}
     \end{subfigure}
 
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[scale=0.3]{status_update_request/acknowledged_admin.png}     
-        \caption{Administrative acknowledgement of the submitted request.}
+        \caption{}
+        \label{fig:status_request_acknowledged_admin}
     \end{subfigure}
 
-    \caption[Status Update Request in Application View]{Status update request handling in the application view.}
+    \caption[Status Update Request in Application View]{Status Update Request in Application View. This figure shows status update request handling in the application view: (a) the pending request state before TTBDO admin acknowledgement and (b) the acknowledged request state after TTBDO admin review.}
     \label{fig:status_update_request_application_view}                 
 \end{figure}
 
@@ -340,7 +340,7 @@ This page allows users to begin their IP right application.
         \label{fig:new_applicationB}
     \end{subfigure}
 
-    \caption[New Application Guide Page]{New Application Guide Page. The page helps technology generators choose the right disclosure form and starts their IP right application.}
+    \caption[New Application Guide Page]{New Application Guide Page. The page helps technology generators choose the appropriate disclosure form and start their IP right application.}
     \label{fig:new_application}
 \end{figure}
 \clearpage
@@ -408,7 +408,7 @@ The notification dropdown appears when an authenticated user selects the bell ic
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.75\textwidth]{notification/notification_dropdown.png}     
-    \caption[Notification Dropdown]{Notification dropdown showing recent application-related notifications from the top bar bell icon.}
+    \caption[Notification Dropdown]{Notification Dropdown. This shows recent application-related notifications from the top bar bell icon and gives authenticated users quick access to updates such as status changes, attachment activity, and other application events.}
     \label{fig:notification}                 
 \end{figure}
 
@@ -417,10 +417,9 @@ Users can also open the View All Notifications page to see all notifications ass
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{notification/notification_view_all.png}     
-    \caption[View All Notifications Page]{View All Notifications page showing read and unread notifications with bulk mark-as-read support.}
+    \caption[View All Notifications Page]{View All Notifications Page. The page shows the complete list of notifications associated with the user's account, separates read and unread notifications, and provides a bulk mark-as-read function.}
     \label{fig:view_all_notifications}                 
 \end{figure}
-
 
 \subsubsection{Automatic Deadline Notifications}
 The system automatically sends notifications to the TTBDO admin and collaborators of the concerned application when a deadline is approaching.
@@ -457,7 +456,6 @@ The automatic notifications are sent both in-app and via email as shown in \figr
 The Dashboard page provides summary reports and visual representations of IP application data in IRIS. The dashboard view differs depending on the user's role.
 
 For guests, administrators, and UP officials, the dashboard presents an overall IP portfolio overview. Users can select a reporting period, filter the displayed results by year range, and export the report as either a CSV or PDF file. The dashboard includes the grant rate, portfolio status overview, charts showing application distributions and yearly trends by status, non-grant outcomes, and a summary table for the selected reporting period.
-
 
 \clearpage
 \begin{figure}[H]
@@ -500,18 +498,17 @@ For guests, administrators, and UP officials, the dashboard presents an overall 
         \label{fig:dashboard_generalD}
     \end{subfigure}
 
-    \caption[General Dashboard View]{General dashboard view divided into four captured sections: filters and export controls, IP portfolio overview, trend visualizations, and summary table.}
+    \caption[General Dashboard View]{General Dashboard View. This view shows the reporting period filters, export controls, IP portfolio overview, IP type distributions by application status, yearly trends for filed, pending, and granted applications, non-grant outcomes, and summary table for guests, TTBDO admins, and UP officials.}
     \label{fig:dashboard_general}
 \end{figure}
 \clearpage
-
 
 For technology generators, the dashboard displays metrics based only on their own IP applications. It includes the total number of applications, filed applications, pending applications, granted applications, withdrawn applications, and downgraded applications. The page also presents breakdowns of the technology generator's applications by IP type and by year. This allows technology generators to monitor the status and distribution of their submitted applications.
 
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{dashboard/techgen.png}  
-    \caption[Technology Generator Dashboard View]{Technology generator dashboard view showing application metrics and breakdowns based on the user's own IP applications.}
+    \caption[Technology Generator Dashboard View]{Technology Generator Dashboard View. This view shows application metrics, the latest status of each application owned by the user, and breakdowns based on the user's own IP applications.}
     \label{fig:dashboard_techgen}                 
 \end{figure}
 
@@ -523,14 +520,14 @@ The User Details table lists registered users and their relevant account informa
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{user_management/user_details.png}     
-    \caption[User Details Table]{User Details table showing registered users and their account information.}
+    \caption[User Details Table]{User Details Table. This table shows registered IRIS users and their account information. It allows administrators to review existing users and access the invite user function for adding new users by email address and assigned role.}
     \label{fig:user_details}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{user_management/invite_user.png}     
-    \caption[Invite User Button]{Invite user button for adding users by email address and assigned role.}
+    \caption[Invite User]{Invite User Interface. This interface allows administrators to add a user by entering an email address and assigning a system role. Once invited, the user receives a time-limited invite link for account access.}
     \label{fig:invite_user_button}                 
 \end{figure}
 
@@ -539,7 +536,7 @@ The User Registration Requests table displays submitted registration requests, i
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{user_management/registration_requests.png}     
-    \caption[User Registration Requests Table]{User Registration Requests table showing pending requests and administrator actions for approval or rejection.}
+    \caption[User Registration Requests Table]{User Registration Requests Table. This table shows pending sign-up requests submitted by unregistered users. Administrators can review the user's name, email address, and college, modify the assigned role if needed, and approve or reject the request.}
     \label{fig:user_registration_requests}                 
 \end{figure}
 
@@ -586,7 +583,7 @@ Guests can only see public applications while UP Officials can see all applicati
         \label{fig:registry_guest_official}
     \end{subfigure}
 
-    \caption[Application Registry Views]{Application Registry. It is shown here that different user roles have varying levels of access and functionality.}
+    \caption[Application Registry Views]{Application Registry Views. This figure shows the different levels of access and functionality available to technology generators, TTBDO admins, guests, and UP officials.}
     \label{fig:registry}
 \end{figure}
 \clearpage
@@ -602,9 +599,7 @@ The sorting options include sorting by filing date, IP title, registration date,
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{app_registry/app_registry_filter.png}     
-    \caption[Application Registry Filters]{Application Registry Filters. 
-    The filters allow users to easily find specific applications based on various criteria such as application status, IP type, and college names.
-    The users can also sort the applications based on filing date, IP title, registration date, date added, and date updated.}
+    \caption[Application Registry Filters]{Application Registry Filters. The filters allow users to find specific applications based on criteria such as application status, IP type, college name, technology generator name, IP title, and project title. Users can also sort applications by filing date, IP title, registration date, date added, and date updated.}
     \label{fig:registry_filters}
 \end{figure}
 
@@ -616,13 +611,12 @@ The page also includes a start application call-to-action button. When selected 
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{application_documents.png}     
-    \caption[Application Documents Page]{Application Documents Page. The page lists the relevant IP disclosure forms for each IP type and provides a start application button for guests and technology generators.}
+    \caption[Application Documents Page]{Application Documents Page. The page shows the available IP disclosure forms for each IP type, provides a centralized reference for required application documents, and includes a start application button.}
     \label{fig:documents}
 \end{figure}
 
 \subsection{Application Guide}
 The Application Guide page provides step-by-step instructions and full application flow charts for the IP application process. The guide content is the same for guests and technology generators. Its call-to-action button redirects guests to the sign-in page and redirects technology generators to the new application page.
-
 
 \clearpage
 \begin{figure}[H]
@@ -644,11 +638,10 @@ The Application Guide page provides step-by-step instructions and full applicati
         \label{fig:application_guide_techgen}
     \end{subfigure}
 
-    \caption[Application Guide Page]{Application Guide page showing the step-by-step IP application instructions, full application flow charts, and role-based call-to-action redirection.}
+    \caption[Application Guide Page]{Application Guide Page. The page shows the IP application guide content: (a) the step-by-step instructions for the IP application process with a role-based call-to-action button and (b) the full application flow chart.}
     \label{fig:application_guide}
 \end{figure}
 \clearpage
-
 
 \subsection{Audit Trail}
 The audit trail provides the administrator with a comprehensive, chronological record of all system activities performed by users across the system. As shown in Figure~\ref{fig:audit_trail}, each audit entry captures the timestamp, user information, action type, outcome, and specific field changes in a structured format.
@@ -656,7 +649,7 @@ The audit trail provides the administrator with a comprehensive, chronological r
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\textwidth]{audit_trail.png}
-    \caption{Example of audit trail entries displaying application creation, status updates, and document uploads performed by different user roles.}
+    \caption[Audit Trail]{Audit Trail Page. This page shows audit entries for system activities such as application creation, status updates, and document uploads performed by different user roles.}
     \label{fig:audit_trail}
 \end{figure}
 
