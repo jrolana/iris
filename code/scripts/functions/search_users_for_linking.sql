@@ -22,9 +22,9 @@ BEGIN
 
   search_query := trim(coalesce(search_query, ''));
 
-  IF length(search_query) < 2 THEN
-    RETURN;
-  END IF;
+  -- IF length(search_query) < 2 THEN
+  --   RETURN;
+  -- END IF;
 
   RETURN QUERY
   SELECT

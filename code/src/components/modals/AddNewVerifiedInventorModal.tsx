@@ -16,7 +16,6 @@ export default function AddNewVerifiedInventorModal() {
     >
       <div className="flex w-full max-w-lg min-w-[85vw] flex-col items-center sm:min-w-[480px]">
         <SearchTab
-          isOpen={isOpen}
           excludedUIDs={excludedUIDs}
           setInventor={setInventor}
           closeModal={closeModal}

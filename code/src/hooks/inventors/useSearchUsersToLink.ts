@@ -12,7 +12,7 @@ export function useSearchUsersToLink(props: UseSearchUsersToLink) {
   const { data, isLoading, isFetching, refetch } = useQuery<SearchUsersToLinkResult[]>({
     queryKey: ["users", queryString, excludedUserIds],
     queryFn: () => searchUsersToLink({ queryString, excludedUserIds }),
-    enabled: queryString.length > 0,
+    // enabled: queryString.length > 0,
     placeholderData: (prev) => prev,
   });
 
