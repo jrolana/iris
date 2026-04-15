@@ -40,7 +40,7 @@ export default function InventorReportsModal() {
 
   return (
     <Modal
-      title={`Reports for ${subjectName ?? "Inventor"}`}
+      title={`Reports for ${subjectName ?? "Tech Gen"}`}
       description={`Here are the reports associated with this tech gen.`}
       isOpen={isOpen}
       onChange={closeModal}
@@ -108,7 +108,7 @@ function ReportsContent(props: ReportsContentProps) {
         </ul>
       ) : (
         <p className="text-md mt-4 py-8 text-center text-slate-500">
-          No reports found for this inventor.
+          No reports found for this tech gen.
         </p>
       )}
 
