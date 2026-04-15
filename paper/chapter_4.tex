@@ -11,7 +11,7 @@ Registered users can sign in only if their Google email is already recorded in t
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{authentication/signin.png}     
+    \includegraphics[width=0.85\textwidth]{authentication/signin.png}     
     \caption[Sign-in Page]{Sign-in page for registered users using Google-based authentication.}
     \label{fig:signin}                 
 \end{figure}
@@ -23,28 +23,28 @@ Once the administrator approves a request or sends an invitation, the user recei
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{authentication/signup.png}     
+    \includegraphics[width=0.85\textwidth]{authentication/signup.png}     
     \caption[Sign-up Page]{Sign-up page for submitting a registration request for administrator approval.}
     \label{fig:signup}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{user_management/invite_user.png}     
+    \includegraphics[width=0.85\textwidth]{user_management/invite_user.png}     
     \caption[Invite User Page]{Administrator interface for inviting a user and assigning a system role.}
     \label{fig:invite_user}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{authentication/email_invite_link.png}     
+    \includegraphics[width=0.85\textwidth]{authentication/email_invite_link.png}     
     \caption[Email Invite Link]{Email notification containing the time-limited invite link for account access.}
     \label{fig:email_invite_link}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{authentication/welcome_page.png}     
+    \includegraphics[width=0.85\textwidth]{authentication/welcome_page.png}     
     \caption[Welcome Page]{Welcome page shown before redirecting the user to the homepage of their assigned role.}
     \label{fig:welcome_page}                 
 \end{figure}
@@ -64,13 +64,14 @@ Whenever the deadline of the current status is past overdue, the system allows t
 
     %(a)
     \centering
-    \includegraphics[width=\textwidth]{view_application/techgen_general_appview.png}   
+    \includegraphics[width=0.98\textwidth,height=0.82\textheight,keepaspectratio]{view_application/techgen_general_appview.png}   
     \vspace{1cm}
 
     \caption[Technology Generator Application View Page]{Technology Generator Application View Page.   
     The page shows more details about an IP right application such as list of attachments, co-applicants, current application stage, deadlines, and status changes on the perspective of a technology generator.}
     \label{fig:techgen_appview}                 
 \end{figure}
+
 
 \subsubsection{Technology Generator Application Attachments View}
 IRIS only allows creation, reading, and updating of the attachments of the IP right application; once an attachment is uploaded, it can never be removed in the system. 
@@ -80,83 +81,106 @@ The technology generator can also see the history of all attachments that have b
 As shown in \figref{fig:techgen_view_attachmentA}, the system integrated a versioning system for the attachments, to maintain a record of all changes made to each attachment. 
 It is also seen in \figref{fig:techgen_view_attachmentC} that the system allows multiple file uploads at once, and what file types the system only allows.
 
+\clearpage
+\begin{figure}[H]
+    \centering
 
-\begin{figure}[H]                
-    \centering 
-
-    %(a)
-    \begin{subfigure}[b]{\textwidth}
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{view_application/techgen_view_attachmentA.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{view_application/techgen_view_attachmentA.png}
         \caption{}
         \label{fig:techgen_view_attachmentA}
-        \vspace{1cm}
     \end{subfigure}
 
-\end{figure}
+    \vspace{0.8em}
 
-\begin{figure}[H]
-    \ContinuedFloat % Tells LaTeX to continue the subfigure lettering (c) and keep the same main Figure number
-    \centering
-    
-    % (c)
-    \begin{subfigure}[c]{\textwidth}
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{view_application/techgen_view_attachmentC.png}
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{view_application/techgen_view_attachmentC.png}
         \caption{}
         \label{fig:techgen_view_attachmentC}
-        \vspace{1cm}
     \end{subfigure}
-    
-    % Caption for the second half. The [] prevents it from appearing twice in your List of Figures.
-    \caption[Technology Generator Application Attachments View]{Technology Generator Application Attachments View. 
-    This section of the page shows the attachments of an IP right application on the perspective of a technology generator. It also shows that the system allows updating file versions and multiple file uploads at once.}
+
+    \caption[Technology Generator Application Attachments View]{Technology Generator Application Attachments View. This section of the page shows the attachments of an IP right application from the perspective of a technology generator. It also shows that the system allows updating file versions and multiple file uploads at once.}
     \label{fig:techgen_attachments}
 \end{figure}
+\clearpage
+
+
 
 \subsubsection{Technology Generator Application Collaborators View}
 For the technology generator's collaborators view, it is shown in \figref{fig:techgen_collaborators} that the technology generator can see the list of all collaborators of the IP right application. The technology generator can also link other collaborators to the application, but they cannot remove any collaborator from the system.
 For the cases where technology generator wishes to file a complaint against a collaborator, the system allows them to report the collaborator to the TTBDO admin, as shown in \figref{fig:techgen_view_collaboratorsB}. 
-\begin{figure}[H]                
-    \centering 
 
-    \begin{subfigure}[b]{\textwidth}
+\clearpage
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.5]{view_application/techgen_view_collaboratorsA.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{view_application/techgen_view_collaboratorsA.png}
         \caption{}
         \label{fig:techgen_view_collaboratorsA}
     \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{view_application/techgen_view_collaboratorsB.png}
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{view_application/techgen_view_collaboratorsB.png}
         \caption{}
         \label{fig:techgen_view_collaboratorsB}
     \end{subfigure}
-    \caption[Technology Generator Application Collaborators View]{Technology Generator Application Collaborators View. 
-    This section of the page shows the collaborators of an IP right application on the perspective of a technology generator as well as the option to report collaborators.}
-    \label{fig:techgen_collaborators}            
-\end{figure}
 
-% \begin{figure}[H]
-%     \ContinuedFloat % Tells LaTeX to continue the subfigure lettering (c) and keep the same main Figure number
-%     \centering
-    
-    
-% \end{figure}
+    \caption[Technology Generator Application Collaborators View]{Technology Generator Application Collaborators View. This section of the page shows the collaborators of an IP right application from the perspective of a technology generator, as well as the option to report collaborators.}
+    \label{fig:techgen_collaborators}
+\end{figure}
+\clearpage
+
+
 
 \subsubsection{Technology Generator Status Update Request}
 Technology generators can request a status update when the current application status exceeds either the expected processing period based on the TTBDO citizen charter or the deadline set by the administrator. In IRIS, each application stage is represented by a flow identifier, while the current status represents the specific step of the application within that stage.
 
-This feature provides technology generators with a formal way to follow up delayed applications. After a request is submitted, TTBDO admins can view the request through the system's request update notification and listing features, which are discussed in \secref{sec:status_update_requests}.
+This feature provides technology generators with a formal way to follow up delayed applications. After a request is submitted, TTBDO admins can view the request through the system's request update notification and listing features, which are discussed in Section~\ref{sec:status_update_requests}.
 
-\begin{figure}[H]                
-    \centering 
-    \includegraphics[scale=0.2]{status_update_request/to_request.png}     
-    \includegraphics[scale=0.2]{status_update_request/requested.png}     
-    \includegraphics[scale=0.2]{status_update_request/acknowledged.png}     
-    \caption[Status Update Request Sequence]{Status update request sequence. (a) The request option is shown when the current application status is overdue. (b) The request is marked as submitted after the technology generator sends the follow-up. (c) The request is marked as acknowledged after TTBDO admin review.}
-    \label{fig:status_update_request}                 
+\clearpage
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.36\textheight,keepaspectratio]{status_update_request/to_request.png}
+        \caption{Available request action for overdue statuses.}
+        \label{fig:status_request_to_request}
+    \end{subfigure}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.36\textheight,keepaspectratio]{status_update_request/requested.png}
+        \caption{Submitted request awaiting administrative review.}
+        \label{fig:status_request_requested}
+    \end{subfigure}
 \end{figure}
+\clearpage
+
+\begin{figure}[H]\ContinuedFloat
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.76\textheight,keepaspectratio]{status_update_request/acknowledged_techgen.png}
+        \caption{Acknowledged request after TTBDO admin review.}
+        \label{fig:status_request_acknowledged_techgen}
+    \end{subfigure}
+
+    \caption[Status Update Request Sequence]{Technology generator status update request flow.}
+    \label{fig:status_update_request}
+\end{figure}
+\clearpage
+
 
 \subsubsection{TTBDO Admin General Application View}
 
@@ -166,56 +190,55 @@ The admin can also withdraw an application here, which is a feature that is not 
 \begin{figure}[H] 
     \centering 
 
-    \includegraphics[width=\textwidth]{view_application/admin_general_appview.png}     
+    \includegraphics[width=0.98\textwidth,height=0.82\textheight,keepaspectratio]{view_application/admin_general_appview.png}     
     \caption[TTBDO Admin Application View Page]{TTBDO Admin Application View Page. The page shows more details about an IP right application such as list of attachments, co-applicants, and status changes on the perspective of a TTBDO admin. 
     The page is similar to the technology generator's application view, but includes additional features which are updating application status, updating application details, and withdrawing applications. }
     \label{fig:admin_appview}  
 
 \end{figure}
 
+
 \subsubsection{TTBDO Admin Application Collaborators View}
 As shown in \figref{fig:admin_view_collaboratorsA}, the TTBDO admin has a similar view to the technology generator; however, instead of filing reports, the admin can only view reports filed against collaborators. 
 Since it is possible that not all collaborators of the IP have IRIS accounts, the co-applicants can be listed as plain text upon the start of the application, and then the TTBDO admin can link their accounts if they have one in the system later on, as shown in \figref{fig:admin_view_collaboratorsB}.
 On certain cases where a collaborator has been reported, the TTBDO admin can also remove them from the system as shown in \figref{fig:admin_view_collaboratorsC}.
 
-\begin{figure}[H] % [p] 'p' forces this to its own page to avoid layout shifts
-
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{view_application/admin_view_collaboratorsA.png}     
-        \caption{}
-        \label{fig:admin_view_collaboratorsA}
-        \vspace{1cm}    
-    \end{subfigure}
-
-\end{figure}
-
-% --- PAGE 2: Figure (c) ---
-\begin{figure}[H] 
-    \ContinuedFloat % <--- IMPORTANT: Keeps the same Figure number
+\clearpage
+\begin{figure}[H]
     \centering
 
-    \begin{subfigure}[b]{\textwidth}
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.5]{view_application/admin_view_collaboratorsB.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{view_application/admin_view_collaboratorsA.png}
         \caption{}
-        \label{fig:admin_view_collaboratorsB}
-        \vspace{1cm}    
+        \label{fig:admin_view_collaboratorsA}
     \end{subfigure}
 
-    % (c)
-    \begin{subfigure}[b]{\textwidth}
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.5]{view_application/admin_view_collaboratorsC.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{view_application/admin_view_collaboratorsB.png}
+        \caption{}
+        \label{fig:admin_view_collaboratorsB}
+    \end{subfigure}
+\end{figure}
+\clearpage
+
+\begin{figure}[H]\ContinuedFloat
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.78\textheight,keepaspectratio]{view_application/admin_view_collaboratorsC.png}
         \caption{}
         \label{fig:admin_view_collaboratorsC}
     \end{subfigure}
-    \caption[TTBDO Admin Collaborators View]{TTBDO Admin Collaborators View. This section of the page shows the collaborators of an IP right application on the perspective of a TTBDO admin. 
-    Instead of filing a report to a collaborator, the admin can only view the reports filed against the collaborator. 
-    The admin can also link the collaborators to their IRIS accounts if they have one, and remove reported collaborators from the system.}
 
-    \label{fig:admin_collaborators}     
+    \caption[TTBDO Admin Collaborators View]{TTBDO Admin Collaborators View. This section of the page shows the collaborators of an IP right application from the perspective of a TTBDO admin. Instead of filing a report against a collaborator, the admin can view reports filed against the collaborator. The admin can also link collaborators to their IRIS accounts and remove reported collaborators from the system.}
+    \label{fig:admin_collaborators}
 \end{figure}
+\clearpage
 
 
 \subsubsection{TTBDO Admin Application Status Update View}
@@ -226,7 +249,7 @@ Certain steps that require deadlines are automatically calculated by the system,
 \begin{figure}[H] 
     \centering 
 
-    \includegraphics[width=\textwidth]{view_application/admin_status_update.png}     
+    \includegraphics[width=0.98\textwidth,height=0.82\textheight,keepaspectratio]{view_application/admin_status_update.png}     
     \caption[TTBDO Admin Application Status Update View]{TTBDO Admin Application Status Update View. This section of the page shows the interface for updating the status of an IP right application on the perspective of a TTBDO admin.
     } 
     \label{fig:admin_status_update}  
@@ -240,7 +263,7 @@ They are responsible for inputting the IP number, filing date, and IP title when
 \begin{figure}[H] 
     \centering 
 
-    \includegraphics[width=\textwidth]{view_application/admin_view_app_details.png}     
+    \includegraphics[width=0.98\textwidth,height=0.82\textheight,keepaspectratio]{view_application/admin_view_app_details.png}     
     \caption[TTBDO Admin Application Details Update View]{TTBDO Admin Application Details Update View. This section of the page shows the interface for updating the details of an IP right application on the perspective of a TTBDO admin.
     } 
     \label{fig:admin_app_details_update}  
@@ -255,23 +278,34 @@ Once submitted, the request appears in the admin notification dropdown and in th
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{status_update_request/dropdown.png}     
+    \includegraphics[width=0.75\textwidth]{status_update_request/dropdown.png}     
     \caption[Status Update Request Dropdown]{Status update request dropdown showing follow-up requests submitted by technology generators.}
     \label{fig:status_update_request_dropdown}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{status_update_request/view_all.png}     
+    \includegraphics[width=0.85\textwidth]{status_update_request/view_all.png}     
     \caption[Status Update Requests Page]{Status Update Requests page showing the complete list of follow-up requests for administrator review.}
     \label{fig:status_update_requests}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{status_update_request/specific_application_view.png}     
-    \includegraphics[scale=0.2]{status_update_request/acknowledged_admin.png}     
-    \caption[Status Update Request in Application View]{Status update request in the specific application view. (a) The request is shown within the related application page. (b) The request is marked as acknowledged after administrator review.}
+
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.3]{status_update_request/specific_application_view.png}     
+        \caption{Pending status update request in the application record.}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[scale=0.3]{status_update_request/acknowledged_admin.png}     
+        \caption{Administrative acknowledgement of the submitted request.}
+    \end{subfigure}
+
+    \caption[Status Update Request in Application View]{Status update request handling in the application view.}
     \label{fig:status_update_request_application_view}                 
 \end{figure}
 
@@ -280,38 +314,36 @@ The IRIS enables technology generators to start their IP right application throu
 For cases that all collaborators of the IP right application do not have IRIS accounts, the admin can start the application on behalf of the technology generator, and then link the technology generator to the application later on when they have an account in the system.
 It is important that the system allows admins to create applications so that these can be tracked in the system, even if the technology generators would not use the system.
 
+
 \subsubsection{Application Wizard}
 Not all technology generators, as mentioned by the IP officer, are familiar with the IP application process so the system provides a simple application wizard to guide them in choosing the right disclosure form to start their application as seen in \figref{fig:new_application}.
 Technology generators can also choose to skip the wizard entirely, as some technology generators already know what disclosure forms to use. 
 The page starts their IP right application into motion.
-\begin{figure}[H]                
-    \centering 
-    %(a)
-    \begin{subfigure}[b]{\textwidth}
+
+\clearpage
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_applicationA.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{new_application/new_applicationA.png}
         \caption{}
         \label{fig:new_applicationA}
     \end{subfigure}
-\end{figure}
 
-\begin{figure}[H] 
-    \ContinuedFloat % <--- IMPORTANT: Keeps the same Figure number
-    \centering
+    \vspace{0.8em}
 
-    % (b)
-    \begin{subfigure}[b]{\textwidth}
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_applicationB.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{new_application/new_applicationB.png}
         \caption{}
         \label{fig:new_applicationB}
     \end{subfigure}
 
     \caption[New Application Guide Page]{New Application Guide Page. The page helps technology generators choose the right disclosure form and starts their IP right application.}
-    \label{fig:new_application}      
-
+    \label{fig:new_application}
 \end{figure}
-
+\clearpage
 
 
 \subsubsection{New Application Form}
@@ -320,48 +352,53 @@ The form includes the necessary information to start the application such as the
 As shown in figures \ref{fig:new_application_formB} and \ref{fig:new_application_formC}, the collaborators are added at the start of the application. 
 When a collaborator does not have an account in the system, they are added as plain text and then they can be linked to their IRIS accounts later on. 
 It is also shown in \figref{fig:new_application_formD} that the system only allows one PDF file upload for the formal application form.
-\begin{figure}[H]                
-    \centering 
-    %(a)
-    \begin{subfigure}[b]{\textwidth}
+
+\clearpage
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_application_formA.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{new_application/new_application_formA.png}
         \caption{}
         \label{fig:new_application_formA}
     \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_application_formB.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{new_application/new_application_formB.png}
         \caption{}
         \label{fig:new_application_formB}
     \end{subfigure}
-    
-    
 \end{figure}
+\clearpage
 
-\begin{figure}[H] 
-    \ContinuedFloat % <--- IMPORTANT: Keeps the same Figure number
+\begin{figure}[H]\ContinuedFloat
     \centering
 
-    
-    \begin{subfigure}[b]{\textwidth}
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_application_formC.png}     
+        \includegraphics[width=\linewidth,height=0.37\textheight,keepaspectratio]{new_application/new_application_formC.png}
         \caption{}
         \label{fig:new_application_formC}
-    \end{subfigure}    
+    \end{subfigure}
 
-    \begin{subfigure}[b]{\textwidth}
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.3, width=\textwidth]{new_application/new_application_formD.png}     
+        \includegraphics[width=\linewidth,height=0.37\textheight,keepaspectratio]{new_application/new_application_formD.png}
         \caption{}
         \label{fig:new_application_formD}
     \end{subfigure}
 
-    \caption[New Application Form Page]{New Application Form Page. The page is where the technology generators and the TTBDO admin fills out the necessary information to start the application. The form details include the project title, funding source, list of collaborators, and the IP Disclosure Form}
-    \label{fig:new_application_form} 
-
+    \caption[New Application Form Page]{New Application Form Page. The page is where the technology generators and the TTBDO admin fills out the necessary information to start the application. The form details include the project title, funding source, list of collaborators, and the IP Disclosure Form.}
+    \label{fig:new_application_form}
 \end{figure}
+\clearpage
+
 
 \subsection{Notifications}
 IRIS includes a notification component for technology generators and TTBDO admins. The system sends notifications when relevant changes occur in an application, such as attachment submissions, status updates, title updates, and application stage changes. Technology generators receive notifications related to their applications, while TTBDO admins receive notifications for relevant application activities.
@@ -370,7 +407,7 @@ The notification dropdown appears when an authenticated user selects the bell ic
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.6]{notification/notification_dropdown.png}     
+    \includegraphics[width=0.75\textwidth]{notification/notification_dropdown.png}     
     \caption[Notification Dropdown]{Notification dropdown showing recent application-related notifications from the top bar bell icon.}
     \label{fig:notification}                 
 \end{figure}
@@ -379,82 +416,103 @@ Users can also open the View All Notifications page to see all notifications ass
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.6]{notification/notification_view_all.png}     
+    \includegraphics[width=0.85\textwidth]{notification/notification_view_all.png}     
     \caption[View All Notifications Page]{View All Notifications page showing read and unread notifications with bulk mark-as-read support.}
     \label{fig:view_all_notifications}                 
 \end{figure}
+
 
 \subsubsection{Automatic Deadline Notifications}
 The system automatically sends notifications to the TTBDO admin and collaborators of the concerned application when a deadline is approaching.
 The reminder notifications are sent in three stages: a week before the deadline, three days before, and day of the deadline.
 The automatic notifications are sent both in-app and via email as shown in \figref{fig:automatic_notification}.
 
-\begin{figure}[H]                
-    \centering 
-    \begin{subfigure}[b]{\textwidth}
+\clearpage
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.6]{notification/notification_deadline_in_app.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{notification/notification_deadline_in_app.png}
         \caption{}
         \label{fig:automatic_notification_inapp}
-        \vspace{1cm}
     \end{subfigure}
 
-    \begin{subfigure}[b]{\textwidth}
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.6]{notification/notification_deadline_email.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{notification/notification_deadline_email.png}
         \caption{}
         \label{fig:automatic_notification_email}
     \end{subfigure}
-    
-    \caption[Automatic Deadline Notification Email]{Automatic Deadline Notification Email. The system automatically sends notifications to the TTBDO admin and collaborators of the concerned application when a deadline is approaching.}
+
+    \caption[Automatic Deadline Notifications]{Automatic Deadline Notifications. The system automatically sends in-app and email notifications to the TTBDO admin and collaborators of the concerned application when a deadline is approaching.}
     \label{fig:automatic_notification}
 \end{figure}
+\clearpage
+
 
 \subsection{Dashboard}
 The Dashboard page provides summary reports and visual representations of IP application data in IRIS. The dashboard view differs depending on the user's role.
 
 For guests, administrators, and UP officials, the dashboard presents an overall IP portfolio overview. Users can select a reporting period, filter the displayed results by year range, and export the report as either a CSV or PDF file. The dashboard includes the grant rate, portfolio status overview, charts showing application distributions and yearly trends by status, non-grant outcomes, and a summary table for the selected reporting period.
 
-\begin{figure}[H]                
-    \centering 
-    \includegraphics[scale=0.2]{dashboard/generalA.png}     
-    \includegraphics[scale=0.2]{dashboard/generalB.png}     
-    \includegraphics[scale=0.2]{dashboard/generalC.png}     
-    \includegraphics[scale=0.2]{dashboard/generalD.png}     
-    \caption[General Dashboard View]{General dashboard view divided into four captured sections due to the page length. The sections show the IP portfolio overview, reporting period filters, export options, status summaries, application trend charts, non-grant outcomes, and summary table.}
-    \label{fig:dashboard_general}                 
+
+\clearpage
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{dashboard/generalA.png}
+        \caption{}
+        \label{fig:dashboard_generalA}
+    \end{subfigure}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{dashboard/generalB.png}
+        \caption{}
+        \label{fig:dashboard_generalB}
+    \end{subfigure}
 \end{figure}
+\clearpage
+
+\begin{figure}[H]\ContinuedFloat
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.37\textheight,keepaspectratio]{dashboard/generalC.png}
+        \caption{}
+        \label{fig:dashboard_generalC}
+    \end{subfigure}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.37\textheight,keepaspectratio]{dashboard/generalD.png}
+        \caption{}
+        \label{fig:dashboard_generalD}
+    \end{subfigure}
+
+    \caption[General Dashboard View]{General dashboard view divided into four captured sections: filters and export controls, IP portfolio overview, trend visualizations, and summary table.}
+    \label{fig:dashboard_general}
+\end{figure}
+\clearpage
+
 
 For technology generators, the dashboard displays metrics based only on their own IP applications. It includes the total number of applications, filed applications, pending applications, granted applications, withdrawn applications, and downgraded applications. The page also presents breakdowns of the technology generator's applications by IP type and by year. This allows technology generators to monitor the status and distribution of their submitted applications.
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{dashboard/techgen.png}  
+    \includegraphics[width=0.85\textwidth]{dashboard/techgen.png}  
     \caption[Technology Generator Dashboard View]{Technology generator dashboard view showing application metrics and breakdowns based on the user's own IP applications.}
     \label{fig:dashboard_techgen}                 
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    % (b) Techgen metrics
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[scale=0.3]{techgen_dashboard_1.png}     
-        \caption{}
-        \label{fig:dashboard_techgen_metrics}
-        \vspace{1cm}
-    \end{subfigure}
-
-    % (c) Techgen table
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[scale=0.3]{techgen_dashboard_2.png}     
-        \caption{}
-        \label{fig:dashboard_techgen_table}
-    \end{subfigure}
-
-    \caption[Technology Generator Dashboard Views]{Technology Generator dashboard views. (b) Metrics view showing key statistics. (c) Applications table view showing all submitted applications.}
-    \label{fig:dashboard_techgen}
 \end{figure}
 
 \subsection{User Management}
@@ -464,14 +522,14 @@ The User Details table lists registered users and their relevant account informa
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{user_management/user_details.png}     
+    \includegraphics[width=0.85\textwidth]{user_management/user_details.png}     
     \caption[User Details Table]{User Details table showing registered users and their account information.}
     \label{fig:user_details}                 
 \end{figure}
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{user_management/invite_user.png}     
+    \includegraphics[width=0.85\textwidth]{user_management/invite_user.png}     
     \caption[Invite User Button]{Invite user button for adding users by email address and assigned role.}
     \label{fig:invite_user_button}                 
 \end{figure}
@@ -480,7 +538,7 @@ The User Registration Requests table displays submitted registration requests, i
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{user_management/registration_requests.png}     
+    \includegraphics[width=0.85\textwidth]{user_management/registration_requests.png}     
     \caption[User Registration Requests Table]{User Registration Requests table showing pending requests and administrator actions for approval or rejection.}
     \label{fig:user_registration_requests}                 
 \end{figure}
@@ -495,33 +553,35 @@ It is important to note that archived applications are not counted in the system
 Guests and UP Officials have a similar view of the registry which is a read-only access, as shown in \figref{fig:registry_guest_official}. 
 Guests can only see public applications while UP Officials can see all applications in the portfolio.
 
+
+\clearpage
 \begin{figure}[H]
-    \centering 
-    \begin{subfigure}[b]{\textwidth}
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.25]{app_registry/techgen_registry.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{app_registry/techgen_registry.png}
         \caption{}
         \label{fig:registry_techgen}
-        \vspace{1cm}
     \end{subfigure}
 
-\end{figure}
+    \vspace{0.8em}
 
-\begin{figure}[H]
-    \ContinuedFloat % Tells LaTeX to continue the subfigure lettering (c) and keep the same main Figure number
-    \centering
-    \begin{subfigure}[b]{\textwidth}
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.25]{app_registry/admin_registry.png}     
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{app_registry/admin_registry.png}
         \caption{}
         \label{fig:registry_admin}
-        \vspace{1cm}
     \end{subfigure}
-    
+\end{figure}
+\clearpage
 
-    \begin{subfigure}[b]{\textwidth}
+\begin{figure}[H]\ContinuedFloat
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[scale=0.25]{app_registry/guest_official_registry.png}     
+        \includegraphics[width=\linewidth,height=0.78\textheight,keepaspectratio]{app_registry/guest_official_registry.png}
         \caption{}
         \label{fig:registry_guest_official}
     \end{subfigure}
@@ -529,6 +589,8 @@ Guests can only see public applications while UP Officials can see all applicati
     \caption[Application Registry Views]{Application Registry. It is shown here that different user roles have varying levels of access and functionality.}
     \label{fig:registry}
 \end{figure}
+\clearpage
+
 
 \subsubsection{Application Registry Filters and Sorting}
 The application registry includes a filtering system that allows users to easily find specific applications based on various criteria as shown in \figref{fig:registry_filters}.
@@ -539,7 +601,7 @@ The sorting options include sorting by filing date, IP title, registration date,
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.25]{app_registry/app_registry_filter.png}     
+    \includegraphics[width=0.9\textwidth]{app_registry/app_registry_filter.png}     
     \caption[Application Registry Filters]{Application Registry Filters. 
     The filters allow users to easily find specific applications based on various criteria such as application status, IP type, and college names.
     The users can also sort the applications based on filing date, IP title, registration date, date added, and date updated.}
@@ -553,7 +615,7 @@ The page also includes a start application call-to-action button. When selected 
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.3]{application_documents.png}     
+    \includegraphics[width=0.85\textwidth]{application_documents.png}     
     \caption[Application Documents Page]{Application Documents Page. The page lists the relevant IP disclosure forms for each IP type and provides a start application button for guests and technology generators.}
     \label{fig:documents}
 \end{figure}
@@ -561,13 +623,32 @@ The page also includes a start application call-to-action button. When selected 
 \subsection{Application Guide}
 The Application Guide page provides step-by-step instructions and full application flow charts for the IP application process. The guide content is the same for guests and technology generators. Its call-to-action button redirects guests to the sign-in page and redirects technology generators to the new application page.
 
-\begin{figure}[H]                
-    \centering 
-    \includegraphics[scale=0.3]{application_guide/guideA.png}     
-    \includegraphics[scale=0.3]{application_guide/guideB.png}     
+
+\clearpage
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{application_guide/guideA.png}
+        \caption{}
+        \label{fig:application_guide_guest}
+    \end{subfigure}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.39\textheight,keepaspectratio]{application_guide/guideB.png}
+        \caption{}
+        \label{fig:application_guide_techgen}
+    \end{subfigure}
+
     \caption[Application Guide Page]{Application Guide page showing the step-by-step IP application instructions, full application flow charts, and role-based call-to-action redirection.}
     \label{fig:application_guide}
 \end{figure}
+\clearpage
+
 
 \subsection{Audit Trail}
 The audit trail provides the administrator with a comprehensive, chronological record of all system activities performed by users across the system. As shown in Figure~\ref{fig:audit_trail}, each audit entry captures the timestamp, user information, action type, outcome, and specific field changes in a structured format.
@@ -602,40 +683,38 @@ There were 31 use-case tests written, and on the final version of the test run, 
 
 The test failed on a UI mismatch and was eventually fixed through modifications in the frontend. The final test summary is shown in \figref{fig:test_summary}.
 
-\begin{figure}[H]                
-    \centering 
-    % (a)
-    \begin{subfigure}[b]{\textwidth}
+\clearpage
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{tests/tests_A.png}     
+        \includegraphics[width=\linewidth,height=0.90\textheight,keepaspectratio]{tests/tests_A.png}
         \caption{}
         \label{fig:test_summaryA}
-        \vspace{1cm}
     \end{subfigure}
-
-
-    
 \end{figure}
+\clearpage
 
-\begin{figure}[H]                
-    \centering 
-    \ContinuedFloat
-
-    
-    \begin{subfigure}[b]{\textwidth}
+\begin{figure}[H]\ContinuedFloat
+    \centering
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{tests/tests_B.png}     
+        \includegraphics[width=\linewidth,height=0.90\textheight,keepaspectratio]{tests/tests_B.png}
         \caption{}
         \label{fig:test_summaryB}
     \end{subfigure}
+\end{figure}
+\clearpage
 
-    \begin{subfigure}[b]{\textwidth}
+\begin{figure}[H]\ContinuedFloat
+    \centering
+    \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{tests/tests_C.png}     
+        \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{tests/tests_C.png}
         \caption{}
         \label{fig:test_summaryC}
     \end{subfigure}
-
-    \caption[Test Summary]{Summary of automated test results. The figures show the test outcomes for different scenarios, produced by the Playwright Tests framework.}
+    \caption[Test Summary]{Summary of automated test results. The figures show the test outcomes for different scenarios produced by the Playwright Tests framework.}
     \label{fig:test_summary}
 \end{figure}
+\clearpage
