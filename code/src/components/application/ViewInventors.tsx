@@ -87,25 +87,28 @@ function ViewInventors(props: ViewInventorsProps) {
   return (
     <>
       <ul className="mt-3 max-h-64 divide-y divide-slate-100 overflow-x-auto overflow-y-auto">
-        {inventors.map((inventor) => (
-          <li
-            key={inventor.id}
-            className="flex flex-col justify-between gap-2 py-3 sm:flex-row sm:items-start sm:justify-between"
-          >
-            <InventorItems
-              inventor={inventor}
-              isAdmin={isAdmin}
-              isLoading={isLoading}
-              isFetchingReports={isReportsLoading}
-              inventorUser={inventorUser}
-              existingUserIds={existingUserIds}
-              reports={
-                reportsByInventorId ? reportsByInventorId[inventor.id] : []
-              }
-              isUneditable={isUneditable}
-            />
-          </li>
-        ))}
+        {inventors.map((inventor) => {
+          if (inventor.status === "non-member") return null;
+          return (
+            <li
+              key={inventor.id}
+              className="flex flex-col justify-between gap-2 py-3 sm:flex-row sm:items-start sm:justify-between"
+            >
+              <InventorItems
+                inventor={inventor}
+                isAdmin={isAdmin}
+                isLoading={isLoading}
+                isFetchingReports={isReportsLoading}
+                inventorUser={inventorUser}
+                existingUserIds={existingUserIds}
+                reports={
+                  reportsByInventorId ? reportsByInventorId[inventor.id] : []
+                }
+                isUneditable={isUneditable}
+              />
+            </li>
+          );
+        })}
       </ul>
       <div className="mt-4">
         {isAdmin ? (
