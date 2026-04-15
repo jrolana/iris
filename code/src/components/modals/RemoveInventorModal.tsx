@@ -30,11 +30,9 @@ export default function RemoveInventorModal() {
       finally: () => {
         closeModal();
         notifyCollaborators();
+        closeReportsModal();
       },
     });
-    notifyCollaborators();
-    closeModal();
-    closeReportsModal();
   }
 
   async function notifyCollaborators() {
@@ -93,7 +91,7 @@ export default function RemoveInventorModal() {
           onChange={(e) => setComment(e.target.value)}
           rows={4}
           className="placeholder:text-muted-foreground w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-400 focus:ring-1 focus:ring-sky-400 focus:outline-none"
-          placeholder="I would like to report that this inventor has been engaging in suspicious activities such as..."
+          placeholder="Enter reason for removal..."
         />
         <Button
           disabled={!comment.trim() || isLoading || isDeleting}

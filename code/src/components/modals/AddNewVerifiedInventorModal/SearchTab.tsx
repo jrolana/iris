@@ -1,13 +1,15 @@
+import { useRef, useState } from "react";
 import { useSearchUsersToLink } from "@/hooks/inventors/useSearchUsersToLink";
 import useDebounce from "@/hooks/useDebounce";
-import { InventorType } from "@/lib/types/application";
-import { Cable } from "lucide-react";
-import { useRef, useState } from "react";
-import SearchInput from "../../common/SearchInput";
-import { ScrollArea } from "../../ui/scroll-area";
-import type { SearchUsersToLinkResult } from "@/services/inventors/search-users-to-link";
 import { useConfirm } from "@/hooks/useConfirm";
-import { addNewInventor } from "@/services/inventors/add-new-inventor";
+import { useAddNewInventor } from "@/hooks/inventors/useAddNewInventor";
+
+import { InventorType } from "@/lib/types/application";
+import type { SearchUsersToLinkResult } from "@/services/inventors/search-users-to-link";
+
+import SearchInput from "../../common/SearchInput";
+import { Cable } from "lucide-react";
+import { ScrollArea } from "../../ui/scroll-area";
 import { toast } from "sonner";
 
 interface SearchTabProps {
@@ -22,6 +24,7 @@ export default function SearchTab(props: SearchTabProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery);
   const confirm = useConfirm();
+  const { addNewInventor } = useAddNewInventor();
 
   const {
     inventors,

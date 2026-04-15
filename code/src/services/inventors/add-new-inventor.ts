@@ -10,7 +10,6 @@ export const addNewInventor = async (props: AddNewInventorProps) => {
     const {data, error} = await supabase.schema("private").from("inventors").insert(inventorData).select();
 
     if (error) {
-        alert(error.message);
         throw new Error(error.message);
     }
 

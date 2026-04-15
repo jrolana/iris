@@ -1,11 +1,13 @@
-import { InventorType } from "@/lib/types/application";
-import InventorItems from "../common/InventorItems";
+import { useEffect, useMemo } from "react";
 import { useGetReportsByAppId } from "@/hooks/reports/useGetReportsByAppId";
+import { useAddNewInventor } from "@/hooks/inventors/useAddNewInventor";
+import useAddNewVerifiedInventorModal from "@/hooks/useAddNewVerifiedInventorModal";
+
+import InventorItems from "../common/InventorItems";
+import { InventorType } from "@/lib/types/application";
 import { ReportType } from "@/lib/types/reports";
 import { UserType } from "@/lib/types/users";
 import { Loader } from "lucide-react";
-import useAddNewVerifiedInventorModal from "@/hooks/useAddNewVerifiedInventorModal";
-import { useEffect, useMemo } from "react";
 
 interface ViewInventorsProps {
   inventors: InventorType["Row"][];
@@ -44,6 +46,7 @@ function ViewInventors(props: ViewInventorsProps) {
       inventors.map((inv) => inv.techgen_id).filter((id) => id !== null) || [],
     [inventors],
   );
+  const { isLoading: isAddingInventor } = useAddNewInventor();
 
   const {
     openModal: openAddVerifiedInventorModal,
@@ -119,6 +122,7 @@ function ViewInventors(props: ViewInventorsProps) {
                 setIsAdminAdding(true);
                 openAddVerifiedInventorModal();
               }}
+              disabled={isAddingInventor}
               className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
             >
               Add technology generator
@@ -136,6 +140,7 @@ function ViewInventors(props: ViewInventorsProps) {
                 setIsAdminAdding(false);
                 openAddVerifiedInventorModal();
               }}
+              disabled={isAddingInventor}
               className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
             >
               Add technology generator
