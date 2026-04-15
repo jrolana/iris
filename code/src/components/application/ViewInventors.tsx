@@ -4,6 +4,8 @@ import { useGetReportsByAppId } from "@/hooks/reports/useGetReportsByAppId";
 import { ReportType } from "@/lib/types/reports";
 import { UserType } from "@/lib/types/users";
 import { Loader } from "lucide-react";
+import useAddNewVerifiedInventorModal from "@/hooks/useAddNewVerifiedInventorModal";
+import { useEffect, useMemo } from "react";
 
 interface ViewInventorsProps {
   inventors: InventorType["Row"][];
@@ -37,8 +39,25 @@ function ViewInventors(props: ViewInventorsProps) {
     {} as Record<string, ReportType["Row"][]>,
   );
 
-  const existingUserIds =
-    inventors.map((inv) => inv.techgen_id).filter((id) => id !== null) || [];
+  const existingUserIds = useMemo(
+    () =>
+      inventors.map((inv) => inv.techgen_id).filter((id) => id !== null) || [],
+    [inventors],
+  );
+
+  const {
+    openModal: openAddVerifiedInventorModal,
+    inventor,
+    setExcludedUIDs,
+    setIsAdminAdding,
+    isAdminAdding,
+  } = useAddNewVerifiedInventorModal();
+
+  useEffect(() => {
+    if (inventor) {
+      setExcludedUIDs(existingUserIds);
+    }
+  }, [inventor, existingUserIds, setExcludedUIDs]);
 
   if (isLoading) {
     return (
@@ -90,7 +109,10 @@ function ViewInventors(props: ViewInventorsProps) {
           <>
             <button
               type="button"
-              onClick={() => {}}
+              onClick={() => {
+                setIsAdminAdding(true);
+                openAddVerifiedInventorModal();
+              }}
               className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
             >
               Add technology generator
@@ -104,7 +126,9 @@ function ViewInventors(props: ViewInventorsProps) {
           <>
             <button
               type="button"
-              onClick={() => {}}
+              onClick={() => {
+                openAddVerifiedInventorModal();
+              }}
               className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
             >
               Add technology generator
