@@ -117,7 +117,7 @@ CREATE TABLE private.inventors (
     college VARCHAR(20) NOT NULL,
     comments TEXT,
     external_institution TEXT NULL,
-    is_pending BOOLEAN DEFAULT FALSE,
+    status private.inventorstatustype not null default 'member'::private.inventorstatustype, -- member, pending, non-member
 
     UNIQUE(application_id, email),
 
