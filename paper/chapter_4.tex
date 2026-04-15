@@ -2,14 +2,51 @@
 This chapter presents the IRIS web application, highlighting its key features and user interfaces. The system demonstrates functionalities such as authentication with role-based access control, application creation and management, notifications, dashboards, and access to IP application documents and guides. Screenshots illustrate the perspectives of Technology Generators, TTBDO admins, UP officials, and Guests, showing both view-only and full management capabilities, as well as the workflow of starting and tracking IP right applications.
 
 \section{System}
+
 \subsection{Authentication}
-The IRIS system handles authentication for registered accounts. It has protected routing for role-based access control (RBAC). It facilitates sign-in with Google emails that should already be registered with Supabase. 
+The IRIS system handles user access through Google-based authentication and protected routing for role-based access control (RBAC). Registered users can access only the pages and functions permitted for their assigned role. Users within the UP system are required to use their UP Mail account, while users outside the UP system may use any valid Gmail account.
+
+\subsubsection{Registered Users}
+Registered users can sign in only if their Google email is already recorded in the system. After successful authentication, the system redirects the user to the homepage associated with their assigned role.
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.2]{signin.png}     
-    \caption[Sign-in Page]{Sign-in Page. The page shows the sign-in page of IRIS for authentication. For the prototype, the page only allows authentication with Google emails.}
-    \label{fig:applicant_appview}                 
+    \includegraphics[scale=0.2]{authentication/signin.png}     
+    \caption[Sign-in Page]{Sign-in page for registered users using Google-based authentication.}
+    \label{fig:signin}                 
+\end{figure}
+
+\subsubsection{Unregistered Users}
+Unregistered users may gain access to IRIS through two pathways. First, a user may submit a sign-up request, which is reviewed by administrators through the user registration requests table. Second, an administrator may directly invite a user from within the system.
+
+Once the administrator approves a request or sends an invitation, the user receives an email containing an invite link. This link is valid for 24 hours. After opening the invite link, the user is directed to the welcome page and then redirected to the homepage associated with their assigned role. This process is shown in \figref{fig:signup}, \figref{fig:invite_user}, \figref{fig:email_invite_link}, and \figref{fig:welcome_page}.
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{authentication/signup.png}     
+    \caption[Sign-up Page]{Sign-up page for submitting a registration request for administrator approval.}
+    \label{fig:signup}                 
+\end{figure}
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{user_management/invite_user.png}     
+    \caption[Invite User Page]{Administrator interface for inviting a user and assigning a system role.}
+    \label{fig:invite_user}                 
+\end{figure}
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{authentication/email_invite_link.png}     
+    \caption[Email Invite Link]{Email notification containing the time-limited invite link for account access.}
+    \label{fig:email_invite_link}                 
+\end{figure}
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{authentication/welcome_page.png}     
+    \caption[Welcome Page]{Welcome page shown before redirecting the user to the homepage of their assigned role.}
+    \label{fig:welcome_page}                 
 \end{figure}
 
 
@@ -97,9 +134,7 @@ For the cases where technology generator wishes to file a complaint against a co
     \end{subfigure}
     \caption[Technology Generator Application Collaborators View]{Technology Generator Application Collaborators View. 
     This section of the page shows the collaborators of an IP right application on the perspective of a technology generator as well as the option to report collaborators.}
-    \label{fig:techgen_collaborators}
-    
-                   
+    \label{fig:techgen_collaborators}            
 \end{figure}
 
 % \begin{figure}[H]
@@ -108,6 +143,20 @@ For the cases where technology generator wishes to file a complaint against a co
     
     
 % \end{figure}
+
+\subsubsection{Technology Generator Status Update Request}
+Technology generators can request a status update when the current application status exceeds either the expected processing period based on the TTBDO citizen charter or the deadline set by the administrator. In IRIS, each application stage is represented by a flow identifier, while the current status represents the specific step of the application within that stage.
+
+This feature provides technology generators with a formal way to follow up delayed applications. After a request is submitted, TTBDO admins can view the request through the system's request update notification and listing features, which are discussed in \secref{sec:status_update_requests}.
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{status_update_request/to_request.png}     
+    \includegraphics[scale=0.2]{status_update_request/requested.png}     
+    \includegraphics[scale=0.2]{status_update_request/acknowledged.png}     
+    \caption[Status Update Request Sequence]{Status update request sequence. (a) The request option is shown when the current application status is overdue. (b) The request is marked as submitted after the technology generator sends the follow-up. (c) The request is marked as acknowledged after TTBDO admin review.}
+    \label{fig:status_update_request}                 
+\end{figure}
 
 \subsubsection{TTBDO Admin General Application View}
 
@@ -119,7 +168,7 @@ The admin can also withdraw an application here, which is a feature that is not 
 
     \includegraphics[width=\textwidth]{view_application/admin_general_appview.png}     
     \caption[TTBDO Admin Application View Page]{TTBDO Admin Application View Page. The page shows more details about an IP right application such as list of attachments, co-applicants, and status changes on the perspective of a TTBDO admin. 
-    The page is quite similar to the technology generator's application view, but includes additional features which are updating application status, updating application details, and withdrawing applications. }
+    The page is similar to the technology generator's application view, but includes additional features which are updating application status, updating application details, and withdrawing applications. }
     \label{fig:admin_appview}  
 
 \end{figure}
@@ -128,7 +177,6 @@ The admin can also withdraw an application here, which is a feature that is not 
 As shown in \figref{fig:admin_view_collaboratorsA}, the TTBDO admin has a similar view to the technology generator; however, instead of filing reports, the admin can only view reports filed against collaborators. 
 Since it is possible that not all collaborators of the IP have IRIS accounts, the co-applicants can be listed as plain text upon the start of the application, and then the TTBDO admin can link their accounts if they have one in the system later on, as shown in \figref{fig:admin_view_collaboratorsB}.
 On certain cases where a collaborator has been reported, the TTBDO admin can also remove them from the system as shown in \figref{fig:admin_view_collaboratorsC}.
-
 
 \begin{figure}[H] % [p] 'p' forces this to its own page to avoid layout shifts
 
@@ -141,7 +189,6 @@ On certain cases where a collaborator has been reported, the TTBDO admin can als
     \end{subfigure}
 
 \end{figure}
-
 
 % --- PAGE 2: Figure (c) ---
 \begin{figure}[H] 
@@ -174,7 +221,7 @@ On certain cases where a collaborator has been reported, the TTBDO admin can als
 \subsubsection{TTBDO Admin Application Status Update View}
 The figure on \figref{fig:admin_status_update} shows the interface for updating the status of an IP right application that is a feature only available to a TTBDO admin. 
 The TTBDO admin is responsible for updating the status of an application as well as moving the application to another stage of the application process. 
-Certain steps that require deadlines are automatically calculated by the system, but the TTBDO admin can of course change this automatically suggested deadline as they see fit. 
+Certain steps that require deadlines are automatically calculated by the system, but the TTBDO admin can change this automatically suggested deadline as they see fit. 
 
 \begin{figure}[H] 
     \centering 
@@ -190,7 +237,6 @@ Certain steps that require deadlines are automatically calculated by the system,
 It is shown in \figref{fig:admin_app_details_update} that the TTBDO admin can also update the details of an IP right application such as the title, filing date, and IP number. 
 They are responsible for inputting the IP number, filing date, and IP title when they receive the information from IPOPHL.
 
-
 \begin{figure}[H] 
     \centering 
 
@@ -199,6 +245,34 @@ They are responsible for inputting the IP number, filing date, and IP title when
     } 
     \label{fig:admin_app_details_update}  
 
+\end{figure}
+
+\subsection{Status Update Requests}
+\label{sec:status_update_requests}
+The Status Update Requests feature allows TTBDO admins to view and manage follow-up requests submitted by technology generators. A request is created when a technology generator follows up an overdue application status from the specific application page.
+
+Once submitted, the request appears in the admin notification dropdown and in the complete list of status update requests. The dropdown provides immediate visibility of new requests, while the full requests page allows administrators to review all submitted follow-ups. Administrators may acknowledge a request after checking the related application. This helps ensure that overdue application steps are brought to the attention of the TTBDO admin.
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{status_update_request/dropdown.png}     
+    \caption[Status Update Request Dropdown]{Status update request dropdown showing follow-up requests submitted by technology generators.}
+    \label{fig:status_update_request_dropdown}                 
+\end{figure}
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{status_update_request/view_all.png}     
+    \caption[Status Update Requests Page]{Status Update Requests page showing the complete list of follow-up requests for administrator review.}
+    \label{fig:status_update_requests}                 
+\end{figure}
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{status_update_request/specific_application_view.png}     
+    \includegraphics[scale=0.2]{status_update_request/acknowledged_admin.png}     
+    \caption[Status Update Request in Application View]{Status update request in the specific application view. (a) The request is shown within the related application page. (b) The request is marked as acknowledged after administrator review.}
+    \label{fig:status_update_request_application_view}                 
 \end{figure}
 
 \subsection{Start an Application}
@@ -289,14 +363,25 @@ It is also shown in \figref{fig:new_application_formD} that the system only allo
 
 \end{figure}
 
-\subsection{Notification}
-IRIS has a notification component that is only available for technology generators and the TTBDO admin. Whenever there are changes (e.g., attachments submitted, status updated, title updated, application stage moved etc.) on an application, the technology generator is notified. Moreover, the TTBDO can also see notification whenever there are new applications started, or they have been contacted by a technology generator. \figref{fig:notification} shows the panel that pops up whenever the authenticated users interact with the bell icon on the top bar. The panel shows the notifications that are chronologically ordered to show the latest notification at the top.
+\subsection{Notifications}
+IRIS includes a notification component for technology generators and TTBDO admins. The system sends notifications when relevant changes occur in an application, such as attachment submissions, status updates, title updates, and application stage changes. Technology generators receive notifications related to their applications, while TTBDO admins receive notifications for relevant application activities.
+
+The notification dropdown appears when an authenticated user selects the bell icon on the top bar. It displays recent notifications in chronological order, with the most recent notification shown first, as shown in \figref{fig:notification}.
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.6]{notification.png}     
-    \caption[Notification Dropdown]{Notification Dropdown. The notification dropdown when users interact with the notification bell icon on the top bar. It is only shown for technology generators and the TTBDO admin.}
+    \includegraphics[scale=0.6]{notification/notification_dropdown.png}     
+    \caption[Notification Dropdown]{Notification dropdown showing recent application-related notifications from the top bar bell icon.}
     \label{fig:notification}                 
+\end{figure}
+
+Users can also open the View All Notifications page to see all notifications associated with their account. This page separates read and unread notifications for easier tracking and allows users to mark notifications as read in bulk, as shown in \figref{fig:view_all_notifications}.
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.6]{notification/notification_view_all.png}     
+    \caption[View All Notifications Page]{View All Notifications page showing read and unread notifications with bulk mark-as-read support.}
+    \label{fig:view_all_notifications}                 
 \end{figure}
 
 \subsubsection{Automatic Deadline Notifications}
@@ -326,31 +411,28 @@ The automatic notifications are sent both in-app and via email as shown in \figr
 \end{figure}
 
 \subsection{Dashboard}
-The dashboard presents a unified interface for admins, UP officials, and guests, where all users can access the same graphical representations derived from the existing Google Sheets charts maintained by the TTBDO, as seen in \figref{fig:dashboard_admin_guest_a} and \figref{fig:dashboard_admin_guest_b}. Technology generators, however, have a distinct perspective: their dashboard emphasizes key metrics and includes a dedicated table of their own applications. \figref{fig:dashboard_techgen_metrics} and \figref{fig:dashboard_techgen_table} show the metrics and table views for technology generators, respectively, allowing them to track progress efficiently.
+The Dashboard page provides summary reports and visual representations of IP application data in IRIS. The dashboard view differs depending on the user's role.
+
+For guests, administrators, and UP officials, the dashboard presents an overall IP portfolio overview. Users can select a reporting period, filter the displayed results by year range, and export the report as either a CSV or PDF file. The dashboard includes the grant rate, portfolio status overview, charts showing application distributions and yearly trends by status, non-grant outcomes, and a summary table for the selected reporting period.
 
 \begin{figure}[H]                
     \centering 
-    % (a) Top/first part of the dashboard
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[scale=0.3]{admin_dashboard_1.png}     
-        \caption{}
-        \label{fig:dashboard_admin_guest_a}
-        \vspace{1cm}
-    \end{subfigure}
-
-    % (b) Bottom/second part of the same dashboard
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[scale=0.45]{admin_dashboard_2.jpg}     
-        \caption{}
-        \label{fig:dashboard_admin_guest_b}
-    \end{subfigure}
-
-    \caption[Admin Dashboard Full View]{Full view of the Admin Dashboard. (a) Top section of the dashboard. (b) Bottom section showing the rest of the content.}
-    \label{fig:dashboard_admin_guest}
+    \includegraphics[scale=0.2]{dashboard/generalA.png}     
+    \includegraphics[scale=0.2]{dashboard/generalB.png}     
+    \includegraphics[scale=0.2]{dashboard/generalC.png}     
+    \includegraphics[scale=0.2]{dashboard/generalD.png}     
+    \caption[General Dashboard View]{General dashboard view divided into four captured sections due to the page length. The sections show the IP portfolio overview, reporting period filters, export options, status summaries, application trend charts, non-grant outcomes, and summary table.}
+    \label{fig:dashboard_general}                 
 \end{figure}
 
+For technology generators, the dashboard displays metrics based only on their own IP applications. It includes the total number of applications, filed applications, pending applications, granted applications, withdrawn applications, and downgraded applications. The page also presents breakdowns of the technology generator's applications by IP type and by year. This allows technology generators to monitor the status and distribution of their submitted applications.
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{dashboard/techgen.png}  
+    \caption[Technology Generator Dashboard View]{Technology generator dashboard view showing application metrics and breakdowns based on the user's own IP applications.}
+    \label{fig:dashboard_techgen}                 
+\end{figure}
 
 \begin{figure}[H]
     \centering
@@ -376,13 +458,31 @@ The dashboard presents a unified interface for admins, UP officials, and guests,
 \end{figure}
 
 \subsection{User Management}
-The User Management page is exclusively accessible to administrators. It provides a centralized interface for managing the accounts of UP Officials and Technology Generators. Administrators can view detailed information for each user, including contact details and assigned roles. Moreover, they can modify roles and account privileges as needed, ensuring that the system maintains appropriate access controls for all users. \figref{fig:user_management} shows the interface where administrators can perform these actions.
+The User Management page allows administrators to manage registered users and review registration requests in IRIS. It contains two main tables: the User Details table and the User Registration Requests table.
+
+The User Details table lists registered users and their relevant account information. Administrators can also invite users from this page by selecting the invite user button and providing the user's email address and assigned role. Other available user details are retrieved from the publicly available information associated with the user's email account, as shown in \figref{fig:user_details} and \figref{fig:invite_user_button}.
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[scale=0.3]{admin_user_management.png}     
-    \caption[User Management Page]{User Management Page for administrators. The page displays the list of UP Officials and Technology Generators, allowing admins to view details and modify roles.}
-    \label{fig:user_management}                 
+    \includegraphics[scale=0.2]{user_management/user_details.png}     
+    \caption[User Details Table]{User Details table showing registered users and their account information.}
+    \label{fig:user_details}                 
+\end{figure}
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{user_management/invite_user.png}     
+    \caption[Invite User Button]{Invite user button for adding users by email address and assigned role.}
+    \label{fig:invite_user_button}                 
+\end{figure}
+
+The User Registration Requests table displays submitted registration requests, including the user's name, email address, and college. Users who submit a registration request are initially assigned as technology generators, but administrators may change the assigned role during approval. Administrators may either approve or reject each request, as shown in \figref{fig:user_registration_requests}.
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[scale=0.2]{user_management/registration_requests.png}     
+    \caption[User Registration Requests Table]{User Registration Requests table showing pending requests and administrator actions for approval or rejection.}
+    \label{fig:user_registration_requests}                 
 \end{figure}
 
 \subsection{Application Registry}
@@ -447,54 +547,25 @@ The sorting options include sorting by filing date, IP title, registration date,
 \end{figure}
 
 \subsection{Application Documents}
-The Application Documents page provides a centralized location for users to view all forms and related documents associated with the IP application process. Both Guests and Technology Generators can access the page and initiate applications using the call-to-action buttons. However, only Technology Generators can track their latest submissions, as illustrated in \figref{fig:documents_techgen}. Clicking the button redirects Technology Generators to a dedicated application page that displays detailed information about their specific IP right applications (\figref{fig:applicant_appview}), enabling them to monitor progress, while Guests are primarily guided to apply.
+The Application Documents page provides a centralized location for users to view the relevant IP disclosure forms for each IP type. This page can be viewed by both guests and technology generators. Through this page, users can identify the required forms and documents needed for the IP application process.
+
+The page also includes a start application call-to-action button. When selected by a guest, the button redirects the user to the sign-in page. When selected by a technology generator, the button redirects the user to the new application page.
 
 \begin{figure}[H]                
     \centering 
-    % (a)
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[scale=0.3]{guest_application_documents.png}     
-        \caption{}
-        \label{fig:documents_guest}
-        \vspace{1cm}
-    \end{subfigure}
-
-    % (b)
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[scale=0.3]{techgen_application_documents.png}     
-        \caption{}
-        \label{fig:documents_techgen}
-    \end{subfigure}
-
-    \caption[Application Documents Views]{Application Documents views. (a) Guest and (b) Technology Generator view with different call-to-action buttons.}
+    \includegraphics[scale=0.3]{application_documents.png}     
+    \caption[Application Documents Page]{Application Documents Page. The page lists the relevant IP disclosure forms for each IP type and provides a start application button for guests and technology generators.}
     \label{fig:documents}
 \end{figure}
 
 \subsection{Application Guide}
-The application guide provides users with step-by-step instructions to navigate the IP application process. Guests are guided to submit new applications, while Technology Generators have the additional capability to track and manage their existing submissions. The guide content is identical for both roles, the only difference is the call-to-action functionality. 
+The Application Guide page provides step-by-step instructions and full application flow charts for the IP application process. The guide content is the same for guests and technology generators. Its call-to-action button redirects guests to the sign-in page and redirects technology generators to the new application page.
 
 \begin{figure}[H]                
     \centering 
-    % (a) Guest view
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[scale=0.3]{guest_application_documents.png}     
-        \caption{}
-        \label{fig:application_guide_guest}
-        \vspace{1cm}
-    \end{subfigure}
-
-    % (b) Technology Generator view
-    \begin{subfigure}[b]{\textwidth}
-        \centering
-        \includegraphics[scale=0.3]{techgen_application_documents.png}     
-        \caption{}
-        \label{fig:application_guide_techgen}
-    \end{subfigure}
-
-    \caption[Application Guide Views]{Application Guide views for Guests (a) and Technology Generators (b). Both roles see the same guide content; the only difference is the call-to-action functionality.}
+    \includegraphics[scale=0.3]{application_guide/guideA.png}     
+    \includegraphics[scale=0.3]{application_guide/guideB.png}     
+    \caption[Application Guide Page]{Application Guide page showing the step-by-step IP application instructions, full application flow charts, and role-based call-to-action redirection.}
     \label{fig:application_guide}
 \end{figure}
 
