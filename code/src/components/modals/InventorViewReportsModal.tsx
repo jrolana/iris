@@ -1,44 +1,31 @@
 import useInventorViewReportsModal from "@/hooks/useInventorViewReportsModal";
 import { useDeleteInventor } from "@/hooks/inventors/useDeleteInventorById";
 import { useConfirm } from "@/hooks/useConfirm";
+import { useResolveReport } from "@/hooks/reports/useResolveReport";
+import useRemoveInventorModal from "@/hooks/useRemoveInventorModal";
 
-import Modal from "./Modal";
-import Button from "../ui/button/Button";
 import { InventorType } from "@/lib/types/application";
 import { toast } from "sonner";
 import { ReportType } from "@/lib/types/reports";
 import { cn } from "@/lib/utils";
-import { useResolveReport } from "@/hooks/reports/useResolveReport";
+
+import Modal from "./Modal";
+import Button from "../ui/button/Button";
 
 export default function InventorReportsModal() {
   const { isOpen, closeModal, reports, setReports } =
     useInventorViewReportsModal();
-  const confirm = useConfirm();
+  const { openModal: openRemoveInventorModal } = useRemoveInventorModal();
 
   const subjectName =
     reports && reports.length > 0 ? reports[0].subject_name : null;
   const subjectId =
     reports && reports.length > 0 ? reports[0].subject_id : null;
 
-  const { deleteInventor, isLoading: isDeleting } = useDeleteInventor();
+  const { isLoading: isDeleting } = useDeleteInventor();
 
-  async function onRemoveInventor(
-    subjectName: InventorType["Row"]["full_name"],
-    subjectId: InventorType["Row"]["id"],
-  ) {
-    const isConfirmed = await confirm({
-      title: "Confirm Removal",
-      message: `Are you sure you want to remove ${subjectName} from the application? This action cannot be undone.`,
-    });
-
-    if (!isConfirmed) return;
-
-    toast.promise(deleteInventor({ id: subjectId }), {
-      loading: `Removing ${subjectName} from the application...`,
-      success: `${subjectName} has been removed from the application.`,
-      error: `Failed to remove ${subjectName} from the application. Please try again.`,
-      finally: () => closeModal(),
-    });
+  function handleRemoveClicked() {
+    openRemoveInventorModal();
   }
 
   return (
@@ -52,7 +39,7 @@ export default function InventorReportsModal() {
         reports={reports}
         subjectName={subjectName}
         subjectId={subjectId}
-        onRemoveInventor={onRemoveInventor}
+        handleRemoveClicked={handleRemoveClicked}
         isDeleting={isDeleting}
         setReports={setReports}
       />
@@ -76,10 +63,7 @@ interface ReportsContentProps {
   reports: ReportType["Row"][] | null | undefined;
   subjectName: InventorType["Row"]["full_name"] | null;
   subjectId: InventorType["Row"]["id"] | null;
-  onRemoveInventor: (
-    subjectName: InventorType["Row"]["full_name"],
-    subjectId: InventorType["Row"]["id"],
-  ) => void;
+  handleRemoveClicked: () => void;
   setReports: (reports: ReportType["Row"][]) => void;
   isDeleting: boolean;
 }
@@ -89,7 +73,7 @@ function ReportsContent(props: ReportsContentProps) {
     reports,
     subjectName,
     subjectId,
-    onRemoveInventor,
+    handleRemoveClicked,
     setReports,
     isDeleting,
   } = props;
@@ -99,8 +83,14 @@ function ReportsContent(props: ReportsContentProps) {
     : true;
 
   const { resolveReport, isLoading: isResolving } = useResolveReport();
+  const confirm = useConfirm();
 
   async function handleResolveReport(reportId: string) {
+    const isConfirmed = await confirm({
+      title: "Confirm Resolve",
+      message: `Are you sure you want to mark this report as resolved?`,
+    });
+    if (!isConfirmed) return;
     toast.promise(resolveReport({ reportId }), {
       loading: `Resolving report...`,
       success: `Report has been resolved.`,
@@ -158,7 +148,7 @@ function ReportsContent(props: ReportsContentProps) {
       )}
 
       <Button
-        onClick={() => onRemoveInventor(subjectName!, subjectId!)}
+        onClick={handleRemoveClicked}
         disabled={
           isDeleting ||
           !subjectName ||
