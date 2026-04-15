@@ -5,3 +5,4 @@ export const isAddNewVerifiedInventorModalOpen = atom(false);
 export const inventorState = atom<InventorType["Insert"] | null>(null);
 export const excludedUIDsState = atom<string[]>([]);
 export const isAdminAddingState = atom(false);
+export const applicationIdState = atom<string>("");

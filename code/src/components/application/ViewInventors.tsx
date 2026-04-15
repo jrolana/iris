@@ -49,12 +49,18 @@ function ViewInventors(props: ViewInventorsProps) {
     openModal: openAddVerifiedInventorModal,
     setExcludedUIDs,
     setIsAdminAdding,
+    setApplicationId,
   } = useAddNewVerifiedInventorModal();
 
   useEffect(() => {
     if (!existingUserIds || existingUserIds.length === 0) return;
     setExcludedUIDs(existingUserIds);
   }, [existingUserIds, setExcludedUIDs]);
+
+  useEffect(() => {
+    if (!appId) return;
+    setApplicationId(appId);
+  }, [appId, setApplicationId]);
 
   if (isLoading) {
     return (

@@ -1,8 +1,9 @@
 import { supabaseClient as supabase } from "@/lib/supabase"
+import { Database } from "@/lib/types/supabase";
 
 interface AcceptRejectInventorProps {
     inventorId: string;
-    status: "member" | "non-member";
+    status: Database["private"]["Enums"]["inventorstatustype"];
 }
 
 export const acceptRejectInventor = async (props: AcceptRejectInventorProps) => {

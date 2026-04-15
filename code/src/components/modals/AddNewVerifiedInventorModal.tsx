@@ -1,10 +1,10 @@
 import Modal from "./Modal";
 import useAddNewVerifiedInventorModal from "@/hooks/useAddNewVerifiedInventorModal";
 
-import SearchTab from "./AddVerifiedInventorModal/SearchTab";
+import SearchTab from "./AddNewVerifiedInventorModal/SearchTab";
 
 export default function AddNewVerifiedInventorModal() {
-  const { isOpen, closeModal, excludedUIDs, setInventor } =
+  const { isOpen, closeModal, excludedUIDs, isAdminAdding, applicationId } =
     useAddNewVerifiedInventorModal();
 
   return (
@@ -16,8 +16,9 @@ export default function AddNewVerifiedInventorModal() {
     >
       <div className="flex w-full max-w-lg min-w-[85vw] flex-col items-center sm:min-w-[480px]">
         <SearchTab
+          isAdminAdding={isAdminAdding}
           excludedUIDs={excludedUIDs}
-          setInventor={setInventor}
+          applicationId={applicationId}
           closeModal={closeModal}
         />
       </div>

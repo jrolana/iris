@@ -22,6 +22,17 @@ USING (
     private.check_inventor_access(application_id)
 )
 
+
+CREATE POLICY "Inventors on the same app and admin can add collaborators"
+ON private.inventors
+FOR INSERT
+TO authenticated
+USING (
+    private.is_admin()
+    OR
+    private.check_inventor_access(application_id)
+)
+
 DROP POLICY IF EXISTS "Admin can remove inventors" ON private.inventors;
 
 CREATE POLICY "Admin can remove inventors"
