@@ -47,17 +47,14 @@ function ViewInventors(props: ViewInventorsProps) {
 
   const {
     openModal: openAddVerifiedInventorModal,
-    inventor,
     setExcludedUIDs,
     setIsAdminAdding,
-    isAdminAdding,
   } = useAddNewVerifiedInventorModal();
 
   useEffect(() => {
-    if (inventor) {
-      setExcludedUIDs(existingUserIds);
-    }
-  }, [inventor, existingUserIds, setExcludedUIDs]);
+    if (!existingUserIds || existingUserIds.length === 0) return;
+    setExcludedUIDs(existingUserIds);
+  }, [existingUserIds, setExcludedUIDs]);
 
   if (isLoading) {
     return (
@@ -127,6 +124,7 @@ function ViewInventors(props: ViewInventorsProps) {
             <button
               type="button"
               onClick={() => {
+                setIsAdminAdding(false);
                 openAddVerifiedInventorModal();
               }}
               className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"

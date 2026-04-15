@@ -16,8 +16,6 @@ function useAddNewVerifiedInventorModal(){
       if (!isOpen) {
         // Reset inventor data when modal is closed
         setInventor(null);
-        setExcludedUIDs([]);
-        setIsAdminAdding(false);
       }
     }, [isOpen, setInventor, setExcludedUIDs, setIsAdminAdding]);
 
