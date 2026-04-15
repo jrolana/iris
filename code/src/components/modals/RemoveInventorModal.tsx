@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useRemoveInventorModal from "@/hooks/useRemoveInventorModal";
 import useInventorViewReportsModal from "@/hooks/useInventorViewReportsModal";
-import { useConfirm } from "@/hooks/useConfirm";
 import { useDeleteInventor } from "@/hooks/inventors/useDeleteInventorById";
+import { useSendNotifications } from "@/hooks/notifications/useSendNotifications";
 
 import Modal from "./Modal";
 import { Button } from "../ui/button";
@@ -11,9 +11,11 @@ import { toast } from "sonner";
 export default function RemoveInventorModal() {
   const [comment, setComment] = useState("");
   const { isOpen, closeModal } = useRemoveInventorModal();
+  const { closeModal: closeReportsModal } = useInventorViewReportsModal();
   const { reports } = useInventorViewReportsModal();
   const { deleteInventor, isLoading: isDeleting } = useDeleteInventor();
-  const confirm = useConfirm();
+  const { sendNotifications } = useSendNotifications();
+
   const subjectName =
     reports && reports.length > 0 ? reports[0].subject_name : null;
   const subjectId =
@@ -21,20 +23,60 @@ export default function RemoveInventorModal() {
   const isLoading = false;
 
   async function onRemoveInventor() {
-    const isConfirmed = await confirm({
-      title: "Confirm Removal",
-      message: `Are you sure you want to remove ${subjectName} from the application? This action cannot be undone.`,
-    });
-
-    if (!isConfirmed) return;
-
     toast.promise(deleteInventor({ id: subjectId as string }), {
       loading: `Removing ${subjectName} from the application...`,
       success: `${subjectName} has been removed from the application.`,
       error: `Failed to remove ${subjectName} from the application. Please try again.`,
-      finally: () => closeModal(),
+      finally: () => {
+        closeModal();
+        notifyCollaborators();
+      },
     });
+    notifyCollaborators();
+    closeModal();
+    closeReportsModal();
   }
+
+  async function notifyCollaborators() {
+    const appId =
+      reports && reports.length > 0 ? reports[0].application_id : null;
+    const receiverIds = reports
+      ? Array.from(
+          new Set(
+            reports.map((report) => report.reporter?.techgen_id as string),
+          ),
+        )
+      : [];
+    if (receiverIds.length === 0 || !appId) return;
+
+    const appName =
+      reports && reports.length > 0
+        ? reports[0].app.project_title
+        : "the application";
+
+    const content = `${subjectName} has been removed from ${appName}. Reason: ${comment}`;
+    const title = `${subjectName} removed from ${appName}`;
+
+    toast.promise(
+      sendNotifications({
+        receiverIds: receiverIds ?? [],
+        applicationId: appId,
+        content,
+        title,
+      }),
+      {
+        loading: "Notifying collaborators...",
+        success: "Collaborators have been notified of the removal.",
+        error: "Failed to notify collaborators.",
+      },
+    );
+  }
+
+  useEffect(() => {
+    if (!isOpen) {
+      setComment("");
+    }
+  }, [isOpen]);
 
   return (
     <Modal
