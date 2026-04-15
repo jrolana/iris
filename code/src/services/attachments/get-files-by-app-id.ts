@@ -39,5 +39,12 @@ export const getFilesByAppId = async (props: GetFilesByAppIdProps) => {
         });
     });
 
-  return result;
+    // sort groups by latest modified date, descending. first element is group with latest modified file
+    const sortedResult = result.toSorted((a, b) => {
+        const aDate = new Date(a[0].modified_at!).getTime();
+        const bDate = new Date(b[0].modified_at!).getTime();
+        return bDate - aDate;
+    });
+
+  return sortedResult;
 }
