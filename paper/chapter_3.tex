@@ -8,7 +8,7 @@ The study employed the Agile Software Development Life Cycle model, guided by th
 
 However, certain limitations in using Agile were also acknowledged. Iterative feedback could cause ongoing expansion of requirements, which was mitigated by maintaining clearly defined functional and non-functional requirements, prioritized backlogs, structured sprint goals, and careful decision-making before adding new requirements. Additionally, heavy reliance on stakeholder input could result in delays in the development process. This was mitigated through scheduled progress updates and predetermined feedback windows. In the absence of timely input, development proceeded according to the approved requirements baseline.
 
-Additionally, to help address these limitations, the developers used Jira to manage the product backlog and structure sprint activities. In line with this, Saiyad (2024) found a 25\% increase in project completion rates among teams using Jira, highlighting the tool's effectiveness in improving project management efficiency and team collaboration within Agile Scrum environments.
+Additionally, to help address these limitations, the developers used the Kanban board feature of GitHub Projects to manage the product backlog and monitor sprint progress. The board was organized into four columns: Backlog, In Progress, For Reviewing, and Done. Tasks were assigned to developers and updated accordingly as work progressed. The Scrum process was adapted into three-week sprint cycles to provide sufficient time for implementation, review, and feedback integration. At the end of each sprint, feedback was gathered from either the TTBDO or the research advisers. This feedback was translated into new tasks or refinements in the GitHub Projects board, allowing the developers to implement new features, improve existing functionalities, and address issues identified during review.
 
 \subsection{Research Framework}
 The research framework followed a systematic progression from problem identification, requirements analysis, system design, development, and evaluation.
@@ -22,10 +22,10 @@ Finally, the system was evaluated through the testing activities described in th
 \section{Development Tools and Technologies}
 
 \subsection{Software and Hardware}
-The following section describes the software tools and hardware specifications used in developing and testing the system. It outlines the purpose of each tool, the role they played in the development process, and the minimum hardware requirements needed to ensure smooth and efficient system performance.
+The following section describes the software tools and hardware specifications used in developing, deploying, and testing the system. It outlines the purpose of each tool and the minimum hardware requirements used to ensure stable development and testing.
 
 \subsubsection{Software Tools}
-The development of the system utilized several software tools that supported coding, design, database management, version control, deployment, and testing, as listed in Table~\ref{tab:software_tools}.
+The development of the system utilized several software tools that supported coding, design, version control, deployment, project management, and testing, as listed in Table~\ref{tab:software_tools}.
 
 \begingroup
 \setlength{\tabcolsep}{6pt}
@@ -33,7 +33,7 @@ The development of the system utilized several software tools that supported cod
 \small
 \begin{table}[H]
 \captionsetup{justification=raggedright,singlelinecheck=false}
-\caption[Software Tools]{Software Tools. The table shows the software tools utilized in the development of IRIS. It breaks down the tools into categories and justifies the purpose of using them.}
+\caption[Software Tools]{Software Tools. The table shows the software tools utilized in the development of IRIS.}
 \label{tab:software_tools}
 \begin{tabular}{|p{3cm}|p{5cm}|p{6.2cm}|}
 \hline
@@ -41,11 +41,11 @@ The development of the system utilized several software tools that supported cod
 \hline
 IDE & Visual Studio Code & Code development and debugging \\
 \hline
-Database, Authentication, and Storage & Supabase & Database modeling, user authentication, access control, and file storage \\
-\hline
 Design & Figma, Canva & UI/UX design and system diagrams \\
 \hline
-Version Control & GitHub & Source code management and collaboration \\
+Version Control and Project Management & GitHub, GitHub Projects & Source code management, collaboration, task assignment, and Kanban-based sprint tracking \\
+\hline
+Deployment & Vercel & Hosting and deployment of the web application \\
 \hline
 OS & Windows 10, 11 & Development environment \\
 \hline
@@ -57,9 +57,11 @@ Testing & Playwright Test & End-to-End testing \\
 \end{table}
 \endgroup
 
-Visual Studio Code served as the primary Integrated Development Environment (IDE), enabling efficient writing, editing, and debugging of code. Supabase was used for database management, authentication, access control, and storage of application-related records and files. For visual design needs, Figma and Canva were used to create UI/UX layouts, prototypes, and system diagrams.
+Visual Studio Code served as the primary Integrated Development Environment (IDE), enabling efficient writing, editing, and debugging of code. Figma and Canva were used to create UI/UX layouts, prototypes, and system diagrams.
 
-GitHub served as a version control platform, enabling source code management and collaboration among developers. The development environment ran on Windows 10 and Windows 11, while Google Chrome and Microsoft Edge were used to test the system's compatibility and performance across different browsers. Playwright Test was utilized for end-to-end testing, ensuring that the system functioned correctly under various role-based scenarios.
+GitHub served as the version control platform for source code management and collaboration, while GitHub Projects was used as a Kanban-based project management tool for organizing the backlog, assigning tasks, and tracking sprint progress. Vercel was used to deploy and host the web application, allowing the system to be accessed online during development, testing, and evaluation.
+
+The development environment ran on Windows 10 and Windows 11, while Google Chrome and Microsoft Edge were used to test system compatibility across browsers. Playwright Test was utilized for end-to-end testing to verify system behavior across role-based scenarios.
 
 \subsubsection{Hardware Specifications}
 The following hardware specifications outline the minimum requirements used during development and testing.
@@ -69,14 +71,14 @@ The following hardware specifications outline the minimum requirements used duri
   \item RAM: Minimum 8 GB
   \item Storage: 512 GB SSD
   \item Internet Connection: 30 Mbps minimum
-  \item Devices for testing: Desktop and Laptop Computers
+  \item Devices for testing: Desktop and laptop computers
 \end{itemize}
 
-Devices were equipped with an Intel Core i5 processor and at least 8 GB of RAM to ensure stable performance when running development tools and the system itself. A 512 GB SSD provided fast storage access, contributing to smoother operation during testing. An internet connection of at least 30 Mbps was required to support online services such as Supabase and GitHub. To verify system performance across various setups, testing was conducted on both desktop and laptop computers, ensuring that the system operated reliably on different device types.
+Devices were equipped with an Intel Core i5 processor and at least 8 GB of RAM to ensure stable performance when running development tools and the system itself. A 512 GB SSD provided sufficient storage and faster access during development and testing. An internet connection of at least 30 Mbps was required to support online services such as GitHub, Vercel, and Supabase. Testing was conducted on both desktop and laptop computers to verify that the system operated reliably across different device types.
 
 \subsection{Technology Stack}
 
-Table~\ref{tab:tech_stack} outlines the technology stack used in developing the system. This stack ensured that the system remained efficient, secure, and user-friendly across all layers, from the interface to the database and backend services.
+Table~\ref{tab:tech_stack} outlines the technology stack used in developing the system. This stack supported the implementation of the system interface, backend services, database operations, access control, storage, server-side functions, and email notification services.
 
 \begingroup
 \setlength{\tabcolsep}{6pt}
@@ -90,19 +92,25 @@ Table~\ref{tab:tech_stack} outlines the technology stack used in developing the 
     \hline
     \textbf{Component} & \textbf{Technology} & \textbf{Justification} \\
     \hline
-    Frontend and Server-Side Application & Next.js and Tailwind CSS & Responsive interface, protected routing, server-side functionality, and accessible UI components \\
+    Frontend and Server-Side Application & Next.js, React, Tailwind CSS & Responsive interface, reusable components, protected routing, server-side functionality, and accessible UI design \\
     \hline
-    Backend Services & Supabase & Authentication, database operations, role-based access control, file storage, and integration with the web application \\
+    Backend-as-a-Service & Supabase & Authentication, database operations, role-based access control, file storage, and integration with the web application \\
     \hline
     Database & PostgreSQL through Supabase & Structured storage for users, applications, documents, notifications, audit logs, status histories, and API-related records \\
+    \hline
+    Backend Logic and Automation & PostgreSQL RPCs, database triggers, Supabase Edge Functions & Server-side processing, automated workflows, notification handling, and enforcement of role-based system behavior \\
+    \hline
+    Email Notification Service & Nodemailer, Gmail SMTP & Sending automated email reminders and system notifications \\
     \hline
   \end{tabular}
 \end{table}
 \endgroup
 
-The frontend and server-side application of IRIS were built using Next.js and Tailwind CSS. These technologies provided a responsive and accessible user interface with role-based navigation and protected routing. This setup enabled Technology Generators, TTBDO Admins, UP Officials, and Guests to access pages and functions appropriate to their assigned roles, including application submission, registry browsing, dashboard viewing, document access, and administrative management.
+The frontend and server-side application of IRIS were built using Next.js, React, and Tailwind CSS. These technologies provided a responsive and accessible user interface with role-based navigation and protected routing. This setup enabled Technology Generators, TTBDO Admins, UP Officials, and Guests to access pages and functions appropriate to their assigned roles, including application submission, registry browsing, dashboard viewing, document access, and administrative management.
 
-Supabase was used as the main backend service for authentication, database management, access control, and file storage. Its authentication features supported Google-based sign-in, while its database and storage features supported IP application records, user accounts, application attachments, status histories, notifications, audit trail entries, and controlled access to system data. PostgreSQL, through Supabase, provided the structured relational database used by the system.
+Supabase served as the main backend-as-a-service platform of IRIS, supporting authentication, database management, access control, file storage, backend logic, and server-side automation. Through PostgreSQL, the system stored structured records such as user accounts, IP applications, attachments, status histories, notifications, audit trail entries, and API-related records. Supabase also supported Google-based sign-in, role-based access control, remote procedure calls (RPCs), database triggers, and Edge Functions used to automate system processes and enforce role-based workflows.
+
+Nodemailer and Gmail SMTP were used to support the system's automated email notification service, particularly for sending deadline reminders and other system-generated messages to users.
 
 \section{Requirements Analysis}
 
