@@ -88,13 +88,13 @@ function ViewInventors(props: ViewInventorsProps) {
       <div className="mt-4">
         {isAdmin ? (
           <>
-            {/* <button
+            <button
               type="button"
-              onClick={onAddInventor}
+              onClick={() => {}}
               className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
             >
-              Add inventor
-            </button> */}
+              Add technology generator
+            </button>
             <p className="mt-2 text-sm text-gray-500">
               Link an IRIS account to a tech gen to let them access this
               application.
