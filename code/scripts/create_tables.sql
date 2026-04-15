@@ -117,6 +117,7 @@ CREATE TABLE private.inventors (
     college VARCHAR(20) NOT NULL,
     comments TEXT,
     external_institution TEXT NULL,
+    is_pending BOOLEAN DEFAULT FALSE,
 
     UNIQUE(application_id, email),
 
