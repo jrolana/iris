@@ -115,11 +115,12 @@ export default function ApplicationsTable(props: PropsInterface) {
 
   const tableHeaders = [
     "IP Title",
-    "Project Title",
-    "Type",
-    "Filing Date",
+    "Project Source",
     "Funding Agency",
     "Technology Generators",
+    "Application Number",
+    "Filing Date",
+    "Type",
   ]
     .concat(isOfficial ? ["Status"] : [])
     .concat(isAdmin || isTechgen ? ["Status", "Actions"] : []);
@@ -435,17 +436,9 @@ export default function ApplicationsTable(props: PropsInterface) {
                         : record.project_title}
                     </TableCell>
                     <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      {ipTypeToTitle(record.ip_type as IpType) || "--"}
-                    </TableCell>
-                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      {record.filing_date
-                        ? formatDate(record.filing_date)
-                        : "--"}
-                    </TableCell>
-
-                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                       {record.funding_agency || "--"}
                     </TableCell>
+                    {/* tech gens */}
                     <TableCell
                       className="text-theme-sm p-2 py-3 text-gray-800"
                       colSpan={2}
@@ -487,6 +480,17 @@ export default function ApplicationsTable(props: PropsInterface) {
                           </div>
                         ))}
                       </div>
+                    </TableCell>
+                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                      {record.ip_number || "--"}
+                    </TableCell>
+                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                      {record.filing_date
+                        ? formatDate(record.filing_date)
+                        : "--"}
+                    </TableCell>
+                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                      {ipTypeToTitle(record.ip_type as IpType) || "--"}
                     </TableCell>
 
                     {(isAdmin || isTechgen || isOfficial) && (

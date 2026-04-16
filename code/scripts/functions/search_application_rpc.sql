@@ -17,6 +17,7 @@ RETURNS TABLE (
     filing_date DATE,
     created_at TIMESTAMPTZ,
     updated_at TIMESTAMPTZ,
+    ip_number TEXT,
     is_archived BOOLEAN,
     is_withdrawn BOOLEAN
 ) AS $$
@@ -86,6 +87,7 @@ BEGIN
             app.filing_date,
             app.created_at,
             app.updated_at,
+            app.ip_number,
             app.is_archived,
             app.is_withdrawn
         FROM private.ipr_applications app
