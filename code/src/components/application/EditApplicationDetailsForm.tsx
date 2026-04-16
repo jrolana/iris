@@ -70,6 +70,7 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
     setEditIpNumberB(ipNumberParts[1] ?? "");
     setEditIpNumberC(ipNumberParts[2] ?? "");
     setEditFilingDate(filingDate ? fromSupabaseDate(filingDate) : null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, ipTitle, ipNumber, filingDate]);
 
   const trimmedTitle = editIpTitle.trim();

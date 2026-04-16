@@ -34,6 +34,7 @@ import { format, isSameDay } from "date-fns";
 import { CalendarIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import useEditApplicationDetailsModal from "@/hooks/useEditApplicationDetailsModal";
 
 interface PropsInterface {
   application: ApplicationType["Row"];
@@ -49,6 +50,8 @@ function StatusUpdateForm(props: PropsInterface) {
   const { updateStatus } = useUpdateStatus({ applicationId });
   const { addStatus } = useAddStatus();
   const { downgradeApp } = useDowngradeToUM();
+  const { openModal: openEditApplicationDetailsModal } =
+    useEditApplicationDetailsModal();
   const confirm = useConfirm();
   const [isDowngrading, setIsDowngrading] = useState(false);
   const router = useRouter();
@@ -394,6 +397,9 @@ function StatusUpdateForm(props: PropsInterface) {
     });
     queryClient.invalidateQueries({ queryKey: ["application", applicationId] });
     setIsSubmitting(false);
+    if (isStatusChanged && selectedStatus === "filed_with_ipophil") {
+      openEditApplicationDetailsModal();
+    }
     closeModal();
   };
 
