@@ -57,9 +57,9 @@ export default function BaseLayout({
         />
 
         {/* Page Content */}
-        <div className="mx-auto flex w-full max-w-(--breakpoint-2xl) flex-1 flex-col p-4 md:p-6">
+        <main className="mx-auto flex w-full max-w-(--breakpoint-2xl) flex-1 flex-col p-4 md:p-6">
           {children}
-        </div>
+        </main>
       </div>
     </div>
   );
