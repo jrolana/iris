@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className}`}>
+      <body className={outfit.className}>
         <Toaster />
         <TanStackProvider>
           <UserProvider>

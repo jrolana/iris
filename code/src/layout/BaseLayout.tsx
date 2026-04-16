@@ -36,7 +36,7 @@ export default function BaseLayout({
 
   return (
     <div className="flex min-h-screen flex-col xl:flex-row">
-      <ModalProvider />
+      {!isPublic && <ModalProvider />}
       {/* Sidebar + Backdrop */}
       {!isFullWidth && navItems && (
         <AppSidebar
