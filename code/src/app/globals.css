@@ -281,6 +281,24 @@
 }
 
 @layer utilities {
+  @keyframes sky-pulse {
+    0%,
+    100% {
+      /* Very subtle, almost invisible shadow at the start/end */
+      box-shadow: 0 0 2px 0 rgba(14, 165, 233, 0.1);
+      border-color: rgba(14, 165, 233, 0.1); /* sky-500 at 20% opacity */
+    }
+    50% {
+      /* Soft glow at the peak of the pulse */
+      box-shadow: 0 0 6px 2px rgba(14, 165, 233, 0.15);
+      border-color: rgba(14, 165, 233, 0.2); /* sky-500 at 50% opacity */
+    }
+  }
+
+  .animate-sky-pulse {
+    animation: sky-pulse 3s ease-in-out infinite;
+  }
+
   /* For Remove Date Icon */
   input[type="date"]::-webkit-inner-spin-button,
   input[type="time"]::-webkit-inner-spin-button,

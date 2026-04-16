@@ -8,6 +8,8 @@ import CallToAction from "@/components/common/CallToAction";
 import DisclosureFormActions from "@/components/application/DisclosureFormActions";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import { IpType, IP_TYPES } from "@/lib/types/ip";
+import { cn } from "@/lib/utils";
+import Button from "../ui/button/Button";
 
 interface PropsInterface {
   isApplicant?: boolean;
@@ -69,23 +71,18 @@ export default function ApplicationDocuments(props: PropsInterface) {
           </div>
         </section>
 
-        <aside className="space-y-4">
-          <CallToAction
-            isApplicant={isApplicant}
-            title={isApplicant ? "Ready to begin?" : "Ready to apply?"}
-            description={
-              isApplicant
-                ? "Start a new IP application once you’re ready."
-                : "Sign in to IRIS when you’re ready to begin your application."
-            }
-            primaryLabel={
-              isApplicant
-                ? "Start a New IP Application"
-                : "Apply for IP Protection"
-            }
-            primaryHref={isApplicant ? "/techgen/new-application" : "/signin"}
-            showSecondaryButton={false}
-          />
+        <aside
+          className={`space-y-4 ${isApplicant ? "" : "flex flex-col-reverse justify-end gap-2"}`}
+        >
+          {isApplicant && (
+            <CallToAction
+              title="Ready to begin?"
+              description="Start a new IP application once you’re ready."
+              primaryLabel="Start a New IP Application"
+              primaryHref="/techgen/new-application"
+              showSecondaryButton={false}
+            />
+          )}
 
           <section className="rounded-3xl border border-slate-200 bg-white p-5">
             <div className="flex items-center gap-2">
@@ -104,7 +101,15 @@ export default function ApplicationDocuments(props: PropsInterface) {
             </ul>
           </section>
 
-          <section className="rounded-3xl border border-slate-200 bg-white p-5">
+          <section
+            className={cn(
+              "bg-white p-5 transition-all duration-300",
+              isApplicant
+                ? // Applying our new custom class from globals.css
+                  "rounded-3xl border border-slate-200"
+                : "animate-sky-pulse rounded-3xl border-2",
+            )}
+          >
             <div className="flex items-center gap-2">
               <div className="rounded-xl bg-slate-100 p-2">
                 <CircleHelp className="h-5 w-5 text-slate-700" />
@@ -115,9 +120,22 @@ export default function ApplicationDocuments(props: PropsInterface) {
             </div>
 
             <p className="mt-3 text-sm text-slate-600">
-              You can review the files here first, then use the application
-              wizard when you are ready to begin.
+              {isApplicant
+                ? "You can review the files here first, then use the application wizard when you are ready to begin."
+                : "You can review the files here to get familiar with the application process. You can also check out the application wizard to find out which IP type is right for you."}
             </p>
+            {!isApplicant && (
+              <Button
+                size="md"
+                variant="primary"
+                onClick={() => {
+                  globalThis.location.href = "/wizard";
+                }}
+                className="mt-4 w-full flex-1"
+              >
+                Use Application Wizard
+              </Button>
+            )}
           </section>
         </aside>
       </div>
