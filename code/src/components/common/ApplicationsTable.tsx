@@ -91,7 +91,6 @@ export default function ApplicationsTable(props: PropsInterface) {
       label: `${isAscendingSort ? "IP Title (A-Z)" : "IP Title (Z-A)"}`,
     },
     { value: "filing_date", label: "Filing Date " },
-    { value: "registration_date", label: "Registration Date" },
     { value: "created_at", label: "Date Added" },
     { value: "updated_at", label: "Updated Date" },
   ];
@@ -119,7 +118,6 @@ export default function ApplicationsTable(props: PropsInterface) {
     "Project Title",
     "Type",
     "Filing Date",
-    "Registration Date",
     "Funding Agency",
     "Technology Generators",
   ]
@@ -444,11 +442,7 @@ export default function ApplicationsTable(props: PropsInterface) {
                         ? formatDate(record.filing_date)
                         : "--"}
                     </TableCell>
-                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      {record.registration_date
-                        ? formatDate(record.registration_date)
-                        : "--"}
-                    </TableCell>
+
                     <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                       {record.funding_agency || "--"}
                     </TableCell>
