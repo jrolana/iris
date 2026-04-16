@@ -1,5 +1,3 @@
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import {
   SummaryTableRow,
   SummaryTotals,
@@ -38,19 +36,25 @@ type ApexDataUriResult = {
   imgURI: string;
 };
 
+type JsPDFInstance = import("jspdf").jsPDF;
+
 const downloadBlob = (blob: Blob, filename: string) => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
+
   link.href = url;
   link.download = filename;
+
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+
   URL.revokeObjectURL(url);
 };
 
 const escapeCsvValue = (value: string | number | null | undefined) => {
   const stringValue = String(value ?? "");
+
   if (
     stringValue.includes(",") ||
     stringValue.includes('"') ||
@@ -58,6 +62,7 @@ const escapeCsvValue = (value: string | number | null | undefined) => {
   ) {
     return `"${stringValue.replace(/"/g, '""')}"`;
   }
+
   return stringValue;
 };
 
@@ -126,17 +131,17 @@ const getChartImage = async (chartId: string) => {
 };
 
 const drawText = (
-  pdf: jsPDF,
+  pdf: JsPDFInstance,
   text: string,
   x: number,
   y: number,
-  options?: Parameters<jsPDF["text"]>[3],
+  options?: Parameters<JsPDFInstance["text"]>[3],
 ) => {
   pdf.text(text, x, y, options);
 };
 
 const drawSectionHeader = (
-  pdf: jsPDF,
+  pdf: JsPDFInstance,
   title: string,
   margin: number,
   y: number,
@@ -147,7 +152,7 @@ const drawSectionHeader = (
 };
 
 const drawLabelChips = (
-  pdf: jsPDF,
+  pdf: JsPDFInstance,
   labels: ChartLabelItem[],
   startX: number,
   startY: number,
@@ -191,6 +196,13 @@ export const exportDashboardPdf = async ({
 }: ExportDashboardPdfParams) => {
   if (typeof window === "undefined") return;
 
+  const [{ default: jsPDF }, autoTableModule] = await Promise.all([
+    import("jspdf"),
+    import("jspdf-autotable"),
+  ]);
+
+  const autoTable = autoTableModule.default;
+
   const pdf = new jsPDF("p", "mm", "a4");
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
@@ -218,12 +230,14 @@ export const exportDashboardPdf = async ({
     pdf.setTextColor(75, 85, 99);
     drawText(pdf, `Timeline: ${yearFrom}–${yearTo}`, margin, cursorY);
     cursorY += 5;
+
     drawText(
       pdf,
       `Exported At: ${new Date().toLocaleString()}`,
       margin,
       cursorY,
     );
+
     cursorY += 10;
   };
 
@@ -367,6 +381,7 @@ export const exportDashboardPdf = async ({
   });
 
   const pageCount = pdf.getNumberOfPages();
+
   for (let i = 1; i <= pageCount; i += 1) {
     pdf.setPage(i);
     pdf.setFont("helvetica", "normal");

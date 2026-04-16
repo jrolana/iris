@@ -1,18 +1,19 @@
 "use client";
 
 import { memo, useMemo } from "react";
-import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
+import type { ApexOptions } from "apexcharts";
+import { PieChartIcon } from "lucide-react";
 import {
   COLORS,
   IP_TYPE_COLOR_MAP,
   FALLBACK_IP_COLOR,
 } from "@/lib/constants/ui";
 import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
-import { PieChartIcon } from "lucide-react";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
+  loading: () => null,
 });
 
 type PieChartDatum = {
@@ -27,6 +28,26 @@ interface PropsInterface {
   colors?: string[];
   data: PieChartDatum[];
   chartId?: string;
+}
+
+function EmptyState({ height }: { height: number }) {
+  return (
+    <div
+      className="flex w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60"
+      style={{ minHeight: height }}
+    >
+      <div className="flex flex-col items-center px-6 text-center">
+        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white ring-1 ring-gray-200">
+          <PieChartIcon className="h-5 w-5 text-gray-400" />
+        </div>
+
+        <p className="text-sm font-medium text-gray-700">No data available</p>
+        <p className="mt-1 max-w-[220px] text-xs leading-5 text-gray-500">
+          There is no data to visualize for this status.
+        </p>
+      </div>
+    </div>
+  );
 }
 
 function PieChart(props: PropsInterface) {
@@ -62,6 +83,9 @@ function PieChart(props: PropsInterface) {
         fontFamily: "Outfit, sans-serif",
         width: "100%",
         height: CHART_HEIGHT,
+        animations: {
+          enabled: false,
+        },
         toolbar: {
           show: false,
         },
@@ -139,23 +163,7 @@ function PieChart(props: PropsInterface) {
       </div>
 
       {!series.length ? (
-        <div
-          className="flex w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60"
-          style={{ minHeight: `${CHART_HEIGHT}px` }}
-        >
-          <div className="flex flex-col items-center px-6 text-center">
-            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white ring-1 ring-gray-200">
-              <PieChartIcon className="h-5 w-5 text-gray-400" />
-            </div>
-
-            <p className="text-sm font-medium text-gray-700">
-              No data available
-            </p>
-            <p className="mt-1 max-w-[220px] text-xs leading-5 text-gray-500">
-              There is no data to visualize for this status.
-            </p>
-          </div>
-        </div>
+        <EmptyState height={CHART_HEIGHT} />
       ) : (
         <div
           className="w-full overflow-hidden"

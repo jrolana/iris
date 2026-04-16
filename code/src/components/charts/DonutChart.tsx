@@ -1,13 +1,7 @@
 "use client";
 
-import { memo, useMemo } from "react";
-import { ApexOptions } from "apexcharts";
+import { memo } from "react";
 import ThreeSummary from "../common/ThreeSummary";
-import dynamic from "next/dynamic";
-
-const ReactApexChart = dynamic(() => import("react-apexcharts"), {
-  ssr: false,
-});
 
 type SummaryMetrics = {
   overallRate: number;
@@ -39,90 +33,77 @@ function DonutChart(props: PropsInterface) {
     chartId,
   } = props;
 
-  const series = useMemo(() => [metrics.overallRate], [metrics.overallRate]);
+  const rate = Math.max(0, Math.min(100, metrics.overallRate || 0));
+  const displayRate = Number.isInteger(rate) ? rate.toString() : rate.toFixed(2);
+  const progressColor = colors[0] ?? "#465FFF";
 
-  const options: ApexOptions = useMemo(
-    () => ({
-      chart: {
-        id: chartId,
-        type: "radialBar",
-        fontFamily: "Outfit, sans-serif",
-        sparkline: {
-          enabled: true,
-        },
-      },
-      colors,
-      labels: ["Progress"],
-      legend: {
-        show: false,
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      plotOptions: {
-        radialBar: {
-          startAngle: -80,
-          endAngle: 80,
-          hollow: {
-            size: "75%",
-          },
-          track: {
-            background: "#E4E7EC",
-            margin: 0,
-          },
-          dataLabels: {
-            name: { show: false },
-            value: {
-              fontSize: "32px",
-              fontWeight: "600",
-              offsetY: -8,
-              color: "#1D2939",
-              formatter: (val: number) => `${val}%`,
-            },
-          },
-        },
-      },
-      fill: {
-        type: "solid",
-      },
-      stroke: {
-        lineCap: "round",
-      },
-    }),
-    [chartId, colors],
-  );
+  const radius = 86;
+  const strokeWidth = 18;
+  const halfCircumference = Math.PI * radius;
+
+  const progressLength = (rate / 100) * halfCircumference;
+  const remainingLength = halfCircumference - progressLength;
+
+  const arcPath = "M 24 110 A 86 86 0 0 1 196 110";
 
   return (
-    <div className="shadow-default relative rounded-2xl border border-gray-200 bg-gray-100">
-      <div className="rounded-2xl bg-white p-5">
+    <div
+      id={chartId}
+      className="shadow-default overflow-hidden rounded-2xl border border-gray-200 bg-white"
+    >
+      <div className="p-5">
         <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
         <p className="mt-1 text-sm text-gray-500">{subtitle}</p>
 
-        <div className="mt-4 h-[250px] w-full sm:h-[300px]">
-          <ReactApexChart
-            key={`${chartId}-${metrics.overallRate}-${metrics.currentYear}-${metrics.previousYear}`}
-            options={options}
-            series={series}
-            type="radialBar"
-            width="100%"
-            height="100%"
-          />
+        <div className="mt-6 flex w-full items-center justify-center">
+          <div className="relative mx-auto h-[150px] w-[220px]">
+            <svg
+              viewBox="0 0 220 140"
+              className="block h-full w-full"
+              role="img"
+              aria-label={`Grant rate is ${displayRate}%`}
+            >
+              <path
+                d={arcPath}
+                fill="none"
+                stroke="#E4E7EC"
+                strokeWidth={strokeWidth}
+                strokeLinecap="round"
+              />
+
+              {rate > 0 && (
+                <path
+                  d={arcPath}
+                  fill="none"
+                  stroke={progressColor}
+                  strokeWidth={strokeWidth}
+                  strokeLinecap="round"
+                  strokeDasharray={`${progressLength} ${remainingLength}`}
+                />
+              )}
+            </svg>
+
+            <div className="absolute inset-x-0 top-[74px] flex flex-col items-center justify-center text-center">
+              <span className="text-3xl font-semibold text-gray-800">
+                {displayRate}%
+              </span>
+              <span className="mt-1 text-xs text-gray-500">Grant Rate</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="absolute bottom-0 w-full">
-        <ThreeSummary
-          currentFiled={metrics.currentFiled}
-          previousFiled={metrics.previousFiled}
-          currentGranted={metrics.currentGranted}
-          previousGranted={metrics.previousGranted}
-          currentRate={metrics.currentRate}
-          previousRate={metrics.previousRate}
-          currentYear={metrics.currentYear}
-          previousYear={metrics.previousYear}
-          hasYearComparison={metrics.hasYearComparison}
-        />
-      </div>
+      <ThreeSummary
+        currentFiled={metrics.currentFiled}
+        previousFiled={metrics.previousFiled}
+        currentGranted={metrics.currentGranted}
+        previousGranted={metrics.previousGranted}
+        currentRate={metrics.currentRate}
+        previousRate={metrics.previousRate}
+        currentYear={metrics.currentYear}
+        previousYear={metrics.previousYear}
+        hasYearComparison={metrics.hasYearComparison}
+      />
     </div>
   );
 }
