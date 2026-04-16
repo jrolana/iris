@@ -347,6 +347,7 @@ export default function ApplicationsTable(props: PropsInterface) {
           techgens,
           ip_types: ipTypes,
         }}
+        isGuest={!isTechgen && !isAdmin && !isOfficial}
       />
 
       <ActiveFilters
