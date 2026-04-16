@@ -1,133 +1,174 @@
-\appendix % switch to appendix mode (A, B, ...)
+\appendix
 
 \chapter{Functional Requirements Tables}
 \label{sec:appendixa}
 
-This appendix contains the complete set of functional requirements (FR) for IRIS, organized by the seven key functional areas. These tables provide detailed descriptions of the specific system behaviors, capabilities, and interactions necessary to address the inefficiencies of TTBDO’s current manual IP management process. They serve as a reference to guide the design and implementation of the system.
+This appendix presents the functional requirements (FRs) that served as the basis for the design and implementation of IRIS. The requirements are organized according to the main system capabilities needed to support intellectual property application management, role-based access, document handling, monitoring, reporting, and public access. These requirements define the expected system functions at a general level and do not necessarily describe every interface element or implementation detail presented in Chapter 4.
 
 %-------------------------------------------------------
-\section{Authentication \& User Roles}
+\section{Authentication and Role-Based Access}
 
 \begin{table}[H]
 \centering
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
 \small
-\caption{Authentication \& User Roles}
+\caption{Authentication and Role-Based Access}
 \label{tab:fr_auth_roles}
 \begin{tabular}{|p{2.2cm}|p{12cm}|}
 \hline
 \textbf{ID} & \textbf{Requirement} \\
 \hline
-FR-01 & The system SHALL require users to authenticate before accessing internal features. \\
+FR-01 & The system shall require registered users to authenticate before accessing internal system features. \\
 \hline
-FR-02 & The system SHALL implement role-based access control (TTBDO, Applicant, UP Official, Guest). \\
+FR-02 & The system shall implement role-based access control for Technology Generators, TTBDO Admins, UP Officials, and Guests. \\
 \hline
-\end{tabular}
-\end{table}
-
-%-------------------------------------------------------
-\section{Submission of Application}
-
-\begin{table}[H]
-\centering
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
-\small
-\caption{Submission of Application}
-\begin{tabular}{|p{2.2cm}|p{12cm}|}
-\hline
-\textbf{ID} & \textbf{Requirement} \\
-\hline
-FR-03 & The system SHALL allow download of standardized Invention Disclosure Forms (IDFs) by IP type. \\
-\hline
-FR-04 & The system SHALL guide users in selecting the correct IDF type before application. \\
-\hline
-FR-05 & The system SHALL allow users to review IP-related application documents, including but not limited to Final Examination Reports (FER), Subsequent Examination Reports (SER), and other related correspondence. \\
-\hline
-FR-06 & The system SHALL log timestamps when application statuses are updated. \\
+FR-03 & The system shall allow administrators to manage user access through approval, invitation, and role assignment. \\
 \hline
 \end{tabular}
 \end{table}
 
 %-------------------------------------------------------
-\section{Application Tracking}
+\section{IP Application Management}
 
 \begin{table}[H]
 \centering
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
 \small
-\caption{Application Tracking}
+\caption{IP Application Management}
+\label{tab:fr_application_management}
 \begin{tabular}{|p{2.2cm}|p{12cm}|}
 \hline
 \textbf{ID} & \textbf{Requirement} \\
 \hline
-FR-07 & The system SHALL maintain a registry of Applicants and their submissions. \\
+FR-04 & The system shall allow authorized users to create and manage intellectual property application records. \\
 \hline
-FR-08 & The system SHALL allow authorized users to view and search applicant submission histories. \\
+FR-05 & The system shall guide users in selecting the appropriate intellectual property application type. \\
 \hline
-FR-09 & The system SHOULD provide filters and faceted search over the registry. \\
+FR-06 & The system shall allow authorized users to view application details, status history, collaborators, and related documents. \\
+\hline
+FR-07 & The system shall record timestamps for relevant application updates and status changes. \\
 \hline
 \end{tabular}
 \end{table}
 
 %-------------------------------------------------------
-\section{Dashboards \& Reporting}
+\section{Application Tracking and Registry}
 
 \begin{table}[H]
 \centering
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
 \small
-\caption{Dashboards \& Reporting}
+\caption{Application Tracking and Registry}
+\label{tab:fr_tracking_registry}
 \begin{tabular}{|p{2.2cm}|p{12cm}|}
 \hline
 \textbf{ID} & \textbf{Requirement} \\
 \hline
-FR-10 & The system SHALL provide dashboards with real-time statistics, breakdowns, and trends. \\
+FR-08 & The system shall maintain a registry of intellectual property applications. \\
 \hline
-FR-11 & The system SHOULD allow generation and export of reports in machine-readable formats (CSV, XLSX) and human-readable formats (PDF) to support both automated processing and manual review. \\
+FR-09 & The system shall allow authorized users to search, filter, sort, and view application records based on their role permissions. \\
+\hline
+FR-10 & The system shall allow users to monitor the current status and progress of an application. \\
 \hline
 \end{tabular}
 \end{table}
 
 %-------------------------------------------------------
-\section{Notifications}
+\section{Document and Attachment Management}
 
 \begin{table}[H]
 \centering
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
 \small
-\caption{Notifications}
+\caption{Document and Attachment Management}
+\label{tab:fr_document_management}
 \begin{tabular}{|p{2.2cm}|p{12cm}|}
 \hline
 \textbf{ID} & \textbf{Requirement} \\
 \hline
-FR-12 & The system SHALL send in-app notifications when application statuses change or deadlines approach. \\
+FR-11 & The system shall allow authorized users to upload and access supporting documents associated with an application. \\
 \hline
-FR-13 & The system SHALL maintain a notification history for each user. \\
+FR-12 & The system shall maintain records of document updates to support traceability. \\
+\hline
+FR-13 & The system shall enforce role-based access restrictions for application documents and attachments. \\
+\hline
+FR-14 & The system shall provide access to relevant application forms, guides, and reference documents. \\
 \hline
 \end{tabular}
 \end{table}
 
 %-------------------------------------------------------
-\section{Document Management}
+\section{Collaborator Management}
 
 \begin{table}[H]
 \centering
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
 \small
-\caption{Document Management}
+\caption{Collaborator Management}
+\label{tab:fr_collaborator_management}
 \begin{tabular}{|p{2.2cm}|p{12cm}|}
 \hline
 \textbf{ID} & \textbf{Requirement} \\
 \hline
-FR-14 & The system SHALL allow TTBDO staff to upload supporting documents and link them to application records. \\
+FR-15 & The system shall allow authorized users to associate collaborators with an intellectual property application. \\
 \hline
-FR-15 & The system SHALL secure documents and enforce role-based access restrictions. \\
+FR-16 & The system shall allow authorized users to view collaborator information linked to an application. \\
+\hline
+FR-17 & The system shall provide a mechanism for reporting or managing collaborator-related concerns. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Notifications and Reminders}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Notifications and Reminders}
+\label{tab:fr_notifications}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-18 & The system shall notify users about relevant application updates, status changes, and document-related actions. \\
+\hline
+FR-19 & The system shall provide reminders for time-sensitive application activities and deadlines. \\
+\hline
+FR-20 & The system shall maintain a notification history for users. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Dashboards and Reporting}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Dashboards and Reporting}
+\label{tab:fr_dashboards_reporting}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-21 & The system shall provide dashboards that summarize application statistics, trends, and status distributions. \\
+\hline
+FR-22 & The system shall allow authorized users to generate or export reports for monitoring and decision-making. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Audit Trail and Accountability}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Audit Trail and Accountability}
+\label{tab:fr_audit_trail}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-23 & The system shall maintain an audit trail of relevant user and system actions. \\
+\hline
+FR-24 & The system shall allow authorized users to review recorded activities for accountability and traceability. \\
 \hline
 \end{tabular}
 \end{table}
@@ -137,8 +178,6 @@ FR-15 & The system SHALL secure documents and enforce role-based access restrict
 
 \begin{table}[H]
 \centering
-\setlength{\tabcolsep}{6pt}
-\renewcommand{\arraystretch}{1.05}
 \small
 \caption{Public Portal}
 \label{tab:fr_public_portal}
@@ -146,9 +185,28 @@ FR-15 & The system SHALL secure documents and enforce role-based access restrict
 \hline
 \textbf{ID} & \textbf{Requirement} \\
 \hline
-FR-16 & The system SHALL provide a guest-accessible, read-only portal to browse published IPs. \\
+FR-25 & The system shall provide a read-only public portal for viewing published intellectual property information. \\
 \hline
-FR-17 & The system SHALL display summary statistics in the public portal. \\
+FR-26 & The system shall display public-facing application information, summary statistics, and relevant application resources. \\
+\hline
+\end{tabular}
+\end{table}
+
+%-------------------------------------------------------
+\section{Interoperability}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Interoperability}
+\label{tab:fr_interoperability}
+\begin{tabular}{|p{2.2cm}|p{12cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} \\
+\hline
+FR-27 & The system shall support authorized data exchange with external systems through a controlled interoperability mechanism. \\
+\hline
+FR-28 & The system shall restrict external system access through appropriate authentication or authorization controls. \\
 \hline
 \end{tabular}
 \end{table}
