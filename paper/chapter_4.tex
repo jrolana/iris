@@ -455,7 +455,7 @@ The automatic notifications are sent both in-app and via email as shown in \figr
 \subsection{Dashboard}
 The Dashboard page provides summary reports and visual representations of IP application data in IRIS. The dashboard view differs depending on the user's role.
 
-For guests, administrators, and UP officials, the dashboard presents an overall IP portfolio overview. Users can select a reporting period, filter the displayed results by year range, and export the report as either a CSV or PDF file. The dashboard includes the grant rate, portfolio status overview, charts showing application distributions and yearly trends by status, non-grant outcomes, and a summary table for the selected reporting period.
+For guests, administrators, and UP officials, the dashboard presents an overall IP portfolio overview. Users can select a reporting period, filter the displayed results by year range, and export the report as a PDF file. The dashboard includes the grant rate, portfolio status overview, charts showing application distributions and yearly trends by status, non-grant outcomes, and a summary table for the selected reporting period.
 
 \clearpage
 \begin{figure}[H]
@@ -594,19 +594,19 @@ The application registry includes a filtering system that allows users to easily
 The filters include status, IP type, college names, names of technology generators, IP title, and project title.
 The filters are available for all user roles; however, guests cannot filter by status as this information is not available to them. 
 In addition, the application registry supports sorting functionality to help users organize and prioritize their search results.
-The sorting options include sorting by filing date, IP title, registration date, date added, and date.
+The sorting options include sorting by filing date, IP title, date added, and date updated.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{app_registry/app_registry_filter.png}     
-    \caption[Application Registry Filters]{Application Registry Filters. The filters allow users to find specific applications based on criteria such as application status, IP type, college name, technology generator name, IP title, and project title. Users can also sort applications by filing date, IP title, registration date, date added, and date updated.}
+    \caption[Application Registry Filters]{Application Registry Filters. The filters allow users to find specific applications based on criteria such as application status, IP type, college name, technology generator name, IP title, and project title. Users can also sort applications by filing date, IP title, date added, and date updated.}
     \label{fig:registry_filters}
 \end{figure}
 
 \subsection{Application Documents}
 The Application Documents page provides a centralized location for users to view the relevant IP disclosure forms for each IP type. This page can be viewed by both guests and technology generators. Through this page, users can identify the required forms and documents needed for the IP application process.
 
-The page also includes a start application call-to-action button. When selected by a guest, the button redirects the user to the sign-in page. When selected by a technology generator, the button redirects the user to the new application page.
+For technology generators, the page includes a start application call-to-action button that redirects the user to the new application page.
 
 \begin{figure}[H]                
     \centering 
@@ -738,4 +738,3 @@ The test failed on a UI mismatch and was eventually fixed through modifications 
     \caption[Test Summary]{Summary of end-to-end test results. The figures show the test outcomes for different scenarios, produced by Playwright Test.}
     \label{fig:test_summary}
 \end{figure}
-\clearpage

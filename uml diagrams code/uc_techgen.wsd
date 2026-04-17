@@ -24,7 +24,7 @@ together {
 ' Row 2
 together {
   usecase "Access Disclosure Forms" as UC_Disclose
-  usecase "Review Application Docs\n(FER, SER, correspondence)" as UC_Doc
+  usecase "Upload and Update Application Documents" as UC_Doc
 }
 
 ' Row 3
@@ -33,14 +33,18 @@ together {
   usecase "View IP Portfolio\nAnalysis/Summary" as UC_Repo
 }
 
-usecase "File Disclosure Form" as UC_File
+together{
+  usecase "Create an Application" as UC_Create
+}
+  usecase "Link or Report Collaborators" as UC_Collaborators
 
 ' -------- One arrow per interaction (top → down) --------
-TG -d-> UC_File
+TG -d-> UC_Create
 TG -d-> UC_Login
-TG --> UC_Status
-TG -d-> UC_Disclose
+TG -r-> UC_Status
+TG -r-> UC_Disclose
 TG --> UC_Doc
 TG --> UC_Published
 TG --> UC_Repo
+TG --> UC_Collaborators
 @enduml
