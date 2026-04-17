@@ -39,7 +39,6 @@ Object-Level Authorization & RPC \texttt{check\_app\_exists} using another appli
 
 Supabase RPC Exposure & Anon call to \texttt{search\_users\_for\_linking} & Denied or safe limited response & 401 & Passed \\
 Supabase RPC Exposure & Techgen call to \texttt{search\_users\_for\_linking} & Only authorized or safe user data returned & 200 & Needs Review \\
-Supabase RPC Exposure & Techgen call to \texttt{search\_users\_for\_linking\_secure} & Skipped because this repo exposes \texttt{search\_users\_for\_linking} only & N/A & Skipped \\
 Supabase RPC Exposure & Anon call to \texttt{search\_applications} & Denied or no private application records returned & 200 & Needs Review \\
 Supabase RPC Exposure & Techgen call to \texttt{search\_applications} & Only authorized application records returned & 200 & Needs Review \\
 
