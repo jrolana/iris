@@ -74,7 +74,7 @@ Whenever the deadline of the current status is past overdue, the system allows t
 
 
 \subsubsection{Technology Generator Application Attachments View}
-IRIS only allows creation, reading, and updating of the attachments of the IP right application; once an attachment is uploaded, it can never be removed in the system. 
+IRIS only allows creation, reading, and updating of the attachments of the IP right application. Once an attachment is uploaded, it can never be removed in the system. 
 Moreover, IRIS only allows specific file formats for the attachments, which are PDF, DOC/X, and XLSX. 
 The application attachments view is shown in \figref{fig:techgen_attachments}, where the technology generator can see the list of attachments, upload new attachments, and update existing attachments. 
 The technology generator can also see the history of all attachments that have been uploaded to the system for that specific application. 
@@ -679,58 +679,49 @@ As shown in \figref{fig:api_integration}, the dummy external system successfully
 
 
 \section{Testing}
-Add manual tests here (i.e., the gforms).
 
-On top of that, end-to-end tests were written for the features of the system.
-The goal of the end-to-end tests was to ensure that the system works as expected from the perspective of the users, and to catch any bugs or issues that may arise during the development process.
-Furthermore, the tests served as a simulation of real-world scenarios and thus focused more on use-case scenarios while ensuring that the components worked as intended.
-
-\subsection{Penetration Testing}
-
-\subsection{Usability Testing}
+This section presents the results of the testing activities described in Chapter 3. The discussion focuses on the observed outcomes of the end-to-end, performance, penetration, and user acceptance tests, while the complete supporting results are provided in the appendices where applicable.
 
 \subsection{End-to-End Testing}
+
 The Playwright framework was utilized to evaluate the end-to-end tests of the system. 
 A total of 31 test scripts were written, each directly derived from the system's use-case scenarios. In the final version of the test suite, a test run showed a high success rate but failed on one test case as shown in \figref{fig:test_fail}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{tests/test_fail.png}
+    \includegraphics[width=0.9\textwidth,height=0.72\textheight,keepaspectratio]{tests/test_fail.png}
     \caption{Failed Test Case. A failed test case in the end-to-end test suite regarding UI mismatch.}
     \label{fig:test_fail}
-    \vspace{1cm}
 \end{figure}
+
+\FloatBarrier
 
 The test failed on a UI mismatch and was eventually fixed through modifications in the frontend. The final test summary is shown in \figref{fig:test_summary}.
 
-\clearpage
 \begin{figure}[H]
     \centering
+
     \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\linewidth,height=0.90\textheight,keepaspectratio]{tests/tests_A.png}
+        \includegraphics[width=\linewidth,height=0.30\textheight,keepaspectratio]{tests/tests_A.png}
         \caption{}
         \label{fig:test_summaryA}
     \end{subfigure}
-\end{figure}
-\clearpage
 
-\begin{figure}[H]\ContinuedFloat
-    \centering
+    \vspace{0.6em}
+
     \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\linewidth,height=0.90\textheight,keepaspectratio]{tests/tests_B.png}
+        \includegraphics[width=\linewidth,height=0.30\textheight,keepaspectratio]{tests/tests_B.png}
         \caption{}
         \label{fig:test_summaryB}
     \end{subfigure}
-\end{figure}
-\clearpage
 
-\begin{figure}[H]\ContinuedFloat
-    \centering
+    \vspace{0.6em}
+
     \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{tests/tests_C.png}
+        \includegraphics[width=\linewidth,height=0.30\textheight,keepaspectratio]{tests/tests_C.png}
         \caption{}
         \label{fig:test_summaryC}
     \end{subfigure}
@@ -738,3 +729,116 @@ The test failed on a UI mismatch and was eventually fixed through modifications 
     \caption[Test Summary]{Summary of end-to-end test results. The figures show the test outcomes for different scenarios, produced by Playwright Test.}
     \label{fig:test_summary}
 \end{figure}
+
+\FloatBarrier
+
+\subsection{Performance Testing}
+
+The Lighthouse performance testing results showed that the tested IRIS routes were generally responsive and stable. Public desktop pages obtained scores from 99 to 100, while authenticated routes obtained scores from 97 to 100 in the tested sessions. Public mobile pages obtained lower scores, ranging from 83 to 98.
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.12}
+\small
+\begin{table}[H]
+\centering
+\captionsetup{justification=raggedright,singlelinecheck=false}
+\caption{Summary of Lighthouse Performance Testing Results}
+\label{tab:performance-results-summary}
+\begin{tabular}{|p{0.32\textwidth}|p{0.22\textwidth}|p{0.36\textwidth}|}
+\hline
+\textbf{Route Group} & \textbf{Score Range} & \textbf{Interpretation} \\
+\hline
+Public desktop pages & 99--100 & Fast loading under desktop testing conditions. \\
+\hline
+Public mobile pages & 83--98 & Usable, but affected by slower LCP on selected pages. \\
+\hline
+Administrator pages & 99--100 & Performed well in authenticated administrator sessions. \\
+\hline
+Technology Generator pages & 97--100 & Performed well in authenticated Technology Generator sessions. \\
+\hline
+UP Official pages & 100 & Performed well in authenticated UP Official sessions. \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\FloatBarrier
+
+The complete Lighthouse audit results are provided in Appendix~\ref{app:performance-audit-results}.
+
+The main performance issue was found in selected public mobile pages, where the landing page, application registry, application documents, application guide, sign-up page, and welcome page scored from 83 to 88. These lower scores were mainly caused by higher Largest Contentful Paint values of approximately 4.0 to 4.8 seconds. Other metrics remained favorable, with First Contentful Paint generally around 1.1 seconds, low Total Blocking Time, low Cumulative Layout Shift, and Speed Index values around 1.1 to 1.5 seconds.
+
+The authenticated routes obtained higher scores in the tested sessions, but they should not be treated as direct comparisons against public pages with similar names because the routes may load different datasets and page states. The \texttt{/error-404} route was also excluded from interpretation because it redirected to the home page during testing.
+
+Overall, the results indicate that IRIS met the expected performance behavior for the tested routes. The remaining optimization area is the mobile performance of selected public-facing pages, particularly the reduction of Largest Contentful Paint.
+
+\FloatBarrier
+
+\subsection{Penetration Testing}
+
+The penetration testing results showed that IRIS generally enforced its baseline security controls. Unauthenticated users were redirected from protected routes such as \texttt{/admin}, \texttt{/up-official}, \texttt{/techgen}, and direct application views. Non-admin users were also prevented from directly accessing administrator routes. The external users API rejected missing, invalid, and malformed bearer tokens, while unsupported POST, PUT, and DELETE requests were rejected. Direct REST access to sensitive tables, including users and IPR applications, did not expose private records. SQL-like, XSS-like, and path traversal-like payloads also did not produce observable data leakage or internal error disclosure.
+
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.12}
+\small
+\begin{table}[H]
+\centering
+\captionsetup{justification=raggedright,singlelinecheck=false}
+\caption{Summary of Penetration Testing Results}
+\label{tab:penetration-testing-summary}
+\begin{tabular}{|p{0.32\textwidth}|p{0.48\textwidth}|p{0.12\textwidth}|}
+\hline
+\textbf{Area Tested} & \textbf{Observed Result} & \textbf{Result} \\
+\hline
+Authentication and RBAC & Protected routes redirected unauthenticated users, and non-admin users were prevented from accessing admin routes. & Passed \\
+\hline
+API and method protection & Missing, invalid, and malformed bearer tokens were rejected, and unsupported HTTP methods were not allowed. & Passed \\
+\hline
+Direct table access & Sensitive tables were not exposed through direct REST access. & Passed \\
+\hline
+Input validation and error handling & Suspicious payloads and malformed requests did not expose internal details. & Passed \\
+\hline
+Object and file access & Attempts to access another user's application or file were redirected or did not return private data. & Passed \\
+\hline
+Session tampering & A fake administrator role value did not grant admin access. & Passed \\
+\hline
+RPC and audit trail access & Some responses required manual inspection to confirm that no unauthorized data was returned. & Needs Review \\
+\hline
+File upload and rate limiting & These tests were not executed due to additional configuration requirements. & Skipped \\
+\hline
+\end{tabular}
+\end{table}
+\endgroup
+
+\FloatBarrier
+
+The complete generated penetration testing summary is provided in Appendix~\ref{app:penetration-testing-summary}.
+
+Some results were marked as \textit{Needs Review}, particularly Supabase RPC calls, audit trail access, and some tests affected by browser-based cookie authentication. These do not automatically indicate vulnerabilities. They indicate that HTTP status codes alone were insufficient to confirm whether the returned data or access pathway was properly limited.
+
+Overall, the results suggest that IRIS met the expected baseline security requirements for protected route access, role-based restrictions, API token validation, direct table access protection, input handling, method restriction, and error handling. However, the test should be interpreted as a limited-scope security validation rather than a complete security audit.
+
+\FloatBarrier
+
+\subsection{User Acceptance Testing}
+
+User Acceptance Testing was conducted to determine whether the completed IRIS web application was acceptable to the team and client-side evaluators. During the testing, TTBDO participants evaluated the system from both administrative and Technology Generator perspectives. Some TTBDO personnel also acted as Technology Generators during testing, which allowed the team to observe how the system supported both office-side management tasks and user-side application activities.
+
+The testing showed that the system was accepted after the main workflows were reviewed. The accepted workflows included role-based authentication and access, user and role management, application submission and monitoring, Technology Generator management, application registry visibility, notifications, reports, application documents, and dashboards. No major defect was identified that required a redesign of the system or prevented the use of its core functions.
+
+The feedback gathered during UAT mainly consisted of refinements to existing features and additional office-specific requirements. Some of these refinements were already incorporated during continued system development and are reflected in the implemented modules discussed in the preceding sections. The remaining items were treated as enhancement recommendations because they did not prevent the use of the core workflows. The feedback covered the following areas:
+
+\begin{itemize}
+    \item interface and navigation improvements, including page layout, sidebar navigation, signup page display, and dashboard actions;
+    \item user and role management refinements, such as role editing before approval, adding new users, and providing reasons for rejection;
+    \item application workflow adjustments, including Technology Generator search, funding source selection, TTBDO email information, and IPOPHL IP number format validation;
+    \item Technology Generator coordination controls, such as administrator approval when adding Technology Generators, notes for removal or reporting, and notifications to affected users;
+    \item registry, public page visibility, and document management changes, including registry column revisions, public visibility rules, help links, and administrator-managed documents and forms; and
+    \item report formatting revisions, including UPV branding, selected date range, yearly breakdown, removal of the CSV button, and display of a message when no chart is available.
+\end{itemize}
+
+One issue encountered during UAT involved the email invite link. The issue was traced to limitations of Supabase as the email delivery provider rather than to a failure in the system workflow itself. Since the invite workflow remained valid but the email delivery service was limited, the team decided to use a different email provider for sending invite links.
+
+Overall, the UAT results showed that IRIS was acceptable for its intended use. The system’s main workflows were validated, while the feedback primarily focused on usability improvements, operational completeness, reporting details, and office-specific requirements. These results supported the completion of final refinements and helped identify enhancement items for continued system improvement.
