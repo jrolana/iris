@@ -17,7 +17,7 @@ The research began by identifying the limitations of the existing IP application
 
 Building on these insights, system requirements were elicited and analyzed through user interviews and document analysis. The requirements were organized according to the system's major users, namely Technology Generators, TTBDO Admins, UP Officials, and Guests. These requirements were then translated into system features through iterative Agile development cycles. Continuous feedback from stakeholders was gathered to ensure that the system reflected actual IP application workflows, including application creation, application monitoring, status updating, document access, user registration, notification delivery, dashboard reporting, and controlled data sharing through an API endpoint.
 
-Finally, the system was evaluated through the testing activities described in the Testing and Evaluation section. Feedback and test results gathered during this phase informed final system adjustments before deployment.
+Finally, the system was evaluated through the testing activities described in Section~\ref{sec:testing_and_evaluation}, Testing and Evaluation. The feedback and test results gathered during this phase informed final system adjustments before deployment.
 
 \section{Development Tools and Technologies}
 
@@ -47,7 +47,7 @@ Version Control and Project Management & GitHub, GitHub Projects & Source code m
 \hline
 Deployment & Vercel & Hosting and deployment of the web application \\
 \hline
-OS & Windows 10, 11 & Development environment \\
+OS & Windows 10, 11; macOS & Development environment \\
 \hline
 Browsers & Google Chrome, Microsoft Edge & Testing and compatibility checks \\
 \hline
@@ -61,7 +61,7 @@ Visual Studio Code served as the primary Integrated Development Environment (IDE
 
 GitHub served as the version control platform for source code management and collaboration, while GitHub Projects was used as a Kanban-based project management tool for organizing the backlog, assigning tasks, and tracking sprint progress. Vercel was used to deploy and host the web application, allowing the system to be accessed online during development, testing, and evaluation.
 
-The development environment ran on Windows 10 and Windows 11, while Google Chrome and Microsoft Edge were used to test system compatibility across browsers. Playwright Test was utilized for end-to-end testing to verify system behavior across role-based scenarios.
+The development environment ran on Windows 10, Windows 11, and macOS, while Google Chrome and Microsoft Edge were used to test system compatibility across browsers. Playwright Test was utilized for end-to-end testing to verify system behavior across role-based scenarios.
 
 \subsubsection{Hardware Specifications}
 The following hardware specifications outline the minimum requirements used during development and testing.
@@ -108,7 +108,7 @@ Table~\ref{tab:tech_stack} outlines the technology stack used in developing the 
 
 The frontend and server-side application of IRIS were built using Next.js, React, and Tailwind CSS. These technologies provided a responsive and accessible user interface with role-based navigation and protected routing. This setup enabled Technology Generators, TTBDO Admins, UP Officials, and Guests to access pages and functions appropriate to their assigned roles, including application submission, registry browsing, dashboard viewing, document access, and administrative management.
 
-Supabase served as the main backend-as-a-service platform of IRIS, supporting authentication, database management, access control, file storage, backend logic, and server-side automation. Through PostgreSQL, the system stored structured records such as user accounts, IP applications, attachments, status histories, notifications, audit trail entries, and API-related records. Supabase also supported Google-based sign-in, role-based access control, remote procedure calls (RPCs), database triggers, and Edge Functions used to automate system processes and enforce role-based workflows.
+Supabase served as the main backend-as-a-service (BaaS) platform of IRIS, supporting authentication, database management, access control, file storage, backend logic, and server-side automation. Through PostgreSQL, the system stored structured records such as user accounts, IP applications, attachments, status histories, notifications, audit trail entries, and API-related records. Supabase also supported Google-based sign-in, role-based access control, remote procedure calls (RPCs), database triggers, and Edge Functions used to automate system processes and enforce role-based workflows.
 
 Nodemailer and Gmail SMTP were used to support the system's automated email notification service, particularly for sending deadline reminders and other system-generated messages to users.
 
@@ -139,6 +139,7 @@ For document and attachment management, IRIS allowed authorized users to upload,
 The collaborator management requirements enabled authorized users to associate collaborators with IP applications and view collaborator information linked to each record. The system also provided mechanisms for managing collaborator-related concerns, including reporting or reviewing collaborator issues when necessary.
 
 For notifications and reminders, IRIS provided system notifications for relevant application updates, status changes, document-related actions, and time-sensitive activities. The system also supported reminders for application deadlines and maintained a notification history for users.
+The automated deadline notifications are both sent through email and displayed in the system's notification center, ensuring that users receive timely reminders about upcoming deadlines and can take necessary actions to avoid overdue applications.
 
 Dashboards and reporting enabled users to view summaries of application statistics, trends, and status distributions according to their access level. The system also supported report generation and export functions for monitoring, administrative review, and decision-making.
 
@@ -182,11 +183,11 @@ The TTBDO Admins are the primary administrative users of the system. They have f
 
 \subsubsection{Technology Generators}
 
-Technology Generators, or university researchers and IPR applicants, primarily use the system to start IP right applications and monitor applications connected to them. They can access the application documents and application guide, create new applications, view application status histories, upload and update attachments, view attachment version history, link collaborators, report collaborators to TTBDO Admins, receive notifications, and request a status update when an application becomes overdue. They can also view public and role-appropriate dashboard and registry information.
+Technology Generators, or university researchers and IPR applicants, primarily use the system to start IP right applications and monitor applications connected to them. They can access the application documents and application guide, create new applications, view application status histories, upload and update attachments, view attachment version history, link collaborators, report collaborators to TTBDO Admins, receive notifications, and request a status update when a deadline on an application is overdue. They can also view public and role-appropriate dashboard and registry information.
 
 \subsubsection{UP Officials}
 
-UP Officials have view-only access to the university IP portfolio. Unlike Guests, they can view all applications in the registry regardless of public status. They can also use dashboard summaries, filters, and sorting features to evaluate the university's IP portfolio.
+UP Officials have view-only access to the university IP portfolio. Unlike Guests, they can view all applications in the registry regardless of public status. They can also use dashboard summaries, and view, filter, and sort the university's IP portfolio for evaulation.
 
 \subsubsection{Guests}
 
@@ -206,7 +207,7 @@ Guests are unauthenticated or public users with limited access. They can view pu
 \subsection{Use Case Diagram}\label{sec:us_diagram}
 The following figures illustrate each use case diagram for each user of the system. They show the functionalities available for each type of user, their interaction with the system, and the specific use cases they have for the system.
 
-It is shown in \figref{fig:uc_guest} that Guests can view the published IPs of the university, access public portfolio information, open application documents, read the application guide, and request registration. It is shown in \figref{fig:uc_official} that UP Officials have an extended view-only use case where they can view the university IP portfolio, including unpublished IP applications. With this, they have to authenticate with the system first, adding another use case with the system.
+It is shown in \figref{fig:uc_guest} that Guests can view the published IPs of the university, access public portfolio information, view public forms/documents, read the application guide, and request registration. It is shown in \figref{fig:uc_official} that UP Officials have an extended view-only use case where they can view the university IP portfolio, including unpublished IP applications. With this, they have to authenticate with the system first, adding another use case with the system.
 
 \begin{figure}[H]
    \centering
@@ -244,7 +245,7 @@ It is shown in \figref{fig:uc_guest} that Guests can view the published IPs of t
 The sequence diagrams show the interaction between IRIS, Technology Generators, TTBDO Admins, and external IP application processes. These diagrams were used to identify the system actions, status stages, notification points, and role-based interactions implemented in the application tracking workflow.
 
 \subsubsection{General IPR Sequence Diagram}
-Figures \ref{fig:gen_seqA} and \ref{fig:gen_seqB_1} illustrate the sequence diagram of a Trademark, Utility Model, Industrial Design, and Patent application started by a Technology Generator and facilitated by the TTBDO Admin through the system. It details the interaction between the TTBDO and the system as they handle the application process with the IPOPHL. It also shows how the system notifies the Technology Generator for every update of the IPR application. The sequence diagrams are used to derive the IP application stages that are displayed in the system.
+Figures \ref{fig:gen_seqA} and \ref{fig:gen_seqB_1} illustrate the sequence diagram of a Trademark, Utility Model, Industrial Design, and Patent application started by a Technology Generator and facilitated by the TTBDO Admin through the system. It details the interaction between the TTBDO and the system as they handle the application process with the IPOPHL. It also shows how the system notifies the Technology Generator for every update of the IPR application. The sequence diagrams were used to derive the IP application stages that are displayed in the system.
 
 \begin{figure}[H]
    \centering
@@ -262,7 +263,7 @@ Figures \ref{fig:gen_seqA} and \ref{fig:gen_seqB_1} illustrate the sequence diag
 
 \subsubsection{Detailed Branch of the Specific IPR Sequence Diagram}
 
-The following figures are the specific branch of sequence diagrams that are referred to in \figref{fig:gen_seqB_1}. They show the rights-specific processes that the TTBDO interfaces with the IPOPHL and Technology Generator for the IPR application process. Based on the diagrams, more application stages are derived and then displayed in the system depending on the IP right being processed.
+The following figures are the specific branch of sequence diagrams that are referred to in \figref{fig:gen_seqB_1}. They show the rights-specific processes that the TTBDO interfaces with the IPOPHL and Technology Generator for the IPR application process. Based on the diagrams, specific application stages were derived and then displayed in the system depending on the IP right being processed.
 
 \begin{figure}[H]
    \centering
@@ -301,7 +302,7 @@ Figures \ref{fig:copyright_seqA} and \ref{fig:copyright_seqB} illustrate the cop
     \label{fig:copyright_seqB}
 \end{figure}
 
-\section{Testing and Evaluation}
+\section{Testing and Evaluation}\label{sec:testing_and_evaluation}
 
 \subsection{Testing Approach}
 
