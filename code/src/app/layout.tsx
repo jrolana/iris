@@ -1,10 +1,7 @@
 import { Outfit } from "next/font/google";
-import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-import { SidebarProvider } from "@/context/SidebarContext";
-import TanStackProvider from "../providers/TanStackProvider";
-import UserProvider from "@/providers/UserProvider";
+import LazyToaster from "@/providers/LazyToaster";
 
 export const metadata = {
   title: {
@@ -27,12 +24,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={outfit.className}>
-        <Toaster />
-        <TanStackProvider>
-          <UserProvider>
-            <SidebarProvider>{children}</SidebarProvider>
-          </UserProvider>
-        </TanStackProvider>
+        <LazyToaster />
+        {children}
       </body>
     </html>
   );
