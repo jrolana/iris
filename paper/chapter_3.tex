@@ -305,16 +305,10 @@ Figures \ref{fig:copyright_seqA} and \ref{fig:copyright_seqB} illustrate the cop
 
 \subsection{Testing Approach}
 
-The system underwent Penetration Testing, User Acceptance Testing, and End-to-End Testing to validate functional and non-functional requirements (FRs and NFRs, listed in Appendix~\ref{sec:appendixa} and \ref{sec:appendixb}).
-
-\subsection{Penetration Testing}
-Penetration testing validated if the system implemented FR-02 and NFR-04 (role-based access control). The tests attempted unauthorized access to restricted functions by simulating users accessing features outside their assigned roles, such as Applicant users attempting to access TTBDO document upload functions (FR-15). Input validation was tested by submitting malicious or unexpected data to verify that security mechanisms properly sanitize inputs and prevent unauthorized access.
-
-
-\subsection{User Acceptance Testing}
-User Acceptance Testing involved end-users from each role (TTBDO staff, applicants, UP officials) that completed representative tasks: application submission and document review (FR-03 to FR-06), applicant tracking (FR-07 to FR-08), notifications (FR-12 to FR-14), and dashboard reporting (FR-10 to FR-11). The responsive interface (NFR-09) was tested across desktop devices, and navigation consistency (NFR-10) was assessed through user feedback on interface clarity and ease of use.
+The system underwent End-to-End Testing, Performance Testing, Penetration Testing, and User Acceptance Testing to validate functional and non-functional requirements (FRs and NFRs, listed in Appendix~\ref{sec:appendixa} and \ref{sec:appendixb}).
 
 \subsection{End-to-End Testing}
+
 The Playwright Test framework was used to automate the end-to-end tests of the system. 
 The tests were written to simulate real-life use-case scenarios, and the diagrams from section \ref{sec:us_diagram} were used as a foundation to derive the tests; as such, 31 use-case tests were identified. 
 The tests were divided by user roles, and another group of tests was created to verify that users can access only the routes they are allowed to as described by the authentication FR (FR-01). 
@@ -372,13 +366,73 @@ The tests were defined as followed:
     \end{itemize}
 \end{itemize}
 
-\subsection{Evaluation Criteria}
+\subsection{Performance Testing}
 
-The evaluation of the system focuses on key aspects aligned with the Testing Approach to ensure overall effectiveness and readiness.
+Performance testing was conducted to evaluate the loading speed, responsiveness, and visual stability of the IRIS web application. The test was included to determine whether public and authenticated pages could load reliably under the tested conditions.
+
+The testing was performed using Lighthouse audits on selected routes. The routes were grouped into public pages, TTBDO Administrator pages, Technology Generator pages, and UP Official pages. Public routes were tested without authentication, while authenticated routes were tested using browser sessions configured for the corresponding user roles.
+
+The Lighthouse audits recorded the performance score, tested route, device mode, final loaded path, redirect status, and validity of the test. The key metrics recorded were First Contentful Paint, Largest Contentful Paint, Total Blocking Time, Cumulative Layout Shift, and Speed Index.
+
+The performance testing covered the following route groups:
 
 \begin{itemize}
-  \item Functionality: All modules are operational and aligned with defined requirements. 
-  \item Usability: Interface rated “very satisfactory” by evaluators. 
-  \item Performance: Average page load time maintained under three seconds. 
-  \item Reliability: No critical errors or crashes occurred during UAT. 
+    \item public pages, including the landing page, sign-in page, sign-up page, application registry, application documents, application guide, and welcome page;
+    \item administrator pages, including the dashboard, application registry, audit trail, developer settings, user management, notifications, pings, application creation, and application viewing pages;
+    \item Technology Generator pages, including the dashboard, application registry, application documents, application guide, notifications, application creation, and application viewing pages; and
+    \item UP Official pages, including the dashboard and application registry.
+\end{itemize}
+
+The results were used to identify whether the tested routes were responsive and stable, and whether any pages required further performance optimization.
+
+\subsection{Penetration Testing}
+
+Penetration testing was conducted to evaluate the baseline security controls of the IRIS web application before final deployment. The test focused on common security concerns, including unauthorized access, improper role use, exposed database resources, unsafe API access, suspicious input handling, and error-message leakage.
+
+The testing was performed using a scripted set of HTTP requests against the local deployed instance of IRIS and its connected Supabase backend. The requests simulated unauthenticated users, authenticated users with different roles, invalid bearer tokens, unsupported HTTP methods, direct REST access attempts, suspicious input payloads, and user-supplied role tampering. Each test case recorded the tested area, expected secure behavior, observed response, result, and evidence file.
+
+Table~\ref{tab:pentest-scope} summarizes the areas covered during penetration testing.
+
+\begin{table}[htbp]
+\centering
+\caption{Scope of Penetration Testing}
+\label{tab:pentest-scope}
+\begin{tabular}{p{0.30\textwidth} p{0.62\textwidth}}
+\hline
+\textbf{Area Tested} & \textbf{Purpose} \\
+\hline
+Authentication and RBAC & Checked whether unauthenticated users and users with incorrect roles were prevented from accessing protected pages. \\
+Object-Level Authorization & Checked whether users could access only authorized application records and uploaded files. \\
+API Protection & Checked whether protected API routes rejected missing, invalid, or malformed bearer tokens. \\
+Database and RPC Access & Checked whether sensitive tables and functions were protected from unauthorized direct access. \\
+File Access Control & Checked whether uploaded documents were accessible only through authorized pathways. \\
+Input Validation & Checked how the system handled SQL-like, XSS-like, and path traversal-like payloads. \\
+Session and Role Tampering & Checked whether user-supplied role values could bypass server-side authorization checks. \\
+Audit Trail Access & Checked whether audit records were protected from unauthorized direct access. \\
+HTTP Method Restriction & Checked whether unsupported request methods were rejected. \\
+Error Handling & Checked whether malformed requests exposed internal system details. \\
+\hline
+\end{tabular}
+\end{table}
+
+This activity was included because IRIS handles role-based application records, user information, uploaded documents, and external API access. The results were used to identify whether the implemented security controls were sufficient for baseline system readiness.
+
+\subsection{User Acceptance Testing}
+
+User Acceptance Testing was conducted to validate whether the IRIS web application matched the workflow expectations and operational needs of the TTBDO. The activity involved the development team and TTBDO client-side evaluators. Some TTBDO participants also acted as Technology Generators so that the system could be reviewed from both administrative and end-user perspectives.
+
+The UAT was conducted through a walkthrough and validation of the deployed system. Participants reviewed the main workflows, including authentication and invite-based access, user and role management, application submission and viewing, Technology Generator management, application registry, public pages, notifications, reports, documents, dashboards, and general interface navigation. Feedback was recorded according to the affected module and used to identify accepted functions, minor refinements, and limitations caused by external services.
+
+This activity was included because internal testing only verified the technical correctness of the system, while UAT validated whether the system was practical, usable, and acceptable in the intended office setting. The system was considered acceptable when the core workflows functioned as intended, no critical issue prevented use, and the remaining concerns were limited to refinements or additional office-specific requirements.
+
+\subsection{Evaluation Criteria}
+
+The system was evaluated based on criteria aligned with the testing activities conducted for the project. These criteria were used to determine whether the system was functional, usable, secure, and suitable for the intended TTBDO workflow.
+
+\begin{itemize}
+  \item Functionality: The implemented modules operated according to the defined functional requirements and supported the intended user workflows.
+  \item Usability and Acceptance: The system was considered acceptable if client-side evaluators were able to complete the main workflows and the remaining feedback consisted only of refinements or additional office-specific requests.
+  \item Performance: The system was evaluated using Lighthouse performance metrics, including performance score, First Contentful Paint, Largest Contentful Paint, Total Blocking Time, Cumulative Layout Shift, and Speed Index.
+  \item Security: The system was evaluated through scope penetration testing focused on authentication, role-based access control, API protection, database access control, input validation, and error handling.
+  \item Reliability: The system was considered reliable if no critical errors prevented the completion of the tested workflows during validation.
 \end{itemize}

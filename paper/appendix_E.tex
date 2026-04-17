@@ -1,0 +1,92 @@
+\chapter{Penetration Testing Results}
+\label{app:penetration-testing-summary}
+
+This appendix presents the detailed results of the limited-scope penetration testing conducted for the IRIS web application. The test summary includes the area tested, test performed, expected secure behavior, observed HTTP status, result, evidence file, and notes. Sensitive tokens, credentials, and raw response bodies were excluded from this documentation.
+
+\begin{landscape}
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+
+\begin{longtable}{p{0.18\linewidth} p{0.32\linewidth} p{0.34\linewidth} p{0.07\linewidth} p{0.09\linewidth}}
+\caption{Detailed Penetration Testing Results}
+\label{tab:detailed-penetration-testing-results}\\
+\hline
+\textbf{Area Tested} & \textbf{Test Performed} & \textbf{Expected Result} & \textbf{Status} & \textbf{Result} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Area Tested} & \textbf{Test Performed} & \textbf{Expected Result} & \textbf{Status} & \textbf{Result} \\
+\hline
+\endhead
+
+\hline
+\endfoot
+
+Authentication & Unauthenticated access to \texttt{/admin} & Redirect, 401, or 403 & 307 & Passed \\
+Authentication & Unauthenticated access to \texttt{/up-official} & Redirect, 401, or 403 & 307 & Passed \\
+Authentication & Unauthenticated access to \texttt{/techgen} & Redirect, 401, or 403 & 307 & Passed \\
+Authentication & Unauthenticated direct application view & Redirect, 401, or 403 & 307 & Passed \\
+
+RBAC & Techgen token accessing \texttt{/admin} & Redirect, 401, or 403 & 307 & Passed \\
+RBAC & UP Official token accessing \texttt{/admin} & Redirect, 401, or 403 unless allowed by system design & 307 & Passed \\
+RBAC & Admin token accessing \texttt{/admin} & 200 if Authorization header is accepted; otherwise review cookie-based auth & 307 & Needs Review \\
+
+Object-Level Authorization & Techgen accessing own application & 200 if allowed by system design & 307 & Needs Review \\
+Object-Level Authorization & Techgen accessing another user's application & Redirect, 401, 403, or no private data returned & 307 & Passed \\
+Object-Level Authorization & RPC \texttt{check\_app\_exists} using another application ID & No unauthorized private details returned & 200 & Needs Review \\
+
+Supabase RPC Exposure & Anon call to \texttt{search\_users\_for\_linking} & Denied or safe limited response & 401 & Passed \\
+Supabase RPC Exposure & Techgen call to \texttt{search\_users\_for\_linking} & Only authorized or safe user data returned & 200 & Needs Review \\
+Supabase RPC Exposure & Techgen call to \texttt{search\_users\_for\_linking\_secure} & Skipped because this repo exposes \texttt{search\_users\_for\_linking} only & N/A & Skipped \\
+Supabase RPC Exposure & Anon call to \texttt{search\_applications} & Denied or no private application records returned & 200 & Needs Review \\
+Supabase RPC Exposure & Techgen call to \texttt{search\_applications} & Only authorized application records returned & 200 & Needs Review \\
+
+API Token Route & External users API without bearer token & 401 Unauthorized & 401 & Passed \\
+API Token Route & External users API with invalid bearer token & 401 Unauthorized & 401 & Passed \\
+API Token Route & CORS preflight from untrusted origin & Should not freely allow all origins for sensitive APIs & 200 & Passed \\
+
+Direct Table Access & Anon direct access to users table & Denied or no rows & 404 & Passed \\
+Direct Table Access & Techgen direct access to users table & Denied or only allowed rows/fields & 404 & Passed \\
+Direct Table Access & Anon direct access to IPR applications table & Denied or no private rows & 404 & Passed \\
+Direct Table Access & Techgen direct access to IPR applications table & Denied or only authorized rows & 404 & Passed \\
+
+File Upload & File upload validation tests & Run only when upload endpoint is confirmed & N/A & Skipped \\
+File Access & Techgen accessing own file & 200 if allowed by system design & 307 & Needs Review \\
+File Access & Techgen accessing another user's file & Redirect, 401, 403, or no file returned & 307 & Passed \\
+
+Input Validation & \texttt{search\_applications} with SQL-like payload & No SQL error or unintended data exposure & 200 & Passed \\
+Input Validation & \texttt{search\_applications} with XSS payload & Payload treated as text; no script execution & 200 & Passed \\
+Input Validation & \texttt{search\_applications} with path traversal payload & No file or path disclosure & 200 & Passed \\
+
+Session and Role Tampering & Techgen token with fake admin role in body & Should not grant admin access & 307 & Passed \\
+
+Audit Trail & Anon direct access to audit trail & Denied & 404 & Needs Review \\
+Audit Trail & Techgen direct access to audit trail & Denied unless explicitly allowed & 404 & Needs Review \\
+Audit Trail & Admin direct access to audit trail & 200 if admin access is allowed by design & 404 & Needs Review \\
+
+HTTP Method Testing & POST to external users API & 405 or rejected & 405 & Passed \\
+HTTP Method Testing & PUT to external users API & 405 or rejected & 405 & Passed \\
+HTTP Method Testing & DELETE to external users API & 405 or rejected & 405 & Passed \\
+
+Error Handling & Malformed bearer token in external users API & Generic 401/403 error without stack or database details & 401 & Passed \\
+Error Handling & Check malformed-token response for internal error details & No internal implementation details & 401 & Passed \\
+
+Rate Limiting & Repeated invalid-token request test & Run only on localhost or staging & N/A & Skipped \\
+
+\hline
+\end{longtable}
+
+\normalsize
+\end{landscape}
+
+\section*{Notes for Interpretation}
+
+\begin{itemize}
+    \item \textit{Passed} means the observed response matched the expected security behavior based on HTTP status and simple response inspection.
+    \item \textit{Needs Review} does not automatically mean that the system is vulnerable. It means that the raw evidence should be manually inspected to confirm that no unauthorized data was returned.
+    \item Some page-route tests used token/header-based requests, while the actual application uses browser-based cookie authentication. For this reason, some authenticated page-route tests may require manual review even when browser-based access control works correctly.
+    \item \textit{Skipped} means the test was not executed because additional endpoint configuration or staging-safe settings were required.
+    \item Sensitive tokens, credentials, environment variables, and raw private response bodies should not be included in the paper.
+\end{itemize}
