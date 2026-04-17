@@ -1,4 +1,5 @@
 @startuml
+left to right direction
 skinparam shadowing false
 skinparam linetype ortho
 skinparam ArrowColor #333
@@ -6,35 +7,25 @@ skinparam ArrowThickness 1
 skinparam NoteBorderColor white
 skinparam NoteBackgroundColor white
 
-' Actor at the very top (centered)
 actor "TTBDO Administrator" as ADMIN
 
-' Row 1
-together {
-  usecase "Authentication /\nLogin" as A_Login
-  usecase "Full IP Portfolio\nOverview" as A_Portfolio
-}
+usecase "Authentication /\nLogin" as A_Login
+usecase "Full IP Portfolio\nOverview" as A_Portfolio
+usecase "User / Roles /\nPermissions Management" as A_URP
+usecase "IP Application Status\nConfiguration" as A_StatusCfg
+usecase "View IP Portfolio\nAnalysis/Summary" as A_Stats
+usecase "Gather report of IP portfolio" as A_Report
+usecase "View Audit Logs" as A_Logs
+usecase "Generate API keys" as A_API
 
-' Row 2
-together {
-  usecase "User / Roles /\nPermissions Management" as A_URP
-  usecase "IP Application Status\nConfiguration" as A_StatusCfg
-}
-
-' Row 3
-together {
-  usecase "Document & Media\nManagement" as A_Doc
-  usecase "View IP Portfolio\nAnalysis/Summary" as A_Stats
-  usecase "Gather report of IP portfolio" as A_Report
-}
-
-' One arrow per interaction (top → down)
-ADMIN -down-> A_Login
-ADMIN -down-> A_Portfolio
-ADMIN -down-> A_Stats
-ADMIN -down-> A_URP
-ADMIN -down-> A_StatusCfg
-ADMIN -down-> A_Doc
-ADMIN -down-> A_Report
+' Connections
+ADMIN --> A_Login
+ADMIN --> A_Portfolio
+ADMIN --> A_URP
+ADMIN --> A_StatusCfg
+ADMIN --> A_Stats
+ADMIN --> A_Report
+ADMIN --> A_Logs
+ADMIN --> A_API
 
 @enduml
