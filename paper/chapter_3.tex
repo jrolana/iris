@@ -1,30 +1,31 @@
+
 \chapter{Research Methodology}
 
 \section{Research Design}
 
 \subsection{System Development Life Cycle Model}
-The study employs the Agile Software Development Life Cycle model, guided by the Agile Manifesto, which emphasizes responding to change and collaborating with customers (Beck et. al., 2001). These principles make Agile flexible and iterative, allowing continuous feedback from TTBDO personnel and early validation of system components. Through incremental sprints, the researchers were able to refine features based on actual user input.
+The study employed the Agile Software Development Life Cycle model, guided by the Agile Manifesto, which emphasizes responding to change and collaborating with customers (Beck et. al., 2001). These principles made Agile suitable for the development of IRIS because the system required continuous refinement based on the workflows of the Technology Transfer and Business Development Office (TTBDO), Technology Generators, UP Officials, and public users. Through incremental sprints, the researchers developed, reviewed, and improved core system modules such as authentication, application tracking, dashboards, document access, notification handling, user management, audit logging, and interoperability features.
 
-However, certain limitations in using Agile are also acknowledged. Iterative feedback can cause ongoing expansion of requirements, which can be mitigated by maintaining clearly defined functional and non-functional requirements, prioritized backlogs, structured sprint goals, and thorough decision-making in adding more requirements. Additionally, heavy reliance on client input might result in delays in the development. This is mitigated through scheduled progress updates and predetermined feedback windows. In the absence of timely input, development proceeds according to the approved requirements baseline. 
+However, certain limitations in using Agile were also acknowledged. Iterative feedback could cause ongoing expansion of requirements, which was mitigated by maintaining clearly defined functional and non-functional requirements, prioritized backlogs, structured sprint goals, and careful decision-making before adding new requirements. Additionally, heavy reliance on stakeholder input could result in delays in the development process. This was mitigated through scheduled progress updates and predetermined feedback windows. In the absence of timely input, development proceeded according to the approved requirements baseline.
 
-Additionally, to help address these limitations, the developers used Jira to manage product backlog and structure sprint activities. In line with this, Saiyad (2024) found a 25\% increase in project completion rates among teams using Jira, highlighting the tool’s effectiveness in improving project management efficiency and team collaboration within Agile Scrum environments. 
+Additionally, to help address these limitations, the developers used the Kanban board feature of GitHub Projects to manage the product backlog and monitor sprint progress. The board was organized into four columns: Backlog, In Progress, For Reviewing, and Done. Tasks were assigned to developers and updated accordingly as work progressed. The Scrum process was adapted into three-week sprint cycles to provide sufficient time for implementation, review, and feedback integration. At the end of each sprint, feedback was gathered from either the TTBDO or the research advisers. This feedback was translated into new tasks or refinements in the GitHub Projects board, allowing the developers to implement new features, improve existing functionalities, and address issues identified during review.
 
 \subsection{Research Framework}
-The research framework follows a systematic progression from problem identification through system development to rigorous evaluation.
+The research framework followed a systematic progression from problem identification, requirements analysis, system design, development, and evaluation.
 
-The research begins by identifying the limitations of the current manual IP tracking process within the university. These limitations were identified through interviews with TTBDO and observation of existing workflows. Concurrently, a review of local and international literature on IP management systems and best practices was also conducted to establish the conceptual foundation for the system design.
+The research began by identifying the limitations of the existing IP application monitoring and document tracking process within the university. These limitations were identified through interviews with TTBDO personnel and observation of existing workflows. Concurrently, a review of local and international literature on IP management systems, university technology transfer, digital records management, and role-based access control was conducted to establish the conceptual foundation for the system design.
 
-Building on these insights, system requirements were elicited and analyzed through user interviews and document analysis. These requirements, both functional and non-functional, were then organized and translated into system features through iterative Agile development cycles. Continuous feedback from stakeholders was gathered to ensure the system meets user needs and organizational workflows.
+Building on these insights, system requirements were elicited and analyzed through user interviews and document analysis. The requirements were organized according to the system's major users, namely Technology Generators, TTBDO Admins, UP Officials, and Guests. These requirements were then translated into system features through iterative Agile development cycles. Continuous feedback from stakeholders was gathered to ensure that the system reflected actual IP application workflows, including application creation, application monitoring, status updating, document access, user registration, notification delivery, dashboard reporting, and controlled data sharing through an API endpoint.
 
-Finally, the system was evaluated using Performance, Security, and User Acceptance Testing (UAT) involving the four key user roles. Feedback gathered during this phase informed final system adjustments before deployment.
+Finally, the system was evaluated through the testing activities described in the Testing and Evaluation section. Feedback and test results gathered during this phase informed final system adjustments before deployment.
 
 \section{Development Tools and Technologies}
 
 \subsection{Software and Hardware}
-The following section describes the software tools and hardware specifications used in developing and testing the system. It outlines the purpose of each tool, the role they play in the development process, and the minimum hardware requirements needed to ensure smooth and efficient system performance.
+The following section describes the software tools and hardware specifications used in developing, deploying, and testing the system. It outlines the purpose of each tool and the minimum hardware requirements used to ensure stable development and testing.
 
 \subsubsection{Software Tools}
-The development of the system utilizes several software tools that support coding, design, database management, and testing, as listed in Table~\ref{tab:software_tools}. 
+The development of the system utilized several software tools that supported coding, design, version control, deployment, project management, and testing, as listed in Table~\ref{tab:software_tools}.
 
 \begingroup
 \setlength{\tabcolsep}{6pt}
@@ -32,7 +33,7 @@ The development of the system utilizes several software tools that support codin
 \small
 \begin{table}[H]
 \captionsetup{justification=raggedright,singlelinecheck=false}
-\caption[Software Tools]{Software Tools. The table shows the software tools that would be utilized in the development of IRIS. It breaks down the tools into categories and justifies the purpose of using them.}
+\caption[Software Tools]{Software Tools. The table shows the software tools utilized in the development of IRIS.}
 \label{tab:software_tools}
 \begin{tabular}{|p{3cm}|p{5cm}|p{6.2cm}|}
 \hline
@@ -40,42 +41,44 @@ The development of the system utilizes several software tools that support codin
 \hline
 IDE & Visual Studio Code & Code development and debugging \\
 \hline
-Database & Supabase & Database modeling and management \\
-\hline
 Design & Figma, Canva & UI/UX design and system diagrams \\
 \hline
-Version Control & GitHub & Source code management and collaboration \\
+Version Control and Project Management & GitHub, GitHub Projects & Source code management, collaboration, task assignment, and Kanban-based sprint tracking \\
+\hline
+Deployment & Vercel & Hosting and deployment of the web application \\
 \hline
 OS & Windows 10, 11 & Development environment \\
 \hline
 Browsers & Google Chrome, Microsoft Edge & Testing and compatibility checks \\
 \hline
+Testing & Playwright Test & End-to-End testing \\
+\hline
 \end{tabular}
 \end{table}
 \endgroup
 
-Visual Studio Code serves as the primary Integrated Development Environment (IDE), enabling efficient writing, editing, and debugging of code. Supabase is used for database management, supporting the modeling and handling of system data. For visual design needs, Figma and Canva are used to create UI/UX layouts, prototypes, and system diagrams.
+Visual Studio Code served as the primary Integrated Development Environment (IDE), enabling efficient writing, editing, and debugging of code. Figma and Canva were used to create UI/UX layouts, prototypes, and system diagrams.
 
-GitHub serves as a version control platform, enabling source code management and collaboration among developers. The development environment runs on Windows 10 and Windows 11, while Google Chrome and Microsoft Edge are used to test the system’s compatibility and performance across different browsers.
+GitHub served as the version control platform for source code management and collaboration, while GitHub Projects was used as a Kanban-based project management tool for organizing the backlog, assigning tasks, and tracking sprint progress. Vercel was used to deploy and host the web application, allowing the system to be accessed online during development, testing, and evaluation.
 
+The development environment ran on Windows 10 and Windows 11, while Google Chrome and Microsoft Edge were used to test system compatibility across browsers. Playwright Test was utilized for end-to-end testing to verify system behavior across role-based scenarios.
 
 \subsubsection{Hardware Specifications}
-The following hardware specifications outline the minimum requirements used during development and testing. 
+The following hardware specifications outline the minimum requirements used during development and testing.
 
 \begin{itemize}
-  \item Processor: Intel Core i5 
-  \item RAM: Minimum 8 GB 
-  \item Storage: 512 GB SSD 
-  \item Internet Connection: 30 Mbps minimum 
-  \item Devices for testing: Desktop and Laptop Computers
+  \item Processor: Intel Core i5
+  \item RAM: Minimum 8 GB
+  \item Storage: 512 GB SSD
+  \item Internet Connection: 30 Mbps minimum
+  \item Devices for testing: Desktop and laptop computers
 \end{itemize}
 
-Devices are equipped with an Intel Core i5 processor and at least 8 GB of RAM to ensure stable performance when running development tools and the system itself. A 512 GB SSD provides fast storage access, contributing to smoother operation during testing. An internet connection of at least 30 Mbps is required to support online services such as Supabase and GitHub. 
-To verify system performance across various setups, testing is conducted on both desktop and laptop computers, ensuring the system operates reliably on different device types.
+Devices were equipped with an Intel Core i5 processor and at least 8 GB of RAM to ensure stable performance when running development tools and the system itself. A 512 GB SSD provided sufficient storage and faster access during development and testing. An internet connection of at least 30 Mbps was required to support online services such as GitHub, Vercel, and Supabase. Testing was conducted on both desktop and laptop computers to verify that the system operated reliably across different device types.
 
 \subsection{Technology Stack}
 
-Table~\ref{tab:tech_stack} outlines the technology stack used in developing the system. This stack ensures that the system remains efficient, secure, and user-friendly across all layers, from the interface to the backend and database.
+Table~\ref{tab:tech_stack} outlines the technology stack used in developing the system. This stack supported the implementation of the system interface, backend services, database operations, access control, storage, server-side functions, and email notification services.
 
 \begingroup
 \setlength{\tabcolsep}{6pt}
@@ -83,217 +86,293 @@ Table~\ref{tab:tech_stack} outlines the technology stack used in developing the 
 \small
 \begin{table}[H]
   \captionsetup{justification=raggedright,singlelinecheck=false}
-  \caption[Technology Stack]{Technology Stack. The table shows the chosen technology stack used for the development of IRIS. These are the modern technology stack used in developing web-applications.}
+  \caption[Technology Stack]{Technology Stack. The table shows the chosen technology stack used for the development of IRIS.}
   \label{tab:tech_stack}
   \begin{tabular}{|p{3cm}|p{5cm}|p{6.2cm}|}
     \hline
     \textbf{Component} & \textbf{Technology} & \textbf{Justification} \\
     \hline
-    Frontend & Next.js and Tailwind & Responsive interface and accessibility \\
+    Frontend and Server-Side Application & Next.js, React, Tailwind CSS & Responsive interface, reusable components, protected routing, server-side functionality, and accessible UI design \\
     \hline
-    Backend & ExpressJs & Robust and secure server-side processing \\
+    Backend-as-a-Service & Supabase & Authentication, database operations, role-based access control, file storage, and integration with the web application \\
     \hline
-    Database & Supabase & Reliable and structured data storage \\
+    Database & PostgreSQL through Supabase & Structured storage for users, applications, documents, notifications, audit logs, status histories, and API-related records \\
+    \hline
+    Backend Logic and Automation & PostgreSQL RPCs, database triggers, Supabase Edge Functions & Server-side processing, automated workflows, notification handling, and enforcement of role-based system behavior \\
+    \hline
+    Email Notification Service & Nodemailer, Gmail SMTP & Sending automated email reminders and system notifications \\
     \hline
   \end{tabular}
 \end{table}
 \endgroup
 
-The frontend of the system is built using Next.js and Tailwind CSS. These technologies provide a responsive and accessible user interface with server-side rendering, optimized performance, and SEO-friendly pages. This setup enables technology generators and other organizational roles to perform various tasks such as submitting forms, reviewing IP documents, and tracking application statuses. On the other hand, the backend is developed using Express.js, which supports secure server-side processing and efficient handling of API endpoints that power the digital submission workflows, automated notifications, and dashboard analytics. 
+The frontend and server-side application of IRIS were built using Next.js, React, and Tailwind CSS. These technologies provided a responsive and accessible user interface with role-based navigation and protected routing. This setup enabled Technology Generators, TTBDO Admins, UP Officials, and Guests to access pages and functions appropriate to their assigned roles, including application submission, registry browsing, dashboard viewing, document access, and administrative management.
 
-The database is managed using Supabase, which offers structured and reliable data storage, real-time updates, and easy integration with JavaScript-based applications. Supabase ensures that IP records, notifications, and logs are stored efficiently and securely, allowing for prompt access to support decision-making, reporting, and compliance with IPOPHL deadlines. Furthermore, its built-in authentication and storage APIs streamline user management and secure document handling for various IP forms.
+Supabase served as the main backend-as-a-service platform of IRIS, supporting authentication, database management, access control, file storage, backend logic, and server-side automation. Through PostgreSQL, the system stored structured records such as user accounts, IP applications, attachments, status histories, notifications, audit trail entries, and API-related records. Supabase also supported Google-based sign-in, role-based access control, remote procedure calls (RPCs), database triggers, and Edge Functions used to automate system processes and enforce role-based workflows.
+
+Nodemailer and Gmail SMTP were used to support the system's automated email notification service, particularly for sending deadline reminders and other system-generated messages to users.
 
 \section{Requirements Analysis}
 
 \subsection{Data Collection Methods}
 
-Data was gathered through multiple methods to ensure an accurate understanding of existing processes: 
+Data was gathered through multiple methods to ensure an accurate understanding of existing processes:
 
 \begin{itemize}
-  \item Interviews: Conducted with TTBDO staff to identify workflow challenges. 
-  \item Observation: Reviewed the current manual document tracking and IP filing process. 
-  \item Document Analysis: Examined sample forms, tracking logs, and process documents.
+  \item Interviews: Conducted with TTBDO personnel to identify workflow challenges, user roles, access levels, and document handling needs.
+  \item Observation: Reviewed the current manual document tracking, IP filing, and application monitoring process.
+  \item Document Analysis: Examined sample forms, tracking logs, IP disclosure forms, process documents, and application flow references.
 \end{itemize}
 
 \subsection{Functional Requirements}
 
-The functional requirements (FRs) of IRIS define the specific system behaviors, capabilities, and interactions necessary to address the inefficiencies of TTBDO’s current manual IP management process. These requirements translate the project objectives into specific system behaviors and are organized into seven key functional areas namely: authentication, application submission, application tracking, dashboards, notifications, document management, and public access. 
+The functional requirements (FRs) of IRIS defined the baseline system capabilities needed to address the inefficiencies of TTBDO's manual intellectual property management process. These requirements translated the project objectives into general system functions and served as the basis for the design and implementation of the system. They were organized into the following functional areas: authentication and role-based access, IP application management, application tracking and registry, document and attachment management, collaborator management, notifications and reminders, dashboards and reporting, audit trail and accountability, public portal, and interoperability.
 
-For authentication, the system will require all users to authenticate before accessing internal features and will implement role-based access control. In the submission of applications, IRIS will allow users to guide users in selecting the IDFs by IP type and enable review of IP-related documents. The system will also log timestamps whenever application statuses are updated.
+For authentication and role-based access, IRIS required users to authenticate before accessing internal system features. The system supported role-based access control for Technology Generators, TTBDO Admins, UP Officials, and Guests. Each role was provided access only to the functions and information appropriate to its responsibilities. The system also supported user access management through registration approval, invitation, and role assignment.
 
-The application tracking functionality will maintain a registry of applicants and their submissions, allow authorized users to search and review submission histories, and support filtered and faceted searches over the registry. Dashboards and reporting will provide real-time statistics, trends, and breakdowns, with options to generate and export reports in both machine and human-readable formats.
+For IP application management, IRIS allowed authorized users to create and manage intellectual property application records. The system supported the submission and monitoring of different IP application types, including Trademark, Utility Model, Industrial Design, Patent, and Copyright. It also provided mechanisms for entering application details, identifying collaborators, uploading supporting files, and reviewing application information.
 
-In terms of notifications, the system will send in-app alerts for application status changes or approaching deadlines, allow users to configure notification preferences, and maintain a notification history for each user. The document management capabilities will enable TTBDO staff to upload and securely store supporting documents linked to application records, with access enforced according to user roles.
+The application tracking and registry requirements focused on maintaining a centralized record of IP applications. The system allowed authorized users to search, filter, sort, and view application records based on their role permissions. It also allowed users to monitor the current status, progress, timestamps, and relevant updates associated with each application.
 
-Finally, the public portal will provide read-only access for guest users to browse published IPs, display summary statistics, and, where appropriate, allow document access requests via a public form.
+For document and attachment management, IRIS allowed authorized users to upload, access, and update supporting documents associated with IP applications. The system maintained records of document updates to support traceability and enforced role-based access restrictions for application documents and attachments. It also provided access to relevant application forms, guides, and reference documents.
 
-The complete set of functional requirements, including all detailed specifications, is provided in Appendix~\ref{sec:appendixa} (Tables~\ref{tab:fr_auth_roles}--\ref{tab:fr_public_portal}).
+The collaborator management requirements enabled authorized users to associate collaborators with IP applications and view collaborator information linked to each record. The system also provided mechanisms for managing collaborator-related concerns, including reporting or reviewing collaborator issues when necessary.
+
+For notifications and reminders, IRIS provided system notifications for relevant application updates, status changes, document-related actions, and time-sensitive activities. The system also supported reminders for application deadlines and maintained a notification history for users.
+
+Dashboards and reporting enabled users to view summaries of application statistics, trends, and status distributions according to their access level. The system also supported report generation and export functions for monitoring, administrative review, and decision-making.
+
+The audit trail and accountability requirements ensured that relevant user and system actions were recorded for traceability. These records supported the review of system activities, including actions performed, timestamps, outcomes, and related changes.
+
+The public portal provided read-only access to published intellectual property information and selected public-facing resources. Guests could view public application information, summary statistics, application documents, and guidance materials without accessing restricted internal functions.
+
+Finally, the interoperability requirements allowed controlled data exchange with external systems through an authorized mechanism. Access to external data sharing features was restricted through appropriate authentication or authorization controls.
+
+The complete set of baseline functional requirements is provided in Appendix~\ref{sec:appendixa}.
 
 \subsection{Non-Functional Requirements}
 
-Non-functional requirements (NFRs) define the standards that IRIS must meet for performance, security, reliability, usability, maintainability, and compliance. NFRs are critical for a system handling sensitive IP data, serving diverse users with varying technical skills, and maintaining public trust through consistent availability.
+Non-functional requirements (NFRs) defined the standards that IRIS needed to meet for performance, security, reliability, usability, maintainability, interoperability, and compliance. NFRs were critical for a system that handled sensitive IP data, served users with different access privileges, and maintained public trust through controlled availability and consistent system behavior.
 
-In terms of performance, IRIS is expected to return 95\% of requests within two seconds under normal load and support at least 100 concurrent users. For security, the system will encrypt all traffic using TLS 1.2 or higher and enforce role-based access control.
+In terms of performance, IRIS was designed to provide responsive access to application records, dashboards, registry searches, and file-related actions under normal usage conditions. For security, the system enforced role-based access control, protected routing, authenticated access to internal features, and controlled access to application files and administrative functions. Supabase supported the system's authentication, database security, and access control mechanisms.
 
-Regarding reliability and availability, IRIS is designed to achieve 99.5\% uptime during business hours, recover to the last stable state within four hours in case of failure, and perform daily backups stored in two separate locations. Usability and accessibility considerations include a responsive web interface for desktop, consistent UI and navigation patterns, meaningful error messages, and compliance with WCAG 2.1 Level AA accessibility standards. 
+Regarding reliability and availability, IRIS was designed to maintain stable access to core system features such as authentication, application tracking, dashboards, notifications, and document viewing. Usability and accessibility considerations included a responsive web interface for desktop users, consistent navigation patterns, meaningful feedback messages, confirmation dialogs for critical actions, and role-appropriate interface layouts.
 
-For maintainability, portability, and scalability, the system will follow a modular design with separation of concerns, include developer and API documentation, support deployment across multiple environments and horizontal scaling.
+For maintainability, portability, and scalability, the system followed a modular web application structure with separation of concerns across pages, components, database operations, and service logic. The system also included API-based interoperability to demonstrate how IRIS could exchange controlled data with an external system through an API key.
 
-Finally, compliance and legal requirements ensure that IRIS adheres to the Philippine Data Privacy Act of 2012, retains records according to UP and IPOPHL retention policies, and can export logs and reports in standard formats. 
+Finally, IRIS adhered to the Philippine Data Privacy Act of 2012 by limiting access to sensitive records according to user roles and by supporting accountability through audit logs and controlled data access. It also supported records management by maintaining application histories, attachment version histories, status histories, and exportable information for reporting.
 
-Appendix~\ref{sec:appendixb} (Tables~\ref{tab:nfr_performance}--\ref{tab:nfr_compliance}) provides the complete set of non-functional requirements. The main text above lists only mandatory SHALL requirements; additional SHOULD and MAY requirements are included in the appendix.
+Appendix~\ref{sec:appendixb} (Tables~\ref{tab:nfr_performance}--\ref{tab:nfr_compliance}) provides the complete set of non-functional requirements. The main text above summarizes the mandatory requirements, while additional SHOULD and MAY requirements are included in the appendix.
 
 \section{System Design}
 
 \subsection{Context Model}
 
-The context model for IRIS is illustrated in \figref{fig:context_model}, showing how key stakeholders (such as the TTBDO admin, TTBDO staff,  and the UP officials), Technology Generators (Researchers and Applicants), and Guests interact with the system and vice versa.
+The context model for IRIS is illustrated in \figref{fig:context_model}, showing how the system interacts with its four major user groups: TTBDO Admins, Technology Generators, UP Officials, and Guests.
 
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=0.35]{context_model.png}     
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=0.35]{context_model.png}
    \caption[Context Model of IRIS]{Context Model of IRIS. The diagram shows a high-level context of IRIS, presenting how different stakeholders connect with the system. It clarifies what information each stakeholder can access and manage.}
     \label{fig:context_model}
 \end{figure}
 
 \subsubsection{TTBDO Admin}
-The TTBDO Admins are the key stakeholders of the system, and as such have full access to the functionalities of the system. It includes managing the accounts of the users, the documents relating to every IPR application, the IPR status and critical deadlines, as well as having a full overview of the entire IP portfolio of the university. They can also gather reports of the IP portfolio from the system, which they can later use for further IP-driven strategies and decisions. 
+The TTBDO Admins are the primary administrative users of the system. They have full access to the management features of IRIS, including user management, registration request approval, application creation, application status updating, deadline management, attachment handling, collaborator linking, collaborator report review, application withdrawal, dashboard reporting, audit trail viewing, and API key generation. They can also view and manage the full IP portfolio of the university.
 
-\subsubsection{Tech Generators}
+\subsubsection{Technology Generators}
 
-The Tech Generators, or the university researchers and IPR applicants, have the primary interaction of overseeing the current status of the IPs related to them. That is, if they are a member of the tech generators of a certain IP. They can also access and file disclosure forms to start their IPR application. The Tech Generators are notified by the system every time there is a status change to their IPR, may it is in the process of applying or while maintaining their rights to it. Aside from this, they also have viewing privileges to the IP portfolio summary and the published IPs of the university.
+Technology Generators, or university researchers and IPR applicants, primarily use the system to start IP right applications and monitor applications connected to them. They can access the application documents and application guide, create new applications, view application status histories, upload and update attachments, view attachment version history, link collaborators, report collaborators to TTBDO Admins, receive notifications, and request a status update when an application becomes overdue. They can also view public and role-appropriate dashboard and registry information.
 
-\subsubsection{UP Officials and Guests.}
+\subsubsection{UP Officials}
 
-These stakeholders in the system only have viewing capabilities with the IP portfolio summary as well as the published IPs of the university. The UP officials, however, have extended privileges to have an overview of the unpublished IPs or the ongoing IPR applications.
+UP Officials have view-only access to the university IP portfolio. Unlike Guests, they can view all applications in the registry regardless of public status. They can also use dashboard summaries, filters, and sorting features to evaluate the university's IP portfolio.
 
+\subsubsection{Guests}
+
+Guests are unauthenticated or public users with limited access. They can view public applications in the registry, access public dashboard information, open application documents, read the application guide, and submit a registration request when they need access to internal system functions.
 
 \subsection{Database Design}
 
-\figref{fig:db_design} illustrates the database schema of the system, following PostgreSQL data types and object definitions. It shows how different objects are related to each other through foreign keys derived from other objects.
+\figref{fig:db_design} illustrates the database schema of the system, following PostgreSQL data types and object definitions. It shows how different objects are related to each other through foreign keys derived from other objects. The database supports user accounts, role assignments, application records, collaborators, attachments, attachment versions, status histories, notifications, registration requests, audit trail entries, and API-related records.
 
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=0.33]{db_design.png}     
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=0.33]{db_design.png}
    \caption[Database Design (Schema) of IRIS]{Database Design (Schema) of IRIS. It shows an entity relationship diagram (ERD) for the PostgreSQL database of the system.}
     \label{fig:db_design}
 \end{figure}
 
-\subsection{Use Case Diagram}
-The following figures illustrate each use case diagram for each user of the system. It shows the functionalities available for each type of user, their interaction with the system, and their particular use cases they have for the system.
+\subsection{Use Case Diagram}\label{sec:us_diagram}
+The following figures illustrate each use case diagram for each user of the system. They show the functionalities available for each type of user, their interaction with the system, and the specific use cases they have for the system.
 
-It is shown in \figref{fig:uc_guest} that the Guests' only use case for the system is to view the published IPs of the university and to see its IP portfolio summary. It could be for research purposes or to get an overview of the IP-generation power of the university. It is shown in \figref{fig:uc_official} that the UP Officials have an extended use case where they want to view the entire IP portfolio of the university, including unpublished IPs. With this, they have to authenticate with the system first, adding another use case with the system.
+It is shown in \figref{fig:uc_guest} that Guests can view the published IPs of the university, access public portfolio information, open application documents, read the application guide, and request registration. It is shown in \figref{fig:uc_official} that UP Officials have an extended view-only use case where they can view the university IP portfolio, including unpublished IP applications. With this, they have to authenticate with the system first, adding another use case with the system.
 
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.7]{uc_guest.png}     
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.7]{uc_guest.png}
    \caption[Guest Use Case Diagram of IRIS]{Guest Use Case Diagram of IRIS. It shows the scenarios in which unauthenticated or unregistered users interact with the system.}
     \label{fig:uc_guest}
 \end{figure}
 
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.7]{uc_official.png}     
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.7]{uc_official.png}
    \caption[UP Official Use Case Diagram of IRIS]{UP Official Use Case Diagram of IRIS. It shows the scenarios in which the UP Officials interact with the system and for what intent they use the system for.}
     \label{fig:uc_official}
 \end{figure}
 
+\figref{fig:uc_techgen} shows the various use cases of a Technology Generator, showing the actions they can take with the system. The Technology Generator has guest-level privileges but can also access extended system functions by authenticating and logging in. These privileges include accessing and filing disclosure forms, creating IP right applications, monitoring application status, uploading attachments, managing file versions, linking collaborators, reporting collaborators, receiving notifications, and requesting status updates for overdue applications.
 
-\figref{fig:uc_techgen} shows the various use cases of a technology generator (university researcher or university IPR applicant), showing the actions they can take with the system. The technology generator has guest-level privileges but can also have extended privileges of the system by authenticating and logging in. The extended privileges include accessing and filing disclosure forms (IPR application) and monitoring IPR status.
-
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.7]{uc_techgen.png}     
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.7]{uc_techgen.png}
    \caption[Technology Generator Use Case Diagram of IRIS]{Technology Generator Use Case Diagram of IRIS. It shows the scenarios in which technology generators or applicants use the system. It also shows that their use cases expand as compared to the guests and UP officials.}
     \label{fig:uc_techgen}
 \end{figure}
 
- 
-\figref{fig:uc_admin} shows the various use cases of the TTBDO admins. It shows that they have the most use cases for the system as they have all the privileges to access its functionality. It includes a UP official-level overview of the IP portfolio, user management, IPR application status management, and gathering reports about the IP portfolio of the university.
+\figref{fig:uc_admin} shows the various use cases of the TTBDO Admins. It shows that they have the most use cases for the system because they have access to administrative and management functions. These include viewing the full IP portfolio, managing users and registration requests, inviting users, creating applications, updating application details and statuses, managing deadlines, handling attachments and collaborators, reviewing reports, withdrawing applications, viewing audit logs, generating reports, and generating API keys for interoperability.
 
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.3]{uc_admin.png}     
-   \caption[TTBDO Admin Use Case Diagram of IRIS]{TTBDO Admin Use Case Diagram of IRIS. It shows the scenarios in which the TTBDO admins use and interact with the system. As the main stakeholder of the system, it shows that they have a lot of use cases with the system.}
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.7]{uc_admin.png}
+   \caption[TTBDO Admin Use Case Diagram of IRIS]{TTBDO Admin Use Case Diagram of IRIS. It shows the scenarios in which TTBDO admins interact with the system and the administrative functions available to them.}
     \label{fig:uc_admin}
 \end{figure}
 
+\subsection{Sequence Diagram}
+The sequence diagrams show the interaction between IRIS, Technology Generators, TTBDO Admins, and external IP application processes. These diagrams were used to identify the system actions, status stages, notification points, and role-based interactions implemented in the application tracking workflow.
 
-\subsection{Sequence Diagrams}
+\subsubsection{General IPR Sequence Diagram}
+Figures \ref{fig:gen_seqA} and \ref{fig:gen_seqB_1} illustrate the sequence diagram of a Trademark, Utility Model, Industrial Design, and Patent application started by a Technology Generator and facilitated by the TTBDO Admin through the system. It details the interaction between the TTBDO and the system as they handle the application process with the IPOPHL. It also shows how the system notifies the Technology Generator for every update of the IPR application. The sequence diagrams are used to derive the IP application stages that are displayed in the system.
 
-\subsubsection{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram}
-
-Figures \ref{fig:gen_seqA} and \ref{fig:gen_seqB_1} illustrate the sequence diagram of a Trademark, Utility Model, Industrial Design, and Patent application started by a Technology Generator, which is then facilitated by the system through the TTBDO Admin. It details the interaction between the TTBDO and the system as they handle the application process with the IPOPHL. It also shows how the system notifies the Technology Generator for every update of the IPR application. The sequence diagrams are used to derive the IP application stages that will be used in the system. The IP application stages will be used for the interaction of the technology generator and TTBDO during an IP right application.
-
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.5]{general_sequenceA.png}     
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.5]{general_sequenceA.png}
    \caption[Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 1)]{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 1). The sequence diagram shows the first part of the TM/UM/ID/Patent application, starting from the submission of the disclosure form. The diagram shows in which stage of the application the TTBDO and technology generator interact with the system respectively.}
     \label{fig:gen_seqA}
 \end{figure}
 
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.5]{general_sequenceB.png}     
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.5]{general_sequenceB.png}
    \caption[Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 2)]{Trademark, Utility Model, Industrial Design, and Patent Application Sequence Diagram (Part 2). This sequence diagram shows the continuation of the sequence diagram shown in \figref{fig:gen_seqA}. The bottom part of the diagram shows that the processes branch into specific flows and interactions, depending on the type of IP right filed.}
     \label{fig:gen_seqB_1}
 \end{figure}
 
-
-
 \subsubsection{Detailed Branch of the Specific IPR Sequence Diagram}
 
-The following figures are the specific branch of sequence diagrams that are referred to in \figref{fig:gen_seqB_1}. It shows the rights-specific processes that the TTBDO interfaces with the IPOPHL and technology generator for the IPR application process. Based on the diagrams, more application stages are derived which are then displayed in the system depending on which IP right the technology generator and TTBDO are working with.
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.35]{tm_sequence.png}     
+The following figures are the specific branch of sequence diagrams that are referred to in \figref{fig:gen_seqB_1}. They show the rights-specific processes that the TTBDO interfaces with the IPOPHL and Technology Generator for the IPR application process. Based on the diagrams, more application stages are derived and then displayed in the system depending on the IP right being processed.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.35]{tm_sequence.png}
    \caption[Detailed Branch of Trademark Application Sequence Diagram]{Detailed Branch of Trademark Application Sequence Diagram. The diagram shows the detailed branch of the trademark application flow as abstracted in \figref{fig:gen_seqB_1}.}
     \label{fig:gen_seqB_2}
 \end{figure}
 
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.35]{um_id_sequence.png}     
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.35]{um_id_sequence.png}
    \caption[Detailed Branch of Utility Model \& Industrial Design Application Sequence Diagram]{Detailed Branch of Utility Model \& Industrial Design Application Sequence Diagram. The diagram shows the detailed branch of the utility model \& industrial design application flow as abstracted in \figref{fig:gen_seqB_1}.}
     \label{fig:gen_seqB_3}
 \end{figure}
 
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.35]{patent_sequence.png}     
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.35]{patent_sequence.png}
    \caption[Detailed Branch of Patent Application Sequence Diagram]{Detailed Branch of Patent Application Sequence Diagram. The diagram shows the detailed branch of the patent application flow as abstracted in \figref{fig:gen_seqB_1}.}
     \label{fig:gen_seqB_4}
 \end{figure}
 
 \subsubsection{Copyright Application Sequence Diagram}
-Figures \ref{fig:copyright_seqA} \& \ref{fig:copyright_seqB} illustrates the copyright application process started by the Technology Generator and facilitated by the TTBDO through the system. The application process for copyright can not be completely digitized, as it requires physical copies and wet signatures along the process. However, the sequence diagram shows how IRIS can still facilitate this process as shown between the interactions of the actors.
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.5]{copyright_sequenceA.png}     
+Figures \ref{fig:copyright_seqA} and \ref{fig:copyright_seqB} illustrate the copyright application process started by the Technology Generator and facilitated by the TTBDO through the system. The application process for copyright could not be completely digitized because it required physical copies and wet signatures along the process. However, the sequence diagram shows how IRIS can still facilitate this process through digital tracking, notifications, and document coordination.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.5]{copyright_sequenceA.png}
    \caption[Copyright Application Sequence Diagram Part 1]{Copyright Application Sequence Diagram Part 1. The diagram shows the detailed branch of the copyright application flow as abstracted in \figref{fig:gen_seqB_1}. It shows how IRIS, a digital system, can still be used despite having stages that requires physical documents and wet signatures.}
     \label{fig:copyright_seqA}
 \end{figure}
-\begin{figure}[H]                
-   \centering                   
-   \includegraphics[scale=.5]{copyright_sequenceB.png}     
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=.5]{copyright_sequenceB.png}
    \caption[Copyright Application Sequence Diagram Part 2]{Copyright Application Sequence Diagram Part 2. The diagram shows a continuation of the diagram shown in \figref{fig:copyright_seqA}. It shows that if the TTBDO does not require additional physical requirement from the technology generators, then the rest of the entire process can stay digital.}
     \label{fig:copyright_seqB}
 \end{figure}
- 
 
 \section{Testing and Evaluation}
 
-\subsubsection{Testing Approach}
+\subsection{Testing Approach}
 
-The system will undergo Performance Testing, Penetration Testing, and User Acceptance Testing to validate functional and non-functional requirements (FRs and NFRs, listed in Appendix~\ref{sec:appendixa} and \ref{sec:appendixb}).
+The system underwent Penetration Testing, User Acceptance Testing, and End-to-End Testing to validate functional and non-functional requirements (FRs and NFRs, listed in Appendix~\ref{sec:appendixa} and \ref{sec:appendixb}).
 
-Performance testing will evaluate system responsiveness and stability to validate NFR-01 (95\% of requests within 2 seconds). Testing will focus on application submission (FR-03 to FR-06), dashboard access (FR-10), and search functionality (FR-08 to FR-09), measuring page load times and response rates under normal usage conditions.
+\subsection{Penetration Testing}
+Penetration testing validated if the system implemented FR-02 and NFR-04 (role-based access control). The tests attempted unauthorized access to restricted functions by simulating users accessing features outside their assigned roles, such as Applicant users attempting to access TTBDO document upload functions (FR-15). Input validation was tested by submitting malicious or unexpected data to verify that security mechanisms properly sanitize inputs and prevent unauthorized access.
 
-Penetration testing will validate FR-02 and NFR-04 (role-based access control). Tests will attempt unauthorized access to restricted functions by simulating users accessing features outside their assigned roles, such as Applicant users attempting to access TTBDO document upload functions (FR-15). Authentication (FR-01) will be tested by attempting access to protected routes without valid credentials. Input validation will be tested by submitting malicious or unexpected data to verify that security mechanisms properly sanitize inputs and prevent unauthorized access.
 
-User Acceptance Testing will involve end-users from each role (TTBDO staff, applicants, UP officials) completing representative tasks: application submission and document review (FR-03 to FR-06), applicant tracking (FR-07 to FR-08), notifications (FR-12 to FR-14), and dashboard reporting (FR-10 to FR-11). The responsive interface (NFR-09) will be tested across desktop devices, and navigation consistency (NFR-10) will be assessed through user feedback on interface clarity and ease of use.
+\subsection{User Acceptance Testing}
+User Acceptance Testing involved end-users from each role (TTBDO staff, applicants, UP officials) that completed representative tasks: application submission and document review (FR-03 to FR-06), applicant tracking (FR-07 to FR-08), notifications (FR-12 to FR-14), and dashboard reporting (FR-10 to FR-11). The responsive interface (NFR-09) was tested across desktop devices, and navigation consistency (NFR-10) was assessed through user feedback on interface clarity and ease of use.
 
-\subsubsection{Evaluation Criteria}
+\subsection{End-to-End Testing}
+The Playwright Test framework was used to automate the end-to-end tests of the system. 
+The tests were written to simulate real-life use-case scenarios, and the diagrams from section \ref{sec:us_diagram} were used as a foundation to derive the tests; as such, 31 use-case tests were identified. 
+The tests were divided by user roles, and another group of tests was created to verify that users can access only the routes they are allowed to as described by the authentication FR (FR-01). 
+The tests were defined as followed:
+\begin{itemize}
+    \item \textbf{Technology Generator}
+    \begin{itemize}
+        \item Shows the techgen dashboard updates and summary cards.
+        \item Filters the registry and opens an application from the results.
+        \item Shows application details, collaborator states, owned files, and version history.
+        \item Lets a techgen request a status update when an application is overdue.
+        \item Files a collaborator report only after confirmation.
+        \item Auto-links an unverified collaborator after confirmation.
+        \item Views an existing file and uploads a new attachment through the modal flow.
+        \item Uploads a new file version instead of replacing the existing one.
+        \item Creates a new application after confirmation and keeps collaborators visible in the detail page.
+        \item Shows techgen notifications and lets the user clear unread reminders.
+    \end{itemize}
+
+    \item \textbf{TTBDO Admin}
+    \begin{itemize}
+        \item Manages dashboard exports, year filters, and status update requests.
+        \item Handles attachment actions and links tech generator accounts.
+        \item Edits application details, updates status, and withdraws applications.
+        \item Views collaborator reports and removes a tech generator.
+        \item Invites a new user from user management.
+        \item Approves user registration requests.
+        \item Rejects user registration requests.
+        \item Generates and copies an API token.
+        \item Creates a new application from the registry through the guided wizard.
+        \item Validates required start-application inputs and supports manual collaborators.
+    \end{itemize}
+
+    \item \textbf{Guest}
+    \begin{itemize}
+        \item Shows only public applications in the registry.
+        \item Filters and sorts the public registry without exposing private applications.
+        \item Lets guests request registration and validates UP mail signups.
+    \end{itemize}
+
+    \item \textbf{UP-Official}
+    \begin{itemize}
+        \item Shows the dashboard for evaluating the university IP portfolio.
+        \item Shows all applications in the registry regardless of public status.
+        \item Filters registry results.
+        \item Sorts the registry alphabetically by IP title.
+    \end{itemize}
+
+    \item \textbf{Routing}
+    \begin{itemize}
+        \item Redirects unauthenticated users away from protected pages.
+        \item Keeps admins inside admin routes.
+        \item Keeps techgens inside techgen routes.
+        \item Keeps UP officials inside up-official routes.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Evaluation Criteria}
 
 The evaluation of the system focuses on key aspects aligned with the Testing Approach to ensure overall effectiveness and readiness.
 
@@ -303,45 +382,3 @@ The evaluation of the system focuses on key aspects aligned with the Testing App
   \item Performance: Average page load time maintained under three seconds. 
   \item Reliability: No critical errors or crashes occurred during UAT. 
 \end{itemize}
-
-\section{Calendar of Activities}
-
-Table~\ref{tab:gantt_chart} shows a Gantt chart of the activities. Each bullet represents approximately one week worth of activity. 
-
-\begingroup
-\setlength{\tabcolsep}{4pt} 
-\renewcommand{\arraystretch}{1.1} 
-\footnotesize 
-\begin{table}[H]
-\captionsetup{justification=raggedright,singlelinecheck=false}
-\caption[Timetable of Activities]{Timetable of Activities. The table shows the planned activities and their respective schedules for developing the system prototype.}
-\label{tab:gantt_chart}
-\centering
-\begin{tabular}{|p{4.5cm}|c|c|c|c|c|c|c|c|c|}
-\hline
-\textbf{Activities} & \textbf{Sept} & \textbf{Oct} & \textbf{Nov} & \textbf{Dec} & \textbf{Jan} & \textbf{Feb} & \textbf{Mar} & \textbf{Apr} & \textbf{May} \\
-\hline
-Problem Identification \& Literature Review & \textbullet & \textbullet & & & & & & & \\
-\hline
-Requirements Elicitation and Analysis & \textbullet & \textbullet & & & & & & & \\
-\hline
-Requirements Specification & & \textbullet & \textbullet & & & & & & \\
-\hline
-System Design and Prototype & & \textbullet\textbullet & \textbullet\textbullet & \textbullet\textbullet & & & & & \\
-\hline
-System Development & & & \textbullet & \textbullet\textbullet\textbullet\textbullet & \textbullet\textbullet\textbullet\textbullet & \textbullet\textbullet\textbullet\textbullet & \textbullet\textbullet\textbullet\textbullet & & \\
-\hline
-Testing and Evaluation & & & & \textbullet & \textbullet & \textbullet & \textbullet\textbullet & \textbullet\textbullet & \\
-\hline
-System Deployment & & & & \textbullet & \textbullet & \textbullet & \textbullet & \textbullet\textbullet & \\
-\hline
-Analysis and Interpretation of Results & & & & \textbullet & & & \textbullet\textbullet & \textbullet\textbullet & \\
-\hline
-Documentation & \textbullet & \textbullet & \textbullet & \textbullet & \textbullet & \textbullet & \textbullet & \textbullet\textbullet & \textbullet\textbullet \\
-\hline
-\end{tabular}
-\end{table}
-\endgroup
-
-
-Since the developers are implementing Agile, testing and deployment occur every two consecutive sprints (each lasting two weeks). This ensures stakeholders provide regular feedback, which is then used to guide the next iteration of development.

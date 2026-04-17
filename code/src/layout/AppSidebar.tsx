@@ -8,6 +8,10 @@ import { NavItem } from "@/lib/types/nav";
 
 import SidebarWidget from "./SidebarWidget";
 import { ChevronDownIcon, HorizontaLDots } from "@/icons/index";
+import { getHomeRoute } from "@/lib/helper/get-home-route";
+
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atom-states/user";
 
 interface PropsInterface {
   navItems: NavItem[];
@@ -19,6 +23,9 @@ const AppSidebar: React.FC<PropsInterface> = (props) => {
   const { navItems, othersItems, isPublic } = props;
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
+
+  const user = useAtomValue(userAtom);
+  const role = user?.role;
 
   const renderMenuItems = (
     navItems: NavItem[],
@@ -233,7 +240,7 @@ const AppSidebar: React.FC<PropsInterface> = (props) => {
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
-        <Link href="/">
+        <Link href={getHomeRoute(role)}>
           {isExpanded || isHovered || isMobileOpen ? (
             <span className="text-brand-500 text-2xl font-bold tracking-[0.25em]">
               IRIS

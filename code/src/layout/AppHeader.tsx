@@ -3,10 +3,14 @@
 import NotificationDropdown from "@/components/header/NotificationDropdown";
 import UserDropdown from "@/components/header/UserDropdown";
 import { useSidebar } from "@/context/SidebarContext";
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/atom-states/user";
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import PingsDropdown from "@/components/header/PingsDropdown";
+import Link from "next/link";
+import { getHomeRoute } from "@/lib/helper/get-home-route";
 
 interface PropsInterface {
   isPublic?: boolean;
@@ -22,6 +26,9 @@ const AppHeader: React.FC<PropsInterface> = ({
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
+
+  const user = useAtomValue(userAtom);
+  const role = user?.role;
 
   const handleToggle = () => {
     if (window.innerWidth >= 1024) {
@@ -97,6 +104,14 @@ const AppHeader: React.FC<PropsInterface> = ({
             </button>
           )}
 
+          {isFullWidth && (
+            <Link href={getHomeRoute(role)}>
+              <span className="text-brand-500 text-2xl font-bold tracking-[0.25em]">
+                IRIS
+              </span>
+            </Link>
+          )}
+
           <button
             onClick={toggleApplicationMenu}
             className="z-99999 flex h-10 w-10 items-center justify-center rounded-lg text-gray-700 hover:bg-gray-100 lg:hidden dark:text-gray-400 dark:hover:bg-gray-800"
@@ -120,7 +135,7 @@ const AppHeader: React.FC<PropsInterface> = ({
         <div
           className={`${
             isApplicationMenuOpen ? "flex" : "hidden"
-          } shadow-theme-md w-full items-center justify-between gap-4 px-5 py-4 lg:flex lg:justify-end lg:px-0 lg:shadow-none`}
+          } shadow-theme-md relative w-full items-center justify-between gap-4 px-5 py-4 lg:flex lg:justify-end lg:px-0 lg:shadow-none`}
         >
           {isPublic ? (
             <button
@@ -131,7 +146,7 @@ const AppHeader: React.FC<PropsInterface> = ({
             </button>
           ) : (
             <>
-              <div className="gap-4 flex">
+              <div className="flex gap-4">
                 {isAdmin && <PingsDropdown />}
                 <NotificationDropdown isAdmin={isAdmin} />
               </div>

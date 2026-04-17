@@ -47,14 +47,14 @@ function InformationPanel(props: DetailsPanelProps) {
           <button
             type="button"
             onClick={() => setActiveTab("attachments")}
-            className={`rounded-full px-3 py-1 ${activeTab === "attachments" ? "bg-white text-gray-900" : "text-gray-600"}`}
+            className={`xsm:px-3 rounded-full px-2 py-1 ${activeTab === "attachments" ? "bg-white text-gray-900" : "text-gray-600"}`}
           >
             Attachments
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("inventors")}
-            className={`rounded-full px-3 py-1 ${
+            className={`xsm:px-3 rounded-full px-2 py-1 ${
               activeTab === "inventors"
                 ? "bg-white text-gray-900"
                 : "text-gray-600"

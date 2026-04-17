@@ -48,17 +48,17 @@ function DeveloperSettings() {
         share these tokens with anyone else. These tokens do not expire but can
         never be revoked.
       </h2>
-      <div className="flex h-full w-full flex-col items-center justify-start p-20">
-        <div className="flex w-md flex-col-reverse items-center gap-5">
+      <div className="flex h-full w-full flex-col items-center justify-start p-10 sm:p-20">
+        <div className="flex w-full max-w-md flex-col-reverse items-center gap-5">
           <Button
-            className="h-10 w-full max-w-xs"
+            className="xsm:max-w-xs h-10 w-full max-w-2xs"
             onClick={handleGenerateToken}
           >
             Generate
           </Button>
           <div className="flex flex-row">
             <Input
-              className="h-10 w-xs"
+              className="xsm:w-xs h-10 w-2xs"
               type="text"
               placeholder="API Token"
               value={apiToken}
