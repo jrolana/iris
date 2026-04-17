@@ -1,18 +1,16 @@
 import TechgenViewApplicationPageClient from "./TechgenViewApplicationPageClient";
-import { Suspense } from "react";
-import { Loader } from "lucide-react";
 
-export default function SigninPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
-          <span className="text-lg font-medium">Loading sign in page...</span>
-          <Loader className="animate-spin" />
-        </div>
-      }
-    >
-      <TechgenViewApplicationPageClient />
-    </Suspense>
-  );
+interface TechgenViewApplicationPageProps {
+  searchParams: Promise<{
+    applicationID?: string;
+  }>;
+}
+
+export default async function TechgenViewApplicationPage({
+  searchParams,
+}: TechgenViewApplicationPageProps) {
+  const params = await searchParams;
+  const applicationId = params.applicationID ?? "";
+
+  return <TechgenViewApplicationPageClient applicationId={applicationId} />;
 }
