@@ -683,47 +683,45 @@ As shown in \figref{fig:api_integration}, the dummy external system successfully
 This section presents the results of the testing activities described in Chapter 3. The discussion focuses on the observed outcomes of the end-to-end, performance, penetration, and user acceptance tests, while the complete supporting results are provided in the appendices where applicable.
 
 \subsection{End-to-End Testing}
+
 The Playwright framework was utilized to evaluate the end-to-end tests of the system. 
 A total of 31 test scripts were written, each directly derived from the system's use-case scenarios. In the final version of the test suite, a test run showed a high success rate but failed on one test case as shown in \figref{fig:test_fail}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{tests/test_fail.png}
+    \includegraphics[width=0.9\textwidth,height=0.72\textheight,keepaspectratio]{tests/test_fail.png}
     \caption{Failed Test Case. A failed test case in the end-to-end test suite regarding UI mismatch.}
     \label{fig:test_fail}
-    \vspace{1cm}
 \end{figure}
+
+\FloatBarrier
 
 The test failed on a UI mismatch and was eventually fixed through modifications in the frontend. The final test summary is shown in \figref{fig:test_summary}.
 
-\clearpage
 \begin{figure}[H]
     \centering
+
     \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\linewidth,height=0.90\textheight,keepaspectratio]{tests/tests_A.png}
+        \includegraphics[width=\linewidth,height=0.30\textheight,keepaspectratio]{tests/tests_A.png}
         \caption{}
         \label{fig:test_summaryA}
     \end{subfigure}
-\end{figure}
-\clearpage
 
-\begin{figure}[H]\ContinuedFloat
-    \centering
+    \vspace{0.6em}
+
     \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\linewidth,height=0.90\textheight,keepaspectratio]{tests/tests_B.png}
+        \includegraphics[width=\linewidth,height=0.30\textheight,keepaspectratio]{tests/tests_B.png}
         \caption{}
         \label{fig:test_summaryB}
     \end{subfigure}
-\end{figure}
-\clearpage
 
-\begin{figure}[H]\ContinuedFloat
-    \centering
+    \vspace{0.6em}
+
     \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{tests/tests_C.png}
+        \includegraphics[width=\linewidth,height=0.30\textheight,keepaspectratio]{tests/tests_C.png}
         \caption{}
         \label{fig:test_summaryC}
     \end{subfigure}
@@ -731,28 +729,39 @@ The test failed on a UI mismatch and was eventually fixed through modifications 
     \caption[Test Summary]{Summary of end-to-end test results. The figures show the test outcomes for different scenarios, produced by Playwright Test.}
     \label{fig:test_summary}
 \end{figure}
-\clearpage
+
+\FloatBarrier
 
 \subsection{Performance Testing}
 
 The Lighthouse performance testing results showed that the tested IRIS routes were generally responsive and stable. Public desktop pages obtained scores from 99 to 100, while authenticated routes obtained scores from 97 to 100 in the tested sessions. Public mobile pages obtained lower scores, ranging from 83 to 98.
 
-\begin{table}[htbp]
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.12}
+\small
+\begin{table}[H]
 \centering
+\captionsetup{justification=raggedright,singlelinecheck=false}
 \caption{Summary of Lighthouse Performance Testing Results}
 \label{tab:performance-results-summary}
-\begin{tabular}{p{0.32\textwidth} p{0.22\textwidth} p{0.36\textwidth}}
+\begin{tabular}{|p{0.32\textwidth}|p{0.22\textwidth}|p{0.36\textwidth}|}
 \hline
 \textbf{Route Group} & \textbf{Score Range} & \textbf{Interpretation} \\
 \hline
 Public desktop pages & 99--100 & Fast loading under desktop testing conditions. \\
+\hline
 Public mobile pages & 83--98 & Usable, but affected by slower LCP on selected pages. \\
+\hline
 Administrator pages & 99--100 & Performed well in authenticated administrator sessions. \\
+\hline
 Technology Generator pages & 97--100 & Performed well in authenticated Technology Generator sessions. \\
+\hline
 UP Official pages & 100 & Performed well in authenticated UP Official sessions. \\
 \hline
 \end{tabular}
 \end{table}
+\endgroup
 
 \FloatBarrier
 
@@ -764,29 +773,44 @@ The authenticated routes obtained higher scores in the tested sessions, but they
 
 Overall, the results indicate that IRIS met the expected performance behavior for the tested routes. The remaining optimization area is the mobile performance of selected public-facing pages, particularly the reduction of Largest Contentful Paint.
 
+\FloatBarrier
+
 \subsection{Penetration Testing}
 
 The penetration testing results showed that IRIS generally enforced its baseline security controls. Unauthenticated users were redirected from protected routes such as \texttt{/admin}, \texttt{/up-official}, \texttt{/techgen}, and direct application views. Non-admin users were also prevented from directly accessing administrator routes. The external users API rejected missing, invalid, and malformed bearer tokens, while unsupported POST, PUT, and DELETE requests were rejected. Direct REST access to sensitive tables, including users and IPR applications, did not expose private records. SQL-like, XSS-like, and path traversal-like payloads also did not produce observable data leakage or internal error disclosure.
 
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.12}
+\small
 \begin{table}[H]
 \centering
+\captionsetup{justification=raggedright,singlelinecheck=false}
 \caption{Summary of Penetration Testing Results}
 \label{tab:penetration-testing-summary}
-\begin{tabular}{p{0.34\textwidth} p{0.50\textwidth} p{0.12\textwidth}}
+\begin{tabular}{|p{0.32\textwidth}|p{0.48\textwidth}|p{0.12\textwidth}|}
 \hline
 \textbf{Area Tested} & \textbf{Observed Result} & \textbf{Result} \\
 \hline
 Authentication and RBAC & Protected routes redirected unauthenticated users, and non-admin users were prevented from accessing admin routes. & Passed \\
+\hline
 API and method protection & Missing, invalid, and malformed bearer tokens were rejected, and unsupported HTTP methods were not allowed. & Passed \\
+\hline
 Direct table access & Sensitive tables were not exposed through direct REST access. & Passed \\
+\hline
 Input validation and error handling & Suspicious payloads and malformed requests did not expose internal details. & Passed \\
+\hline
 Object and file access & Attempts to access another user's application or file were redirected or did not return private data. & Passed \\
+\hline
 Session tampering & A fake administrator role value did not grant admin access. & Passed \\
+\hline
 RPC and audit trail access & Some responses required manual inspection to confirm that no unauthorized data was returned. & Needs Review \\
+\hline
 File upload and rate limiting & These tests were not executed due to additional configuration requirements. & Skipped \\
 \hline
 \end{tabular}
 \end{table}
+\endgroup
 
 \FloatBarrier
 
@@ -795,6 +819,8 @@ The complete generated penetration testing summary is provided in Appendix~\ref{
 Some results were marked as \textit{Needs Review}, particularly Supabase RPC calls, audit trail access, and some tests affected by browser-based cookie authentication. These do not automatically indicate vulnerabilities. They indicate that HTTP status codes alone were insufficient to confirm whether the returned data or access pathway was properly limited.
 
 Overall, the results suggest that IRIS met the expected baseline security requirements for protected route access, role-based restrictions, API token validation, direct table access protection, input handling, method restriction, and error handling. However, the test should be interpreted as a limited-scope security validation rather than a complete security audit.
+
+\FloatBarrier
 
 \subsection{User Acceptance Testing}
 

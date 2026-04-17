@@ -307,12 +307,15 @@ Figures \ref{fig:copyright_seqA} and \ref{fig:copyright_seqB} illustrate the cop
 
 The system underwent End-to-End Testing, Performance Testing, Penetration Testing, and User Acceptance Testing to validate functional and non-functional requirements (FRs and NFRs, listed in Appendix~\ref{sec:appendixa} and \ref{sec:appendixb}).
 
+\FloatBarrier
+
 \subsection{End-to-End Testing}
 
 The Playwright Test framework was used to automate the end-to-end tests of the system. 
 The tests were written to simulate real-life use-case scenarios, and the diagrams from section \ref{sec:us_diagram} were used as a foundation to derive the tests; as such, 31 use-case tests were identified. 
 The tests were divided by user roles, and another group of tests was created to verify that users can access only the routes they are allowed to as described by the authentication FR (FR-01). 
 The tests were defined as followed:
+
 \begin{itemize}
     \item \textbf{Technology Generator}
     \begin{itemize}
@@ -366,6 +369,8 @@ The tests were defined as followed:
     \end{itemize}
 \end{itemize}
 
+\FloatBarrier
+
 \subsection{Performance Testing}
 
 Performance testing was conducted to evaluate the loading speed, responsiveness, and visual stability of the IRIS web application. The test was included to determine whether public and authenticated pages could load reliably under the tested conditions.
@@ -385,6 +390,8 @@ The performance testing covered the following route groups:
 
 The results were used to identify whether the tested routes were responsive and stable, and whether any pages required further performance optimization.
 
+\FloatBarrier
+
 \subsection{Penetration Testing}
 
 Penetration testing was conducted to evaluate the baseline security controls of the IRIS web application before final deployment. The test focused on common security concerns, including unauthorized access, improper role use, exposed database resources, unsafe API access, suspicious input handling, and error-message leakage.
@@ -393,29 +400,48 @@ The testing was performed using a scripted set of HTTP requests against the loca
 
 Table~\ref{tab:pentest-scope} summarizes the areas covered during penetration testing.
 
-\begin{table}[htbp]
+\begingroup
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.12}
+\small
+\begin{table}[H]
 \centering
+\captionsetup{justification=raggedright,singlelinecheck=false}
 \caption{Scope of Penetration Testing}
 \label{tab:pentest-scope}
-\begin{tabular}{p{0.30\textwidth} p{0.62\textwidth}}
+\begin{tabular}{|p{0.30\textwidth}|p{0.60\textwidth}|}
 \hline
 \textbf{Area Tested} & \textbf{Purpose} \\
 \hline
 Authentication and RBAC & Checked whether unauthenticated users and users with incorrect roles were prevented from accessing protected pages. \\
+\hline
 Object-Level Authorization & Checked whether users could access only authorized application records and uploaded files. \\
+\hline
 API Protection & Checked whether protected API routes rejected missing, invalid, or malformed bearer tokens. \\
+\hline
 Database and RPC Access & Checked whether sensitive tables and functions were protected from unauthorized direct access. \\
+\hline
 File Access Control & Checked whether uploaded documents were accessible only through authorized pathways. \\
+\hline
 Input Validation & Checked how the system handled SQL-like, XSS-like, and path traversal-like payloads. \\
+\hline
 Session and Role Tampering & Checked whether user-supplied role values could bypass server-side authorization checks. \\
+\hline
 Audit Trail Access & Checked whether audit records were protected from unauthorized direct access. \\
+\hline
 HTTP Method Restriction & Checked whether unsupported request methods were rejected. \\
+\hline
 Error Handling & Checked whether malformed requests exposed internal system details. \\
 \hline
 \end{tabular}
 \end{table}
+\endgroup
+
+\FloatBarrier
 
 This activity was included because IRIS handles role-based application records, user information, uploaded documents, and external API access. The results were used to identify whether the implemented security controls were sufficient for baseline system readiness.
+
+\FloatBarrier
 
 \subsection{User Acceptance Testing}
 
@@ -424,6 +450,8 @@ User Acceptance Testing was conducted to validate whether the IRIS web applicati
 The UAT was conducted through a walkthrough and validation of the deployed system. Participants reviewed the main workflows, including authentication and invite-based access, user and role management, application submission and viewing, Technology Generator management, application registry, public pages, notifications, reports, documents, dashboards, and general interface navigation. Feedback was recorded according to the affected module and used to identify accepted functions, minor refinements, and limitations caused by external services.
 
 This activity was included because internal testing only verified the technical correctness of the system, while UAT validated whether the system was practical, usable, and acceptable in the intended office setting. The system was considered acceptable when the core workflows functioned as intended, no critical issue prevented use, and the remaining concerns were limited to refinements or additional office-specific requirements.
+
+\FloatBarrier
 
 \subsection{Evaluation Criteria}
 
