@@ -4,6 +4,7 @@ import { ROLE_CONFIG, type Role } from "@/lib/roles";
 
 const PUBLIC_ROUTES = [
   "/",
+  "/api/users",
   "/signin",
   "/signup",
   "/welcome",
@@ -77,26 +78,19 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  let userRole = request.cookies.get("user-role")?.value as Role | undefined;
+  const { data: userData } = await supabase
+    .schema("private")
+    .from("users")
+    .select("role")
+    .eq("id", claims.sub)
+    .single();
 
-  if (!userRole) {
-    const { data: userData } = await supabase
-      .schema("private")
-      .from("users")
-      .select("role")
-      .eq("id", claims.sub)
-      .single();
+  const userRole = userData?.role as Role | undefined;
 
-    userRole = userData?.role as Role | undefined;
-
-    if (userRole) {
-      response.cookies.set("user-role", userRole, {
-        path: "/",
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24,
-      });
-    }
-  }
+  response.cookies.set("user-role", "", {
+    path: "/",
+    maxAge: 0,
+  });
 
   if (!userRole || !ROLE_CONFIG[userRole]) {
     const url = request.nextUrl.clone();

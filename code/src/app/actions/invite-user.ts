@@ -1,6 +1,8 @@
 "use server"
 
 import { RegistrationRequestType } from "@/lib/types/users";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { supabaseAdmin } from "../../../utils/supabase/admin";
 
 interface PropsInterface {
@@ -10,6 +12,27 @@ interface PropsInterface {
 
 export async function inviteUser(props: PropsInterface) {
     const {email, userData} = props;
+    const cookieStore = await cookies();
+    const supabase = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+            cookies: {
+                getAll: () => cookieStore.getAll(),
+                setAll: (cookieList) => {
+                    cookieList.forEach(({ name, value, options }) => {
+                        cookieStore.set(name, value, options);
+                    });
+                },
+            },
+        },
+    );
+
+    const { data: userRole, error: roleError } = await supabase.rpc("get_user_role");
+
+    if (roleError || userRole !== "admin") {
+        throw new Error("Only admins can invite users.");
+    }
 
     const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
         data: userData

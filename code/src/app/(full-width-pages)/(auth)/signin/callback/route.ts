@@ -91,14 +91,5 @@ export async function GET(request: Request) {
   const role = userRole as Role;
   const home = ROLE_CONFIG[role]?.home ?? "/";
 
-  const redirectResponse = NextResponse.redirect(`${origin}${home}`);
-
-  // Save role so proxy does not need to query DB on every protected route visit
-  redirectResponse.cookies.set("user-role", role, {
-    path: "/",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24,
-  });
-
-  return redirectResponse;
+  return NextResponse.redirect(`${origin}${home}`);
 }

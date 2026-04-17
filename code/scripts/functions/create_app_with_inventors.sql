@@ -15,9 +15,19 @@ DECLARE
   new_app_id UUID; 
   inv JSONB;
 BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'Not authenticated'
+      USING ERRCODE = 'insufficient_privilege';
+  END IF;
+
+  IF p_inventors IS NULL OR jsonb_typeof(p_inventors) <> 'array' OR jsonb_array_length(p_inventors) = 0 THEN
+    RAISE EXCEPTION 'At least one inventor is required.'
+      USING ERRCODE = 'P0001';
+  END IF;
+
   -- Create the Application in the 'private' schema
-  INSERT INTO private.ipr_applications (project_title, ip_type, funding_source)
-  VALUES (p_project_title, p_ip_type, p_funding_source)
+  INSERT INTO private.ipr_applications (project_title, ip_type, funding_source, created_by)
+  VALUES (p_project_title, p_ip_type, p_funding_source, auth.uid())
   RETURNING id INTO new_app_id;
 
   -- Loop through inventors params and insert to the db
@@ -51,3 +61,7 @@ EXCEPTION WHEN OTHERS THEN
   RAISE;
 END;
 $$;
+
+REVOKE EXECUTE ON FUNCTION public.create_application_with_inventors(text, private.iprtype, text, jsonb) FROM public;
+REVOKE EXECUTE ON FUNCTION public.create_application_with_inventors(text, private.iprtype, text, jsonb) FROM anon;
+GRANT EXECUTE ON FUNCTION public.create_application_with_inventors(text, private.iprtype, text, jsonb) TO authenticated;

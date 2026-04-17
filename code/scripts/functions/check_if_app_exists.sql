@@ -12,3 +12,7 @@ begin
   );
 end;
 $$;
+
+REVOKE EXECUTE ON FUNCTION public.check_app_exists(text) FROM public;
+REVOKE EXECUTE ON FUNCTION public.check_app_exists(text) FROM anon;
+REVOKE EXECUTE ON FUNCTION public.check_app_exists(text) FROM authenticated;

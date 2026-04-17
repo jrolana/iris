@@ -5,10 +5,6 @@ FOR DELETE
 TO authenticated
 using (
   bucket_id = 'ipr_files_bucket'
-  AND (
-    -- Allow if user owns the object AND if it's in a valid app folder
-    auth.uid() = owner 
-    AND 
-    check_app_exists(split_part(name, '/', 1))
-  )
+  AND auth.uid() = owner
+  AND private.can_access_app_files(split_part(name, '/', 1))
 );
