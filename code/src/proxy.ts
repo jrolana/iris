@@ -29,8 +29,15 @@ function normalizeRoleCookie(roleValue: string | undefined) {
 }
 
 export async function proxy(request: NextRequest) {
-  let response = NextResponse.next({ request });
   const pathname = request.nextUrl.pathname;
+
+ 
+  // Public pages should not pay auth/proxy cost.
+  if (isStaticAsset(pathname) || isPublicRoute(pathname)) {
+    return NextResponse.next();
+  }
+
+  let response = NextResponse.next({ request });;;
   const isPublicRoute = PUBLIC_ROUTES.some(
     (route) => pathname === route || pathname.startsWith(route + "/"),
   );
@@ -139,7 +146,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  return response;
+  return response;;
 }
 
 export const config = {
@@ -147,3 +154,4 @@ export const config = {
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
+;

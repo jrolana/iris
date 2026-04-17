@@ -1,14 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import PieChart from "@/components/charts/PieChart";
-import BarChart from "@/components/charts/BarChart";
-import DonutChart from "@/components/charts/DonutChart";
-import DashboardSummaryTable from "@/components/dashboard/DashboardSummaryTable";
-import DashboardLoadingState from "@/components/dashboard/DashboardLoadingState";
-import OverviewKPIs from "../dashboard/OverviewKPIs";
-import Button from "@/components/ui/button/Button";
-import { CiExport } from "react-icons/ci";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+
 import { ANALOGOUS_COLORS } from "@/lib/constants/ui";
 import { useGetDashboardAnalytics } from "@/hooks/views/useGetDashboardAnalytics";
 import { START_YEAR } from "@/lib/constants/dashboard_analytics";
@@ -27,17 +21,95 @@ import {
   STATUS_ORDER,
 } from "@/lib/dashboard/dashboard-summary";
 import {
-  exportDashboardCsv,
-  exportDashboardPdf,
-} from "@/lib/dashboard/dashboard-export";
-import {
   PIE_CHARTS,
   TREND_CHARTS,
-  PDF_EXPORT_CHARTS,
 } from "@/lib/dashboard/dashboard";
-import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
 import { IP_TYPES } from "@/lib/types/ip";
+
+function ChartSkeleton({ height = "h-[320px]" }: { height?: string }) {
+  return (
+    <div
+      className={cn(height, "rounded-2xl border border-gray-200 bg-white p-4")}
+    >
+      <div className="mb-4 h-5 w-40 rounded bg-gray-100" />
+      <div className="h-[calc(100%-2rem)] rounded-xl bg-gray-50" />
+    </div>
+  );
+}
+
+function OverviewKpiSkeleton() {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <div
+          key={index}
+          className="rounded-2xl border border-gray-200 bg-white p-5"
+        >
+          <div className="mb-4 h-4 w-24 rounded bg-gray-100" />
+          <div className="mb-3 h-8 w-20 rounded bg-gray-100" />
+          <div className="h-3 w-32 rounded bg-gray-50" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SummaryTableSkeleton() {
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5">
+      <div className="mb-5 h-6 w-56 rounded bg-gray-100" />
+
+      <div className="space-y-3">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div
+            key={index}
+            className="grid grid-cols-4 gap-4 border-b border-gray-50 pb-3"
+          >
+            <div className="h-4 rounded bg-gray-100" />
+            <div className="h-4 rounded bg-gray-50" />
+            <div className="h-4 rounded bg-gray-50" />
+            <div className="h-4 rounded bg-gray-50" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const DonutChart = dynamic(() => import("@/components/charts/DonutChart"), {
+  ssr: false,
+  loading: () => <ChartSkeleton height="h-[360px]" />,
+});
+
+const OverviewKPIs = dynamic(() => import("../dashboard/OverviewKPIs"), {
+  ssr: false,
+  loading: () => <OverviewKpiSkeleton />,
+});
+
+const DashboardSummaryTable = dynamic(
+  () => import("@/components/dashboard/DashboardSummaryTable"),
+  {
+    ssr: false,
+    loading: () => <SummaryTableSkeleton />,
+  },
+);
+
+const PieChart = dynamic(() => import("@/components/charts/PieChart"), {
+  ssr: false,
+  loading: () => <ChartSkeleton height="h-[320px]" />,
+});
+
+const BarChart = dynamic(() => import("@/components/charts/BarChart"), {
+  ssr: false,
+  loading: () => <ChartSkeleton height="h-[360px]" />,
+});
+
+const ExportMenu = dynamic(() => import("@/components/dashboard/ExportMenu"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-11 w-28 rounded-lg border border-gray-200 bg-gray-50" />
+  ),
+});
 
 type YearSelectProps = {
   label: string;
@@ -71,6 +143,49 @@ type DonutMetrics = {
   hasYearComparison: boolean;
 };
 
+type LazyMountProps = {
+  children: ReactNode;
+  fallback?: ReactNode;
+  rootMargin?: string;
+};
+
+function LazyMount({
+  children,
+  fallback = <ChartSkeleton />,
+  rootMargin = "100px",
+}: LazyMountProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (isVisible) return;
+
+    const node = ref.current;
+    if (!node) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin },
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, [isVisible, rootMargin]);
+
+  return <div ref={ref}>{isVisible ? children : fallback}</div>;
+}
+
 function YearSelect({
   label,
   value,
@@ -78,21 +193,28 @@ function YearSelect({
   disabled,
   onChange,
 }: YearSelectProps) {
+  const selectId = `year-select-${label.toLowerCase()}`;
+
   return (
     <div className="min-w-[140px]">
-      <label className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase">
+      <label
+        htmlFor={selectId}
+        className="mb-1.5 block text-xs font-medium tracking-wide text-gray-600 uppercase"
+      >
         {label}
       </label>
 
       <div className="relative">
         <select
+          id={selectId}
+          name={selectId}
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
           disabled={disabled}
           className={cn(
             "w-full appearance-none rounded-xl border px-3 py-2.5 pr-10 text-sm transition outline-none",
             disabled
-              ? "border-gray-200 bg-gray-50 text-gray-400"
+              ? "border-gray-200 bg-gray-50 text-gray-500"
               : "focus:border-brand-500 border-gray-300 bg-white text-gray-700",
           )}
         >
@@ -125,12 +247,6 @@ export default function Dashboard() {
   const { data, isLoading } = useGetDashboardAnalytics();
   const currentYear = new Date().getFullYear();
 
-  const [showExportMenu, setShowExportMenu] = useState(false);
-  const [isExportingCsv, setIsExportingCsv] = useState(false);
-  const [isExportingPdf, setIsExportingPdf] = useState(false);
-
-  const isExporting = isExportingCsv || isExportingPdf;
-
   const [filters, setFilters] = useState<DashboardFilters>({
     preset: "current_year",
     yearFrom: currentYear,
@@ -138,7 +254,7 @@ export default function Dashboard() {
   });
 
   const sourceData = useMemo<DashboardAnalyticsType[]>(() => {
-    return ((data ?? []) as DashboardAnalyticsType[]).sort(
+    return [...((data ?? []) as DashboardAnalyticsType[])].sort(
       (a, b) => Number(a.year) - Number(b.year),
     );
   }, [data]);
@@ -156,6 +272,10 @@ export default function Dashboard() {
   const minAvailableYear = availableYears[0] ?? START_YEAR;
   const maxAvailableYear =
     availableYears[availableYears.length - 1] ?? currentYear;
+
+  const selectableYears = availableYears.length
+    ? availableYears
+    : [currentYear];
 
   useEffect(() => {
     if (!availableYears.length) return;
@@ -222,6 +342,7 @@ export default function Dashboard() {
   const filteredData = useMemo(() => {
     return sourceData.filter((item) => {
       if (item.year === null) return false;
+
       const year = Number(item.year);
       return year >= filters.yearFrom && year <= filters.yearTo;
     });
@@ -258,136 +379,130 @@ export default function Dashboard() {
 
   const combinationChartDataByStatus = useMemo(() => {
     const result = {} as Record<string, CombinationChartData>;
+    const yearsByStatus: Record<string, Set<number>> = {};
 
     for (const status of STATUS_ORDER) {
       if (!status) continue;
 
-      const rows = filteredData.filter(
-        (item) =>
-          !!item &&
-          item.dashboard_status === status &&
-          !!item.ip_type &&
-          item.year !== null,
-      );
-
-      const categories = Array.from(
-        new Set(rows.map((item) => Number(item.year))),
-      ).sort((a, b) => a - b);
-
-      const groupedByIPAndYear = rows.reduce<
-        Record<string, Record<number, number>>
-      >((acc, item) => {
-        const ipType = item.ip_type!;
-        const year = Number(item.year);
-
-        if (!acc[ipType]) {
-          acc[ipType] = {};
-        }
-
-        acc[ipType][year] = Number(item.total ?? 0);
-        return acc;
-      }, {});
-
-      const activeIpTypes = IP_TYPES.filter(
-        (ipType) => groupedByIPAndYear[ipType],
-      );
-
       result[status] = {
-        categories,
-        activeIpTypes,
-        groupedByIPAndYear,
+        categories: [],
+        activeIpTypes: [],
+        groupedByIPAndYear: {},
       };
+
+      yearsByStatus[status] = new Set<number>();
+    }
+
+    for (const row of filteredData) {
+      if (!row?.dashboard_status || !row.ip_type || row.year === null) {
+        continue;
+      }
+
+      const status = row.dashboard_status;
+      const ipType = row.ip_type;
+      const year = Number(row.year);
+
+      if (!result[status]) {
+        result[status] = {
+          categories: [],
+          activeIpTypes: [],
+          groupedByIPAndYear: {},
+        };
+
+        yearsByStatus[status] = new Set<number>();
+      }
+
+      yearsByStatus[status].add(year);
+
+      if (!result[status].groupedByIPAndYear[ipType]) {
+        result[status].groupedByIPAndYear[ipType] = {};
+      }
+
+      result[status].groupedByIPAndYear[ipType][year] =
+        (result[status].groupedByIPAndYear[ipType][year] ?? 0) +
+        Number(row.total ?? 0);
+    }
+
+    for (const status of Object.keys(result)) {
+      result[status].categories = Array.from(yearsByStatus[status] ?? []).sort(
+        (a, b) => a - b,
+      );
+
+      result[status].activeIpTypes = IP_TYPES.filter(
+        (ipType) => result[status].groupedByIPAndYear[ipType],
+      );
     }
 
     return result;
   }, [filteredData]);
 
   const grantRateMetrics = useMemo<DonutMetrics>(() => {
-    const validRows = filteredData.filter(
-      (item) =>
-        item &&
-        item.dashboard_status !== null &&
-        item.total !== null &&
-        item.year !== null,
-    );
+    const byYear: Record<number, { filed: number; granted: number }> = {};
+    let totalFiled = 0;
+    let totalGranted = 0;
 
-    const years = Array.from(
-      new Set(
-        validRows
-          .map((item) => Number(item.year))
-          .filter((year) => !Number.isNaN(year))
-          .sort((a, b) => a - b),
-      ),
-    );
+    for (const item of filteredData) {
+      if (
+        !item?.dashboard_status ||
+        item.total === null ||
+        item.year === null
+      ) {
+        continue;
+      }
 
-    const computeTotalsAndRate = (rows: DashboardAnalyticsType[]) => {
-      const numerator = rows
-        .filter((item) => item.dashboard_status === "granted")
-        .reduce((sum, item) => sum + Number(item.total ?? 0), 0);
+      const year = Number(item.year);
+      const total = Number(item.total ?? 0);
 
-      const denominator = rows
-        .filter((item) => item.dashboard_status === "filed")
-        .reduce((sum, item) => sum + Number(item.total ?? 0), 0);
+      if (Number.isNaN(year)) continue;
 
-      const rate =
-        denominator > 0
-          ? Number(((numerator / denominator) * 100).toFixed(2))
-          : 0;
+      if (!byYear[year]) {
+        byYear[year] = { filed: 0, granted: 0 };
+      }
 
-      return {
-        numerator,
-        denominator,
-        rate,
-      };
-    };
+      if (item.dashboard_status === "filed") {
+        byYear[year].filed += total;
+        totalFiled += total;
+      }
 
-    const overall = computeTotalsAndRate(validRows);
+      if (item.dashboard_status === "granted") {
+        byYear[year].granted += total;
+        totalGranted += total;
+      }
+    }
+
+    const years = Object.keys(byYear)
+      .map(Number)
+      .sort((a, b) => a - b);
 
     const latestYear = years.length ? years[years.length - 1] : null;
     const previousYear = years.length >= 2 ? years[years.length - 2] : null;
 
-    let currentFiled = 0;
-    let previousFiled = 0;
-    let currentGranted = 0;
-    let previousGranted = 0;
-    let currentRate = 0;
-    let previousRate = 0;
-    let hasYearComparison = false;
+    const currentFiled =
+      latestYear !== null ? (byYear[latestYear]?.filed ?? 0) : 0;
 
-    if (latestYear !== null) {
-      const currentRows = validRows.filter(
-        (item) => Number(item.year) === latestYear,
-      );
-      const current = computeTotalsAndRate(currentRows);
+    const currentGranted =
+      latestYear !== null ? (byYear[latestYear]?.granted ?? 0) : 0;
 
-      currentFiled = current.denominator;
-      currentGranted = current.numerator;
-      currentRate = current.rate;
-    }
+    const previousFiled =
+      previousYear !== null ? (byYear[previousYear]?.filed ?? 0) : 0;
 
-    if (previousYear !== null) {
-      const previousRows = validRows.filter(
-        (item) => Number(item.year) === previousYear,
-      );
-      const previous = computeTotalsAndRate(previousRows);
+    const previousGranted =
+      previousYear !== null ? (byYear[previousYear]?.granted ?? 0) : 0;
 
-      previousFiled = previous.denominator;
-      previousGranted = previous.numerator;
-      previousRate = previous.rate;
-      hasYearComparison = true;
-    }
+    const toRate = (granted: number, filed: number) =>
+      filed > 0 ? Number(((granted / filed) * 100).toFixed(2)) : 0;
 
     return {
-      overallRate: overall.rate,
+      overallRate: toRate(totalGranted, totalFiled),
       currentFiled,
       previousFiled,
       currentGranted,
       previousGranted,
-      currentRate,
-      previousRate,
+      currentRate: toRate(currentGranted, currentFiled),
+      previousRate: toRate(previousGranted, previousFiled),
       currentYear: latestYear,
       previousYear,
-      hasYearComparison,
+      hasYearComparison: previousYear !== null,
     };
   }, [filteredData]);
 
@@ -401,55 +516,8 @@ export default function Dashboard() {
     [summaryTableRows],
   );
 
-  if (isLoading) {
-    return <DashboardLoadingState />;
-  }
-
   const pieSubtitle = `By IP type, ${filters.yearFrom}–${filters.yearTo}`;
 
-  const handleExportCsv = async () => {
-    try {
-      setIsExportingCsv(true);
-
-      await Promise.resolve(
-        exportDashboardCsv({
-          yearFrom: filters.yearFrom,
-          yearTo: filters.yearTo,
-          summaryTableRows,
-          summaryTotals,
-        }),
-      );
-
-      setShowExportMenu(false);
-      toast.success("CSV exported successfully.");
-    } catch (error) {
-      toast.error("Failed to export CSV: " + error);
-    } finally {
-      setIsExportingCsv(false);
-    }
-  };
-
-  const handleExportPdf = async () => {
-    try {
-      setIsExportingPdf(true);
-
-      await exportDashboardPdf({
-        filename: `ip-portfolio-${filters.yearFrom}-${filters.yearTo}.pdf`,
-        yearFrom: filters.yearFrom,
-        yearTo: filters.yearTo,
-        chartExports: PDF_EXPORT_CHARTS,
-        summaryTableRows,
-        summaryTotals,
-      });
-
-      setShowExportMenu(false);
-      toast.success("PDF exported successfully.");
-    } catch (error) {
-      toast.error("Failed to export PDF: " + error);
-    } finally {
-      setIsExportingPdf(false);
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -460,61 +528,13 @@ export default function Dashboard() {
           </h1>
         </div>
 
-        <div className="relative mt-3 mb-2 flex justify-end lg:col-span-6">
-          <Button
-            startIcon={
-              isExporting ? (
-                <Loader2 size={18} className="animate-spin" />
-              ) : (
-                <CiExport size="18" />
-              )
-            }
-            onClick={() => {
-              if (isExporting) return;
-              setShowExportMenu((prev) => !prev);
-            }}
-            disabled={isExporting}
-          >
-            {isExporting ? "Exporting..." : "Export"}
-          </Button>
-
-          {showExportMenu && (
-            <div className="absolute top-12 right-0 z-20 w-48 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
-              <button
-                type="button"
-                onClick={handleExportCsv}
-                disabled={isExporting}
-                className={cn(
-                  "flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm",
-                  isExporting
-                    ? "cursor-not-allowed text-gray-400"
-                    : "text-gray-700 hover:bg-gray-50",
-                )}
-              >
-                <span>
-                  {isExportingCsv ? "Exporting CSV..." : "Export CSV"}
-                </span>
-                {isExportingCsv && <Loader2 className="h-4 w-4 animate-spin" />}
-              </button>
-
-              <button
-                type="button"
-                onClick={handleExportPdf}
-                disabled={isExporting}
-                className={cn(
-                  "flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm",
-                  isExporting
-                    ? "cursor-not-allowed text-gray-400"
-                    : "text-gray-700 hover:bg-gray-50",
-                )}
-              >
-                <span>
-                  {isExportingPdf ? "Exporting PDF..." : "Export PDF"}
-                </span>
-                {isExportingPdf && <Loader2 className="h-4 w-4 animate-spin" />}
-              </button>
-            </div>
-          )}
+        <div className="mt-3 mb-2 flex justify-end lg:col-span-6">
+          <ExportMenu
+            yearFrom={filters.yearFrom}
+            yearTo={filters.yearTo}
+            summaryTableRows={summaryTableRows}
+            summaryTotals={summaryTotals}
+          />
         </div>
       </div>
 
@@ -525,6 +545,7 @@ export default function Dashboard() {
               <h2 className="text-base font-semibold text-gray-800">
                 Reporting Period
               </h2>
+
               <p className="mt-1 text-sm text-gray-500">
                 Select the year range for all charts, summaries, and exports.
               </p>
@@ -558,16 +579,16 @@ export default function Dashboard() {
               <YearSelect
                 label="From"
                 value={filters.yearFrom}
-                years={availableYears}
-                disabled={filters.preset !== "custom"}
+                years={selectableYears}
+                disabled={isLoading || filters.preset !== "custom"}
                 onChange={handleCustomYearFromChange}
               />
 
               <YearSelect
                 label="To"
                 value={filters.yearTo}
-                years={availableYears}
-                disabled={filters.preset !== "custom"}
+                years={selectableYears}
+                disabled={isLoading || filters.preset !== "custom"}
                 onChange={handleCustomYearToChange}
               />
             </div>
@@ -590,6 +611,7 @@ export default function Dashboard() {
           <h2 className="text-xl font-semibold text-gray-800">
             Portfolio Status Overview
           </h2>
+
           <p className="mt-1 text-sm text-gray-500">
             View status distribution and grant rate for the selected years.
           </p>
@@ -597,50 +619,76 @@ export default function Dashboard() {
 
         <div className="lg:col-span-12">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-            <div className="lg:col-span-6">
-              <DonutChart
-                chartId="dashboard-grant-rate-donut"
-                title="Grant Rate"
-                subtitle={`Percent of filed applications that were granted, ${filters.yearFrom}–${filters.yearTo}`}
-                metrics={grantRateMetrics}
-              />
+            <div className="lg:col-span-5">
+              {isLoading ? (
+                <ChartSkeleton height="h-[360px]" />
+              ) : (
+                <DonutChart
+                  chartId="dashboard-grant-rate-donut"
+                  title="Grant Rate"
+                  subtitle={`Percent of filed applications that were granted, ${filters.yearFrom}–${filters.yearTo}`}
+                  metrics={grantRateMetrics}
+                />
+              )}
             </div>
 
-            <div className="lg:col-span-6">
-              <OverviewKPIs
-                rawData={filteredData}
-                yearFrom={filters.yearFrom}
-                yearTo={filters.yearTo}
-              />
+            <div className="lg:col-span-7">
+              {isLoading ? (
+                <OverviewKpiSkeleton />
+              ) : (
+                <LazyMount fallback={<OverviewKpiSkeleton />}>
+                  <OverviewKPIs
+                    rawData={filteredData}
+                    yearFrom={filters.yearFrom}
+                    yearTo={filters.yearTo}
+                  />
+                </LazyMount>
+              )}
             </div>
           </div>
         </div>
 
         <div className="space-y-4 lg:col-span-12">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {PIE_CHARTS.slice(0, 2).map((chart) => (
-              <PieChart
-                key={chart.chartId}
-                chartId={chart.chartId}
-                title={chart.title}
-                subtitle={pieSubtitle}
-                colors={ANALOGOUS_COLORS}
-                data={pieChartDataByStatus[chart.status] ?? []}
-              />
-            ))}
+            {PIE_CHARTS.slice(0, 2).map((chart) =>
+              isLoading ? (
+                <ChartSkeleton key={chart.chartId} height="h-[320px]" />
+              ) : (
+                <LazyMount
+                  key={chart.chartId}
+                  fallback={<ChartSkeleton height="h-[320px]" />}
+                >
+                  <PieChart
+                    chartId={chart.chartId}
+                    title={chart.title}
+                    subtitle={pieSubtitle}
+                    colors={ANALOGOUS_COLORS}
+                    data={pieChartDataByStatus[chart.status] ?? []}
+                  />
+                </LazyMount>
+              ),
+            )}
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {PIE_CHARTS.slice(2).map((chart) => (
-              <PieChart
-                key={chart.chartId}
-                chartId={chart.chartId}
-                title={chart.title}
-                subtitle={pieSubtitle}
-                colors={ANALOGOUS_COLORS}
-                data={pieChartDataByStatus[chart.status] ?? []}
-              />
-            ))}
+            {PIE_CHARTS.slice(2).map((chart) =>
+              isLoading ? (
+                <ChartSkeleton key={chart.chartId} height="h-[320px]" />
+              ) : (
+                <LazyMount
+                  key={chart.chartId}
+                  fallback={<ChartSkeleton height="h-[320px]" />}
+                >
+                  <PieChart
+                    chartId={chart.chartId}
+                    title={chart.title}
+                    subtitle={pieSubtitle}
+                    colors={ANALOGOUS_COLORS}
+                    data={pieChartDataByStatus[chart.status] ?? []}
+                  />
+                </LazyMount>
+              ),
+            )}
           </div>
         </div>
 
@@ -652,51 +700,71 @@ export default function Dashboard() {
 
         {TREND_CHARTS.slice(0, 3).map((chart) => (
           <div key={chart.chartId} className={chart.colSpan}>
-            <BarChart
-              chartId={chart.chartId}
-              title={chart.title}
-              data={
-                combinationChartDataByStatus[chart.status] ?? {
-                  categories: [],
-                  activeIpTypes: [],
-                  groupedByIPAndYear: {},
-                }
-              }
-            />
+            {isLoading ? (
+              <ChartSkeleton height="h-[360px]" />
+            ) : (
+              <LazyMount fallback={<ChartSkeleton height="h-[360px]" />}>
+                <BarChart
+                  chartId={chart.chartId}
+                  title={chart.title}
+                  data={
+                    combinationChartDataByStatus[chart.status] ?? {
+                      categories: [],
+                      activeIpTypes: [],
+                      groupedByIPAndYear: {},
+                    }
+                  }
+                />
+              </LazyMount>
+            )}
           </div>
         ))}
 
         <div className="my-2 flex items-center space-x-3 lg:col-span-12">
-          <span className="h-px flex-1 bg-gray-300"></span>
+          <span className="h-px flex-1 bg-gray-300" />
+
           <h2 className="text-xl font-semibold text-gray-700">
             Non-Grant Outcomes
           </h2>
-          <span className="h-px flex-1 bg-gray-300"></span>
+
+          <span className="h-px flex-1 bg-gray-300" />
         </div>
 
         {TREND_CHARTS.slice(3).map((chart) => (
           <div key={chart.chartId} className={chart.colSpan}>
-            <BarChart
-              chartId={chart.chartId}
-              title={chart.title}
-              data={
-                combinationChartDataByStatus[chart.status] ?? {
-                  categories: [],
-                  activeIpTypes: [],
-                  groupedByIPAndYear: {},
-                }
-              }
-            />
+            {isLoading ? (
+              <ChartSkeleton height="h-[360px]" />
+            ) : (
+              <LazyMount fallback={<ChartSkeleton height="h-[360px]" />}>
+                <BarChart
+                  chartId={chart.chartId}
+                  title={chart.title}
+                  data={
+                    combinationChartDataByStatus[chart.status] ?? {
+                      categories: [],
+                      activeIpTypes: [],
+                      groupedByIPAndYear: {},
+                    }
+                  }
+                />
+              </LazyMount>
+            )}
           </div>
         ))}
 
         <div className="mt-2 border-t border-gray-100 pt-6 lg:col-span-12">
-          <DashboardSummaryTable
-            rows={summaryTableRows}
-            totals={summaryTotals}
-            yearFrom={filters.yearFrom}
-            yearTo={filters.yearTo}
-          />
+          {isLoading ? (
+            <SummaryTableSkeleton />
+          ) : (
+            <LazyMount fallback={<SummaryTableSkeleton />}>
+              <DashboardSummaryTable
+                rows={summaryTableRows}
+                totals={summaryTotals}
+                yearFrom={filters.yearFrom}
+                yearTo={filters.yearTo}
+              />
+            </LazyMount>
+          )}
         </div>
       </div>
     </div>

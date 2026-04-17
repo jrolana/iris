@@ -3,17 +3,19 @@
 import ApplicationView from "@/components/application/ApplicationView";
 import { useGetAppById } from "@/hooks/applications/useGetApplicationById";
 import { Loader } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 
-function TtbdoViewApplicationPageClient() {
-  const searchParams = useSearchParams();
-  const applicationId = searchParams.get("applicationID") ?? "";
+interface TtbdoViewApplicationPageClientProps {
+  applicationId: string;
+}
 
+function TtbdoViewApplicationPageClient({
+  applicationId,
+}: TtbdoViewApplicationPageClientProps) {
   const { application, isLoading, isFetched } = useGetAppById({
     appId: applicationId,
   });
 
-  if (isLoading || !isFetched) {
+  if ((isLoading || !isFetched) && !application) {
     return (
       <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
         Fetching Application...
