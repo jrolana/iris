@@ -588,7 +588,7 @@ export default function Dashboard() {
 
         <div className="pt-2 lg:col-span-12">
           <h2 className="text-xl font-semibold text-gray-800">
-            Portfolio Status Overview
+            Portfolio Overview
           </h2>
           <p className="mt-1 text-sm text-gray-500">
             View status distribution and grant rate for the selected years.

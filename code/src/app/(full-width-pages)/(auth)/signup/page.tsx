@@ -18,6 +18,9 @@ import { ChevronDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAddRegistrationRequest } from "@/hooks/registration-request/useAddRegistrationRequest";
 import { toast } from "sonner";
+import type { z } from "zod";
+
+type SignupFormValues = z.input<typeof UserRegistrationSchema>;
 
 export default function SignUpForm() {
   const [isChecked, setIsChecked] = useState(false);
@@ -40,7 +43,7 @@ export default function SignUpForm() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<SignupFormValues, unknown, UserRegistrationType>({
     resolver: zodResolver(UserRegistrationSchema),
     defaultValues: {
       first_name: "",
@@ -80,8 +83,19 @@ export default function SignUpForm() {
 
   const onSubmit: SubmitHandler<UserRegistrationType> = async (data) => {
     try {
-      UserRegistrationSchema.parse(data);
-      const { first_name, last_name, ...userData } = data;
+      const userData = {
+        full_name: data.full_name,
+        email: data.email,
+        role: data.role,
+        status: data.status,
+        college_code:
+          data.college_code === CollegeUnits.Other
+            ? undefined
+            : data.college_code,
+        other_college_name: data.other_college_name,
+        external_institution: data.external_institution,
+      };
+
       await addRegistrationRequest(
         {
           userData,
@@ -133,7 +147,7 @@ export default function SignUpForm() {
         </div>
         <div>
           <form
-            onSubmit={handleSubmit(onSubmit, (errors) =>
+            onSubmit={handleSubmit(onSubmit, () =>
               toast.error("Check your input and try again"),
             )}
           >
