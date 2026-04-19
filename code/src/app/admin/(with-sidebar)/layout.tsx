@@ -1,7 +1,7 @@
 import React from "react";
 import BaseLayout from "@/layout/BaseLayout";
 import { NavItem } from "@/lib/types/nav";
-import { GridIcon, TableIcon, UserCircleIcon } from "@/icons";
+import { DocsIcon, GridIcon, TableIcon, UserCircleIcon } from "@/icons";
 import { HistoryIcon, CodeXml } from "lucide-react";
 
 const navItems: NavItem[] = [
@@ -10,6 +10,11 @@ const navItems: NavItem[] = [
     icon: <TableIcon />,
     name: "Applications Registry",
     path: "/admin/application-registry",
+  },
+  {
+    icon: <DocsIcon />,
+    name: "Application Documents",
+    path: "/admin/application-document",
   },
   {
     icon: <UserCircleIcon />,
