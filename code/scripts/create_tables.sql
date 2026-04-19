@@ -324,6 +324,7 @@ CREATE TABLE private.reports (
   subject_name text not null,
   created_at timestamp with time zone DEFAULT now(),
   is_resolved boolean DEFAULT FALSE,
+  is_meeting_initiated boolean DEFAULT FALSE,
 
   CONSTRAINT reports_pkey PRIMARY KEY (id),
 
