@@ -24,9 +24,15 @@ export default function SignUpForm() {
   const [isExternal, setIsExternal] = useState(false);
   const [skipExternalEffect, setSkipExternalEffect] = useState(false);
 
-  const collegeOptions = Object.entries(CollegeUnits).map(([_, college]) => {
-    return { value: college.toString(), label: college.toString() };
-  });
+  const collegeOptions = Object.values(CollegeUnits).filter(
+    (college) => college !== CollegeUnits.Other,
+  );
+
+  const sortedCollegeOptions = [...collegeOptions, CollegeUnits.Other].map(
+    (college) => {
+      return { value: college.toString(), label: college.toString() };
+    },
+  );
 
   const {
     control,
@@ -115,7 +121,7 @@ export default function SignUpForm() {
 
   return (
     <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
-      <div className="overflow-y-scroll">
+      <div className="w-full pb-8">
         <div className="mb-5 sm:mb-8">
           <h1 className="text-title-sm sm:text-title-md mb-2 font-semibold text-gray-800 dark:text-white/90">
             Sign Up
@@ -259,7 +265,7 @@ export default function SignUpForm() {
                             {...field}
                             selectedValue={field.value || ""}
                             onChange={field.onChange}
-                            options={collegeOptions}
+                            options={sortedCollegeOptions}
                             placeholder="Select a college"
                           />
                         )}

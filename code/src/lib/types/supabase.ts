@@ -525,6 +525,7 @@ export type Database = {
           external_institution: string | null
           full_name: string
           id: string
+          image_url: string | null
           is_active: boolean
           other_college_name: string | null
           role: Database["private"]["Enums"]["user_role"]
@@ -536,6 +537,7 @@ export type Database = {
           external_institution?: string | null
           full_name: string
           id?: string
+          image_url?: string | null
           is_active?: boolean
           other_college_name?: string | null
           role?: Database["private"]["Enums"]["user_role"]
@@ -547,6 +549,7 @@ export type Database = {
           external_institution?: string | null
           full_name?: string
           id?: string
+          image_url?: string | null
           is_active?: boolean
           other_college_name?: string | null
           role?: Database["private"]["Enums"]["user_role"]

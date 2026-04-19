@@ -45,7 +45,10 @@ export default function UserProvider({
       if (isMounted)
         setUser({
           ...data,
-          image_url: session.user.user_metadata?.avatar_url ?? undefined,
+          image_url:
+            session.user.user_metadata?.avatar_url ??
+            session.user.user_metadata?.picture ??
+            data.image_url,
         });
     };
 

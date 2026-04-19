@@ -102,6 +102,7 @@ alter table private.ipr_statuses
 ALTER TABLE private.users
 ADD COLUMN college VARCHAR(20) DEFAULT 'Other' NOT NULL,
 ADD COLUMN is_active BOOLEAN DEFAULT TRUE NOT NULL,
+ADD COLUMN image_url TEXT NULL,
 ADD CONSTRAINT fk_users_college FOREIGN KEY(college) REFERENCES private.college_units(code);
 
 -- Acts the junction table for ipr_applications and users
