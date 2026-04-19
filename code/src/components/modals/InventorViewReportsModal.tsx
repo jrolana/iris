@@ -3,6 +3,7 @@ import { useDeleteInventor } from "@/hooks/inventors/useDeleteInventorById";
 import { useConfirm } from "@/hooks/useConfirm";
 import { useResolveReport } from "@/hooks/reports/useResolveReport";
 import useRemoveInventorModal from "@/hooks/useRemoveInventorModal";
+import { useInitiateReportMeeting } from "@/hooks/reports/useInitiateReportMeeting";
 
 import { InventorType } from "@/lib/types/application";
 import { toast } from "sonner";
@@ -42,6 +43,7 @@ export default function InventorReportsModal() {
         handleRemoveClicked={handleRemoveClicked}
         isDeleting={isDeleting}
         setReports={setReports}
+        closeModal={closeModal}
       />
     </Modal>
   );
@@ -66,6 +68,7 @@ interface ReportsContentProps {
   handleRemoveClicked: () => void;
   setReports: (reports: ReportType["Row"][]) => void;
   isDeleting: boolean;
+  closeModal: () => void;
 }
 
 function ReportsContent(props: ReportsContentProps) {
@@ -76,6 +79,7 @@ function ReportsContent(props: ReportsContentProps) {
     handleRemoveClicked,
     setReports,
     isDeleting,
+    closeModal,
   } = props;
 
   const isAllResolved = reports
@@ -83,6 +87,7 @@ function ReportsContent(props: ReportsContentProps) {
     : true;
 
   const { resolveReport, isLoading: isResolving } = useResolveReport();
+  const { initiatemeeting, isInitiating } = useInitiateReportMeeting();
   const confirm = useConfirm();
 
   async function handleResolveReport(reportId: string) {
@@ -102,6 +107,29 @@ function ReportsContent(props: ReportsContentProps) {
         )
       : [];
     setReports(updatedReports);
+  }
+
+  async function handleSendEmailToOthers() {
+    const isConfirmed = await confirm({
+      title: "Confirm Send Email",
+      message: `Are you sure you want to send an email to the other collaborators about this report?`,
+    });
+
+    if (!isConfirmed) return;
+
+    toast.promise(
+      initiatemeeting({
+        reportedUserId:
+          reports && reports.length > 0 ? reports[0].subject_id : "",
+        appId: reports && reports.length > 0 ? reports[0].application_id : "",
+      }),
+      {
+        loading: "Sending email...",
+        success: "Email sent successfully.",
+        error: "Failed to send email.",
+        finally: closeModal,
+      },
+    );
   }
 
   return (
@@ -160,6 +188,25 @@ function ReportsContent(props: ReportsContentProps) {
         className="mt-6 h-10 w-full border bg-rose-500 font-medium text-white transition-colors hover:border-rose-500 hover:bg-white hover:text-rose-600 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-200 disabled:text-slate-400"
       >
         Remove Tech Gen
+      </Button>
+      <Button
+        onClick={handleSendEmailToOthers}
+        disabled={
+          !reports ||
+          isDeleting ||
+          !subjectName ||
+          !subjectId ||
+          reports.length === 0 ||
+          isAllResolved ||
+          isResolving ||
+          isInitiating ||
+          reports[0].is_meeting_initiated
+        }
+        className="mt-2 h-10 w-full border bg-sky-600 font-medium text-white transition-colors hover:border-sky-600 hover:bg-white hover:text-sky-600 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-200 disabled:text-slate-400"
+      >
+        {reports?.[0].is_meeting_initiated
+          ? "Meeting Already Initiated"
+          : "Send Email to Others"}
       </Button>
     </div>
   );
