@@ -21,14 +21,16 @@ AFTER DELETE ON private.ipr_files
 FOR EACH ROW
 EXECUTE FUNCTION private.notify_deleted_files();
 
-CREATE TRIGGER trg_notify_added_to_application
-AFTER INSERT OR UPDATE ON private.inventors
+DROP TRIGGER IF EXISTS trg_notify_added_to_application ON private.inventors;
+DROP TRIGGER IF EXISTS trg_notify_inventor_techgen_changes ON private.inventors;
+DROP FUNCTION IF EXISTS private.notify_added_to_application();
+CREATE TRIGGER trg_notify_inventor_techgen_changes
+AFTER INSERT OR UPDATE OR DELETE ON private.inventors
 FOR EACH ROW
-EXECUTE FUNCTION private.notify_added_to_application()
+EXECUTE FUNCTION private.notify_inventor_techgen_changes();
 
 DROP TRIGGER IF EXISTS trg_notify_added_report ON private.reports;
 CREATE TRIGGER trg_notify_added_report
 AFTER INSERT ON private.reports
 FOR EACH ROW
 EXECUTE FUNCTION private.notify_added_report();
-

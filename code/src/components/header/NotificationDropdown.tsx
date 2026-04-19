@@ -6,6 +6,7 @@ import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { useGetNotifications } from "@/hooks/notifications/useGetNotifications";
 import { useMarkAsRead } from "@/hooks/notifications/useMarkAsRead";
 import { formatDateTime, formatTime } from "@/lib/helper/format-date";
+import { getNotificationApplicationLink } from "@/lib/helper/get-notification-application-link";
 import { isToday } from "date-fns";
 import { useRouter } from "next/navigation";
 
@@ -31,9 +32,17 @@ export default function NotificationDropdown(
     router.push(`/${isAdmin ? "admin" : "techgen"}/notifications`);
   }
 
-  async function markAsRead(notifId: string, readAt: null | string) {
-    if (readAt) return;
-    await markNotificationAsRead({ notifId });
+  async function handleNotificationClick(
+    notifId: string,
+    readAt: null | string,
+    applicationId: string | null,
+  ) {
+    if (!readAt) {
+      await markNotificationAsRead({ notifId });
+    }
+
+    const href = getNotificationApplicationLink(applicationId, isAdmin);
+    if (href) router.push(href);
   }
 
   if (isLoading) {
@@ -91,7 +100,13 @@ export default function NotificationDropdown(
           return (
             <li key={notif.id}>
               <DropdownItem
-                onItemClick={() => markAsRead(notif.id, notif.read_at)}
+                onItemClick={() =>
+                  handleNotificationClick(
+                    notif.id,
+                    notif.read_at,
+                    notif.application_id,
+                  )
+                }
                 className={[
                   "flex gap-3 rounded-lg p-3 px-4.5 py-3 transition-opacity",
                   isUnread
@@ -117,6 +132,12 @@ export default function NotificationDropdown(
                   <span className="text-theme-sm text-gray-500">
                     {notif.content}
                   </span>
+
+                  {notif.application_id && (
+                    <span className="text-theme-xs mt-1 block font-medium text-orange-600">
+                      Open application
+                    </span>
+                  )}
 
                   <span className="text-theme-xs mt-1 flex items-center gap-2 text-gray-500">
                     {isThisNotifLoading ? (
