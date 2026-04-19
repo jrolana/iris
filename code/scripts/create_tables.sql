@@ -268,6 +268,7 @@ CREATE TABLE private.user_registration_requests (
     external_institution TEXT NULL,
 
     status private.registrationRequestsStatus NOT NULL DEFAULT 'pending',
+    rejection_reason TEXT NULL,
 
     requested_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
@@ -306,6 +307,9 @@ CREATE TABLE private.api_tokens (
 
 ALTER TABLE private.user_registration_requests
 ADD COLUMN invite_expires_at TIMESTAMPTZ NULL;
+
+ALTER TABLE private.user_registration_requests
+ADD COLUMN IF NOT EXISTS rejection_reason TEXT NULL;
 
 DROP INDEX IF EXISTS private.unique_active_registration_email;
 

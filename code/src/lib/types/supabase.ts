@@ -96,6 +96,7 @@ export type Database = {
           full_name: string
           id: string
           other_college_name: string | null
+          status: Database["private"]["Enums"]["inventorstatustype"]
           techgen_id: string | null
         }
         Insert: {
@@ -107,6 +108,7 @@ export type Database = {
           full_name: string
           id?: string
           other_college_name?: string | null
+          status?: Database["private"]["Enums"]["inventorstatustype"]
           techgen_id?: string | null
         }
         Update: {
@@ -118,6 +120,7 @@ export type Database = {
           full_name?: string
           id?: string
           other_college_name?: string | null
+          status?: Database["private"]["Enums"]["inventorstatustype"]
           techgen_id?: string | null
         }
         Relationships: [
@@ -412,6 +415,7 @@ export type Database = {
           content: string
           created_at: string | null
           id: string
+          is_resolved: boolean
           reporter_id: string | null
           reporter_name: string
           subject_id: string
@@ -422,6 +426,7 @@ export type Database = {
           content: string
           created_at?: string | null
           id?: string
+          is_resolved?: boolean
           reporter_id?: string | null
           reporter_name: string
           subject_id: string
@@ -432,6 +437,7 @@ export type Database = {
           content?: string
           created_at?: string | null
           id?: string
+          is_resolved?: boolean
           reporter_id?: string | null
           reporter_name?: string
           subject_id?: string
@@ -470,6 +476,7 @@ export type Database = {
           id: string
           invite_expires_at: string | null
           other_college_name: string | null
+          rejection_reason: string | null
           requested_at: string
           role: Database["private"]["Enums"]["user_role"]
           status: Database["private"]["Enums"]["registrationrequestsstatus"]
@@ -482,6 +489,7 @@ export type Database = {
           id?: string
           invite_expires_at?: string | null
           other_college_name?: string | null
+          rejection_reason?: string | null
           requested_at?: string
           role: Database["private"]["Enums"]["user_role"]
           status?: Database["private"]["Enums"]["registrationrequestsstatus"]
@@ -494,6 +502,7 @@ export type Database = {
           id?: string
           invite_expires_at?: string | null
           other_college_name?: string | null
+          rejection_reason?: string | null
           requested_at?: string
           role?: Database["private"]["Enums"]["user_role"]
           status?: Database["private"]["Enums"]["registrationrequestsstatus"]
@@ -577,6 +586,7 @@ export type Database = {
         | "upload"
         | "status_change"
         | "role_change"
+      inventorstatustype: "pending" | "member" | "non-member"
       iprtype:
         | "patent"
         | "utility_model"
@@ -652,6 +662,7 @@ export type Database = {
           funding_agency: string
           id: string
           inventors: Json
+          ip_number: string
           ip_title: string
           ip_type: string
           is_archived: boolean
@@ -663,17 +674,6 @@ export type Database = {
         }[]
       }
       search_users_for_linking: {
-        Args: { excluded_ids?: string[]; search_query: string }
-        Returns: {
-          college_code: string
-          email: string
-          external_institution: string
-          full_name: string
-          id: string
-          other_college_name: string
-        }[]
-      }
-      search_users_for_linking_secure: {
         Args: { excluded_ids?: string[]; search_query: string }
         Returns: {
           college_code: string
@@ -834,6 +834,7 @@ export const Constants = {
         "status_change",
         "role_change",
       ],
+      inventorstatustype: ["pending", "member", "non-member"],
       iprtype: [
         "patent",
         "utility_model",

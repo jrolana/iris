@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 
 export interface Option {
   value: string;
@@ -12,6 +11,7 @@ interface SelectProps {
   className?: string;
   defaultValue?: string;
   selectedValue: string;
+  disabled?: boolean;
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -19,8 +19,8 @@ const Select: React.FC<SelectProps> = ({
   placeholder = "Select an option",
   onChange,
   className = "",
-  defaultValue = "",
   selectedValue,
+  disabled = false,
 }) => {
   // Manage the selected value
 
@@ -38,6 +38,7 @@ const Select: React.FC<SelectProps> = ({
       } ${className}`}
       value={selectedValue}
       onChange={handleChange}
+      disabled={disabled}
     >
       {/* Placeholder option */}
       <option

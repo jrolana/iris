@@ -10,6 +10,7 @@ import { filterRegistrationRequests } from "@/lib/helper/filter-users";
 import { useGetRegistrationRequests } from "@/hooks/registration-request/useGetRegistrationRequests";
 import { RegistrationRequestType } from "@/lib/types/users";
 import { useConfirm } from "@/hooks/useConfirm";
+import { assertCurrentUserIsAdmin } from "@/services/users/assert-current-user-is-admin";
 
 import {
   Table,
@@ -23,10 +24,20 @@ import Button from "../ui/button/Button";
 import Badge from "../ui/badge/Badge";
 import { ActiveFilters } from "./filter/ActiveFilters";
 import { FilterPanel } from "./filter/FilterPanel";
+import Modal from "../modals/Modal";
+import Label from "../form/Label";
+import Select from "../form/Select";
+import TextArea from "../form/input/TextArea";
 import { toast } from "sonner";
 import { FilterIcon, Loader } from "lucide-react";
 
 type RequestStatusType = "approved" | "rejected" | "pending";
+
+const roleOptions: { value: RoleType; label: string }[] = [
+  { value: "admin", label: "Admin" },
+  { value: "techgen", label: "Techgen" },
+  { value: "up-official", label: "UP Official" },
+];
 
 export default function RegistrationRequestsTable() {
   const {
@@ -50,8 +61,18 @@ export default function RegistrationRequestsTable() {
     null,
   );
   const [processingAction, setProcessingAction] = useState<
-    "approve" | "reject" | null
+    "approve" | "reject" | "role" | null
   >(null);
+  const [approvalRequest, setApprovalRequest] = useState<
+    RegistrationRequestType["Row"] | null
+  >(null);
+  const [approvalRole, setApprovalRole] = useState<RoleType>("techgen");
+  const [rejectionRequest, setRejectionRequest] = useState<
+    RegistrationRequestType["Row"] | null
+  >(null);
+  const [rejectionReason, setRejectionReason] = useState("");
+  const [showRejectionReasonError, setShowRejectionReasonError] =
+    useState(false);
 
   useEffect(() => {
     const filtered = filterRegistrationRequests(usersData || [], {
@@ -116,25 +137,62 @@ export default function RegistrationRequestsTable() {
     setCurrentPage(page);
   };
 
-  async function handleApprove(userData: RegistrationRequestType["Row"]) {
-    const isConfirmed = await confirm({
-      title: "Confirm Approval",
-      message: `Are you sure you want to approve the registration request of ${userData.full_name}? This action cannot be undone.`,
-    });
-    if (!isConfirmed) return;
+  function openApprovalModal(userData: RegistrationRequestType["Row"]) {
+    setApprovalRequest(userData);
+    setApprovalRole(userData.role);
+  }
+
+  function closeApprovalModal() {
+    if (processingAction === "approve") return;
+
+    setApprovalRequest(null);
+  }
+
+  function openRejectionModal(userData: RegistrationRequestType["Row"]) {
+    setRejectionRequest(userData);
+    setRejectionReason("");
+    setShowRejectionReasonError(false);
+  }
+
+  function closeRejectionModal() {
+    if (processingAction === "reject") return;
+
+    setRejectionRequest(null);
+    setRejectionReason("");
+    setShowRejectionReasonError(false);
+  }
+
+  async function handleApprove() {
+    if (!approvalRequest) return;
+
+    const approvedUserData = {
+      ...approvalRequest,
+      role: approvalRole,
+    };
+
     try {
-      setProcessingRequestId(userData.id);
+      setProcessingRequestId(approvalRequest.id);
       setProcessingAction("approve");
 
+      await assertCurrentUserIsAdmin();
+
+      await updateRegistrationRequest({
+        id: approvalRequest.id,
+        userData: {
+          role: approvalRole,
+          rejection_reason: null,
+        },
+      });
+
       await inviteUser({
-        email: userData.email,
-        userData,
+        email: approvalRequest.email,
+        userData: approvedUserData,
       });
 
       toast.success("Successfully approved the registration request.");
 
       await updateRegistrationRequest({
-        id: userData.id,
+        id: approvalRequest.id,
         userData: {
           status: "approved",
           invite_expires_at: toSupabaseTimestamp(
@@ -151,25 +209,31 @@ export default function RegistrationRequestsTable() {
     } finally {
       setProcessingRequestId(null);
       setProcessingAction(null);
+      setApprovalRequest(null);
     }
   }
 
-  async function handleReject(userData: RegistrationRequestType["Row"]) {
-    const isConfirmed = await confirm({
-      title: "Confirm Rejection",
-      message: `Are you sure you want to reject the registration request of ${userData.full_name}? This action cannot be undone.`,
-    });
-    if (!isConfirmed) return;
+  async function handleReject() {
+    if (!rejectionRequest) return;
+    const trimmedReason = rejectionReason.trim();
+
+    if (!trimmedReason) {
+      setShowRejectionReasonError(true);
+      return;
+    }
 
     try {
-      setProcessingRequestId(userData.id);
+      setProcessingRequestId(rejectionRequest.id);
       setProcessingAction("reject");
+
+      await assertCurrentUserIsAdmin();
 
       await updateRegistrationRequest(
         {
-          id: userData.id,
+          id: rejectionRequest.id,
           userData: {
             status: "rejected",
+            rejection_reason: trimmedReason,
             invite_expires_at: null,
           },
         },
@@ -189,6 +253,44 @@ export default function RegistrationRequestsTable() {
         e instanceof Error
           ? e.message
           : "There was a problem in rejecting the registration request.",
+      );
+    } finally {
+      setProcessingRequestId(null);
+      setProcessingAction(null);
+      setRejectionRequest(null);
+      setRejectionReason("");
+      setShowRejectionReasonError(false);
+    }
+  }
+
+  async function handleRequestRoleChange(
+    userData: RegistrationRequestType["Row"],
+    role: RoleType,
+  ) {
+    if (role === userData.role) return;
+
+    const isConfirmed = await confirm({
+      title: "Confirm Role Change",
+      message: `Change ${userData.full_name}'s requested role from ${userData.role} to ${role}?`,
+    });
+
+    if (!isConfirmed) return;
+
+    try {
+      setProcessingRequestId(userData.id);
+      setProcessingAction("role");
+
+      await updateRegistrationRequest({
+        id: userData.id,
+        userData: { role },
+      });
+
+      toast.success("Successfully updated the request role.");
+    } catch (e) {
+      toast.error(
+        e instanceof Error
+          ? e.message
+          : "There was a problem updating the request role.",
       );
     } finally {
       setProcessingRequestId(null);
@@ -270,6 +372,7 @@ export default function RegistrationRequestsTable() {
                     "College",
                     "Role",
                     "Status",
+                    "Rejection Reason",
                     "Actions",
                   ].map((header) => (
                     <TableCell
@@ -301,6 +404,8 @@ export default function RegistrationRequestsTable() {
                     isThisRowProcessing && processingAction === "approve";
                   const isRejectingThisRow =
                     isThisRowProcessing && processingAction === "reject";
+                  const isUpdatingRoleThisRow =
+                    isThisRowProcessing && processingAction === "role";
 
                   return (
                     <TableRow key={record.id}>
@@ -320,8 +425,26 @@ export default function RegistrationRequestsTable() {
                           record.external_institution}
                       </TableCell>
 
-                      <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                        {record.role}
+                      <TableCell className="text-theme-sm min-w-44 p-2 py-3 text-gray-800">
+                        <Select
+                          selectedValue={record.role}
+                          defaultValue={record.role}
+                          options={roleOptions}
+                          disabled={
+                            record.status !== "pending" ||
+                            isThisRowProcessing ||
+                            isFetching
+                          }
+                          onChange={(value) =>
+                            handleRequestRoleChange(record, value as RoleType)
+                          }
+                          className="h-9 py-2"
+                        />
+                        {isUpdatingRoleThisRow && (
+                          <span className="mt-1 block text-xs text-gray-500">
+                            Updating role...
+                          </span>
+                        )}
                       </TableCell>
 
                       <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
@@ -338,6 +461,12 @@ export default function RegistrationRequestsTable() {
                         </Badge>
                       </TableCell>
 
+                      <TableCell className="text-theme-sm max-w-72 p-2 py-3 text-gray-800">
+                        <span className="line-clamp-3">
+                          {record.rejection_reason || "-"}
+                        </span>
+                      </TableCell>
+
                       <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
                         <div className="flex gap-2">
                           <Button
@@ -349,7 +478,7 @@ export default function RegistrationRequestsTable() {
                               isFetching
                             }
                             onClick={() => {
-                              handleApprove(record);
+                              openApprovalModal(record);
                             }}
                             className="h-8"
                           >
@@ -365,7 +494,7 @@ export default function RegistrationRequestsTable() {
                               isFetching
                             }
                             onClick={() => {
-                              handleReject(record);
+                              openRejectionModal(record);
                             }}
                             className="h-8"
                           >
@@ -417,6 +546,101 @@ export default function RegistrationRequestsTable() {
           Next
         </Button>
       </div>
+
+      {approvalRequest && (
+        <Modal
+          title="Confirm Approval"
+          description={`Are you sure you want to approve the registration request of ${approvalRequest.full_name}? Review the user's role before sending the invitation.`}
+          isOpen={Boolean(approvalRequest)}
+          onChange={closeApprovalModal}
+          layer={1}
+          descriptionWidth="max-w-lg"
+        >
+          <div className="w-full max-w-lg min-w-[85vw] px-0 sm:min-w-[400px] sm:px-10">
+            <div className="mb-5 text-left">
+              <Label htmlFor="approval-role">User role</Label>
+              <Select
+                selectedValue={approvalRole}
+                defaultValue={approvalRole}
+                options={roleOptions}
+                disabled={processingAction === "approve"}
+                onChange={(value) => setApprovalRole(value as RoleType)}
+              />
+            </div>
+
+            <div className="flex justify-end space-x-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={closeApprovalModal}
+                disabled={processingAction === "approve"}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="success"
+                size="sm"
+                onClick={handleApprove}
+                disabled={processingAction === "approve"}
+              >
+                {processingAction === "approve" ? "Approving..." : "Approve"}
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {rejectionRequest && (
+        <Modal
+          title="Confirm Rejection"
+          description={`Are you sure you want to reject the registration request of ${rejectionRequest.full_name}? Provide the reason before continuing.`}
+          isOpen={Boolean(rejectionRequest)}
+          onChange={closeRejectionModal}
+          layer={1}
+          descriptionWidth="max-w-lg"
+        >
+          <div className="w-full max-w-lg min-w-[85vw] px-0 sm:min-w-[400px] sm:px-10">
+            <div className="mb-5 text-left">
+              <Label htmlFor="rejection-reason">Reason for rejection</Label>
+              <TextArea
+                value={rejectionReason}
+                rows={4}
+                disabled={processingAction === "reject"}
+                error={showRejectionReasonError}
+                hint={
+                  showRejectionReasonError
+                    ? "Please provide a reason for rejection."
+                    : ""
+                }
+                placeholder="Explain why this request is being rejected."
+                onChange={(value) => {
+                  setRejectionReason(value);
+                  if (value.trim()) setShowRejectionReasonError(false);
+                }}
+              />
+            </div>
+
+            <div className="flex justify-end space-x-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={closeRejectionModal}
+                disabled={processingAction === "reject"}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={handleReject}
+                disabled={processingAction === "reject"}
+              >
+                {processingAction === "reject" ? "Rejecting..." : "Reject"}
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

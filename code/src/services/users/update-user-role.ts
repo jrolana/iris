@@ -1,20 +1,18 @@
 import { supabaseClient as supabase } from "@/lib/supabase";
-import { RegistrationRequestType } from "@/lib/types/users";
+import { RoleType } from "@/lib/types/role";
 
 interface PropsInterface {
   id: string;
-  userData: RegistrationRequestType["Update"];
+  role: RoleType;
 }
 
-export const updateRegistrationRequest = async function (
-  props: PropsInterface,
-) {
-  const { id, userData } = props;
+export const updateUserRole = async function (props: PropsInterface) {
+  const { id, role } = props;
 
   const { data, error } = await supabase
     .schema("private")
-    .from("user_registration_requests")
-    .update(userData)
+    .from("users")
+    .update({ role })
     .eq("id", id)
     .select()
     .single();
