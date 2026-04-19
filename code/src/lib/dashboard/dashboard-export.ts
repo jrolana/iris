@@ -23,6 +23,7 @@ type ChartExportItem = {
   title: string;
   subtitle?: string;
   labels?: ChartLabelItem[];
+  hasData?: boolean;
 };
 
 type ExportDashboardPdfParams = {
@@ -32,11 +33,15 @@ type ExportDashboardPdfParams = {
   chartExports: ChartExportItem[];
   summaryTableRows: SummaryTableRow[];
   summaryTotals: SummaryTotals;
+  includeWatermark?: boolean;
 };
 
 type ApexDataUriResult = {
   imgURI: string;
 };
+
+const UNIVERSITY_NAME = "University Of The Philippines Visayas";
+const UPV_LOGO_PATH = "/images/upv-logo.png";
 
 const downloadBlob = (blob: Blob, filename: string) => {
   const url = URL.createObjectURL(blob);
@@ -75,11 +80,12 @@ export const exportDashboardCsv = ({
   lines.push("");
 
   lines.push("SUMMARY TABLE");
-  lines.push("IP Type,Filed,Pending,Granted,Withdrawn,Downgraded,Total");
+  lines.push("Year,IP Type,Filed,Pending,Granted,Withdrawn,Downgraded,Total");
 
   summaryTableRows.forEach((row) => {
     lines.push(
       [
+        escapeCsvValue(row.year),
         escapeCsvValue(formatIpTypeLabel(row.ipType)),
         escapeCsvValue(row.filed),
         escapeCsvValue(row.pending),
@@ -93,6 +99,7 @@ export const exportDashboardCsv = ({
 
   lines.push(
     [
+      escapeCsvValue(`${yearFrom}-${yearTo}`),
       escapeCsvValue("Grand Total"),
       escapeCsvValue(summaryTotals.filed),
       escapeCsvValue(summaryTotals.pending),
@@ -125,6 +132,22 @@ const getChartImage = async (chartId: string) => {
   return result.imgURI;
 };
 
+const getImageDataUri = async (path: string) => {
+  const response = await fetch(path);
+  if (!response.ok) {
+    throw new Error(`Unable to load image: ${path}`);
+  }
+
+  const blob = await response.blob();
+
+  return await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(String(reader.result));
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+};
+
 const drawText = (
   pdf: jsPDF,
   text: string,
@@ -144,6 +167,80 @@ const drawSectionHeader = (
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(12);
   drawText(pdf, title, margin, y);
+};
+
+const drawUniversityLogo = (
+  pdf: jsPDF,
+  logoDataUri: string | null,
+  x: number,
+  y: number,
+  maxWidth: number,
+  maxHeight: number,
+) => {
+  if (logoDataUri) {
+    const imageProps = pdf.getImageProperties(logoDataUri);
+    const rawWidth = imageProps.width || 1;
+    const rawHeight = imageProps.height || 1;
+    const ratio = Math.min(maxWidth / rawWidth, maxHeight / rawHeight);
+    const width = rawWidth * ratio;
+    const height = rawHeight * ratio;
+
+    pdf.addImage(logoDataUri, "PNG", x, y, width, height);
+    return;
+  }
+
+  pdf.setDrawColor(22, 101, 52);
+  pdf.setFillColor(240, 253, 244);
+  pdf.circle(x + maxHeight / 2, y + maxHeight / 2, maxHeight / 2, "FD");
+};
+
+const drawWatermark = (pdf: jsPDF, pageWidth: number, pageHeight: number) => {
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(26);
+  pdf.setTextColor(229, 231, 235);
+  drawText(pdf, UNIVERSITY_NAME, pageWidth / 2, pageHeight / 2, {
+    align: "center",
+    angle: -30,
+  });
+};
+
+const drawNoChartCard = (
+  pdf: jsPDF,
+  title: string,
+  subtitle: string | undefined,
+  margin: number,
+  cursorY: number,
+  contentWidth: number,
+) => {
+  const cardHeight = subtitle ? 24 : 20;
+
+  pdf.setDrawColor(229, 231, 235);
+  pdf.setFillColor(255, 255, 255);
+  pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "FD");
+
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(11);
+  pdf.setTextColor(17, 24, 39);
+  drawText(pdf, title, margin + 6, cursorY + 7);
+
+  if (subtitle) {
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    pdf.setTextColor(107, 114, 128);
+    drawText(pdf, subtitle, margin + 6, cursorY + 12);
+  }
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(9);
+  pdf.setTextColor(107, 114, 128);
+  drawText(
+    pdf,
+    "No chart available for the selected range.",
+    margin + 6,
+    cursorY + (subtitle ? 18 : 13),
+  );
+
+  return cardHeight;
 };
 
 const drawLabelChips = (
@@ -188,6 +285,7 @@ export const exportDashboardPdf = async ({
   chartExports,
   summaryTableRows,
   summaryTotals,
+  includeWatermark = true,
 }: ExportDashboardPdfParams) => {
   if (typeof window === "undefined") return;
 
@@ -197,26 +295,37 @@ export const exportDashboardPdf = async ({
   const margin = 14;
   const contentWidth = pageWidth - margin * 2;
   const bottomLimit = pageHeight - 14;
+  const logoDataUri = await getImageDataUri(UPV_LOGO_PATH).catch(() => null);
 
   let cursorY = 18;
 
   const ensureSpace = (neededHeight: number) => {
     if (cursorY + neededHeight > bottomLimit) {
       pdf.addPage();
+      if (includeWatermark) {
+        drawWatermark(pdf, pageWidth, pageHeight);
+      }
       cursorY = 18;
     }
   };
 
   const drawPageTitle = () => {
+    drawUniversityLogo(pdf, logoDataUri, margin, cursorY - 8, 100, 100);
+    cursorY += 25;
+
     pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(16);
-    drawText(pdf, "IP Portfolio Dashboard Report", margin, cursorY);
-    cursorY += 8;
+    pdf.setFontSize(12);
+    pdf.setTextColor(17, 24, 39);
+    drawText(pdf, UNIVERSITY_NAME, margin, cursorY);
+
+    pdf.setFontSize(15);
+    drawText(pdf, "IP Portfolio Dashboard Report", margin, cursorY + 7);
+    cursorY += 14;
 
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(10);
     pdf.setTextColor(75, 85, 99);
-    drawText(pdf, `Timeline: ${yearFrom}–${yearTo}`, margin, cursorY);
+    drawText(pdf, `Range: ${yearFrom}–${yearTo}`, margin, cursorY);
     cursorY += 5;
     drawText(
       pdf,
@@ -227,9 +336,27 @@ export const exportDashboardPdf = async ({
     cursorY += 10;
   };
 
+  if (includeWatermark) {
+    drawWatermark(pdf, pageWidth, pageHeight);
+  }
+
   drawPageTitle();
 
   for (const chart of chartExports) {
+    if (chart.hasData === false) {
+      ensureSpace(26);
+      const cardHeight = drawNoChartCard(
+        pdf,
+        chart.title,
+        chart.subtitle,
+        margin,
+        cursorY,
+        contentWidth,
+      );
+      cursorY += cardHeight + 8;
+      continue;
+    }
+
     try {
       const imgURI = await getChartImage(chart.chartId);
 
@@ -285,39 +412,33 @@ export const exportDashboardPdf = async ({
 
       cursorY += cardHeight + 8;
     } catch {
-      ensureSpace(16);
-
-      pdf.setDrawColor(229, 231, 235);
-      pdf.setFillColor(255, 255, 255);
-      pdf.roundedRect(margin, cursorY, contentWidth, 16, 3, 3, "FD");
-
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(11);
-      pdf.setTextColor(17, 24, 39);
-      drawText(pdf, chart.title, margin + 6, cursorY + 6);
-
-      pdf.setFont("helvetica", "normal");
-      pdf.setFontSize(9);
-      pdf.setTextColor(107, 114, 128);
-      drawText(
+      ensureSpace(26);
+      const cardHeight = drawNoChartCard(
         pdf,
-        "This chart could not be exported.",
-        margin + 6,
-        cursorY + 11,
+        chart.title,
+        chart.subtitle,
+        margin,
+        cursorY,
+        contentWidth,
       );
-
-      cursorY += 24;
+      cursorY += cardHeight + 8;
     }
   }
 
   ensureSpace(18);
-  drawSectionHeader(pdf, "Detailed Breakdown", margin, cursorY);
+  drawSectionHeader(
+    pdf,
+    `Detailed Breakdown (${yearFrom}–${yearTo})`,
+    margin,
+    cursorY,
+  );
   cursorY += 4;
 
   autoTable(pdf, {
     startY: cursorY,
     head: [
       [
+        "Year",
         "IP Type",
         "Filed",
         "Pending",
@@ -329,6 +450,7 @@ export const exportDashboardPdf = async ({
     ],
     body: [
       ...summaryTableRows.map((row) => [
+        row.year,
         formatIpTypeLabel(row.ipType),
         row.filed,
         row.pending,
@@ -338,6 +460,7 @@ export const exportDashboardPdf = async ({
         row.total,
       ]),
       [
+        `${yearFrom}-${yearTo}`,
         "Grand Total",
         summaryTotals.filed,
         summaryTotals.pending,

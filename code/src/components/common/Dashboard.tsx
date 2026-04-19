@@ -26,15 +26,8 @@ import {
   buildSummaryTotals,
   STATUS_ORDER,
 } from "@/lib/dashboard/dashboard-summary";
-import {
-  exportDashboardCsv,
-  exportDashboardPdf,
-} from "@/lib/dashboard/dashboard-export";
-import {
-  PIE_CHARTS,
-  TREND_CHARTS,
-  PDF_EXPORT_CHARTS,
-} from "@/lib/dashboard/dashboard";
+import { exportDashboardPdf } from "@/lib/dashboard/dashboard-export";
+import { PIE_CHARTS, TREND_CHARTS } from "@/lib/dashboard/dashboard";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { IP_TYPES } from "@/lib/types/ip";
@@ -126,10 +119,9 @@ export default function Dashboard() {
   const currentYear = new Date().getFullYear();
 
   const [showExportMenu, setShowExportMenu] = useState(false);
-  const [isExportingCsv, setIsExportingCsv] = useState(false);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
 
-  const isExporting = isExportingCsv || isExportingPdf;
+  const isExporting = isExportingPdf;
 
   const [filters, setFilters] = useState<DashboardFilters>({
     preset: "current_year",
@@ -407,28 +399,6 @@ export default function Dashboard() {
 
   const pieSubtitle = `By IP type, ${filters.yearFrom}–${filters.yearTo}`;
 
-  const handleExportCsv = async () => {
-    try {
-      setIsExportingCsv(true);
-
-      await Promise.resolve(
-        exportDashboardCsv({
-          yearFrom: filters.yearFrom,
-          yearTo: filters.yearTo,
-          summaryTableRows,
-          summaryTotals,
-        }),
-      );
-
-      setShowExportMenu(false);
-      toast.success("CSV exported successfully.");
-    } catch (error) {
-      toast.error("Failed to export CSV: " + error);
-    } finally {
-      setIsExportingCsv(false);
-    }
-  };
-
   const handleExportPdf = async () => {
     try {
       setIsExportingPdf(true);
@@ -437,7 +407,32 @@ export default function Dashboard() {
         filename: `ip-portfolio-${filters.yearFrom}-${filters.yearTo}.pdf`,
         yearFrom: filters.yearFrom,
         yearTo: filters.yearTo,
-        chartExports: PDF_EXPORT_CHARTS,
+        chartExports: [
+          {
+            chartId: "dashboard-grant-rate-donut",
+            title: "Grant Rate",
+            subtitle: `Range: ${filters.yearFrom}–${filters.yearTo}`,
+            hasData: summaryTotals.filed > 0,
+          },
+          ...PIE_CHARTS.map((chart) => ({
+            chartId: chart.chartId,
+            title: chart.title,
+            subtitle: pieSubtitle,
+            hasData: (pieChartDataByStatus[chart.status]?.length ?? 0) > 0,
+          })),
+          ...TREND_CHARTS.map((chart) => {
+            const chartData = combinationChartDataByStatus[chart.status];
+
+            return {
+              chartId: chart.chartId,
+              title: chart.title,
+              subtitle: `Range: ${filters.yearFrom}–${filters.yearTo}`,
+              hasData:
+                (chartData?.categories.length ?? 0) > 0 &&
+                (chartData?.activeIpTypes.length ?? 0) > 0,
+            };
+          }),
+        ],
         summaryTableRows,
         summaryTotals,
       });
@@ -480,23 +475,6 @@ export default function Dashboard() {
 
           {showExportMenu && (
             <div className="absolute top-12 right-0 z-20 w-48 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
-              <button
-                type="button"
-                onClick={handleExportCsv}
-                disabled={isExporting}
-                className={cn(
-                  "flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm",
-                  isExporting
-                    ? "cursor-not-allowed text-gray-400"
-                    : "text-gray-700 hover:bg-gray-50",
-                )}
-              >
-                <span>
-                  {isExportingCsv ? "Exporting CSV..." : "Export CSV"}
-                </span>
-                {isExportingCsv && <Loader2 className="h-4 w-4 animate-spin" />}
-              </button>
-
               <button
                 type="button"
                 onClick={handleExportPdf}

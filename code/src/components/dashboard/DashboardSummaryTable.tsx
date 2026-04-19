@@ -47,6 +47,13 @@ const DashboardSummaryTable: React.FC<DashboardSummaryTableProps> = ({
                 isHeader
                 className="px-5 py-3 text-left text-xs font-semibold tracking-wide text-gray-500 uppercase"
               >
+                Year
+              </TableCell>
+
+              <TableCell
+                isHeader
+                className="px-5 py-3 text-left text-xs font-semibold tracking-wide text-gray-500 uppercase"
+              >
                 IP Type
               </TableCell>
 
@@ -74,9 +81,13 @@ const DashboardSummaryTable: React.FC<DashboardSummaryTableProps> = ({
               <>
                 {rows.map((row) => (
                   <TableRow
-                    key={row.ipType}
+                    key={`${row.year}-${row.ipType}`}
                     className="border-b border-gray-100 last:border-b-0"
                   >
+                    <TableCell className="px-5 py-4 text-sm font-medium text-gray-800">
+                      {row.year}
+                    </TableCell>
+
                     <TableCell className="px-5 py-4 text-sm font-medium text-gray-800">
                       {formatIpTypeLabel(row.ipType)}
                     </TableCell>
@@ -104,6 +115,9 @@ const DashboardSummaryTable: React.FC<DashboardSummaryTableProps> = ({
 
                 <TableRow className="bg-gray-50">
                   <TableCell className="px-5 py-4 text-sm font-semibold text-gray-900">
+                    {yearFrom}–{yearTo}
+                  </TableCell>
+                  <TableCell className="px-5 py-4 text-sm font-semibold text-gray-900">
                     Grand Total
                   </TableCell>
                   <TableCell className="px-5 py-4 text-right text-sm font-semibold text-gray-900">
@@ -129,7 +143,7 @@ const DashboardSummaryTable: React.FC<DashboardSummaryTableProps> = ({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={STATUS_ORDER.length + 2}
+                  colSpan={STATUS_ORDER.length + 3}
                   className="px-5 py-10 text-center text-sm text-gray-500"
                 >
                   No data available for the selected timeline.
