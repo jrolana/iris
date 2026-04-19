@@ -30,14 +30,9 @@ import Select from "../form/Select";
 import TextArea from "../form/input/TextArea";
 import { toast } from "sonner";
 import { FilterIcon, Loader } from "lucide-react";
+import { ROLE_OPTIONS } from "@/lib/constants/roles";
 
 type RequestStatusType = "approved" | "rejected" | "pending";
-
-const roleOptions: { value: RoleType; label: string }[] = [
-  { value: "admin", label: "Admin" },
-  { value: "techgen", label: "Techgen" },
-  { value: "up-official", label: "UP Official" },
-];
 
 export default function RegistrationRequestsTable() {
   const {
@@ -429,7 +424,7 @@ export default function RegistrationRequestsTable() {
                         <Select
                           selectedValue={record.role}
                           defaultValue={record.role}
-                          options={roleOptions}
+                          options={ROLE_OPTIONS}
                           disabled={
                             record.status !== "pending" ||
                             isThisRowProcessing ||
@@ -562,7 +557,7 @@ export default function RegistrationRequestsTable() {
               <Select
                 selectedValue={approvalRole}
                 defaultValue={approvalRole}
-                options={roleOptions}
+                options={ROLE_OPTIONS}
                 disabled={processingAction === "approve"}
                 onChange={(value) => setApprovalRole(value as RoleType)}
               />

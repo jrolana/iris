@@ -23,14 +23,9 @@ import { RoleType } from "@/lib/types/role";
 import { useConfirm } from "@/hooks/useConfirm";
 import { toast } from "sonner";
 import Select from "../form/Select";
+import { ROLE_OPTIONS } from "@/lib/constants/roles";
 
 type RequestStatusType = "approved" | "rejected" | "pending";
-
-const roleOptions: { value: RoleType; label: string }[] = [
-  { value: "admin", label: "Admin" },
-  { value: "techgen", label: "Techgen" },
-  { value: "up-official", label: "UP Official" },
-];
 
 export default function UsersTable() {
   const { data: usersData, isLoading, isFetching } = useGetUsers();
@@ -257,7 +252,7 @@ export default function UsersTable() {
                         <Select
                           selectedValue={record.role}
                           defaultValue={record.role}
-                          options={roleOptions}
+                          options={ROLE_OPTIONS}
                           disabled={isUpdatingRole || isFetching}
                           onChange={(value) =>
                             handleRoleChange(record, value as RoleType)

@@ -6,18 +6,13 @@ import { Input } from "../../ui/input";
 import { MultiSelect } from "./MultiSelect";
 import { Transition } from "@headlessui/react";
 import { RoleType } from "@/lib/types/role";
+import { ROLE_OPTIONS } from "@/lib/constants/roles";
 
 // Compile options once outside of component
 const collegeOptions = Object.entries(CollegeUnits).map(([key, label]) => ({
   value: key,
   label: label,
 }));
-
-const roleOptions: { value: RoleType; label: string }[] = [
-  { value: "admin", label: "Admin" },
-  { value: "up-official", label: "UP Official" },
-  { value: "techgen", label: "Tech Gen" },
-];
 
 const statusOptions: { value: RequestStatusType; label: string }[] = [
   { value: "approved", label: "Approved" },
@@ -112,7 +107,7 @@ export function FilterPanel({
             <div className="flex flex-col gap-1.5">
               <p className="text-sm font-medium text-gray-700">Roles</p>
               <MultiSelect
-                options={roleOptions}
+                options={ROLE_OPTIONS}
                 selected={tempRoles}
                 onChange={setTempRoles as (selected: string[]) => void}
                 placeholder="Select Roles..."
