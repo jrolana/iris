@@ -9,6 +9,7 @@ import {
   WizardNode,
   WizardOption,
 } from "@/lib/structs/classification";
+import { ADMIN_EMAIL } from "@/lib/constants/admin";
 
 export default function ClassificationWizard() {
   const [currentNodeId, setCurrentNodeId] = useState<string>("root");
@@ -77,7 +78,8 @@ export default function ClassificationWizard() {
             </p>
             <p className="mt-3 text-sm text-gray-500">
               If you are still unsure about the proper disclosure form after
-              this, you may contact TTBDO for a consultation before proceeding.
+              this, you may contact TTBDO for a consultation before proceeding
+              at {ADMIN_EMAIL}.
             </p>
           </div>
         ) : (
