@@ -192,15 +192,14 @@ function ReportsContent(props: ReportsContentProps) {
       <Button
         onClick={handleSendEmailToOthers}
         disabled={
-          !reports ||
           isDeleting ||
           !subjectName ||
           !subjectId ||
-          reports.length === 0 ||
+          reports?.length === 0 ||
           isAllResolved ||
           isResolving ||
           isInitiating ||
-          reports[0].is_meeting_initiated
+          reports?.[0].is_meeting_initiated
         }
         className="mt-2 h-10 w-full border bg-sky-600 font-medium text-white transition-colors hover:border-sky-600 hover:bg-white hover:text-sky-600 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-200 disabled:text-slate-400"
       >
