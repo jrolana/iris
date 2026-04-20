@@ -11,12 +11,14 @@ interface PropsInterface {
 export async function inviteUser(props: PropsInterface) {
     const {email, userData} = props;
 
+    const url = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"  ;
+
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
         type: 'invite',
         email: email,
         options: {
         data: userData,
-        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/invite`
+        redirectTo: `${url}/invite`
         }
     });
 
