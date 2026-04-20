@@ -118,6 +118,17 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
       return;
     }
 
+    const lenNumberBlank = trimmedNumber
+      .split("/")
+      .filter((part) => part === "").length;
+
+    if (lenNumberBlank > 0 && lenNumberBlank < 3) {
+      toast.error(
+        "Please fill out all parts of the IP number or leave it blank.",
+      );
+      return;
+    }
+
     if (noChangesMade) {
       closeModal();
       return;
