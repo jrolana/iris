@@ -11,30 +11,23 @@ interface PropsInterface {
 }
 
 export async function inviteUser(props: PropsInterface) {
-    const {email, userData} = props;
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-            cookies: {
-                getAll: () => cookieStore.getAll(),
-                setAll: (cookieList) => {
-                    cookieList.forEach(({ name, value, options }) => {
-                        cookieStore.set(name, value, options);
-                    });
-                },
-            },
+  const { email, userData } = props;
+  const cookieStore = await cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll: () => cookieStore.getAll(),
+        setAll: (cookieList) => {
+          cookieList.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options);
+          });
         },
-    );
+      },
+    },
+  );
 
-    const { data: userRole, error: roleError } = await supabase.rpc("get_user_role");
-
-    if (roleError || userRole !== "admin") {
-        throw new Error("Only admins can invite users.");
-    }
-
-    
   const {
     data: { user },
     error: userError,
@@ -44,18 +37,10 @@ export async function inviteUser(props: PropsInterface) {
     throw new Error("You must be signed in to invite users.");
   }
 
-  const { data: actingUser, error: actingUserError } = await supabase
-    .schema("private")
-    .from("users")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+  const { data: userRole, error: roleError } =
+    await supabase.rpc("get_user_role");
 
-  if (actingUserError) {
-    throw new Error(actingUserError.message);
-  }
-
-  if (actingUser.role !== "admin") {
+  if (roleError || userRole !== "admin") {
     throw new Error("Only admins can invite users.");
   }
 
@@ -72,4 +57,3 @@ export async function inviteUser(props: PropsInterface) {
 
   return data;
 }
-
