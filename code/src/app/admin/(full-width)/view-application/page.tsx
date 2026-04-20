@@ -1,18 +1,16 @@
 import TtbdoViewApplicationPageClient from "./TtbdoViewApplicationPageClient";
-import { Suspense } from "react";
-import { Loader } from "lucide-react";
 
-export default function SigninPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
-          <span className="text-lg font-medium">Loading sign in page...</span>
-          <Loader className="animate-spin" />
-        </div>
-      }
-    >
-      <TtbdoViewApplicationPageClient />
-    </Suspense>
-  );
+interface TtbdoViewApplicationPageProps {
+  searchParams: Promise<{
+    applicationID?: string;
+  }>;
+}
+
+export default async function TtbdoViewApplicationPage({
+  searchParams,
+}: TtbdoViewApplicationPageProps) {
+  const params = await searchParams;
+  const applicationId = params.applicationID ?? "";
+
+  return <TtbdoViewApplicationPageClient applicationId={applicationId} />;
 }

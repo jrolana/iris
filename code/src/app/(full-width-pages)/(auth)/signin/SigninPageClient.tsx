@@ -2,19 +2,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { createClient } from "../../../../../utils/supabase/client";
-import { toast } from "sonner";
-import { useSearchParams } from "next/navigation";
+interface SigninPageClientProps {
+  errorMessage?: string;
+}
 
-export default function SigninPageClient() {
-  const searchParams = useSearchParams();
-  const errorMessage = searchParams.get("error");
-
+export default function SigninPageClient({
+  errorMessage = "",
+}: SigninPageClientProps) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (errorMessage) {
-      toast.error(errorMessage);
+      import("sonner").then(({ toast }) => toast.error(errorMessage));
       window.history.replaceState(null, "", "/signin");
     }
   }, [errorMessage]);
@@ -22,6 +21,9 @@ export default function SigninPageClient() {
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true);
+      const { createClient } = await import(
+        "../../../../../utils/supabase/client"
+      );
       const supabase = createClient();
       await supabase.auth.signInWithOAuth({
         provider: "google",
@@ -32,6 +34,7 @@ export default function SigninPageClient() {
     } catch (e) {
       const error =
         e instanceof Error ? e.message : "There was a problem signing you in.";
+      const { toast } = await import("sonner");
       toast.error(`Sign in failed: ${error}`);
     } finally {
       setLoading(false);

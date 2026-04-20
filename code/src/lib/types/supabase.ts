@@ -96,6 +96,7 @@ export type Database = {
           full_name: string
           id: string
           other_college_name: string | null
+          status: Database["private"]["Enums"]["inventorstatustype"]
           techgen_id: string | null
         }
         Insert: {
@@ -107,6 +108,7 @@ export type Database = {
           full_name: string
           id?: string
           other_college_name?: string | null
+          status?: Database["private"]["Enums"]["inventorstatustype"]
           techgen_id?: string | null
         }
         Update: {
@@ -118,6 +120,7 @@ export type Database = {
           full_name?: string
           id?: string
           other_college_name?: string | null
+          status?: Database["private"]["Enums"]["inventorstatustype"]
           techgen_id?: string | null
         }
         Relationships: [
@@ -412,6 +415,7 @@ export type Database = {
           content: string
           created_at: string | null
           id: string
+          is_resolved: boolean
           reporter_id: string | null
           reporter_name: string
           subject_id: string
@@ -422,6 +426,7 @@ export type Database = {
           content: string
           created_at?: string | null
           id?: string
+          is_resolved?: boolean
           reporter_id?: string | null
           reporter_name: string
           subject_id: string
@@ -432,6 +437,7 @@ export type Database = {
           content?: string
           created_at?: string | null
           id?: string
+          is_resolved?: boolean
           reporter_id?: string | null
           reporter_name?: string
           subject_id?: string
@@ -577,6 +583,7 @@ export type Database = {
         | "upload"
         | "status_change"
         | "role_change"
+      inventorstatustype: "pending" | "member" | "non-member"
       iprtype:
         | "patent"
         | "utility_model"
@@ -834,6 +841,7 @@ export const Constants = {
         "status_change",
         "role_change",
       ],
+      inventorstatustype: ["pending", "member", "non-member"],
       iprtype: [
         "patent",
         "utility_model",

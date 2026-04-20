@@ -1,10 +1,16 @@
 import { Outfit } from "next/font/google";
-import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-import { SidebarProvider } from "@/context/SidebarContext";
-import TanStackProvider from "../providers/TanStackProvider";
-import UserProvider from "@/providers/UserProvider";
+import LazyToaster from "@/providers/LazyToaster";
+
+export const metadata = {
+  title: {
+    default: "IRIS",
+    template: "%s | IRIS",
+  },
+  description:
+    "IRIS is a web-based intellectual property application management system.",
+};
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -17,13 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className}`}>
-        <Toaster />
-        <TanStackProvider>
-          <UserProvider>
-            <SidebarProvider>{children}</SidebarProvider>
-          </UserProvider>
-        </TanStackProvider>
+      <body className={outfit.className}>
+        <LazyToaster />
+        {children}
       </body>
     </html>
   );

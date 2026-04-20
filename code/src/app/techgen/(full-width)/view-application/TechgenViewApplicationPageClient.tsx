@@ -4,17 +4,18 @@ import ApplicationView from "@/components/application/ApplicationView";
 import { useGetAppById } from "@/hooks/applications/useGetApplicationById";
 import { Loader } from "lucide-react";
 
-import { useSearchParams } from "next/navigation";
+interface TechgenViewApplicationPageClientProps {
+  applicationId: string;
+}
 
-function TechgenViewApplicationPageClient() {
-  const searchParams = useSearchParams();
-  const applicationId = searchParams.get("applicationID") ?? "";
-
+function TechgenViewApplicationPageClient({
+  applicationId,
+}: TechgenViewApplicationPageClientProps) {
   const { application, isLoading, isFetched } = useGetAppById({
     appId: applicationId,
   });
 
-  if (isLoading || !isFetched) {
+  if ((isLoading || !isFetched) && !application) {
     return (
       <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">
         Fetching Application...

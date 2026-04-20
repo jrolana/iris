@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
+    "build:turbopack": "next build --turbopack",
+    "analyze": "ANALYZE=true next build --webpack",
     "lint": "next lint",
     "generate-types": "dotenv -e .env -- sh -c 'supabase gen types typescript --project-id $SUPABASE_PROJECT_ID --schema public --schema private > src/lib/types/supabase.ts'"
   },
@@ -40,7 +42,6 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "flatpickr": "^4.6.13",
-    "html2canvas": "^1.4.1",
     "i": "^0.3.7",
     "jotai": "^2.16.1",
     "jspdf": "^4.2.0",
@@ -69,6 +70,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@next/bundle-analyzer": "^16.2.4",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.91.3",
     "@types/node": "^20.19.25",
