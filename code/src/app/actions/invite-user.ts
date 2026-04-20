@@ -37,6 +37,22 @@ function getInviteErrorMessage(error: unknown) {
   return "There was a problem sending the invitation. Please try again.";
 }
 
+function getBaseUrl() {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL;
+  }
+
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  return "http://localhost:3000";
+}
+
 export async function inviteUser(props: PropsInterface) {
   const { email, userData } = props;
 
@@ -89,7 +105,7 @@ export async function inviteUser(props: PropsInterface) {
       } satisfies InviteUserResult;
     }
 
-    const url = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const url = getBaseUrl();
 
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
       type: "invite",
