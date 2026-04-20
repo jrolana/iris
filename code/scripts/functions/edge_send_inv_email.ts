@@ -40,8 +40,8 @@ serve(async (req) => {
           <p>You have been invited to join the Intellectual Rights Information System (IRIS) as ${role=="admin" ? "an":"a"} ${role}.</p>
           <p>Please click the button below to accept your invitation and set up your account:</p>
           <p>
-            <a href="${inviteLink}" style="display: inline-block; padding: 10px 15px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
-              Accept Invitation
+            <a href="${inviteLink}" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; background-color: #4361ee; color: #ffffff; font-size: 14px; font-weight: 500; text-decoration: none; border-radius: 8px; border: none; cursor: pointer; transition: background-color 0.2s ease;">
+              Accept invitation
             </a>
           </p>
           <p>If the button doesn't work, copy and paste this link into your browser:</p>

@@ -68,7 +68,7 @@ export default function UserDropdown() {
             <Image
               width={44}
               height={44}
-              src={user?.image_url || "/images/user/owner.jpg"}
+              src={user?.image_url || "/images/user/avatar-placeholder.jpg"}
               alt="User"
             />
           </span>

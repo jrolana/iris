@@ -15,7 +15,8 @@ export async function inviteUser(props: PropsInterface) {
         type: 'invite',
         email: email,
         options: {
-        data: userData
+        data: userData,
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/invite`
         }
     });
 
