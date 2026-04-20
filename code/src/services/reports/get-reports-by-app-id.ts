@@ -8,8 +8,7 @@ interface GetReportsByAppIdProps {
 export const getReportsByAppId = async (props: GetReportsByAppIdProps) => {
     const { id, parentId } = props;
     const searchIds = parentId ? [id, parentId] : [id];
-    const {data, error} = await supabase.schema("private").from("reports").select().in("application_id", searchIds);
-
+    const {data, error} = await supabase.schema("private").from("reports").select("*, reporter:inventors!reporter_id ( techgen_id ), app:ipr_applications!application_id ( project_title )").in("application_id", searchIds);
     if (error) {
         throw new Error(error.message);
     }

@@ -118,6 +118,7 @@ CREATE TABLE private.inventors (
     college VARCHAR(20) NOT NULL,
     comments TEXT,
     external_institution TEXT NULL,
+    status private.inventorstatustype not null default 'member'::private.inventorstatustype, -- member, pending, non-member
 
     UNIQUE(application_id, email),
 
@@ -327,6 +328,8 @@ CREATE TABLE private.reports (
   reporter_name text null,
   subject_name text not null,
   created_at timestamp with time zone DEFAULT now(),
+  is_resolved boolean DEFAULT FALSE,
+  is_meeting_initiated boolean DEFAULT FALSE,
 
   CONSTRAINT reports_pkey PRIMARY KEY (id),
 

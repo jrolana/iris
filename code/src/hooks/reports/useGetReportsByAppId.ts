@@ -12,7 +12,7 @@ export function useGetReportsByAppId(props: UseGetReportsByAppIdProps) {
     const {data, isLoading, isFetching} =  useQuery({
         queryKey: ['reports', id, parentId],
         queryFn: () => getReportsByAppId({id, parentId}),
-        
+    
     });
 
     return {reports: data, isLoading: isLoading || isFetching}; 

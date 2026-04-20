@@ -19,6 +19,7 @@ BEGIN
         FROM private.inventors
         WHERE techgen_id = auth.uid()
         AND (application_id = target_app_id OR application_id = v_parent_id)
+        AND (status = 'member')
     ) INTO v_has_access;
 
     RETURN v_has_access;

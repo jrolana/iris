@@ -1,26 +1,21 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import clsx from "clsx";
 
 import {
   ipClassificationTree,
   WizardNode,
   WizardOption,
-  WizardResult,
 } from "@/lib/structs/classification";
 import { ADMIN_EMAIL } from "@/lib/constants/admin";
 
-type ClassificationWizardProps = {
-  onFinished: (result: WizardResult) => void;
-  resetResult: Dispatch<SetStateAction<WizardResult | null>>;
-};
-
-export default function ClassificationWizard(props: ClassificationWizardProps) {
-  const { onFinished, resetResult } = props;
+export default function ClassificationWizard() {
   const [currentNodeId, setCurrentNodeId] = useState<string>("root");
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [path, setPath] = useState<string[]>([]); // history of nodeIds
+  const router = useRouter();
 
   const currentNode: WizardNode = ipClassificationTree[currentNodeId];
   const isLeaf = Boolean(currentNode.result);
@@ -28,7 +23,7 @@ export default function ClassificationWizard(props: ClassificationWizardProps) {
   const handleNext = () => {
     // If we are at a leaf, finish the wizard.
     if (currentNode.result) {
-      onFinished(currentNode.result);
+      router.push("/application-document");
       return;
     }
     if (!selectedOptionId || !currentNode.options) return;
@@ -49,7 +44,6 @@ export default function ClassificationWizard(props: ClassificationWizardProps) {
     const prevNodeId = newPath.pop()!;
     setPath(newPath);
     setCurrentNodeId(prevNodeId);
-    resetResult(null);
     setSelectedOptionId(null);
   };
 
@@ -84,8 +78,8 @@ export default function ClassificationWizard(props: ClassificationWizardProps) {
             </p>
             <p className="mt-3 text-sm text-gray-500">
               If you are still unsure about the proper disclosure form after
-              this, you may contact {ADMIN_EMAIL} for a consultation before
-              proceeding.
+              this, you may contact TTBDO for a consultation before proceeding
+              at {ADMIN_EMAIL}.
             </p>
           </div>
         ) : (
@@ -145,7 +139,7 @@ export default function ClassificationWizard(props: ClassificationWizardProps) {
             className="inline-flex items-center rounded-md bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-sky-200"
             disabled={!isLeaf && !selectedOptionId}
           >
-            {isLeaf ? "Use this recommendation" : "Next"}
+            {isLeaf ? "Finish guide" : "Next"}
           </button>
         </div>
       </section>
