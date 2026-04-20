@@ -26,6 +26,9 @@ import Button from "@/components/ui/button/Button";
 
 type FileAction = "view" | "download";
 
+const ALLOWED_DOCUMENT_UPLOAD_EXTENSIONS = [".pdf", ".doc", ".docx"];
+const DOCUMENT_UPLOAD_ACCEPT = ALLOWED_DOCUMENT_UPLOAD_EXTENSIONS.join(",");
+
 interface DisclosureFormActionsProps {
   title: string;
   description: string;
@@ -81,6 +84,13 @@ function formatFileSize(size?: number) {
   if (size < 1024) return `${size} B`;
   if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
   return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function canUploadApplicationDocument(file: File) {
+  const fileName = file.name.toLowerCase();
+  return ALLOWED_DOCUMENT_UPLOAD_EXTENSIONS.some((extension) =>
+    fileName.endsWith(extension),
+  );
 }
 
 export default function DisclosureFormActions(
@@ -169,6 +179,13 @@ export default function DisclosureFormActions(
   async function handleUploadFile() {
     if (!finalIpType || !selectedUploadFile) return;
 
+    if (!canUploadApplicationDocument(selectedUploadFile)) {
+      toast.error("Only PDF, DOC, and DOCX files can be uploaded.");
+      setSelectedUploadFile(null);
+      setUploadInputKey((key) => key + 1);
+      return;
+    }
+
     try {
       await uploadPublicResource({
         ipType: finalIpType,
@@ -250,6 +267,7 @@ export default function DisclosureFormActions(
             >
               <FileInput
                 key={uploadInputKey}
+                accept={DOCUMENT_UPLOAD_ACCEPT}
                 onChange={(event) =>
                   setSelectedUploadFile(event.target.files?.[0] ?? null)
                 }

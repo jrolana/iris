@@ -592,9 +592,9 @@ export default function RegistrationRequestsTable() {
           isOpen={Boolean(rejectionRequest)}
           onChange={closeRejectionModal}
           layer={1}
-          descriptionWidth="max-w-lg"
+          descriptionWidth="max-w-2xl"
         >
-          <div className="w-full max-w-lg min-w-[85vw] px-0 sm:min-w-[400px] sm:px-10">
+          <div className="w-full max-w-2xl min-w-[85vw] px-0 sm:min-w-[640px] sm:px-10">
             <div className="mb-5 text-left">
               <Label htmlFor="rejection-reason">Reason for rejection</Label>
               <TextArea
@@ -608,6 +608,7 @@ export default function RegistrationRequestsTable() {
                     : ""
                 }
                 placeholder="Explain why this request is being rejected."
+                className="min-h-32"
                 onChange={(value) => {
                   setRejectionReason(value);
                   if (value.trim()) setShowRejectionReasonError(false);
