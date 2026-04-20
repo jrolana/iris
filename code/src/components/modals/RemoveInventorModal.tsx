@@ -41,7 +41,9 @@ export default function RemoveInventorModal() {
     const receiverIds = reports
       ? Array.from(
           new Set(
-            reports.map((report) => report.reporter?.techgen_id as string),
+            reports
+              .map((report) => report.reporter?.techgen_id)
+              .filter((id): id is string => Boolean(id)),
           ),
         )
       : [];
@@ -49,7 +51,7 @@ export default function RemoveInventorModal() {
 
     const appName =
       reports && reports.length > 0
-        ? reports[0].app.project_title
+        ? (reports[0].app?.project_title ?? "the application")
         : "the application";
 
     const content = `${subjectName} has been removed from ${appName}. Reason: ${comment}`;

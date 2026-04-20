@@ -7,7 +7,7 @@ import { useInitiateReportMeeting } from "@/hooks/reports/useInitiateReportMeeti
 
 import { InventorType } from "@/lib/types/application";
 import { toast } from "sonner";
-import { ReportType } from "@/lib/types/reports";
+import { ReportWithRelations } from "@/lib/types/reports";
 import { cn } from "@/lib/utils";
 
 import Modal from "./Modal";
@@ -62,11 +62,11 @@ function formatTimestamp(dateString?: string) {
 }
 
 interface ReportsContentProps {
-  reports: ReportType["Row"][] | null | undefined;
+  reports: ReportWithRelations[] | null | undefined;
   subjectName: InventorType["Row"]["full_name"] | null;
   subjectId: InventorType["Row"]["id"] | null;
   handleRemoveClicked: () => void;
-  setReports: (reports: ReportType["Row"][]) => void;
+  setReports: (reports: ReportWithRelations[]) => void;
   isDeleting: boolean;
   closeModal: () => void;
 }

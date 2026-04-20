@@ -29,7 +29,6 @@ export default function ApplicationGuidePage(props: ApplicationGuidePageProps) {
 
         <aside className="space-y-4">
           <CallToAction
-            isApplicant={isApplicant}
             title={isApplicant ? "Ready to begin?" : "Ready to apply?"}
             description={
               isApplicant

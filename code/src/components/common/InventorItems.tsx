@@ -5,7 +5,7 @@ import { useAutoLinkInventor } from "@/hooks/inventors/useAutoLinkInventor";
 import { useConfirm } from "@/hooks/useConfirm";
 import { useAcceptRejectInventor } from "@/hooks/inventors/useAcceptRejectInventor";
 
-import { ReportType } from "@/lib/types/reports";
+import { ReportWithRelations } from "@/lib/types/reports";
 import { InventorType } from "@/lib/types/application";
 
 import Hint from "../common/Tooltip";
@@ -28,7 +28,7 @@ interface InventorItemsProps {
   isLoading: boolean;
   inventorUser?: InventorType["Row"];
   existingUserIds: string[];
-  reports?: ReportType["Row"][];
+  reports?: ReportWithRelations[];
   isFetchingReports: boolean;
   isUneditable: boolean;
 }
@@ -81,7 +81,7 @@ export default function InventorItems(props: InventorItemsProps) {
     openFileReportModal();
   }
 
-  function handleViewReportsClicked(reports: ReportType["Row"][]) {
+  function handleViewReportsClicked(reports: ReportWithRelations[]) {
     setViewReportsReports(reports || []);
     openViewReportsModal();
   }
@@ -177,13 +177,13 @@ export default function InventorItems(props: InventorItemsProps) {
 interface ActionButtonsProps {
   isAdmin: boolean;
   inventor: InventorType["Row"];
-  reports?: ReportType["Row"][];
+  reports?: ReportWithRelations[];
   isLoading: boolean;
   isFetchingReports: boolean;
   inventorUser?: InventorType["Row"];
   isUneditable: boolean;
   handleLinkInventor: (inventorId: string) => void;
-  handleViewReportsClicked: (reports: ReportType["Row"][]) => void;
+  handleViewReportsClicked: (reports: ReportWithRelations[]) => void;
   handleFileReportClicked: (inventor: InventorType["Row"]) => void;
   handleAutoLinkInventor: () => void;
   hasFiledReport: boolean;

@@ -5,7 +5,7 @@ import useAddNewVerifiedInventorModal from "@/hooks/useAddNewVerifiedInventorMod
 
 import InventorItems from "../common/InventorItems";
 import { InventorType } from "@/lib/types/application";
-import { ReportType } from "@/lib/types/reports";
+import { ReportWithRelations } from "@/lib/types/reports";
 import { UserType } from "@/lib/types/users";
 import { Loader } from "lucide-react";
 
@@ -38,7 +38,7 @@ function ViewInventors(props: ViewInventorsProps) {
       acc[inventorId].push(report);
       return acc;
     },
-    {} as Record<string, ReportType["Row"][]>,
+    {} as Record<string, ReportWithRelations[]>,
   );
 
   const existingUserIds = useMemo(

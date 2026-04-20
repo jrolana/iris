@@ -8,6 +8,7 @@ import { ScrollArea } from "../../ui/scroll-area";
 import type { SearchUsersToLinkResult } from "@/services/inventors/search-users-to-link";
 
 interface SearchTabProps {
+  isOpen: boolean;
   excludedUIDs: string[];
   setInventor: (inventor: InventorType["Insert"]) => void;
   closeModal: () => void;
