@@ -195,13 +195,16 @@ const drawUniversityLogo = (
 };
 
 const drawWatermark = (pdf: jsPDF, pageWidth: number, pageHeight: number) => {
+  pdf.saveGraphicsState();
+  pdf.setGState(pdf.GState({ opacity: 0.12 }));
   pdf.setFont("helvetica", "bold");
-  pdf.setFontSize(26);
-  pdf.setTextColor(229, 231, 235);
+  pdf.setFontSize(28);
+  pdf.setTextColor(107, 114, 128);
   drawText(pdf, UNIVERSITY_NAME, pageWidth / 2, pageHeight / 2, {
     align: "center",
     angle: -30,
   });
+  pdf.restoreGraphicsState();
 };
 
 const drawNoChartCard = (
@@ -302,9 +305,6 @@ export const exportDashboardPdf = async ({
   const ensureSpace = (neededHeight: number) => {
     if (cursorY + neededHeight > bottomLimit) {
       pdf.addPage();
-      if (includeWatermark) {
-        drawWatermark(pdf, pageWidth, pageHeight);
-      }
       cursorY = 18;
     }
   };
@@ -335,10 +335,6 @@ export const exportDashboardPdf = async ({
     );
     cursorY += 10;
   };
-
-  if (includeWatermark) {
-    drawWatermark(pdf, pageWidth, pageHeight);
-  }
 
   drawPageTitle();
 
@@ -492,6 +488,9 @@ export const exportDashboardPdf = async ({
   const pageCount = pdf.getNumberOfPages();
   for (let i = 1; i <= pageCount; i += 1) {
     pdf.setPage(i);
+    if (includeWatermark) {
+      drawWatermark(pdf, pageWidth, pageHeight);
+    }
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(8);
     pdf.setTextColor(107, 114, 128);
