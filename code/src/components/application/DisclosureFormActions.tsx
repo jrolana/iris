@@ -11,13 +11,23 @@ import {
   FileSpreadsheet,
   FileText,
   Loader,
+  Trash2,
+  UploadCloud,
 } from "lucide-react";
 import { toast } from "sonner";
 
 import { useGetPublicResourcesByIpType } from "@/hooks/public-resources/useGetPublicResourcesByIpType";
+import { useUploadPublicResource } from "@/hooks/public-resources/useUploadPublicResource";
+import { useDeletePublicResource } from "@/hooks/public-resources/useDeletePublicResource";
 import { IpType } from "@/lib/types/ip";
+import { useConfirm } from "@/hooks/useConfirm";
+import FileInput from "@/components/form/input/FileInput";
+import Button from "@/components/ui/button/Button";
 
 type FileAction = "view" | "download";
+
+const ALLOWED_DOCUMENT_UPLOAD_EXTENSIONS = [".pdf", ".doc", ".docx"];
+const DOCUMENT_UPLOAD_ACCEPT = ALLOWED_DOCUMENT_UPLOAD_EXTENSIONS.join(",");
 
 interface DisclosureFormActionsProps {
   title: string;
@@ -31,6 +41,7 @@ interface DisclosureFormActionsProps {
   showProceed?: boolean;
   filesTitle?: string | null;
   showFooterNote?: boolean;
+  canManageFiles?: boolean;
 }
 
 function getFileIcon(fileName: string) {
@@ -75,6 +86,13 @@ function formatFileSize(size?: number) {
   return `${(size / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+function canUploadApplicationDocument(file: File) {
+  const fileName = file.name.toLowerCase();
+  return ALLOWED_DOCUMENT_UPLOAD_EXTENSIONS.some((extension) =>
+    fileName.endsWith(extension),
+  );
+}
+
 export default function DisclosureFormActions(
   props: DisclosureFormActionsProps,
 ) {
@@ -90,13 +108,23 @@ export default function DisclosureFormActions(
     showProceed = true,
     filesTitle = "Documents",
     showFooterNote = true,
+    canManageFiles = false,
   } = props;
 
-  const { files, isLoading } = useGetPublicResourcesByIpType({
+  const { files, isLoading, refetch } = useGetPublicResourcesByIpType({
     ipType: finalIpType,
   });
+  const { uploadPublicResource, isLoading: isUploading } =
+    useUploadPublicResource();
+  const { deletePublicResource, isLoading: isDeleting } =
+    useDeletePublicResource();
+  const confirm = useConfirm();
 
   const [activeActionKey, setActiveActionKey] = useState<string | null>(null);
+  const [selectedUploadFile, setSelectedUploadFile] = useState<File | null>(
+    null,
+  );
+  const [uploadInputKey, setUploadInputKey] = useState(0);
 
   async function handleFileAction(
     file: {
@@ -148,6 +176,60 @@ export default function DisclosureFormActions(
     }
   }
 
+  async function handleUploadFile() {
+    if (!finalIpType || !selectedUploadFile) return;
+
+    if (!canUploadApplicationDocument(selectedUploadFile)) {
+      toast.error("Only PDF, DOC, and DOCX files can be uploaded.");
+      setSelectedUploadFile(null);
+      setUploadInputKey((key) => key + 1);
+      return;
+    }
+
+    try {
+      await uploadPublicResource({
+        ipType: finalIpType,
+        file: selectedUploadFile,
+      });
+      toast.success("Document uploaded successfully.");
+      setSelectedUploadFile(null);
+      setUploadInputKey((key) => key + 1);
+      await refetch();
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "There was a problem uploading the document.",
+      );
+    }
+  }
+
+  async function handleDeleteFile(file: { fullPath: string; name: string }) {
+    const isConfirmed = await confirm({
+      title: "Confirm Delete",
+      message: `Are you sure you want to delete ${file.name}? This file will no longer appear in the application document hub.`,
+    });
+
+    if (!isConfirmed) return;
+
+    const actionKey = `${file.fullPath}-delete`;
+    setActiveActionKey(actionKey);
+
+    try {
+      await deletePublicResource({ fullPath: file.fullPath });
+      toast.success("Document deleted successfully.");
+      await refetch();
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "There was a problem deleting the document.",
+      );
+    } finally {
+      setActiveActionKey(null);
+    }
+  }
+
   return (
     <section className="space-y-4">
       <div
@@ -174,6 +256,38 @@ export default function DisclosureFormActions(
             <h4 className="text-base font-semibold text-slate-900">
               {filesTitle}
             </h4>
+          ) : null}
+
+          {canManageFiles && finalIpType ? (
+            <div
+              className={clsx(
+                "grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]",
+                filesTitle ? "mt-3" : "",
+              )}
+            >
+              <FileInput
+                key={uploadInputKey}
+                accept={DOCUMENT_UPLOAD_ACCEPT}
+                onChange={(event) =>
+                  setSelectedUploadFile(event.target.files?.[0] ?? null)
+                }
+              />
+              <Button
+                size="sm"
+                onClick={handleUploadFile}
+                disabled={!selectedUploadFile || isUploading}
+                className="h-11"
+                startIcon={
+                  isUploading ? (
+                    <Loader className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <UploadCloud className="h-4 w-4" />
+                  )
+                }
+              >
+                {isUploading ? "Uploading..." : "Upload"}
+              </Button>
+            </div>
           ) : null}
 
           {isLoading ? (
@@ -207,7 +321,10 @@ export default function DisclosureFormActions(
                   const isViewing = activeActionKey === `${file.fullPath}-view`;
                   const isDownloading =
                     activeActionKey === `${file.fullPath}-download`;
-                  const isBusy = isViewing || isDownloading;
+                  const isDeletingThisFile =
+                    activeActionKey === `${file.fullPath}-delete`;
+                  const isBusy =
+                    isViewing || isDownloading || isDeletingThisFile;
 
                   return (
                     <li
@@ -260,6 +377,22 @@ export default function DisclosureFormActions(
                           )}
                           Download
                         </button>
+
+                        {canManageFiles ? (
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteFile(file)}
+                            disabled={isBusy || isDeleting}
+                            className="border-error-300 text-error-600 hover:bg-error-50 inline-flex w-full items-center justify-center gap-2 rounded-lg border bg-white px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 sm:w-auto"
+                          >
+                            {isDeletingThisFile ? (
+                              <Loader className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Trash2 className="h-4 w-4" />
+                            )}
+                            Delete
+                          </button>
+                        ) : null}
                       </div>
                     </li>
                   );

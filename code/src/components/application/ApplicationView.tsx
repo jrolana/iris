@@ -154,7 +154,7 @@ function ApplicationView(props: ApplicationViewProps) {
           )}
         </section>
 
-        <main className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <section className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <section className="min-w-0 space-y-4 lg:col-span-7">
             <InformationPanel
               applicationId={application.id}
@@ -176,7 +176,7 @@ function ApplicationView(props: ApplicationViewProps) {
 
             {mode === "applicant" ? <ApplicantReminders /> : <AdminReminders />}
           </section>
-        </main>
+        </section>
       </div>
 
       <EditApplicationDetailsModal

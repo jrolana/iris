@@ -14,7 +14,7 @@ interface SearchTabProps {
 }
 
 export default function SearchTab(props: SearchTabProps) {
-  const { excludedUIDs, setInventor, closeModal } = props;
+  const { isOpen, excludedUIDs, setInventor, closeModal } = props;
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery);
 
@@ -25,6 +25,7 @@ export default function SearchTab(props: SearchTabProps) {
   } = useSearchUsersToLink({
     queryString: debouncedSearchQuery,
     excludedUserIds: excludedUIDs,
+    enabled: isOpen,
   });
 
   const searchInputRef = useRef<HTMLInputElement>(null);

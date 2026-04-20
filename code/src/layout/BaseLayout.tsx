@@ -15,6 +15,7 @@ interface BaseLayoutProps {
   isPublic?: boolean;
   isFullWidth?: boolean;
   isAdmin?: boolean;
+  showNotifications?: boolean;
 }
 
 export default function BaseLayout({
@@ -24,6 +25,7 @@ export default function BaseLayout({
   isPublic = false,
   isFullWidth = false,
   isAdmin = false,
+  showNotifications = true,
 }: BaseLayoutProps) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
@@ -36,7 +38,7 @@ export default function BaseLayout({
 
   return (
     <div className="flex min-h-screen flex-col xl:flex-row">
-      <ModalProvider />
+      {!isPublic && <ModalProvider />}
       {/* Sidebar + Backdrop */}
       {!isFullWidth && navItems && (
         <AppSidebar
@@ -54,12 +56,13 @@ export default function BaseLayout({
           isPublic={isPublic}
           isFullWidth={isFullWidth}
           isAdmin={isAdmin}
+          showNotifications={showNotifications}
         />
 
         {/* Page Content */}
-        <div className="mx-auto flex w-full max-w-(--breakpoint-2xl) flex-1 flex-col p-4 md:p-6">
+        <main className="mx-auto flex w-full max-w-(--breakpoint-2xl) flex-1 flex-col p-4 md:p-6">
           {children}
-        </div>
+        </main>
       </div>
     </div>
   );

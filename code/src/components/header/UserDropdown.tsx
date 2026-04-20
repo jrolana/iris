@@ -25,6 +25,7 @@ function AvatarSkeleton() {
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const user = useAtomValue(userAtom);
+  const userInitial = user?.full_name?.trim().charAt(0).toUpperCase() ?? "";
 
   function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
@@ -64,13 +65,18 @@ export default function UserDropdown() {
           disabled={!user}
           className="dropdown-toggle flex items-center text-gray-700 dark:text-gray-400"
         >
-          <span className="mr-3 h-11 w-11 overflow-hidden rounded-full">
-            <Image
-              width={44}
-              height={44}
-              src={user?.image_url || "/images/user/avatar-placeholder.jpg"}
-              alt="User"
-            />
+          <span className="mr-3 flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
+            {user?.image_url ? (
+              <Image
+                width={44}
+                height={44}
+                src={user.image_url}
+                alt="User"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              userInitial
+            )}
           </span>
 
           <span className="text-theme-sm mr-1 block font-medium">

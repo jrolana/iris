@@ -11,6 +11,7 @@
 /coverage
 /test-results
 /playwright-report
+/pentest-results
 
 # next.js
 /.next/
@@ -31,6 +32,7 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+pentest.env
 
 # vercel
 .vercel
@@ -39,6 +41,3 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
-pentest-results/*
-pentest.env

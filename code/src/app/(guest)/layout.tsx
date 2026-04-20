@@ -4,6 +4,8 @@ import React from "react";
 import BaseLayout from "@/layout/BaseLayout";
 import { NavItem } from "@/lib/types/nav";
 import { GridIcon, TableIcon, DocsIcon, DownloadIcon } from "@/icons";
+import { SidebarProvider } from "@/context/SidebarContext";
+import TanStackProvider from "@/providers/TanStackProvider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const navItems: NavItem[] = [
@@ -26,8 +28,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <BaseLayout navItems={navItems} isPublic={true}>
-      {children}
-    </BaseLayout>
+    <TanStackProvider>
+      <SidebarProvider>
+        <BaseLayout navItems={navItems} isPublic={true}>
+          {children}
+        </BaseLayout>
+      </SidebarProvider>
+    </TanStackProvider>
   );
 }

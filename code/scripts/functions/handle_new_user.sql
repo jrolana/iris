@@ -12,7 +12,7 @@ BEGIN
         'techgen'::private.user_role
     );
 
-    INSERT INTO private.users (id, full_name, email, role, external_institution, college_code, other_college_name)
+    INSERT INTO private.users (id, full_name, email, role, external_institution, college_code, other_college_name, image_url)
 VALUES (
     NEW.id,
     COALESCE(NEW.raw_user_meta_data->>'name', NEW.raw_user_meta_data->>'full_name', split_part(NEW.email, '@', 1)),
@@ -20,7 +20,12 @@ VALUES (
     v_role,
     NEW.raw_user_meta_data->>'external_institution',
     NEW.raw_user_meta_data->>'college_code',
-    NEW.raw_user_meta_data->>'other_college_name'
+    NEW.raw_user_meta_data->>'other_college_name',
+    COALESCE(
+        NEW.raw_user_meta_data->>'avatar_url',
+        NEW.raw_user_meta_data->>'picture',
+        NEW.raw_user_meta_data->>'image_url'
+    )
 );
 
     RETURN NEW;

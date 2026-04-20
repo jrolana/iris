@@ -22,10 +22,6 @@ BEGIN
 
   search_query := trim(coalesce(search_query, ''));
 
-  -- IF length(search_query) < 2 THEN
-  --   RETURN;
-  -- END IF;
-
   RETURN QUERY
   SELECT
     u.id,
@@ -36,6 +32,11 @@ BEGIN
     u.other_college_name
   FROM private.users u
   WHERE (
+    u.role = 'techgen'::private.user_role
+  )
+  AND (
+    search_query = ''
+    OR
     u.full_name ILIKE '%' || search_query || '%'
     OR
     u.email ILIKE '%' || search_query || '%'
@@ -45,8 +46,7 @@ BEGIN
     OR
     u.id <> ALL(excluded_ids)
   )
-  ORDER BY u.full_name
-  LIMIT 10;
+  ORDER BY u.full_name;
 END;
 $function$;
 
