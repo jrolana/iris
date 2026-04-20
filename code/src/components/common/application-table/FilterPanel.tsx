@@ -49,6 +49,7 @@ interface FilterPanelProps {
     techgens: string[];
     ip_types: string[];
   };
+  isGuest?: boolean;
 }
 
 export function FilterPanel({
@@ -56,6 +57,7 @@ export function FilterPanel({
   onApplyFilters,
   onClose,
   currentFilters,
+  isGuest = false,
 }: FilterPanelProps) {
   const [tempTitle, setTempTitle] = useState(currentFilters.title);
   const [tempStatuses, setTempStatuses] = useState<StatusType[]>(() => {
@@ -167,16 +169,18 @@ export function FilterPanel({
                 className="bg-white"
               />
             </div>
-            <div className="flex flex-col gap-1.5">
-              <p className="text-sm font-medium text-gray-700">Status</p>
-              <MultiSelect
-                options={statusOptions}
-                selected={tempStatuses}
-                onChange={setTempStatuses as (selected: string[]) => void}
-                placeholder="Select status..."
-                className="bg-white"
-              />
-            </div>
+            {!isGuest && (
+              <div className="flex flex-col gap-1.5">
+                <p className="text-sm font-medium text-gray-700">Status</p>
+                <MultiSelect
+                  options={statusOptions}
+                  selected={tempStatuses}
+                  onChange={setTempStatuses as (selected: string[]) => void}
+                  placeholder="Select status..."
+                  className="bg-white"
+                />
+              </div>
+            )}
           </div>
         </div>
 

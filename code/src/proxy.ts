@@ -11,6 +11,7 @@ const PUBLIC_ROUTES = [
   "/application-registry",
   "/application-document",
   "/application-guide",
+  "/wizard",
 ];
 
 function isPublicRoute(pathname: string) {

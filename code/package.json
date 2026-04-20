@@ -9,6 +9,7 @@
     "build:turbopack": "next build --turbopack",
     "analyze": "ANALYZE=true next build --webpack",
     "lint": "next lint",
+    "deploy:invite-email": "bash scripts/deploy/send-invite-email.sh",
     "generate-types": "dotenv -e .env -- sh -c 'supabase gen types typescript --project-id $SUPABASE_PROJECT_ID --schema public --schema private > src/lib/types/supabase.ts'"
   },
   "dependencies": {

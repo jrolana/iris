@@ -3,7 +3,6 @@
 import Button from "../ui/button/Button";
 
 interface PropsInterface {
-  isApplicant?: boolean;
   title?: string;
   description?: string;
   primaryLabel?: string;
@@ -13,15 +12,10 @@ interface PropsInterface {
 
 const CallToAction = (props: PropsInterface) => {
   const {
-    isApplicant = true,
     title = "Protect & Manage Your Ideas",
-    description = isApplicant
-      ? "Apply, track, and manage your IP easily"
-      : "Start protecting your ideas today",
-    primaryLabel = isApplicant
-      ? "Submit a New IP Application"
-      : "Apply for IP Protection",
-    primaryHref = isApplicant ? "/techgen/new-application" : "/signin",
+    description = "Apply, track, and manage your IP easily",
+    primaryLabel = "Submit a New IP Application",
+    primaryHref = "/techgen/new-application",
   } = props;
 
   return (

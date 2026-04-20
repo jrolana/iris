@@ -14,5 +14,13 @@ export const getInventorsByAppId = async (props: GetInventorsByAppIdProps) => {
         throw new Error(error.message);
     }
 
+    if(data){
+        const sortedData = data.toSorted((a, b) => {
+            const statusOrder = ["member", "pending", "non-member"];
+            return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+        });
+        return sortedData;
+    }
+
     return data;
 }

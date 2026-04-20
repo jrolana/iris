@@ -17,6 +17,7 @@ RETURNS TABLE (
     filing_date DATE,
     created_at TIMESTAMPTZ,
     updated_at TIMESTAMPTZ,
+    ip_number TEXT,
     is_archived BOOLEAN,
     is_withdrawn BOOLEAN
 ) AS $$
@@ -41,6 +42,7 @@ BEGIN
             other_college_name,
             external_institution
         FROM private.inventors
+        WHERE status = 'member' -- only consider confirmed inventors for search filtering
 
         UNION
 
@@ -53,7 +55,7 @@ BEGIN
             parent_inv.external_institution
         FROM private.ipr_applications child_app
         JOIN private.inventors parent_inv ON child_app.parent_application_id = parent_inv.application_id
-        WHERE child_app.parent_application_id IS NOT NULL
+        WHERE child_app.parent_application_id IS NOT NULL AND parent_inv.status = 'member'
     ),
     -- aggregate to keep this table flat (no duplication of rows)
     app_inventors AS (
@@ -85,6 +87,7 @@ BEGIN
             app.filing_date,
             app.created_at,
             app.updated_at,
+            app.ip_number,
             app.is_archived,
             app.is_withdrawn
         FROM private.ipr_applications app

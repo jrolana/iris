@@ -45,9 +45,13 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
   const { closeModal, isOpen } = useEditApplicationDetailsModal();
   const confirm = useConfirm();
 
+  const ipNumberParts = ipNumber ? ipNumber.split("/") : ["", "", ""];
+  const [editIpNumberA, setEditIpNumberA] = useState(ipNumberParts[0] ?? "");
+  const [editIpNumberB, setEditIpNumberB] = useState(ipNumberParts[1] ?? "");
+  const [editIpNumberC, setEditIpNumberC] = useState(ipNumberParts[2] ?? "");
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editIpTitle, setEditIpTitle] = useState(ipTitle ?? "");
-  const [editIpNumber, setEditIpNumber] = useState(ipNumber ?? "");
   const [editFilingDate, setEditFilingDate] = useState<Date | null>(
     filingDate ? fromSupabaseDate(filingDate) : null,
   );
@@ -62,12 +66,20 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
     if (!isOpen) return;
 
     setEditIpTitle(ipTitle ?? "");
-    setEditIpNumber(ipNumber ?? "");
+    setEditIpNumberA(ipNumberParts[0] ?? "");
+    setEditIpNumberB(ipNumberParts[1] ?? "");
+    setEditIpNumberC(ipNumberParts[2] ?? "");
     setEditFilingDate(filingDate ? fromSupabaseDate(filingDate) : null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, ipTitle, ipNumber, filingDate]);
 
   const trimmedTitle = editIpTitle.trim();
-  const trimmedNumber = editIpNumber.trim();
+  const trimmedNumber =
+    editIpNumberA.trim() +
+    "/" +
+    editIpNumberB.trim() +
+    "/" +
+    editIpNumberC.trim();
 
   const noChangesMade = useMemo(() => {
     const isTitleSame = trimmedTitle === (ipTitle ?? "");
@@ -103,6 +115,17 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
 
     if (!trimmedTitle) {
       toast.error("IP title is required.");
+      return;
+    }
+
+    const lenNumberBlank = trimmedNumber
+      .split("/")
+      .filter((part) => part === "").length;
+
+    if (lenNumberBlank > 0 && lenNumberBlank < 3) {
+      toast.error(
+        "Please fill out all parts of the IP number or leave it blank.",
+      );
       return;
     }
 
@@ -170,19 +193,39 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
                 className="focus:border-brand-500 focus:ring-brand-500 w-full resize-y rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-1 focus:outline-none"
               />
             </div>
-
+            {/* IP number */}
             <div className="col-span-1">
               <Label>IP Number</Label>
-              <Input
-                type="text"
-                value={editIpNumber}
-                defaultValue={editIpNumber}
-                placeholder="Enter IP number"
-                onChange={(e) => setEditIpNumber(e.target.value)}
-                className="h-11"
-              />
+              <div className="flex flex-row items-center gap-1">
+                <Input
+                  type="text"
+                  value={editIpNumberA}
+                  defaultValue={editIpNumberA}
+                  placeholder="mm"
+                  onChange={(e) => setEditIpNumberA(e.target.value)}
+                  className="h-11 w-15! text-center"
+                />
+                <p>/</p>
+                <Input
+                  type="text"
+                  value={editIpNumberB}
+                  defaultValue={editIpNumberB}
+                  placeholder="yyyy"
+                  onChange={(e) => setEditIpNumberB(e.target.value)}
+                  className="h-11 w-18! text-center"
+                />
+                <p>/</p>
+                <Input
+                  type="text"
+                  value={editIpNumberC}
+                  defaultValue={editIpNumberC}
+                  placeholder="xxxxxx"
+                  onChange={(e) => setEditIpNumberC(e.target.value)}
+                  className="h-11 text-center"
+                />
+              </div>
             </div>
-
+            {/* Filing date */}
             <div className="col-span-1 flex w-full shrink-0 flex-col items-start gap-1">
               <span className="font-medium text-slate-800">Filing Date</span>
 

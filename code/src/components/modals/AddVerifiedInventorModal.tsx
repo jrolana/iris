@@ -21,9 +21,6 @@ export default function AddVerifiedInventorModal() {
       isOpen={isOpen}
       onChange={closeModal}
     >
-      {/* Fix: Applied the responsive width constraints from StatusUpdateForm 
-        min-w-[85vw] prevents squishing on mobile, sm:min-w-[480px] stabilizes desktop
-      */}
       <div className="flex w-full max-w-lg min-w-[85vw] flex-col items-center sm:min-w-[480px]">
         {/* Custom Tab Switcher */}
         <div className="mb-6 flex rounded-lg bg-slate-100 p-1">

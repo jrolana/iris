@@ -11,6 +11,8 @@ import InventorViewReportsModals from "@/components/modals/InventorViewReportsMo
 import LinkInventorModal from "@/components/modals/LinkInventorModal";
 import StatusUpdateModal from "@/components/modals/StatusUpdateModal";
 import UploadFilesModal from "@/components/modals/UploadFilesModal";
+import AddNewVerifiedInventorModal from "@/components/modals/AddNewVerifiedInventorModal";
+import RemoveInventorModal from "@/components/modals/RemoveInventorModal";
 
 function ModalProvider() {
   const [isMounted, setIsMounted] = useState(false);
@@ -34,6 +36,8 @@ function ModalProvider() {
       <InventorViewReportsModals />
       <AddVerifiedInventorModal />
       <ConfirmationModal />
+      <AddNewVerifiedInventorModal />
+      <RemoveInventorModal />
     </>
   );
 }
