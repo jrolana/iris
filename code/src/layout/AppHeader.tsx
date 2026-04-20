@@ -28,12 +28,14 @@ interface PropsInterface {
   isPublic?: boolean;
   isFullWidth?: boolean;
   isAdmin?: boolean;
+  showNotifications?: boolean;
 }
 
 const AppHeader: React.FC<PropsInterface> = ({
   isPublic,
   isFullWidth = false,
   isAdmin = false,
+  showNotifications = true,
 }) => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
@@ -160,7 +162,9 @@ const AppHeader: React.FC<PropsInterface> = ({
             <>
               <div className="flex gap-4">
                 {isAdmin && <PingsDropdown />}
-                <NotificationDropdown isAdmin={isAdmin} />
+                {showNotifications && (
+                  <NotificationDropdown isAdmin={isAdmin} />
+                )}
               </div>
               <UserDropdown />
             </>

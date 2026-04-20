@@ -21,6 +21,7 @@ export const DASHBOARD_STATUS_LABELS: Record<DashboardStatus, string> = {
 };
 
 export type SummaryTableRow = {
+  year: number;
   ipType: string;
   filed: number;
   pending: number;
@@ -52,55 +53,55 @@ export const formatIpTypeLabel = (ipType: string) => {
 export const buildSummaryTableRows = (
   filteredData: DashboardAnalyticsType[],
 ): SummaryTableRow[] => {
-  const ipTypesFromData = Array.from(
-    new Set(filteredData.map((item) => item.ip_type).filter(Boolean)),
-  ) as string[];
+  const groupedRows = new Map<string, Omit<SummaryTableRow, "total">>();
 
-  const orderedIpTypes = [
-    ...IP_TYPES.filter((ipType) => ipTypesFromData.includes(ipType)),
-    ...ipTypesFromData.filter(
-      (ipType) =>
-        !IP_TYPES.includes(ipType as (typeof IP_TYPES)[number]),
-    ),
-  ];
+  filteredData.forEach((item) => {
+    if (!item.ip_type || item.year === null) return;
+    if (!STATUS_ORDER.includes(item.dashboard_status as DashboardStatus)) {
+      return;
+    }
 
-  return orderedIpTypes.map((ipType) => {
-    const row: Omit<SummaryTableRow, "total"> = {
-      ipType,
-      filed: 0,
-      pending: 0,
-      granted: 0,
-      withdrawn: 0,
-      downgraded: 0,
-    };
+    const year = Number(item.year);
+    const key = `${year}:${item.ip_type}`;
 
-    filteredData.forEach((item) => {
-      if (item.ip_type !== ipType) return;
-      if (
-        !STATUS_ORDER.includes(item.dashboard_status as DashboardStatus)
-      ) {
-        return;
-      }
+    if (!groupedRows.has(key)) {
+      groupedRows.set(key, {
+        year,
+        ipType: item.ip_type,
+        filed: 0,
+        pending: 0,
+        granted: 0,
+        withdrawn: 0,
+        downgraded: 0,
+      });
+    }
 
-      const status = item.dashboard_status as DashboardStatus;
-      row[status] += Number(item.total ?? 0);
-    });
+    const row = groupedRows.get(key)!;
+    const status = item.dashboard_status as DashboardStatus;
+    row[status] += Number(item.total ?? 0);
+  });
 
-    return {
+  return Array.from(groupedRows.values())
+    .map((row) => ({
       ...row,
       total:
-        row.filed +
-        row.pending +
-        row.granted +
-        row.withdrawn +
-        row.downgraded,
-    };
-  });
+        row.filed + row.pending + row.granted + row.withdrawn + row.downgraded,
+    }))
+    .sort((a, b) => {
+      if (a.year !== b.year) return a.year - b.year;
+
+      const aIndex = IP_TYPES.indexOf(a.ipType as (typeof IP_TYPES)[number]);
+      const bIndex = IP_TYPES.indexOf(b.ipType as (typeof IP_TYPES)[number]);
+
+      if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+      if (aIndex !== -1) return -1;
+      if (bIndex !== -1) return 1;
+
+      return a.ipType.localeCompare(b.ipType);
+    });
 };
 
-export const buildSummaryTotals = (
-  rows: SummaryTableRow[],
-): SummaryTotals => {
+export const buildSummaryTotals = (rows: SummaryTableRow[]): SummaryTotals => {
   return rows.reduce(
     (acc, row) => {
       acc.filed += row.filed;

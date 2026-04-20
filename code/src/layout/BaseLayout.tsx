@@ -15,6 +15,7 @@ interface BaseLayoutProps {
   isPublic?: boolean;
   isFullWidth?: boolean;
   isAdmin?: boolean;
+  showNotifications?: boolean;
 }
 
 export default function BaseLayout({
@@ -24,6 +25,7 @@ export default function BaseLayout({
   isPublic = false,
   isFullWidth = false,
   isAdmin = false,
+  showNotifications = true,
 }: BaseLayoutProps) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
@@ -54,6 +56,7 @@ export default function BaseLayout({
           isPublic={isPublic}
           isFullWidth={isFullWidth}
           isAdmin={isAdmin}
+          showNotifications={showNotifications}
         />
 
         {/* Page Content */}

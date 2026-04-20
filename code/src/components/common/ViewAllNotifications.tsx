@@ -4,13 +4,19 @@ import { useState } from "react";
 import { useGetNotifications } from "@/hooks/notifications/useGetNotifications";
 import { useMarkAsRead } from "@/hooks/notifications/useMarkAsRead";
 import { formatDateTime, formatTime } from "@/lib/helper/format-date";
+import { getNotificationApplicationLink } from "@/lib/helper/get-notification-application-link";
 import { isToday } from "date-fns";
 import Button from "@/components/ui/button/Button";
 import { useRouter } from "next/navigation";
 
 type FilterType = "all" | "unread" | "read";
 
-export default function ViewAllNotifications() {
+interface ViewAllNotificationsProps {
+  isAdmin?: boolean;
+}
+
+export default function ViewAllNotifications(props: ViewAllNotificationsProps) {
+  const { isAdmin = false } = props;
   const { notifications, isLoading, isFetching } = useGetNotifications();
   const {
     markNotificationAsRead,
@@ -25,9 +31,17 @@ export default function ViewAllNotifications() {
   const unreadCount =
     notifications?.filter((n) => n.read_at === null).length ?? 0;
 
-  async function markAsRead(notifId: string, readAt: null | string) {
-    if (readAt) return;
-    await markNotificationAsRead({ notifId });
+  async function handleNotificationClick(
+    notifId: string,
+    readAt: null | string,
+    applicationId: string | null,
+  ) {
+    if (!readAt) {
+      await markNotificationAsRead({ notifId });
+    }
+
+    const href = getNotificationApplicationLink(applicationId, isAdmin);
+    if (href) router.push(href);
   }
 
   async function markAllAsRead() {
@@ -177,7 +191,13 @@ export default function ViewAllNotifications() {
               return (
                 <li key={notif.id}>
                   <Button
-                    onClick={() => markAsRead(notif.id, notif.read_at)}
+                    onClick={() =>
+                      handleNotificationClick(
+                        notif.id,
+                        notif.read_at,
+                        notif.application_id,
+                      )
+                    }
                     size="md"
                     variant="outline"
                     disabled={isMarkingAll || isThisNotifLoading}
@@ -214,6 +234,12 @@ export default function ViewAllNotifications() {
                         <p className="mt-0.5 text-sm break-words text-gray-500">
                           {notif.content}
                         </p>
+
+                        {notif.application_id && (
+                          <p className="mt-1 text-sm font-medium text-orange-600">
+                            Open application
+                          </p>
+                        )}
 
                         <p className="mt-1 text-xs text-gray-400">
                           {notif.created_at &&

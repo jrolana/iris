@@ -4,13 +4,6 @@ import {
   formatIpTypeLabel,
 } from "@/lib/dashboard/dashboard-summary";
 
-type ExportDashboardCsvParams = {
-  yearFrom: number;
-  yearTo: number;
-  summaryTableRows: SummaryTableRow[];
-  summaryTotals: SummaryTotals;
-};
-
 type ChartLabelItem = {
   label: string;
   value: string | number;
@@ -21,6 +14,7 @@ type ChartExportItem = {
   title: string;
   subtitle?: string;
   labels?: ChartLabelItem[];
+  hasData?: boolean;
 };
 
 type ExportDashboardPdfParams = {
@@ -30,90 +24,18 @@ type ExportDashboardPdfParams = {
   chartExports: ChartExportItem[];
   summaryTableRows: SummaryTableRow[];
   summaryTotals: SummaryTotals;
+  includeWatermark?: boolean;
 };
 
 type ApexDataUriResult = {
   imgURI: string;
 };
 
+const UNIVERSITY_NAME = "University Of The Philippines Visayas";
+const UPV_LOGO_PATH = "/images/upv-logo.png";
+const GRANT_RATE_CHART_ID = "dashboard-grant-rate-donut";
+
 type JsPDFInstance = import("jspdf").jsPDF;
-
-const downloadBlob = (blob: Blob, filename: string) => {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-
-  link.href = url;
-  link.download = filename;
-
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  URL.revokeObjectURL(url);
-};
-
-const escapeCsvValue = (value: string | number | null | undefined) => {
-  const stringValue = String(value ?? "");
-
-  if (
-    stringValue.includes(",") ||
-    stringValue.includes('"') ||
-    stringValue.includes("\n")
-  ) {
-    return `"${stringValue.replace(/"/g, '""')}"`;
-  }
-
-  return stringValue;
-};
-
-export const exportDashboardCsv = ({
-  yearFrom,
-  yearTo,
-  summaryTableRows,
-  summaryTotals,
-}: ExportDashboardCsvParams) => {
-  const lines: string[] = [];
-
-  lines.push("IP Portfolio Dashboard Export");
-  lines.push(`Timeline,${escapeCsvValue(`${yearFrom}-${yearTo}`)}`);
-  lines.push(`Exported At,${escapeCsvValue(new Date().toISOString())}`);
-  lines.push("");
-
-  lines.push("SUMMARY TABLE");
-  lines.push("IP Type,Filed,Pending,Granted,Withdrawn,Downgraded,Total");
-
-  summaryTableRows.forEach((row) => {
-    lines.push(
-      [
-        escapeCsvValue(formatIpTypeLabel(row.ipType)),
-        escapeCsvValue(row.filed),
-        escapeCsvValue(row.pending),
-        escapeCsvValue(row.granted),
-        escapeCsvValue(row.withdrawn),
-        escapeCsvValue(row.downgraded),
-        escapeCsvValue(row.total),
-      ].join(","),
-    );
-  });
-
-  lines.push(
-    [
-      escapeCsvValue("Grand Total"),
-      escapeCsvValue(summaryTotals.filed),
-      escapeCsvValue(summaryTotals.pending),
-      escapeCsvValue(summaryTotals.granted),
-      escapeCsvValue(summaryTotals.withdrawn),
-      escapeCsvValue(summaryTotals.downgraded),
-      escapeCsvValue(summaryTotals.total),
-    ].join(","),
-  );
-
-  const blob = new Blob([lines.join("\n")], {
-    type: "text/csv;charset=utf-8;",
-  });
-
-  downloadBlob(blob, `ip-portfolio-${yearFrom}-${yearTo}.csv`);
-};
 
 const getChartImage = async (chartId: string) => {
   if (typeof window === "undefined") {
@@ -128,6 +50,22 @@ const getChartImage = async (chartId: string) => {
   })) as ApexDataUriResult;
 
   return result.imgURI;
+};
+
+const getImageDataUri = async (path: string) => {
+  const response = await fetch(path);
+  if (!response.ok) {
+    throw new Error(`Unable to load image: ${path}`);
+  }
+
+  const blob = await response.blob();
+
+  return await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(String(reader.result));
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 };
 
 const drawText = (
@@ -149,6 +87,187 @@ const drawSectionHeader = (
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(12);
   drawText(pdf, title, margin, y);
+};
+
+const drawUniversityLogo = (
+  pdf: JsPDFInstance,
+  logoDataUri: string | null,
+  x: number,
+  y: number,
+  maxWidth: number,
+  maxHeight: number,
+) => {
+  if (logoDataUri) {
+    const imageProps = pdf.getImageProperties(logoDataUri);
+    const rawWidth = imageProps.width || 1;
+    const rawHeight = imageProps.height || 1;
+    const ratio = Math.min(maxWidth / rawWidth, maxHeight / rawHeight);
+    const width = rawWidth * ratio;
+    const height = rawHeight * ratio;
+
+    pdf.addImage(logoDataUri, "PNG", x, y, width, height);
+    return;
+  }
+
+  pdf.setDrawColor(22, 101, 52);
+  pdf.setFillColor(240, 253, 244);
+  pdf.circle(x + maxHeight / 2, y + maxHeight / 2, maxHeight / 2, "FD");
+};
+
+const drawWatermark = (
+  pdf: JsPDFInstance,
+  pageWidth: number,
+  pageHeight: number,
+) => {
+  pdf.saveGraphicsState();
+  pdf.setGState(pdf.GState({ opacity: 0.12 }));
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(28);
+  pdf.setTextColor(107, 114, 128);
+  drawText(pdf, UNIVERSITY_NAME, pageWidth / 2, pageHeight / 2, {
+    align: "center",
+    angle: -30,
+  });
+  pdf.restoreGraphicsState();
+};
+
+const drawNoChartCard = (
+  pdf: JsPDFInstance,
+  title: string,
+  subtitle: string | undefined,
+  margin: number,
+  cursorY: number,
+  contentWidth: number,
+) => {
+  const cardHeight = subtitle ? 24 : 20;
+
+  pdf.setFillColor(255, 255, 255);
+  pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "F");
+
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(11);
+  pdf.setTextColor(17, 24, 39);
+  drawText(pdf, title, margin + 6, cursorY + 7);
+
+  if (subtitle) {
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    pdf.setTextColor(107, 114, 128);
+    drawText(pdf, subtitle, margin + 6, cursorY + 12);
+  }
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(9);
+  pdf.setTextColor(107, 114, 128);
+  drawText(
+    pdf,
+    "No chart available for the selected range.",
+    margin + 6,
+    cursorY + (subtitle ? 18 : 13),
+  );
+
+  return cardHeight;
+};
+
+const drawArc = (
+  pdf: JsPDFInstance,
+  centerX: number,
+  centerY: number,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+) => {
+  const segmentCount = Math.max(2, Math.ceil((endAngle - startAngle) / 0.08));
+  let previousX = centerX + Math.cos(startAngle) * radius;
+  let previousY = centerY + Math.sin(startAngle) * radius;
+
+  for (let index = 1; index <= segmentCount; index += 1) {
+    const angle = startAngle + ((endAngle - startAngle) * index) / segmentCount;
+    const currentX = centerX + Math.cos(angle) * radius;
+    const currentY = centerY + Math.sin(angle) * radius;
+
+    pdf.line(previousX, previousY, currentX, currentY);
+
+    previousX = currentX;
+    previousY = currentY;
+  }
+};
+
+const drawGrantRateCard = (
+  pdf: JsPDFInstance,
+  chart: ChartExportItem,
+  summaryTotals: SummaryTotals,
+  yearFrom: number,
+  yearTo: number,
+  margin: number,
+  cursorY: number,
+  contentWidth: number,
+) => {
+  const cardHeight = 70;
+  const filed = summaryTotals.filed;
+  const granted = summaryTotals.granted;
+  const rate =
+    filed > 0 ? Math.min(100, Math.max(0, (granted / filed) * 100)) : 0;
+  const displayRate = Number.isInteger(rate)
+    ? rate.toString()
+    : rate.toFixed(2);
+
+  pdf.setFillColor(255, 255, 255);
+  pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "F");
+
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(12);
+  pdf.setTextColor(17, 24, 39);
+  drawText(pdf, chart.title, margin + 6, cursorY + 8);
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(9);
+  pdf.setTextColor(107, 114, 128);
+  drawText(
+    pdf,
+    chart.subtitle ??
+      `Percent of filed applications that were granted, ${yearFrom}-${yearTo}`,
+    margin + 6,
+    cursorY + 14,
+  );
+
+  const centerX = margin + contentWidth / 2;
+  const centerY = cursorY + 50;
+  const radius = 28;
+  const startAngle = Math.PI;
+  const endAngle = Math.PI * 2;
+  const progressAngle = startAngle + (Math.PI * rate) / 100;
+
+  pdf.saveGraphicsState();
+  pdf.setLineWidth(5);
+  pdf.setLineCap("round");
+  pdf.setDrawColor(228, 231, 236);
+  drawArc(pdf, centerX, centerY, radius, startAngle, endAngle);
+
+  if (rate > 0) {
+    pdf.setDrawColor(70, 95, 255);
+    drawArc(pdf, centerX, centerY, radius, startAngle, progressAngle);
+  }
+  pdf.restoreGraphicsState();
+
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(18);
+  pdf.setTextColor(17, 24, 39);
+  drawText(pdf, `${displayRate}%`, centerX, cursorY + 45, { align: "center" });
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(8);
+  pdf.setTextColor(107, 114, 128);
+  drawText(pdf, "Grant Rate", centerX, cursorY + 50, { align: "center" });
+  drawText(
+    pdf,
+    `Filed: ${filed}   Granted: ${granted}`,
+    centerX,
+    cursorY + 62,
+    { align: "center" },
+  );
+
+  return cardHeight;
 };
 
 const drawLabelChips = (
@@ -193,6 +312,7 @@ export const exportDashboardPdf = async ({
   chartExports,
   summaryTableRows,
   summaryTotals,
+  includeWatermark = true,
 }: ExportDashboardPdfParams) => {
   if (typeof window === "undefined") return;
 
@@ -209,6 +329,7 @@ export const exportDashboardPdf = async ({
   const margin = 14;
   const contentWidth = pageWidth - margin * 2;
   const bottomLimit = pageHeight - 14;
+  const logoDataUri = await getImageDataUri(UPV_LOGO_PATH).catch(() => null);
 
   let cursorY = 18;
 
@@ -220,15 +341,22 @@ export const exportDashboardPdf = async ({
   };
 
   const drawPageTitle = () => {
+    drawUniversityLogo(pdf, logoDataUri, margin, cursorY - 8, 100, 100);
+    cursorY += 25;
+
     pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(16);
-    drawText(pdf, "IP Portfolio Dashboard Report", margin, cursorY);
-    cursorY += 8;
+    pdf.setFontSize(12);
+    pdf.setTextColor(17, 24, 39);
+    drawText(pdf, UNIVERSITY_NAME, margin, cursorY);
+
+    pdf.setFontSize(15);
+    drawText(pdf, "IP Portfolio Dashboard Report", margin, cursorY + 7);
+    cursorY += 14;
 
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(10);
     pdf.setTextColor(75, 85, 99);
-    drawText(pdf, `Timeline: ${yearFrom}–${yearTo}`, margin, cursorY);
+    drawText(pdf, `Range: ${yearFrom}–${yearTo}`, margin, cursorY);
     cursorY += 5;
 
     drawText(
@@ -244,6 +372,36 @@ export const exportDashboardPdf = async ({
   drawPageTitle();
 
   for (const chart of chartExports) {
+    if (chart.chartId === GRANT_RATE_CHART_ID) {
+      ensureSpace(78);
+      const cardHeight = drawGrantRateCard(
+        pdf,
+        chart,
+        summaryTotals,
+        yearFrom,
+        yearTo,
+        margin,
+        cursorY,
+        contentWidth,
+      );
+      cursorY += cardHeight + 8;
+      continue;
+    }
+
+    if (chart.hasData === false) {
+      ensureSpace(26);
+      const cardHeight = drawNoChartCard(
+        pdf,
+        chart.title,
+        chart.subtitle,
+        margin,
+        cursorY,
+        contentWidth,
+      );
+      cursorY += cardHeight + 8;
+      continue;
+    }
+
     try {
       const imgURI = await getChartImage(chart.chartId);
 
@@ -267,9 +425,8 @@ export const exportDashboardPdf = async ({
 
       ensureSpace(cardHeight);
 
-      pdf.setDrawColor(229, 231, 235);
       pdf.setFillColor(255, 255, 255);
-      pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "FD");
+      pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "F");
 
       let cardY = cursorY + 8;
 
@@ -299,39 +456,33 @@ export const exportDashboardPdf = async ({
 
       cursorY += cardHeight + 8;
     } catch {
-      ensureSpace(16);
-
-      pdf.setDrawColor(229, 231, 235);
-      pdf.setFillColor(255, 255, 255);
-      pdf.roundedRect(margin, cursorY, contentWidth, 16, 3, 3, "FD");
-
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(11);
-      pdf.setTextColor(17, 24, 39);
-      drawText(pdf, chart.title, margin + 6, cursorY + 6);
-
-      pdf.setFont("helvetica", "normal");
-      pdf.setFontSize(9);
-      pdf.setTextColor(107, 114, 128);
-      drawText(
+      ensureSpace(26);
+      const cardHeight = drawNoChartCard(
         pdf,
-        "This chart could not be exported.",
-        margin + 6,
-        cursorY + 11,
+        chart.title,
+        chart.subtitle,
+        margin,
+        cursorY,
+        contentWidth,
       );
-
-      cursorY += 24;
+      cursorY += cardHeight + 8;
     }
   }
 
   ensureSpace(18);
-  drawSectionHeader(pdf, "Detailed Breakdown", margin, cursorY);
+  drawSectionHeader(
+    pdf,
+    `Detailed Breakdown (${yearFrom}–${yearTo})`,
+    margin,
+    cursorY,
+  );
   cursorY += 4;
 
   autoTable(pdf, {
     startY: cursorY,
     head: [
       [
+        "Year",
         "IP Type",
         "Filed",
         "Pending",
@@ -343,6 +494,7 @@ export const exportDashboardPdf = async ({
     ],
     body: [
       ...summaryTableRows.map((row) => [
+        row.year,
         formatIpTypeLabel(row.ipType),
         row.filed,
         row.pending,
@@ -352,6 +504,7 @@ export const exportDashboardPdf = async ({
         row.total,
       ]),
       [
+        `${yearFrom}-${yearTo}`,
         "Grand Total",
         summaryTotals.filed,
         summaryTotals.pending,
@@ -384,6 +537,9 @@ export const exportDashboardPdf = async ({
 
   for (let i = 1; i <= pageCount; i += 1) {
     pdf.setPage(i);
+    if (includeWatermark) {
+      drawWatermark(pdf, pageWidth, pageHeight);
+    }
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(8);
     pdf.setTextColor(107, 114, 128);

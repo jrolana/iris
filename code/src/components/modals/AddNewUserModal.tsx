@@ -11,10 +11,11 @@ import { useModal } from "@/hooks/useModal";
 import SuccessModal from "./SuccessModal";
 import ErrorModal from "./ErrorModal";
 import { inviteUser } from "@/app/actions/invite-user";
-import Select, { Option } from "../form/Select";
+import Select from "../form/Select";
 import { ChevronDownIcon } from "lucide-react";
 import { UserSchema } from "@/lib/schemas/user";
 import { useConfirm } from "@/hooks/useConfirm";
+import { ROLE_OPTIONS } from "@/lib/constants/roles";
 
 function AddNewUserModal() {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,12 +32,6 @@ function AddNewUserModal() {
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [role, setRole] = useState<string>("");
   const [isRoleValid, setIsRoleValid] = useState(true);
-
-  const roles: Option[] = [
-    { value: "admin", label: "Admin" },
-    { value: "techgen", label: "Techgen" },
-    { value: "up-official", label: "UP Official" },
-  ];
 
   function resetForm() {
     setEmail("");
@@ -126,7 +121,7 @@ function AddNewUserModal() {
               <div className="relative">
                 <Select
                   selectedValue={role}
-                  options={roles}
+                  options={ROLE_OPTIONS}
                   defaultValue={role}
                   onChange={handleRoleChange}
                   placeholder="Select a role"

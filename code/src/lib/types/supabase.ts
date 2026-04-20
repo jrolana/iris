@@ -476,6 +476,7 @@ export type Database = {
           id: string
           invite_expires_at: string | null
           other_college_name: string | null
+          rejection_reason: string | null
           requested_at: string
           role: Database["private"]["Enums"]["user_role"]
           status: Database["private"]["Enums"]["registrationrequestsstatus"]
@@ -488,6 +489,7 @@ export type Database = {
           id?: string
           invite_expires_at?: string | null
           other_college_name?: string | null
+          rejection_reason?: string | null
           requested_at?: string
           role: Database["private"]["Enums"]["user_role"]
           status?: Database["private"]["Enums"]["registrationrequestsstatus"]
@@ -500,6 +502,7 @@ export type Database = {
           id?: string
           invite_expires_at?: string | null
           other_college_name?: string | null
+          rejection_reason?: string | null
           requested_at?: string
           role?: Database["private"]["Enums"]["user_role"]
           status?: Database["private"]["Enums"]["registrationrequestsstatus"]
@@ -522,6 +525,7 @@ export type Database = {
           external_institution: string | null
           full_name: string
           id: string
+          image_url: string | null
           is_active: boolean
           other_college_name: string | null
           role: Database["private"]["Enums"]["user_role"]
@@ -533,6 +537,7 @@ export type Database = {
           external_institution?: string | null
           full_name: string
           id?: string
+          image_url?: string | null
           is_active?: boolean
           other_college_name?: string | null
           role?: Database["private"]["Enums"]["user_role"]
@@ -544,6 +549,7 @@ export type Database = {
           external_institution?: string | null
           full_name?: string
           id?: string
+          image_url?: string | null
           is_active?: boolean
           other_college_name?: string | null
           role?: Database["private"]["Enums"]["user_role"]
@@ -659,6 +665,7 @@ export type Database = {
           funding_agency: string
           id: string
           inventors: Json
+          ip_number: string
           ip_title: string
           ip_type: string
           is_archived: boolean
@@ -670,17 +677,6 @@ export type Database = {
         }[]
       }
       search_users_for_linking: {
-        Args: { excluded_ids?: string[]; search_query: string }
-        Returns: {
-          college_code: string
-          email: string
-          external_institution: string
-          full_name: string
-          id: string
-          other_college_name: string
-        }[]
-      }
-      search_users_for_linking_secure: {
         Args: { excluded_ids?: string[]; search_query: string }
         Returns: {
           college_code: string

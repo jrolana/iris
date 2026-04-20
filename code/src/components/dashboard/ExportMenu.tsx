@@ -10,7 +10,6 @@ import type {
   buildSummaryTableRows,
   buildSummaryTotals,
 } from "@/lib/dashboard/dashboard-summary";
-import { cn } from "@/lib/utils";
 
 type SummaryTableRows = ReturnType<typeof buildSummaryTableRows>;
 type SummaryTotals = ReturnType<typeof buildSummaryTotals>;
@@ -28,34 +27,7 @@ export default function ExportMenu({
   summaryTableRows,
   summaryTotals,
 }: ExportMenuProps) {
-  const [showExportMenu, setShowExportMenu] = useState(false);
-  const [isExportingCsv, setIsExportingCsv] = useState(false);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
-
-  const isExporting = isExportingCsv || isExportingPdf;
-
-  const handleExportCsv = async () => {
-    try {
-      setIsExportingCsv(true);
-
-      const { exportDashboardCsv } =
-        await import("@/lib/dashboard/dashboard-export");
-
-      exportDashboardCsv({
-        yearFrom,
-        yearTo,
-        summaryTableRows,
-        summaryTotals,
-      });
-
-      setShowExportMenu(false);
-      toast.success("CSV exported successfully.");
-    } catch (error) {
-      toast.error("Failed to export CSV: " + error);
-    } finally {
-      setIsExportingCsv(false);
-    }
-  };
 
   const handleExportPdf = async () => {
     try {
@@ -73,7 +45,6 @@ export default function ExportMenu({
         summaryTotals,
       });
 
-      setShowExportMenu(false);
       toast.success("PDF exported successfully.");
     } catch (error) {
       toast.error("Failed to export PDF: " + error);
@@ -83,63 +54,18 @@ export default function ExportMenu({
   };
 
   return (
-    <div className="relative">
-      <Button
-        startIcon={
-          isExporting ? (
-            <Loader2 size={18} className="transform-gpu animate-spin" />
-          ) : (
-            <Download size={18} />
-          )
-        }
-        onClick={() => {
-          if (isExporting) return;
-          setShowExportMenu((prev) => !prev);
-        }}
-        disabled={isExporting}
-      >
-        {isExporting ? "Exporting..." : "Export"}
-      </Button>
-
-      {showExportMenu && (
-        <div className="absolute top-12 right-0 z-20 w-48 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
-          <button
-            type="button"
-            onClick={handleExportCsv}
-            disabled={isExporting}
-            className={cn(
-              "flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm",
-              isExporting
-                ? "cursor-not-allowed text-gray-400"
-                : "text-gray-700 hover:bg-gray-50",
-            )}
-          >
-            <span>{isExportingCsv ? "Exporting CSV..." : "Export CSV"}</span>
-
-            {isExportingCsv && (
-              <Loader2 className="h-4 w-4 transform-gpu animate-spin" />
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={handleExportPdf}
-            disabled={isExporting}
-            className={cn(
-              "flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm",
-              isExporting
-                ? "cursor-not-allowed text-gray-400"
-                : "text-gray-700 hover:bg-gray-50",
-            )}
-          >
-            <span>{isExportingPdf ? "Exporting PDF..." : "Export PDF"}</span>
-
-            {isExportingPdf && (
-              <Loader2 className="h-4 w-4 transform-gpu animate-spin" />
-            )}
-          </button>
-        </div>
-      )}
-    </div>
+    <Button
+      startIcon={
+        isExportingPdf ? (
+          <Loader2 size={18} className="transform-gpu animate-spin" />
+        ) : (
+          <Download size={18} />
+        )
+      }
+      onClick={handleExportPdf}
+      disabled={isExportingPdf}
+    >
+      {isExportingPdf ? "Exporting PDF..." : "Export PDF"}
+    </Button>
   );
 }

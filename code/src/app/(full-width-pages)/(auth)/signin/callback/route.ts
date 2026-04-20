@@ -78,27 +78,11 @@ export async function GET(request: Request) {
     );
   }
 
-  // Fetch user role once during callback
-  const { data: userRole, error: userError } =
-    await supabase.rpc("get_user_role");
+  // Fetch user role
+  const { data: userRole, error: userError } = await supabase.rpc('get_user_role')
+  if (userError || !userRole) return redirectWithError('Unable to determine your account role. Please contact ttbdo.upvisayas@up.edu.ph.')
 
-  if (userError || !userRole) {
-    return redirectWithError(
-      "Unable to determine your account role. Please contact support.",
-    );
-  }
-
-  const role = userRole as Role;
-  const home = ROLE_CONFIG[role]?.home ?? "/";
-
-  const redirectResponse = NextResponse.redirect(`${origin}${home}`);
-
-  // Save role so proxy does not need to query DB on every protected route visit
-  redirectResponse.cookies.set("user-role", role, {
-    path: "/",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24,
-  });
-
-  return redirectResponse;
+  // Redirect to the user's role home page
+  const home = ROLE_CONFIG[userRole as Role ]?.home ?? '/';
+  return NextResponse.redirect(`${origin}${home}`);
 }
