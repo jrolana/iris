@@ -1,8 +1,6 @@
 "use server";
 
 import { RegistrationRequestType } from "@/lib/types/users";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 import { supabaseAdmin } from "../../../utils/supabase/admin";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
@@ -36,21 +34,7 @@ export async function inviteUser(props: PropsInterface) {
         throw new Error("Only admins can invite users.");
     }
 
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: (cookieList) =>
-          cookieList.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options),
-          ),
-      },
-    },
-  );
-
+    
   const {
     data: { user },
     error: userError,
