@@ -40,4 +40,5 @@ pentest.env
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
+/pentest-results
+pentest.env

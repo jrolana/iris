@@ -8,15 +8,15 @@ USING (
   private.is_admin()
 );
 
-
-
-
 DROP POLICY IF EXISTS "Enable read access for all users"
 ON private.users;
-CREATE POLICY "Enable read access for all users"
+DROP POLICY IF EXISTS "Users can read self, admins read all"
+ON private.users;
+CREATE POLICY "Users can read self, admins read all"
 ON private.users
 FOR SELECT
 TO authenticated
 USING (
-  true
+  id = auth.uid()
+  OR private.is_admin()
 );

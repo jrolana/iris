@@ -82,7 +82,8 @@ export async function GET(request: Request) {
   const { data: userRole, error: userError } = await supabase.rpc('get_user_role')
   if (userError || !userRole) return redirectWithError('Unable to determine your account role. Please contact ttbdo.upvisayas@up.edu.ph.')
 
-  // Redirect to the user's role home page
-  const home = ROLE_CONFIG[userRole as Role ]?.home ?? '/';
+  const role = userRole as Role;
+  const home = ROLE_CONFIG[role]?.home ?? "/";
+
   return NextResponse.redirect(`${origin}${home}`);
 }

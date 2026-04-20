@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin as supabase } from '@/../utils/supabase/admin'; // Adjust path if needed
 
+const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL ?? '';
+
 // CORS headers to allow external access
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*', // Allows requests from any origin.
+  'Access-Control-Allow-Origin': allowedOrigin,
   'Access-Control-Allow-Methods': 'GET, OPTIONS', // Allowed HTTP methods
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Vary': 'Origin',
 };
 
 // OPTIONS handler for the browser's preflight check
@@ -31,7 +34,7 @@ export async function GET(request: Request) {
   // Validate the token against the database
   const { data: tokenData, error: tokenError } = await supabase.schema("private")
     .from('api_tokens')
-    .select('*')
+    .select('id')
     .eq('token', token)
     .single();
 
@@ -43,7 +46,10 @@ export async function GET(request: Request) {
   }
   
   // Fetch users from the database if the token is valid
-  const { data: users, error: usersError } = await supabase.schema("private").from('users') .select('*');
+  const { data: users, error: usersError } = await supabase
+    .schema("private")
+    .from('users')
+    .select('id, full_name, role, college_code, other_college_name, external_institution, is_active');
 
   if (usersError) throw usersError;
 
@@ -53,8 +59,9 @@ export async function GET(request: Request) {
   );
 
   } catch (error) {
+    console.error("Unable to fetch API users", error);
     return NextResponse.json(
-      { error: 'Internal Server Error: ' + error }, 
+      { error: 'Internal Server Error' }, 
       { status: 500, headers: corsHeaders }
     );
   }
