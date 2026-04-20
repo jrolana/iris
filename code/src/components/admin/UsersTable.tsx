@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useGetUsers } from "@/hooks/users/useGetUsers";
+import { useUpdateUserRole } from "@/hooks/users/useUpdateUserRole";
 import useAddNewUserModal from "@/hooks/useAddNewUserModal";
 import { filterUsers } from "@/lib/helper/filter-users";
 
@@ -14,24 +15,32 @@ import {
 } from "../ui/table";
 import Link from "next/link";
 import Button from "../ui/button/Button";
-import { PlusIcon } from "lucide-react";
 import { ActiveFilters } from "./filter/ActiveFilters";
 import { FilterPanel } from "./filter/FilterPanel";
-import { FilterIcon, Loader } from "lucide-react";
+import { FilterIcon, Loader, PlusIcon } from "lucide-react";
 import { CollegeUnitType } from "@/lib/types/college-units";
 import { RoleType } from "@/lib/types/role";
+import { useConfirm } from "@/hooks/useConfirm";
+import { toast } from "sonner";
+import Select from "../form/Select";
+import { ROLE_OPTIONS } from "@/lib/constants/roles";
 
 type RequestStatusType = "approved" | "rejected" | "pending";
 
 export default function UsersTable() {
   const { data: usersData, isLoading, isFetching } = useGetUsers();
+  const { updateUserRole } = useUpdateUserRole();
   const [currentPage, setCurrentPage] = useState(1);
   const { openModal } = useAddNewUserModal();
+  const confirm = useConfirm();
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
   const [nameEmail, setNameEmail] = useState<string>("");
   const [colleges, setColleges] = useState<CollegeUnitType[]>([]);
   const [roles, setRoles] = useState<RoleType[]>([]);
   const [filteredData, setFilteredData] = useState(usersData ?? []);
+  const [updatingRoleUserId, setUpdatingRoleUserId] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     const filtered = filterUsers(usersData || [], {
@@ -93,6 +102,34 @@ export default function UsersTable() {
 
   function toggleFilterPanel() {
     setIsFilterPanelOpen(!isFilterPanelOpen);
+  }
+
+  async function handleRoleChange(
+    user: NonNullable<typeof usersData>[number],
+    role: RoleType,
+  ) {
+    if (role === user.role) return;
+
+    const isConfirmed = await confirm({
+      title: "Confirm Role Change",
+      message: `Change ${user.full_name}'s role from ${user.role} to ${role}?`,
+    });
+
+    if (!isConfirmed) return;
+
+    try {
+      setUpdatingRoleUserId(user.id);
+      await updateUserRole({ id: user.id, role });
+      toast.success("Successfully updated the user's role.");
+    } catch (e) {
+      toast.error(
+        e instanceof Error
+          ? e.message
+          : "There was a problem updating the user's role.",
+      );
+    } finally {
+      setUpdatingRoleUserId(null);
+    }
   }
 
   return (
@@ -193,26 +230,39 @@ export default function UsersTable() {
                   </TableRow>
                 )}
 
-                {currentRecords.map((record) => (
-                  <TableRow key={record.id}>
-                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      <Link href={"/"} className="hover:text-brand-500">
-                        {record.full_name}
-                      </Link>
-                    </TableCell>
-                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      {record.external_institution ??
-                        record.college_code ??
-                        record.other_college_name}
-                    </TableCell>
-                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      {record.email}
-                    </TableCell>
-                    <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                      {record.role}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {currentRecords.map((record) => {
+                  const isUpdatingRole = updatingRoleUserId === record.id;
+
+                  return (
+                    <TableRow key={record.id}>
+                      <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                        <Link href={"/"} className="hover:text-brand-500">
+                          {record.full_name}
+                        </Link>
+                      </TableCell>
+                      <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                        {record.external_institution ??
+                          record.college_code ??
+                          record.other_college_name}
+                      </TableCell>
+                      <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
+                        {record.email}
+                      </TableCell>
+                      <TableCell className="text-theme-sm min-w-44 p-2 py-3 text-gray-800">
+                        <Select
+                          selectedValue={record.role}
+                          defaultValue={record.role}
+                          options={ROLE_OPTIONS}
+                          disabled={isUpdatingRole || isFetching}
+                          onChange={(value) =>
+                            handleRoleChange(record, value as RoleType)
+                          }
+                          className="h-9 py-2"
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>

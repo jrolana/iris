@@ -83,7 +83,8 @@ export default function ClassificationWizard(props: ClassificationWizardProps) {
             </p>
             <p className="mt-3 text-sm text-gray-500">
               If you are still unsure about the proper disclosure form after
-              this, you may contact TTBDO for a consultation before proceeding.
+              this, you may contact ttbdo.upvisayas@up.edu.ph for a consultation
+              before proceeding.
             </p>
           </div>
         ) : (

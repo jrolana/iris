@@ -1,6 +1,7 @@
 @startuml
 skinparam shadowing false
-skinparam linetype ortho
+' Commented out ortho to allow natural spreading
+' skinparam linetype ortho
 skinparam ArrowColor #333
 skinparam ArrowThickness 1
 skinparam RankSep 70
@@ -12,8 +13,13 @@ actor "Guest" as G
 
 usecase "View IP Portfolio\nAnalysis/Summary" as G_Repo
 usecase "View Published Intellectual Properties" as G_Published
+usecase "View Public Documents" as G_Public
+usecase "Sign up/Request registration" as G_SignUp
 
-' One arrow per interaction
-G -d-> G_Repo
-G -r-> G_Published
+' One arrow per interaction, spread in all 4 directions
+G -up-> G_Repo
+G -down-> G_SignUp
+G -left-> G_Published
+G -right-> G_Public
+
 @enduml

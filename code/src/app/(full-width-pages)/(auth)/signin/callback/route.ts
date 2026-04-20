@@ -78,15 +78,9 @@ export async function GET(request: Request) {
     );
   }
 
-  // Fetch user role once during callback
-  const { data: userRole, error: userError } =
-    await supabase.rpc("get_user_role");
-
-  if (userError || !userRole) {
-    return redirectWithError(
-      "Unable to determine your account role. Please contact support.",
-    );
-  }
+  // Fetch user role
+  const { data: userRole, error: userError } = await supabase.rpc('get_user_role')
+  if (userError || !userRole) return redirectWithError('Unable to determine your account role. Please contact ttbdo.upvisayas@up.edu.ph.')
 
   const role = userRole as Role;
   const home = ROLE_CONFIG[role]?.home ?? "/";

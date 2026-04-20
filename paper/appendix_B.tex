@@ -1,7 +1,7 @@
 \chapter{Non-Functional Requirements Tables}
 \label{sec:appendixb}
 
-This appendix contains the complete set of non-functional requirements (NFRs) for IRIS, organized by category. These tables specify system qualities, constraints, and standards that ensure IRIS operates efficiently, securely, and reliably while meeting usability and compliance standards.
+This appendix contains the non-functional requirements (NFRs) for IRIS, organized by category. These tables specify system qualities, constraints, and standards that served as the basis for designing and evaluating IRIS in terms of performance, security, reliability, usability, maintainability, scalability, and compliance.
 
 %-------------------------------------------------------
 \section{Performance}
@@ -17,9 +17,9 @@ This appendix contains the complete set of non-functional requirements (NFRs) fo
 \hline
 \textbf{ID} & \textbf{Requirement} \\
 \hline
-NFR-01 & The system SHALL return 95\% of requests within 2 seconds under normal load. \\
+NFR-01 & The system SHOULD provide responsive page loading under normal usage conditions. \\
 \hline
-NFR-02 & The system SHALL support at least 100 concurrent users. \\
+NFR-02 & The system SHOULD support multiple concurrent users under normal usage conditions. \\
 \hline
 \end{tabular}
 \end{table}
@@ -59,11 +59,11 @@ NFR-05 & The system MAY log all security-related events. \\
 \hline
 \textbf{ID} & \textbf{Requirement} \\
 \hline
-NFR-06 & The system SHALL have 99.5\% uptime during business hours. \\
+NFR-06 & The system SHOULD remain available during normal use and business operations. \\
 \hline
-NFR-07 & The system SHALL recover to the last stable state within 4 hours of failure. \\
+NFR-07 & The system SHOULD recover to the last stable state after system failure. \\
 \hline
-NFR-08 & The system SHALL perform daily backups stored in two separate locations. \\
+NFR-08 & The system SHOULD support regular backups through the selected hosting, database, and storage infrastructure. \\
 \hline
 \end{tabular}
 \end{table}
@@ -87,7 +87,7 @@ NFR-10 & The system SHALL follow consistent UI and navigation patterns. \\
 \hline
 NFR-11 & The system SHALL provide meaningful error messages. \\
 \hline
-NFR-12 & The system SHALL comply with WCAG 2.1 Level AA accessibility standards. \\
+NFR-12 & The system SHOULD follow accessibility standards and practices. \\
 \hline
 NFR-13 & The system SHOULD include tooltips or help prompts for complex tasks. \\
 \hline
@@ -111,11 +111,11 @@ NFR-14 & The system SHALL be modular with separation of concerns for maintainabi
 \hline
 NFR-15 & The system SHALL include developer and API documentation. \\
 \hline
-NFR-16 & The system SHOULD support deployment in multiple environments (dev, staging, prod). \\
+NFR-16 & The system SHOULD support deployment in multiple environments, such as development, staging, and production. \\
 \hline
-NFR-17 & The system MAY support containerized deployment (e.g., Docker). \\
+NFR-17 & The system MAY support containerized deployment. \\
 \hline
-NFR-18 & The system SHOULD support horizontal scaling. \\
+NFR-18 & The system SHOULD support future scaling. \\
 \hline
 \end{tabular}
 \end{table}
@@ -138,7 +138,7 @@ NFR-19 & The system SHALL comply with the Philippine Data Privacy Act of 2012. \
 \hline
 NFR-20 & The system SHALL retain records per UP and IPOPHL retention policies. \\
 \hline
-NFR-21 & The system SHALL export logs and reports in standard formats (PDF, CSV, XLSX). \\
+NFR-21 & The system SHALL export logs and reports in standard formats, such as PDF, CSV, and XLSX. \\
 \hline
 NFR-22 & The system SHOULD provide compliance reports for audits. \\
 \hline

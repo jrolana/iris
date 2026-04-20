@@ -11,10 +11,11 @@ import { IpType, IP_TYPES } from "@/lib/types/ip";
 
 interface PropsInterface {
   isApplicant?: boolean;
+  isAdmin?: boolean;
 }
 
 export default function ApplicationDocuments(props: PropsInterface) {
-  const { isApplicant = true } = props;
+  const { isApplicant = true, isAdmin = false } = props;
   const [activeIpType, setActiveIpType] = useState<IpType>("patent");
 
   return (
@@ -61,6 +62,7 @@ export default function ApplicationDocuments(props: PropsInterface) {
               title={ipTypeToTitle(activeIpType)}
               description=""
               finalIpType={activeIpType}
+              canManageFiles={isAdmin}
               showHeader={false}
               showProceed={false}
               showFooterNote={false}

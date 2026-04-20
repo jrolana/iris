@@ -23,6 +23,7 @@ export default function LinkInventorModal() {
   } = useSearchUsersToLink({
     queryString: debouncedSearchQuery,
     excludedUserIds: excludedUIDs,
+    enabled: isOpen,
   });
   const { updateInventor, isLoading } = useUpdateInventor();
   const confirm = useConfirm();

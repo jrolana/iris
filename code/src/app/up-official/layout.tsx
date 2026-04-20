@@ -20,7 +20,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <TanStackProvider>
       <UserProvider>
         <SidebarProvider>
-          <BaseLayout navItems={navItems}>{children}</BaseLayout>
+          <BaseLayout navItems={navItems} showNotifications={false}>
+            {children}
+          </BaseLayout>
         </SidebarProvider>
       </UserProvider>
     </TanStackProvider>

@@ -20,10 +20,7 @@ import {
   buildSummaryTotals,
   STATUS_ORDER,
 } from "@/lib/dashboard/dashboard-summary";
-import {
-  PIE_CHARTS,
-  TREND_CHARTS,
-} from "@/lib/dashboard/dashboard";
+import { PIE_CHARTS, TREND_CHARTS } from "@/lib/dashboard/dashboard";
 import { IP_TYPES } from "@/lib/types/ip";
 
 function ChartSkeleton({ height = "h-[320px]" }: { height?: string }) {
@@ -609,7 +606,7 @@ export default function Dashboard() {
 
         <div className="pt-2 lg:col-span-12">
           <h2 className="text-xl font-semibold text-gray-800">
-            Portfolio Status Overview
+            Portfolio Overview
           </h2>
 
           <p className="mt-1 text-sm text-gray-500">
