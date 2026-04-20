@@ -34,7 +34,7 @@ export const getPublicResourcesByIpType = async (
 
   const files = (data ?? []).filter((item) => item.metadata !== null);
 
-  return files.map((file) => {
+  return files.map((file): PublicResourceFile => {
     const fullPath = `${ipType}/${file.name}`;
 
     const {
@@ -48,7 +48,7 @@ export const getPublicResourcesByIpType = async (
       downloadUrl: `${publicUrl}?download=${encodeURIComponent(file.name)}`,
       size: file.metadata?.size,
       mimetype: file.metadata?.mimetype,
-      updatedAt: file.updated_at,
+      updatedAt: file.updated_at ?? undefined,
     };
   });
 };

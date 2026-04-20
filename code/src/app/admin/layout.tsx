@@ -3,6 +3,9 @@ import BaseLayout from "@/layout/BaseLayout";
 import { NavItem } from "@/lib/types/nav";
 import { DocsIcon, GridIcon, TableIcon, UserCircleIcon } from "@/icons";
 import { HistoryIcon, CodeXml } from "lucide-react";
+import { SidebarProvider } from "@/context/SidebarContext";
+import TanStackProvider from "@/providers/TanStackProvider";
+import UserProvider from "@/providers/UserProvider";
 
 const navItems: NavItem[] = [
   { icon: <GridIcon />, name: "Dashboard", path: "/admin" },
@@ -35,8 +38,14 @@ const navItems: NavItem[] = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <BaseLayout navItems={navItems} isAdmin={true}>
-      {children}
-    </BaseLayout>
+    <TanStackProvider>
+      <UserProvider>
+        <SidebarProvider>
+          <BaseLayout navItems={navItems} isAdmin={true}>
+            {children}
+          </BaseLayout>
+        </SidebarProvider>
+      </UserProvider>
+    </TanStackProvider>
   );
 }

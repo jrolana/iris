@@ -1,16 +1,28 @@
 "use client";
 
-import NotificationDropdown from "@/components/header/NotificationDropdown";
-import UserDropdown from "@/components/header/UserDropdown";
+import dynamic from "next/dynamic";
 import { useSidebar } from "@/context/SidebarContext";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/atom-states/user";
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import PingsDropdown from "@/components/header/PingsDropdown";
 import Link from "next/link";
 import { getHomeRoute } from "@/lib/helper/get-home-route";
+
+const NotificationDropdown = dynamic(
+  () => import("@/components/header/NotificationDropdown"),
+  { ssr: false },
+);
+
+const PingsDropdown = dynamic(
+  () => import("@/components/header/PingsDropdown"),
+  { ssr: false },
+);
+
+const UserDropdown = dynamic(() => import("@/components/header/UserDropdown"), {
+  ssr: false,
+});
 
 interface PropsInterface {
   isPublic?: boolean;

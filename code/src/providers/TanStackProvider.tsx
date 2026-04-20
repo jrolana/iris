@@ -1,7 +1,19 @@
-"use client"; // Mark this as a Client Component
+"use client";
+
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const ReactQueryDevtools =
+  process.env.NODE_ENV === "development"
+    ? dynamic(
+        () =>
+          import("@tanstack/react-query-devtools").then(
+            (mod) => mod.ReactQueryDevtools,
+          ),
+        { ssr: false },
+      )
+    : null;
 
 export default function TanStackProvider({
   children,
@@ -22,8 +34,7 @@ export default function TanStackProvider({
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {/* Used for debugging during development. Adds a logo to interact and see React Query state */}
-      <ReactQueryDevtools initialIsOpen={false} />
+      {ReactQueryDevtools ? <ReactQueryDevtools initialIsOpen={false} /> : null}
     </QueryClientProvider>
   );
 }

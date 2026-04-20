@@ -1,14 +1,15 @@
 "use client";
 
 import { memo, useMemo } from "react";
-import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
-import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
+import type { ApexOptions } from "apexcharts";
 import { BarChart3 } from "lucide-react";
+import { ipTypeToTitle } from "@/lib/helper/get-ip-title";
 import { IP_TYPE_COLOR_MAP, FALLBACK_IP_COLOR } from "@/lib/constants/ui";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
+  loading: () => null,
 });
 
 interface PropsInterface {
@@ -27,6 +28,26 @@ type SeriesItemType = {
   data: number[];
 };
 
+function EmptyState({ height }: { height: number }) {
+  return (
+    <div
+      className="flex w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60"
+      style={{ height }}
+    >
+      <div className="flex flex-col items-center px-6 text-center">
+        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white ring-1 ring-gray-200">
+          <BarChart3 className="h-5 w-5 text-gray-400" />
+        </div>
+
+        <p className="text-sm font-medium text-gray-700">No data available</p>
+        <p className="mt-1 max-w-[240px] text-xs leading-5 text-gray-500">
+          There is no data to visualize for the selected status yet.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function BarChart(props: PropsInterface) {
   const { title, showLegend = true, data, chartId } = props;
   const { categories, activeIpTypes, groupedByIPAndYear } = data;
@@ -34,15 +55,15 @@ function BarChart(props: PropsInterface) {
   const CHART_HEIGHT = 310;
 
   const subtitle = useMemo(() => {
-    if (!categories.length) {
-      return "IP applications submitted each year";
-    }
+    if (!categories.length) return "IP applications submitted each year";
 
     if (categories.length === 1) {
       return `IP applications submitted in ${categories[0]}`;
     }
 
-    return `IP applications submitted from ${categories[0]} to ${categories[categories.length - 1]}`;
+    return `IP applications submitted from ${categories[0]} to ${
+      categories[categories.length - 1]
+    }`;
   }, [categories]);
 
   const series: SeriesItemType[] = useMemo(() => {
@@ -76,6 +97,9 @@ function BarChart(props: PropsInterface) {
         width: "100%",
         type: "bar",
         stacked: false,
+        animations: {
+          enabled: false,
+        },
         toolbar: {
           show: false,
         },
@@ -175,23 +199,7 @@ function BarChart(props: PropsInterface) {
       </div>
 
       {!activeIpTypes.length || !categories.length ? (
-        <div
-          className="flex w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60"
-          style={{ height: CHART_HEIGHT }}
-        >
-          <div className="flex flex-col items-center px-6 text-center">
-            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white ring-1 ring-gray-200">
-              <BarChart3 className="h-5 w-5 text-gray-400" />
-            </div>
-
-            <p className="text-sm font-medium text-gray-700">
-              No data available
-            </p>
-            <p className="mt-1 max-w-[240px] text-xs leading-5 text-gray-500">
-              There is no data to visualize for the selected status yet.
-            </p>
-          </div>
-        </div>
+        <EmptyState height={CHART_HEIGHT} />
       ) : (
         <div className="custom-scrollbar max-w-full overflow-x-auto">
           <div className="w-full min-w-0">

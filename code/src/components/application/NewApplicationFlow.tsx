@@ -130,7 +130,7 @@ export default function NewApplicationFlow(props: NewApplicationFlowProps) {
         )}
       </header>
 
-      <main className="space-y-4">
+      <section className="space-y-4">
         <section className="rounded-2xl border border-slate-200 bg-white p-6">
           <div className="mt-2">
             <p className="text-xl font-medium text-slate-900">
@@ -214,7 +214,7 @@ export default function NewApplicationFlow(props: NewApplicationFlowProps) {
             proceedHint={copy.proceedHint}
           />
         )}
-      </main>
+      </section>
     </div>
   );
 }
