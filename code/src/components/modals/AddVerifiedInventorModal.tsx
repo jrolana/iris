@@ -50,6 +50,7 @@ export default function AddVerifiedInventorModal() {
         <div className="w-full">
           {activeTab === "search" ? (
             <SearchTab
+              isOpen={isOpen}
               excludedUIDs={excludedUIDs}
               setInventor={setInventor}
               closeModal={closeModal}

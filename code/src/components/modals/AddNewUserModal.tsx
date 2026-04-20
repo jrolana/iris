@@ -50,10 +50,12 @@ function AddNewUserModal() {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const collegeOptions = Object.values(CollegeUnits)
-    .filter((college) => college !== CollegeUnits.Other)
-    .concat(CollegeUnits.Other)
-    .map((college) => ({
+  const collegeOptions = [
+    ...Object.values(CollegeUnits).filter(
+      (college) => college !== CollegeUnits.Other,
+    ),
+    CollegeUnits.Other,
+  ].map((college) => ({
       value: college.toString(),
       label: college.toString(),
     }));
