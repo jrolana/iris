@@ -57,10 +57,16 @@ function AddNewUserModal() {
     };
 
     try {
-      await inviteUser({
+      const inviteResult = await inviteUser({
         email,
         userData,
       });
+
+      if (!inviteResult.success) {
+        setErrorMessage(inviteResult.error);
+        errorModal.openModal();
+        return;
+      }
 
       setSuccessMessage(
         "The user has been invited and will receive an email shortly.",

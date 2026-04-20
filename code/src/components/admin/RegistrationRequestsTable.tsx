@@ -179,10 +179,15 @@ export default function RegistrationRequestsTable() {
         },
       });
 
-      await inviteUser({
+      const inviteResult = await inviteUser({
         email: approvalRequest.email,
         userData: approvedUserData,
       });
+
+      if (!inviteResult.success) {
+        toast.error(inviteResult.error);
+        return;
+      }
 
       toast.success("Successfully approved the registration request.");
 
