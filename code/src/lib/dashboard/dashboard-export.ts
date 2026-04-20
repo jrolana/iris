@@ -4,13 +4,6 @@ import {
   formatIpTypeLabel,
 } from "@/lib/dashboard/dashboard-summary";
 
-type ExportDashboardCsvParams = {
-  yearFrom: number;
-  yearTo: number;
-  summaryTableRows: SummaryTableRow[];
-  summaryTotals: SummaryTotals;
-};
-
 type ChartLabelItem = {
   label: string;
   value: string | number;
@@ -40,87 +33,9 @@ type ApexDataUriResult = {
 
 const UNIVERSITY_NAME = "University Of The Philippines Visayas";
 const UPV_LOGO_PATH = "/images/upv-logo.png";
+const GRANT_RATE_CHART_ID = "dashboard-grant-rate-donut";
 
 type JsPDFInstance = import("jspdf").jsPDF;
-
-const downloadBlob = (blob: Blob, filename: string) => {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-
-  link.href = url;
-  link.download = filename;
-
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  URL.revokeObjectURL(url);
-};
-
-const escapeCsvValue = (value: string | number | null | undefined) => {
-  const stringValue = String(value ?? "");
-
-  if (
-    stringValue.includes(",") ||
-    stringValue.includes('"') ||
-    stringValue.includes("\n")
-  ) {
-    return `"${stringValue.replace(/"/g, '""')}"`;
-  }
-
-  return stringValue;
-};
-
-export const exportDashboardCsv = ({
-  yearFrom,
-  yearTo,
-  summaryTableRows,
-  summaryTotals,
-}: ExportDashboardCsvParams) => {
-  const lines: string[] = [];
-
-  lines.push("IP Portfolio Dashboard Export");
-  lines.push(`Timeline,${escapeCsvValue(`${yearFrom}-${yearTo}`)}`);
-  lines.push(`Exported At,${escapeCsvValue(new Date().toISOString())}`);
-  lines.push("");
-
-  lines.push("SUMMARY TABLE");
-  lines.push("Year,IP Type,Filed,Pending,Granted,Withdrawn,Downgraded,Total");
-
-  summaryTableRows.forEach((row) => {
-    lines.push(
-      [
-        escapeCsvValue(row.year),
-        escapeCsvValue(formatIpTypeLabel(row.ipType)),
-        escapeCsvValue(row.filed),
-        escapeCsvValue(row.pending),
-        escapeCsvValue(row.granted),
-        escapeCsvValue(row.withdrawn),
-        escapeCsvValue(row.downgraded),
-        escapeCsvValue(row.total),
-      ].join(","),
-    );
-  });
-
-  lines.push(
-    [
-      escapeCsvValue(`${yearFrom}-${yearTo}`),
-      escapeCsvValue("Grand Total"),
-      escapeCsvValue(summaryTotals.filed),
-      escapeCsvValue(summaryTotals.pending),
-      escapeCsvValue(summaryTotals.granted),
-      escapeCsvValue(summaryTotals.withdrawn),
-      escapeCsvValue(summaryTotals.downgraded),
-      escapeCsvValue(summaryTotals.total),
-    ].join(","),
-  );
-
-  const blob = new Blob([lines.join("\n")], {
-    type: "text/csv;charset=utf-8;",
-  });
-
-  downloadBlob(blob, `ip-portfolio-${yearFrom}-${yearTo}.csv`);
-};
 
 const getChartImage = async (chartId: string) => {
   if (typeof window === "undefined") {
@@ -199,7 +114,11 @@ const drawUniversityLogo = (
   pdf.circle(x + maxHeight / 2, y + maxHeight / 2, maxHeight / 2, "FD");
 };
 
-const drawWatermark = (pdf: JsPDFInstance, pageWidth: number, pageHeight: number) => {
+const drawWatermark = (
+  pdf: JsPDFInstance,
+  pageWidth: number,
+  pageHeight: number,
+) => {
   pdf.saveGraphicsState();
   pdf.setGState(pdf.GState({ opacity: 0.12 }));
   pdf.setFont("helvetica", "bold");
@@ -222,9 +141,8 @@ const drawNoChartCard = (
 ) => {
   const cardHeight = subtitle ? 24 : 20;
 
-  pdf.setDrawColor(229, 231, 235);
   pdf.setFillColor(255, 255, 255);
-  pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "FD");
+  pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "F");
 
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(11);
@@ -246,6 +164,107 @@ const drawNoChartCard = (
     "No chart available for the selected range.",
     margin + 6,
     cursorY + (subtitle ? 18 : 13),
+  );
+
+  return cardHeight;
+};
+
+const drawArc = (
+  pdf: JsPDFInstance,
+  centerX: number,
+  centerY: number,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+) => {
+  const segmentCount = Math.max(2, Math.ceil((endAngle - startAngle) / 0.08));
+  let previousX = centerX + Math.cos(startAngle) * radius;
+  let previousY = centerY + Math.sin(startAngle) * radius;
+
+  for (let index = 1; index <= segmentCount; index += 1) {
+    const angle = startAngle + ((endAngle - startAngle) * index) / segmentCount;
+    const currentX = centerX + Math.cos(angle) * radius;
+    const currentY = centerY + Math.sin(angle) * radius;
+
+    pdf.line(previousX, previousY, currentX, currentY);
+
+    previousX = currentX;
+    previousY = currentY;
+  }
+};
+
+const drawGrantRateCard = (
+  pdf: JsPDFInstance,
+  chart: ChartExportItem,
+  summaryTotals: SummaryTotals,
+  yearFrom: number,
+  yearTo: number,
+  margin: number,
+  cursorY: number,
+  contentWidth: number,
+) => {
+  const cardHeight = 70;
+  const filed = summaryTotals.filed;
+  const granted = summaryTotals.granted;
+  const rate =
+    filed > 0 ? Math.min(100, Math.max(0, (granted / filed) * 100)) : 0;
+  const displayRate = Number.isInteger(rate)
+    ? rate.toString()
+    : rate.toFixed(2);
+
+  pdf.setFillColor(255, 255, 255);
+  pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "F");
+
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(12);
+  pdf.setTextColor(17, 24, 39);
+  drawText(pdf, chart.title, margin + 6, cursorY + 8);
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(9);
+  pdf.setTextColor(107, 114, 128);
+  drawText(
+    pdf,
+    chart.subtitle ??
+      `Percent of filed applications that were granted, ${yearFrom}-${yearTo}`,
+    margin + 6,
+    cursorY + 14,
+  );
+
+  const centerX = margin + contentWidth / 2;
+  const centerY = cursorY + 50;
+  const radius = 28;
+  const startAngle = Math.PI;
+  const endAngle = Math.PI * 2;
+  const progressAngle = startAngle + (Math.PI * rate) / 100;
+
+  pdf.saveGraphicsState();
+  pdf.setLineWidth(5);
+  pdf.setLineCap("round");
+  pdf.setDrawColor(228, 231, 236);
+  drawArc(pdf, centerX, centerY, radius, startAngle, endAngle);
+
+  if (rate > 0) {
+    pdf.setDrawColor(70, 95, 255);
+    drawArc(pdf, centerX, centerY, radius, startAngle, progressAngle);
+  }
+  pdf.restoreGraphicsState();
+
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(18);
+  pdf.setTextColor(17, 24, 39);
+  drawText(pdf, `${displayRate}%`, centerX, cursorY + 45, { align: "center" });
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(8);
+  pdf.setTextColor(107, 114, 128);
+  drawText(pdf, "Grant Rate", centerX, cursorY + 50, { align: "center" });
+  drawText(
+    pdf,
+    `Filed: ${filed}   Granted: ${granted}`,
+    centerX,
+    cursorY + 62,
+    { align: "center" },
   );
 
   return cardHeight;
@@ -353,6 +372,22 @@ export const exportDashboardPdf = async ({
   drawPageTitle();
 
   for (const chart of chartExports) {
+    if (chart.chartId === GRANT_RATE_CHART_ID) {
+      ensureSpace(78);
+      const cardHeight = drawGrantRateCard(
+        pdf,
+        chart,
+        summaryTotals,
+        yearFrom,
+        yearTo,
+        margin,
+        cursorY,
+        contentWidth,
+      );
+      cursorY += cardHeight + 8;
+      continue;
+    }
+
     if (chart.hasData === false) {
       ensureSpace(26);
       const cardHeight = drawNoChartCard(
@@ -390,9 +425,8 @@ export const exportDashboardPdf = async ({
 
       ensureSpace(cardHeight);
 
-      pdf.setDrawColor(229, 231, 235);
       pdf.setFillColor(255, 255, 255);
-      pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "FD");
+      pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "F");
 
       let cardY = cursorY + 8;
 
