@@ -38,8 +38,8 @@ function getInviteErrorMessage(error: unknown) {
 }
 
 function getBaseUrl() {
-  if (process.env.NEXT_PUBLIC_BASE_URL) {
-    return process.env.NEXT_PUBLIC_BASE_URL;
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL;
   }
 
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
