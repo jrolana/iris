@@ -103,42 +103,44 @@ export default function ApplicationDocuments(props: PropsInterface) {
             </ul>
           </section>
 
-          <section
-            className={cn(
-              "bg-white p-5 transition-all duration-300",
-              isApplicant
-                ? // Applying our new custom class from globals.css
-                  "rounded-3xl border border-slate-200"
-                : "animate-sky-pulse rounded-3xl border-2",
-            )}
-          >
-            <div className="flex items-center gap-2">
-              <div className="rounded-xl bg-slate-100 p-2">
-                <CircleHelp className="h-5 w-5 text-slate-700" />
+          {!isAdmin && (
+            <section
+              className={cn(
+                "bg-white p-5 transition-all duration-300",
+                isApplicant
+                  ? // Applying our new custom class from globals.css
+                    "rounded-3xl border border-slate-200"
+                  : "animate-sky-pulse rounded-3xl border-2",
+              )}
+            >
+              <div className="flex items-center gap-2">
+                <div className="rounded-xl bg-slate-100 p-2">
+                  <CircleHelp className="h-5 w-5 text-slate-700" />
+                </div>
+                <h2 className="text-base font-semibold text-slate-900">
+                  Need help?
+                </h2>
               </div>
-              <h2 className="text-base font-semibold text-slate-900">
-                Need help?
-              </h2>
-            </div>
 
-            <p className="mt-3 text-sm text-slate-600">
-              {isApplicant
-                ? "You can review the files here first, then use the application wizard when you are ready to begin."
-                : "You can review the files here to get familiar with the application process. You can also check out the application wizard to find out which IP type is right for you."}
-            </p>
-            {!isApplicant && (
-              <Button
-                size="md"
-                variant="primary"
-                onClick={() => {
-                  globalThis.location.href = "/wizard";
-                }}
-                className="mt-4 w-full flex-1"
-              >
-                Use Application Wizard
-              </Button>
-            )}
-          </section>
+              <p className="mt-3 text-sm text-slate-600">
+                {isApplicant
+                  ? "You can review the files here first, then use the application wizard when you are ready to begin."
+                  : "You can review the files here to get familiar with the application process. You can also check out the application wizard to find out which IP type is right for you."}
+              </p>
+              {!isApplicant && (
+                <Button
+                  size="md"
+                  variant="primary"
+                  onClick={() => {
+                    globalThis.location.href = "/wizard";
+                  }}
+                  className="mt-4 w-full flex-1"
+                >
+                  Use Application Wizard
+                </Button>
+              )}
+            </section>
+          )}
         </aside>
       </div>
     </div>

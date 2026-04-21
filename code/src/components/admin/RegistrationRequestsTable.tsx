@@ -75,6 +75,15 @@ export default function RegistrationRequestsTable() {
       colleges,
       roles,
       statuses,
+    }).sort((a, b) => {
+      const aPending = a.status === "pending" ? 0 : 1;
+      const bPending = b.status === "pending" ? 0 : 1;
+      if (aPending !== bPending) return aPending - bPending;
+
+      return (
+        new Date(b.requested_at).getTime() -
+        new Date(a.requested_at).getTime()
+      );
     });
     setFilteredData(filtered);
     setCurrentPage(1);
