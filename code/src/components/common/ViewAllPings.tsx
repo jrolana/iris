@@ -12,7 +12,12 @@ import { toSupabaseTimestamp } from "@/lib/helper/format-date";
 type FilterType = "all" | "pending" | "acknowledged";
 
 export default function ViewAllPings() {
-  const { pings, isLoading: isFetchingPings } = useGetAllPings();
+  const {
+    pings,
+    error: pingsError,
+    isError: hasPingsError,
+    isLoading: isFetchingPings,
+  } = useGetAllPings();
   const { isLoading: isAcknowledging, updatePing } = useUpdatePing();
   const router = useRouter();
 
@@ -37,9 +42,6 @@ export default function ViewAllPings() {
       const aAck = a.acknowledged_at ? 1 : 0;
       const bAck = b.acknowledged_at ? 1 : 0;
       if (aAck !== bAck) return aAck - bAck;
-
-      const delayDiff = daysDelayed(b.target_date) - daysDelayed(a.target_date);
-      if (delayDiff !== 0) return delayDiff;
 
       return (
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -76,7 +78,7 @@ export default function ViewAllPings() {
     router.push(`/admin/view-application?applicationID=${appId}`);
   }
 
-  const isLoading = false;
+  const isLoading = isFetchingPings;
 
   return (
     <div className="min-h-screen w-full bg-white px-6 py-8 transition-colors sm:px-8 lg:px-12">
@@ -166,6 +168,17 @@ export default function ViewAllPings() {
                 </div>
               </li>
             ))
+          ) : hasPingsError ? (
+            <li className="flex flex-col items-center justify-center py-16 text-center">
+              <p className="text-sm font-medium text-gray-700">
+                Unable to load requests
+              </p>
+              <p className="mt-1 max-w-md text-sm text-gray-400">
+                {pingsError instanceof Error
+                  ? pingsError.message
+                  : "Please refresh the page and try again."}
+              </p>
+            </li>
           ) : sorted.length === 0 ? (
             <li className="flex flex-col items-center justify-center py-16 text-center">
               <p className="text-sm font-medium text-gray-700">

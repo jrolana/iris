@@ -26,12 +26,14 @@ export default function PingsDropdown() {
   const hasPendingOfficeResponse = pendingCount > 0;
 
   const visibleRequests = useMemo(() => {
-    // Pending first, then most delayed first
     return [...requests].sort((a, b) => {
       const aAck = a.acknowledged_at ? 1 : 0;
       const bAck = b.acknowledged_at ? 1 : 0;
       if (aAck !== bAck) return aAck - bAck;
-      return daysDelayed(b.target_date) - daysDelayed(a.target_date);
+
+      return (
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
     });
   }, [requests]);
 

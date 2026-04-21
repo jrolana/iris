@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllPings } from "@/services/pings/get-all-pings";
 
 export function useGetAllPings() {
-    const {data, isLoading} = useQuery({
+    const {data, error, isLoading, isError} = useQuery({
         queryKey: ["pings"],
         queryFn: getAllPings,
     })
 
-    return {pings: data, isLoading}
+    return {pings: data, error, isLoading, isError}
 }
