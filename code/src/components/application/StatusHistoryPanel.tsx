@@ -83,11 +83,11 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-4">
-      <div className="xsm:flex-row xsm:items-center xsm:justify-between mb-3 flex flex-col justify-start gap-2">
+      <div className="mb-3 flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
         <h2 className="text-lg font-semibold text-gray-900">Status history</h2>
 
         {variant === "ttbdo" && (
-          <div className="flex justify-between gap-2">
+          <div className="flex max-w-full flex-nowrap gap-2 overflow-x-auto pb-1 whitespace-nowrap xl:justify-end xl:overflow-visible xl:pb-0">
             {application.is_withdrawn ? (
               <Button
                 type="button"
@@ -154,8 +154,8 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
                   : "border-gray-200 bg-gray-50",
               )}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0 flex-1">
                   <p className="font-medium text-gray-900">{label}</p>
 
                   {status.note && !isLatest && (

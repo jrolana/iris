@@ -57,10 +57,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
         {groupedFiles.map((folder) => {
           const latestVersion = folder[0];
           return (
-            <li
-              key={latestVersion.id}
-              className="flex flex-col gap-2 py-2 sm:flex-row sm:items-start sm:justify-between"
-            >
+            <li key={latestVersion.id} className="py-2">
               <FileItem
                 file={latestVersion}
                 owner={user}

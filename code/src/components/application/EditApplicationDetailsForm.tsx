@@ -145,13 +145,14 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
         id: application.id,
         applicationData: {
           ip_title: trimmedTitle,
-          ip_number: trimmedNumber || null,
+          ip_number:
+            trimmedNumber && lenNumberBlank === 0 ? trimmedNumber : null,
           filing_date: normalizedFilingDate,
         },
       });
 
       setIpTitle(trimmedTitle);
-      setIpNumber(trimmedNumber || null);
+      setIpNumber(trimmedNumber && lenNumberBlank === 0 ? trimmedNumber : null);
       setFilingDate(normalizedFilingDate);
 
       await queryClient.invalidateQueries({

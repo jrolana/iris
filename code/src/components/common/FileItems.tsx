@@ -71,23 +71,23 @@ export default function FileItem(props: FileItemProps) {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex flex-row items-center gap-3 overflow-x-hidden">
+      <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
+        <div className="flex min-w-0 flex-1 items-start gap-3 overflow-x-hidden">
           <div className="shrink-0">{getFileIcon(file.file_type)}</div>
-          <div className="flex min-w-0 flex-col">
+          <div className="flex min-w-0 flex-1 flex-col xl:min-w-[16rem]">
             <Hint label={file.file_name}>
-              <p className="text-md inline-block w-fit max-w-full truncate font-medium">
+              <p className="text-md inline-block w-full truncate font-medium">
                 {file.file_name}
               </p>
             </Hint>
             {file.file_description && (
               <Hint label={file.file_description}>
-                <p className="mt-0.5 line-clamp-2 w-fit max-w-full text-sm leading-tight font-medium text-slate-400">
+                <p className="mt-0.5 line-clamp-2 w-full text-sm leading-tight font-medium text-slate-400">
                   {file.file_description}
                 </p>
               </Hint>
             )}
-            <p className="mt-0.5 flex items-center gap-1 truncate text-sm text-slate-400">
+            <p className="mt-0.5 flex flex-wrap items-center gap-1 text-sm text-slate-400">
               <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700 uppercase">
                 {file.file_type}
               </span>
@@ -95,7 +95,7 @@ export default function FileItem(props: FileItemProps) {
                 {formatDateTime(new Date(file.uploaded_at!))}
               </span>
               {owner && owner.id !== file.owner_id && (
-                <span className="truncate text-xs font-medium">
+                <span className="max-w-full truncate text-xs font-medium">
                   {`by ${file.owner_name ?? "Unknown User"}`}
                 </span>
               )}
@@ -103,9 +103,8 @@ export default function FileItem(props: FileItemProps) {
           </div>
         </div>
 
-        {/* --- Action Buttons --- */}
-        <div className="shrink-0 pt-2 text-right">
-          <div className="flex flex-wrap justify-start gap-2 text-sm sm:justify-end">
+        <div className="w-full xl:w-auto">
+          <div className="flex max-w-full flex-nowrap items-center gap-2 overflow-x-auto pb-1 text-sm whitespace-nowrap xl:justify-end xl:overflow-visible xl:pb-0">
             <Button
               type="button"
               variant="outline"

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AttachmentType, InventorType } from "@/lib/types/application";
 import { IpType } from "@/lib/types/ip";
+import { FUNDING_SOURCE_OPTIONS } from "@/lib/constants/funding-sources";
 import useAddVerifiedInventorsModal from "@/hooks/useAddVerifiedInventorModal";
 import { useCreateApplication } from "@/hooks/applications/useCreateApplication";
 import { useUploadFile } from "@/hooks/attachments/useUploadFile";
@@ -13,6 +14,13 @@ import { useConfirm } from "@/hooks/useConfirm";
 
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import FileUploader from "@/components/common/FileUploader";
 import { ArrowLeft, X, VerifiedIcon, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -45,6 +53,11 @@ export default function StartApplicationPageClient({
   const [inventors, setInventors] = useState<InventorType["Insert"][]>([]);
   const [projectTitle, setProjectTitle] = useState("");
   const [fundingSource, setFundingSource] = useState("");
+  const [otherFundingSource, setOtherFundingSource] = useState("");
+  const isOtherFundingSource = fundingSource === "Others";
+  const resolvedFundingSource = isOtherFundingSource
+    ? otherFundingSource.trim()
+    : fundingSource.trim();
 
   function handleBack() {
     router.back();
@@ -69,7 +82,7 @@ export default function StartApplicationPageClient({
     });
 
     if (!isConfirmed) return;
-    if (projectTitle.trim() === "") return;
+    if (projectTitle.trim() === "" || resolvedFundingSource === "") return;
 
     toast.promise(createAndUpload(), {
       error: (e: Error) => {
@@ -86,7 +99,7 @@ export default function StartApplicationPageClient({
       applicationData: {
         project_title: projectTitle,
         ip_type: ipType,
-        funding_source: fundingSource,
+        funding_source: resolvedFundingSource,
       },
       inventorsData: inventors,
     });
@@ -182,11 +195,13 @@ export default function StartApplicationPageClient({
           <h2 className="text-2xl font-medium">A. Information Details</h2>
           <p className="mt-1 text-lg text-slate-500">
             Provide the title of your research or project. If there is a funding
-            source for this IP, please indicate it as well.
+            source for this IP, please indicate it here.
           </p>
         </div>
 
-        <span className="text-lg font-medium">Research/Project title</span>
+        <span className="text-lg font-medium">
+          Research/Project title <span className="text-red-500">*</span>
+        </span>
         <Input
           placeholder="e.g., A study on the effectiveness of IRIS in managing intellectual property"
           className="mt-1 h-12 text-lg!"
@@ -196,15 +211,56 @@ export default function StartApplicationPageClient({
           }}
         />
 
-        <span className="text-lg font-medium">Funding source (Optional)</span>
-        <Input
-          placeholder="e.g., Department of Science and Technology (DOST)"
-          className="mt-1 h-12 text-lg!"
-          value={fundingSource}
-          onChange={(e) => {
-            setFundingSource(e.target.value);
-          }}
-        />
+        <label className="flex w-full flex-col gap-1">
+          <span className="text-lg font-medium">
+            Funding source <span className="text-red-500">*</span>
+          </span>
+          <Select
+            value={fundingSource}
+            onValueChange={(value) => {
+              setFundingSource(value);
+              if (value !== "Others") {
+                setOtherFundingSource("");
+              }
+            }}
+          >
+            <SelectTrigger className="mt-1 h-12 w-full text-left text-base sm:text-lg">
+              <SelectValue placeholder="Select funding source" />
+            </SelectTrigger>
+
+            <SelectContent
+              position="popper"
+              side="bottom"
+              className="z-9999 max-h-60 overflow-y-auto"
+            >
+              {FUNDING_SOURCE_OPTIONS.map((option) => (
+                <SelectItem
+                  key={option}
+                  value={option}
+                  className="cursor-pointer"
+                >
+                  {option}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </label>
+
+        {isOtherFundingSource && (
+          <label className="flex w-full flex-col gap-1">
+            <span className="text-lg font-medium">
+              Other funding source <span className="text-red-500">*</span>
+            </span>
+            <Input
+              placeholder="Type the funding source"
+              className="mt-1 h-12 text-lg!"
+              value={otherFundingSource}
+              onChange={(e) => {
+                setOtherFundingSource(e.target.value);
+              }}
+            />
+          </label>
+        )}
 
         <div>
           <h2 className="text-2xl font-medium">B. Collaborators</h2>
@@ -318,7 +374,11 @@ export default function StartApplicationPageClient({
         <button
           type="button"
           onClick={handleSubmit}
-          disabled={projectTitle.trim() === "" || fileItems.length === 0}
+          disabled={
+            projectTitle.trim() === "" ||
+            resolvedFundingSource === "" ||
+            fileItems.length === 0
+          }
           className="h-10 w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
         >
           Submit Application

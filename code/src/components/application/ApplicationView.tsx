@@ -51,31 +51,32 @@ function ApplicationView(props: ApplicationViewProps) {
 
   return (
     <>
-      <div className="relative mx-auto w-full max-w-6xl space-y-6 px-4 py-8">
-        <button
-          type="button"
-          onClick={handleBack}
-          aria-label="Return to homepage"
-          className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-50 focus:outline-none xl:absolute xl:-left-20 xl:mb-0"
-        >
-          <ArrowLeft size={18} className="text-gray-700" />
-        </button>
-
+      <div className="relative mx-auto w-full max-w-7xl space-y-6 px-4 py-8">
         <header className="flex flex-col gap-4">
-          {isAdmin && !application.is_withdrawn && !application.is_archived ? (
-            <div className="flex justify-end">
-              <Button
-                type="button"
-                onClick={openModal}
-                className="border-brand-700 bg-brand-600 hover:border-brand-600 hover:text-brand-600 rounded-full border px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-white"
-              >
-                Edit details
-              </Button>
-            </div>
-          ) : null}
+          <div className="flex justify-between">
+            <button
+              type="button"
+              onClick={handleBack}
+              aria-label="Return to homepage"
+              className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-50 focus:outline-none"
+            >
+              <ArrowLeft size={18} className="text-gray-700" />
+            </button>
+            {isAdmin &&
+              !application.is_withdrawn &&
+              !application.is_archived && (
+                <Button
+                  type="button"
+                  onClick={openModal}
+                  className="border-brand-700 bg-brand-600 hover:border-brand-600 hover:text-brand-600 rounded-full border px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-white"
+                >
+                  Edit details
+                </Button>
+              )}
+          </div>
 
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-2">
-            <div className="space-y-2 lg:col-span-2">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+            <div className="min-w-0 space-y-2">
               <h1 className="text-lg font-semibold text-gray-900 sm:text-2xl!">
                 {ipTitle}
               </h1>
@@ -105,7 +106,7 @@ function ApplicationView(props: ApplicationViewProps) {
               </div>
             </div>
 
-            <div className="text-md text-gray-600 lg:text-right">
+            <div className="text-md min-w-0 text-gray-600 md:text-right">
               <p className="font-bold text-gray-900">
                 {application.created_at
                   ? "Ongoing application"
@@ -128,7 +129,7 @@ function ApplicationView(props: ApplicationViewProps) {
                 </p>
               )}
 
-              {isAdmin && application.updated_at && (
+              {application.updated_at && (
                 <p className="mt-1">
                   {`Last Updated: ${formatDateTime(application.updated_at)}`}
                 </p>
@@ -154,8 +155,8 @@ function ApplicationView(props: ApplicationViewProps) {
           )}
         </section>
 
-        <section className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <section className="min-w-0 space-y-4 lg:col-span-7">
+        <section className="flex flex-wrap gap-6">
+          <section className="min-w-0 grow-[7] basis-[28rem] space-y-4">
             <InformationPanel
               applicationId={application.id}
               parentApplicationId={application.parent_application_id}
@@ -168,7 +169,7 @@ function ApplicationView(props: ApplicationViewProps) {
             />
           </section>
 
-          <section className="min-w-0 space-y-4 lg:col-span-5">
+          <section className="min-w-0 grow-[5] basis-[19rem] space-y-4">
             <StatusHistoryPanel
               variant={isAdmin ? "ttbdo" : "techgen"}
               application={application}
