@@ -131,12 +131,12 @@ export default function InventorItems(props: InventorItemsProps) {
   }
 
   return (
-    <>
+    <div className="flex w-full flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
       <div className="min-w-0 flex-1">
         <p className="text-md truncate font-medium text-slate-900">
           {inventor.full_name}
         </p>
-        <p className="text-sm text-slate-600">{inventor.email}</p>
+        <p className="break-all text-sm text-slate-600">{inventor.email}</p>
 
         <Hint
           label={
@@ -146,7 +146,7 @@ export default function InventorItems(props: InventorItemsProps) {
             ""
           }
         >
-          <span className="block w-fit max-w-32 truncate rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase">
+          <span className="block w-fit max-w-full truncate rounded-full bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700 uppercase sm:max-w-48">
             {inventor.external_institution ??
               inventor.college_code ??
               inventor.other_college_name}
@@ -170,7 +170,7 @@ export default function InventorItems(props: InventorItemsProps) {
         handleAcceptRejectInventor={handleAcceptRejectInventor}
         isAcceptRejecting={isAcceptRejecting}
       />
-    </>
+    </div>
   );
 }
 
@@ -258,7 +258,7 @@ function ActionButtons(props: ActionButtonsProps) {
     return (
       <>
         {isAdmin ? (
-          <div className="xsm:flex-row xsm:items-center flex shrink-0 flex-col items-start gap-2">
+          <div className="flex w-full flex-nowrap items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap xl:w-auto xl:justify-end xl:overflow-visible xl:pb-0">
             {inventor.techgen_id ? (
               <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-sky-600">
                 Verified Account <BadgeCheck size={24} />
@@ -291,7 +291,7 @@ function ActionButtons(props: ActionButtonsProps) {
             </Button>
           </div>
         ) : (
-          <div className="xsm:flex-row xsm:items-center flex shrink-0 flex-col items-start gap-2">
+          <div className="flex w-full flex-nowrap items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap xl:w-auto xl:justify-end xl:overflow-visible xl:pb-0">
             {inventor.techgen_id ? (
               <>
                 <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-sky-600">
@@ -324,7 +324,7 @@ function ActionButtons(props: ActionButtonsProps) {
     );
   } else if (inventor.status === "pending") {
     return (
-      <div className="xsm:flex-row xsm:items-center flex shrink-0 flex-col items-start gap-2">
+      <div className="flex w-full flex-nowrap items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap xl:w-auto xl:justify-end xl:overflow-visible xl:pb-0">
         <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 text-sm font-medium text-sky-600">
           Verified Account <BadgeCheck size={24} />
         </div>
