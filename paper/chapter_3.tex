@@ -111,7 +111,12 @@ Table~\ref{tab:tech_stack} outlines the technology stack used in developing the 
 
 The frontend and server-side application of IRIS were built using Next.js, React, and Tailwind CSS. These technologies provided a responsive and accessible user interface with role-based navigation and protected routing. This setup enabled Technology Generators, TTBDO Admins, UP Officials, and Guests to access pages and functions appropriate to their assigned roles, including application submission, registry browsing, dashboard viewing, document access, and administrative management.
 
-Supabase served as the main backend-as-a-service (BaaS) platform of IRIS, supporting authentication, database management, access control, file storage, backend logic, and server-side automation. Through PostgreSQL, the system stored structured records such as user accounts, IP applications, attachments, status histories, notifications, audit trail entries, and API-related records. Supabase also supported Google-based sign-in, role-based access control, remote procedure calls (RPCs), database triggers, and Edge Functions used to automate system processes and enforce role-based workflows.
+Supabase served as the main backend-as-a-service (BaaS) platform of IRIS, supporting authentication, database management, access control, file storage, backend logic, and server-side automation. 
+Through PostgreSQL, the system stored structured records such as user accounts, IP applications, attachments, status histories, notifications, audit trail entries, and API-related records. 
+Another reason for choosing a PostgreSQL database was its support for row-level locking mechanism which was essential for handling concurrent updates to application records, particularly for status updates and document management.
+Supabase also supported Google-based sign-in, role-based access control, remote procedure calls (RPCs), database triggers, and Edge Functions used to automate system processes and enforce role-based workflows.
+
+
 
 Nodemailer and Gmail SMTP were used to support the system's automated email notification service, particularly for sending deadline reminders and other system-generated messages to users.
 

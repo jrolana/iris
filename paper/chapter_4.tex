@@ -58,8 +58,8 @@ This section shows the different views of a specific application for both the te
 The web page shown in \figref{fig:techgen_appview} shows the perspective of a  
 technology generator when they want to view more details about a specific IP right application. 
 The current stage of the application is shown, as well as the list of all status changes of the IP right application with timestamp (highlighting the latest status). 
-Some steps on the trackbar of the application stage reflect the TTBDO's citizen charter where it shows whether the current step is within or over the processing time. 
-Whenever the deadline of the current status is past overdue, the system allows the technology generator to follow up the application with the TTBDO admin. 
+Some steps on the trackbar of the application stage reflect the TTBDO's Citizen's Charter where it shows whether the current step is within or over the processing time. 
+Whenever the deadline of the current status is overdue, the system allows the technology generator to follow up the application with the TTBDO admin. 
 \begin{figure}[H]    
 
     %(a)
@@ -201,7 +201,14 @@ The admin can also withdraw an application here, which is a feature that is not 
 \subsubsection{TTBDO Admin Application Collaborators View}
 As shown in \figref{fig:admin_view_collaboratorsA}, the TTBDO admin has a similar view to the technology generator; however, instead of filing reports, the admin can only view reports filed against collaborators. 
 Since it is possible that not all collaborators of the IP have IRIS accounts, the co-applicants can be listed as plain text upon the start of the application, and then the TTBDO admin can link their accounts if they have one in the system later on, as shown in \figref{fig:admin_view_collaboratorsB}.
-In certain cases where a collaborator has been reported, the TTBDO admin can also remove them from the system as shown in \figref{fig:admin_view_collaboratorsC}.
+To make the system more forgiving for users that mistakenly forgot to list a collaborator, the system allows adding of collaborators even after the application has been started as shown in \figref{fig:admin_view_collaboratorsC}.
+This is a feature that is not available for technology generators, as they can only link collaborators to the application, but cannot add new collaborators to the application.
+
+In certain cases where a collaborator has been reported, the TTBDO admin have various options in how they would handle the report as shown in \figref{fig:admin_view_collaboratorsD}.
+The TTBDO admin can use IRIS to send an email to all collaborators, except the one being reported, to initiate a meeting for further discussion of the conflict. 
+If the conflict is resolved, the admin can then reflect the resolution in the system by resolving the report filed.
+If the conflict is not resolved, the admin can remove the collaborator from the system, which also removes them from the list of collaborators of the application. 
+It is important to note that a collaborator can only be removed if they have an unresolved report filed against them.
 
 \clearpage
 \begin{figure}[H]
@@ -230,9 +237,17 @@ In certain cases where a collaborator has been reported, the TTBDO admin can als
 
     \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\linewidth,height=0.78\textheight,keepaspectratio]{view_application/admin_view_collaboratorsC.png}
+        \includegraphics[scale=0.65,keepaspectratio]{view_application/admin_view_collaboratorsC.png}
         \caption{}
+        \vspace{.5cm}
         \label{fig:admin_view_collaboratorsC}
+    \end{subfigure}
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[scale=0.5,keepaspectratio]{view_application/admin_view_collaboratorsD.png}
+        \caption{}
+        \label{fig:admin_view_collaboratorsD}
     \end{subfigure}
 
     \caption[TTBDO Admin Collaborators View]{TTBDO Admin Collaborators View. This section of the page shows the collaborators of an IP right application from the perspective of a TTBDO admin. Instead of filing a report against a collaborator, the admin can view reports filed against the collaborator. The admin can also link collaborators to their IRIS accounts and remove reported collaborators from the system.}
