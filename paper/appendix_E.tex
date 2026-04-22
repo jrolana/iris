@@ -8,7 +8,7 @@ This appendix presents the detailed results of the limited-scope penetration tes
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.1}
 
-\begin{longtable}{p{0.18\linewidth} p{0.32\linewidth} p{0.34\linewidth} p{0.07\linewidth} p{0.09\linewidth}}
+\begin{xltabular}{\linewidth}{p{0.18\linewidth} p{0.32\linewidth} X p{0.07\linewidth} p{0.09\linewidth}}
 \caption{Detailed Penetration Testing Results}
 \label{tab:detailed-penetration-testing-results}\\
 \hline
@@ -75,7 +75,7 @@ Error Handling & Check malformed-token response for internal error details & No 
 Rate Limiting & Repeated invalid-token request test & Run only on localhost or staging & N/A & Skipped \\
 
 \hline
-\end{longtable}
+\end{xltabular}
 
 \normalsize
 \end{landscape}
