@@ -48,6 +48,32 @@
 \usepackage{longtable}
 \usepackage{array}
 
+\usepackage{xcolor}
+\usepackage{listings}
+
+% Prevent document line numbers from overlapping code listing line numbers.
+\AtBeginEnvironment{lstlisting}{\par\nolinenumbers}
+\AtEndEnvironment{lstlisting}{\par\linenumbers}
+
+\lstdefinestyle{bashcode}{
+    language=bash,
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    breakatwhitespace=false,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    frame=single,
+    framerule=0.4pt,
+    rulecolor=\color{black},
+    backgroundcolor=\color{gray!5},
+    captionpos=b,
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=8pt,
+    tabsize=2
+}
+
 %
 %-- set margins,  you may need to edit this for your own printer
 %
