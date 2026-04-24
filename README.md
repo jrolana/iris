@@ -8,9 +8,5 @@
 
 ### To compile:
 
-`pdflatex main.tex`
-
-or to compile with messages:
-
 `latexmk -C`
 `latexmk -pdf main.tex`
