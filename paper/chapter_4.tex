@@ -535,8 +535,24 @@ The User Registration Requests table displays submitted registration requests, i
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[width=0.85\textwidth]{user_management/registration_requests.png}     
-    \caption[User Registration Requests Table]{User Registration Requests Table. This table shows pending sign-up requests submitted by unregistered users. Administrators can review the user's name, email address, and college, modify the assigned role if needed, and approve or reject the request.}
+
+    \begin{subfigure}{0.85\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{user_management/registration_requests.png}
+        \caption{}
+        \label{fig:user_registration_requests_table}
+    \end{subfigure}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.85\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{user_management/registration_requests_approval.png}
+        \caption{}
+        \label{fig:user_registration_requests_approval}
+    \end{subfigure}
+
+    \caption[User Registration Requests Table]{User Registration Requests Table. This figure shows (a) the pending sign-up requests submitted by unregistered users and (b) the approval confirmation modal where administrators can confirm the request and change the assigned role before approval.}
     \label{fig:user_registration_requests}                 
 \end{figure}
 
@@ -604,15 +620,22 @@ The sorting options include sorting by filing date, IP title, date added, and da
 \end{figure}
 
 \subsection{Application Documents}
-The Application Documents page provides a centralized location for users to view the relevant IP disclosure forms for each IP type. This page can be viewed by both guests and technology generators. Through this page, users can identify the required forms and documents needed for the IP application process.
+The Application Documents page provides a centralized location for viewing the relevant IP disclosure forms for each IP type. Through this page, users can identify the required forms and documents needed for the IP application process.
 
-For technology generators, the page includes a start application call-to-action button that redirects the user to the new application page.
+Guests can view the available public documents as reference materials and are guided to review the files or use the application wizard to identify the appropriate IP type. Technology generators have the same view, with an additional start application call-to-action button that redirects them to the new application page. TTBDO admins can manage the public document list by uploading new documents, updating existing document details or files, and deleting documents that should no longer appear on the page.
 
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{application_documents.png}     
-    \caption[Application Documents Page]{Application Documents Page. The page shows the available IP disclosure forms for each IP type, provides a centralized reference for required application documents, and includes a start application button.}
+    \caption[Application Documents Page]{Application Documents Page. The page shows the available IP disclosure forms and public documents for each IP type, providing guests with reference materials and guidance for reviewing the application process.}
     \label{fig:documents}
+\end{figure}
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[width=0.85\textwidth]{application_documents_admin.png}     
+    \caption[Administrator Application Documents Page]{Administrator Application Documents Page. This page allows TTBDO admins to upload, update, and delete public application documents shown in IRIS.}
+    \label{fig:documents_admin}
 \end{figure}
 
 \subsection{Application Guide}
