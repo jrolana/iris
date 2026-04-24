@@ -63,6 +63,12 @@ GitHub served as the version control platform for source code management and col
 
 The development environment ran on Windows 10, Windows 11, and macOS, while Google Chrome and Microsoft Edge were used to test system compatibility across browsers. Playwright Test was utilized for end-to-end testing to verify system behavior across role-based scenarios.
 
+\subsubsection{Cost-Benefit Justification of Software Tools}
+
+The software tools were selected with cost and practicality in mind. Most of the tools used, such as Visual Studio Code, GitHub, GitHub Projects, Playwright Test, Figma, Canva, and Vercel, were accessible through free versions or free tiers that were enough for the scope of the project.
+
+This helped reduce upfront expenses for development, design, testing, project tracking, and deployment. At the same time, tools such as GitHub, Figma, Canva, and Vercel provide paid plans that may be used later if the system requires larger storage, more collaboration features, or higher deployment capacity.
+
 \subsubsection{Hardware Specifications}
 The following hardware specifications outline the minimum requirements used during development and testing.
 
@@ -111,6 +117,10 @@ The frontend and server-side application of IRIS were built using Next.js, React
 Supabase served as the main backend-as-a-service (BaaS) platform of IRIS, supporting authentication, database management, access control, file storage, backend logic, and server-side automation. Through PostgreSQL, the system stored structured records such as user accounts, IP applications, attachments, status histories, notifications, audit trail entries, and API-related records. Supabase also supported Google-based sign-in, role-based access control, remote procedure calls (RPCs), database triggers, and Edge Functions used to automate system processes and enforce role-based workflows.
 
 Nodemailer and Gmail SMTP were used to support the system's automated email notification service, particularly for sending deadline reminders and other system-generated messages to users.
+
+\subsection{Cost-Benefit Justification of the Technology Stack}
+
+The technology stack was also selected with consideration for cost. Next.js, React, and Tailwind CSS are open-source technologies, so they did not require licensing fees. Supabase was practical because its free tier was enough for development and initial deployment while still providing options to upgrade as database storage, authentication usage, file storage, or server-side functions increase. Nodemailer and Gmail SMTP also reduced cost by allowing the system to send email notifications without immediately using a separate paid email service. This setup allowed IRIS to begin with minimal cost while keeping the option to scale when needed.
 
 \section{Requirements Analysis}
 
