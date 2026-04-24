@@ -141,8 +141,8 @@ export default function SignUpForm() {
             Sign Up
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Submit your details to create an account. You’ll receive an email
-            once your account is approved and ready to use.
+            Use your Gmail account to sign up. You’ll receive an email once your
+            account is approved.
           </p>
         </div>
         <div>
