@@ -251,7 +251,8 @@ export default function Dashboard() {
   const { data, isLoading } = useGetDashboardAnalytics();
   const currentYear = new Date().getFullYear();
   // handles mode directly here
-  const [viewMode, setViewMode] = useState<DashboardViewMode>("no_pie");
+  const viewMode = "default" as DashboardViewMode;
+
   const showPieCharts = viewMode === "default";
 
   const [filters, setFilters] = useState<DashboardFilters>({
@@ -586,34 +587,6 @@ export default function Dashboard() {
 
           <div className="mt-4 flex flex-col gap-4 border-t border-gray-100 pt-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="flex flex-col gap-4">
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => setViewMode("default")}
-                  className={cn(
-                    "rounded-full border px-4 py-2 text-sm font-medium transition",
-                    viewMode === "default"
-                      ? "border-brand-500 bg-brand-50 text-brand-700"
-                      : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50",
-                  )}
-                >
-                  Standard View
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setViewMode("no_pie")}
-                  className={cn(
-                    "rounded-full border px-4 py-2 text-sm font-medium transition",
-                    viewMode === "no_pie"
-                      ? "border-brand-500 bg-brand-50 text-brand-700"
-                      : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50",
-                  )}
-                >
-                  No Pie Charts
-                </button>
-              </div>
-
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
                 <YearSelect
                   label="From"
@@ -642,11 +615,6 @@ export default function Dashboard() {
               <div className="rounded-full bg-gray-100 px-3 py-2 text-sm text-gray-700">
                 <span className="font-medium">Preset:</span>{" "}
                 {PRESET_LABELS[filters.preset]}
-              </div>
-
-              <div className="rounded-full bg-gray-100 px-3 py-2 text-sm text-gray-700">
-                <span className="font-medium">View:</span>{" "}
-                {viewMode === "default" ? "Standard" : "No Pie Charts"}
               </div>
             </div>
           </div>
