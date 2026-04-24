@@ -824,21 +824,10 @@ Overall, the results suggest that IRIS met the expected baseline security requir
 
 \subsection{User Acceptance Testing}
 
-User Acceptance Testing was conducted to determine whether the completed IRIS web application was acceptable to the team and client-side evaluators. During the testing, TTBDO participants evaluated the system from both administrative and Technology Generator perspectives. Some TTBDO personnel also acted as Technology Generators during testing, which allowed the team to observe how the system supported both office-side management tasks and user-side application activities.
+User Acceptance Testing was conducted to determine whether the completed IRIS web application was acceptable to the development team and TTBDO evaluators. The activity involved two developers and three TTBDO personnel. Some TTBDO participants also acted as technology generators so that the system could be reviewed from both office-side and end-user perspectives.
 
-The testing showed that the system was accepted after the main workflows were reviewed. The accepted workflows included role-based authentication and access, user and role management, application submission and monitoring, Technology Generator management, application registry visibility, notifications, reports, application documents, and dashboards. No major defect was identified that required a redesign of the system or prevented the use of its core functions.
+The testing showed that the main workflows were accepted after review. These included authentication and invite-based access, user and role management, application submission and monitoring, technology generator management, application registry visibility, public pages, notifications, reports, application documents, dashboards, and general interface navigation. No major defect was identified that required system redesign or prevented the use of core functions.
 
-The feedback gathered during UAT mainly consisted of refinements to existing features and additional office-specific requirements. Some of these refinements were already incorporated during continued system development and are reflected in the implemented modules discussed in the preceding sections. The remaining items were treated as enhancement recommendations because they did not prevent the use of the core workflows. The feedback covered the following areas:
+The feedback gathered during UAT mainly consisted of minor refinements to existing features and additional office-specific requirements. These minor revisions were addressed during continued development and are reflected in the final implemented system. Since the remaining feedback did not prevent the use of the core workflows, these items were treated as enhancement considerations for continued system improvement.
 
-\begin{itemize}
-    \item interface and navigation improvements, including page layout, sidebar navigation, signup page display, and dashboard actions;
-    \item user and role management refinements, such as role editing before approval, adding new users, and providing reasons for rejection;
-    \item application workflow adjustments, including Technology Generator search, funding source selection, TTBDO email information, and IPOPHL IP number format validation;
-    \item Technology Generator coordination controls, such as administrator approval when adding Technology Generators, notes for removal or reporting, and notifications to affected users;
-    \item registry, public page visibility, and document management changes, including registry column revisions, public visibility rules, help links, and administrator-managed documents and forms; and
-    \item report formatting revisions, including UPV branding, selected date range, yearly breakdown, removal of the CSV button, and display of a message when no chart is available.
-\end{itemize}
-
-One issue encountered during UAT involved the email invite link. The issue was traced to limitations of Supabase as the email delivery provider rather than to a failure in the system workflow itself. Since the invite workflow remained valid but the email delivery service was limited, the team decided to use a different email provider for sending invite links.
-
-Overall, the UAT results showed that IRIS was acceptable for its intended use. The system’s main workflows were validated, while the feedback primarily focused on usability improvements, operational completeness, reporting details, and office-specific requirements. These results supported the completion of final refinements and helped identify enhancement items for continued system improvement.
+Overall, the UAT results showed that IRIS was acceptable for its intended use. The system’s main workflows were validated, all minor revisions were settled, and the remaining concerns were limited to future enhancements and office-specific improvements.
