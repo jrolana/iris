@@ -58,8 +58,8 @@ This section shows the different views of a specific application for both the te
 The web page shown in \figref{fig:techgen_appview} shows the perspective of a  
 technology generator when they want to view more details about a specific IP right application. 
 The current stage of the application is shown, as well as the list of all status changes of the IP right application with timestamp (highlighting the latest status). 
-Some steps on the trackbar of the application stage reflect the TTBDO's citizen charter where it shows whether the current step is within or over the processing time. 
-Whenever the deadline of the current status is past overdue, the system allows the technology generator to follow up the application with the TTBDO admin. 
+Some steps on the trackbar of the application stage reflect the TTBDO's Citizen's Charter where it shows whether the current step is within or over the processing time. 
+Whenever the deadline of the current status is overdue, the system allows the technology generator to follow up the application with the TTBDO admin. 
 \begin{figure}[H]    
 
     %(a)
@@ -109,7 +109,9 @@ Figure~\ref{fig:techgen_view_attachmentC} also shows that the system allows mult
 
 
 \subsubsection{Technology Generator Application Collaborators View}
-For the technology generator's collaborators view, it is shown in \figref{fig:techgen_collaborators} that the technology generator can see the list of all collaborators of the IP right application. The technology generator can also link other collaborators to the application, but they cannot remove any collaborator from the system.
+For the technology generator's collaborators view, it is shown in \figref{fig:techgen_collaborators} that the technology generator can see the list of all collaborators of the IP right application and has a button for adding new collaborators. 
+The technology generator can also link other collaborators to the application, but they cannot remove any collaborator from the system. For linking, IRIS will find the collaborator's account in the system based on their email address and link them to the application if they have an account in the system.
+As shown in \figref{fig:techgen_view_collaboratorsB}, the technology generators can search for the account of the collaborator that they wish to add in the application. However, the newly added account will be pending until the TTBDO admin approves it.
 For cases where a technology generator wishes to file a complaint against a collaborator, the system allows them to report the collaborator to the TTBDO admin, as shown in \figref{fig:techgen_view_collaboratorsB}. 
 
 \clearpage
@@ -132,10 +134,23 @@ For cases where a technology generator wishes to file a complaint against a coll
         \label{fig:techgen_view_collaboratorsB}
     \end{subfigure}
 
+    
+\end{figure}
+\clearpage
+
+\begin{figure}[H]\ContinuedFloat
+    \centering
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=0.76\textheight,keepaspectratio]{view_application/techgen_view_collaboratorsC.png}
+        \caption{}
+        \label{fig:techgen_view_collaboratorsC}
+    \end{subfigure}
+
     \caption[Technology Generator Application Collaborators View]{Technology Generator Application Collaborators View. This section of the page shows the collaborators of an IP right application from the perspective of a technology generator, as well as the option to report collaborators.}
     \label{fig:techgen_collaborators}
 \end{figure}
-\clearpage
 
 
 
@@ -144,7 +159,6 @@ Technology generators can request a status update when the current application s
 
 This feature provides technology generators with a formal way to follow up delayed applications. After a request is submitted, TTBDO admins can view the request through the system's request update notification and listing features, which are discussed in Section~\ref{sec:status_update_requests}.
 
-\clearpage
 \begin{figure}[H]
     \centering
 
@@ -164,7 +178,6 @@ This feature provides technology generators with a formal way to follow up delay
         \label{fig:status_request_requested}
     \end{subfigure}
 \end{figure}
-\clearpage
 
 \begin{figure}[H]\ContinuedFloat
     \centering
@@ -179,7 +192,6 @@ This feature provides technology generators with a formal way to follow up delay
     \caption[Status Update Request Sequence]{Status Update Request Sequence. This figure shows the technology generator status update request flow: (a) the available follow-up action for an overdue application status, (b) the submitted request awaiting TTBDO admin review, and (c) the acknowledged request after administrative review.}
     \label{fig:status_update_request}
 \end{figure}
-\clearpage
 
 
 \subsubsection{TTBDO Admin General Application View}
@@ -200,8 +212,16 @@ The admin can also withdraw an application here, which is a feature that is not 
 
 \subsubsection{TTBDO Admin Application Collaborators View}
 As shown in \figref{fig:admin_view_collaboratorsA}, the TTBDO admin has a similar view to the technology generator; however, instead of filing reports, the admin can only view reports filed against collaborators. 
+The admin can also accept or reject requests for addition of a collaborator, when a technology generator would add a collaborator in an ongoing application as shown previously in \figref{fig:techgen_view_collaboratorsB}.
 Since it is possible that not all collaborators of the IP have IRIS accounts, the co-applicants can be listed as plain text upon the start of the application, and then the TTBDO admin can link their accounts if they have one in the system later on, as shown in \figref{fig:admin_view_collaboratorsB}.
-In certain cases where a collaborator has been reported, the TTBDO admin can also remove them from the system as shown in \figref{fig:admin_view_collaboratorsC}.
+To make the system more forgiving for users that mistakenly forgot to list a collaborator, the system allows adding of collaborators even after the application has been started as shown in \figref{fig:admin_view_collaboratorsC}.
+This is a feature that is not available for technology generators, as they can only link collaborators to the application, but cannot add new collaborators to the application.
+
+In certain cases where a collaborator has been reported, the TTBDO admin has various options in how they would handle the report as shown in \figref{fig:admin_view_collaboratorsD}.
+The TTBDO admin can use IRIS to send an email to all collaborators, except the one being reported, to initiate a meeting for further discussion of the conflict. 
+If the conflict is resolved, the admin can then reflect the resolution in the system by resolving the report filed.
+If the conflict is not resolved, the admin can remove the collaborator from the system, which also removes them from the list of collaborators of the application. 
+It is important to note that a collaborator can only be removed if they have an unresolved report filed against them.
 
 \clearpage
 \begin{figure}[H]
@@ -230,9 +250,17 @@ In certain cases where a collaborator has been reported, the TTBDO admin can als
 
     \begin{subfigure}{0.98\textwidth}
         \centering
-        \includegraphics[width=\linewidth,height=0.78\textheight,keepaspectratio]{view_application/admin_view_collaboratorsC.png}
+        \includegraphics[scale=0.65,keepaspectratio]{view_application/admin_view_collaboratorsC.png}
         \caption{}
+        \vspace{.5cm}
         \label{fig:admin_view_collaboratorsC}
+    \end{subfigure}
+
+    \begin{subfigure}{0.98\textwidth}
+        \centering
+        \includegraphics[scale=0.5,keepaspectratio]{view_application/admin_view_collaboratorsD.png}
+        \caption{}
+        \label{fig:admin_view_collaboratorsD}
     \end{subfigure}
 
     \caption[TTBDO Admin Collaborators View]{TTBDO Admin Collaborators View. This section of the page shows the collaborators of an IP right application from the perspective of a TTBDO admin. Instead of filing a report against a collaborator, the admin can view reports filed against the collaborator. The admin can also link collaborators to their IRIS accounts and remove reported collaborators from the system.}
@@ -349,6 +377,7 @@ This page allows users to begin their IP right application.
 \subsubsection{New Application Form}
 After choosing the right IP type and disclosure form, the technology generator or the TTBDO admin is then directed to a new application form page as shown in \figref{fig:new_application_form}.
 The form includes the necessary information to start the application such as the project title, funding source, list of collaborators, and the IP Disclosure Form. 
+The TTBDO has provided options for the funding source of the project, but the system also allows users to input a custom funding source if the provided options do not apply to their project.
 As shown in figures \ref{fig:new_application_formB} and \ref{fig:new_application_formC}, the collaborators are added at the start of the application. 
 When a collaborator does not have an account in the system, they are added as plain text and then they can be linked to their IRIS accounts later on. 
 It is also shown in \figref{fig:new_application_formD} that the system only allows one PDF file upload for the formal application form.
@@ -613,6 +642,15 @@ For technology generators, the page includes a start application call-to-action 
     \includegraphics[width=0.85\textwidth]{application_documents.png}     
     \caption[Application Documents Page]{Application Documents Page. The page shows the available IP disclosure forms for each IP type, provides a centralized reference for required application documents, and includes a start application button.}
     \label{fig:documents}
+\end{figure}
+
+Meanwhile, guests have a "use application wizard" call-to-action button that redirects them to the public wizard page, which provides information about the different IP types and their corresponding disclosure forms, without the option to start an application as shown in \figref{fig:public_wizard}.
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[width=0.85\textwidth]{public_wizard.png}     
+    \caption[Public Wizard Page]{Public Wizard Page. The page is similar to the wizard interface at the start of the application process, but made available to guests. It only provides information about the different IP types and their corresponding disclosure forms, without the option to start an application.}
+    \label{fig:public_wizard}
 \end{figure}
 
 \subsection{Application Guide}
