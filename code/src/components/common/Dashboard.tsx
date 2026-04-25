@@ -251,7 +251,7 @@ export default function Dashboard() {
   const { data, isLoading } = useGetDashboardAnalytics();
   const currentYear = new Date().getFullYear();
   // handles mode directly here
-  const viewMode = "default" as DashboardViewMode;
+  const viewMode = "no_pie" as DashboardViewMode;
 
   const showPieCharts = viewMode === "default";
 
