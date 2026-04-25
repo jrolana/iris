@@ -415,7 +415,7 @@ The results were used to identify whether the tested routes were responsive and 
 
 Penetration testing was conducted to evaluate the baseline security controls of the IRIS web application before final deployment. The test focused on common security concerns, including unauthorized access, improper role use, exposed database resources, unsafe API access, suspicious input handling, and error-message leakage.
 
-The testing was performed using a scripted set of HTTP requests against the locally deployed instance of IRIS and its connected Supabase backend, as shown in Appendix~\ref{appendix:penetration-testing-script}. The requests simulated unauthenticated users, authenticated users with different roles, invalid bearer tokens, unsupported HTTP methods, direct REST access attempts, suspicious input payloads, and user-supplied role tampering. Each test case recorded the tested area, expected secure behavior, observed response, result, and evidence file.
+The testing was performed using a scripted set of HTTP requests against the locally deployed instance of IRIS and its connected Supabase backend, as shown in Appendix~\ref{app:penetration-testing-script}. The requests simulated unauthenticated users, authenticated users with different roles, invalid bearer tokens, unsupported HTTP methods, direct REST access attempts, suspicious input payloads, and user-supplied role tampering. Each test case recorded the tested area, expected secure behavior, observed response, result, and evidence file.
 
 Table~\ref{tab:pentest-scope} summarizes the areas covered during penetration testing.
 
