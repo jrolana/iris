@@ -1,8 +1,15 @@
 @startuml
 ' Maximize spacing to give orthogonal lines plenty of routing channels
 skinparam linetype ortho
-skinparam nodesep 210
-skinparam ranksep 240
+
+' Compress the gaps between tables (Default is usually around 40-50)
+skinparam nodesep 180
+skinparam ranksep 120
+
+' Increase the font sizes
+skinparam defaultFontSize 25
+skinparam classFontSize 25
+
 hide circle
 hide empty members
 
@@ -20,7 +27,7 @@ class ipr_applications {
     id : uuid <<PK>>
     ip_title : text
     project_title : text
-    ip_type : USER-DEFINED
+    ip_type : text::IP_TYPE
     funding_source : text
     filing_date : date
     registration_date : date
@@ -38,7 +45,7 @@ class users {
     id : uuid <<PK>>
     full_name : text
     email : text
-    role : USER-DEFINED
+    role : text::USER_ROLE
     created_at : timestamptz
     is_active : boolean
     college_code : varchar <<FK>>
@@ -135,11 +142,11 @@ class user_registration_requests {
     id : uuid <<PK>>
     full_name : text
     email : text
-    role : USER-DEFINED
+    role : text::USER_ROLE
     college_code : varchar <<FK>>
     other_college_name : text
     external_institution : text
-    status : USER-DEFINED
+    status : text::REGISTRATION_STATUS
     requested_at : timestamptz
     invite_expires_at : timestamptz
 }
@@ -153,10 +160,10 @@ class audit_trail {
     event_at : timestamptz
     snapshot_user_name : text
     snapshot_user_role : text
-    action_type : USER-DEFINED
+    action_type : text::ACTION_TYPE
     action_taken : text
-    action_result : USER-DEFINED
-    record_type : USER-DEFINED
+    action_result : text::ACTION_RESULT
+    record_type : text::RECORD_TYPE
     snapshot_record_reference : text
     changed_fields : jsonb
 }
@@ -171,6 +178,10 @@ class api_tokens {
 ' Relationships (Padded & Routed)
 '==============================
 
+
+' --- Self Relation ---
+ipr_applications "  0..1  " ----right---- "  * " ipr_applications : " \n\nparent_app "
+
 ' --- Top Level / System ---
 college_units "  1  " -up- "  * " user_registration_requests
 
@@ -181,14 +192,14 @@ pings "  * " -down- "  1  " ipr_applications
 
 ' --- Core Horizontal Flow ---
 college_units "  1  " -right- "  * " users
-users "  1  " -right- "  * " ipr_applications : "  created_by  "
+users "  1  " -right- "  * " ipr_applications : "    created_by  "
+
+ipr_applications -[hidden]right-> ipr_statuses : ""
 
 ' --- Statuses ---
-ipr_applications "  1  " -right- "  * " ipr_statuses
-ipr_applications "  * " -right- "  1  " ipr_statuses : "  curr_status  "
+ipr_applications "  1  " ----right---- "  * " ipr_statuses
+ipr_applications "  * " ----right---- "  1  " ipr_statuses : "  curr_status  "
 
-' --- Self Relation ---
-ipr_applications "  0..1  " -- "  * " ipr_applications : " parent_app "
 
 ' --- Lower Tier Details ---
 ipr_applications "  1  " -down- " *" inventors

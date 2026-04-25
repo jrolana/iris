@@ -25,14 +25,14 @@ const navItems: NavItem[] = [
     path: "/admin/user-management",
   },
   {
-    icon: <CodeXml />,
-    name: "Developer Settings",
-    path: "/admin/developer-settings",
-  },
-  {
     icon: <HistoryIcon />,
     name: "Audit Trail",
     path: "/admin/audit-trail",
+  },
+  {
+    icon: <CodeXml />,
+    name: "Developer Settings",
+    path: "/admin/developer-settings",
   },
 ];
 

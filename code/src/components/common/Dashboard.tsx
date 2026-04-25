@@ -20,7 +20,12 @@ import {
   buildSummaryTotals,
   STATUS_ORDER,
 } from "@/lib/dashboard/dashboard-summary";
-import { PIE_CHARTS, TREND_CHARTS } from "@/lib/dashboard/dashboard";
+import {
+  PDF_EXPORT_CHARTS,
+  PDF_EXPORT_CHARTS_NO_PIE,
+  PIE_CHARTS,
+  TREND_CHARTS,
+} from "@/lib/dashboard/dashboard";
 import { IP_TYPES } from "@/lib/types/ip";
 
 function ChartSkeleton({ height = "h-[320px]" }: { height?: string }) {
@@ -240,9 +245,15 @@ function YearSelect({
   );
 }
 
+type DashboardViewMode = "default" | "no_pie";
+
 export default function Dashboard() {
   const { data, isLoading } = useGetDashboardAnalytics();
   const currentYear = new Date().getFullYear();
+  // handles mode directly here
+  const viewMode = "no_pie" as DashboardViewMode;
+
+  const showPieCharts = viewMode === "default";
 
   const [filters, setFilters] = useState<DashboardFilters>({
     preset: "current_year",
@@ -514,7 +525,9 @@ export default function Dashboard() {
   );
 
   const pieSubtitle = `By IP type, ${filters.yearFrom}–${filters.yearTo}`;
-
+  const exportCharts = showPieCharts
+    ? PDF_EXPORT_CHARTS
+    : PDF_EXPORT_CHARTS_NO_PIE;
 
   return (
     <div className="space-y-6">
@@ -531,6 +544,7 @@ export default function Dashboard() {
             yearTo={filters.yearTo}
             summaryTableRows={summaryTableRows}
             summaryTotals={summaryTotals}
+            chartExports={exportCharts}
           />
         </div>
       </div>
@@ -572,22 +586,24 @@ export default function Dashboard() {
           </div>
 
           <div className="mt-4 flex flex-col gap-4 border-t border-gray-100 pt-4 lg:flex-row lg:items-end lg:justify-between">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
-              <YearSelect
-                label="From"
-                value={filters.yearFrom}
-                years={selectableYears}
-                disabled={isLoading || filters.preset !== "custom"}
-                onChange={handleCustomYearFromChange}
-              />
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+                <YearSelect
+                  label="From"
+                  value={filters.yearFrom}
+                  years={selectableYears}
+                  disabled={isLoading || filters.preset !== "custom"}
+                  onChange={handleCustomYearFromChange}
+                />
 
-              <YearSelect
-                label="To"
-                value={filters.yearTo}
-                years={selectableYears}
-                disabled={isLoading || filters.preset !== "custom"}
-                onChange={handleCustomYearToChange}
-              />
+                <YearSelect
+                  label="To"
+                  value={filters.yearTo}
+                  years={selectableYears}
+                  disabled={isLoading || filters.preset !== "custom"}
+                  onChange={handleCustomYearToChange}
+                />
+              </div>
             </div>
 
             <div className="flex flex-wrap gap-2">
@@ -610,7 +626,9 @@ export default function Dashboard() {
           </h2>
 
           <p className="mt-1 text-sm text-gray-500">
-            View status distribution and grant rate for the selected years.
+            {showPieCharts
+              ? "View status distribution and grant rate for the selected years."
+              : "View grant rate and high-level portfolio metrics for the selected years."}
           </p>
         </div>
 
@@ -645,49 +663,51 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="space-y-4 lg:col-span-12">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {PIE_CHARTS.slice(0, 2).map((chart) =>
-              isLoading ? (
-                <ChartSkeleton key={chart.chartId} height="h-[320px]" />
-              ) : (
-                <LazyMount
-                  key={chart.chartId}
-                  fallback={<ChartSkeleton height="h-[320px]" />}
-                >
-                  <PieChart
-                    chartId={chart.chartId}
-                    title={chart.title}
-                    subtitle={pieSubtitle}
-                    colors={ANALOGOUS_COLORS}
-                    data={pieChartDataByStatus[chart.status] ?? []}
-                  />
-                </LazyMount>
-              ),
-            )}
-          </div>
+        {showPieCharts ? (
+          <div className="space-y-4 lg:col-span-12">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {PIE_CHARTS.slice(0, 2).map((chart) =>
+                isLoading ? (
+                  <ChartSkeleton key={chart.chartId} height="h-[320px]" />
+                ) : (
+                  <LazyMount
+                    key={chart.chartId}
+                    fallback={<ChartSkeleton height="h-[320px]" />}
+                  >
+                    <PieChart
+                      chartId={chart.chartId}
+                      title={chart.title}
+                      subtitle={pieSubtitle}
+                      colors={ANALOGOUS_COLORS}
+                      data={pieChartDataByStatus[chart.status] ?? []}
+                    />
+                  </LazyMount>
+                ),
+              )}
+            </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {PIE_CHARTS.slice(2).map((chart) =>
-              isLoading ? (
-                <ChartSkeleton key={chart.chartId} height="h-[320px]" />
-              ) : (
-                <LazyMount
-                  key={chart.chartId}
-                  fallback={<ChartSkeleton height="h-[320px]" />}
-                >
-                  <PieChart
-                    chartId={chart.chartId}
-                    title={chart.title}
-                    subtitle={pieSubtitle}
-                    colors={ANALOGOUS_COLORS}
-                    data={pieChartDataByStatus[chart.status] ?? []}
-                  />
-                </LazyMount>
-              ),
-            )}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {PIE_CHARTS.slice(2).map((chart) =>
+                isLoading ? (
+                  <ChartSkeleton key={chart.chartId} height="h-[320px]" />
+                ) : (
+                  <LazyMount
+                    key={chart.chartId}
+                    fallback={<ChartSkeleton height="h-[320px]" />}
+                  >
+                    <PieChart
+                      chartId={chart.chartId}
+                      title={chart.title}
+                      subtitle={pieSubtitle}
+                      colors={ANALOGOUS_COLORS}
+                      data={pieChartDataByStatus[chart.status] ?? []}
+                    />
+                  </LazyMount>
+                ),
+              )}
+            </div>
           </div>
-        </div>
+        ) : null}
 
         <div className="border-t border-gray-100 pt-6 lg:col-span-12">
           <h2 className="text-2xl font-bold text-gray-700">

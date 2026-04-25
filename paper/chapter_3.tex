@@ -15,7 +15,8 @@ The research framework followed a systematic progression from problem identifica
 
 The research began by identifying the limitations of the existing IP application monitoring and document tracking process within the university. These limitations were identified through interviews with TTBDO personnel and observation of existing workflows. Concurrently, a review of local and international literature on IP management systems, university technology transfer, digital records management, and role-based access control was conducted to establish the conceptual foundation for the system design.
 
-Building on these insights, system requirements were elicited and analyzed through user interviews and document analysis. The requirements were organized according to the system's major users, namely Technology Generators, TTBDO Admins, UP Officials, and Guests. These requirements were then translated into system features through iterative Agile development cycles. Continuous feedback from stakeholders was gathered to ensure that the system reflected actual IP application workflows, including application creation, application monitoring, status updating, document access, user registration, notification delivery, dashboard reporting, and controlled data sharing through an API endpoint.
+Building on these insights, system requirements were elicited and analyzed through user interviews and document analysis. 
+The requirements were organized according to the system's major users, namely technology generators, TTBDO admins, UP officials, and guests. These requirements were then translated into system features through iterative Agile development cycles. Continuous feedback from stakeholders was gathered to ensure that the system reflected actual IP application workflows, including application creation, application monitoring, status updating, document access, user registration, notification delivery, dashboard reporting, and controlled data sharing through an API endpoint.
 
 Finally, the system was evaluated through the testing activities described in Section~\ref{sec:testing_and_evaluation}, Testing and Evaluation. The feedback and test results gathered during this phase informed final system adjustments before deployment.
 
@@ -80,7 +81,9 @@ The following hardware specifications outline the minimum requirements used duri
   \item Devices for testing: Desktop and laptop computers
 \end{itemize}
 
-Devices were equipped with an Intel Core i5 processor and at least 8 GB of RAM to ensure stable performance when running development tools and the system itself. A 512 GB SSD provided sufficient storage and faster access during development and testing. An internet connection of at least 30 Mbps was required to support online services such as GitHub, Vercel, and Supabase. Testing was conducted on both desktop and laptop computers to verify that the system operated reliably across different device types.
+Devices were equipped with an Intel Core i5 processor and at least 8 GB of RAM to ensure stable performance when running development tools and the system itself. 
+A 512 GB SSD provided sufficient storage and faster access during development and testing. An internet connection of at least 30 Mbps was required to support online services such as GitHub, Vercel, and Supabase. 
+Testing was conducted on both desktop and laptop computers to verify that the system operated reliably across different device types.
 
 \subsection{Technology Stack}
 
@@ -114,7 +117,12 @@ Table~\ref{tab:tech_stack} outlines the technology stack used in developing the 
 
 The frontend and server-side application of IRIS were built using Next.js, React, and Tailwind CSS. These technologies provided a responsive and accessible user interface with role-based navigation and protected routing. This setup enabled Technology Generators, TTBDO Admins, UP Officials, and Guests to access pages and functions appropriate to their assigned roles, including application submission, registry browsing, dashboard viewing, document access, and administrative management.
 
-Supabase served as the main backend-as-a-service (BaaS) platform of IRIS, supporting authentication, database management, access control, file storage, backend logic, and server-side automation. Through PostgreSQL, the system stored structured records such as user accounts, IP applications, attachments, status histories, notifications, audit trail entries, and API-related records. Supabase also supported Google-based sign-in, role-based access control, remote procedure calls (RPCs), database triggers, and Edge Functions used to automate system processes and enforce role-based workflows.
+Supabase served as the main backend-as-a-service (BaaS) platform of IRIS, supporting authentication, database management, access control, file storage, backend logic, and server-side automation. 
+Through PostgreSQL, the system stored structured records such as user accounts, IP applications, attachments, status histories, notifications, audit trail entries, and API-related records. 
+Another reason for choosing a PostgreSQL database was its support for row-level locking mechanism which was essential for handling concurrent updates to application records, particularly for status updates and document management.
+Supabase also supported Google-based sign-in, role-based access control, remote procedure calls (RPCs), database triggers, and Edge Functions used to automate system processes and enforce role-based workflows.
+
+
 
 Nodemailer and Gmail SMTP were used to support the system's automated email notification service, particularly for sending deadline reminders and other system-generated messages to users.
 
@@ -209,7 +217,7 @@ Guests are unauthenticated or public users with limited access. They can view pu
 
 \begin{figure}[H]
    \centering
-   \includegraphics[scale=0.33]{db_design.png}
+   \includegraphics[width=\linewidth]{db_design.png}
    \caption[Database Design (Schema) of IRIS]{Database Design (Schema) of IRIS. It shows an entity relationship diagram (ERD) for the PostgreSQL database of the system.}
     \label{fig:db_design}
 \end{figure}

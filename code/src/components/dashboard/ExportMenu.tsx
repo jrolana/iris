@@ -19,6 +19,7 @@ type ExportMenuProps = {
   yearTo: number;
   summaryTableRows: SummaryTableRows;
   summaryTotals: SummaryTotals;
+  chartExports?: typeof PDF_EXPORT_CHARTS;
 };
 
 export default function ExportMenu({
@@ -26,6 +27,7 @@ export default function ExportMenu({
   yearTo,
   summaryTableRows,
   summaryTotals,
+  chartExports = PDF_EXPORT_CHARTS,
 }: ExportMenuProps) {
   const [isExportingPdf, setIsExportingPdf] = useState(false);
 
@@ -40,7 +42,7 @@ export default function ExportMenu({
         filename: `ip-portfolio-${yearFrom}-${yearTo}.pdf`,
         yearFrom,
         yearTo,
-        chartExports: PDF_EXPORT_CHARTS,
+        chartExports,
         summaryTableRows,
         summaryTotals,
       });

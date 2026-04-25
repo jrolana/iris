@@ -96,3 +96,7 @@ export const PDF_EXPORT_CHARTS = [
     title: "Downgraded Applications Over Time",
   },
 ];
+
+export const PDF_EXPORT_CHARTS_NO_PIE = PDF_EXPORT_CHARTS.filter(
+  (chart) => !chart.chartId.endsWith("-pie"),
+);

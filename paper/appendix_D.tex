@@ -10,7 +10,7 @@ The \texttt{/error-404} route was excluded from the main performance interpretat
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.1}
 
-\begin{longtable}{p{0.12\linewidth} p{0.30\linewidth} p{0.09\linewidth} p{0.07\linewidth} p{0.08\linewidth} p{0.08\linewidth} p{0.08\linewidth} p{0.08\linewidth} p{0.08\linewidth}}
+\begin{xltabular}{\linewidth}{p{0.12\linewidth} X p{0.09\linewidth} p{0.07\linewidth} p{0.08\linewidth} p{0.08\linewidth} p{0.08\linewidth} p{0.08\linewidth} p{0.08\linewidth}}
 \caption{Detailed Lighthouse Performance Audit Results}
 \label{tab:detailed-performance-audit-results}\\
 \hline
@@ -53,64 +53,64 @@ public & \texttt{/error-404} & desktop & 99 & 0.3 s & 0.8 s & 0 ms & 0.004 & 0.6
 admin-p8 & \texttt{/admin} & mobile & 100 & 0.6 s & 0.6 s & 0 ms & 0 & 0.9 s \\
 admin-p8 & \texttt{/admin} & desktop & 99 & 0.2 s & 1.0 s & 0 ms & 0.013 & 0.5 s \\
 
-admin-p8 & \texttt{/admin/application-registry} & mobile & 99 & 0.6 s & 1.9 s & 0 ms & 0 & 1.1 s \\
-admin-p8 & \texttt{/admin/application-registry} & desktop & 100 & 0.2 s & 0.8 s & 0 ms & 0.009 & 0.4 s \\
+admin-p8 & \path{/admin/application-registry} & mobile & 99 & 0.6 s & 1.9 s & 0 ms & 0 & 1.1 s \\
+admin-p8 & \path{/admin/application-registry} & desktop & 100 & 0.2 s & 0.8 s & 0 ms & 0.009 & 0.4 s \\
 
-admin-p8 & \texttt{/admin/audit-trail} & mobile & 100 & 0.6 s & 0.6 s & 40 ms & 0 & 0.6 s \\
-admin-p8 & \texttt{/admin/audit-trail} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0 & 0.3 s \\
+admin-p8 & \path{/admin/audit-trail} & mobile & 100 & 0.6 s & 0.6 s & 40 ms & 0 & 0.6 s \\
+admin-p8 & \path{/admin/audit-trail} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0 & 0.3 s \\
 
-admin-p8 & \texttt{/admin/developer-settings} & mobile & 100 & 0.6 s & 0.6 s & 40 ms & 0 & 0.6 s \\
-admin-p8 & \texttt{/admin/developer-settings} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0 & 0.3 s \\
+admin-p8 & \path{/admin/developer-settings} & mobile & 100 & 0.6 s & 0.6 s & 40 ms & 0 & 0.6 s \\
+admin-p8 & \path{/admin/developer-settings} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0 & 0.3 s \\
 
-admin-p8 & \texttt{/admin/user-management} & mobile & 100 & 0.6 s & 0.6 s & 40 ms & 0.045 & 0.9 s \\
-admin-p8 & \texttt{/admin/user-management} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0.008 & 0.3 s \\
+admin-p8 & \path{/admin/user-management} & mobile & 100 & 0.6 s & 0.6 s & 40 ms & 0.045 & 0.9 s \\
+admin-p8 & \path{/admin/user-management} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0.008 & 0.3 s \\
 
-admin-p8 & \texttt{/admin/new-application} & mobile & 100 & 0.6 s & 1.1 s & 20 ms & 0 & 0.6 s \\
-admin-p8 & \texttt{/admin/new-application} & desktop & 99 & 0.2 s & 0.2 s & 0 ms & 0.012 & 1.4 s \\
+admin-p8 & \path{/admin/new-application} & mobile & 100 & 0.6 s & 1.1 s & 20 ms & 0 & 0.6 s \\
+admin-p8 & \path{/admin/new-application} & desktop & 99 & 0.2 s & 0.2 s & 0 ms & 0.012 & 1.4 s \\
 
-admin-p8 & \texttt{/admin/notifications} & mobile & 99 & 0.6 s & 1.9 s & 60 ms & 0 & 0.9 s \\
-admin-p8 & \texttt{/admin/notifications} & desktop & 100 & 0.2 s & 0.5 s & 0 ms & 0.012 & 1.0 s \\
+admin-p8 & \path{/admin/notifications} & mobile & 99 & 0.6 s & 1.9 s & 60 ms & 0 & 0.9 s \\
+admin-p8 & \path{/admin/notifications} & desktop & 100 & 0.2 s & 0.5 s & 0 ms & 0.012 & 1.0 s \\
 
 admin-p8 & \texttt{/admin/pings} & mobile & 100 & 0.6 s & 1.5 s & 0 ms & 0 & 0.8 s \\
 admin-p8 & \texttt{/admin/pings} & desktop & 100 & 0.2 s & 0.5 s & 0 ms & 0.012 & 0.3 s \\
 
-admin-p8 & \texttt{/admin/start-application} & mobile & 100 & 0.6 s & 0.6 s & 0 ms & 0 & 0.7 s \\
-admin-p8 & \texttt{/admin/start-application} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0.012 & 0.4 s \\
+admin-p8 & \path{/admin/start-application} & mobile & 100 & 0.6 s & 0.6 s & 0 ms & 0 & 0.7 s \\
+admin-p8 & \path{/admin/start-application} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0.012 & 0.4 s \\
 
-admin-p8 & \texttt{/admin/view-application} & mobile & 100 & 0.6 s & 0.9 s & 0 ms & 0 & 0.8 s \\
-admin-p8 & \texttt{/admin/view-application} & desktop & 100 & 0.2 s & 0.3 s & 0 ms & 0.012 & 0.4 s \\
+admin-p8 & \path{/admin/view-application} & mobile & 100 & 0.6 s & 0.9 s & 0 ms & 0 & 0.8 s \\
+admin-p8 & \path{/admin/view-application} & desktop & 100 & 0.2 s & 0.3 s & 0 ms & 0.012 & 0.4 s \\
 
 techgen-p4 & \texttt{/techgen} & mobile & 97 & 0.6 s & 2.3 s & 120 ms & 0 & 0.9 s \\
 techgen-p4 & \texttt{/techgen} & desktop & 100 & 0.2 s & 0.7 s & 0 ms & 0.032 & 0.4 s \\
 
-techgen-p4 & \texttt{/techgen/application-document} & mobile & 99 & 0.6 s & 0.6 s & 0 ms & 0.072 & 1.1 s \\
-techgen-p4 & \texttt{/techgen/application-document} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0 & 0.3 s \\
+techgen-p4 & \path{/techgen/application-document} & mobile & 99 & 0.6 s & 0.6 s & 0 ms & 0.072 & 1.1 s \\
+techgen-p4 & \path{/techgen/application-document} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0 & 0.3 s \\
 
-techgen-p4 & \texttt{/techgen/application-guide} & mobile & 100 & 0.6 s & 0.6 s & 30 ms & 0 & 0.6 s \\
-techgen-p4 & \texttt{/techgen/application-guide} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0 & 0.2 s \\
+techgen-p4 & \path{/techgen/application-guide} & mobile & 100 & 0.6 s & 0.6 s & 30 ms & 0 & 0.6 s \\
+techgen-p4 & \path{/techgen/application-guide} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0 & 0.2 s \\
 
-techgen-p4 & \texttt{/techgen/application-registry} & mobile & 100 & 0.6 s & 1.6 s & 30 ms & 0 & 0.8 s \\
-techgen-p4 & \texttt{/techgen/application-registry} & desktop & 100 & 0.2 s & 0.5 s & 0 ms & 0.003 & 0.3 s \\
+techgen-p4 & \path{/techgen/application-registry} & mobile & 100 & 0.6 s & 1.6 s & 30 ms & 0 & 0.8 s \\
+techgen-p4 & \path{/techgen/application-registry} & desktop & 100 & 0.2 s & 0.5 s & 0 ms & 0.003 & 0.3 s \\
 
-techgen-p4 & \texttt{/techgen/new-application} & mobile & 100 & 0.6 s & 0.9 s & 30 ms & 0 & 0.7 s \\
-techgen-p4 & \texttt{/techgen/new-application} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0.012 & 0.2 s \\
+techgen-p4 & \path{/techgen/new-application} & mobile & 100 & 0.6 s & 0.9 s & 30 ms & 0 & 0.7 s \\
+techgen-p4 & \path{/techgen/new-application} & desktop & 100 & 0.2 s & 0.2 s & 0 ms & 0.012 & 0.2 s \\
 
-techgen-p4 & \texttt{/techgen/notifications} & mobile & 100 & 0.6 s & 1.9 s & 50 ms & 0 & 0.9 s \\
-techgen-p4 & \texttt{/techgen/notifications} & desktop & 100 & 0.2 s & 0.6 s & 0 ms & 0.012 & 0.3 s \\
+techgen-p4 & \path{/techgen/notifications} & mobile & 100 & 0.6 s & 1.9 s & 50 ms & 0 & 0.9 s \\
+techgen-p4 & \path{/techgen/notifications} & desktop & 100 & 0.2 s & 0.6 s & 0 ms & 0.012 & 0.3 s \\
 
-techgen-p4 & \texttt{/techgen/start-application} & mobile & 100 & 0.6 s & 0.6 s & 0 ms & 0 & 0.6 s \\
-techgen-p4 & \texttt{/techgen/start-application} & desktop & 100 & 0.2 s & 0.3 s & 0 ms & 0.012 & 0.3 s \\
+techgen-p4 & \path{/techgen/start-application} & mobile & 100 & 0.6 s & 0.6 s & 0 ms & 0 & 0.6 s \\
+techgen-p4 & \path{/techgen/start-application} & desktop & 100 & 0.2 s & 0.3 s & 0 ms & 0.012 & 0.3 s \\
 
-techgen-p4 & \texttt{/techgen/view-application} & mobile & 100 & 0.6 s & 0.9 s & 40 ms & 0 & 0.8 s \\
-techgen-p4 & \texttt{/techgen/view-application} & desktop & 100 & 0.2 s & 0.3 s & 0 ms & 0.012 & 0.5 s \\
+techgen-p4 & \path{/techgen/view-application} & mobile & 100 & 0.6 s & 0.9 s & 40 ms & 0 & 0.8 s \\
+techgen-p4 & \path{/techgen/view-application} & desktop & 100 & 0.2 s & 0.3 s & 0 ms & 0.012 & 0.5 s \\
 
 up-p9 & \texttt{/up-official} & mobile & 100 & 0.6 s & 0.6 s & 0 ms & 0.003 & 0.7 s \\
 up-p9 & \texttt{/up-official} & desktop & 100 & 0.2 s & 0.5 s & 0 ms & 0.005 & 0.3 s \\
 
-up-p9 & \texttt{/up-official/application-registry} & mobile & 100 & 0.6 s & 1.8 s & 0 ms & 0 & 1.0 s \\
-up-p9 & \texttt{/up-official/application-registry} & desktop & 100 & 0.2 s & 0.7 s & 0 ms & 0.005 & 0.5 s \\
+up-p9 & \path{/up-official/application-registry} & mobile & 100 & 0.6 s & 1.8 s & 0 ms & 0 & 1.0 s \\
+up-p9 & \path{/up-official/application-registry} & desktop & 100 & 0.2 s & 0.7 s & 0 ms & 0.005 & 0.5 s \\
 
-\end{longtable}
+\end{xltabular}
 
 \normalsize
 \end{landscape}
