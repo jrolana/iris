@@ -1,0 +1,947 @@
+\chapter{Penetration Testing Script}
+\label{app:penetration-testing-script}
+
+This appendix presents the limited-scope penetration testing script used to evaluate selected security controls of the IRIS web application. The script was designed to test authentication, role-based access control, object-level authorization, Supabase RPC exposure, direct table access, file access, input validation, audit trail access, HTTP method handling, error handling, and optional rate-limit behavior. It automatically generates Markdown and CSV summaries, stores raw evidence files, and redacts configured tokens before the evidence files are saved.
+
+The script is intended for controlled local or staging environments only. Before running the script, the required environment variables should be configured in \texttt{pentest.env}, \texttt{.env}, or \texttt{.env.local}.
+
+\begin{lstlisting}[style=bashcode, caption={IRIS limited-scope penetration testing script}, label={lst:iris-pentest-script}]
+
+#!/usr/bin/env bash
+
+set -u
+
+ENV_FILE="./pentest.env"
+PROJECT_ENV_FILE="./.env"
+PROJECT_ENV_LOCAL_FILE="./.env.local"
+RESULTS_DIR="./pentest-results"
+RAW_DIR="$RESULTS_DIR/raw"
+TABLE_FILE="$RESULTS_DIR/pentest-summary.md"
+CSV_FILE="$RESULTS_DIR/pentest-summary.csv"
+
+mkdir -p "$RAW_DIR"
+
+load_env_file() {
+  local file="$1"
+
+  if [ ! -f "$file" ]; then
+    return
+  fi
+
+  set -a
+  # shellcheck disable=SC1090
+  source "$file"
+  set +a
+}
+
+load_env_file "$PROJECT_ENV_FILE"
+load_env_file "$PROJECT_ENV_LOCAL_FILE"
+
+if [ -f "$ENV_FILE" ]; then
+  load_env_file "$ENV_FILE"
+fi
+
+# =========================
+# CONFIGURATION PLACEHOLDERS
+# =========================
+
+APP_URL="${APP_URL:-${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}}"
+SUPABASE_URL="${SUPABASE_URL:-${NEXT_PUBLIC_SUPABASE_URL:-https://YOUR_PROJECT_REF.supabase.co}}"
+SUPABASE_ANON_KEY="${SUPABASE_ANON_KEY:-${NEXT_PUBLIC_SUPABASE_ANON_KEY:-YOUR_SUPABASE_ANON_KEY}}"
+
+ADMIN_TOKEN="${ADMIN_TOKEN:-}"
+TECHGEN_TOKEN="${TECHGEN_TOKEN:-}"
+UPOFFICIAL_TOKEN="${UPOFFICIAL_TOKEN:-}"
+INVALID_TOKEN="${INVALID_TOKEN:-invalid-token}"
+
+OWN_APP_ID="${OWN_APP_ID:-}"
+OTHER_APP_ID="${OTHER_APP_ID:-}"
+OWN_FILE_ID="${OWN_FILE_ID:-}"
+OTHER_FILE_ID="${OTHER_FILE_ID:-}"
+
+API_USERS_PATH="${API_USERS_PATH:-/api/users}"
+UPLOAD_PATH="${UPLOAD_PATH:-/api/upload}"
+FILE_VIEW_PATH="${FILE_VIEW_PATH:-/api/files}"
+VALID_API_TOKEN="${VALID_API_TOKEN:-}"
+
+RUN_FILE_UPLOAD_TESTS="${RUN_FILE_UPLOAD_TESTS:-false}"
+RUN_RATE_LIMIT_TEST="${RUN_RATE_LIMIT_TEST:-false}"
+
+if [ -n "${SUPABASE_SERVICE_ROLE_KEY:-}" ]; then
+  echo "INFO: SUPABASE_SERVICE_ROLE_KEY was detected but will not be used for browser/RBAC tests."
+  echo "      Use real test-account JWTs for ADMIN_TOKEN, TECHGEN_TOKEN, and UPOFFICIAL_TOKEN."
+  echo
+fi
+
+# =========================
+# HELPER FUNCTIONS
+# =========================
+
+timestamp() {
+  date +"%Y-%m-%d %H:%M:%S"
+}
+
+safe_filename() {
+  echo "$1" | tr ' /:?&=%' '________'
+}
+
+redact_file() {
+  local file="$1"
+
+  [ -n "${SUPABASE_ANON_KEY:-}" ] && sed -i.bak "s/${SUPABASE_ANON_KEY//\//\\/}/[REDACTED_SUPABASE_ANON_KEY]/g" "$file" 2>/dev/null || true
+  [ -n "${ADMIN_TOKEN:-}" ] && sed -i.bak "s/${ADMIN_TOKEN//\//\\/}/[REDACTED_ADMIN_TOKEN]/g" "$file" 2>/dev/null || true
+  [ -n "${TECHGEN_TOKEN:-}" ] && sed -i.bak "s/${TECHGEN_TOKEN//\//\\/}/[REDACTED_TECHGEN_TOKEN]/g" "$file" 2>/dev/null || true
+  [ -n "${UPOFFICIAL_TOKEN:-}" ] && sed -i.bak "s/${UPOFFICIAL_TOKEN//\//\\/}/[REDACTED_UPOFFICIAL_TOKEN]/g" "$file" 2>/dev/null || true
+  [ -n "${VALID_API_TOKEN:-}" ] && sed -i.bak "s/${VALID_API_TOKEN//\//\\/}/[REDACTED_API_TOKEN]/g" "$file" 2>/dev/null || true
+
+  rm -f "$file.bak"
+}
+
+get_status_code() {
+  local file="$1"
+  grep -m 1 -E "^HTTP/[0-9.]+ [0-9]{3}" "$file" | awk '{print $2}'
+}
+
+contains_sensitive_user_fields() {
+  local file="$1"
+  grep -Eiq '"email"|"password"|"created_at"|"updated_at"|"google_id"|"avatar_url"|"last_sign_in"|"metadata"|"raw_user_meta_data"' "$file"
+}
+
+classify_denied_or_redirect() {
+  local code="$1"
+
+  case "$code" in
+    301|302|303|307|308|401|403)
+      echo "Passed"
+      ;;
+    200)
+      echo "Needs Review"
+      ;;
+    "")
+      echo "No Response"
+      ;;
+    *)
+      echo "Needs Review"
+      ;;
+  esac
+}
+
+classify_allowed() {
+  local code="$1"
+
+  case "$code" in
+    200)
+      echo "Passed"
+      ;;
+    301|302|303|307|308|401|403)
+      echo "Needs Review"
+      ;;
+    "")
+      echo "No Response"
+      ;;
+    *)
+      echo "Needs Review"
+      ;;
+  esac
+}
+
+classify_rejected() {
+  local code="$1"
+
+  case "$code" in
+    400|401|403|404|405|415|422|429)
+      echo "Passed"
+      ;;
+    200|201)
+      echo "Needs Review"
+      ;;
+    "")
+      echo "No Response"
+      ;;
+    *)
+      echo "Needs Review"
+      ;;
+  esac
+}
+
+classify_method_rejected() {
+  local code="$1"
+
+  case "$code" in
+    405|400|401|403|404)
+      echo "Passed"
+      ;;
+    200|201|204)
+      echo "Needs Review"
+      ;;
+    "")
+      echo "No Response"
+      ;;
+    *)
+      echo "Needs Review"
+      ;;
+  esac
+}
+
+classify_cors_restricted() {
+  local code="$1"
+  local file="$2"
+  local forbidden_origin="$3"
+
+  if [ -z "$code" ]; then
+    echo "No Response"
+  elif grep -Eiq "^access-control-allow-origin: \\*\\s*$" "$file"; then
+    echo "Needs Review"
+  elif grep -Eiq "^access-control-allow-origin: ${forbidden_origin}\\s*$" "$file"; then
+    echo "Needs Review"
+  else
+    echo "Passed"
+  fi
+}
+
+classify_rpc_safe() {
+  local code="$1"
+  local file="$2"
+
+  if [ "$code" = "401" ] || [ "$code" = "403" ] || [ "$code" = "404" ]; then
+    echo "Passed"
+  elif [ "$code" = "200" ]; then
+    if grep -Eq '\[\]|\{\}' "$file" && ! contains_sensitive_user_fields "$file"; then
+      echo "Passed"
+    else
+      echo "Needs Review"
+    fi
+  elif [ -z "$code" ]; then
+    echo "No Response"
+  else
+    echo "Needs Review"
+  fi
+}
+
+add_result() {
+  local area="$1"
+  local test_name="$2"
+  local expected="$3"
+  local code="$4"
+  local result="$5"
+  local evidence="$6"
+  local notes="$7"
+
+  echo "| $area | $test_name | $expected | ${code:-N/A} | $result | $evidence | $notes |" >> "$TABLE_FILE"
+  echo "\"$area\",\"$test_name\",\"$expected\",\"${code:-N/A}\",\"$result\",\"$evidence\",\"$notes\"" >> "$CSV_FILE"
+}
+
+run_curl_test() {
+  local area="$1"
+  local test_name="$2"
+  local expected="$3"
+  local classifier="$4"
+  local evidence_name="$5"
+  shift 5
+
+  local evidence_file="$RAW_DIR/$(safe_filename "$evidence_name").txt"
+
+  curl -k -i -sS "$@" > "$evidence_file" 2>&1
+  redact_file "$evidence_file"
+
+  local code
+  code="$(get_status_code "$evidence_file")"
+
+  local result
+  case "$classifier" in
+    denied)
+      result="$(classify_denied_or_redirect "$code")"
+      ;;
+    allowed)
+      result="$(classify_allowed "$code")"
+      ;;
+    rejected)
+      result="$(classify_rejected "$code")"
+      ;;
+    method_rejected)
+      result="$(classify_method_rejected "$code")"
+      ;;
+    cors_restricted)
+      result="$(classify_cors_restricted "$code" "$evidence_file" "https://evil.example.com")"
+      ;;
+    rpc_safe)
+      result="$(classify_rpc_safe "$code" "$evidence_file")"
+      ;;
+    *)
+      result="Needs Review"
+      ;;
+  esac
+
+  add_result "$area" "$test_name" "$expected" "$code" "$result" "$evidence_file" ""
+}
+
+require_value_warning() {
+  local name="$1"
+  local value="$2"
+
+  if [ -z "$value" ] || echo "$value" | grep -q "YOUR_"; then
+    echo "WARNING: $name is empty or still a placeholder. Some tests may be skipped or invalid."
+  fi
+}
+
+# =========================
+# INITIALIZE REPORT FILES
+# =========================
+
+cat > "$TABLE_FILE" <<EOF
+# IRIS Limited-Scope Penetration Testing Summary
+
+Generated: $(timestamp)
+
+Application URL: \`$APP_URL\`
+
+Supabase URL: \`$SUPABASE_URL\`
+
+| Area Tested | Test Performed | Expected Result | HTTP Status | Result | Evidence File | Notes |
+|---|---|---|---:|---|---|---|
+EOF
+
+cat > "$CSV_FILE" <<EOF
+"Area Tested","Test Performed","Expected Result","HTTP Status","Result","Evidence File","Notes"
+EOF
+
+echo "Starting IRIS penetration testing..."
+echo "Results directory: $RESULTS_DIR"
+echo
+
+require_value_warning "SUPABASE_URL" "$SUPABASE_URL"
+require_value_warning "SUPABASE_ANON_KEY" "$SUPABASE_ANON_KEY"
+require_value_warning "TECHGEN_TOKEN" "$TECHGEN_TOKEN"
+require_value_warning "ADMIN_TOKEN" "$ADMIN_TOKEN"
+require_value_warning "VALID_API_TOKEN" "$VALID_API_TOKEN"
+echo
+
+# =========================
+# 1. AUTHENTICATION BYPASS
+# =========================
+
+run_curl_test \
+  "Authentication" \
+  "Unauthenticated access to /admin" \
+  "Redirect, 401, or 403" \
+  "denied" \
+  "auth_unauthenticated_admin" \
+  "$APP_URL/admin"
+
+run_curl_test \
+  "Authentication" \
+  "Unauthenticated access to /up-official" \
+  "Redirect, 401, or 403" \
+  "denied" \
+  "auth_unauthenticated_up_official" \
+  "$APP_URL/up-official"
+
+run_curl_test \
+  "Authentication" \
+  "Unauthenticated access to /techgen" \
+  "Redirect, 401, or 403" \
+  "denied" \
+  "auth_unauthenticated_techgen" \
+  "$APP_URL/techgen"
+
+if [ -n "$OWN_APP_ID" ]; then
+  run_curl_test \
+    "Authentication" \
+    "Unauthenticated direct application view" \
+    "Redirect, 401, or 403" \
+    "denied" \
+    "auth_unauthenticated_application_view" \
+    "$APP_URL/admin/view-application?applicationID=$OWN_APP_ID"
+fi
+
+# =========================
+# 2. ROLE-BASED ACCESS CONTROL
+# =========================
+
+if [ -n "$TECHGEN_TOKEN" ]; then
+  run_curl_test \
+    "RBAC" \
+    "Techgen token accessing /admin" \
+    "Redirect, 401, or 403" \
+    "denied" \
+    "rbac_techgen_admin_access" \
+    "$APP_URL/admin" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN"
+fi
+
+if [ -n "$UPOFFICIAL_TOKEN" ]; then
+  run_curl_test \
+    "RBAC" \
+    "UP official token accessing /admin" \
+    "Redirect, 401, or 403 unless allowed by system design" \
+    "denied" \
+    "rbac_upofficial_admin_access" \
+    "$APP_URL/admin" \
+    -H "Authorization: Bearer $UPOFFICIAL_TOKEN"
+fi
+
+if [ -n "$ADMIN_TOKEN" ]; then
+  run_curl_test \
+    "RBAC" \
+    "Admin token accessing /admin" \
+    "200 if Authorization header is accepted, otherwise review cookie-based auth" \
+    "allowed" \
+    "rbac_admin_admin_access" \
+    "$APP_URL/admin" \
+    -H "Authorization: Bearer $ADMIN_TOKEN"
+fi
+
+# =========================
+# 3. OBJECT-LEVEL AUTHORIZATION
+# =========================
+
+if [ -n "$TECHGEN_TOKEN" ] && [ -n "$OWN_APP_ID" ]; then
+  run_curl_test \
+    "Object-Level Authorization" \
+    "Techgen accessing own application" \
+    "200 if allowed by system design" \
+    "allowed" \
+    "object_techgen_own_application" \
+    "$APP_URL/techgen/view-application?applicationID=$OWN_APP_ID" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN"
+fi
+
+if [ -n "$TECHGEN_TOKEN" ] && [ -n "$OTHER_APP_ID" ]; then
+  run_curl_test \
+    "Object-Level Authorization" \
+    "Techgen accessing another user's application" \
+    "Redirect, 401, 403, or no private data returned" \
+    "denied" \
+    "object_techgen_other_application" \
+    "$APP_URL/techgen/view-application?applicationID=$OTHER_APP_ID" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN"
+
+  run_curl_test \
+    "Object-Level Authorization" \
+    "RPC check_app_exists using another application ID" \
+    "No unauthorized private details returned" \
+    "rpc_safe" \
+    "object_rpc_check_app_exists_other_application" \
+    "$SUPABASE_URL/rest/v1/rpc/check_app_exists" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -H "apikey: $SUPABASE_ANON_KEY" \
+    -H "Content-Type: application/json" \
+    -d "{\"app_id_text\":\"$OTHER_APP_ID\"}"
+fi
+
+# =========================
+# 4. SUPABASE RPC EXPOSURE
+# =========================
+
+run_curl_test \
+  "Supabase RPC Exposure" \
+  "Anon call to search_users_for_linking" \
+  "Denied or safe limited response" \
+  "rpc_safe" \
+  "rpc_anon_search_users_for_linking" \
+  "$SUPABASE_URL/rest/v1/rpc/search_users_for_linking" \
+  -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+  -H "apikey: $SUPABASE_ANON_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"search_query":"a","excluded_ids":[]}'
+
+if [ -n "$TECHGEN_TOKEN" ]; then
+  run_curl_test \
+    "Supabase RPC Exposure" \
+    "Techgen call to search_users_for_linking" \
+    "Only authorized/safe user data returned" \
+    "rpc_safe" \
+    "rpc_techgen_search_users_for_linking" \
+    "$SUPABASE_URL/rest/v1/rpc/search_users_for_linking" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -H "apikey: $SUPABASE_ANON_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{"search_query":"a","excluded_ids":[]}'
+
+  add_result \
+    "Supabase RPC Exposure" \
+    "Techgen call to search_users_for_linking_secure" \
+    "Skipped because this repo exposes search_users_for_linking only" \
+    "N/A" \
+    "Skipped" \
+    "N/A" \
+    "No search_users_for_linking_secure RPC exists in the checked codebase."
+fi
+
+run_curl_test \
+  "Supabase RPC Exposure" \
+  "Anon call to search_applications" \
+  "Denied or no private application records returned" \
+  "rpc_safe" \
+  "rpc_anon_search_applications" \
+  "$SUPABASE_URL/rest/v1/rpc/search_applications" \
+  -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+  -H "apikey: $SUPABASE_ANON_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+
+if [ -n "$TECHGEN_TOKEN" ]; then
+  run_curl_test \
+    "Supabase RPC Exposure" \
+    "Techgen call to search_applications" \
+    "Only authorized application records returned" \
+    "rpc_safe" \
+    "rpc_techgen_search_applications" \
+    "$SUPABASE_URL/rest/v1/rpc/search_applications" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -H "apikey: $SUPABASE_ANON_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{}'
+fi
+
+# =========================
+# 5. API TOKEN ROUTE TESTING
+# =========================
+
+run_curl_test \
+  "API Token Route" \
+  "External users API without bearer token" \
+  "401 Unauthorized" \
+  "denied" \
+  "api_users_no_token" \
+  "$APP_URL$API_USERS_PATH"
+
+run_curl_test \
+  "API Token Route" \
+  "External users API with invalid bearer token" \
+  "401 Unauthorized" \
+  "denied" \
+  "api_users_invalid_token" \
+  "$APP_URL$API_USERS_PATH" \
+  -H "Authorization: Bearer $INVALID_TOKEN"
+
+if [ -n "$VALID_API_TOKEN" ]; then
+  run_curl_test \
+    "API Token Route" \
+    "External users API with valid bearer token" \
+    "200 with limited fields only" \
+    "allowed" \
+    "api_users_valid_token" \
+    "$APP_URL$API_USERS_PATH" \
+    -H "Authorization: Bearer $VALID_API_TOKEN"
+
+  VALID_API_EVIDENCE="$RAW_DIR/api_users_valid_token.txt"
+  if [ -f "$VALID_API_EVIDENCE" ]; then
+    if contains_sensitive_user_fields "$VALID_API_EVIDENCE"; then
+      add_result \
+        "API Token Route" \
+        "Check valid-token response for excessive user fields" \
+        "No unnecessary private fields" \
+        "$(get_status_code "$VALID_API_EVIDENCE")" \
+        "Needs Review" \
+        "$VALID_API_EVIDENCE" \
+        "Response appears to include sensitive or excessive fields. Review .select(\"*\")."
+    else
+      add_result \
+        "API Token Route" \
+        "Check valid-token response for excessive user fields" \
+        "No unnecessary private fields" \
+        "$(get_status_code "$VALID_API_EVIDENCE")" \
+        "Passed" \
+        "$VALID_API_EVIDENCE" \
+        "No obvious sensitive field names detected."
+    fi
+  fi
+fi
+
+run_curl_test \
+  "API Token Route" \
+  "CORS preflight from untrusted origin" \
+  "Should not freely allow all origins for sensitive APIs" \
+  "cors_restricted" \
+  "api_users_cors_untrusted_origin" \
+  -X OPTIONS \
+  "$APP_URL$API_USERS_PATH" \
+  -H "Origin: https://evil.example.com" \
+  -H "Access-Control-Request-Method: GET"
+
+# =========================
+# 6. DIRECT TABLE ACCESS TESTING
+# =========================
+
+run_curl_test \
+  "Direct Table Access" \
+  "Anon direct access to users table" \
+  "Denied or no rows" \
+  "rpc_safe" \
+  "table_anon_users" \
+  "$SUPABASE_URL/rest/v1/users?select=*" \
+  -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+  -H "apikey: $SUPABASE_ANON_KEY"
+
+if [ -n "$TECHGEN_TOKEN" ]; then
+  run_curl_test \
+    "Direct Table Access" \
+    "Techgen direct access to users table" \
+    "Denied or only allowed rows/fields" \
+    "rpc_safe" \
+    "table_techgen_users" \
+    "$SUPABASE_URL/rest/v1/users?select=*" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -H "apikey: $SUPABASE_ANON_KEY"
+fi
+
+run_curl_test \
+  "Direct Table Access" \
+  "Anon direct access to ipr_applications table" \
+  "Denied or no private rows" \
+  "rpc_safe" \
+  "table_anon_ipr_applications" \
+  "$SUPABASE_URL/rest/v1/ipr_applications?select=*" \
+  -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+  -H "apikey: $SUPABASE_ANON_KEY"
+
+if [ -n "$TECHGEN_TOKEN" ]; then
+  run_curl_test \
+    "Direct Table Access" \
+    "Techgen direct access to ipr_applications table" \
+    "Denied or only authorized rows" \
+    "rpc_safe" \
+    "table_techgen_ipr_applications" \
+    "$SUPABASE_URL/rest/v1/ipr_applications?select=*" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -H "apikey: $SUPABASE_ANON_KEY"
+fi
+
+# =========================
+# 7. FILE UPLOAD VALIDATION
+# =========================
+
+if [ "$RUN_FILE_UPLOAD_TESTS" = "true" ] && [ -n "$TECHGEN_TOKEN" ] && [ -n "$OWN_APP_ID" ]; then
+  TEST_FILES_DIR="$RESULTS_DIR/test-files"
+  mkdir -p "$TEST_FILES_DIR"
+
+  echo "test pdf content" > "$TEST_FILES_DIR/test.pdf"
+  echo "<script>alert('xss')</script>" > "$TEST_FILES_DIR/xss.html"
+  echo "<?php echo 'bad'; ?>" > "$TEST_FILES_DIR/shell.php"
+  cp "$TEST_FILES_DIR/shell.php" "$TEST_FILES_DIR/shell.php.pdf"
+  echo "fake executable" > "$TEST_FILES_DIR/malware.exe"
+
+  run_curl_test \
+    "File Upload" \
+    "Upload allowed PDF test file" \
+    "200 or 201 if PDF is allowed" \
+    "allowed" \
+    "upload_allowed_pdf" \
+    -X POST \
+    "$APP_URL$UPLOAD_PATH" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -F "file=@$TEST_FILES_DIR/test.pdf" \
+    -F "application_id=$OWN_APP_ID"
+
+  run_curl_test \
+    "File Upload" \
+    "Upload HTML file" \
+    "Rejected" \
+    "rejected" \
+    "upload_html_file" \
+    -X POST \
+    "$APP_URL$UPLOAD_PATH" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -F "file=@$TEST_FILES_DIR/xss.html" \
+    -F "application_id=$OWN_APP_ID"
+
+  run_curl_test \
+    "File Upload" \
+    "Upload PHP file disguised as PDF" \
+    "Rejected" \
+    "rejected" \
+    "upload_php_disguised_as_pdf" \
+    -X POST \
+    "$APP_URL$UPLOAD_PATH" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -F "file=@$TEST_FILES_DIR/shell.php.pdf" \
+    -F "application_id=$OWN_APP_ID"
+
+  run_curl_test \
+    "File Upload" \
+    "Upload executable file" \
+    "Rejected" \
+    "rejected" \
+    "upload_executable_file" \
+    -X POST \
+    "$APP_URL$UPLOAD_PATH" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -F "file=@$TEST_FILES_DIR/malware.exe" \
+    -F "application_id=$OWN_APP_ID"
+else
+  add_result \
+    "File Upload" \
+    "File upload validation tests" \
+    "Run only when upload endpoint is confirmed" \
+    "N/A" \
+    "Skipped" \
+    "N/A" \
+    "Set RUN_FILE_UPLOAD_TESTS=true, UPLOAD_PATH, TECHGEN_TOKEN, and OWN_APP_ID to run."
+fi
+
+# =========================
+# 8. FILE ACCESS AUTHORIZATION
+# =========================
+
+if [ -n "$TECHGEN_TOKEN" ] && [ -n "$OWN_FILE_ID" ]; then
+  run_curl_test \
+    "File Access" \
+    "Techgen accessing own file" \
+    "200 if allowed by system design" \
+    "allowed" \
+    "file_access_own_file" \
+    "$APP_URL$FILE_VIEW_PATH/$OWN_FILE_ID" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN"
+fi
+
+if [ -n "$TECHGEN_TOKEN" ] && [ -n "$OTHER_FILE_ID" ]; then
+  run_curl_test \
+    "File Access" \
+    "Techgen accessing another user's file" \
+    "Redirect, 401, 403, or no file returned" \
+    "denied" \
+    "file_access_other_file" \
+    "$APP_URL$FILE_VIEW_PATH/$OTHER_FILE_ID" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN"
+fi
+
+# =========================
+# 9. INPUT VALIDATION TESTING
+# =========================
+
+SQL_PAYLOAD="' OR '1'='1"
+XSS_PAYLOAD="<script>alert('xss')</script>"
+PATH_PAYLOAD="../../../../etc/passwd"
+
+if [ -n "$TECHGEN_TOKEN" ]; then
+  run_curl_test \
+    "Input Validation" \
+    "search_applications with SQL-like payload" \
+    "No SQL error or unintended data exposure" \
+    "rpc_safe" \
+    "input_search_applications_sql_payload" \
+    "$SUPABASE_URL/rest/v1/rpc/search_applications" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -H "apikey: $SUPABASE_ANON_KEY" \
+    -H "Content-Type: application/json" \
+    -d "{\"p_title\":\"$SQL_PAYLOAD\"}"
+
+  run_curl_test \
+    "Input Validation" \
+    "search_applications with XSS payload" \
+    "Payload treated as text; no script execution" \
+    "rpc_safe" \
+    "input_search_applications_xss_payload" \
+    "$SUPABASE_URL/rest/v1/rpc/search_applications" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -H "apikey: $SUPABASE_ANON_KEY" \
+    -H "Content-Type: application/json" \
+    -d "{\"p_title\":\"$XSS_PAYLOAD\"}"
+
+  run_curl_test \
+    "Input Validation" \
+    "search_applications with path traversal payload" \
+    "No file/path disclosure" \
+    "rpc_safe" \
+    "input_search_applications_path_payload" \
+    "$SUPABASE_URL/rest/v1/rpc/search_applications" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -H "apikey: $SUPABASE_ANON_KEY" \
+    -H "Content-Type: application/json" \
+    -d "{\"p_title\":\"$PATH_PAYLOAD\"}"
+fi
+
+# =========================
+# 10. SESSION AND CLIENT-SIDE ROLE TAMPERING
+# =========================
+
+if [ -n "$TECHGEN_TOKEN" ]; then
+  run_curl_test \
+    "Session and Role Tampering" \
+    "Techgen token with fake admin role in body" \
+    "Should not grant admin access" \
+    "denied" \
+    "session_fake_admin_role_body" \
+    "$APP_URL/admin" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d '{"role":"admin"}'
+fi
+
+# =========================
+# 11. AUDIT TRAIL ACCESS
+# =========================
+
+run_curl_test \
+  "Audit Trail" \
+  "Anon direct access to audit_trail" \
+  "Denied" \
+  "denied" \
+  "audit_anon_access" \
+  "$SUPABASE_URL/rest/v1/audit_trail?select=*&limit=10" \
+  -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+  -H "apikey: $SUPABASE_ANON_KEY"
+
+if [ -n "$TECHGEN_TOKEN" ]; then
+  run_curl_test \
+    "Audit Trail" \
+    "Techgen direct access to audit_trail" \
+    "Denied unless explicitly allowed" \
+    "denied" \
+    "audit_techgen_access" \
+    "$SUPABASE_URL/rest/v1/audit_trail?select=*&limit=10" \
+    -H "Authorization: Bearer $TECHGEN_TOKEN" \
+    -H "apikey: $SUPABASE_ANON_KEY"
+fi
+
+if [ -n "$ADMIN_TOKEN" ]; then
+  run_curl_test \
+    "Audit Trail" \
+    "Admin direct access to audit_trail" \
+    "200 if admin access is allowed by design" \
+    "allowed" \
+    "audit_admin_access" \
+    "$SUPABASE_URL/rest/v1/audit_trail?select=*&order=event_at.desc&limit=10" \
+    -H "Authorization: Bearer $ADMIN_TOKEN" \
+    -H "apikey: $SUPABASE_ANON_KEY"
+fi
+
+# =========================
+# 12. HTTP METHOD TESTING
+# =========================
+
+run_curl_test \
+  "HTTP Method Testing" \
+  "POST to external users API" \
+  "405 or rejected" \
+  "method_rejected" \
+  "method_post_api_users" \
+  -X POST \
+  "$APP_URL$API_USERS_PATH" \
+  -H "Authorization: Bearer $VALID_API_TOKEN"
+
+run_curl_test \
+  "HTTP Method Testing" \
+  "PUT to external users API" \
+  "405 or rejected" \
+  "method_rejected" \
+  "method_put_api_users" \
+  -X PUT \
+  "$APP_URL$API_USERS_PATH" \
+  -H "Authorization: Bearer $VALID_API_TOKEN"
+
+run_curl_test \
+  "HTTP Method Testing" \
+  "DELETE to external users API" \
+  "405 or rejected" \
+  "method_rejected" \
+  "method_delete_api_users" \
+  -X DELETE \
+  "$APP_URL$API_USERS_PATH" \
+  -H "Authorization: Bearer $VALID_API_TOKEN"
+
+# =========================
+# 13. ERROR MESSAGE LEAKAGE
+# =========================
+
+run_curl_test \
+  "Error Handling" \
+  "Malformed bearer token in external users API" \
+  "Generic 401/403 error without stack or database details" \
+  "denied" \
+  "error_malformed_bearer_token" \
+  "$APP_URL$API_USERS_PATH" \
+  -H "Authorization: Bearer "
+
+MALFORMED_EVIDENCE="$RAW_DIR/error_malformed_bearer_token.txt"
+if [ -f "$MALFORMED_EVIDENCE" ]; then
+  if grep -Eiq "stack|trace|PostgREST|Supabase|SQL|schema|relation|private\.|Internal Server Error:" "$MALFORMED_EVIDENCE"; then
+    add_result \
+      "Error Handling" \
+      "Check malformed-token response for internal error details" \
+      "No internal implementation details" \
+      "$(get_status_code "$MALFORMED_EVIDENCE")" \
+      "Needs Review" \
+      "$MALFORMED_EVIDENCE" \
+      "Response may expose internal implementation details."
+  else
+    add_result \
+      "Error Handling" \
+      "Check malformed-token response for internal error details" \
+      "No internal implementation details" \
+      "$(get_status_code "$MALFORMED_EVIDENCE")" \
+      "Passed" \
+      "$MALFORMED_EVIDENCE" \
+      "No obvious internal details detected."
+  fi
+fi
+
+# =========================
+# 14. RATE LIMIT / ABUSE TESTING
+# =========================
+
+if [ "$RUN_RATE_LIMIT_TEST" = "true" ]; then
+  RATE_FILE="$RAW_DIR/rate_limit_invalid_token_30_requests.txt"
+  : > "$RATE_FILE"
+
+  for i in {1..30}; do
+    code="$(curl -k -s -o /dev/null -w "%{http_code}" "$APP_URL$API_USERS_PATH" -H "Authorization: Bearer $INVALID_TOKEN")"
+    echo "Request $i: $code" >> "$RATE_FILE"
+  done
+
+  if grep -q "429" "$RATE_FILE"; then
+    add_result \
+      "Rate Limiting" \
+      "30 repeated invalid-token requests" \
+      "Eventually rate-limited or consistently rejected" \
+      "Multiple" \
+      "Passed" \
+      "$RATE_FILE" \
+      "429 rate-limit response detected."
+  else
+    add_result \
+      "Rate Limiting" \
+      "30 repeated invalid-token requests" \
+      "Eventually rate-limited or consistently rejected" \
+      "Multiple" \
+      "Needs Review" \
+      "$RATE_FILE" \
+      "No 429 detected. Add rate limiting if endpoint is public-facing."
+  fi
+else
+  add_result \
+    "Rate Limiting" \
+    "Repeated invalid-token request test" \
+    "Run only on localhost or staging" \
+    "N/A" \
+    "Skipped" \
+    "N/A" \
+    "Set RUN_RATE_LIMIT_TEST=true to run."
+fi
+
+# =========================
+# FINAL NOTES
+# =========================
+
+cat >> "$TABLE_FILE" <<EOF
+
+## Notes for Interpretation
+
+- "Passed" means the observed response matched the expected security behavior based on HTTP status and simple response inspection.
+- "Needs Review" does not automatically mean the system is vulnerable. It means the raw evidence should be manually inspected.
+- For page routes using cookie-based authentication, Authorization-header tests may show "Needs Review" even when browser-based protection works correctly.
+- Redact all tokens and sensitive data before including screenshots or excerpts in the paper.
+EOF
+
+echo
+echo "Penetration testing completed."
+echo "Markdown summary: $TABLE_FILE"
+echo "CSV summary:      $CSV_FILE"
+echo "Raw evidence:     $RAW_DIR"
+echo
+echo "Preview of summary table:"
+echo
+cat "$TABLE_FILE"
+
+\end{lstlisting}

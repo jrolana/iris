@@ -484,7 +484,7 @@ The automatic notifications are sent both in-app and via email as shown in \figr
 \subsection{Dashboard}
 The Dashboard page provides summary reports and visual representations of IP application data in IRIS. The dashboard view differs depending on the user's role.
 
-For guests, administrators, and UP officials, the dashboard presents an overall IP portfolio overview. Users can select a reporting period, filter the displayed results by year range, and export the report as a PDF file. The dashboard includes the grant rate, portfolio status overview, charts showing application distributions and yearly trends by status, non-grant outcomes, and a summary table for the selected reporting period.
+For guests, administrators, and UP officials, the dashboard presents an overall IP portfolio overview. Users can select a reporting period, filter the displayed results by year range, and export the report as a PDF file. The dashboard includes the grant rate, portfolio status overview, yearly trends by status, non-grant outcomes, and a summary table for the selected reporting period.
 
 \clearpage
 \begin{figure}[H]
@@ -527,7 +527,7 @@ For guests, administrators, and UP officials, the dashboard presents an overall 
         \label{fig:dashboard_generalD}
     \end{subfigure}
 
-    \caption[General Dashboard View]{General Dashboard View. This view shows the reporting period filters, export controls, IP portfolio overview, IP type distributions by application status, yearly trends for filed, pending, and granted applications, non-grant outcomes, and summary table for guests, TTBDO admins, and UP officials.}
+    \caption[General Dashboard View]{General Dashboard View. This view shows the reporting period filters, export controls, IP portfolio overview, yearly trends for filed, pending, and granted applications, non-grant outcomes, and summary table for guests, TTBDO admins, and UP officials.}
     \label{fig:dashboard_general}
 \end{figure}
 \clearpage
@@ -556,7 +556,7 @@ The User Details table lists registered users and their relevant account informa
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{user_management/invite_user.png}     
-    \caption[Invite User]{Invite User Interface. This interface allows administrators to add a user by entering an email address and assigning a system role. Once invited, the user receives a time-limited invite link for account access.}
+    \caption[Invite User]{Invite User Interface. This interface allows administrators to add a user by entering all the required information. Once invited, the user receives a time-limited invite link for account access.}
     \label{fig:invite_user_button}                 
 \end{figure}
 
@@ -564,8 +564,24 @@ The User Registration Requests table displays submitted registration requests, i
 
 \begin{figure}[H]                
     \centering 
-    \includegraphics[width=0.85\textwidth]{user_management/registration_requests.png}     
-    \caption[User Registration Requests Table]{User Registration Requests Table. This table shows pending sign-up requests submitted by unregistered users. Administrators can review the user's name, email address, and college, modify the assigned role if needed, and approve or reject the request.}
+
+    \begin{subfigure}{0.85\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{user_management/registration_requests.png}
+        \caption{}
+        \label{fig:user_registration_requests_table}
+    \end{subfigure}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.85\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{user_management/registration_requests_approval.png}
+        \caption{}
+        \label{fig:user_registration_requests_approval}
+    \end{subfigure}
+
+    \caption[User Registration Requests Table]{User Registration Requests Table. This figure shows (a) the pending sign-up requests submitted by unregistered users and (b) the approval confirmation modal where administrators can confirm the request and change the assigned role before approval.}
     \label{fig:user_registration_requests}                 
 \end{figure}
 
@@ -633,24 +649,31 @@ The sorting options include sorting by filing date, IP title, date added, and da
 \end{figure}
 
 \subsection{Application Documents}
-The Application Documents page provides a centralized location for users to view the relevant IP disclosure forms for each IP type. This page can be viewed by both guests and technology generators. Through this page, users can identify the required forms and documents needed for the IP application process.
+The Application Documents page provides a centralized location for viewing the relevant IP disclosure forms for each IP type. Through this page, users can identify the required forms and documents needed for the IP application process.
 
-For technology generators, the page includes a start application call-to-action button that redirects the user to the new application page.
+Guests can view the available public documents as reference materials and have a call-to-action button that redirects them to the public wizard page. This wizard provides information about the different IP types and their corresponding disclosure forms, without the option to start an application as shown in \figref{fig:public_wizard}.
+
+Technology generators have the same view, with an additional start application call-to-action button that redirects them to the new application page. TTBDO admins can manage the public document list by uploading new documents, updating existing document details or files, and deleting documents that should no longer appear on the page.
 
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{application_documents.png}     
-    \caption[Application Documents Page]{Application Documents Page. The page shows the available IP disclosure forms for each IP type, provides a centralized reference for required application documents, and includes a start application button.}
+    \caption[Application Documents Page]{Application Documents Page. The page shows the available IP disclosure forms and public documents for each IP type, providing guests with reference materials and guidance for reviewing the application process.}
     \label{fig:documents}
 \end{figure}
-
-Meanwhile, guests have a "use application wizard" call-to-action button that redirects them to the public wizard page, which provides information about the different IP types and their corresponding disclosure forms, without the option to start an application as shown in \figref{fig:public_wizard}.
 
 \begin{figure}[H]                
     \centering 
     \includegraphics[width=0.85\textwidth]{public_wizard.png}     
     \caption[Public Wizard Page]{Public Wizard Page. The page is similar to the wizard interface at the start of the application process, but made available to guests. It only provides information about the different IP types and their corresponding disclosure forms, without the option to start an application.}
     \label{fig:public_wizard}
+\end{figure}
+
+\begin{figure}[H]                
+    \centering 
+    \includegraphics[width=0.85\textwidth]{application_documents_admin.png}     
+    \caption[Administrator Application Documents Page]{Administrator Application Documents Page. This page allows TTBDO admins to upload, update, and delete public application documents shown in IRIS.}
+    \label{fig:documents_admin}
 \end{figure}
 
 \subsection{Application Guide}
@@ -862,21 +885,10 @@ Overall, the results suggest that IRIS met the expected baseline security requir
 
 \subsection{User Acceptance Testing}
 
-User Acceptance Testing was conducted to determine whether the completed IRIS web application was acceptable to the team and client-side evaluators. During the testing, TTBDO participants evaluated the system from both administrative and Technology Generator perspectives. Some TTBDO personnel also acted as Technology Generators during testing, which allowed the team to observe how the system supported both office-side management tasks and user-side application activities.
+User Acceptance Testing was conducted to determine whether the completed IRIS web application was acceptable to the development team and TTBDO evaluators. The activity involved two developers and three TTBDO personnel. Some TTBDO participants also acted as technology generators so that the system could be reviewed from both office-side and end-user perspectives.
 
-The testing showed that the system was accepted after the main workflows were reviewed. The accepted workflows included role-based authentication and access, user and role management, application submission and monitoring, Technology Generator management, application registry visibility, notifications, reports, application documents, and dashboards. No major defect was identified that required a redesign of the system or prevented the use of its core functions.
+The testing showed that the main workflows were accepted after review. These included authentication and invite-based access, user and role management, application submission and monitoring, technology generator management, application registry visibility, public pages, notifications, reports, application documents, dashboards, and general interface navigation. No major defect was identified that required system redesign or prevented the use of core functions.
 
-The feedback gathered during UAT mainly consisted of refinements to existing features and additional office-specific requirements. Some of these refinements were already incorporated during continued system development and are reflected in the implemented modules discussed in the preceding sections. The remaining items were treated as enhancement recommendations because they did not prevent the use of the core workflows. The feedback covered the following areas:
+The feedback gathered during UAT mainly consisted of minor refinements to existing features and additional office-specific requirements. These minor revisions were addressed during continued development and are reflected in the final implemented system. Since the remaining feedback did not prevent the use of the core workflows, these items were treated as enhancement considerations for continued system improvement.
 
-\begin{itemize}
-    \item interface and navigation improvements, including page layout, sidebar navigation, signup page display, and dashboard actions;
-    \item user and role management refinements, such as role editing before approval, adding new users, and providing reasons for rejection;
-    \item application workflow adjustments, including Technology Generator search, funding source selection, TTBDO email information, and IPOPHL IP number format validation;
-    \item Technology Generator coordination controls, such as administrator approval when adding Technology Generators, notes for removal or reporting, and notifications to affected users;
-    \item registry, public page visibility, and document management changes, including registry column revisions, public visibility rules, help links, and administrator-managed documents and forms; and
-    \item report formatting revisions, including UPV branding, selected date range, yearly breakdown, removal of the CSV button, and display of a message when no chart is available.
-\end{itemize}
-
-One issue encountered during UAT involved the email invite link. The issue was traced to limitations of Supabase as the email delivery provider rather than to a failure in the system workflow itself. Since the invite workflow remained valid but the email delivery service was limited, the team decided to use a different email provider for sending invite links.
-
-Overall, the UAT results showed that IRIS was acceptable for its intended use. The system’s main workflows were validated, while the feedback primarily focused on usability improvements, operational completeness, reporting details, and office-specific requirements. These results supported the completion of final refinements and helped identify enhancement items for continued system improvement.
+Overall, the UAT results showed that IRIS was acceptable for its intended use. The system’s main workflows were validated, all minor revisions were settled, and the remaining concerns were limited to future enhancements and office-specific improvements.
