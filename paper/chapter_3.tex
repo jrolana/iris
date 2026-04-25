@@ -128,7 +128,8 @@ Nodemailer and Gmail SMTP were used to support the system's automated email noti
 
 \subsection{Cost-Benefit Considerations of the Technology Stack}
 
-The technology stack was also selected with consideration for cost. Next.js, React, and Tailwind CSS are open-source technologies, so they did not require licensing fees. Supabase was practical because its free tier was enough for development and initial deployment while still providing options to upgrade as database storage, authentication usage, file storage, or server-side functions increase. Nodemailer and Gmail SMTP also reduced cost by allowing the system to send email notifications without immediately using a separate paid email service. This setup allowed IRIS to begin with minimal cost while keeping the option to scale when needed.
+The technology stack was also selected with consideration for cost. Next.js, React, and Tailwind CSS are open-source technologies, so these did not require licensing fees. 
+Supabase was practical because its free tier was sufficient for development and initial deployment while providing options to upgrade when database storage, authentication usage, file storage, or server-side functions increase. Nodemailer and Gmail SMTP also reduced cost by allowing the system to send email notifications without immediately using a separate paid email service. This setup allowed IRIS to begin with minimal cost while keeping the option to scale when needed.
 
 \section{Requirements Analysis}
 
@@ -426,7 +427,7 @@ Table~\ref{tab:pentest-scope} summarizes the areas covered during penetration te
 \begin{table}[H]
 \centering
 \captionsetup{justification=raggedright,singlelinecheck=false}
-\caption{Scope of Penetration Testing}
+\caption[Scope of Penetration Testing]{Scope of Penetration Testing. The table summarizes the possible areas of vulnerability covered during penetration testing, including the specific security concerns that were evaluated for each area.}
 \label{tab:pentest-scope}
 \begin{tabular}{|p{0.30\textwidth}|p{0.60\textwidth}|}
 \hline
