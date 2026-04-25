@@ -28,6 +28,13 @@ type SeriesItemType = {
   data: number[];
 };
 
+type SingleBarSummary = {
+  label: string;
+  year: number;
+  value: number;
+  color: string;
+};
+
 function EmptyState({ height }: { height: number }) {
   return (
     <div
@@ -42,6 +49,37 @@ function EmptyState({ height }: { height: number }) {
         <p className="text-sm font-medium text-gray-700">No data available</p>
         <p className="mt-1 max-w-[240px] text-xs leading-5 text-gray-500">
           There is no data to visualize for the selected status yet.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SingleValueState({
+  height,
+  summary,
+}: {
+  height: number;
+  summary: SingleBarSummary;
+}) {
+  return (
+    <div
+      className="flex w-full items-center justify-center rounded-xl border border-gray-100 bg-gray-50/60"
+      style={{ height }}
+    >
+      <div className="flex w-full max-w-md flex-col items-center px-6 text-center">
+        <div
+          className="mb-4 h-3 w-16 rounded-full"
+          style={{ backgroundColor: summary.color }}
+          aria-hidden="true"
+        />
+
+        <p className="text-sm font-medium text-gray-500">{summary.year}</p>
+        <p className="mt-2 text-lg font-semibold text-gray-800">
+          {summary.label}
+        </p>
+        <p className="mt-3 text-5xl font-bold tracking-tight text-gray-900">
+          {summary.value}
         </p>
       </div>
     </div>
@@ -78,6 +116,25 @@ function BarChart(props: PropsInterface) {
       (ipType) => IP_TYPE_COLOR_MAP[ipType] ?? FALLBACK_IP_COLOR,
     );
   }, [activeIpTypes]);
+
+  const singleBarSummary = useMemo(() => {
+    const bars = series.flatMap((seriesItem, seriesIndex) =>
+      seriesItem.data.flatMap((value, dataIndex) => {
+        if (value <= 0) return [];
+
+        return [
+          {
+            label: seriesItem.name,
+            year: categories[dataIndex],
+            value,
+            color: seriesColors[seriesIndex],
+          },
+        ];
+      }),
+    );
+
+    return bars.length === 1 ? bars[0] : null;
+  }, [series, categories, seriesColors]);
 
   const options: ApexOptions = useMemo(
     () => ({
@@ -200,6 +257,8 @@ function BarChart(props: PropsInterface) {
 
       {!activeIpTypes.length || !categories.length ? (
         <EmptyState height={CHART_HEIGHT} />
+      ) : singleBarSummary ? (
+        <SingleValueState height={CHART_HEIGHT} summary={singleBarSummary} />
       ) : (
         <div className="custom-scrollbar max-w-full overflow-x-auto">
           <div className="w-full min-w-0">

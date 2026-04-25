@@ -1,4 +1,5 @@
 import {
+  DashboardStatus,
   SummaryTableRow,
   SummaryTotals,
   formatIpTypeLabel,
@@ -31,9 +32,22 @@ type ApexDataUriResult = {
   imgURI: string;
 };
 
+type SingleBarExportSummary = {
+  label: string;
+  year: number;
+  value: number;
+};
+
 const UNIVERSITY_NAME = "University Of The Philippines Visayas";
 const UPV_LOGO_PATH = "/images/upv-logo.png";
 const GRANT_RATE_CHART_ID = "dashboard-grant-rate-donut";
+const STATUS_FIELD_BY_CHART_ID: Record<string, DashboardStatus> = {
+  "dashboard-filed-combo": "filed",
+  "dashboard-pending-combo": "pending",
+  "dashboard-granted-combo": "granted",
+  "dashboard-withdrawn-combo": "withdrawn",
+  "dashboard-downgraded-combo": "downgraded",
+};
 
 type JsPDFInstance = import("jspdf").jsPDF;
 
@@ -53,9 +67,12 @@ const getChartImage = async (chartId: string) => {
 };
 
 const getImageDataUri = async (path: string) => {
-  const response = await fetch(path);
+  const resolvedPath =
+    typeof window !== "undefined" ? new URL(path, window.location.origin).toString() : path;
+
+  const response = await fetch(resolvedPath);
   if (!response.ok) {
-    throw new Error(`Unable to load image: ${path}`);
+    throw new Error(`Unable to load image: ${resolvedPath}`);
   }
 
   const blob = await response.blob();
@@ -165,6 +182,70 @@ const drawNoChartCard = (
     margin + 6,
     cursorY + (subtitle ? 18 : 13),
   );
+
+  return cardHeight;
+};
+
+const getSingleBarExportSummary = (
+  chartId: string,
+  summaryTableRows: SummaryTableRow[],
+): SingleBarExportSummary | null => {
+  const status = STATUS_FIELD_BY_CHART_ID[chartId];
+  if (!status) return null;
+
+  const nonZeroBars = summaryTableRows.flatMap((row) => {
+    const value = row[status];
+    if (value <= 0) return [];
+
+    return [
+      {
+        label: formatIpTypeLabel(row.ipType),
+        year: row.year,
+        value,
+      },
+    ];
+  });
+
+  return nonZeroBars.length === 1 ? nonZeroBars[0] : null;
+};
+
+const drawSingleValueCard = (
+  pdf: JsPDFInstance,
+  chart: ChartExportItem,
+  summary: SingleBarExportSummary,
+  margin: number,
+  cursorY: number,
+  contentWidth: number,
+) => {
+  const cardHeight = 50;
+
+  pdf.setFillColor(255, 255, 255);
+  pdf.roundedRect(margin, cursorY, contentWidth, cardHeight, 3, 3, "F");
+
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(12);
+  pdf.setTextColor(17, 24, 39);
+  drawText(pdf, chart.title, margin + 6, cursorY + 8);
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(9);
+  pdf.setTextColor(107, 114, 128);
+  drawText(
+    pdf,
+    `${summary.label} in ${summary.year}`,
+    margin + 6,
+    cursorY + 15,
+  );
+
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(24);
+  pdf.setTextColor(17, 24, 39);
+  drawText(pdf, String(summary.value), margin + 6, cursorY + 31);
+
+  pdf.setFont("helvetica", "normal");
+  pdf.setFontSize(9);
+  pdf.setTextColor(107, 114, 128);
+  drawText(pdf, "Single recorded value for this chart.", margin + 6, cursorY + 39);
 
   return cardHeight;
 };
@@ -380,6 +461,25 @@ export const exportDashboardPdf = async ({
         summaryTotals,
         yearFrom,
         yearTo,
+        margin,
+        cursorY,
+        contentWidth,
+      );
+      cursorY += cardHeight + 8;
+      continue;
+    }
+
+    const singleBarSummary = getSingleBarExportSummary(
+      chart.chartId,
+      summaryTableRows,
+    );
+
+    if (singleBarSummary) {
+      ensureSpace(58);
+      const cardHeight = drawSingleValueCard(
+        pdf,
+        chart,
+        singleBarSummary,
         margin,
         cursorY,
         contentWidth,
