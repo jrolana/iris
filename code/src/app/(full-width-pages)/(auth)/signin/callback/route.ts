@@ -3,6 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { ROLE_CONFIG, type Role } from "@/lib/roles";
 import { supabaseAdmin } from "../../../../../../utils/supabase/admin";
+import { ADMIN_EMAIL } from "@/lib/constants/admin";
 
 type SigninAdmission = {
   full_name: string;
@@ -149,7 +150,7 @@ export async function GET(request: Request) {
       const errorMessageByCode: Record<string, string> = {
         P0100: "We couldn't read your Google account email. Please try a different account.",
         P0101: "Your registration request is still pending approval.",
-        P0102: "Your registration request was rejected. Please contact ttbdo.upvisayas@up.edu.ph.",
+        P0102: `Your registration request was rejected. Please contact ${ADMIN_EMAIL}.`,
         P0103: "Your account isn't registered yet. Please sign up first.",
       };
 
@@ -215,7 +216,7 @@ export async function GET(request: Request) {
     if (upsertUserError) {
       await supabase.auth.signOut();
       return redirectWithError(
-        "We couldn't finish setting up your account. Please contact ttbdo.upvisayas@up.edu.ph.",
+        `We couldn't finish setting up your account. Please contact ${ADMIN_EMAIL}.`,
       );
     }
   }
@@ -227,7 +228,7 @@ export async function GET(request: Request) {
   if (userError || !userRole) {
     await supabase.auth.signOut();
     return redirectWithError(
-      "Unable to determine your account role. Please contact ttbdo.upvisayas@up.edu.ph.",
+      `Unable to determine your account role. Please contact ${ADMIN_EMAIL}.`,
     );
   }
 
