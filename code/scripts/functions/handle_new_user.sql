@@ -20,14 +20,17 @@ BEGIN
     INTO v_request
     FROM private.user_registration_requests
     WHERE lower(email) = lower(NEW.email)
-    ORDER BY
-        CASE status
-            WHEN 'approved' THEN 0
-            WHEN 'pending' THEN 1
-            ELSE 2
-        END,
-        requested_at DESC
+      AND status = 'approved'
+    ORDER BY requested_at DESC
     LIMIT 1;
+
+    -- Only DB-approved admissions should receive an app user record.
+    -- auth.users may contain identities created by OAuth or invite flows,
+    -- but private.users should only be from a trusted
+    -- approved admission row in user_registration_requests.
+    IF v_request.id IS NULL THEN
+        RETURN NEW;
+    END IF;
 
     v_role := CASE
         WHEN v_metadata->>'role' IN ('admin', 'up-official', 'techgen')

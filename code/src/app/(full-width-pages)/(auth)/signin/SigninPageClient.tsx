@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 interface SigninPageClientProps {
   errorMessage?: string;
@@ -10,12 +11,21 @@ export default function SigninPageClient({
   errorMessage = "",
 }: SigninPageClientProps) {
   const [loading, setLoading] = useState(false);
+  const hasShownErrorRef = useRef(false);
 
   useEffect(() => {
-    if (errorMessage) {
-      import("sonner").then(({ toast }) => toast.error(errorMessage));
+    if (!errorMessage || hasShownErrorRef.current) return;
+
+    hasShownErrorRef.current = true;
+
+    const timeoutId = window.setTimeout(() => {
+      toast.error(errorMessage);
       window.history.replaceState(null, "", "/signin");
-    }
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
   }, [errorMessage]);
 
   const handleGoogleSignIn = async () => {
@@ -49,6 +59,12 @@ export default function SigninPageClient({
         </h1>
         <p className="text-sm text-gray-500">Use your UP Mail to continue.</p>
       </div>
+
+      {errorMessage ? (
+        <div className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+          {errorMessage}
+        </div>
+      ) : null}
 
       <div className="grid grid-cols-2">
         <button
