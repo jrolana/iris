@@ -1,0 +1,18 @@
+[Unit]
+Description=Iris Next.js web application
+After=network.target
+
+[Service]
+Type=simple
+User=iris
+Group=iris
+WorkingDirectory=/opt/iris-web
+Environment=NODE_ENV=production
+Environment=PORT=3000
+EnvironmentFile=/opt/iris-web/.env
+ExecStart=/usr/bin/node /opt/iris-web/.next/standalone/server.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

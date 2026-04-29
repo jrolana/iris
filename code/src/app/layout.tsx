@@ -1,4 +1,3 @@
-import { Outfit } from "next/font/google";
 import "./globals.css";
 
 import LazyToaster from "@/providers/LazyToaster";
@@ -12,10 +11,6 @@ export const metadata = {
     "IRIS is a web-based intellectual property application management system.",
 };
 
-const outfit = Outfit({
-  subsets: ["latin"],
-});
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -23,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={outfit.className}>
+      <body>
         <LazyToaster />
         {children}
       </body>

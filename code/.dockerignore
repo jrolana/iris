@@ -1,0 +1,17 @@
+.git
+.github
+.idea
+.next
+coverage
+lighthouse-reports
+node_modules
+pentest-results
+playwright-report
+test-results
+*.log
+.env
+.env.local
+pentest.env
+*.tsbuildinfo
+banner.png
+summary.json
