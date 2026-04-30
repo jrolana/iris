@@ -106,7 +106,6 @@ export async function inviteUser(props: PropsInterface) {
     }
 
     const url = getBaseUrl();
-    const inviteExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
       type: "invite",
@@ -144,62 +143,6 @@ export async function inviteUser(props: PropsInterface) {
           emailError.message ||
           "The invitation link was created, but the email could not be sent.",
       } satisfies InviteUserResult;
-    }
-
-    const { data: existingRequest, error: requestLookupError } =
-      await supabaseAdmin
-        .schema("private")
-        .from("user_registration_requests")
-        .select("id")
-        .eq("email", email)
-        .order("requested_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-
-    if (requestLookupError) {
-      return {
-        success: false,
-        error: requestLookupError.message,
-      } satisfies InviteUserResult;
-    }
-
-    const approvedAdmission = {
-      full_name: userData.full_name ?? null,
-      email,
-      role: userData.role,
-      college_code: userData.college_code ?? null,
-      other_college_name: userData.other_college_name ?? null,
-      external_institution: userData.external_institution ?? null,
-      status: "approved" as const,
-      rejection_reason: null,
-      invite_expires_at: inviteExpiresAt.toISOString(),
-    };
-
-    if (existingRequest?.id) {
-      const { error: requestUpdateError } = await supabaseAdmin
-        .schema("private")
-        .from("user_registration_requests")
-        .update(approvedAdmission)
-        .eq("id", existingRequest.id);
-
-      if (requestUpdateError) {
-        return {
-          success: false,
-          error: requestUpdateError.message,
-        } satisfies InviteUserResult;
-      }
-    } else {
-      const { error: requestInsertError } = await supabaseAdmin
-        .schema("private")
-        .from("user_registration_requests")
-        .insert(approvedAdmission);
-
-      if (requestInsertError) {
-        return {
-          success: false,
-          error: requestInsertError.message,
-        } satisfies InviteUserResult;
-      }
     }
 
     return {
