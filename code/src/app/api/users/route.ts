@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin as supabase } from '@/../utils/supabase/admin'; // Adjust path if needed
 
-const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL ?? '';
+
+// const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL ?? ''; // use this if allowed origin is defined in environment variables
+const allowedOrigin = '*'; // allow all origins for the sake of demonstration
 
 // CORS headers to allow external access
 const corsHeaders = {
