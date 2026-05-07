@@ -64,6 +64,7 @@ export default function StartApplicationPageClient({
   }
 
   function removeInventor(index: number, techgenId: string | undefined | null) {
+    if (techgenId === user?.id) return;
     setInventors((prev) => prev.filter((_, i) => i !== index));
     if (techgenId) {
       setExcludedUIDs((prev) => prev.filter((id) => id !== techgenId));
@@ -95,13 +96,17 @@ export default function StartApplicationPageClient({
   }
 
   async function createAndUpload() {
+    const collaboratorInventors = inventors.filter(
+      (inventorItem) => inventorItem.techgen_id !== user.id,
+    );
+
     const appId = await createApp({
       applicationData: {
         project_title: projectTitle,
         ip_type: ipType,
         funding_source: resolvedFundingSource,
       },
-      inventorsData: inventors,
+      inventorsData: collaboratorInventors,
     });
 
     await handleUpload(appId, fileItems);
@@ -142,7 +147,30 @@ export default function StartApplicationPageClient({
 
   useEffect(() => {
     if (user === null || user === undefined) return;
-    setExcludedUIDs((prev) => [...prev, user.id]);
+    setInventors((prev) => {
+      const hasCurrentUser = prev.some(
+        (inventorItem) => inventorItem.techgen_id === user.id,
+      );
+
+      if (hasCurrentUser) return prev;
+
+      return [
+        {
+          application_id: "",
+          techgen_id: user.id,
+          full_name: user.full_name,
+          email: user.email,
+          college_code: user.college_code,
+          other_college_name: user.other_college_name,
+          external_institution: user.external_institution,
+          status: "member",
+        },
+        ...prev,
+      ];
+    });
+    setExcludedUIDs((prev) =>
+      prev.includes(user.id) ? prev : [...prev, user.id],
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
@@ -313,7 +341,7 @@ export default function StartApplicationPageClient({
                     {inventor.techgen_id !== undefined &&
                       inventor.techgen_id !== null && (
                         <div className="flex flex-row items-center gap-2 px-2 align-middle text-sm font-medium text-sky-700">
-                          Verified
+                          {inventor.techgen_id === user.id ? "You" : "Verified"}
                           <VerifiedIcon size={20} />
                         </div>
                       )}
@@ -325,6 +353,7 @@ export default function StartApplicationPageClient({
                   size="icon"
                   className="text-muted-foreground hover:text-destructive h-8 w-8"
                   onClick={() => removeInventor(index, inventor.techgen_id)}
+                  disabled={inventor.techgen_id === user.id}
                 >
                   <X className="h-4 w-4" />
                 </Button>
