@@ -20,7 +20,12 @@ BEGIN
       USING ERRCODE = 'insufficient_privilege';
   END IF;
 
-  IF p_inventors IS NULL OR jsonb_typeof(p_inventors) <> 'array' OR jsonb_array_length(p_inventors) = 0 THEN
+  IF p_inventors IS NULL OR jsonb_typeof(p_inventors) <> 'array' THEN
+    RAISE EXCEPTION 'Inventors payload must be an array.'
+      USING ERRCODE = 'P0001';
+  END IF;
+
+  IF private.is_admin() AND jsonb_array_length(p_inventors) = 0 THEN
     RAISE EXCEPTION 'At least one inventor is required.'
       USING ERRCODE = 'P0001';
   END IF;
