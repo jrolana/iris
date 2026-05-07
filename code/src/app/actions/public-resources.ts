@@ -36,7 +36,7 @@ async function assertServerCurrentUserIsAdmin() {
   const { data: actingUser, error: actingUserError } = await supabase
     .schema("private")
     .from("users")
-    .select("role")
+    .select("id, full_name, role")
     .eq("id", user.id)
     .single();
 
@@ -47,10 +47,12 @@ async function assertServerCurrentUserIsAdmin() {
   if (actingUser.role !== "admin") {
     throw new Error("Only admins can manage public resources.");
   }
+
+  return actingUser;
 }
 
 export async function uploadPublicResource(formData: FormData) {
-  await assertServerCurrentUserIsAdmin();
+  const actingUser = await assertServerCurrentUserIsAdmin();
 
   const ipType = formData.get("ipType");
   const file = formData.get("file");
@@ -76,11 +78,29 @@ export async function uploadPublicResource(formData: FormData) {
     throw new Error(error.message);
   }
 
+  await supabaseAdmin.schema("private").from("audit_trail").insert({
+    snapshot_user_name: actingUser.full_name,
+    snapshot_user_role: actingUser.role,
+    action_type: "upload",
+    action_taken: "Uploaded public resource document",
+    action_result: "success",
+    record_type: "document",
+    snapshot_record_reference: filePath,
+    changed_fields: {
+      after: {
+        bucket: BUCKET_NAME,
+        file_path: filePath,
+        ip_type: ipType,
+        content_type: file.type || null,
+      },
+    },
+  });
+
   return data;
 }
 
 export async function deletePublicResource(fullPath: string) {
-  await assertServerCurrentUserIsAdmin();
+  const actingUser = await assertServerCurrentUserIsAdmin();
 
   const { data, error } = await supabaseAdmin.storage
     .from(BUCKET_NAME)
@@ -89,6 +109,22 @@ export async function deletePublicResource(fullPath: string) {
   if (error) {
     throw new Error(error.message);
   }
+
+  await supabaseAdmin.schema("private").from("audit_trail").insert({
+    snapshot_user_name: actingUser.full_name,
+    snapshot_user_role: actingUser.role,
+    action_type: "delete",
+    action_taken: "Deleted public resource document",
+    action_result: "success",
+    record_type: "document",
+    snapshot_record_reference: fullPath,
+    changed_fields: {
+      before: {
+        bucket: BUCKET_NAME,
+        file_path: fullPath,
+      },
+    },
+  });
 
   return data;
 }

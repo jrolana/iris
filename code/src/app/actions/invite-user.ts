@@ -87,7 +87,7 @@ export async function inviteUser(props: PropsInterface) {
     const { data: actingUser, error: actingUserError } = await supabase
       .schema("private")
       .from("users")
-      .select("role")
+      .select("full_name, role")
       .eq("id", user.id)
       .single();
 
@@ -144,6 +144,23 @@ export async function inviteUser(props: PropsInterface) {
           "The invitation link was created, but the email could not be sent.",
       } satisfies InviteUserResult;
     }
+
+    await supabaseAdmin.schema("private").from("audit_trail").insert({
+      snapshot_user_name: actingUser.full_name,
+      snapshot_user_role: actingUser.role,
+      action_type: "create",
+      action_taken: "Sent user invitation",
+      action_result: "success",
+      record_type: "account",
+      snapshot_record_reference: full_name || email,
+      changed_fields: {
+        after: {
+          email,
+          full_name,
+          role,
+        },
+      },
+    });
 
     return {
       success: true,

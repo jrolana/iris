@@ -38,7 +38,12 @@ BEGIN
 
         PERFORM private.log_audit_event(
             'status_change',
-            FORMAT('Changed application status to %s', v_status_label),
+            CASE
+                WHEN NEW.status_type = 'downgraded_to_um' THEN
+                    'Downgraded application to Utility Model'
+                ELSE
+                    FORMAT('Changed application status to %s', v_status_label)
+            END,
             'success',
             'application',
             v_reference,
@@ -91,7 +96,12 @@ BEGIN
 
         PERFORM private.log_audit_event(
             'status_change',
-            FORMAT('Changed application status to %s', v_status_label),
+            CASE
+                WHEN NEW.status_type = 'downgraded_to_um' THEN
+                    'Downgraded application to Utility Model'
+                ELSE
+                    FORMAT('Changed application status to %s', v_status_label)
+            END,
             'success',
             'application',
             v_reference,

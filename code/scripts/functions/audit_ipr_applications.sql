@@ -18,7 +18,12 @@ BEGIN
 
         PERFORM private.log_audit_event(
             'create',
-            'Created application',
+            CASE
+                WHEN NEW.parent_application_id IS NOT NULL THEN
+                    'Created downgraded Utility Model application'
+                ELSE
+                    'Created application'
+            END,
             'success',
             'application',
             v_reference

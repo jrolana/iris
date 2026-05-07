@@ -30,12 +30,12 @@ BEGIN
     v_snapshot_user_name := COALESCE(
         v_snapshot_user_name,
         p_fallback_user_name,
-        'System'
+        'Unknown User'
     );
     v_snapshot_user_role := COALESCE(
         v_snapshot_user_role,
         p_fallback_user_role,
-        'system'
+        'Unknown Role'
     );
 
     INSERT INTO private.audit_trail (
