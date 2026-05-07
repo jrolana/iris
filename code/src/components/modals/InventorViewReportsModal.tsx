@@ -14,7 +14,7 @@ import Modal from "./Modal";
 import Button from "../ui/button/Button";
 
 export default function InventorReportsModal() {
-  const { isOpen, closeModal, reports, setReports } =
+  const { isOpen, closeModal, reports, setReports, isUneditable } =
     useInventorViewReportsModal();
   const { openModal: openRemoveInventorModal } = useRemoveInventorModal();
 
@@ -42,6 +42,7 @@ export default function InventorReportsModal() {
         subjectId={subjectId}
         handleRemoveClicked={handleRemoveClicked}
         isDeleting={isDeleting}
+        isUneditable={isUneditable}
         setReports={setReports}
         closeModal={closeModal}
       />
@@ -68,6 +69,7 @@ interface ReportsContentProps {
   handleRemoveClicked: () => void;
   setReports: (reports: ReportWithRelations[]) => void;
   isDeleting: boolean;
+  isUneditable: boolean;
   closeModal: () => void;
 }
 
@@ -79,6 +81,7 @@ function ReportsContent(props: ReportsContentProps) {
     handleRemoveClicked,
     setReports,
     isDeleting,
+    isUneditable,
     closeModal,
   } = props;
 
@@ -91,6 +94,8 @@ function ReportsContent(props: ReportsContentProps) {
   const confirm = useConfirm();
 
   async function handleResolveReport(reportId: string) {
+    if (isUneditable) return;
+
     const isConfirmed = await confirm({
       title: "Confirm Resolve",
       message: `Are you sure you want to mark this report as resolved?`,
@@ -110,6 +115,8 @@ function ReportsContent(props: ReportsContentProps) {
   }
 
   async function handleSendEmailToOthers() {
+    if (isUneditable) return;
+
     const isConfirmed = await confirm({
       title: "Confirm Send Email",
       message: `Are you sure you want to send an email to the other collaborators about this report?`,
@@ -158,7 +165,7 @@ function ReportsContent(props: ReportsContentProps) {
               <div className="item-start flex w-full">
                 <Button
                   className="mt-10 h-8 py-0 hover:bg-slate-100"
-                  disabled={report.is_resolved || isResolving}
+                  disabled={report.is_resolved || isResolving || isUneditable}
                   size="sm"
                   variant="outline"
                   onClick={() => handleResolveReport(report.id)}
@@ -179,6 +186,7 @@ function ReportsContent(props: ReportsContentProps) {
         onClick={handleRemoveClicked}
         disabled={
           isDeleting ||
+          isUneditable ||
           !subjectName ||
           !subjectId ||
           reports?.length === 0 ||
@@ -193,6 +201,7 @@ function ReportsContent(props: ReportsContentProps) {
         onClick={handleSendEmailToOthers}
         disabled={
           isDeleting ||
+          isUneditable ||
           !subjectName ||
           !subjectId ||
           reports?.length === 0 ||

@@ -10,6 +10,7 @@ import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import { ApplicationType } from "@/lib/types/application";
 import { StatusType } from "@/lib/types/ip";
 import { formatDateTime, formatDate } from "@/lib/helper/format-date";
+import { isApplicationEditLocked } from "@/lib/helper/is-application-edit-locked";
 
 import ApplicationStepper from "@/components/application/ApplicationStepper";
 import StatusHistoryPanel from "@/components/application/StatusHistoryPanel";
@@ -42,6 +43,10 @@ function ApplicationView(props: ApplicationViewProps) {
   const statusLabel =
     STATUS_LABELS[currentStatus?.status_type as StatusType] ??
     currentStatus?.status_type;
+  const isEditingLocked = isApplicationEditLocked({
+    isWithdrawn: application.is_withdrawn,
+    currentStatusType: currentStatus?.status_type,
+  });
 
   const isAdmin = mode === "admin";
 
@@ -63,11 +68,11 @@ function ApplicationView(props: ApplicationViewProps) {
               <ArrowLeft size={18} className="text-gray-700" />
             </button>
             {isAdmin &&
-              !application.is_withdrawn &&
               !application.is_archived && (
                 <Button
                   type="button"
                   onClick={openModal}
+                  disabled={isEditingLocked}
                   className="border-brand-700 bg-brand-600 hover:border-brand-600 hover:text-brand-600 rounded-full border px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-white"
                 >
                   Edit details
@@ -163,8 +168,7 @@ function ApplicationView(props: ApplicationViewProps) {
               mode={mode}
               isUneditable={
                 application.is_archived ||
-                application.is_withdrawn ||
-                currentStatus?.status_type === "downgraded_to_um"
+                isEditingLocked
               }
             />
           </section>
@@ -182,6 +186,7 @@ function ApplicationView(props: ApplicationViewProps) {
 
       <EditApplicationDetailsModal
         application={application}
+        currentStatusType={currentStatus?.status_type ?? null}
         ipTitle={ipTitle}
         ipNumber={ipNumber}
         filingDate={filingDate}

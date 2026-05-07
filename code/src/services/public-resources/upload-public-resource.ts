@@ -1,4 +1,6 @@
-import { uploadPublicResource as uploadPublicResourceAction } from "@/app/actions/public-resources";
+import { logPublicResourceUpload } from "@/app/actions/public-resources";
+import { sanitizeFileName } from "@/lib/helper/sanitize-input";
+import { supabaseClient as supabase } from "@/lib/supabase";
 import { IpType } from "@/lib/types/ip";
 
 interface UploadPublicResourceProps {
@@ -10,10 +12,24 @@ export const uploadPublicResource = async function (
   props: UploadPublicResourceProps,
 ) {
   const { ipType, file } = props;
+  const filePath = `${ipType}/${sanitizeFileName(file.name)}`;
 
-  const formData = new FormData();
-  formData.append("ipType", ipType);
-  formData.append("file", file);
+  const { data, error } = await supabase.storage
+    .from("ipr_public_resources_bucket")
+    .upload(filePath, file, {
+      contentType: file.type,
+      upsert: true,
+    });
 
-  return uploadPublicResourceAction(formData);
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  await logPublicResourceUpload({
+    ipType,
+    filePath,
+    contentType: file.type || null,
+  });
+
+  return data;
 };

@@ -119,7 +119,7 @@ function ViewInventors(props: ViewInventorsProps) {
                 setIsAdminAdding(true);
                 openAddVerifiedInventorModal();
               }}
-              disabled={isAddingInventor}
+              disabled={isAddingInventor || isUneditable}
               className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
             >
               Add technology generator
@@ -137,7 +137,7 @@ function ViewInventors(props: ViewInventorsProps) {
                 setIsAdminAdding(false);
                 openAddVerifiedInventorModal();
               }}
-              disabled={isAddingInventor}
+              disabled={isAddingInventor || isUneditable}
               className="w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300"
             >
               Add technology generator

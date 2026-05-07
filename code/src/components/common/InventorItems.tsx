@@ -57,8 +57,11 @@ export default function InventorItems(props: InventorItemsProps) {
     setReporter,
   } = useInventorFileReportModal();
 
-  const { openModal: openViewReportsModal, setReports: setViewReportsReports } =
-    useInventorViewReportsModal();
+  const {
+    openModal: openViewReportsModal,
+    setReports: setViewReportsReports,
+    setIsUneditable: setViewReportsIsUneditable,
+  } = useInventorViewReportsModal();
 
   const { autoLinkInventor, isLoading: isAutoLinking } = useAutoLinkInventor();
   const { acceptRejectInventor, isLoading: isAcceptRejecting } =
@@ -83,6 +86,7 @@ export default function InventorItems(props: InventorItemsProps) {
 
   function handleViewReportsClicked(reports: ReportWithRelations[]) {
     setViewReportsReports(reports || []);
+    setViewReportsIsUneditable(isUneditable);
     openViewReportsModal();
   }
 

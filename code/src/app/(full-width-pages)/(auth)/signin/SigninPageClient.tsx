@@ -10,9 +10,11 @@ export default function SigninPageClient({
   errorMessage = "",
 }: SigninPageClientProps) {
   const [loading, setLoading] = useState(false);
+  const [visibleError, setVisibleError] = useState(errorMessage);
 
   useEffect(() => {
     if (errorMessage) {
+      setVisibleError(errorMessage);
       import("sonner").then(({ toast }) => toast.error(errorMessage));
       window.history.replaceState(null, "", "/signin");
     }
@@ -49,6 +51,12 @@ export default function SigninPageClient({
         </h1>
         <p className="text-sm text-gray-500">Use your UP Mail to continue.</p>
       </div>
+
+      {visibleError ? (
+        <div className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+          {visibleError}
+        </div>
+      ) : null}
 
       <div className="grid grid-cols-2">
         <button

@@ -12,6 +12,10 @@ import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication"
 import { toast } from "sonner";
 import { ApplicationType } from "@/lib/types/application";
 import { Button } from "../ui/button";
+import {
+  getApplicationEditLockReason,
+  isApplicationEditLocked,
+} from "@/lib/helper/is-application-edit-locked";
 
 interface StatusHistoryPanelProps {
   application: ApplicationType["Row"];
@@ -80,6 +84,14 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
 
   const statusArray = Array.isArray(statuses) ? statuses : [statuses];
   const latestStatus = statusArray[0];
+  const isEditingLocked = isApplicationEditLocked({
+    isWithdrawn: application.is_withdrawn,
+    currentStatusType: latestStatus?.status_type,
+  });
+  const editLockReason = getApplicationEditLockReason({
+    isWithdrawn: application.is_withdrawn,
+    currentStatusType: latestStatus?.status_type,
+  });
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-4">
@@ -92,7 +104,7 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
               <Button
                 type="button"
                 onClick={handleUnwithdrawApplication}
-                disabled={isWithdrawing}
+                disabled={isWithdrawing || latestStatus?.status_type === "downgraded_to_um"}
                 className="rounded-full border border-green-600 bg-green-50 px-3 py-1 text-sm font-medium text-green-700 transition-colors hover:bg-green-100 hover:text-green-800"
               >
                 Revert Withdrawal
@@ -101,7 +113,7 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
               <Button
                 type="button"
                 onClick={handleWithdrawApplication}
-                disabled={isWithdrawing}
+                disabled={isWithdrawing || isEditingLocked}
                 className="rounded-full border bg-rose-500 px-3 py-1 text-sm font-medium text-white transition-colors hover:border-rose-600 hover:bg-white hover:text-rose-600"
               >
                 Withdraw
@@ -109,7 +121,7 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
             )}
             <Button
               type="button"
-              disabled={isWithdrawing || (application.is_withdrawn ?? false)}
+              disabled={isWithdrawing || isEditingLocked}
               onClick={handleClickUpdate}
               className="rounded-full border border-sky-700 bg-sky-600 px-3 py-1 text-sm font-medium text-white transition-colors hover:border-sky-600 hover:bg-white hover:text-sky-600"
             >
@@ -118,6 +130,12 @@ export default function StatusHistoryPanel(props: StatusHistoryPanelProps) {
           </div>
         )}
       </div>
+
+      {variant === "ttbdo" && editLockReason ? (
+        <div className="mb-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+          {editLockReason}
+        </div>
+      ) : null}
 
       {isLoading && <div>Fetching status...</div>}
 

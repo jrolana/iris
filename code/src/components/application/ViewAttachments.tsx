@@ -36,6 +36,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
         <div className="mt-4">
           <button
             type="button"
+            disabled={isUneditable}
             onClick={() => {
               openUploadModal();
             }}

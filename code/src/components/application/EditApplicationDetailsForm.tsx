@@ -20,9 +20,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { format, isSameDay } from "date-fns";
 import { CalendarIcon, X } from "lucide-react";
+import {
+  getApplicationEditLockReason,
+  isApplicationEditLocked,
+} from "@/lib/helper/is-application-edit-locked";
 
 interface EditApplicationDetailsFormProps {
   application: ApplicationType["Row"];
+  currentStatusType: string | null;
   ipTitle: string | null;
   ipNumber: string | null;
   filingDate: string | null;
@@ -34,6 +39,7 @@ interface EditApplicationDetailsFormProps {
 function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
   const {
     application,
+    currentStatusType,
     ipTitle,
     ipNumber,
     filingDate,
@@ -60,6 +66,14 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
 
   const { updateApp } = useUpdateApplication({
     appId: application.id,
+  });
+  const isEditingLocked = isApplicationEditLocked({
+    isWithdrawn: application.is_withdrawn,
+    currentStatusType,
+  });
+  const editLockReason = getApplicationEditLockReason({
+    isWithdrawn: application.is_withdrawn,
+    currentStatusType,
   });
 
   useEffect(() => {
@@ -105,6 +119,11 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (isEditingLocked) {
+      toast.error(editLockReason ?? "This application can no longer be edited.");
+      return;
+    }
 
     const isConfirmed = await confirm({
       title: "Confirm changes",
@@ -174,6 +193,23 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
 
   return (
     <div className="flex w-full max-w-lg min-w-[85vw] flex-col sm:w-[80vh] sm:min-w-[400px]">
+      {isEditingLocked ? (
+        <div className="flex flex-col gap-4">
+          <p className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+            {editLockReason}
+          </p>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={closeModal}
+              className="rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
       <p className="-mt-4 shrink-0 text-center text-sm leading-normal text-slate-600">
         Update the application details and filing date for this record.
       </p>
@@ -300,6 +336,8 @@ function EditApplicationDetailsForm(props: EditApplicationDetailsFormProps) {
           </button>
         </div>
       </form>
+        </>
+      )}
     </div>
   );
 }
