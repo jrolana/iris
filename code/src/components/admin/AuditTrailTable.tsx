@@ -25,7 +25,20 @@ import {
   ActionResultBadgeClasses,
 } from "@/lib/constants/ui";
 import { useGetAuditTrail } from "@/hooks/audit-trail/useGetAuditTrail";
-import { FilterIcon, Loader, X } from "lucide-react";
+import {
+  ArrowDownNarrowWide,
+  ArrowUpNarrowWide,
+  FilterIcon,
+  Loader,
+  X,
+} from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { buttonVariants } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 const actionCategoryOptions = Object.values(ActionCategory).map((value) => ({
   value,
@@ -42,13 +55,25 @@ const recordTypeOptions = Object.values(RecordType).map((value) => ({
   label: value,
 }));
 
+type AuditSortField =
+  | "timestamp"
+  | "userName"
+  | "userRole"
+  | "actionCategory"
+  | "actionResult"
+  | "recordType"
+  | "recordReference";
+
 export default function AuditTrailTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
   const { data, isLoading, isFetching } = useGetAuditTrail();
   const records = data.map(mapAuditTrailRow);
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
+  const [isSortPanelOpen, setIsSortPanelOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState<AuditSortField>("timestamp");
+  const [isAscendingSort, setIsAscendingSort] = useState(false);
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
   const [selectedActionCategories, setSelectedActionCategories] = useState<
     ActionCategory[]
@@ -67,6 +92,16 @@ export default function AuditTrailTable() {
       value,
       label: value,
     }));
+
+  const sortOptions: { value: AuditSortField; label: string }[] = [
+    { value: "timestamp", label: "Timestamp" },
+    { value: "userName", label: "User Name" },
+    { value: "userRole", label: "User Role" },
+    { value: "actionCategory", label: "Action Category" },
+    { value: "actionResult", label: "Action Result" },
+    { value: "recordType", label: "Record Type" },
+    { value: "recordReference", label: "Record Reference" },
+  ];
 
   const normalizedQuery = searchQuery.trim().toLowerCase();
   const filteredRecords = records.filter((record) => {
@@ -103,10 +138,26 @@ export default function AuditTrailTable() {
     );
   });
 
+  const sortedRecords = [...filteredRecords].sort((a, b) => {
+    if (sortBy === "timestamp") {
+      const left = new Date(a.timestamp).getTime();
+      const right = new Date(b.timestamp).getTime();
+      return isAscendingSort ? left - right : right - left;
+    }
+
+    const left = String(a[sortBy] ?? "").toLowerCase();
+    const right = String(b[sortBy] ?? "").toLowerCase();
+    const result = left.localeCompare(right);
+
+    return isAscendingSort ? result : -result;
+  });
+
   useEffect(() => {
     setCurrentPage(1);
   }, [
     searchQuery,
+    sortBy,
+    isAscendingSort,
     selectedRoles,
     selectedActionCategories,
     selectedActionResults,
@@ -115,13 +166,13 @@ export default function AuditTrailTable() {
 
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = filteredRecords.slice(
+  const currentRecords = sortedRecords.slice(
     indexOfFirstRecord,
     indexOfLastRecord,
   );
   const totalPages = Math.max(
     1,
-    Math.ceil(filteredRecords.length / recordsPerPage),
+    Math.ceil(sortedRecords.length / recordsPerPage),
   );
 
   const tableHeaders = [
@@ -177,16 +228,73 @@ export default function AuditTrailTable() {
           />
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          startIcon={<FilterIcon size={18} />}
-          onClick={() => setIsFilterPanelOpen((value) => !value)}
-          className="h-10 max-w-fit"
-          disabled={isLoading}
-        >
-          {isFilterPanelOpen ? "Close Filters" : "Filter"}
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Popover open={isSortPanelOpen} onOpenChange={setIsSortPanelOpen}>
+            <PopoverTrigger
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "data-[empty=true]:text-muted-foreground m-0 flex h-10 w-fit justify-start px-3 py-2 text-left text-sm font-medium text-gray-700",
+              )}
+              disabled={isLoading}
+            >
+              {sortOptions.find((option) => option.value === sortBy)?.label ??
+                "Sort By"}
+            </PopoverTrigger>
+            <PopoverContent
+              className="max-h-[300px] w-[calc(100vw-2rem)] overflow-y-auto p-2 sm:w-56"
+              align="end"
+              collisionPadding={16}
+            >
+              <div className="flex flex-col gap-1">
+                <div className="text-muted-foreground px-2 py-1.5 text-xs font-semibold tracking-wider uppercase">
+                  Sort Options
+                </div>
+
+                {sortOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => {
+                      setSortBy(option.value);
+                      setIsSortPanelOpen(false);
+                    }}
+                    className="flex w-full items-center justify-start rounded-md px-2 py-2 text-left text-sm transition-colors hover:bg-slate-100 hover:text-slate-900"
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </PopoverContent>
+          </Popover>
+
+          <button
+            onClick={() => setIsAscendingSort((current) => !current)}
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              "text-muted-foreground hover:text-foreground flex h-auto w-auto shrink-0 items-center justify-center p-0 hover:bg-transparent",
+            )}
+            aria-label={
+              isAscendingSort ? "Sort descending" : "Sort ascending"
+            }
+            disabled={isLoading}
+          >
+            {isAscendingSort ? (
+              <ArrowDownNarrowWide className="h-6! w-6!" />
+            ) : (
+              <ArrowUpNarrowWide className="h-6! w-6!" />
+            )}
+          </button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            startIcon={<FilterIcon size={18} />}
+            onClick={() => setIsFilterPanelOpen((value) => !value)}
+            className="h-10 max-w-fit"
+            disabled={isLoading}
+          >
+            {isFilterPanelOpen ? "Close Filters" : "Filter"}
+          </Button>
+        </div>
       </div>
 
       {isFilterPanelOpen ? (
