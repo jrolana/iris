@@ -10,7 +10,11 @@ DECLARE
     v_reference TEXT;
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        v_reference := COALESCE(NEW.ip_title, NEW.project_title, NEW.id::TEXT);
+        v_reference := COALESCE(
+            NULLIF(BTRIM(NEW.project_title), ''),
+            NULLIF(BTRIM(NEW.ip_title), ''),
+            NEW.id::TEXT
+        );
 
         PERFORM private.log_audit_event(
             'create',
@@ -24,7 +28,11 @@ BEGIN
     END IF;
 
     IF TG_OP = 'DELETE' THEN
-        v_reference := COALESCE(OLD.ip_title, OLD.project_title, OLD.id::TEXT);
+        v_reference := COALESCE(
+            NULLIF(BTRIM(OLD.project_title), ''),
+            NULLIF(BTRIM(OLD.ip_title), ''),
+            OLD.id::TEXT
+        );
 
         PERFORM private.log_audit_event(
             'delete',
@@ -66,7 +74,11 @@ BEGIN
         RETURN NEW;
     END IF;
 
-    v_reference := COALESCE(NEW.ip_title, NEW.project_title, NEW.id::TEXT);
+    v_reference := COALESCE(
+        NULLIF(BTRIM(NEW.project_title), ''),
+        NULLIF(BTRIM(NEW.ip_title), ''),
+        NEW.id::TEXT
+    );
 
     PERFORM private.log_audit_event(
         'update',

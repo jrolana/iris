@@ -14,7 +14,11 @@ BEGIN
     IF TG_OP = 'INSERT' THEN
         v_application_id := NEW.application_id;
 
-        SELECT COALESCE(ip_title, project_title, id::TEXT)
+        SELECT COALESCE(
+            NULLIF(BTRIM(project_title), ''),
+            NULLIF(BTRIM(ip_title), ''),
+            id::TEXT
+        )
         INTO v_reference
         FROM private.ipr_applications
         WHERE id = v_application_id;
@@ -54,7 +58,11 @@ BEGIN
 
     v_application_id := OLD.application_id;
 
-    SELECT COALESCE(ip_title, project_title, id::TEXT)
+    SELECT COALESCE(
+        NULLIF(BTRIM(project_title), ''),
+        NULLIF(BTRIM(ip_title), ''),
+        id::TEXT
+    )
     INTO v_reference
     FROM private.ipr_applications
     WHERE id = v_application_id;

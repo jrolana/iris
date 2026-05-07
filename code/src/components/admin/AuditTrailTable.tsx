@@ -419,14 +419,7 @@ export default function AuditTrailTable() {
                   </TableCell>
 
                   <TableCell className="text-theme-sm p-2 py-3 text-gray-800">
-                    <div className="space-y-1">
-                      <p>{record.actionTaken}</p>
-                      {record.changedFields ? (
-                        <pre className="max-w-xs overflow-x-auto rounded-md bg-slate-50 px-2 py-1 text-xs text-slate-500">
-                          {JSON.stringify(record.changedFields, null, 2)}
-                        </pre>
-                      ) : null}
-                    </div>
+                    {record.actionTaken}
                   </TableCell>
 
                   <TableCell className="p-2 py-3">

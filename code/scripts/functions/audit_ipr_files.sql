@@ -45,15 +45,13 @@ BEGIN
         'file_name', OLD.file_name,
         'file_description', OLD.file_description,
         'file_type', OLD.file_type,
-        'comments', OLD.comments,
-        'is_public', OLD.is_public
+        'comments', OLD.comments
     );
     v_after := jsonb_build_object(
         'file_name', NEW.file_name,
         'file_description', NEW.file_description,
         'file_type', NEW.file_type,
-        'comments', NEW.comments,
-        'is_public', NEW.is_public
+        'comments', NEW.comments
     );
 
     IF v_before = v_after THEN
