@@ -8,6 +8,7 @@ import EditApplicationDetailsForm from "../application/EditApplicationDetailsFor
 
 interface EditApplicationDetailsModalProps {
   application: ApplicationType["Row"];
+  currentStatusType: string | null;
   ipTitle: string | null;
   ipNumber: string | null;
   filingDate: string | null;
@@ -21,6 +22,7 @@ function EditApplicationDetailsModal(
 ) {
   const {
     application,
+    currentStatusType,
     ipTitle,
     ipNumber,
     filingDate,
@@ -41,6 +43,7 @@ function EditApplicationDetailsModal(
     <ModalContainer>
       <EditApplicationDetailsForm
         application={application}
+        currentStatusType={currentStatusType}
         ipTitle={ipTitle}
         ipNumber={ipNumber}
         filingDate={filingDate}
