@@ -99,6 +99,33 @@ export async function uploadPublicResource(formData: FormData) {
   return data;
 }
 
+export async function logPublicResourceUpload(props: {
+  ipType: IpType;
+  filePath: string;
+  contentType: string | null;
+}) {
+  const actingUser = await assertServerCurrentUserIsAdmin();
+  const { ipType, filePath, contentType } = props;
+
+  await supabaseAdmin.schema("private").from("audit_trail").insert({
+    snapshot_user_name: actingUser.full_name,
+    snapshot_user_role: actingUser.role,
+    action_type: "upload",
+    action_taken: "Uploaded public resource document",
+    action_result: "success",
+    record_type: "document",
+    snapshot_record_reference: filePath,
+    changed_fields: {
+      after: {
+        bucket: BUCKET_NAME,
+        file_path: filePath,
+        ip_type: ipType,
+        content_type: contentType,
+      },
+    },
+  });
+}
+
 export async function deletePublicResource(fullPath: string) {
   const actingUser = await assertServerCurrentUserIsAdmin();
 
