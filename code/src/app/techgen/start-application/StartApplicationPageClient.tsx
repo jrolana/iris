@@ -96,6 +96,10 @@ export default function StartApplicationPageClient({
   }
 
   async function createAndUpload() {
+    if (user === null || user === undefined) {
+      throw new Error("User information is not available.");
+    }
+
     const collaboratorInventors = inventors.filter(
       (inventorItem) => inventorItem.techgen_id !== user.id,
     );
