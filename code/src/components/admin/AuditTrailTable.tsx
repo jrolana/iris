@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { generatePagination } from "@/lib/helper/generate-pagination";
 import {
   Table,
   TableBody,
@@ -213,7 +214,9 @@ export default function AuditTrailTable() {
         <div>
           <h1 className="text-2xl font-semibold text-gray-800">Audit Trail</h1>
           {isFetching && !isLoading ? (
-            <p className="mt-1 text-sm text-slate-500">Refreshing audit entries...</p>
+            <p className="mt-1 text-sm text-slate-500">
+              Refreshing audit entries...
+            </p>
           ) : null}
         </div>
       </div>
@@ -272,9 +275,7 @@ export default function AuditTrailTable() {
               buttonVariants({ variant: "ghost" }),
               "text-muted-foreground hover:text-foreground flex h-auto w-auto shrink-0 items-center justify-center p-0 hover:bg-transparent",
             )}
-            aria-label={
-              isAscendingSort ? "Sort descending" : "Sort ascending"
-            }
+            aria-label={isAscendingSort ? "Sort descending" : "Sort ascending"}
             disabled={isLoading}
           >
             {isAscendingSort ? (
@@ -364,7 +365,11 @@ export default function AuditTrailTable() {
       {hasActiveFilters ? (
         <div className="mb-4 flex flex-wrap items-center gap-2">
           {searchQuery.trim() ? (
-            <Badge variant="neutral" size="sm" className="group hover:bg-gray-100">
+            <Badge
+              variant="neutral"
+              size="sm"
+              className="group hover:bg-gray-100"
+            >
               Search: "{searchQuery.trim()}"
               <button
                 className="ml-1.5 opacity-60 group-hover:opacity-100"
@@ -562,16 +567,26 @@ export default function AuditTrailTable() {
           Previous
         </Button>
         <div className="flex gap-2">
-          {[...Array(totalPages)].map((_, i) => (
-            <Button
-              key={i}
-              variant={currentPage === i + 1 ? "primary" : "outline"}
-              size="sm"
-              onClick={() => handlePageChange(i + 1)}
-            >
-              {i + 1}
-            </Button>
-          ))}
+          {/* {[...Array(totalPages)].map((_, i) => ( */}
+          {generatePagination(currentPage, totalPages).map((page, i) =>
+            page === "..." ? (
+              <span
+                key={`ellipsis-${i}-${page}`}
+                className="flex h-8 w-8 items-center justify-center text-sm text-gray-500"
+              >
+                ...
+              </span>
+            ) : (
+              <Button
+                key={`page-${page}`}
+                variant={currentPage === page ? "primary" : "outline"}
+                size="sm"
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </Button>
+            ),
+          )}
         </div>
         <Button
           variant="outline"
