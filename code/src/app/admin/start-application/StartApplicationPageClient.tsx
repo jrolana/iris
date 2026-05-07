@@ -262,8 +262,7 @@ export default function StartApplicationPageClient({
         <div>
           <h2 className="text-2xl font-medium">B. Collaborators</h2>
           <p className="mt-1 text-lg text-slate-500">
-            List all the collaborators for this application. Remember that you
-            can no longer add or remove these names after submission. You need{" "}
+            List all the collaborators for this application. You need{" "}
             <b>at least one (1)</b> collaborator to proceed.
           </p>
         </div>

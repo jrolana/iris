@@ -295,8 +295,7 @@ export default function StartApplicationPageClient({
           <p className="mt-1 text-lg text-slate-500">
             List all the collaborators for this application.{" "}
             <b>You are automatically listed</b> as a technology generator so
-            exclude yourself from this list. Remember that you can no longer add
-            or remove these names after submission.
+            exclude yourself from this list.
           </p>
         </div>
 
