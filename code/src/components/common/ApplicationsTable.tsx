@@ -11,6 +11,7 @@ import { CollegeUnitType } from "@/lib/types/college-units";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useUpdateApplication } from "@/hooks/applications/useUpdateApplication";
+import { generatePagination } from "@/lib/helper/generate-pagination";
 
 import {
   Table,
@@ -80,7 +81,7 @@ export default function ApplicationsTable(props: PropsInterface) {
     SearchApplication[]
   >(applications || []);
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 20;
+  const recordsPerPage = 15;
 
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
   const [isSortPanelOpen, setIsSortPanelOpen] = useState(false);
@@ -595,16 +596,25 @@ export default function ApplicationsTable(props: PropsInterface) {
             Previous
           </Button>
           <div className="flex gap-2">
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <Button
-                key={i.toString() + "-page-button"}
-                variant={currentPage === i + 1 ? "primary" : "outline"}
-                size="sm"
-                onClick={() => handlePageChange(i + 1)}
-              >
-                {i + 1}
-              </Button>
-            ))}
+            {generatePagination(currentPage, totalPages).map((page, i) =>
+              page === "..." ? (
+                <span
+                  key={`ellipsis-${i}-${page}`}
+                  className="flex h-8 w-8 items-center justify-center text-sm text-gray-500"
+                >
+                  ...
+                </span>
+              ) : (
+                <Button
+                  key={page.toString() + "-page-button"}
+                  variant={currentPage === page ? "primary" : "outline"}
+                  size="sm"
+                  onClick={() => handlePageChange(page as number)}
+                >
+                  {page}
+                </Button>
+              ),
+            )}
           </div>
           <Button
             variant="outline"

@@ -67,7 +67,7 @@ type AuditSortField =
 
 export default function AuditTrailTable() {
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 5;
+  const recordsPerPage = 15;
   const { data, isLoading, isFetching } = useGetAuditTrail();
   const records = data.map(mapAuditTrailRow);
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
@@ -581,7 +581,7 @@ export default function AuditTrailTable() {
                 key={`page-${page}`}
                 variant={currentPage === page ? "primary" : "outline"}
                 size="sm"
-                onClick={() => handlePageChange(page)}
+                onClick={() => handlePageChange(page as number)}
               >
                 {page}
               </Button>
