@@ -1,13 +1,12 @@
 import { useEffect, useMemo } from "react";
-import { useGetReportsByAppId } from "@/hooks/reports/useGetReportsByAppId";
 import { useAddNewInventor } from "@/hooks/inventors/useAddNewInventor";
 import useAddNewVerifiedInventorModal from "@/hooks/useAddNewVerifiedInventorModal";
 
 import InventorItems from "../common/InventorItems";
 import { InventorType } from "@/lib/types/application";
-import { ReportWithRelations } from "@/lib/types/reports";
 import { UserType } from "@/lib/types/users";
 import { Loader } from "lucide-react";
+import { useGetTechgenIdsOfReported } from "@/hooks/reports/useGetTechgenIdsOfReported";
 
 interface ViewInventorsProps {
   inventors: InventorType["Row"][];
@@ -19,27 +18,17 @@ interface ViewInventorsProps {
   isUneditable: boolean;
 }
 
-function ViewInventors(props: ViewInventorsProps) {
+function ViewInventorsTechgen(props: ViewInventorsProps) {
   const { inventors, isAdmin, isLoading, user, appId, parentId, isUneditable } =
     props;
 
   const inventorUser = inventors.find((inv) => inv.techgen_id === user?.id);
-  const { reports, isLoading: isReportsLoading } = useGetReportsByAppId({
-    id: appId,
-    parentId,
-  });
-
-  const reportsByInventorId = reports?.reduce(
-    (acc, report) => {
-      const inventorId = report.subject_id;
-      if (!acc[inventorId]) {
-        acc[inventorId] = [];
-      }
-      acc[inventorId].push(report);
-      return acc;
-    },
-    {} as Record<string, ReportWithRelations[]>,
-  );
+  const { reportedTechgenIds, isLoading: isReportsLoading } =
+    useGetTechgenIdsOfReported({
+      id: appId,
+      parentId,
+      reporterId: inventorUser!.id,
+    });
 
   const existingUserIds = useMemo(
     () =>
@@ -101,9 +90,7 @@ function ViewInventors(props: ViewInventorsProps) {
                 isFetchingReports={isReportsLoading}
                 inventorUser={inventorUser}
                 existingUserIds={existingUserIds}
-                reports={
-                  reportsByInventorId ? reportsByInventorId[inventor.id] : []
-                }
+                reportedTechgenIds={reportedTechgenIds}
                 isUneditable={isUneditable}
               />
             </li>
@@ -154,4 +141,4 @@ function ViewInventors(props: ViewInventorsProps) {
   );
 }
 
-export default ViewInventors;
+export default ViewInventorsTechgen;

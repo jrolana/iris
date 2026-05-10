@@ -19,7 +19,7 @@ interface ViewInventorsProps {
   isUneditable: boolean;
 }
 
-function ViewInventors(props: ViewInventorsProps) {
+function ViewInventorsAdmin(props: ViewInventorsProps) {
   const { inventors, isAdmin, isLoading, user, appId, parentId, isUneditable } =
     props;
 
@@ -154,4 +154,4 @@ function ViewInventors(props: ViewInventorsProps) {
   );
 }
 
-export default ViewInventors;
+export default ViewInventorsAdmin;

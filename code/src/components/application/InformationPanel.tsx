@@ -5,7 +5,8 @@ import { useAtomValue } from "jotai";
 import { userAtom } from "@/atom-states/user";
 
 import ViewAttachments from "./ViewAttachments";
-import ViewInventors from "./ViewInventors";
+import ViewInventorsAdmin from "./ViewInventorsAdmin";
+import ViewInventorsTechGen from "./ViewInventorsTechGen";
 
 type ApplicationViewMode = "applicant" | "admin";
 
@@ -77,8 +78,18 @@ function InformationPanel(props: DetailsPanelProps) {
           isLoading={isFetchingFiles}
           isUneditable={isUneditable ?? false}
         />
+      ) : isAdmin ? (
+        <ViewInventorsAdmin
+          inventors={inventors ?? []}
+          isAdmin={isAdmin}
+          isLoading={isFetchingInventors || isFetchingUser}
+          user={user!}
+          appId={applicationId}
+          parentId={parentApplicationId}
+          isUneditable={isUneditable ?? false}
+        />
       ) : (
-        <ViewInventors
+        <ViewInventorsTechGen
           inventors={inventors ?? []}
           isAdmin={isAdmin}
           isLoading={isFetchingInventors || isFetchingUser}
