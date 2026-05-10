@@ -13,6 +13,7 @@ export function useGetInventorIdsOfReported(props: UseGetInventorIdsOfReportedPr
     const {data, isLoading, isFetching} =  useQuery({
         queryKey: ['reports', id, parentId, reporterId],
         queryFn: () => getInventorIdsOfReported({id, parentId, reporterId}),
+        enabled: Boolean(reporterId),
     });
 
     return {reportedInventorIds: data, isLoading: isLoading || isFetching}; 
