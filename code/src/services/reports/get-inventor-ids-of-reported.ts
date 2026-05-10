@@ -1,12 +1,12 @@
 import { supabaseClient as supabase } from "@/lib/supabase"
 
-interface GetTechgenIdsOfReportedProps {
+interface GetInventorIdsOfReportedProps {
     id: string;
     parentId: string | null;
     reporterId: string;
 }
 
-export const getTechgenIdsOfReported = async (props: GetTechgenIdsOfReportedProps) => {
+export const getInventorIdsOfReported = async (props: GetInventorIdsOfReportedProps) => {
     const { id, parentId, reporterId } = props;
     const searchIds = parentId ? [id, parentId] : [id];
     const {data, error} = await supabase.schema("private").from("reports").select("subject_id").in("application_id", searchIds).eq("reporter_id", reporterId);

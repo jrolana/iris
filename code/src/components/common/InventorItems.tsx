@@ -29,7 +29,7 @@ interface InventorItemsProps {
   inventorUser?: InventorType["Row"];
   existingUserIds: string[];
   reports?: ReportWithRelations[];
-  reportedTechgenIds?: string[];
+  reportedInventorIds?: string[];
   isFetchingReports: boolean;
   isUneditable: boolean;
 }
@@ -42,7 +42,7 @@ export default function InventorItems(props: InventorItemsProps) {
     inventorUser,
     existingUserIds,
     reports,
-    reportedTechgenIds,
+    reportedInventorIds,
     isFetchingReports,
     isUneditable,
   } = props;
@@ -70,8 +70,7 @@ export default function InventorItems(props: InventorItemsProps) {
     useAcceptRejectInventor();
   const confirm = useConfirm();
 
-  const hasFiledReport =
-    (inventor.techgen_id && reportedTechgenIds?.includes(inventor.id)) || false;
+  const hasFiledReport = reportedInventorIds?.includes(inventor.id) || false;
 
   function handleFileReportClicked(subject: InventorType["Row"]) {
     if (!inventorUser) {

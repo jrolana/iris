@@ -6,7 +6,7 @@ import InventorItems from "../common/InventorItems";
 import { InventorType } from "@/lib/types/application";
 import { UserType } from "@/lib/types/users";
 import { Loader } from "lucide-react";
-import { useGetTechgenIdsOfReported } from "@/hooks/reports/useGetTechgenIdsOfReported";
+import { useGetInventorIdsOfReported } from "@/hooks/reports/useGetInventorIdsOfReported";
 
 interface ViewInventorsProps {
   inventors: InventorType["Row"][];
@@ -23,8 +23,8 @@ function ViewInventorsTechgen(props: ViewInventorsProps) {
     props;
 
   const inventorUser = inventors.find((inv) => inv.techgen_id === user?.id);
-  const { reportedTechgenIds, isLoading: isReportsLoading } =
-    useGetTechgenIdsOfReported({
+  const { reportedInventorIds, isLoading: isReportsLoading } =
+    useGetInventorIdsOfReported({
       id: appId,
       parentId,
       reporterId: inventorUser!.id,
@@ -90,7 +90,7 @@ function ViewInventorsTechgen(props: ViewInventorsProps) {
                 isFetchingReports={isReportsLoading}
                 inventorUser={inventorUser}
                 existingUserIds={existingUserIds}
-                reportedTechgenIds={reportedTechgenIds}
+                reportedInventorIds={reportedInventorIds}
                 isUneditable={isUneditable}
               />
             </li>
