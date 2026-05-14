@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: iris-web:latest
     container_name: iris-web
     restart: unless-stopped
     env_file:
