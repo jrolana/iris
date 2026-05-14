@@ -35,6 +35,10 @@ import { CalendarIcon, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import useEditApplicationDetailsModal from "@/hooks/useEditApplicationDetailsModal";
+import {
+  getApplicationEditLockReason,
+  isApplicationEditLocked,
+} from "@/lib/helper/is-application-edit-locked";
 
 interface PropsInterface {
   application: ApplicationType["Row"];
@@ -61,6 +65,14 @@ function StatusUpdateForm(props: PropsInterface) {
   const currentIpType = application.ip_type;
   const currentStatusType = currentStatus.status_type as StatusType;
   const currentStatusId = currentStatus.id;
+  const isEditingLocked = isApplicationEditLocked({
+    isWithdrawn: application.is_withdrawn,
+    currentStatusType,
+  });
+  const editLockReason = getApplicationEditLockReason({
+    isWithdrawn: application.is_withdrawn,
+    currentStatusType,
+  });
   const publishedStageIndex = ipApplicationFlows[currentIpType].findIndex(
     (step) => step.statusTypes.includes("published"),
   );
@@ -252,6 +264,11 @@ function StatusUpdateForm(props: PropsInterface) {
     !isNoteChanged && !isDeadlineChanged && !isStatusChanged && !isDateChanged;
 
   async function onConfirm() {
+    if (isEditingLocked) {
+      toast.error(editLockReason ?? "This application can no longer be edited.");
+      return;
+    }
+
     const isDowngradeToUM = selectedStatus === "downgraded_to_um";
     const isConfirmed = await confirm({
       title: isDowngradeToUM ? "Confirm Downgrade" : "Confirm Status Update",
@@ -446,6 +463,21 @@ function StatusUpdateForm(props: PropsInterface) {
         <p className="text-lg font-medium text-slate-700">
           Downgrading to Utility Model...
         </p>
+      </div>
+    );
+  }
+
+  if (isEditingLocked) {
+    return (
+      <div className="flex flex-col gap-4">
+        <p className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+          {editLockReason}
+        </p>
+        <div className="flex justify-end">
+          <Button type="button" variant="outline" onClick={closeModal}>
+            Close
+          </Button>
+        </div>
       </div>
     );
   }

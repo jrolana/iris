@@ -5,6 +5,7 @@ import { useGetUsers } from "@/hooks/users/useGetUsers";
 import { useUpdateUserRole } from "@/hooks/users/useUpdateUserRole";
 import useAddNewUserModal from "@/hooks/useAddNewUserModal";
 import { filterUsers } from "@/lib/helper/filter-users";
+import { generatePagination } from "@/lib/helper/generate-pagination";
 
 import {
   Table,
@@ -282,17 +283,26 @@ export default function UsersTable() {
         </Button>
 
         <div className="flex gap-2">
-          {[...Array(totalPages)].map((_, i) => (
-            <Button
-              key={i}
-              variant={currentPage === i + 1 ? "primary" : "outline"}
-              size="sm"
-              onClick={() => handlePageChange(i + 1)}
-              disabled={isLoading || isFetching}
-            >
-              {i + 1}
-            </Button>
-          ))}
+          {generatePagination(currentPage, totalPages).map((page, i) =>
+            page === "..." ? (
+              <span
+                key={`ellipsis-${i}-${page}`}
+                className="flex h-8 w-8 items-center justify-center text-sm text-gray-500"
+              >
+                ...
+              </span>
+            ) : (
+              <Button
+                key={`page-${i}-${page}`}
+                variant={currentPage === page ? "primary" : "outline"}
+                size="sm"
+                onClick={() => handlePageChange(page as number)}
+                disabled={isLoading || isFetching}
+              >
+                {page}
+              </Button>
+            ),
+          )}
         </div>
 
         <Button

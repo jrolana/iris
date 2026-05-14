@@ -2,6 +2,7 @@ import { sanitizeFileName } from "@/lib/helper/sanitize-input";
 import { supabaseClient as supabase } from "@/lib/supabase"
 import { AttachmentType } from "@/lib/types/application";
 import { v4 as uuidv4 } from 'uuid';
+import { assertApplicationActionAllowed } from "../application/assert-application-action-allowed";
 
 
 interface UploadFileProps {
@@ -19,6 +20,13 @@ export const uploadFile = async (props: UploadFileProps) => {
     if (!appId) {
         throw new Error("Application ID is missing. Cannot upload file.");
     }
+    await assertApplicationActionAllowed(appId, {
+        downgradedMessage:
+            "Files can no longer be added because this application has already been downgraded to a Utility Model.",
+        withdrawnMessage:
+            "Files can no longer be added because this application has been withdrawn.",
+    });
+
     const newId = uuidv4();
     const fullPath = `${appId}/${folderName ?? file.file_name}/${newId}`;
 
