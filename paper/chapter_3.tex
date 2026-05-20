@@ -75,14 +75,14 @@ The following hardware specifications outline the minimum requirements used duri
 
 \begin{itemize}
   \item Processor: Intel Core i5
-  \item RAM: Minimum 8 GB
-  \item Storage: 512 GB SSD
-  \item Internet Connection: 30 Mbps minimum
+  \item RAM: 8 GB
+  \item Storage: 256 GB SSD
+  \item Internet Connection: 30 Mbps
   \item Devices for testing: Desktop and laptop computers
 \end{itemize}
 
 Devices were equipped with an Intel Core i5 processor and at least 8 GB of RAM to ensure stable performance when running development tools and the system itself. 
-A 512 GB SSD provided sufficient storage and faster access during development and testing. An internet connection of at least 30 Mbps was required to support online services such as GitHub, Vercel, and Supabase. 
+A 256 GB SSD provided sufficient storage and faster access during development and testing. An internet connection of at least 30 Mbps was required to support online services such as GitHub, Vercel, and Supabase. 
 Testing was conducted on both desktop and laptop computers to verify that the system operated reliably across different device types.
 
 \subsection{Technology Stack}
@@ -397,7 +397,7 @@ Performance testing was conducted to evaluate the loading speed, responsiveness,
 
 The testing was performed using Lighthouse audits on selected routes. The routes were grouped into public pages, TTBDO Administrator pages, Technology Generator pages, and UP Official pages. Public routes were tested without authentication, while authenticated routes were tested using browser sessions configured for the corresponding user roles.
 
-The Lighthouse audits recorded the performance score, tested route, device mode, final loaded path, redirect status, and validity of the test. The key metrics recorded were First Contentful Paint, Largest Contentful Paint, Total Blocking Time, Cumulative Layout Shift, and Speed Index.
+The Lighthouse audits recorded the performance score, tested route, device mode, final loaded path, redirect status, and validity of the test. The key metrics recorded were First Contentful Paint (FCP), Largest Contentful Paint (LCP), Total Blocking Time (TBT), Cumulative Layout Shift (CLS), and Speed Index (SI). FCP measures when the first visible page content appears. LCP measures when the largest visible page element loads. TBT measures how long the page is blocked from responding to user input. CLS measures visual stability. Lastly, SI measures how quickly visible page content is displayed.
 
 The performance testing covered the following route groups:
 
