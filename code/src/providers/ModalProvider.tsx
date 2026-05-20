@@ -13,6 +13,7 @@ import StatusUpdateModal from "@/components/modals/StatusUpdateModal";
 import UploadFilesModal from "@/components/modals/UploadFilesModal";
 import AddNewVerifiedInventorModal from "@/components/modals/AddNewVerifiedInventorModal";
 import RemoveInventorModal from "@/components/modals/RemoveInventorModal";
+import AddRequirementsModal from "@/components/modals/AddRequirementsModal";
 
 function ModalProvider() {
   const [isMounted, setIsMounted] = useState(false);
@@ -38,6 +39,7 @@ function ModalProvider() {
       <ConfirmationModal />
       <AddNewVerifiedInventorModal />
       <RemoveInventorModal />
+      <AddRequirementsModal />
     </>
   );
 }
