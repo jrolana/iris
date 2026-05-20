@@ -106,7 +106,34 @@ Figure~\ref{fig:techgen_view_attachmentC} also shows that the system allows mult
 \end{figure}
 \clearpage
 
+\subsubsection{Application Requirements Checklist}
 
+IRIS also includes an application requirements checklist within the specific application page. This feature allows the TTBDO Admin to specify additional documents that must be submitted for a particular IP application. As shown in \figref{fig:application_requirements_checklist}, the system displays the available requirement documents and marks documents that are already required for the application. This prevents the same requirement from being added repeatedly.
+
+Once a requirement is added, it appears in the application attachment section, where the corresponding file can be uploaded and tracked. This allows both the TTBDO Admin and the technology generator to identify which required documents have already been submitted and which documents still need to be completed.
+
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}{0.95\textwidth}
+        \centering
+        % \includegraphics[width=\linewidth]{view_application/application_requirements_modal.png}
+        \caption{}
+        \label{fig:application_requirements_modal}
+    \end{subfigure}
+
+    \vspace{0.8em}
+
+    \begin{subfigure}{0.95\textwidth}
+        \centering
+        % \includegraphics[width=\linewidth]{view_application/application_requirements_attachment.png}
+        \caption{}
+        \label{fig:application_requirements_attachment}
+    \end{subfigure}
+
+    \caption[Application Requirements Checklist]{Application Requirements Checklist. The feature allows TTBDO Admins to add document requirements to a specific IP application and allows users to track the submission of required files through the attachment section.}
+    \label{fig:application_requirements_checklist}
+\end{figure}
 
 \subsubsection{Technology Generator Application Collaborators View}
 For the technology generator's collaborators view, it is shown in \figref{fig:techgen_collaborators} that the technology generator can see the list of all collaborators of the IP right application and has a button for adding new collaborators. 
@@ -887,7 +914,7 @@ Overall, the results suggest that IRIS met the expected baseline security requir
 
 User Acceptance Testing was conducted with three TTBDO personnel and twelve technology generators to determine whether IRIS was acceptable to its intended user groups within the TTBDO technology transfer workflow.
 
-The UAT results showed that both groups were able to validate their respective workflows. TTBDO personnel reviewed the administrative functions of the system, including user management, application monitoring, registry management, document management, dashboards, reports, and status updates. Technology generators reviewed the end-user functions, including account access, application submission, document uploading, collaborator management, notification viewing, and application status monitoring.
+The UAT results showed that both groups were able to validate their respective workflows. TTBDO personnel reviewed the administrative functions of the system, including user management, application monitoring, registry management, document management, dashboards, reports, and status updates. Technology generators reviewed the end-user functions, including account access, application submission, required document uploading, collaborator management, notification viewing, and application status monitoring.
 
 No major defect was identified that required system redesign or prevented the use of the main system functions. Feedback gathered during UAT consisted mainly of minor refinements and additional enhancement requests. Items within the implemented scope were addressed during continued development, while concerns outside the current scope were documented as limitations or future enhancement considerations.
 

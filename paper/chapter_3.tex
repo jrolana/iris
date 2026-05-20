@@ -153,7 +153,7 @@ For IP application management, IRIS allowed authorized users to create and manag
 
 The application tracking and registry requirements focused on maintaining a centralized record of IP applications. The system allowed authorized users to search, filter, sort, and view application records based on their role permissions. It also allowed users to monitor the current status, progress, timestamps, and relevant updates associated with each application.
 
-For document and attachment management, IRIS allowed authorized users to upload, access, and update supporting documents associated with IP applications. The system maintained records of document updates to support traceability and enforced role-based access restrictions for application documents and attachments. It also provided access to relevant application forms, guides, and reference documents.
+For document and attachment management, IRIS allowed authorized users to upload, access, and update supporting documents associated with IP applications. The system also allowed TTBDO Admins to mark specific documents as required for an application, enabling users to track which required files had already been submitted and which still needed to be uploaded. The system maintained records of document updates to support traceability and enforced role-based access restrictions for application documents and attachments. It also provided access to relevant application forms, guides, and reference documents.
 
 The collaborator management requirements enabled authorized users to associate collaborators with IP applications and view collaborator information linked to each record. The system also provided mechanisms for managing collaborator-related concerns, including reporting or reviewing collaborator issues when necessary.
 
@@ -242,7 +242,7 @@ It is shown in \figref{fig:uc_guest} that Guests can view the published IPs of t
     \label{fig:uc_official}
 \end{figure}
 
-\figref{fig:uc_techgen} shows the various use cases of a Technology Generator, showing the actions they can take with the system. The Technology Generator has guest-level privileges but can also access extended system functions by authenticating and logging in. These privileges include accessing and filing disclosure forms, creating IP right applications, monitoring application status, uploading attachments, managing file versions, linking collaborators, reporting collaborators, receiving notifications, and requesting status updates for overdue applications.
+\figref{fig:uc_techgen} shows the various use cases of a Technology Generator, showing the actions they can take with the system. The Technology Generator has guest-level privileges but can also access extended system functions by authenticating and logging in. These privileges include accessing and filing disclosure forms, creating IP right applications, monitoring application status, uploading required attachments, managing file versions, linking collaborators, reporting collaborators, receiving notifications, and requesting status updates for overdue applications.
 
 \begin{figure}[H]
    \centering
@@ -251,7 +251,7 @@ It is shown in \figref{fig:uc_guest} that Guests can view the published IPs of t
     \label{fig:uc_techgen}
 \end{figure}
 
-\figref{fig:uc_admin} shows the various use cases of the TTBDO Admins. It shows that they have the most use cases for the system because they have access to administrative and management functions. These include viewing the full IP portfolio, managing users and registration requests, inviting users, creating applications, updating application details and statuses, managing deadlines, handling attachments and collaborators, reviewing reports, withdrawing applications, viewing audit logs, generating reports, and generating API keys for interoperability.
+\figref{fig:uc_admin} shows the various use cases of the TTBDO Admins. It shows that they have the most use cases for the system because they have access to administrative and management functions. These include viewing the full IP portfolio, managing users and registration requests, inviting users, creating applications, updating application details and statuses, managing deadlines, setting document requirements, handling attachments and collaborators, reviewing reports, withdrawing applications, viewing audit logs, generating reports, and generating API keys for interoperability.
 
 \begin{figure}[H]
    \centering
