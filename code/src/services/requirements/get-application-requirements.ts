@@ -16,11 +16,10 @@ export const getApplicationRequirements = async function(props: GetApplicationRe
     .from("ipr_requirements")
     .select()
     .eq("application_id", applicationId)
-    .order("is_accomplished", {ascending: false});
+    .order("is_accomplished", {ascending: true});
 
     if (error) {
         throw new Error(error.message); 
     }
-    
     return data;
 }

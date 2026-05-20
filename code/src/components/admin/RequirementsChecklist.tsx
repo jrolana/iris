@@ -82,7 +82,7 @@ export default function RequirementsChecklist(
   }) {
     if (accomplishedRequirements?.includes(req.requirement)) {
       return (
-        <div className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold">
+        <div className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-300 px-4 py-2 text-sm font-semibold">
           Required
         </div>
       );

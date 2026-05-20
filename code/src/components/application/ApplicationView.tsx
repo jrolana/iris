@@ -18,6 +18,7 @@ import InformationPanel from "./InformationPanel";
 import EditApplicationDetailsModal from "../modals/EditApplicationDetailsModal";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useGetApplicationRequirements } from "@/hooks/requirements/useGetApplicationRequirements";
 
 export type ApplicationViewMode = "applicant" | "admin";
 
@@ -37,6 +38,11 @@ function ApplicationView(props: ApplicationViewProps) {
 
   const { status: currentStatus, isLoading: isLatestStatusLoading } =
     useGetCurrStatus({ statusId: application.curr_status });
+
+  const { requirements, isLoading: isFetchingRequirements } =
+    useGetApplicationRequirements({
+      applicationId: application.id,
+    });
 
   const router = useRouter();
 
@@ -145,6 +151,8 @@ function ApplicationView(props: ApplicationViewProps) {
         <section className="rounded-2xl border border-gray-200 bg-white p-3 sm:p-4">
           {currentStatus ? (
             <ApplicationStepper
+              requirements={requirements ?? []}
+              isFetchingRequirements={isFetchingRequirements}
               ipType={application.ip_type}
               currentStageDeadline={currentStatus?.deadline ?? undefined}
               currentStatus={currentStatus}
@@ -163,6 +171,7 @@ function ApplicationView(props: ApplicationViewProps) {
           <section className="min-w-0 grow-[7] basis-[28rem] space-y-4">
             <InformationPanel
               application={application}
+              requirements={requirements || []}
               mode={mode}
               isUneditable={application.is_archived || isEditingLocked}
             />

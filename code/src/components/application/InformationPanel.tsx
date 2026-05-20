@@ -7,7 +7,7 @@ import { userAtom } from "@/atom-states/user";
 import ViewAttachments from "./ViewAttachments";
 import ViewInventorsAdmin from "./ViewInventorsAdmin";
 import ViewInventorsTechGen from "./ViewInventorsTechGen";
-import { ApplicationType } from "@/lib/types/application";
+import { ApplicationType, RequirementsType } from "@/lib/types/application";
 
 type ApplicationViewMode = "applicant" | "admin";
 
@@ -15,10 +15,11 @@ interface DetailsPanelProps {
   mode: ApplicationViewMode;
   application: ApplicationType["Row"];
   isUneditable: boolean | null;
+  requirements: RequirementsType["Row"][];
 }
 
 function InformationPanel(props: DetailsPanelProps) {
-  const { mode, application, isUneditable } = props;
+  const { mode, application, isUneditable, requirements } = props;
   const applicationId = application.id;
   const parentApplicationId = application.parent_application_id;
   const [activeTab, setActiveTab] = useState<"attachments" | "inventors">(
@@ -75,6 +76,7 @@ function InformationPanel(props: DetailsPanelProps) {
       {activeTab === "attachments" ? (
         <ViewAttachments
           groupedFiles={groupedFiles ?? []}
+          requirements={isAdmin ? requirements : []}
           user={user!}
           isFetchingUser={isFetchingUser}
           isLoading={isFetchingFiles}

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getReportsByAppId } from '@/services/reports/get-reports-by-app-id';
+import { getApplicationRequirements } from '@/services/requirements/get-application-requirements';
 
 interface UseGetApplicationRequirementsProps {
     applicationId: string;
@@ -9,9 +9,9 @@ export function useGetApplicationRequirements(props: UseGetApplicationRequiremen
     const { applicationId } = props;
 
     const {data, isLoading, isFetching} =  useQuery({
-        queryKey: ['reports', applicationId],
-        queryFn: () => getReportsByAppId({id: applicationId, parentId: null}),
+        queryKey: ['requirements', applicationId],
+        queryFn: () => getApplicationRequirements({applicationId: applicationId}),
     });
 
-    return {reports: data, isLoading: isLoading || isFetching}; 
+    return {requirements: data, isLoading: isLoading || isFetching}; 
 }
