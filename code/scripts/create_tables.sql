@@ -370,7 +370,6 @@ create table private.ipr_requirements (
   requirement text not null,
   is_accomplished boolean not null default false,
   constraint ipr_requirements_pkey primary key (id),
-  constraint ipr_requirements_application_id_key unique (application_id),
-  constraint ipr_requirements_requirement_key unique (requirement),
+  constraint ipr_requirements_app_req_unique unique (application_id, requirement),
   constraint ipr_requirements_application_id_fkey foreign KEY (application_id) references private.ipr_applications (id) on delete CASCADE
 ) TABLESPACE pg_default;

@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog"; // could be removed
 import { requirements } from "@/lib/constants/requirements";
 import RequirementsChecklist from "../admin/RequirementsChecklist";
+import { useAddRequirements } from "@/hooks/requirements/useAddRequirements";
+import { toast } from "sonner";
 
 function AddRequirementsModal() {
   const {
@@ -17,6 +19,8 @@ function AddRequirementsModal() {
     accomplishedRequirements,
     ipType,
   } = useAddRequirementsModal();
+
+  const addRequirements = useAddRequirements();
 
   const ipRequirements =
     requirements[ipType as keyof typeof requirements] || [];
@@ -40,11 +44,16 @@ function AddRequirementsModal() {
       return;
     }
 
-    console.log(
-      "Adding requirements:",
-      selectedRequirements,
-      "to application ID:",
-      applicationId,
+    toast.promise(
+      addRequirements.addRequirements({
+        applicationId: applicationId!,
+        requirements: selectedRequirements,
+      }),
+      {
+        loading: "Adding requirements...",
+        success: "Requirements added successfully!",
+        error: "Failed to add requirements.",
+      },
     );
 
     closeModal();
