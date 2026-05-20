@@ -50,17 +50,21 @@ function AddRequirementsModal() {
 
   return (
     <Modal
-      title="Add Requirements"
+      title="Application Requirements"
       description="Select the requirements you want to add to this application."
       isOpen={isOpen}
       onChange={handleChange}
     >
-      <div className="flex w-full max-w-lg min-w-[85vw] flex-col sm:w-[80vh] sm:min-w-100">
-        <RequirementsChecklist
-          requirements={ipRequirements}
-          setRequirements={setSelectedRequirements}
-        />
-        <DialogFooter className="mt-6">
+      <div className="flex max-h-[70vh] w-full max-w-lg min-w-[85vw] flex-col sm:w-[80vh] sm:min-w-100">
+        <div className="flex-1 overflow-y-auto pr-2">
+          <RequirementsChecklist
+            requirements={ipRequirements}
+            accomplishedRequirements={accomplishedRequirements}
+            selectedRequirements={selectedRequirements}
+            setRequirements={setSelectedRequirements}
+          />
+        </div>
+        <DialogFooter className="mt-6 shrink-0">
           <Button
             onClick={() => handleAddRequirements()}
             disabled={

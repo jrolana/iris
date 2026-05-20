@@ -1,6 +1,5 @@
 "use client";
 import {
-  Eye,
   FileArchive,
   FileCode2,
   FileImage,
@@ -9,6 +8,7 @@ import {
   Loader,
 } from "lucide-react";
 import { Button } from "../ui/button";
+import Hint from "../common/Tooltip";
 
 interface RequirementsChecklistProps {
   requirements: {
@@ -17,12 +17,18 @@ interface RequirementsChecklistProps {
   }[];
   setRequirements: React.Dispatch<React.SetStateAction<string[]>>;
   accomplishedRequirements?: string[];
+  selectedRequirements?: string[];
 }
 
 export default function RequirementsChecklist(
   props: RequirementsChecklistProps,
 ) {
-  const { requirements, setRequirements, accomplishedRequirements } = props;
+  const {
+    requirements,
+    setRequirements,
+    accomplishedRequirements,
+    selectedRequirements,
+  } = props;
   const isLoading = false;
 
   function getFileIcon(fileName: string) {
@@ -66,15 +72,28 @@ export default function RequirementsChecklist(
     );
   }
 
+  function handleUnrequireClick(requirement: string) {
+    setRequirements((prev) => prev.filter((r) => r !== requirement));
+  }
+
   function renderRequirementButton(req: {
     requirement: string;
     filename: string;
   }) {
     if (accomplishedRequirements?.includes(req.requirement)) {
       return (
-        <div>
-          <Button disabled>Required</Button>
+        <div className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold">
+          Required
         </div>
+      );
+    } else if (selectedRequirements?.includes(req.requirement)) {
+      return (
+        <Button
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 border-green-700 bg-green-700 px-4 py-2 text-sm font-semibold hover:bg-transparent hover:text-green-700"
+          onClick={() => handleUnrequireClick(req.requirement)}
+        >
+          Selected
+        </Button>
       );
     }
 
@@ -85,11 +104,7 @@ export default function RequirementsChecklist(
         disabled={false}
         className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 sm:w-auto"
       >
-        {isLoading ? (
-          <Loader className="h-4 w-4 animate-spin" />
-        ) : (
-          <Eye className="h-4 w-4" />
-        )}
+        {isLoading && <Loader className="h-4 w-4 animate-spin" />}
         Require
       </button>
     );
@@ -110,9 +125,11 @@ export default function RequirementsChecklist(
           </div>
 
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-slate-900">
-              {req.filename}
-            </p>
+            <Hint label={req.filename}>
+              <p className="truncate text-sm font-semibold text-slate-900">
+                {req.filename}
+              </p>
+            </Hint>
           </div>
         </div>
 
