@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useConfirm } from "@/hooks/useConfirm";
 import useAddRequirementsModal from "@/hooks/useAddRequirementsModal";
 
@@ -46,7 +46,15 @@ function AddRequirementsModal() {
       "to application ID:",
       applicationId,
     );
+
+    closeModal();
   }
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedRequirements([]);
+    }
+  }, [isOpen]);
 
   return (
     <Modal

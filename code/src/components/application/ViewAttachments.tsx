@@ -92,7 +92,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
 
   return (
     <>
-      <ul className="mt-3 max-h-64 min-h-0 divide-y divide-slate-100 overflow-x-hidden overflow-y-auto contain-content">
+      <ul className="mt-3 max-h-72 min-h-0 divide-y divide-slate-100 overflow-x-hidden overflow-y-auto contain-content">
         {groupedFiles.map((folder) => {
           const latestVersion = folder[0];
           return (
