@@ -22,7 +22,7 @@ BEGIN
                 'before', NULL,
                 'after', jsonb_build_object(
                     'requirement', NEW.requirement,
-                    'is_accomplished', NEW.is_accomplished
+                    'status', NEW.status
                 )
             )
         );
@@ -32,24 +32,25 @@ BEGIN
 
     v_before := jsonb_build_object(
         'requirement', OLD.requirement,
-        'is_accomplished', OLD.is_accomplished
+        'status', OLD.status
     );
     v_after := jsonb_build_object(
         'requirement', NEW.requirement,
-        'is_accomplished', NEW.is_accomplished
+        'status', NEW.status
     );
 
     IF v_before = v_after THEN
         RETURN NEW;
     END IF;
 
-    -- Track completion toggles specifically
-    IF NEW.is_accomplished IS DISTINCT FROM OLD.is_accomplished THEN
+    -- Track status changes specifically
+    IF NEW.status IS DISTINCT FROM OLD.status THEN
         PERFORM private.log_audit_event(
             'update',
             CASE
-                WHEN NEW.is_accomplished = true THEN FORMAT('Checked off requirement')
-                ELSE FORMAT('Unchecked requirement')
+                WHEN NEW.status = 'submitted' THEN FORMAT('Submitted requirement')
+                WHEN NEW.status = 'accepted' THEN FORMAT('Accepted requirement')
+                ELSE FORMAT('Updated requirement status')
             END,
             'success',
             'requirement',

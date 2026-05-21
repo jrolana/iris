@@ -36,10 +36,14 @@ BEGIN
         notif_content := FORMAT('A new requirement "%s" has been added.', NEW.requirement);
         
         
-    ELSIF TG_OP = 'UPDATE' AND NEW.is_accomplished = true AND OLD.is_accomplished = false THEN
-        -- requirement is checked off (could be manual from admin or upload from techgen)
-        notif_title := FORMAT('Requirement Completed: %s', ip_name);
-        notif_content := FORMAT('The requirement "%s" has been accomplished.', NEW.requirement);
+    ELSIF TG_OP = 'UPDATE' AND NEW.status IS DISTINCT FROM OLD.status AND NEW.status = 'submitted' THEN
+        -- requirement file was uploaded by a technology generator
+        notif_title := FORMAT('Requirement Submitted: %s', ip_name);
+        notif_content := FORMAT('The requirement "%s" has been submitted for review.', NEW.requirement);
+    ELSIF TG_OP = 'UPDATE' AND NEW.status IS DISTINCT FROM OLD.status AND NEW.status = 'accepted' THEN
+        -- requirement is accepted or manually checked off by an admin
+        notif_title := FORMAT('Requirement Accepted: %s', ip_name);
+        notif_content := FORMAT('The requirement "%s" has been accepted.', NEW.requirement);
     ELSE
         -- if it's an update but NOT checking off the requirement (e.g. fixing a typo), exit early
         RETURN NEW;
