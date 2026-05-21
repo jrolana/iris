@@ -368,17 +368,10 @@ create table private.ipr_requirements (
   created_at timestamp with time zone not null default now(),
   application_id uuid not null,
   requirement text not null,
-  storage_path text null,
   storage_id uuid null,
-  owner_id uuid null,
-  file_name text null,
-  file_type text null,
-  owner_name text null,
-  modified_at timestamp with time zone not null default now(),
   status private.requirementstatustype not null default 'pending'::private.requirementstatustype,
   constraint ipr_requirements_pkey primary key (id),
   constraint ipr_requirements_app_req_unique unique (application_id, requirement),
   constraint ipr_requirements_application_id_fkey foreign KEY (application_id) references private.ipr_applications (id) on delete CASCADE,
-  constraint ipr_requirements_owner_id_fkey foreign KEY (owner_id) references private.users (id) on delete set null,
   constraint ipr_requirements_storage_id_fkey foreign KEY (storage_id) references storage.objects (id) on delete set null
 ) TABLESPACE pg_default;
