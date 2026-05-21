@@ -362,3 +362,16 @@ CREATE TABLE private.pings (
 CREATE UNIQUE INDEX unique_active_ping
 ON private.pings(application_id, stage_delayed, step_delayed)
 WHERE acknowledged_at IS NULL;
+
+create table private.ipr_requirements (
+  id uuid not null default gen_random_uuid (),
+  created_at timestamp with time zone not null default now(),
+  application_id uuid not null,
+  requirement text not null,
+  storage_id uuid null,
+  status private.requirementstatustype not null default 'pending'::private.requirementstatustype,
+  constraint ipr_requirements_pkey primary key (id),
+  constraint ipr_requirements_app_req_unique unique (application_id, requirement),
+  constraint ipr_requirements_application_id_fkey foreign KEY (application_id) references private.ipr_applications (id) on delete CASCADE,
+  constraint ipr_requirements_storage_id_fkey foreign KEY (storage_id) references storage.objects (id) on delete set null
+) TABLESPACE pg_default;

@@ -76,13 +76,13 @@ export default function FileItem(props: FileItemProps) {
           <div className="shrink-0">{getFileIcon(file.file_type)}</div>
           <div className="flex min-w-0 flex-1 flex-col xl:min-w-[16rem]">
             <Hint label={file.file_name}>
-              <p className="text-md inline-block w-full truncate font-medium">
+              <p className="text-md inline-block w-fit max-w-full truncate font-medium">
                 {file.file_name}
               </p>
             </Hint>
             {file.file_description && (
               <Hint label={file.file_description}>
-                <p className="mt-0.5 line-clamp-2 w-full text-sm leading-tight font-medium text-slate-400">
+                <p className="mt-0.5 line-clamp-2 w-fit max-w-full text-sm leading-tight font-medium text-slate-400">
                   {file.file_description}
                 </p>
               </Hint>

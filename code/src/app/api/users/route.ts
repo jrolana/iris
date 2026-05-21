@@ -61,9 +61,8 @@ export async function GET(request: Request) {
   );
 
   } catch (error) {
-    console.error("Unable to fetch API users", error);
     return NextResponse.json(
-      { error: 'Internal Server Error' }, 
+      { error: 'Internal Server Error' + (error instanceof Error ? `: ${error.message}` : '') }, 
       { status: 500, headers: corsHeaders }
     );
   }
