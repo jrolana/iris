@@ -54,7 +54,7 @@ export default function RequirementsPanel(props: RequirementsPanelProps) {
             requirements.map((req) => (
               <div
                 key={req.id}
-                className="flex flex-col justify-between gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:flex-row sm:items-center sm:gap-0"
+                className="flex flex-col justify-between gap-3 rounded-lg border border-slate-200 bg-white p-3 sm:flex-row sm:items-center sm:gap-0"
               >
                 <div className="flex flex-col">
                   <span className="text-sm font-medium text-slate-800">
