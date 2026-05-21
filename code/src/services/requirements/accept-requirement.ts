@@ -1,11 +1,11 @@
 import { supabaseClient as supabase } from "@/lib/supabase";
 
-interface CheckOffRequirementProps {
+interface AcceptRequirementProps {
   requirementId: string;
 }
 
-export const checkOffRequirement = async function (
-  props: CheckOffRequirementProps,
+export const acceptRequirement = async function (
+  props: AcceptRequirementProps,
 ) {
   const { requirementId } = props;
 
