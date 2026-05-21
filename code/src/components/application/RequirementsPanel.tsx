@@ -91,7 +91,7 @@ export default function RequirementsPanel(props: RequirementsPanelProps) {
             return (
               <div
                 key={req.id}
-                className="flex flex-col gap-1 rounded-lg border border-slate-200 bg-white p-3 shadow-sm"
+                className="flex flex-col gap-1 rounded-lg border border-slate-200 bg-white p-3"
               >
                 <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
                   <div className="flex min-w-0 flex-row items-end justify-center gap-3">
