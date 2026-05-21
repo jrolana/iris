@@ -130,7 +130,7 @@ function ViewAttachments(props: ViewAttachmentProps) {
             onClick={() => {
               handleOpenAddRequirementsModal();
             }}
-            className="mt-1 w-full items-center rounded-md border border-amber-200 bg-amber-100 px-4 py-2 text-center text-sm font-semibold text-amber-700 shadow-sm hover:bg-transparent disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-300 disabled:text-white"
+            className="mt-1.5 w-full items-center rounded-md border border-amber-200 bg-amber-100 px-4 py-2 text-center text-sm font-semibold text-amber-700 shadow-sm hover:bg-transparent disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-300 disabled:text-white"
           >
             Add a requirement
           </Button>
