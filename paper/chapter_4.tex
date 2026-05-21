@@ -52,7 +52,7 @@ Once the administrator approves a request or sends an invitation, the user recei
 
 \subsection{Specific Application View}
 Both the technology generators and the TTBDO admin can view a list of applications. They can also interact with a specific application, which prompts them to a different web page that shows specific details about that application.
-This section shows the different views of a specific application for both the technology generator and the TTBDO admin, as well as the different features that are available for each user role on that specific application page.
+This section shows the different views of a specific application for both the technology generator and the TTBDO admin, as well as the different features that are available for each user role on that specific application page, including attachments, collaborators, status history, and the application requirements checklist.
 
 \subsubsection{Technology Generator General Application View}
 The web page shown in \figref{fig:techgen_appview} shows the perspective of a  
@@ -60,6 +60,7 @@ technology generator when they want to view more details about a specific IP rig
 The current stage of the application is shown, as well as the list of all status changes of the IP right application with timestamp (highlighting the latest status). 
 Some steps on the trackbar of the application stage reflect the TTBDO's Citizen's Charter where it shows whether the current step is within or over the processing time. 
 Whenever the deadline of the current status is overdue, the system allows the technology generator to follow up the application with the TTBDO admin. 
+The page also provides access to the application's attachments, collaborators, and requirements checklist so the technology generator can monitor and complete the required document submissions for that application.
 \begin{figure}[H]    
 
     %(a)
@@ -68,7 +69,7 @@ Whenever the deadline of the current status is overdue, the system allows the te
     \vspace{1cm}
 
     \caption[Technology Generator Application View Page]{Technology Generator Application View Page.   
-    The page shows more details about an IP right application, such as the list of attachments, co-applicants, current application stage, deadlines, and status changes from the perspective of a technology generator.}
+    The page shows more details about an IP right application, such as the list of attachments, co-applicants, current application stage, deadlines, status changes, and the application requirements checklist from the perspective of a technology generator.}
     \label{fig:techgen_appview}                 
 \end{figure}
 
@@ -225,13 +226,14 @@ This feature provides technology generators with a formal way to follow up delay
 
 For the TTBDO admin's side, it is shown in \figref{fig:admin_appview} that it has the same IP right application details as the technology generators view. 
 IRIS follows the same principles for read, update, and create operations on the admin's side for the attachments, but also extends the operations on the IP title, project title, filing date, and IP number.
+The page also includes the application requirements checklist, where TTBDO admins can add applicable document requirements and monitor their submission progress alongside the application's other details.
 The admin can also withdraw an application here, which is a feature that is not available for the technology generators. The attachment view for admins is exactly the same with the technology generator's view in terms of functionality and design.
 \begin{figure}[H] 
     \centering 
 
     \includegraphics[width=0.98\textwidth,height=0.82\textheight,keepaspectratio]{view_application/admin_general_appview.png}     
-    \caption[TTBDO Admin Application View Page]{TTBDO Admin Application View Page. The page shows more details about an IP right application, such as the list of attachments, co-applicants, and status changes from the perspective of a TTBDO admin. 
-    The page is similar to the technology generator's application view, but includes additional features which are updating application status, updating application details, and withdrawing applications. }
+    \caption[TTBDO Admin Application View Page]{TTBDO Admin Application View Page. The page shows more details about an IP right application, such as the list of attachments, co-applicants, status changes, and the application requirements checklist from the perspective of a TTBDO admin. 
+    The page is similar to the technology generator's application view, but includes additional features which are updating application status, updating application details, managing document requirements, and withdrawing applications. }
     \label{fig:admin_appview}  
 
 \end{figure}
