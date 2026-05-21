@@ -9,12 +9,12 @@ import Hint from "../common/Tooltip";
 import { IprStatusType } from "@/lib/types/status";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import Ping from "./Ping";
-import { RequirementsType } from "@/lib/types/application";
 import RequirementsPanel from "./RequirementsPanel";
+import { RequirementWithAttachment } from "@/lib/types/requirements";
 
 interface ApplicationStepperProps {
   ipType: IpType;
-  requirements: RequirementsType["Row"][];
+  requirements: RequirementWithAttachment[];
   currentStageDeadline?: string | Date; // From ipr_applications table
   currentStatus: IprStatusType["Row"];
   isAdmin?: boolean;

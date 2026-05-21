@@ -7,7 +7,8 @@ import { userAtom } from "@/atom-states/user";
 import ViewAttachments from "./ViewAttachments";
 import ViewInventorsAdmin from "./ViewInventorsAdmin";
 import ViewInventorsTechGen from "./ViewInventorsTechGen";
-import { ApplicationType, RequirementsType } from "@/lib/types/application";
+import { ApplicationType } from "@/lib/types/application";
+import { RequirementWithAttachment } from "@/lib/types/requirements";
 
 type ApplicationViewMode = "applicant" | "admin";
 
@@ -15,7 +16,7 @@ interface DetailsPanelProps {
   mode: ApplicationViewMode;
   application: ApplicationType["Row"];
   isUneditable: boolean | null;
-  requirements: RequirementsType["Row"][];
+  requirements: RequirementWithAttachment[];
 }
 
 function InformationPanel(props: DetailsPanelProps) {

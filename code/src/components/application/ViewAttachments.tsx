@@ -1,16 +1,17 @@
 import useFilesUploadModal from "@/hooks/useFilesUploadModal";
 import useAddRequirementsModal from "@/hooks/useAddRequirementsModal";
 
-import { AttachmentType, RequirementsType } from "@/lib/types/application";
+import { AttachmentType } from "@/lib/types/application";
 import FileItem from "../common/FileItems";
 import { UserType } from "@/lib/types/users";
 import { Loader } from "lucide-react";
 import { Button } from "../ui/button";
 import { IpType } from "@/lib/types/ip";
+import { RequirementWithAttachment } from "@/lib/types/requirements";
 
 interface ViewAttachmentProps {
   groupedFiles: AttachmentType["Row"][][];
-  requirements: RequirementsType["Row"][];
+  requirements: RequirementWithAttachment[];
   user: UserType["Row"] | null;
   isFetchingUser: boolean;
   isLoading: boolean;
@@ -33,13 +34,13 @@ function ViewAttachments(props: ViewAttachmentProps) {
   const { openModal: openUploadModal } = useFilesUploadModal();
   const {
     openModal: openAddRequirementsModal,
-    setAccomplishedRequirements,
+    setExistingRequirements,
     setApplicationId,
     setIpType,
   } = useAddRequirementsModal();
 
   function handleOpenAddRequirementsModal() {
-    setAccomplishedRequirements(requirements.map((req) => req.requirement));
+    setExistingRequirements(requirements.map((req) => req.requirement));
     setApplicationId(applicationId);
     setIpType(ipType);
     openAddRequirementsModal();
