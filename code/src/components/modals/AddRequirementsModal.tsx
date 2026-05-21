@@ -12,13 +12,8 @@ import { useAddRequirements } from "@/hooks/requirements/useAddRequirements";
 import { toast } from "sonner";
 
 function AddRequirementsModal() {
-  const {
-    isOpen,
-    closeModal,
-    applicationId,
-    accomplishedRequirements,
-    ipType,
-  } = useAddRequirementsModal();
+  const { isOpen, closeModal, applicationId, existingRequirements, ipType } =
+    useAddRequirementsModal();
 
   const addRequirements = useAddRequirements();
 
@@ -76,7 +71,7 @@ function AddRequirementsModal() {
         <div className="flex-1 overflow-y-auto pr-2">
           <RequirementsChecklist
             requirements={ipRequirements}
-            accomplishedRequirements={accomplishedRequirements}
+            existingRequirements={existingRequirements}
             selectedRequirements={selectedRequirements}
             setRequirements={setSelectedRequirements}
           />
@@ -86,7 +81,7 @@ function AddRequirementsModal() {
             onClick={() => handleAddRequirements()}
             disabled={
               selectedRequirements.length === 0 ||
-              accomplishedRequirements.length === ipRequirements.length
+              existingRequirements.length === ipRequirements.length
             }
             className="disabled:text-muted-foreground bg-sky-600 hover:bg-sky-600/50 disabled:bg-slate-200"
           >

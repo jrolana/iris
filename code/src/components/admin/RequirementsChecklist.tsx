@@ -16,7 +16,7 @@ interface RequirementsChecklistProps {
     filename: string;
   }[];
   setRequirements: React.Dispatch<React.SetStateAction<string[]>>;
-  accomplishedRequirements?: string[];
+  existingRequirements?: string[];
   selectedRequirements?: string[];
 }
 
@@ -26,7 +26,7 @@ export default function RequirementsChecklist(
   const {
     requirements,
     setRequirements,
-    accomplishedRequirements,
+    existingRequirements,
     selectedRequirements,
   } = props;
   const isLoading = false;
@@ -80,7 +80,7 @@ export default function RequirementsChecklist(
     requirement: string;
     filename: string;
   }) {
-    if (accomplishedRequirements?.includes(req.requirement)) {
+    if (existingRequirements?.includes(req.requirement)) {
       return (
         <div className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-300 px-4 py-2 text-sm font-semibold">
           Required

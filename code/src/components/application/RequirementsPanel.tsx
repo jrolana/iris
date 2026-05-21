@@ -1,31 +1,50 @@
-import { useCheckOffRequirement } from "@/hooks/requirements/useCheckOffRequirement";
+import { useAcceptRequirement } from "@/hooks/requirements/useAcceptRequirement";
 import { useConfirm } from "@/hooks/useConfirm";
-import { RequirementsType } from "@/lib/types/application";
+import {
+  RequirementStatusType,
+  RequirementWithAttachment,
+} from "@/lib/types/requirements";
 import { Loader } from "lucide-react";
 import UploadRequirementButton from "../common/UploadRequirementButton";
 import { Button } from "../ui/button";
+import RequirementFileItem from "./RequirementFileItem";
 
 interface RequirementsPanelProps {
   isAdmin: boolean;
-  requirements: RequirementsType["Row"][] | undefined;
+  requirements: RequirementWithAttachment[] | undefined;
   isFetchingRequirements: boolean;
 }
+
+const statusLabels: Record<RequirementStatusType, string> = {
+  pending: "Pending",
+  submitted: "Submitted",
+  accepted: "Accepted",
+};
+
+const statusClasses: Record<RequirementStatusType, string> = {
+  pending: "bg-amber-50 text-amber-700 border-amber-200",
+  submitted: "bg-sky-50 text-sky-700 border-sky-200",
+  accepted: "bg-emerald-50 text-emerald-700 border-emerald-200",
+};
 
 export default function RequirementsPanel(props: RequirementsPanelProps) {
   const { isAdmin, requirements, isFetchingRequirements } = props;
   const confirm = useConfirm();
-  const { checkOffRequirement, isLoading: isCheckingOff } =
-    useCheckOffRequirement();
+  const { acceptRequirement, isLoading: isAccepting } = useAcceptRequirement();
 
-  async function handleCheckRequirement(requirementId: string) {
+  async function handleAcceptRequirement(
+    requirementId: string,
+    hasUpload: boolean,
+  ) {
     const isConfirmed = await confirm({
-      title: "Confirm Requirement Check",
-      message:
-        "Are you sure you want to check this requirement? This action cannot be undone.",
+      title: hasUpload ? "Accept Requirement" : "Check Off Requirement",
+      message: hasUpload
+        ? "Accept this submitted file and mark the requirement as completed?"
+        : "Check off this requirement without an upload and mark it as accepted?",
     });
     if (!isConfirmed) return;
 
-    await checkOffRequirement({ requirementId });
+    await acceptRequirement({ requirementId });
   }
 
   if (isFetchingRequirements) {
@@ -40,107 +59,95 @@ export default function RequirementsPanel(props: RequirementsPanelProps) {
     return null;
   }
 
-  if (isAdmin) {
-    return (
-      <div className="flex h-full w-full flex-col gap-4">
-        <h2 className="text-lg font-semibold">Requirements Checklist</h2>
-
-        <div className="flex max-h-56 flex-col gap-2 overflow-y-auto">
-          {requirements.length === 0 ? (
-            <p className="text-sm text-gray-500 italic">
-              No requirements added yet.
-            </p>
-          ) : (
-            requirements.map((req) => (
-              <div
-                key={req.id}
-                className="flex flex-col justify-between gap-3 rounded-lg border border-slate-200 bg-white p-3 sm:flex-row sm:items-center sm:gap-0"
-              >
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-slate-800">
-                    {req.requirement}
-                  </span>
-                  {req.is_accomplished && (
-                    <span className="mt-0.5 text-xs font-semibold text-emerald-600">
-                      Accomplished
-                    </span>
-                  )}
-                </div>
-                {!req.is_accomplished && (
-                  <Button
-                    onClick={() => handleCheckRequirement(req.id)}
-                    className="flex w-full items-center justify-center gap-1 rounded-md bg-blue-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:w-auto"
-                    disabled={isCheckingOff}
-                  >
-                    {isCheckingOff ? "Marking" : "Mark done"}
-                    {isCheckingOff && (
-                      <Loader
-                        size={14}
-                        className="ml-2 animate-spin text-white"
-                      />
-                    )}
-                  </Button>
-                )}
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex h-full w-full flex-col gap-4">
-      <h2 className="text-xl font-semibold">Requirements Checklist</h2>
+      <h2
+        className={isAdmin ? "text-lg font-semibold" : "text-xl font-semibold"}
+      >
+        Requirements Checklist
+      </h2>
 
-      <div className="flex max-h-56 flex-col gap-2 overflow-y-auto">
+      <div className="flex max-h-72 flex-col gap-2 overflow-y-auto">
         {requirements.length === 0 ? (
           <p className="text-sm text-gray-500 italic">
-            No requirements assigned yet.
+            {isAdmin
+              ? "No requirements added yet."
+              : "No requirements assigned yet."}
           </p>
         ) : (
-          requirements.map((req) => (
-            <div
-              key={req.id}
-              className="flex flex-col justify-between gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:flex-row sm:items-center sm:gap-0"
-            >
-              <div className="flex flex-col">
-                <span className="text-sm font-medium text-slate-800">
-                  {req.requirement}
-                </span>
-                {req.is_accomplished ? (
-                  <span className="mt-0.5 text-xs font-semibold text-emerald-600">
-                    Uploaded
-                  </span>
+          requirements.map((req) => {
+            const status: RequirementStatusType = req.status;
+            const hasUpload = Boolean(req.storage_id);
+            const canAdminAct = isAdmin && status !== "accepted";
+            const canUpload = !isAdmin && status === "pending" && !hasUpload;
+            let adminActionLabel = "Check off";
+
+            if (isAccepting) {
+              adminActionLabel = "Saving";
+            } else if (hasUpload) {
+              adminActionLabel = "Accept";
+            }
+
+            return (
+              <div
+                key={req.id}
+                className="flex flex-col gap-1 rounded-lg border border-slate-200 bg-white p-3 shadow-sm"
+              >
+                <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
+                  <div className="flex min-w-0 flex-row items-end justify-center gap-3">
+                    <span className="text-sm font-medium text-slate-800">
+                      {req.requirement}
+                    </span>
+                    <span
+                      className={`mt-1 w-fit rounded-full border px-2 py-0.5 text-xs font-semibold ${statusClasses[status]}`}
+                    >
+                      {statusLabels[status]}
+                    </span>
+                  </div>
+
+                  {canAdminAct && (
+                    <Button
+                      onClick={() => handleAcceptRequirement(req.id, hasUpload)}
+                      className="flex w-full items-center justify-center gap-1 rounded-md bg-blue-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300 sm:w-auto"
+                      disabled={isAccepting}
+                    >
+                      {adminActionLabel}
+                      {isAccepting && (
+                        <Loader
+                          size={14}
+                          className="ml-2 animate-spin text-white"
+                        />
+                      )}
+                    </Button>
+                  )}
+
+                  {canUpload && (
+                    <UploadRequirementButton
+                      applicationId={req.application_id}
+                      className="bg-blue-600 text-white hover:bg-transparent hover:text-blue-600"
+                      requirementId={req.id}
+                      acceptedFileTypes={{
+                        "application/pdf": [".pdf"],
+                        "application/msword": [".doc"],
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                          [".docx"],
+                        "application/vnd.oasis.opendocument.text": [".odt"],
+                        "application/vnd.apple.pages": [".pages"],
+                      }}
+                    />
+                  )}
+                </div>
+
+                {hasUpload ? (
+                  <RequirementFileItem requirement={req} />
                 ) : (
-                  <span className="mt-0.5 text-xs font-semibold text-amber-600">
-                    Pending
-                  </span>
+                  <p className="text-xs font-medium text-slate-500">
+                    No upload yet.
+                  </p>
                 )}
               </div>
-              {!req.is_accomplished && (
-                <UploadRequirementButton
-                  applicationId={req.application_id}
-                  className="bg-blue-600 text-white hover:bg-transparent hover:text-blue-600"
-                  requirementId={req.id}
-                  acceptedFileTypes={{
-                    "application/pdf": [".pdf"],
-                    "application/msword": [".doc"],
-
-                    // Microsoft Office (Works on all OS if exported to these formats)
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                      [".docx"],
-
-                    // OpenDocument Formats (Native to Linux/LibreOffice/OpenOffice)
-                    "application/vnd.oasis.opendocument.text": [".odt"],
-
-                    // Apple iWork Formats (Native to Mac/iOS)
-                    "application/vnd.apple.pages": [".pages"],
-                  }}
-                />
-              )}
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </div>

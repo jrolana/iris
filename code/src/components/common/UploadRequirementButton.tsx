@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Accept, useDropzone } from "react-dropzone";
-import { useUploadFile } from "@/hooks/attachments/useUploadFile";
+import { useSubmitRequirementFile } from "@/hooks/requirements/useSubmitRequirementFile";
 import { AttachmentType } from "@/lib/types/application";
 import { getFileType } from "@/lib/helper/get-file-type";
 import { useConfirm } from "@/hooks/useConfirm";
@@ -19,7 +19,6 @@ import {
 
 import { Input } from "../ui/input";
 import Label from "../form/Label";
-import { useCheckOffRequirement } from "@/hooks/requirements/useCheckOffRequirement";
 
 function getFileIcon(fileType: string) {
   if (fileType === "link") {
@@ -51,9 +50,7 @@ export default function UploadRequirementButton(
     requirementId,
     acceptedFileTypes,
   } = props;
-  const { uploadFile, isLoading } = useUploadFile();
-  const { checkOffRequirement, isLoading: isCheckingOff } =
-    useCheckOffRequirement();
+  const { submitRequirementFile, isLoading } = useSubmitRequirementFile();
   const confirm = useConfirm();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [description, setDescription] = useState("");
@@ -77,7 +74,7 @@ export default function UploadRequirementButton(
     const isConfirmed = await confirm({
       title: "Confirm Upload",
       message:
-        "Are you sure you want to upload this file? This will check off the requirement and cannot be undone. Make sure you have uploaded the correct file.",
+        "Are you sure you want to upload this file? The requirement will be marked submitted for admin review.",
     });
     if (!isConfirmed) return;
     if (!selectedFile) return;
@@ -97,18 +94,20 @@ export default function UploadRequirementButton(
     setIsModalOpen(false);
     setSelectedFile(null);
     setDescription("");
-    toast.promise(uploadFile({ file: newItemVersion, appId: applicationId }), {
-      loading: `Uploading ${newItemVersion.file_name}...`,
-      success: `Uploaded: ${newItemVersion.file_name}`,
-      error: (err) =>
-        `Error uploading ${newItemVersion.file_name}: ${err.message}`,
-    });
-
-    toast.promise(checkOffRequirement({ requirementId }), {
-      loading: "Checking off requirement...",
-      success: "Requirement checked off successfully.",
-      error: (err) => `Error checking off requirement: ${err.message}`,
-    });
+    toast.promise(
+      submitRequirementFile({
+        file: newItemVersion,
+        appId: applicationId,
+        requirementId,
+        folderName: requirementId,
+      }),
+      {
+        loading: `Uploading ${newItemVersion.file_name}...`,
+        success: `Submitted: ${newItemVersion.file_name}`,
+        error: (err) =>
+          `Error uploading ${newItemVersion.file_name}: ${err.message}`,
+      },
+    );
   };
 
   const handleCancel = () => {
@@ -124,7 +123,7 @@ export default function UploadRequirementButton(
       {/* trigger the file dialog */}
       <Button
         variant="outline"
-        disabled={isLoading || isCheckingOff || disabled}
+        disabled={isLoading || disabled}
         className={`${className}`}
         onClick={(e) => {
           e.stopPropagation();
@@ -132,7 +131,7 @@ export default function UploadRequirementButton(
         }} // prevent row clicks if needed
       >
         Upload
-        {isLoading || isCheckingOff ? (
+        {isLoading ? (
           <Loader className="animate-spin" size={20} />
         ) : (
           <Upload size={20} />
@@ -143,8 +142,8 @@ export default function UploadRequirementButton(
           <DialogHeader>
             <DialogTitle>Upload Required File</DialogTitle>
             <DialogDescription>
-              Upload the required file for this application. This will check off
-              the item from the requirements list. Remember that files{" "}
+              Upload the required file for this application. This will mark the
+              item as submitted for admin review. Remember that files{" "}
               <b>cannot be removed</b> once uploaded.
             </DialogDescription>
           </DialogHeader>
@@ -202,16 +201,16 @@ export default function UploadRequirementButton(
             </Button>
             <Button
               onClick={handleConfirmUpload}
-              disabled={isLoading || isCheckingOff}
+              disabled={isLoading}
               className="disabled:text-muted-foreground bg-sky-600 hover:bg-sky-600/50 disabled:bg-slate-200"
             >
-              {isLoading || isCheckingOff ? (
+              {isLoading ? (
                 <>
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
                   Uploading...
                 </>
               ) : (
-                "Upload and Check Off"
+                "Upload and Submit"
               )}
             </Button>
           </DialogFooter>
