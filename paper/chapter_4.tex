@@ -108,16 +108,16 @@ Figure~\ref{fig:techgen_view_attachmentC} also shows that the system allows mult
 
 \subsubsection{Application Requirements Checklist}
 
-IRIS also includes an application requirements checklist within the specific application page. This feature allows the TTBDO Admin to specify additional documents that must be submitted for a particular IP application. As shown in \figref{fig:application_requirements_checklist}, the system displays the available requirement documents and marks documents that are already required for the application. This prevents the same requirement from being added repeatedly.
+IRIS also includes an application requirements checklist within the specific application page. This feature allows the TTBDO Admin to require additional documents based on the documents applicable to each IP type. As shown in \figref{fig:application_requirements_checklist}, the system displays the available requirement documents and indicates which ones have already been added. Each requirement can only be added once to prevent duplicate entries.
 
-Once a requirement is added, it appears in the application attachment section, where the corresponding file can be uploaded and tracked. This allows both the TTBDO Admin and the technology generator to identify which required documents have already been submitted and which documents still need to be completed.
+Once added, the requirement appears in the application attachment section, where the technology generator must upload the corresponding file. Each requirement is tracked using a status that indicates whether it still needs a file, has already been submitted, or has been accepted by the TTBDO Admin. TTBDO Admins may also manually mark checklist items as accomplished when needed. These manual check-offs are final to maintain consistent requirement records.
 
 \begin{figure}[H]
     \centering
 
     \begin{subfigure}{0.95\textwidth}
         \centering
-        % \includegraphics[width=\linewidth]{view_application/application_requirements_modal.png}
+        \includegraphics[width=\linewidth]{view_application/application_requirements_modal.png}
         \caption{}
         \label{fig:application_requirements_modal}
     \end{subfigure}
@@ -126,12 +126,12 @@ Once a requirement is added, it appears in the application attachment section, w
 
     \begin{subfigure}{0.95\textwidth}
         \centering
-        % \includegraphics[width=\linewidth]{view_application/application_requirements_attachment.png}
+        \includegraphics[width=\linewidth]{view_application/application_requirements_attachment.png}
         \caption{}
         \label{fig:application_requirements_attachment}
     \end{subfigure}
 
-    \caption[Application Requirements Checklist]{Application Requirements Checklist. The feature allows TTBDO Admins to add document requirements to a specific IP application and allows users to track the submission of required files through the attachment section.}
+    \caption[Application Requirements Checklist]{Application Requirements Checklist. The feature allows TTBDO Admins to add document requirements to a specific IP application and allows users to track the submission status of required files through the attachment section.}
     \label{fig:application_requirements_checklist}
 \end{figure}
 
