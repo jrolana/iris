@@ -1,21 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { checkOffRequirement } from "@/services/requirements/check-off-requirement";
+import { submitRequirementFile } from "@/services/requirements/submit-requirement-file";
 
-export function useCheckOffRequirement() {
+export function useSubmitRequirementFile() {
   const queryClient = useQueryClient();
   const { data, isPending, mutateAsync } = useMutation({
-    mutationKey: ["requirements", "check-off"],
-    mutationFn: checkOffRequirement,
+    mutationKey: ["requirements", "submit-file"],
+    mutationFn: submitRequirementFile,
     onSuccess: () => {
-      // Invalidate or refetch queries related to requirements here if needed
       queryClient.invalidateQueries({ queryKey: ["requirements"] });
+      queryClient.invalidateQueries({ queryKey: ["files"] });
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
     },
   });
 
   return {
-    report: data,
+    result: data,
     isLoading: isPending,
-    checkOffRequirement: mutateAsync,
+    submitRequirementFile: mutateAsync,
   };
 }
