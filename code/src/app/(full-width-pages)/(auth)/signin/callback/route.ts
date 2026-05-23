@@ -28,6 +28,10 @@ export async function GET(request: Request) {
   }
 
   const cookieStore = await cookies();
+  const requestCookies = cookieStore.getAll();
+  const hasPkceVerifier = requestCookies.some(({ name }) =>
+    name.endsWith("-code-verifier"),
+  );
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -75,8 +79,29 @@ export async function GET(request: Request) {
   } = await supabase.auth.exchangeCodeForSession(code);
 
   if (sessionError || !session?.user) {
+    console.error("Supabase auth code exchange failed", {
+      error: sessionError
+        ? {
+            name: sessionError.name,
+            message: sessionError.message,
+            status: "status" in sessionError ? sessionError.status : undefined,
+            code: "code" in sessionError ? sessionError.code : undefined,
+          }
+        : null,
+      hasPkceVerifier,
+      cookieNames: requestCookies.map(({ name }) => name),
+      requestOrigin: origin,
+      baseUrl,
+    });
+
+    if (!hasPkceVerifier) {
+      return redirectWithError(
+        "Authentication failed because the sign-in verifier cookie was missing. Try again in the same browser, and make sure the app stays on the same exact host and port.",
+      );
+    }
+
     return redirectWithError(
-      "Authentication failed. Please try signing in again.",
+      sessionError?.message || "Authentication failed. Please try signing in again.",
     );
   }
 
