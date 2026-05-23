@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+const configuredSiteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "";
+
 interface SigninPageClientProps {
   errorMessage?: string;
 }
@@ -30,7 +33,7 @@ export default function SigninPageClient({
       await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/signin/callback`,
+          redirectTo: `${configuredSiteUrl || window.location.origin}/signin/callback`,
         },
       });
     } catch (e) {

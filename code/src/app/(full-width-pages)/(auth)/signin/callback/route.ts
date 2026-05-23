@@ -2,9 +2,11 @@ import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { ROLE_CONFIG, type Role } from "@/lib/roles";
+import { getBaseUrl } from "@/lib/helper/get-base-url";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
+  const baseUrl = getBaseUrl(origin);
 
   const code = searchParams.get("code");
   const error = searchParams.get("error");
@@ -13,7 +15,7 @@ export async function GET(request: Request) {
 
   const redirectWithError = (msg: string) =>
     NextResponse.redirect(
-      `${origin}/signin?error=${encodeURIComponent(msg)}`,
+      `${baseUrl}/signin?error=${encodeURIComponent(msg)}`,
     );
 
   // Handle provider errors
@@ -51,13 +53,13 @@ export async function GET(request: Request) {
 
     if (verifyError || !data.session) {
       return NextResponse.redirect(
-        `${origin}/welcome?error=${encodeURIComponent(
+        `${baseUrl}/welcome?error=${encodeURIComponent(
           "Your invite link is invalid or has expired. Please request a new one.",
         )}`,
       );
     }
 
-    return NextResponse.redirect(`${origin}/welcome`);
+    return NextResponse.redirect(`${baseUrl}/welcome`);
   }
 
   // Handle OAuth code
@@ -85,5 +87,5 @@ export async function GET(request: Request) {
   const role = userRole as Role;
   const home = ROLE_CONFIG[role]?.home ?? "/";
 
-  return NextResponse.redirect(`${origin}${home}`);
+  return NextResponse.redirect(`${baseUrl}${home}`);
 }

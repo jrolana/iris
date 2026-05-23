@@ -4,6 +4,7 @@ import { RegistrationRequestType } from "@/lib/types/users";
 import { supabaseAdmin } from "../../../utils/supabase/admin";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { getBaseUrl } from "@/lib/helper/get-base-url";
 
 interface PropsInterface {
   userData: RegistrationRequestType["Update"];
@@ -35,22 +36,6 @@ function getInviteErrorMessage(error: unknown) {
   }
 
   return "There was a problem sending the invitation. Please try again.";
-}
-
-function getBaseUrl() {
-  if (process.env.NEXT_PUBLIC_SITE_URL) {
-    return process.env.NEXT_PUBLIC_SITE_URL;
-  }
-
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-  }
-
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-
-  return "http://localhost:3000";
 }
 
 export async function inviteUser(props: PropsInterface) {
