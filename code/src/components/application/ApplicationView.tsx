@@ -18,6 +18,7 @@ import InformationPanel from "./InformationPanel";
 import EditApplicationDetailsModal from "../modals/EditApplicationDetailsModal";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useGetApplicationRequirements } from "@/hooks/requirements/useGetApplicationRequirements";
 
 export type ApplicationViewMode = "applicant" | "admin";
 
@@ -37,6 +38,11 @@ function ApplicationView(props: ApplicationViewProps) {
 
   const { status: currentStatus, isLoading: isLatestStatusLoading } =
     useGetCurrStatus({ statusId: application.curr_status });
+
+  const { requirements, isLoading: isFetchingRequirements } =
+    useGetApplicationRequirements({
+      applicationId: application.id,
+    });
 
   const router = useRouter();
 
@@ -67,17 +73,16 @@ function ApplicationView(props: ApplicationViewProps) {
             >
               <ArrowLeft size={18} className="text-gray-700" />
             </button>
-            {isAdmin &&
-              !application.is_archived && (
-                <Button
-                  type="button"
-                  onClick={openModal}
-                  disabled={isEditingLocked}
-                  className="border-brand-700 bg-brand-600 hover:border-brand-600 hover:text-brand-600 rounded-full border px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-white"
-                >
-                  Edit details
-                </Button>
-              )}
+            {isAdmin && !application.is_archived && (
+              <Button
+                type="button"
+                onClick={openModal}
+                disabled={isEditingLocked}
+                className="border-brand-700 bg-brand-600 hover:border-brand-600 hover:text-brand-600 rounded-full border px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-white"
+              >
+                Edit details
+              </Button>
+            )}
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
@@ -146,6 +151,8 @@ function ApplicationView(props: ApplicationViewProps) {
         <section className="rounded-2xl border border-gray-200 bg-white p-3 sm:p-4">
           {currentStatus ? (
             <ApplicationStepper
+              requirements={requirements ?? []}
+              isFetchingRequirements={isFetchingRequirements}
               ipType={application.ip_type}
               currentStageDeadline={currentStatus?.deadline ?? undefined}
               currentStatus={currentStatus}
@@ -163,13 +170,10 @@ function ApplicationView(props: ApplicationViewProps) {
         <section className="flex flex-wrap gap-6">
           <section className="min-w-0 grow-[7] basis-[28rem] space-y-4">
             <InformationPanel
-              applicationId={application.id}
-              parentApplicationId={application.parent_application_id}
+              application={application}
+              requirements={requirements || []}
               mode={mode}
-              isUneditable={
-                application.is_archived ||
-                isEditingLocked
-              }
+              isUneditable={application.is_archived || isEditingLocked}
             />
           </section>
 

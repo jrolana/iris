@@ -11,8 +11,6 @@ interface InitiateMeetingProps {
 export async function initiateReportMeeting(props: InitiateMeetingProps) {
   const { reportedUserId, appId } = props;
 
-  console.log("Initiating meeting and sending invites. Please wait...");
-
   const { data: otherCollaboratorsEmails, error: collaboratorsError } = await supabaseAdmin
   .schema("private")
   .from("inventors")
@@ -26,12 +24,10 @@ export async function initiateReportMeeting(props: InitiateMeetingProps) {
   .neq("id", reportedUserId); 
 
   if (collaboratorsError) {
-    console.log("Failed to fetch collaborators: " + collaboratorsError.message);
     throw new Error(`Failed to fetch collaborators: ${collaboratorsError.message}`);
   }
 
   if (otherCollaboratorsEmails.length === 0) {
-    console.log("No collaborators available to CC after filtering.");
     throw new Error("No collaborators available to CC after filtering.");
   }
 
@@ -44,19 +40,15 @@ export async function initiateReportMeeting(props: InitiateMeetingProps) {
   });
 
   if (error) {
-    console.log(JSON.stringify(otherCollaboratorsEmails))
-    console.log("Failed to initiate meeting: " + error.message);
     throw new Error(`Failed to initiate meeting: ${error.message}`);
   }
 
   const {error: updateError} = await supabaseAdmin.schema("private").from("reports").update({ is_meeting_initiated: true }).eq("application_id", appId).eq("subject_id", reportedUserId);
 
   if (updateError) {
-    console.log("Failed to update report: " + updateError.message);
     throw new Error(`Failed to update report: ${updateError.message}`);
   }
 
-  console.log("Meeting initiated and invites sent successfully." + JSON.stringify(otherCollaboratorsEmails));
 
   return data;
 }

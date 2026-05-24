@@ -18,7 +18,8 @@ export enum RecordType {
   DOCUMENT = "Document",
   ACCOUNT = "Account",
   INVENTOR = "Inventor",
-  REPORT = "Report"
+  REPORT = "Report",
+  REQUIREMENT = "Requirement"
 }
 
 export type AuditLogType = {
@@ -42,7 +43,7 @@ export type AuditTrailRow = {
   action_type: "create" | "delete" | "update" | "status_change" | "upload" | "role_change";
   action_taken: string;
   action_result: "success" | "failure" | "pending";
-  record_type: "application" | "document" | "account" | "inventor" | "report";
+  record_type: "application" | "document" | "account" | "inventor" | "report" | "requirement";
   snapshot_record_reference: string;
   changed_fields?: unknown | null;
 };
@@ -68,6 +69,7 @@ const recordTypeMap: Record<AuditTrailRow["record_type"], RecordType> = {
   account: RecordType.ACCOUNT,
   inventor: RecordType.INVENTOR,
   report: RecordType.REPORT,
+  requirement: RecordType.REQUIREMENT
 };
 
 export function mapAuditTrailRow(row: AuditTrailRow): AuditLogType {

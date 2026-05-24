@@ -75,14 +75,14 @@ The following hardware specifications outline the minimum requirements used duri
 
 \begin{itemize}
   \item Processor: Intel Core i5
-  \item RAM: Minimum 8 GB
-  \item Storage: 512 GB SSD
-  \item Internet Connection: 30 Mbps minimum
+  \item RAM: 8 GB
+  \item Storage: 256 GB SSD
+  \item Internet Connection: 30 Mbps
   \item Devices for testing: Desktop and laptop computers
 \end{itemize}
 
 Devices were equipped with an Intel Core i5 processor and at least 8 GB of RAM to ensure stable performance when running development tools and the system itself. 
-A 512 GB SSD provided sufficient storage and faster access during development and testing. An internet connection of at least 30 Mbps was required to support online services such as GitHub, Vercel, and Supabase. 
+A 256 GB SSD provided sufficient storage and faster access during development and testing. An internet connection of at least 30 Mbps was required to support online services such as GitHub, Vercel, and Supabase. 
 Testing was conducted on both desktop and laptop computers to verify that the system operated reliably across different device types.
 
 \subsection{Technology Stack}
@@ -153,7 +153,7 @@ For IP application management, IRIS allowed authorized users to create and manag
 
 The application tracking and registry requirements focused on maintaining a centralized record of IP applications. The system allowed authorized users to search, filter, sort, and view application records based on their role permissions. It also allowed users to monitor the current status, progress, timestamps, and relevant updates associated with each application.
 
-For document and attachment management, IRIS allowed authorized users to upload, access, and update supporting documents associated with IP applications. The system maintained records of document updates to support traceability and enforced role-based access restrictions for application documents and attachments. It also provided access to relevant application forms, guides, and reference documents.
+For document and attachment management, IRIS allowed authorized users to upload, access, and update supporting documents associated with IP applications. The system also allowed TTBDO Admins to mark specific documents as required for an application, enabling users to track which required files had already been submitted and which still needed to be uploaded. The system maintained records of document updates to support traceability and enforced role-based access restrictions for application documents and attachments. It also provided access to relevant application forms, guides, and reference documents.
 
 The collaborator management requirements enabled authorized users to associate collaborators with IP applications and view collaborator information linked to each record. The system also provided mechanisms for managing collaborator-related concerns, including reporting or reviewing collaborator issues when necessary.
 
@@ -242,7 +242,7 @@ It is shown in \figref{fig:uc_guest} that Guests can view the published IPs of t
     \label{fig:uc_official}
 \end{figure}
 
-\figref{fig:uc_techgen} shows the various use cases of a Technology Generator, showing the actions they can take with the system. The Technology Generator has guest-level privileges but can also access extended system functions by authenticating and logging in. These privileges include accessing and filing disclosure forms, creating IP right applications, monitoring application status, uploading attachments, managing file versions, linking collaborators, reporting collaborators, receiving notifications, and requesting status updates for overdue applications.
+\figref{fig:uc_techgen} shows the various use cases of a Technology Generator, showing the actions they can take with the system. The Technology Generator has guest-level privileges but can also access extended system functions by authenticating and logging in. These privileges include accessing and filing disclosure forms, creating IP right applications, monitoring application status, uploading required attachments, managing file versions, linking collaborators, reporting collaborators, receiving notifications, and requesting status updates for overdue applications.
 
 \begin{figure}[H]
    \centering
@@ -251,7 +251,7 @@ It is shown in \figref{fig:uc_guest} that Guests can view the published IPs of t
     \label{fig:uc_techgen}
 \end{figure}
 
-\figref{fig:uc_admin} shows the various use cases of the TTBDO Admins. It shows that they have the most use cases for the system because they have access to administrative and management functions. These include viewing the full IP portfolio, managing users and registration requests, inviting users, creating applications, updating application details and statuses, managing deadlines, handling attachments and collaborators, reviewing reports, withdrawing applications, viewing audit logs, generating reports, and generating API keys for interoperability.
+\figref{fig:uc_admin} shows the various use cases of the TTBDO Admins. It shows that they have the most use cases for the system because they have access to administrative and management functions. These include viewing the full IP portfolio, managing users and registration requests, inviting users, creating applications, updating application details and statuses, managing deadlines, setting document requirements, handling attachments and collaborators, reviewing reports, withdrawing applications, viewing audit logs, generating reports, and generating API keys for interoperability.
 
 \begin{figure}[H]
    \centering
@@ -397,7 +397,7 @@ Performance testing was conducted to evaluate the loading speed, responsiveness,
 
 The testing was performed using Lighthouse audits on selected routes. The routes were grouped into public pages, TTBDO Administrator pages, Technology Generator pages, and UP Official pages. Public routes were tested without authentication, while authenticated routes were tested using browser sessions configured for the corresponding user roles.
 
-The Lighthouse audits recorded the performance score, tested route, device mode, final loaded path, redirect status, and validity of the test. The key metrics recorded were First Contentful Paint, Largest Contentful Paint, Total Blocking Time, Cumulative Layout Shift, and Speed Index.
+The Lighthouse audits recorded the performance score, tested route, device mode, final loaded path, redirect status, and validity of the test. The key metrics recorded were First Contentful Paint (FCP), Largest Contentful Paint (LCP), Total Blocking Time (TBT), Cumulative Layout Shift (CLS), and Speed Index (SI). FCP measures when the first visible page content appears. LCP measures when the largest visible page element loads. TBT measures how long the page is blocked from responding to user input. CLS measures visual stability. Lastly, SI measures how quickly visible page content is displayed.
 
 The performance testing covered the following route groups:
 
@@ -465,11 +465,13 @@ This activity was included because IRIS handles role-based application records, 
 
 \subsection{User Acceptance Testing}
 
-User Acceptance Testing (UAT) was conducted to validate whether the IRIS web application matched the workflow expectations and operational needs of the TTBDO. The activity involved two developers and three TTBDO personnel who served as client-side evaluators. Some TTBDO participants also acted as technology generators so that the system could be reviewed from both office-side and end-user perspectives.
+User Acceptance Testing (UAT) was conducted through a role-based stakeholder walkthrough and validation method. The UAT involved three TTBDO personnel and twelve technology generators. TTBDO personnel evaluated the administrative workflows of the system, while technology generators evaluated the end-user workflows related to registration, application submission, document uploading, collaborator management, notifications, and application status monitoring.
 
-The UAT was conducted through a walkthrough and validation of the deployed system. Participants reviewed the main workflows, including authentication and invite-based access, user and role management, application submission and viewing, technology generator management, application registry, public pages, notifications, reports, documents, dashboards, and general interface navigation. Feedback was recorded according to the affected module and used to identify accepted functions, minor refinements, and office-specific enhancement items.
+This approach was appropriate because IRIS was developed around the TTBDO technology transfer workflow as its primary implementation context. In addition, TTBDO personnel had been involved from the planning phase to feature-level review, allowing feedback to be gathered continuously throughout development rather than only during a single final testing session. Technology generators were also included because they represented the primary end users of the system.
 
-This activity was included because internal testing only verified the technical correctness of the system, while UAT validated whether the system was practical, usable, and acceptable in the intended office setting. The system was considered acceptable when the core workflows functioned as intended, no critical issue prevented use, and the remaining concerns were limited to refinements or additional office-specific requirements.
+The purpose of the UAT was to confirm whether the completed system supported the workflows of its intended user groups and whether it was acceptable for use within the TTBDO context. No standardized usability score was obtained through a Likert-scale or SUS-based instrument, as the study focused more on testing with discrete and concrete measures, such as end-to-end testing, performance testing, and penetration testing. The final UAT therefore served as a summative validation of the system after prior consultation, feature review, and iterative feedback.
+
+The system was considered acceptable when the evaluators were able to review and validate their respective workflows, no critical issue prevented system use, and the remaining feedback consisted only of minor refinements or additional enhancement requests.
 
 \FloatBarrier
 

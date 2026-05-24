@@ -152,7 +152,6 @@ export async function inviteUser(props: PropsInterface) {
       data: emailData,
     } satisfies InviteUserResult;
   } catch (error) {
-    console.error("Invite user failed:", error);
 
     return {
       success: false,

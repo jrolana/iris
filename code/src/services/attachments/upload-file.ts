@@ -1,79 +1,91 @@
 import { sanitizeFileName } from "@/lib/helper/sanitize-input";
-import { supabaseClient as supabase } from "@/lib/supabase"
+import { supabaseClient as supabase } from "@/lib/supabase";
 import { AttachmentType } from "@/lib/types/application";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { assertApplicationActionAllowed } from "../application/assert-application-action-allowed";
 
-
 interface UploadFileProps {
-    file: AttachmentType["Insert"] & {fileObject?: File};
-    appId: string;
-    folderName?: string;
-}   
+  file: AttachmentType["Insert"] & { fileObject?: File };
+  appId: string;
+  folderName?: string;
+}
 
 export const uploadFile = async (props: UploadFileProps) => {
-    const { file, appId, folderName } = props;
-    file.file_name = sanitizeFileName(file.file_name)
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("User not authenticated");
+  const { file, appId, folderName } = props;
+  file.file_name = sanitizeFileName(file.file_name);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("User not authenticated");
 
-    if (!appId) {
-        throw new Error("Application ID is missing. Cannot upload file.");
+  if (!appId) {
+    throw new Error("Application ID is missing. Cannot upload file.");
+  }
+  await assertApplicationActionAllowed(appId, {
+    downgradedMessage:
+      "Files can no longer be added because this application has already been downgraded to a Utility Model.",
+    withdrawnMessage:
+      "Files can no longer be added because this application has been withdrawn.",
+  });
+
+  const newId = uuidv4();
+  const fullPath = `${appId}/${folderName ?? file.file_name}/${newId}`;
+
+  if (!file.fileObject) {
+    // This means that the file is a link
+    // No need to upload to storage, just insert into the database
+    const { data, error } = await supabase
+      .schema("private")
+      .from("ipr_files")
+      .insert({
+        application_id: appId,
+        file_name: file.file_name,
+        file_type: file.file_type,
+        storage_path: file.file_name,
+        file_description: file.file_description,
+        owner_id: user.id,
+      });
+    if (error) {
+      throw new Error(error.message);
     }
-    await assertApplicationActionAllowed(appId, {
-        downgradedMessage:
-            "Files can no longer be added because this application has already been downgraded to a Utility Model.",
-        withdrawnMessage:
-            "Files can no longer be added because this application has been withdrawn.",
+    return { data, error, storageId: null, storagePath: file.file_name };
+  }
+
+  // Otherwise, proceed with file upload
+  const { data, error } = await supabase.storage
+    .from("ipr_files_bucket")
+    .upload(fullPath, file.fileObject, {
+      contentType: file.fileObject.type,
+      upsert: false, // do not overwrite existing files
     });
 
-    const newId = uuidv4();
-    const fullPath = `${appId}/${folderName ?? file.file_name}/${newId}`;
+  if (error) {
+    throw new Error(error.message);
+  }
 
-    if (!file.fileObject) {
-        // This means that the file is a link
-        // No need to upload to storage, just insert into the database
-        const {data, error} = await supabase.schema("private").from('ipr_files').insert({
-            application_id: appId,
-            file_name: file.file_name,
-            file_type: file.file_type,
-            storage_path: file.file_name,
-            file_description: file.file_description,
-            owner_id: user.id,}
-        );
-        if (error) {
-            throw new Error(error.message);
-        }
-        return { data, error};
-    }
-
-    // Otherwise, proceed with file upload
-    const { data, error } = await supabase.storage.from('ipr_files_bucket').upload(
-        fullPath, file.fileObject, {
-        contentType: file.fileObject.type,
-        upsert: false, // do not overwrite existing files
-    })
-
-    if (error) {
-        throw new Error(error.message);
-    }
-
-    const { error: dbError } = await supabase
-    .schema('private')
-    .from('ipr_files')
+  const { error: dbError } = await supabase
+    .schema("private")
+    .from("ipr_files")
     .update({
       file_description: file.file_description,
       comments: file.comments,
       file_type: file.file_type,
       // explicitly update file_name again just to be sure
-      file_name: file.file_name 
+      file_name: file.file_name,
     })
-    .eq('storage_path', fullPath) // Match the path of the exact file uploaded
+    .eq("storage_path", fullPath) // Match the path of the exact file uploaded
     .select();
 
   if (dbError) {
-    throw new Error("File uploaded but failed to update database: " + dbError.message);
+    throw new Error(
+      "File uploaded but failed to update database: " + dbError.message,
+    );
   }
 
-    return { data, error};
-}
+  return {
+    data,
+    error,
+    storageId: data.id,
+    storagePath: fullPath,
+  };
+};

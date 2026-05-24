@@ -9,12 +9,16 @@ import Hint from "../common/Tooltip";
 import { IprStatusType } from "@/lib/types/status";
 import { STATUS_LABELS } from "@/lib/helper/status-labels";
 import Ping from "./Ping";
+import RequirementsPanel from "./RequirementsPanel";
+import { RequirementWithAttachment } from "@/lib/types/requirements";
 
 interface ApplicationStepperProps {
   ipType: IpType;
+  requirements: RequirementWithAttachment[];
   currentStageDeadline?: string | Date; // From ipr_applications table
   currentStatus: IprStatusType["Row"];
   isAdmin?: boolean;
+  isFetchingRequirements: boolean;
   applicationId: string;
   applicationName: string;
 }
@@ -27,6 +31,8 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
     isAdmin = false,
     applicationId,
     applicationName,
+    requirements,
+    isFetchingRequirements,
   } = props;
   const statusType = currentStatus.status_type as StatusType;
   const steps = ipApplicationFlows[ipType];
@@ -99,9 +105,7 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
     };
   }, [currentStatus.created_at, currentStep.charterStage]);
 
-  const targetDate = currentStageDeadline
-    ? currentStageDeadline
-    : currentStatus.created_at;
+  const targetDate = currentStageDeadline || currentStatus.created_at;
 
   const isPingable = charterInfo?.isOverdue || deadlineInfo?.isOverdue;
 
@@ -111,7 +115,7 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
         className={clsx(
           "flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-bold tracking-widest uppercase transition-colors",
           inIpophilStages
-            ? "w-[265px] border-purple-200 bg-purple-50 text-purple-700"
+            ? "w-66.25 border-purple-200 bg-purple-50 text-purple-700"
             : "w-48 border-teal-200 bg-teal-50 text-teal-700",
         )}
       >
@@ -127,7 +131,7 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
       </div>
 
       <div className="mb-10 w-full overflow-x-auto">
-        <ol className="flex min-w-[600px] items-stretch gap-3 px-1 sm:min-w-0 sm:gap-4 sm:px-0">
+        <ol className="flex min-w-150 items-stretch gap-3 px-1 sm:min-w-0 sm:gap-4 sm:px-0">
           {steps.map((step, index) => {
             const isCompleted = index < currentIndex;
             const isActive = index === currentIndex;
@@ -195,11 +199,17 @@ export default function ApplicationStepper(props: ApplicationStepperProps) {
           isAdmin={isAdmin}
           application_id={applicationId}
           application_name={applicationName}
-          stage_delayed={currentStep.id as string}
-          step_delayed={statusType as string}
+          stage_delayed={currentStep.id}
+          step_delayed={statusType}
           target_date={targetDate!}
         />
       )}
+
+      <RequirementsPanel
+        isAdmin={isAdmin}
+        requirements={requirements}
+        isFetchingRequirements={isFetchingRequirements}
+      />
     </div>
   );
 }
