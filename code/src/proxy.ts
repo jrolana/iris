@@ -40,6 +40,7 @@ function isStaticAsset(pathname: string) {
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const requestCookieNames = request.cookies.getAll().map(({ name }) => name);
 
  
   // Public pages should not pay auth/proxy cost.
@@ -70,16 +71,31 @@ export async function proxy(request: NextRequest) {
     },
   );
 
-  const { data } = await supabase.auth.getClaims();
+  const { data, error: claimsError } = await supabase.auth.getClaims();
   const claims = data?.claims;
 
   if (!claims) {
+    console.warn("Proxy rejected request because no auth claims were found", {
+      pathname,
+      requestOrigin: request.nextUrl.origin,
+      requestCookieNames,
+      claimsError: claimsError
+        ? {
+            name: claimsError.name,
+            message: claimsError.message,
+            status:
+              "status" in claimsError ? claimsError.status : undefined,
+            code: "code" in claimsError ? claimsError.code : undefined,
+          }
+        : null,
+    });
+
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);
   }
 
-  const { data: userData } = await supabase
+  const { data: userData, error: userDataError } = await supabase
     .schema("private")
     .from("users")
     .select("role")
@@ -94,6 +110,22 @@ export async function proxy(request: NextRequest) {
   });
 
   if (!userRole || !ROLE_CONFIG[userRole]) {
+    console.warn("Proxy rejected request because no valid role was found", {
+      pathname,
+      userId: claims.sub,
+      requestOrigin: request.nextUrl.origin,
+      requestCookieNames,
+      userDataError: userDataError
+        ? {
+            message: userDataError.message,
+            code: userDataError.code,
+            details: userDataError.details,
+            hint: userDataError.hint,
+          }
+        : null,
+      userData,
+    });
+
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);

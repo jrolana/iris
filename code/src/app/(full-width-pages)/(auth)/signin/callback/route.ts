@@ -106,11 +106,44 @@ export async function GET(request: Request) {
   }
 
   // Fetch user role
-  const { data: userRole, error: userError } = await supabase.rpc('get_user_role')
-  if (userError || !userRole) return redirectWithError('Unable to determine your account role. Please contact ttbdo.upvisayas@up.edu.ph.')
+  console.info("Supabase auth code exchange succeeded", {
+    userId: session.user.id,
+    email: session.user.email,
+    requestOrigin: origin,
+    baseUrl,
+    cookieNames: cookieStore.getAll().map(({ name }) => name),
+  });
+
+  const { data: userRole, error: userError } = await supabase.rpc("get_user_role");
+  if (userError || !userRole) {
+    console.error("Supabase user role lookup failed after sign-in", {
+      userId: session.user.id,
+      email: session.user.email,
+      error: userError
+        ? {
+            message: userError.message,
+            code: userError.code,
+            details: userError.details,
+            hint: userError.hint,
+          }
+        : null,
+      userRole,
+    });
+
+    return redirectWithError(
+      "Unable to determine your account role. Please contact ttbdo.upvisayas@up.edu.ph.",
+    );
+  }
 
   const role = userRole as Role;
   const home = ROLE_CONFIG[role]?.home ?? "/";
+
+  console.info("Supabase sign-in redirect resolved", {
+    userId: session.user.id,
+    email: session.user.email,
+    role,
+    home,
+  });
 
   return NextResponse.redirect(`${baseUrl}${home}`);
 }
