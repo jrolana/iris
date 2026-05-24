@@ -95,14 +95,10 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  const { data: userData, error: userDataError } = await supabase
-    .schema("private")
-    .from("users")
-    .select("role")
-    .eq("id", claims.sub)
-    .single();
+  const { data: userRoleData, error: userRoleError } =
+    await supabase.rpc("get_user_role");
 
-  const userRole = userData?.role as Role | undefined;
+  const userRole = userRoleData as Role | undefined;
 
   response.cookies.set("user-role", "", {
     path: "/",
@@ -115,15 +111,15 @@ export async function proxy(request: NextRequest) {
       userId: claims.sub,
       requestOrigin: request.nextUrl.origin,
       requestCookieNames,
-      userDataError: userDataError
+      userRoleError: userRoleError
         ? {
-            message: userDataError.message,
-            code: userDataError.code,
-            details: userDataError.details,
-            hint: userDataError.hint,
+            message: userRoleError.message,
+            code: userRoleError.code,
+            details: userRoleError.details,
+            hint: userRoleError.hint,
           }
         : null,
-      userData,
+      userRoleData,
     });
 
     const url = request.nextUrl.clone();
