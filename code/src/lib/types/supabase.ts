@@ -276,6 +276,41 @@ export type Database = {
           },
         ]
       }
+      ipr_requirements: {
+        Row: {
+          application_id: string
+          created_at: string
+          id: string
+          requirement: string
+          status: Database["private"]["Enums"]["requirementstatustype"]
+          storage_id: string | null
+        }
+        Insert: {
+          application_id: string
+          created_at?: string
+          id?: string
+          requirement: string
+          status?: Database["private"]["Enums"]["requirementstatustype"]
+          storage_id?: string | null
+        }
+        Update: {
+          application_id?: string
+          created_at?: string
+          id?: string
+          requirement?: string
+          status?: Database["private"]["Enums"]["requirementstatustype"]
+          storage_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ipr_requirements_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "ipr_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ipr_statuses: {
         Row: {
           application_id: string
@@ -613,8 +648,15 @@ export type Database = {
         | "industrial_design"
         | "trademark"
         | "copyright"
-      recordtype: "application" | "document" | "account" | "inventor" | "report"
+      recordtype:
+        | "application"
+        | "document"
+        | "account"
+        | "inventor"
+        | "report"
+        | "requirement"
       registrationrequestsstatus: "pending" | "approved" | "rejected"
+      requirementstatustype: "pending" | "submitted" | "accepted"
       user_role: "admin" | "up-official" | "techgen"
     }
     CompositeTypes: {
@@ -873,8 +915,16 @@ export const Constants = {
         "trademark",
         "copyright",
       ],
-      recordtype: ["application", "document", "account", "inventor", "report"],
+      recordtype: [
+        "application",
+        "document",
+        "account",
+        "inventor",
+        "report",
+        "requirement",
+      ],
       registrationrequestsstatus: ["pending", "approved", "rejected"],
+      requirementstatustype: ["pending", "submitted", "accepted"],
       user_role: ["admin", "up-official", "techgen"],
     },
   },
