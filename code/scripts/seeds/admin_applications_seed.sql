@@ -429,6 +429,17 @@ INSERT INTO tmp_admin_inventor_seed (
 ) VALUES
   (
     'IRIS Demo Patent - Seaweed Drying Chamber',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Patent - Seaweed Drying Chamber',
     NULL,
     'Marina L. Torres',
     'marina.torres@example.com',
@@ -451,6 +462,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Utility Model - Fish Crate Aerator',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Utility Model - Fish Crate Aerator',
     NULL,
     'Liza M. Rojas',
     'liza.rojas@example.com',
@@ -459,6 +481,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Industrial Design - Bottle Label Sleeve',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Industrial Design - Bottle Label Sleeve',
@@ -473,6 +506,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Trademark - Blue Current',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Trademark - Blue Current',
     NULL,
     'Julia M. Vergara',
     'julia.vergara@example.com',
@@ -481,6 +525,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Copyright - ReefLearn Modules',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Copyright - ReefLearn Modules',
@@ -495,6 +550,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Patent - Mangrove Sensor Network',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Patent - Mangrove Sensor Network',
     NULL,
     'Miguel A. Cabrera',
     'miguel.cabrera@example.com',
@@ -503,6 +569,17 @@ INSERT INTO tmp_admin_inventor_seed (
     'Western Visayas Coastal Innovation Lab',
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Utility Model - Ice Box Partition',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Utility Model - Ice Box Partition',
@@ -517,6 +594,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Industrial Design - Smart Buoy Housing',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Industrial Design - Smart Buoy Housing',
     NULL,
     'Patrick E. Flores',
     'patrick.flores@example.com',
@@ -525,6 +613,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Trademark - Isla Harvest',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Trademark - Isla Harvest',
@@ -539,6 +638,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Copyright - AquaLedger',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Copyright - AquaLedger',
     NULL,
     'Carlo V. Dela Cruz',
     'carlo.delacruz@example.com',
@@ -547,6 +657,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Patent - Shell Waste Composite Board',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Patent - Shell Waste Composite Board',
@@ -561,6 +682,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Trademark - Habagat Labs',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Trademark - Habagat Labs',
     NULL,
     'Ramon K. Ilagan',
     'ramon.ilagan@example.com',
@@ -569,6 +701,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Patent - Coconut Fiber Filter Mesh',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Patent - Coconut Fiber Filter Mesh',
@@ -583,6 +726,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Copyright - Baybayin Reef Atlas',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Copyright - Baybayin Reef Atlas',
     NULL,
     'Omar S. Dizon',
     'omar.dizon@example.com',
@@ -591,6 +745,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Utility Model - Solar Brine Pump',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Utility Model - Solar Brine Pump',
@@ -605,6 +770,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Patent - Algae Feed Extruder',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Patent - Algae Feed Extruder',
     NULL,
     'Gerard P. Hilado',
     'gerard.hilado@example.com',
@@ -613,6 +789,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Patent - Oyster Grading Conveyor',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Patent - Oyster Grading Conveyor',
@@ -627,6 +814,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Trademark - TideCraft',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Trademark - TideCraft',
     NULL,
     'Sheena D. Golez',
     'sheena.golez@example.com',
@@ -635,6 +833,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Copyright - Fisherfolk Field Notes',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Copyright - Fisherfolk Field Notes',
@@ -649,6 +858,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Utility Model - Net Repair Jig',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Utility Model - Net Repair Jig',
     NULL,
     'April K. Legaspi',
     'april.legaspi@example.com',
@@ -657,6 +877,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Patent - Brackish Water Sampler',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Patent - Brackish Water Sampler',
@@ -671,6 +902,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Trademark - Sulu Bloom',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Trademark - Sulu Bloom',
     NULL,
     'Patricia O. Sumagaysay',
     'patricia.sumagaysay@example.com',
@@ -679,6 +921,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Industrial Design - Hatchery Control Panel',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Industrial Design - Hatchery Control Panel',
@@ -693,6 +946,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Copyright - Coastal Data Storyboard',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Copyright - Coastal Data Storyboard',
     NULL,
     'Leah B. Ramos',
     'leah.ramos@example.com',
@@ -704,6 +968,17 @@ INSERT INTO tmp_admin_inventor_seed (
   ),
   (
     'IRIS Demo Trademark - Amihan Works',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
+  ),
+  (
+    'IRIS Demo Trademark - Amihan Works',
     NULL,
     'Katrina E. Dacillo',
     'katrina.dacillo@example.com',
@@ -712,6 +987,17 @@ INSERT INTO tmp_admin_inventor_seed (
     NULL,
     NULL,
     'non-member'
+  ),
+  (
+    'IRIS Demo Patent - Biofloc Sensor Wand',
+    'dc092400-7db2-44cf-b5f8-e210806817f6'::uuid,
+    'jrolana',
+    'jrolana@up.edu.ph',
+    NULL,
+    'Unspecified',
+    NULL,
+    'Linked techgen visible on all seeded applications.',
+    'member'
   ),
   (
     'IRIS Demo Patent - Biofloc Sensor Wand',
