@@ -32,6 +32,22 @@ function isRateLimitedPublicRoute(pathname: string) {
   return pathname === "/signin" || pathname === "/signup";
 }
 
+function shouldRateLimitPublicRoute(request: NextRequest) {
+  if (request.method !== "POST") {
+    return false;
+  }
+
+  if (request.headers.get("next-router-prefetch")) {
+    return false;
+  }
+
+  if (request.headers.get("rsc")) {
+    return false;
+  }
+
+  return true;
+}
+
 function isStaticAsset(pathname: string) {
   return (
     pathname.startsWith("/_next/") ||
@@ -50,7 +66,10 @@ export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const requestCookieNames = request.cookies.getAll().map(({ name }) => name);
 
-  if (isRateLimitedPublicRoute(pathname)) {
+  if (
+    isRateLimitedPublicRoute(pathname) &&
+    shouldRateLimitPublicRoute(request)
+  ) {
     const clientAddress = getClientAddressFromHeaders(request.headers);
     const rateLimit = applyRateLimit({
       key: `auth:${clientAddress}:${pathname}`,
