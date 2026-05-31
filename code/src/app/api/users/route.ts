@@ -1,24 +1,49 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin as supabase } from '@/../utils/supabase/admin'; // Adjust path if needed
 
+const normalizedAllowedOrigin = (
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  process.env.APP_URL ??
+  ''
+).replace(/\/$/, '');
 
-// const allowedOrigin = process.env.NEXT_PUBLIC_SITE_URL ?? ''; // use this if allowed origin is defined in environment variables
-const allowedOrigin = '*'; // allow all origins for the sake of demonstration
+function buildCorsHeaders(origin: string | null) {
+  const headers = new Headers({
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    Vary: 'Origin',
+  });
 
-// CORS headers to allow external access
-const corsHeaders = {
-  'Access-Control-Allow-Origin': allowedOrigin,
-  'Access-Control-Allow-Methods': 'GET, OPTIONS', // Allowed HTTP methods
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Vary': 'Origin',
-};
+  if (origin && normalizedAllowedOrigin && origin.replace(/\/$/, '') === normalizedAllowedOrigin) {
+    headers.set('Access-Control-Allow-Origin', origin);
+  }
+
+  return headers;
+}
 
 // OPTIONS handler for the browser's preflight check
-export async function OPTIONS() {
-  return NextResponse.json({}, { headers: corsHeaders });
+export async function OPTIONS(request: Request) {
+  const origin = request.headers.get('Origin');
+  const headers = buildCorsHeaders(origin);
+
+  if (origin && !headers.has('Access-Control-Allow-Origin')) {
+    return new NextResponse(null, { status: 403, headers });
+  }
+
+  return new NextResponse(null, { status: 204, headers });
 }
 
 export async function GET(request: Request) {
+  const origin = request.headers.get('Origin');
+  const corsHeaders = buildCorsHeaders(origin);
+
+  if (origin && !corsHeaders.has('Access-Control-Allow-Origin')) {
+    return NextResponse.json(
+      { error: 'CORS origin not allowed' },
+      { status: 403, headers: corsHeaders }
+    );
+  }
+
   try {
   const authHeader = request.headers.get('Authorization');
 
