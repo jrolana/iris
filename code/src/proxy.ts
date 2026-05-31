@@ -1,6 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { ROLE_CONFIG, type Role } from "@/lib/roles";
+import {
+  applyRateLimit,
+  getClientAddressFromHeaders,
+} from "@/lib/security/rate-limit";
 
 const PUBLIC_ROUTES = [
   "/",
@@ -24,6 +28,10 @@ function isAuthRoute(pathname: string) {
   return pathname === "/signin" || pathname === "/signup";
 }
 
+function isRateLimitedPublicRoute(pathname: string) {
+  return pathname === "/signin" || pathname === "/signup";
+}
+
 function isStaticAsset(pathname: string) {
   return (
     pathname.startsWith("/_next/") ||
@@ -42,7 +50,29 @@ export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const requestCookieNames = request.cookies.getAll().map(({ name }) => name);
 
- 
+  if (isRateLimitedPublicRoute(pathname)) {
+    const clientAddress = getClientAddressFromHeaders(request.headers);
+    const rateLimit = applyRateLimit({
+      key: `auth:${clientAddress}:${pathname}`,
+      windowMs: 60 * 1000,
+      maxRequests: 10,
+    });
+
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: "Too many requests" },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(rateLimit.resetSeconds),
+            "X-RateLimit-Limit": String(rateLimit.limit),
+            "X-RateLimit-Remaining": String(rateLimit.remaining),
+          },
+        },
+      );
+    }
+  }
+
   // Public pages should not pay auth/proxy cost.
   if (isStaticAsset(pathname) || isPublicRoute(pathname)) {
     return NextResponse.next();

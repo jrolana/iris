@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin as supabase } from '@/../utils/supabase/admin'; // Adjust path if needed
+import {
+  applyRateLimit,
+  getClientAddressFromHeaders,
+} from '@/lib/security/rate-limit';
 
 const normalizedAllowedOrigin = (
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -36,11 +40,28 @@ export async function OPTIONS(request: Request) {
 export async function GET(request: Request) {
   const origin = request.headers.get('Origin');
   const corsHeaders = buildCorsHeaders(origin);
+  const clientAddress = getClientAddressFromHeaders(request.headers);
+  const rateLimit = applyRateLimit({
+    key: `api-users:${clientAddress}`,
+    windowMs: 60 * 1000,
+    maxRequests: 30,
+  });
+
+  corsHeaders.set('X-RateLimit-Limit', String(rateLimit.limit));
+  corsHeaders.set('X-RateLimit-Remaining', String(rateLimit.remaining));
+  corsHeaders.set('Retry-After', String(rateLimit.resetSeconds));
 
   if (origin && !corsHeaders.has('Access-Control-Allow-Origin')) {
     return NextResponse.json(
       { error: 'CORS origin not allowed' },
       { status: 403, headers: corsHeaders }
+    );
+  }
+
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      { status: 429, headers: corsHeaders }
     );
   }
 
@@ -87,7 +108,7 @@ export async function GET(request: Request) {
 
   } catch (error) {
     return NextResponse.json(
-      { error: 'Internal Server Error' + (error instanceof Error ? `: ${error.message}` : '') }, 
+      { error: 'Internal Server Error' }, 
       { status: 500, headers: corsHeaders }
     );
   }
