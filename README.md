@@ -1,4 +1,4 @@
-# IRIS — Information Rights Information System
+# IRIS — Intellectual Rights Information System
 
 IRIS is a web-based intellectual property management system built for the UP Visayas Technology Transfer and Business Development Office (TTBDO). It helps researchers, TechGen users, UP officials, and administrators manage IP disclosure and application workflows in one place—from choosing the right disclosure form to tracking requirements, statuses, reports, files, and audit activity.
 
