@@ -1,4 +1,4 @@
-# IRIS — Information Rights Information System
+# IRIS — Intellectual Rights Information System
 
 IRIS is a web-based intellectual property management system built for the UP Visayas Technology Transfer and Business Development Office (TTBDO). It helps researchers, TechGen users, UP officials, and administrators manage IP disclosure and application workflows in one place—from choosing the right disclosure form to tracking requirements, statuses, reports, files, and audit activity.
 
@@ -60,12 +60,6 @@ cd code
 npm install
 ```
 
-If npm reports peer dependency conflicts, install with:
-
-```bash
-npm install --legacy-peer-deps
-```
-
 ### 2. Configure environment variables
 
 Create `code/.env.local` and add the required Supabase values:
@@ -92,8 +86,6 @@ Keep service role keys and email credentials out of version control.
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
 ### 4. Build for production
 
 ```bash
@@ -113,17 +105,6 @@ The database layer is maintained through SQL scripts in `code/scripts/`:
 - `global/` contains grants and schema-level setup scripts.
 - `migrations/` contains later schema changes.
 
-A typical setup flow is:
-
-1. Create or connect a Supabase project.
-2. Apply table and enum definitions.
-3. Apply functions, policies, triggers, views, and grants.
-4. Create the required storage buckets for application files and public resources.
-5. Configure authentication users and role records in the private user table.
-6. Deploy edge functions if invite or email workflows are needed.
-
-Review each SQL script before applying it to a shared or production database.
-
 ## Available Scripts
 
 Run these from the `code/` directory:
@@ -138,13 +119,6 @@ npm run generate-types      # Generate Supabase TypeScript types
 npm run deploy:invite-email # Deploy the invite email edge function
 ```
 
-## Main User Areas
-
-- **Guest:** Browse public guidance, view the application registry, and use the public IP form recommendation flow.
-- **TechGen:** Start and manage IP applications, upload documents, review requirements, and track application progress.
-- **UP Official:** View dashboards and registry information relevant to official review.
-- **Admin:** Manage applications, users, resources, notifications, reports, audit trails, API tokens, and system records.
-
 ## Testing and Security Notes
 
 The repository includes `code/iris_pentest.sh` and `code/pentest.env.example` for security-oriented checks against a configured app instance. These tests require real Supabase tokens and object IDs from test accounts.
@@ -155,8 +129,6 @@ Do not run security tests against production data unless you intentionally prepa
 
 - `paper/` contains the academic manuscript files.
 - `uml diagrams code/` contains PlantUML diagrams for use cases, database design, system flow, and sequence diagrams.
-- `code/jhoanna-app-contributions.md` and related contribution reports document implementation work and file-level contributions.
-
 ## License
 
 The application code under `code/` includes its own license file. Review `code/LICENSE` before reusing, modifying, or distributing this project.
