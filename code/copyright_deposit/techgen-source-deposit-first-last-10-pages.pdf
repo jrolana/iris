@@ -1,0 +1,3322 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+2 0 obj
+<< /Length 4203 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(FIRST 10 SOURCE PAGES | Source page 1 of 51) Tj
+0 -14 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/layout.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import React from "react";) Tj
+0 -9 Td
+(0002: import BaseLayout from "@/layout/BaseLayout";) Tj
+0 -9 Td
+(0003: import { NavItem } from "@/lib/types/nav";) Tj
+0 -9 Td
+(0004: import { GridIcon, DocsIcon, DownloadIcon, TableIcon } from "@/icons";) Tj
+0 -9 Td
+(0005: import { SidebarProvider } from "@/context/SidebarContext";) Tj
+0 -9 Td
+(0006: import TanStackProvider from "@/providers/TanStackProvider";) Tj
+0 -9 Td
+(0007: import UserProvider from "@/providers/UserProvider";) Tj
+0 -9 Td
+(0008: ) Tj
+0 -9 Td
+(0009: const navItems: NavItem[] = [) Tj
+0 -9 Td
+(0010:   { icon: <GridIcon />, name: "Dashboard", path: "/techgen" },) Tj
+0 -9 Td
+(0011:   {) Tj
+0 -9 Td
+(0012:     icon: <TableIcon />,) Tj
+0 -9 Td
+(0013:     name: "Applications Registry",) Tj
+0 -9 Td
+(0014:     path: "/techgen/application-registry",) Tj
+0 -9 Td
+(0015:   },) Tj
+0 -9 Td
+(0016:   {) Tj
+0 -9 Td
+(0017:     icon: <DocsIcon />,) Tj
+0 -9 Td
+(0018:     name: "Application Guide",) Tj
+0 -9 Td
+(0019:     path: "/techgen/application-guide",) Tj
+0 -9 Td
+(0020:   },) Tj
+0 -9 Td
+(0021:   {) Tj
+0 -9 Td
+(0022:     icon: <DownloadIcon />,) Tj
+0 -9 Td
+(0023:     name: "Application Documents",) Tj
+0 -9 Td
+(0024:     path: "/techgen/application-document",) Tj
+0 -9 Td
+(0025:   },) Tj
+0 -9 Td
+(0026: ];) Tj
+0 -9 Td
+(0027: ) Tj
+0 -9 Td
+(0028: export default function Layout\({ children }: { children: React.ReactNode }\) {) Tj
+0 -9 Td
+(0029:   return \() Tj
+0 -9 Td
+(0030:     <TanStackProvider>) Tj
+0 -9 Td
+(0031:       <UserProvider>) Tj
+0 -9 Td
+(0032:         <SidebarProvider>) Tj
+0 -9 Td
+(0033:           <BaseLayout navItems={navItems}>{children}</BaseLayout>) Tj
+0 -9 Td
+(0034:         </SidebarProvider>) Tj
+0 -9 Td
+(0035:       </UserProvider>) Tj
+0 -9 Td
+(0036:     </TanStackProvider>) Tj
+0 -9 Td
+(0037:   \);) Tj
+0 -9 Td
+(0038: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/page.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import { MetricsTechgen } from "@/components/techgen/MetricsTechgen";) Tj
+0 -9 Td
+(0004: import React, { useMemo } from "react";) Tj
+0 -9 Td
+(0005: import StatusUpdatesPanel from "@/components/techgen/StatusUpdatesPanel";) Tj
+0 -9 Td
+(0006: import { useGetUserApplicationIds } from "@/hooks/applications/useGetUserApplications";) Tj
+0 -9 Td
+(0007: import Link from "next/link";) Tj
+0 -9 Td
+(0008: import { PlusIcon } from "lucide-react";) Tj
+0 -9 Td
+(0009: ) Tj
+0 -9 Td
+(0010: export default function TechgenDashboard\(\) {) Tj
+0 -9 Td
+(0011:   const { userApplicationIds } = useGetUserApplicationIds\(\);) Tj
+0 -9 Td
+(0012: ) Tj
+0 -9 Td
+(0013:   // children gets stable reference) Tj
+0 -9 Td
+(0014:   const applicationIds = useMemo\(\(\) => {) Tj
+0 -9 Td
+(0015:     return userApplicationIds) Tj
+0 -9 Td
+(0016:       ?.map\(\(app\) => app.application_id\)) Tj
+0 -9 Td
+(0017:       .filter\(\(id\): id is string => id != null && id.trim\(\) !== ""\);) Tj
+0 -9 Td
+(0018:   }, [userApplicationIds]\);) Tj
+0 -9 Td
+(0019: ) Tj
+0 -9 Td
+(0020:   return \() Tj
+0 -9 Td
+(0021:     <div className="space-y-6">) Tj
+0 -9 Td
+(0022:       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">) Tj
+0 -9 Td
+(0023:         <div>) Tj
+0 -9 Td
+(0024:           <h1 className="text-2xl font-semibold text-gray-800">Dashboard</h1>) Tj
+0 -9 Td
+(0025:           <p className="mt-1 text-sm text-gray-500">) Tj
+0 -9 Td
+(0026:             Track your applications and recent status updates.) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 2 0 R >>
+endobj
+4 0 obj
+<< /Length 4198 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(FIRST 10 SOURCE PAGES | Source page 2 of 51) Tj
+0 -14 Td
+(0027:           </p>) Tj
+0 -9 Td
+(0028:         </div>) Tj
+0 -9 Td
+(0029: ) Tj
+0 -9 Td
+(0030:         <Link) Tj
+0 -9 Td
+(0031:           href="/techgen/new-application") Tj
+0 -9 Td
+(0032:           className="bg-brand-500 hover:bg-brand-600 inline-flex h-11 items-center justify-center gap-2 rounded-) Tj
+0 -9 Td
+(      | lg px-4 text-sm font-medium text-white") Tj
+0 -9 Td
+(0033:         >) Tj
+0 -9 Td
+(0034:           <PlusIcon size={18} />) Tj
+0 -9 Td
+(0035:           Add New Application) Tj
+0 -9 Td
+(0036:         </Link>) Tj
+0 -9 Td
+(0037:       </div>) Tj
+0 -9 Td
+(0038: ) Tj
+0 -9 Td
+(0039:       <div className="grid grid-cols-12 gap-4 md:gap-8">) Tj
+0 -9 Td
+(0040:         <div className="col-span-12 xl:col-span-8">) Tj
+0 -9 Td
+(0041:           <MetricsTechgen />) Tj
+0 -9 Td
+(0042:         </div>) Tj
+0 -9 Td
+(0043: ) Tj
+0 -9 Td
+(0044:         <div className="col-span-12 xl:col-span-4">) Tj
+0 -9 Td
+(0045:           <StatusUpdatesPanel applicationIds={applicationIds ?? []} />) Tj
+0 -9 Td
+(0046:         </div>) Tj
+0 -9 Td
+(0047:       </div>) Tj
+0 -9 Td
+(0048:     </div>) Tj
+0 -9 Td
+(0049:   \);) Tj
+0 -9 Td
+(0050: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/application-registry/page.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import React from "react";) Tj
+0 -9 Td
+(0002: import ApplicationsTable from "@/components/common/ApplicationsTable";) Tj
+0 -9 Td
+(0003: ) Tj
+0 -9 Td
+(0004: export default function TechgenApplicationRegistry\(\) {) Tj
+0 -9 Td
+(0005:   return \() Tj
+0 -9 Td
+(0006:     <div>) Tj
+0 -9 Td
+(0007:       <ApplicationsTable isTechgen={true} />) Tj
+0 -9 Td
+(0008:     </div>) Tj
+0 -9 Td
+(0009:   \);) Tj
+0 -9 Td
+(0010: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/application-guide/page.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import ApplicationGuidePage from "@/components/common/ApplicationGuidePage";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: export default function GuestApplicationGuidePage\(\) {) Tj
+0 -9 Td
+(0004:   return <ApplicationGuidePage isApplicant={true} />;) Tj
+0 -9 Td
+(0005: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/application-document/page.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import React from "react";) Tj
+0 -9 Td
+(0002: import ApplicationDocuments from "@/components/common/ApplicationDocuments";) Tj
+0 -9 Td
+(0003: ) Tj
+0 -9 Td
+(0004: export default function TechGenApplicationDocs\(\) {) Tj
+0 -9 Td
+(0005:   return <ApplicationDocuments />;) Tj
+0 -9 Td
+(0006: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/notifications/page.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import ViewAllNotifications from "@/components/common/ViewAllNotifications";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: export default function NotificationsPage\(\) {) Tj
+0 -9 Td
+(0004:   return <ViewAllNotifications />;) Tj
+0 -9 Td
+(0005: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/new-application/page.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 4269 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(FIRST 10 SOURCE PAGES | Source page 3 of 51) Tj
+0 -14 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import NewApplicationFlow from "@/components/application/NewApplicationFlow";) Tj
+0 -9 Td
+(0004: import { TECHGEN_NEW_APPLICATION_COPY } from "@/lib/constants/new-application";) Tj
+0 -9 Td
+(0005: ) Tj
+0 -9 Td
+(0006: export default function TechGenNewApplicationPage\(\) {) Tj
+0 -9 Td
+(0007:   return \() Tj
+0 -9 Td
+(0008:     <NewApplicationFlow) Tj
+0 -9 Td
+(0009:       startApplicationPath="/techgen/start-application") Tj
+0 -9 Td
+(0010:       copy={TECHGEN_NEW_APPLICATION_COPY}) Tj
+0 -9 Td
+(0011:     />) Tj
+0 -9 Td
+(0012:   \);) Tj
+0 -9 Td
+(0013: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/start-application/page.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import StartApplicationPageClient from "./StartApplicationPageClient";) Tj
+0 -9 Td
+(0002: import { IpType, IP_TYPES } from "@/lib/types/ip";) Tj
+0 -9 Td
+(0003: ) Tj
+0 -9 Td
+(0004: export default async function Page\({) Tj
+0 -9 Td
+(0005:   searchParams,) Tj
+0 -9 Td
+(0006: }: {) Tj
+0 -9 Td
+(0007:   searchParams: Promise<{ ipType?: string }>;) Tj
+0 -9 Td
+(0008: }\) {) Tj
+0 -9 Td
+(0009:   const { ipType } = await searchParams;) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011:   if \(!ipType || !IP_TYPES.includes\(ipType as IpType\)\) {) Tj
+0 -9 Td
+(0012:     return \() Tj
+0 -9 Td
+(0013:       <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">) Tj
+0 -9 Td
+(0014:         Invalid IP Type. Please go back and select a valid IP Type.) Tj
+0 -9 Td
+(0015:       </div>) Tj
+0 -9 Td
+(0016:     \);) Tj
+0 -9 Td
+(0017:   }) Tj
+0 -9 Td
+(0018: ) Tj
+0 -9 Td
+(0019:   return <StartApplicationPageClient ipType={ipType as IpType} />;) Tj
+0 -9 Td
+(0020: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/start-application/StartApplicationPageClient.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import { useEffect, useState } from "react";) Tj
+0 -9 Td
+(0004: import { useRouter } from "next/navigation";) Tj
+0 -9 Td
+(0005: import { AttachmentType, InventorType } from "@/lib/types/application";) Tj
+0 -9 Td
+(0006: import { IpType } from "@/lib/types/ip";) Tj
+0 -9 Td
+(0007: import { FUNDING_SOURCE_OPTIONS } from "@/lib/constants/funding-sources";) Tj
+0 -9 Td
+(0008: import useAddVerifiedInventorsModal from "@/hooks/useAddVerifiedInventorModal";) Tj
+0 -9 Td
+(0009: import { useCreateApplication } from "@/hooks/applications/useCreateApplication";) Tj
+0 -9 Td
+(0010: import { useUploadFile } from "@/hooks/attachments/useUploadFile";) Tj
+0 -9 Td
+(0011: import { useAtomValue } from "jotai";) Tj
+0 -9 Td
+(0012: import { userAtom } from "@/atom-states/user";) Tj
+0 -9 Td
+(0013: import { useConfirm } from "@/hooks/useConfirm";) Tj
+0 -9 Td
+(0014: ) Tj
+0 -9 Td
+(0015: import { Input } from "@/components/ui/input";) Tj
+0 -9 Td
+(0016: import { ScrollArea } from "@/components/ui/scroll-area";) Tj
+0 -9 Td
+(0017: import {) Tj
+0 -9 Td
+(0018:   Select,) Tj
+0 -9 Td
+(0019:   SelectContent,) Tj
+0 -9 Td
+(0020:   SelectItem,) Tj
+0 -9 Td
+(0021:   SelectTrigger,) Tj
+0 -9 Td
+(0022:   SelectValue,) Tj
+0 -9 Td
+(0023: } from "@/components/ui/select";) Tj
+0 -9 Td
+(0024: import FileUploader from "@/components/common/FileUploader";) Tj
+0 -9 Td
+(0025: import { ArrowLeft, X, VerifiedIcon, Loader } from "lucide-react";) Tj
+0 -9 Td
+(0026: import { Button } from "@/components/ui/button";) Tj
+0 -9 Td
+(0027: import Hint from "@/components/common/Tooltip";) Tj
+0 -9 Td
+(0028: import { toast } from "sonner";) Tj
+0 -9 Td
+(0029: ) Tj
+0 -9 Td
+(0030: type ExtendedAttachmentType = AttachmentType["Insert"] & {) Tj
+0 -9 Td
+(0031:   fileObject?: File;) Tj
+0 -9 Td
+(0032: };) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 4152 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(FIRST 10 SOURCE PAGES | Source page 4 of 51) Tj
+0 -14 Td
+(0033: ) Tj
+0 -9 Td
+(0034: interface StartApplicationPageClientProps {) Tj
+0 -9 Td
+(0035:   ipType: IpType;) Tj
+0 -9 Td
+(0036: }) Tj
+0 -9 Td
+(0037: ) Tj
+0 -9 Td
+(0038: export default function StartApplicationPageClient\({) Tj
+0 -9 Td
+(0039:   ipType,) Tj
+0 -9 Td
+(0040: }: StartApplicationPageClientProps\) {) Tj
+0 -9 Td
+(0041:   const router = useRouter\(\);) Tj
+0 -9 Td
+(0042:   const confirm = useConfirm\(\);) Tj
+0 -9 Td
+(0043:   const { isLoading: isCreatingApp, createApp } = useCreateApplication\(\);) Tj
+0 -9 Td
+(0044:   const { isLoading: isUploadingFiles, uploadFile } = useUploadFile\(\);) Tj
+0 -9 Td
+(0045:   const {) Tj
+0 -9 Td
+(0046:     isOpen: isAddVerifiedInventorModalOpen,) Tj
+0 -9 Td
+(0047:     inventor,) Tj
+0 -9 Td
+(0048:     openModal: openAddVerifiedInventorModal,) Tj
+0 -9 Td
+(0049:     setExcludedUIDs,) Tj
+0 -9 Td
+(0050:   } = useAddVerifiedInventorsModal\(\);) Tj
+0 -9 Td
+(0051:   const user = useAtomValue\(userAtom\);) Tj
+0 -9 Td
+(0052:   const [fileItems, setFileItems] = useState<ExtendedAttachmentType[]>\([]\);) Tj
+0 -9 Td
+(0053:   const [inventors, setInventors] = useState<InventorType["Insert"][]>\([]\);) Tj
+0 -9 Td
+(0054:   const [projectTitle, setProjectTitle] = useState\(""\);) Tj
+0 -9 Td
+(0055:   const [fundingSource, setFundingSource] = useState\(""\);) Tj
+0 -9 Td
+(0056:   const [otherFundingSource, setOtherFundingSource] = useState\(""\);) Tj
+0 -9 Td
+(0057:   const isOtherFundingSource = fundingSource === "Others";) Tj
+0 -9 Td
+(0058:   const resolvedFundingSource = isOtherFundingSource) Tj
+0 -9 Td
+(0059:     ? otherFundingSource.trim\(\)) Tj
+0 -9 Td
+(0060:     : fundingSource.trim\(\);) Tj
+0 -9 Td
+(0061: ) Tj
+0 -9 Td
+(0062:   function handleBack\(\) {) Tj
+0 -9 Td
+(0063:     router.back\(\);) Tj
+0 -9 Td
+(0064:   }) Tj
+0 -9 Td
+(0065: ) Tj
+0 -9 Td
+(0066:   function removeInventor\(index: number, techgenId: string | undefined | null\) {) Tj
+0 -9 Td
+(0067:     if \(techgenId === user?.id\) return;) Tj
+0 -9 Td
+(0068:     setInventors\(\(prev\) => prev.filter\(\(_, i\) => i !== index\)\);) Tj
+0 -9 Td
+(0069:     if \(techgenId\) {) Tj
+0 -9 Td
+(0070:       setExcludedUIDs\(\(prev\) => prev.filter\(\(id\) => id !== techgenId\)\);) Tj
+0 -9 Td
+(0071:     }) Tj
+0 -9 Td
+(0072:   }) Tj
+0 -9 Td
+(0073: ) Tj
+0 -9 Td
+(0074:   function addInventor\(\) {) Tj
+0 -9 Td
+(0075:     openAddVerifiedInventorModal\(\);) Tj
+0 -9 Td
+(0076:   }) Tj
+0 -9 Td
+(0077: ) Tj
+0 -9 Td
+(0078:   async function handleSubmit\(\) {) Tj
+0 -9 Td
+(0079:     const isConfirmed = await confirm\({) Tj
+0 -9 Td
+(0080:       title: "Confirm Submission",) Tj
+0 -9 Td
+(0081:       message:) Tj
+0 -9 Td
+(0082:         "Are you sure you want to submit this application? Please ensure that all details are correct before ) Tj
+0 -9 Td
+(      | confirming.",) Tj
+0 -9 Td
+(0083:     }\);) Tj
+0 -9 Td
+(0084: ) Tj
+0 -9 Td
+(0085:     if \(!isConfirmed\) return;) Tj
+0 -9 Td
+(0086:     if \(projectTitle.trim\(\) === "" || resolvedFundingSource === ""\) return;) Tj
+0 -9 Td
+(0087: ) Tj
+0 -9 Td
+(0088:     toast.promise\(createAndUpload\(\), {) Tj
+0 -9 Td
+(0089:       error: \(e: Error\) => {) Tj
+0 -9 Td
+(0090:         if \(e.message.includes\("inventors_application_id_email_key"\)\) {) Tj
+0 -9 Td
+(0091:           return "Error: Duplicate email address. Please remove the duplicate collaborator and try again.";) Tj
+0 -9 Td
+(0092:         }) Tj
+0 -9 Td
+(0093:         return "Failed to create application. Please check the instructions and try again.";) Tj
+0 -9 Td
+(0094:       },) Tj
+0 -9 Td
+(0095:     }\);) Tj
+0 -9 Td
+(0096:   }) Tj
+0 -9 Td
+(0097: ) Tj
+0 -9 Td
+(0098:   async function createAndUpload\(\) {) Tj
+0 -9 Td
+(0099:     if \(user === null || user === undefined\) {) Tj
+0 -9 Td
+(0100:       throw new Error\("User information is not available."\);) Tj
+0 -9 Td
+(0101:     }) Tj
+0 -9 Td
+(0102: ) Tj
+0 -9 Td
+(0103:     const collaboratorInventors = inventors.filter\() Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 3577 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(FIRST 10 SOURCE PAGES | Source page 5 of 51) Tj
+0 -14 Td
+(0104:       \(inventorItem\) => inventorItem.techgen_id !== user.id,) Tj
+0 -9 Td
+(0105:     \);) Tj
+0 -9 Td
+(0106: ) Tj
+0 -9 Td
+(0107:     const appId = await createApp\({) Tj
+0 -9 Td
+(0108:       applicationData: {) Tj
+0 -9 Td
+(0109:         project_title: projectTitle,) Tj
+0 -9 Td
+(0110:         ip_type: ipType,) Tj
+0 -9 Td
+(0111:         funding_source: resolvedFundingSource,) Tj
+0 -9 Td
+(0112:       },) Tj
+0 -9 Td
+(0113:       inventorsData: collaboratorInventors,) Tj
+0 -9 Td
+(0114:     }\);) Tj
+0 -9 Td
+(0115: ) Tj
+0 -9 Td
+(0116:     await handleUpload\(appId, fileItems\);) Tj
+0 -9 Td
+(0117:     router.push\(`/techgen/view-application?applicationID=${appId}`\);) Tj
+0 -9 Td
+(0118:   }) Tj
+0 -9 Td
+(0119: ) Tj
+0 -9 Td
+(0120:   async function handleUpload\() Tj
+0 -9 Td
+(0121:     appId: string,) Tj
+0 -9 Td
+(0122:     fileItems: ExtendedAttachmentType[],) Tj
+0 -9 Td
+(0123:   \) {) Tj
+0 -9 Td
+(0124:     for \(const item of fileItems\) {) Tj
+0 -9 Td
+(0125:       await uploadFile\() Tj
+0 -9 Td
+(0126:         { file: item, appId },) Tj
+0 -9 Td
+(0127:         {) Tj
+0 -9 Td
+(0128:           onSettled: handleSettled,) Tj
+0 -9 Td
+(0129:         },) Tj
+0 -9 Td
+(0130:       \);) Tj
+0 -9 Td
+(0131:     }) Tj
+0 -9 Td
+(0132:   }) Tj
+0 -9 Td
+(0133: ) Tj
+0 -9 Td
+(0134:   function handleSettled\(\) {) Tj
+0 -9 Td
+(0135:     setFileItems\(\(prev\) => {) Tj
+0 -9 Td
+(0136:       const remainingItems = prev.filter\(\(_, index\) => index !== 0\);) Tj
+0 -9 Td
+(0137:       return remainingItems;) Tj
+0 -9 Td
+(0138:     }\);) Tj
+0 -9 Td
+(0139:   }) Tj
+0 -9 Td
+(0140: ) Tj
+0 -9 Td
+(0141:   useEffect\(\(\) => {) Tj
+0 -9 Td
+(0142:     if \(inventor === null\) return;) Tj
+0 -9 Td
+(0143: ) Tj
+0 -9 Td
+(0144:     setInventors\(\(prev\) => [...prev, inventor]\);) Tj
+0 -9 Td
+(0145: ) Tj
+0 -9 Td
+(0146:     if \(inventor.techgen_id !== undefined && inventor.techgen_id !== null\) {) Tj
+0 -9 Td
+(0147:       setExcludedUIDs\(\(prev\) => [...prev, inventor.techgen_id as string]\);) Tj
+0 -9 Td
+(0148:     }) Tj
+0 -9 Td
+(0149:     // eslint-disable-next-line react-hooks/exhaustive-deps) Tj
+0 -9 Td
+(0150:   }, [inventor, isAddVerifiedInventorModalOpen]\);) Tj
+0 -9 Td
+(0151: ) Tj
+0 -9 Td
+(0152:   useEffect\(\(\) => {) Tj
+0 -9 Td
+(0153:     if \(user === null || user === undefined\) return;) Tj
+0 -9 Td
+(0154:     setInventors\(\(prev\) => {) Tj
+0 -9 Td
+(0155:       const hasCurrentUser = prev.some\() Tj
+0 -9 Td
+(0156:         \(inventorItem\) => inventorItem.techgen_id === user.id,) Tj
+0 -9 Td
+(0157:       \);) Tj
+0 -9 Td
+(0158: ) Tj
+0 -9 Td
+(0159:       if \(hasCurrentUser\) return prev;) Tj
+0 -9 Td
+(0160: ) Tj
+0 -9 Td
+(0161:       return [) Tj
+0 -9 Td
+(0162:         {) Tj
+0 -9 Td
+(0163:           application_id: "",) Tj
+0 -9 Td
+(0164:           techgen_id: user.id,) Tj
+0 -9 Td
+(0165:           full_name: user.full_name,) Tj
+0 -9 Td
+(0166:           email: user.email,) Tj
+0 -9 Td
+(0167:           college_code: user.college_code,) Tj
+0 -9 Td
+(0168:           other_college_name: user.other_college_name,) Tj
+0 -9 Td
+(0169:           external_institution: user.external_institution,) Tj
+0 -9 Td
+(0170:           status: "member",) Tj
+0 -9 Td
+(0171:         },) Tj
+0 -9 Td
+(0172:         ...prev,) Tj
+0 -9 Td
+(0173:       ];) Tj
+0 -9 Td
+(0174:     }\);) Tj
+0 -9 Td
+(0175:     setExcludedUIDs\(\(prev\) =>) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Length 4067 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(FIRST 10 SOURCE PAGES | Source page 6 of 51) Tj
+0 -14 Td
+(0176:       prev.includes\(user.id\) ? prev : [...prev, user.id],) Tj
+0 -9 Td
+(0177:     \);) Tj
+0 -9 Td
+(0178:     // eslint-disable-next-line react-hooks/exhaustive-deps) Tj
+0 -9 Td
+(0179:   }, [user]\);) Tj
+0 -9 Td
+(0180: ) Tj
+0 -9 Td
+(0181:   if \(user === null || user === undefined\) {) Tj
+0 -9 Td
+(0182:     return \() Tj
+0 -9 Td
+(0183:       <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">) Tj
+0 -9 Td
+(0184:         <span className="text-lg font-medium">Loading user information...</span>) Tj
+0 -9 Td
+(0185:         <Loader className="animate-spin" />) Tj
+0 -9 Td
+(0186:       </div>) Tj
+0 -9 Td
+(0187:     \);) Tj
+0 -9 Td
+(0188:   }) Tj
+0 -9 Td
+(0189: ) Tj
+0 -9 Td
+(0190:   if \(isCreatingApp\) {) Tj
+0 -9 Td
+(0191:     return \() Tj
+0 -9 Td
+(0192:       <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">) Tj
+0 -9 Td
+(0193:         <span className="text-lg font-medium">Creating application...</span>) Tj
+0 -9 Td
+(0194:         <Loader className="animate-spin" />) Tj
+0 -9 Td
+(0195:       </div>) Tj
+0 -9 Td
+(0196:     \);) Tj
+0 -9 Td
+(0197:   }) Tj
+0 -9 Td
+(0198: ) Tj
+0 -9 Td
+(0199:   if \(isUploadingFiles\) {) Tj
+0 -9 Td
+(0200:     return \() Tj
+0 -9 Td
+(0201:       <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">) Tj
+0 -9 Td
+(0202:         <span className="text-lg font-medium">Uploading files...</span>) Tj
+0 -9 Td
+(0203:         <Loader className="animate-spin" />) Tj
+0 -9 Td
+(0204:       </div>) Tj
+0 -9 Td
+(0205:     \);) Tj
+0 -9 Td
+(0206:   }) Tj
+0 -9 Td
+(0207: ) Tj
+0 -9 Td
+(0208:   return \() Tj
+0 -9 Td
+(0209:     <div className="flex justify-center">) Tj
+0 -9 Td
+(0210:       <div className="relative mx-auto max-w-6xl space-y-6 px-4 py-8">) Tj
+0 -9 Td
+(0211:         <button) Tj
+0 -9 Td
+(0212:           type="button") Tj
+0 -9 Td
+(0213:           onClick={handleBack}) Tj
+0 -9 Td
+(0214:           aria-label="Return to previous page") Tj
+0 -9 Td
+(0215:           className="absolute top-8 left-0 inline-flex h-9 w-9 items-center justify-center rounded-full border ) Tj
+0 -9 Td
+(      | border-slate-200 bg-white hover:bg-slate-50 focus:outline-none") Tj
+0 -9 Td
+(0216:         >) Tj
+0 -9 Td
+(0217:           <ArrowLeft size={18} className="text-slate-700" />) Tj
+0 -9 Td
+(0218:         </button>) Tj
+0 -9 Td
+(0219: ) Tj
+0 -9 Td
+(0220:         <header>) Tj
+0 -9 Td
+(0221:           <h1 className="mb-4 px-12 text-3xl font-semibold">) Tj
+0 -9 Td
+(0222:             Fill-up application details) Tj
+0 -9 Td
+(0223:           </h1>) Tj
+0 -9 Td
+(0224:         </header>) Tj
+0 -9 Td
+(0225: ) Tj
+0 -9 Td
+(0226:         <div>) Tj
+0 -9 Td
+(0227:           <h2 className="text-2xl font-medium">A. Information Details</h2>) Tj
+0 -9 Td
+(0228:           <p className="mt-1 text-lg text-slate-500">) Tj
+0 -9 Td
+(0229:             Provide the title of your research or project. If there is a funding) Tj
+0 -9 Td
+(0230:             source for this IP, please indicate it here.) Tj
+0 -9 Td
+(0231:           </p>) Tj
+0 -9 Td
+(0232:         </div>) Tj
+0 -9 Td
+(0233: ) Tj
+0 -9 Td
+(0234:         <span className="text-lg font-medium">) Tj
+0 -9 Td
+(0235:           Research/Project title <span className="text-red-500">*</span>) Tj
+0 -9 Td
+(0236:         </span>) Tj
+0 -9 Td
+(0237:         <Input) Tj
+0 -9 Td
+(0238:           placeholder="e.g., A study on the effectiveness of IRIS in managing intellectual property") Tj
+0 -9 Td
+(0239:           className="mt-1 h-12 text-lg!") Tj
+0 -9 Td
+(0240:           value={projectTitle}) Tj
+0 -9 Td
+(0241:           onChange={\(e\) => {) Tj
+0 -9 Td
+(0242:             setProjectTitle\(e.target.value\);) Tj
+0 -9 Td
+(0243:           }}) Tj
+0 -9 Td
+(0244:         />) Tj
+0 -9 Td
+(0245: ) Tj
+0 -9 Td
+(0246:         <label className="flex w-full flex-col gap-1">) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 12 0 R >>
+endobj
+14 0 obj
+<< /Length 4211 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(FIRST 10 SOURCE PAGES | Source page 7 of 51) Tj
+0 -14 Td
+(0247:           <span className="text-lg font-medium">) Tj
+0 -9 Td
+(0248:             Funding source <span className="text-red-500">*</span>) Tj
+0 -9 Td
+(0249:           </span>) Tj
+0 -9 Td
+(0250:           <Select) Tj
+0 -9 Td
+(0251:             value={fundingSource}) Tj
+0 -9 Td
+(0252:             onValueChange={\(value\) => {) Tj
+0 -9 Td
+(0253:               setFundingSource\(value\);) Tj
+0 -9 Td
+(0254:               if \(value !== "Others"\) {) Tj
+0 -9 Td
+(0255:                 setOtherFundingSource\(""\);) Tj
+0 -9 Td
+(0256:               }) Tj
+0 -9 Td
+(0257:             }}) Tj
+0 -9 Td
+(0258:           >) Tj
+0 -9 Td
+(0259:             <SelectTrigger className="mt-1 h-12 w-full text-left text-base sm:text-lg">) Tj
+0 -9 Td
+(0260:               <SelectValue placeholder="Select funding source" />) Tj
+0 -9 Td
+(0261:             </SelectTrigger>) Tj
+0 -9 Td
+(0262: ) Tj
+0 -9 Td
+(0263:             <SelectContent) Tj
+0 -9 Td
+(0264:               position="popper") Tj
+0 -9 Td
+(0265:               side="bottom") Tj
+0 -9 Td
+(0266:               className="z-9999 max-h-60 overflow-y-auto") Tj
+0 -9 Td
+(0267:             >) Tj
+0 -9 Td
+(0268:               {FUNDING_SOURCE_OPTIONS.map\(\(option\) => \() Tj
+0 -9 Td
+(0269:                 <SelectItem) Tj
+0 -9 Td
+(0270:                   key={option}) Tj
+0 -9 Td
+(0271:                   value={option}) Tj
+0 -9 Td
+(0272:                   className="cursor-pointer") Tj
+0 -9 Td
+(0273:                 >) Tj
+0 -9 Td
+(0274:                   {option}) Tj
+0 -9 Td
+(0275:                 </SelectItem>) Tj
+0 -9 Td
+(0276:               \)\)}) Tj
+0 -9 Td
+(0277:             </SelectContent>) Tj
+0 -9 Td
+(0278:           </Select>) Tj
+0 -9 Td
+(0279:         </label>) Tj
+0 -9 Td
+(0280: ) Tj
+0 -9 Td
+(0281:         {isOtherFundingSource && \() Tj
+0 -9 Td
+(0282:           <label className="flex w-full flex-col gap-1">) Tj
+0 -9 Td
+(0283:             <span className="text-lg font-medium">) Tj
+0 -9 Td
+(0284:               Other funding source <span className="text-red-500">*</span>) Tj
+0 -9 Td
+(0285:             </span>) Tj
+0 -9 Td
+(0286:             <Input) Tj
+0 -9 Td
+(0287:               placeholder="Type the funding source") Tj
+0 -9 Td
+(0288:               className="mt-1 h-12 text-lg!") Tj
+0 -9 Td
+(0289:               value={otherFundingSource}) Tj
+0 -9 Td
+(0290:               onChange={\(e\) => {) Tj
+0 -9 Td
+(0291:                 setOtherFundingSource\(e.target.value\);) Tj
+0 -9 Td
+(0292:               }}) Tj
+0 -9 Td
+(0293:             />) Tj
+0 -9 Td
+(0294:           </label>) Tj
+0 -9 Td
+(0295:         \)}) Tj
+0 -9 Td
+(0296: ) Tj
+0 -9 Td
+(0297:         <div>) Tj
+0 -9 Td
+(0298:           <h2 className="text-2xl font-medium">B. Collaborators</h2>) Tj
+0 -9 Td
+(0299:           <p className="mt-1 text-lg text-slate-500">) Tj
+0 -9 Td
+(0300:             List all the collaborators for this application.{" "}) Tj
+0 -9 Td
+(0301:             <b>You are automatically listed</b> as a technology generator so) Tj
+0 -9 Td
+(0302:             exclude yourself from this list.) Tj
+0 -9 Td
+(0303:           </p>) Tj
+0 -9 Td
+(0304:         </div>) Tj
+0 -9 Td
+(0305: ) Tj
+0 -9 Td
+(0306:         <ScrollArea className="h-[300px] rounded-md border p-2 pr-4">) Tj
+0 -9 Td
+(0307:           {inventors.length === 0 && \() Tj
+0 -9 Td
+(0308:             <div className="text-muted-foreground mt-28 flex h-full w-full items-center justify-center text-) Tj
+0 -9 Td
+(      | center text-lg">) Tj
+0 -9 Td
+(0309:               No technology generator collaborators added yet.) Tj
+0 -9 Td
+(0310:             </div>) Tj
+0 -9 Td
+(0311:           \)}) Tj
+0 -9 Td
+(0312: ) Tj
+0 -9 Td
+(0313:           {inventors.map\(\(inventor, index\) => \() Tj
+0 -9 Td
+(0314:             <div) Tj
+0 -9 Td
+(0315:               key={index + inventor.full_name}) Tj
+0 -9 Td
+(0316:               className="bg-card text-card-foreground mb-2 flex flex-col gap-2 rounded-lg border p-3 shadow-sm") Tj
+0 -9 Td
+(0317:             >) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 14 0 R >>
+endobj
+16 0 obj
+<< /Length 4613 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(FIRST 10 SOURCE PAGES | Source page 8 of 51) Tj
+0 -14 Td
+(0318:               <div className="flex items-start justify-between gap-3">) Tj
+0 -9 Td
+(0319:                 <div className="flex flex-col items-start gap-1 overflow-hidden">) Tj
+0 -9 Td
+(0320:                   <span className="block truncate text-lg font-medium">) Tj
+0 -9 Td
+(0321:                     {inventor.full_name}) Tj
+0 -9 Td
+(0322:                   </span>) Tj
+0 -9 Td
+(0323: ) Tj
+0 -9 Td
+(0324:                   <div className="text-muted-foreground text-md">) Tj
+0 -9 Td
+(0325:                     {inventor.email}) Tj
+0 -9 Td
+(0326:                   </div>) Tj
+0 -9 Td
+(0327: ) Tj
+0 -9 Td
+(0328:                   <div className="flex flex-row items-center gap-2 align-middle text-sky-700">) Tj
+0 -9 Td
+(0329:                     <Hint) Tj
+0 -9 Td
+(0330:                       label={) Tj
+0 -9 Td
+(0331:                         inventor.external_institution ??) Tj
+0 -9 Td
+(0332:                         inventor.college_code ??) Tj
+0 -9 Td
+(0333:                         inventor.other_college_name ??) Tj
+0 -9 Td
+(0334:                         "") Tj
+0 -9 Td
+(0335:                       }) Tj
+0 -9 Td
+(0336:                     >) Tj
+0 -9 Td
+(0337:                       <span className="block max-w-32 truncate rounded-full bg-slate-100 px-2 py-0.5 text-sm ) Tj
+0 -9 Td
+(      | font-medium text-slate-700 uppercase">) Tj
+0 -9 Td
+(0338:                         {inventor.external_institution ??) Tj
+0 -9 Td
+(0339:                           inventor.college_code ??) Tj
+0 -9 Td
+(0340:                           inventor.other_college_name}) Tj
+0 -9 Td
+(0341:                       </span>) Tj
+0 -9 Td
+(0342:                     </Hint>) Tj
+0 -9 Td
+(0343: ) Tj
+0 -9 Td
+(0344:                     {inventor.techgen_id !== undefined &&) Tj
+0 -9 Td
+(0345:                       inventor.techgen_id !== null && \() Tj
+0 -9 Td
+(0346:                         <div className="flex flex-row items-center gap-2 px-2 align-middle text-sm font-medium ) Tj
+0 -9 Td
+(      | text-sky-700">) Tj
+0 -9 Td
+(0347:                           {inventor.techgen_id === user.id ? "You" : "Verified"}) Tj
+0 -9 Td
+(0348:                           <VerifiedIcon size={20} />) Tj
+0 -9 Td
+(0349:                         </div>) Tj
+0 -9 Td
+(0350:                       \)}) Tj
+0 -9 Td
+(0351:                   </div>) Tj
+0 -9 Td
+(0352:                 </div>) Tj
+0 -9 Td
+(0353: ) Tj
+0 -9 Td
+(0354:                 <Button) Tj
+0 -9 Td
+(0355:                   variant="ghost") Tj
+0 -9 Td
+(0356:                   size="icon") Tj
+0 -9 Td
+(0357:                   className="text-muted-foreground hover:text-destructive h-8 w-8") Tj
+0 -9 Td
+(0358:                   onClick={\(\) => removeInventor\(index, inventor.techgen_id\)}) Tj
+0 -9 Td
+(0359:                   disabled={inventor.techgen_id === user.id}) Tj
+0 -9 Td
+(0360:                 >) Tj
+0 -9 Td
+(0361:                   <X className="h-4 w-4" />) Tj
+0 -9 Td
+(0362:                 </Button>) Tj
+0 -9 Td
+(0363:               </div>) Tj
+0 -9 Td
+(0364:             </div>) Tj
+0 -9 Td
+(0365:           \)\)}) Tj
+0 -9 Td
+(0366:         </ScrollArea>) Tj
+0 -9 Td
+(0367: ) Tj
+0 -9 Td
+(0368:         <button) Tj
+0 -9 Td
+(0369:           type="button") Tj
+0 -9 Td
+(0370:           onClick={addInventor}) Tj
+0 -9 Td
+(0371:           className="h-10 w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold ) Tj
+0 -9 Td
+(      | text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300") Tj
+0 -9 Td
+(0372:         >) Tj
+0 -9 Td
+(0373:           List technology generator collaborators) Tj
+0 -9 Td
+(0374:         </button>) Tj
+0 -9 Td
+(0375: ) Tj
+0 -9 Td
+(0376:         <div>) Tj
+0 -9 Td
+(0377:           <h2 className="text-2xl font-medium">C. Relevant attachments</h2>) Tj
+0 -9 Td
+(0378:           <p className="mt-1 text-lg text-slate-500">) Tj
+0 -9 Td
+(0379:             <span className="block">) Tj
+0 -9 Td
+(0380:               Please attach only <b>one \(1\) PDF file</b> containing the) Tj
+0 -9 Td
+(0381:               following information:) Tj
+0 -9 Td
+(0382:             </span>) Tj
+0 -9 Td
+(0383:             <span className="mt-2 block">) Tj
+0 -9 Td
+(0384:               \(1\) The appropriate disclosure form) Tj
+0 -9 Td
+(0385:               <br />) Tj
+0 -9 Td
+(0386:               \(2\) Any relevant supporting documents \(e.g., research paper,) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 16 0 R >>
+endobj
+18 0 obj
+<< /Length 3978 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(FIRST 10 SOURCE PAGES | Source page 9 of 51) Tj
+0 -14 Td
+(0387:               prototype design, copyright material, images, figures, etc.\)) Tj
+0 -9 Td
+(0388:             </span>) Tj
+0 -9 Td
+(0389:             <span className="mt-2 block">) Tj
+0 -9 Td
+(0390:               Compile or merge into <b>one \(1\) PDF file</b> and upload here.) Tj
+0 -9 Td
+(0391:             </span>) Tj
+0 -9 Td
+(0392:           </p>) Tj
+0 -9 Td
+(0393:         </div>) Tj
+0 -9 Td
+(0394: ) Tj
+0 -9 Td
+(0395:         <div className="flex w-full justify-center p-4">) Tj
+0 -9 Td
+(0396:           <FileUploader) Tj
+0 -9 Td
+(0397:             items={fileItems}) Tj
+0 -9 Td
+(0398:             setItems={setFileItems}) Tj
+0 -9 Td
+(0399:             maxFileCount={1}) Tj
+0 -9 Td
+(0400:             acceptedFileTypes={{) Tj
+0 -9 Td
+(0401:               "application/pdf": [".pdf"],) Tj
+0 -9 Td
+(0402:             }}) Tj
+0 -9 Td
+(0403:           />) Tj
+0 -9 Td
+(0404:         </div>) Tj
+0 -9 Td
+(0405: ) Tj
+0 -9 Td
+(0406:         <button) Tj
+0 -9 Td
+(0407:           type="button") Tj
+0 -9 Td
+(0408:           onClick={handleSubmit}) Tj
+0 -9 Td
+(0409:           disabled={) Tj
+0 -9 Td
+(0410:             projectTitle.trim\(\) === "" ||) Tj
+0 -9 Td
+(0411:             resolvedFundingSource === "" ||) Tj
+0 -9 Td
+(0412:             fileItems.length === 0) Tj
+0 -9 Td
+(0413:           }) Tj
+0 -9 Td
+(0414:           className="h-10 w-full items-center rounded-md bg-sky-600 px-4 py-2 text-center text-sm font-semibold ) Tj
+0 -9 Td
+(      | text-white shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300") Tj
+0 -9 Td
+(0415:         >) Tj
+0 -9 Td
+(0416:           Submit Application) Tj
+0 -9 Td
+(0417:         </button>) Tj
+0 -9 Td
+(0418:       </div>) Tj
+0 -9 Td
+(0419:     </div>) Tj
+0 -9 Td
+(0420:   \);) Tj
+0 -9 Td
+(0421: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/view-application/page.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import TechgenViewApplicationPageClient from "./TechgenViewApplicationPageClient";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: interface TechgenViewApplicationPageProps {) Tj
+0 -9 Td
+(0004:   searchParams: Promise<{) Tj
+0 -9 Td
+(0005:     applicationID?: string;) Tj
+0 -9 Td
+(0006:   }>;) Tj
+0 -9 Td
+(0007: }) Tj
+0 -9 Td
+(0008: ) Tj
+0 -9 Td
+(0009: export default async function TechgenViewApplicationPage\({) Tj
+0 -9 Td
+(0010:   searchParams,) Tj
+0 -9 Td
+(0011: }: TechgenViewApplicationPageProps\) {) Tj
+0 -9 Td
+(0012:   const params = await searchParams;) Tj
+0 -9 Td
+(0013:   const applicationId = params.applicationID ?? "";) Tj
+0 -9 Td
+(0014: ) Tj
+0 -9 Td
+(0015:   return <TechgenViewApplicationPageClient applicationId={applicationId} />;) Tj
+0 -9 Td
+(0016: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/view-application/TechgenViewApplicationPageClient.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import ApplicationView from "@/components/application/ApplicationView";) Tj
+0 -9 Td
+(0004: import { useGetAppById } from "@/hooks/applications/useGetApplicationById";) Tj
+0 -9 Td
+(0005: import { Loader } from "lucide-react";) Tj
+0 -9 Td
+(0006: ) Tj
+0 -9 Td
+(0007: interface TechgenViewApplicationPageClientProps {) Tj
+0 -9 Td
+(0008:   applicationId: string;) Tj
+0 -9 Td
+(0009: }) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011: function TechgenViewApplicationPageClient\({) Tj
+0 -9 Td
+(0012:   applicationId,) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 18 0 R >>
+endobj
+20 0 obj
+<< /Length 3387 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(FIRST 10 SOURCE PAGES | Source page 10 of 51) Tj
+0 -14 Td
+(0013: }: TechgenViewApplicationPageClientProps\) {) Tj
+0 -9 Td
+(0014:   const { application, isLoading, isFetched } = useGetAppById\({) Tj
+0 -9 Td
+(0015:     appId: applicationId,) Tj
+0 -9 Td
+(0016:   }\);) Tj
+0 -9 Td
+(0017: ) Tj
+0 -9 Td
+(0018:   if \(\(isLoading || !isFetched\) && !application\) {) Tj
+0 -9 Td
+(0019:     return \() Tj
+0 -9 Td
+(0020:       <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">) Tj
+0 -9 Td
+(0021:         Fetching Application...) Tj
+0 -9 Td
+(0022:         <Loader className="animate-spin" />) Tj
+0 -9 Td
+(0023:       </div>) Tj
+0 -9 Td
+(0024:     \);) Tj
+0 -9 Td
+(0025:   }) Tj
+0 -9 Td
+(0026: ) Tj
+0 -9 Td
+(0027:   if \(!application\) {) Tj
+0 -9 Td
+(0028:     return \() Tj
+0 -9 Td
+(0029:       <div className="flex w-full flex-1 flex-row items-center justify-center gap-2">) Tj
+0 -9 Td
+(0030:         Application not found.) Tj
+0 -9 Td
+(0031:       </div>) Tj
+0 -9 Td
+(0032:     \);) Tj
+0 -9 Td
+(0033:   }) Tj
+0 -9 Td
+(0034: ) Tj
+0 -9 Td
+(0035:   return <ApplicationView mode="applicant" initialApplication={application} />;) Tj
+0 -9 Td
+(0036: }) Tj
+0 -9 Td
+(0037: ) Tj
+0 -9 Td
+(0038: export default TechgenViewApplicationPageClient;) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/components/techgen/MetricsTechgen.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import React, { useMemo } from "react";) Tj
+0 -9 Td
+(0004: import {) Tj
+0 -9 Td
+(0005:   FileText,) Tj
+0 -9 Td
+(0006:   Send,) Tj
+0 -9 Td
+(0007:   Clock3,) Tj
+0 -9 Td
+(0008:   CheckCircle2,) Tj
+0 -9 Td
+(0009:   Undo2,) Tj
+0 -9 Td
+(0010:   ArrowDown,) Tj
+0 -9 Td
+(0011:   Shield,) Tj
+0 -9 Td
+(0012:   Shapes,) Tj
+0 -9 Td
+(0013:   Palette,) Tj
+0 -9 Td
+(0014:   BadgeCheck,) Tj
+0 -9 Td
+(0015:   Copyright,) Tj
+0 -9 Td
+(0016:   Inbox,) Tj
+0 -9 Td
+(0017:   CalendarRange,) Tj
+0 -9 Td
+(0018:   Layers3,) Tj
+0 -9 Td
+(0019: } from "lucide-react";) Tj
+0 -9 Td
+(0020: import { useGetDashboardAnalyticsTechgen } from "@/hooks/views/useGetDashboardAnalyticsTechgen";) Tj
+0 -9 Td
+(0021: import { STATUS_ORDER } from "@/lib/dashboard/dashboard-summary";) Tj
+0 -9 Td
+(0022: import { IpType, IP_TYPES } from "@/lib/types/ip";) Tj
+0 -9 Td
+(0023: import { ipTypeToTitle } from "@/lib/helper/get-ip-title";) Tj
+0 -9 Td
+(0024: ) Tj
+0 -9 Td
+(0025: type MetricCardProps = {) Tj
+0 -9 Td
+(0026:   title: string;) Tj
+0 -9 Td
+(0027:   value: number;) Tj
+0 -9 Td
+(0028:   subtitle?: string;) Tj
+0 -9 Td
+(0029:   icon: React.ElementType;) Tj
+0 -9 Td
+(0030:   emptyText?: string;) Tj
+0 -9 Td
+(0031:   isEmpty?: boolean;) Tj
+0 -9 Td
+(0032: };) Tj
+0 -9 Td
+(0033: ) Tj
+0 -9 Td
+(0034: function MetricCard\({) Tj
+0 -9 Td
+(0035:   title,) Tj
+0 -9 Td
+(0036:   value,) Tj
+0 -9 Td
+(0037:   subtitle,) Tj
+0 -9 Td
+(0038:   icon: Icon,) Tj
+0 -9 Td
+(0039:   emptyText = "No data yet",) Tj
+0 -9 Td
+(0040:   isEmpty = false,) Tj
+0 -9 Td
+(0041: }: MetricCardProps\) {) Tj
+0 -9 Td
+(0042:   return \() Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+21 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 20 0 R >>
+endobj
+22 0 obj
+<< /Length 4101 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(LAST 10 SOURCE PAGES | Source page 42 of 51) Tj
+0 -14 Td
+(0591:             variant="outline") Tj
+0 -9 Td
+(0592:             size="sm") Tj
+0 -9 Td
+(0593:             onClick={\(\) => handlePageChange\(currentPage - 1\)}) Tj
+0 -9 Td
+(0594:             disabled={currentPage === 1}) Tj
+0 -9 Td
+(0595:           >) Tj
+0 -9 Td
+(0596:             Previous) Tj
+0 -9 Td
+(0597:           </Button>) Tj
+0 -9 Td
+(0598:           <div className="flex gap-2">) Tj
+0 -9 Td
+(0599:             {generatePagination\(currentPage, totalPages\).map\(\(page, i\) =>) Tj
+0 -9 Td
+(0600:               page === "..." ? \() Tj
+0 -9 Td
+(0601:                 <span) Tj
+0 -9 Td
+(0602:                   key={`ellipsis-${i}-${page}`}) Tj
+0 -9 Td
+(0603:                   className="flex h-8 w-8 items-center justify-center text-sm text-gray-500") Tj
+0 -9 Td
+(0604:                 >) Tj
+0 -9 Td
+(0605:                   ...) Tj
+0 -9 Td
+(0606:                 </span>) Tj
+0 -9 Td
+(0607:               \) : \() Tj
+0 -9 Td
+(0608:                 <Button) Tj
+0 -9 Td
+(0609:                   key={page.toString\(\) + "-page-button"}) Tj
+0 -9 Td
+(0610:                   variant={currentPage === page ? "primary" : "outline"}) Tj
+0 -9 Td
+(0611:                   size="sm") Tj
+0 -9 Td
+(0612:                   onClick={\(\) => handlePageChange\(page as number\)}) Tj
+0 -9 Td
+(0613:                 >) Tj
+0 -9 Td
+(0614:                   {page}) Tj
+0 -9 Td
+(0615:                 </Button>) Tj
+0 -9 Td
+(0616:               \),) Tj
+0 -9 Td
+(0617:             \)}) Tj
+0 -9 Td
+(0618:           </div>) Tj
+0 -9 Td
+(0619:           <Button) Tj
+0 -9 Td
+(0620:             variant="outline") Tj
+0 -9 Td
+(0621:             size="sm") Tj
+0 -9 Td
+(0622:             onClick={\(\) => handlePageChange\(currentPage + 1\)}) Tj
+0 -9 Td
+(0623:             disabled={currentPage === totalPages}) Tj
+0 -9 Td
+(0624:           >) Tj
+0 -9 Td
+(0625:             Next) Tj
+0 -9 Td
+(0626:           </Button>) Tj
+0 -9 Td
+(0627:         </div>) Tj
+0 -9 Td
+(0628:       \)}) Tj
+0 -9 Td
+(0629:     </div>) Tj
+0 -9 Td
+(0630:   \);) Tj
+0 -9 Td
+(0631: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/components/common/ApplicationGuidePage.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import ApplicationFlowChart from "@/components/common/ApplicationFlowChart";) Tj
+0 -9 Td
+(0004: import CallToAction from "@/components/common/CallToAction";) Tj
+0 -9 Td
+(0005: import ApplicationGuide from "./ApplicationGuide";) Tj
+0 -9 Td
+(0006: ) Tj
+0 -9 Td
+(0007: interface ApplicationGuidePageProps {) Tj
+0 -9 Td
+(0008:   isApplicant?: boolean;) Tj
+0 -9 Td
+(0009: }) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011: export default function ApplicationGuidePage\(props: ApplicationGuidePageProps\) {) Tj
+0 -9 Td
+(0012:   const { isApplicant = false } = props;) Tj
+0 -9 Td
+(0013: ) Tj
+0 -9 Td
+(0014:   return \() Tj
+0 -9 Td
+(0015:     <div className="space-y-6">) Tj
+0 -9 Td
+(0016:       <section className="max-w-3xl">) Tj
+0 -9 Td
+(0017:         <p className="text-sm font-medium text-blue-700">Getting started</p>) Tj
+0 -9 Td
+(0018:         <h1 className="mt-1 text-2xl font-semibold text-slate-900 sm:text-3xl">) Tj
+0 -9 Td
+(0019:           Application Guide) Tj
+0 -9 Td
+(0020:         </h1>) Tj
+0 -9 Td
+(0021:         <p className="mt-2 text-sm text-slate-600 sm:text-base">) Tj
+0 -9 Td
+(0022:           Learn the basic steps, required documents, and process flow before) Tj
+0 -9 Td
+(0023:           applying for IP protection through IRIS.) Tj
+0 -9 Td
+(0024:         </p>) Tj
+0 -9 Td
+(0025:       </section>) Tj
+0 -9 Td
+(0026: ) Tj
+0 -9 Td
+(0027:       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax\(0,1fr\)_320px]">) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+23 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 22 0 R >>
+endobj
+24 0 obj
+<< /Length 4294 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(LAST 10 SOURCE PAGES | Source page 43 of 51) Tj
+0 -14 Td
+(0028:         <ApplicationGuide />) Tj
+0 -9 Td
+(0029: ) Tj
+0 -9 Td
+(0030:         <aside className="space-y-4">) Tj
+0 -9 Td
+(0031:           <CallToAction) Tj
+0 -9 Td
+(0032:             title={isApplicant ? "Ready to begin?" : "Ready to apply?"}) Tj
+0 -9 Td
+(0033:             description={) Tj
+0 -9 Td
+(0034:               isApplicant) Tj
+0 -9 Td
+(0035:                 ? "Start a new IP application once you?re ready.") Tj
+0 -9 Td
+(0036:                 : "Sign in to IRIS when you?re ready to begin your application.") Tj
+0 -9 Td
+(0037:             }) Tj
+0 -9 Td
+(0038:             primaryLabel={) Tj
+0 -9 Td
+(0039:               isApplicant) Tj
+0 -9 Td
+(0040:                 ? "Start a New IP Application") Tj
+0 -9 Td
+(0041:                 : "Apply for IP Protection") Tj
+0 -9 Td
+(0042:             }) Tj
+0 -9 Td
+(0043:             primaryHref={isApplicant ? "/techgen/new-application" : "/signin"}) Tj
+0 -9 Td
+(0044:             showSecondaryButton={false}) Tj
+0 -9 Td
+(0045:           />) Tj
+0 -9 Td
+(0046:         </aside>) Tj
+0 -9 Td
+(0047:       </div>) Tj
+0 -9 Td
+(0048: ) Tj
+0 -9 Td
+(0049:       <ApplicationFlowChart />) Tj
+0 -9 Td
+(0050:     </div>) Tj
+0 -9 Td
+(0051:   \);) Tj
+0 -9 Td
+(0052: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/components/common/ApplicationDocuments.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import { useState } from "react";) Tj
+0 -9 Td
+(0004: import clsx from "clsx";) Tj
+0 -9 Td
+(0005: import { CircleHelp, ShieldCheck } from "lucide-react";) Tj
+0 -9 Td
+(0006: ) Tj
+0 -9 Td
+(0007: import CallToAction from "@/components/common/CallToAction";) Tj
+0 -9 Td
+(0008: import DisclosureFormActions from "@/components/application/DisclosureFormActions";) Tj
+0 -9 Td
+(0009: import { ipTypeToTitle } from "@/lib/helper/get-ip-title";) Tj
+0 -9 Td
+(0010: import { IpType, IP_TYPES } from "@/lib/types/ip";) Tj
+0 -9 Td
+(0011: import { cn } from "@/lib/utils";) Tj
+0 -9 Td
+(0012: import Button from "../ui/button/Button";) Tj
+0 -9 Td
+(0013: ) Tj
+0 -9 Td
+(0014: interface PropsInterface {) Tj
+0 -9 Td
+(0015:   isApplicant?: boolean;) Tj
+0 -9 Td
+(0016:   isAdmin?: boolean;) Tj
+0 -9 Td
+(0017: }) Tj
+0 -9 Td
+(0018: ) Tj
+0 -9 Td
+(0019: export default function ApplicationDocuments\(props: PropsInterface\) {) Tj
+0 -9 Td
+(0020:   const { isApplicant = true, isAdmin = false } = props;) Tj
+0 -9 Td
+(0021:   const [activeIpType, setActiveIpType] = useState<IpType>\("patent"\);) Tj
+0 -9 Td
+(0022: ) Tj
+0 -9 Td
+(0023:   return \() Tj
+0 -9 Td
+(0024:     <div className="space-y-6">) Tj
+0 -9 Td
+(0025:       <section className="max-w-3xl">) Tj
+0 -9 Td
+(0026:         <p className="text-sm font-medium text-blue-700">Document hub</p>) Tj
+0 -9 Td
+(0027:         <h1 className="mt-1 text-2xl font-semibold text-slate-900 sm:text-3xl">) Tj
+0 -9 Td
+(0028:           Application Documents) Tj
+0 -9 Td
+(0029:         </h1>) Tj
+0 -9 Td
+(0030:         <p className="mt-2 text-sm text-slate-600 sm:text-base">) Tj
+0 -9 Td
+(0031:           Browse forms and reference files by IP type before starting your) Tj
+0 -9 Td
+(0032:           application in IRIS.) Tj
+0 -9 Td
+(0033:         </p>) Tj
+0 -9 Td
+(0034:       </section>) Tj
+0 -9 Td
+(0035: ) Tj
+0 -9 Td
+(0036:       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax\(0,1fr\)_320px]">) Tj
+0 -9 Td
+(0037:         <section className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-6">) Tj
+0 -9 Td
+(0038:           <div className="rounded-2xl bg-slate-100 p-1.5">) Tj
+0 -9 Td
+(0039:             <div className="flex gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] ) Tj
+0 -9 Td
+(      | [&::-webkit-scrollbar]:hidden">) Tj
+0 -9 Td
+(0040:               {IP_TYPES.map\(\(ipType\) => {) Tj
+0 -9 Td
+(0041:                 const isActive = ipType === activeIpType;) Tj
+0 -9 Td
+(0042: ) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+25 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 24 0 R >>
+endobj
+26 0 obj
+<< /Length 4332 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(LAST 10 SOURCE PAGES | Source page 44 of 51) Tj
+0 -14 Td
+(0043:                 return \() Tj
+0 -9 Td
+(0044:                   <button) Tj
+0 -9 Td
+(0045:                     key={ipType}) Tj
+0 -9 Td
+(0046:                     type="button") Tj
+0 -9 Td
+(0047:                     onClick={\(\) => setActiveIpType\(ipType\)}) Tj
+0 -9 Td
+(0048:                     className={clsx\() Tj
+0 -9 Td
+(0049:                       "shrink-0 rounded-xl px-4 py-2.5 text-sm font-medium whitespace-nowrap transition",) Tj
+0 -9 Td
+(0050:                       isActive) Tj
+0 -9 Td
+(0051:                         ? "bg-white text-blue-700 ring-1 ring-blue-100 ring-inset") Tj
+0 -9 Td
+(0052:                         : "text-slate-600 hover:bg-white/70 hover:text-slate-900",) Tj
+0 -9 Td
+(0053:                     \)}) Tj
+0 -9 Td
+(0054:                   >) Tj
+0 -9 Td
+(0055:                     {ipTypeToTitle\(ipType\)}) Tj
+0 -9 Td
+(0056:                   </button>) Tj
+0 -9 Td
+(0057:                 \);) Tj
+0 -9 Td
+(0058:               }\)}) Tj
+0 -9 Td
+(0059:             </div>) Tj
+0 -9 Td
+(0060:           </div>) Tj
+0 -9 Td
+(0061: ) Tj
+0 -9 Td
+(0062:           <div className="mt-5">) Tj
+0 -9 Td
+(0063:             <DisclosureFormActions) Tj
+0 -9 Td
+(0064:               title={ipTypeToTitle\(activeIpType\)}) Tj
+0 -9 Td
+(0065:               description="") Tj
+0 -9 Td
+(0066:               finalIpType={activeIpType}) Tj
+0 -9 Td
+(0067:               canManageFiles={isAdmin}) Tj
+0 -9 Td
+(0068:               showHeader={false}) Tj
+0 -9 Td
+(0069:               showProceed={false}) Tj
+0 -9 Td
+(0070:               showFooterNote={false}) Tj
+0 -9 Td
+(0071:               filesTitle={null}) Tj
+0 -9 Td
+(0072:             />) Tj
+0 -9 Td
+(0073:           </div>) Tj
+0 -9 Td
+(0074:         </section>) Tj
+0 -9 Td
+(0075: ) Tj
+0 -9 Td
+(0076:         <aside) Tj
+0 -9 Td
+(0077:           className={`space-y-4 ${isApplicant ? "" : "flex flex-col-reverse justify-end gap-2"}`}) Tj
+0 -9 Td
+(0078:         >) Tj
+0 -9 Td
+(0079:           {isApplicant && \() Tj
+0 -9 Td
+(0080:             <CallToAction) Tj
+0 -9 Td
+(0081:               title="Ready to begin?") Tj
+0 -9 Td
+(0082:               description="Start a new IP application once you?re ready.") Tj
+0 -9 Td
+(0083:               primaryLabel="Start a New IP Application") Tj
+0 -9 Td
+(0084:               primaryHref="/techgen/new-application") Tj
+0 -9 Td
+(0085:               showSecondaryButton={false}) Tj
+0 -9 Td
+(0086:             />) Tj
+0 -9 Td
+(0087:           \)}) Tj
+0 -9 Td
+(0088: ) Tj
+0 -9 Td
+(0089:           <section className="rounded-3xl border border-slate-200 bg-white p-5">) Tj
+0 -9 Td
+(0090:             <div className="flex items-center gap-2">) Tj
+0 -9 Td
+(0091:               <div className="rounded-xl bg-slate-100 p-2">) Tj
+0 -9 Td
+(0092:                 <ShieldCheck className="h-5 w-5 text-slate-700" />) Tj
+0 -9 Td
+(0093:               </div>) Tj
+0 -9 Td
+(0094:               <h2 className="text-base font-semibold text-slate-900">) Tj
+0 -9 Td
+(0095:                 Reminders) Tj
+0 -9 Td
+(0096:               </h2>) Tj
+0 -9 Td
+(0097:             </div>) Tj
+0 -9 Td
+(0098: ) Tj
+0 -9 Td
+(0099:             <ul className="mt-3 space-y-2 text-sm text-slate-600">) Tj
+0 -9 Td
+(0100:               <li>Use files that match your selected IP type.</li>) Tj
+0 -9 Td
+(0101:               <li>Check the forms before filling them out.</li>) Tj
+0 -9 Td
+(0102:               <li>Prepare complete supporting requirements early.</li>) Tj
+0 -9 Td
+(0103:             </ul>) Tj
+0 -9 Td
+(0104:           </section>) Tj
+0 -9 Td
+(0105: ) Tj
+0 -9 Td
+(0106:           {!isAdmin && \() Tj
+0 -9 Td
+(0107:             <section) Tj
+0 -9 Td
+(0108:               className={cn\() Tj
+0 -9 Td
+(0109:                 "bg-white p-5 transition-all duration-300",) Tj
+0 -9 Td
+(0110:                 isApplicant) Tj
+0 -9 Td
+(0111:                   ? // Applying our new custom class from globals.css) Tj
+0 -9 Td
+(0112:                     "rounded-3xl border border-slate-200") Tj
+0 -9 Td
+(0113:                   : "animate-sky-pulse rounded-3xl border-2",) Tj
+0 -9 Td
+(0114:               \)}) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+27 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 26 0 R >>
+endobj
+28 0 obj
+<< /Length 4236 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(LAST 10 SOURCE PAGES | Source page 45 of 51) Tj
+0 -14 Td
+(0115:             >) Tj
+0 -9 Td
+(0116:               <div className="flex items-center gap-2">) Tj
+0 -9 Td
+(0117:                 <div className="rounded-xl bg-slate-100 p-2">) Tj
+0 -9 Td
+(0118:                   <CircleHelp className="h-5 w-5 text-slate-700" />) Tj
+0 -9 Td
+(0119:                 </div>) Tj
+0 -9 Td
+(0120:                 <h2 className="text-base font-semibold text-slate-900">) Tj
+0 -9 Td
+(0121:                   Need help?) Tj
+0 -9 Td
+(0122:                 </h2>) Tj
+0 -9 Td
+(0123:               </div>) Tj
+0 -9 Td
+(0124: ) Tj
+0 -9 Td
+(0125:               <p className="mt-3 text-sm text-slate-600">) Tj
+0 -9 Td
+(0126:                 {isApplicant) Tj
+0 -9 Td
+(0127:                   ? "You can review the files here first, then use the application wizard when you are ready to ) Tj
+0 -9 Td
+(      | begin.") Tj
+0 -9 Td
+(0128:                   : "You can review the files here to get familiar with the application process. You can also ) Tj
+0 -9 Td
+(      | check out the application wizard to find out which IP type is right for you."}) Tj
+0 -9 Td
+(0129:               </p>) Tj
+0 -9 Td
+(0130:               {!isApplicant && \() Tj
+0 -9 Td
+(0131:                 <Button) Tj
+0 -9 Td
+(0132:                   size="md") Tj
+0 -9 Td
+(0133:                   variant="primary") Tj
+0 -9 Td
+(0134:                   onClick={\(\) => {) Tj
+0 -9 Td
+(0135:                     globalThis.location.href = "/wizard";) Tj
+0 -9 Td
+(0136:                   }}) Tj
+0 -9 Td
+(0137:                   className="mt-4 w-full flex-1") Tj
+0 -9 Td
+(0138:                 >) Tj
+0 -9 Td
+(0139:                   Use Application Wizard) Tj
+0 -9 Td
+(0140:                 </Button>) Tj
+0 -9 Td
+(0141:               \)}) Tj
+0 -9 Td
+(0142:             </section>) Tj
+0 -9 Td
+(0143:           \)}) Tj
+0 -9 Td
+(0144:         </aside>) Tj
+0 -9 Td
+(0145:       </div>) Tj
+0 -9 Td
+(0146:     </div>) Tj
+0 -9 Td
+(0147:   \);) Tj
+0 -9 Td
+(0148: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/components/common/ViewAllNotifications.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import { useState } from "react";) Tj
+0 -9 Td
+(0004: import { useGetNotifications } from "@/hooks/notifications/useGetNotifications";) Tj
+0 -9 Td
+(0005: import { useMarkAsRead } from "@/hooks/notifications/useMarkAsRead";) Tj
+0 -9 Td
+(0006: import { formatDateTime, formatTime } from "@/lib/helper/format-date";) Tj
+0 -9 Td
+(0007: import { getNotificationApplicationLink } from "@/lib/helper/get-notification-application-link";) Tj
+0 -9 Td
+(0008: import { isToday } from "date-fns";) Tj
+0 -9 Td
+(0009: import Button from "@/components/ui/button/Button";) Tj
+0 -9 Td
+(0010: import { useRouter } from "next/navigation";) Tj
+0 -9 Td
+(0011: ) Tj
+0 -9 Td
+(0012: type FilterType = "all" | "unread" | "read";) Tj
+0 -9 Td
+(0013: ) Tj
+0 -9 Td
+(0014: interface ViewAllNotificationsProps {) Tj
+0 -9 Td
+(0015:   isAdmin?: boolean;) Tj
+0 -9 Td
+(0016: }) Tj
+0 -9 Td
+(0017: ) Tj
+0 -9 Td
+(0018: export default function ViewAllNotifications\(props: ViewAllNotificationsProps\) {) Tj
+0 -9 Td
+(0019:   const { isAdmin = false } = props;) Tj
+0 -9 Td
+(0020:   const { notifications, isLoading, isFetching } = useGetNotifications\(\);) Tj
+0 -9 Td
+(0021:   const {) Tj
+0 -9 Td
+(0022:     markNotificationAsRead,) Tj
+0 -9 Td
+(0023:     markAllNotifcationsAsRead,) Tj
+0 -9 Td
+(0024:     isMarkingOne,) Tj
+0 -9 Td
+(0025:     isMarkingAll,) Tj
+0 -9 Td
+(0026:   } = useMarkAsRead\(\);) Tj
+0 -9 Td
+(0027: ) Tj
+0 -9 Td
+(0028:   const [filter, setFilter] = useState<FilterType>\("all"\);) Tj
+0 -9 Td
+(0029:   const router = useRouter\(\);) Tj
+0 -9 Td
+(0030: ) Tj
+0 -9 Td
+(0031:   const unreadCount =) Tj
+0 -9 Td
+(0032:     notifications?.filter\(\(n\) => n.read_at === null\).length ?? 0;) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+29 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 28 0 R >>
+endobj
+30 0 obj
+<< /Length 4162 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(LAST 10 SOURCE PAGES | Source page 46 of 51) Tj
+0 -14 Td
+(0033: ) Tj
+0 -9 Td
+(0034:   async function handleNotificationClick\() Tj
+0 -9 Td
+(0035:     notifId: string,) Tj
+0 -9 Td
+(0036:     readAt: null | string,) Tj
+0 -9 Td
+(0037:     applicationId: string | null,) Tj
+0 -9 Td
+(0038:   \) {) Tj
+0 -9 Td
+(0039:     if \(!readAt\) {) Tj
+0 -9 Td
+(0040:       await markNotificationAsRead\({ notifId }\);) Tj
+0 -9 Td
+(0041:     }) Tj
+0 -9 Td
+(0042: ) Tj
+0 -9 Td
+(0043:     const href = getNotificationApplicationLink\(applicationId, isAdmin\);) Tj
+0 -9 Td
+(0044:     if \(href\) router.push\(href\);) Tj
+0 -9 Td
+(0045:   }) Tj
+0 -9 Td
+(0046: ) Tj
+0 -9 Td
+(0047:   async function markAllAsRead\(\) {) Tj
+0 -9 Td
+(0048:     const unread = notifications?.filter\(\(n\) => n.read_at === null\) ?? [];) Tj
+0 -9 Td
+(0049:     if \(unread.length === 0\) return;) Tj
+0 -9 Td
+(0050: ) Tj
+0 -9 Td
+(0051:     await markAllNotifcationsAsRead\(unread\);) Tj
+0 -9 Td
+(0052:   }) Tj
+0 -9 Td
+(0053: ) Tj
+0 -9 Td
+(0054:   const filtered = notifications?.filter\(\(n\) => {) Tj
+0 -9 Td
+(0055:     if \(filter === "unread"\) return n.read_at === null;) Tj
+0 -9 Td
+(0056:     if \(filter === "read"\) return n.read_at !== null;) Tj
+0 -9 Td
+(0057:     return true;) Tj
+0 -9 Td
+(0058:   }\);) Tj
+0 -9 Td
+(0059: ) Tj
+0 -9 Td
+(0060:   return \() Tj
+0 -9 Td
+(0061:     <div className="min-h-screen w-full bg-white px-6 py-8 transition-colors sm:px-8 lg:px-12">) Tj
+0 -9 Td
+(0062:       <div className="mx-auto max-w-3xl">) Tj
+0 -9 Td
+(0063:         <div className="xsm:flex-row relative mb-6 flex flex-col items-start justify-between gap-2">) Tj
+0 -9 Td
+(0064:           <div className="xsm:gap-6 flex flex-row gap-4 sm:gap-10">) Tj
+0 -9 Td
+(0065:             <button) Tj
+0 -9 Td
+(0066:               onClick={\(\) => router.back\(\)}) Tj
+0 -9 Td
+(0067:               className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-) Tj
+0 -9 Td
+(      | gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-50 lg:absolute lg:-left-20 lg:mb-0") Tj
+0 -9 Td
+(0068:               aria-label="Back") Tj
+0 -9 Td
+(0069:               title="Back") Tj
+0 -9 Td
+(0070:             >) Tj
+0 -9 Td
+(0071:               <svg) Tj
+0 -9 Td
+(0072:                 width="18") Tj
+0 -9 Td
+(0073:                 height="18") Tj
+0 -9 Td
+(0074:                 viewBox="0 0 24 24") Tj
+0 -9 Td
+(0075:                 fill="none") Tj
+0 -9 Td
+(0076:                 xmlns="http://www.w3.org/2000/svg") Tj
+0 -9 Td
+(0077:               >) Tj
+0 -9 Td
+(0078:                 <path) Tj
+0 -9 Td
+(0079:                   d="M19 12H5M5 12L12 19M5 12L12 5") Tj
+0 -9 Td
+(0080:                   stroke="currentColor") Tj
+0 -9 Td
+(0081:                   strokeWidth="2") Tj
+0 -9 Td
+(0082:                   strokeLinecap="round") Tj
+0 -9 Td
+(0083:                   strokeLinejoin="round") Tj
+0 -9 Td
+(0084:                 />) Tj
+0 -9 Td
+(0085:               </svg>) Tj
+0 -9 Td
+(0086:             </button>) Tj
+0 -9 Td
+(0087: ) Tj
+0 -9 Td
+(0088:             <div>) Tj
+0 -9 Td
+(0089:               <h1 className="text-2xl font-semibold text-gray-900">) Tj
+0 -9 Td
+(0090:                 Notifications) Tj
+0 -9 Td
+(0091:               </h1>) Tj
+0 -9 Td
+(0092: ) Tj
+0 -9 Td
+(0093:               <div className="mt-1 flex items-center gap-2">) Tj
+0 -9 Td
+(0094:                 {unreadCount > 0 ? \() Tj
+0 -9 Td
+(0095:                   <p className="text-sm text-gray-500">{unreadCount} unread</p>) Tj
+0 -9 Td
+(0096:                 \) : \() Tj
+0 -9 Td
+(0097:                   <p className="text-sm text-gray-500">All caught up</p>) Tj
+0 -9 Td
+(0098:                 \)}) Tj
+0 -9 Td
+(0099: ) Tj
+0 -9 Td
+(0100:                 {!isLoading && isFetching && \() Tj
+0 -9 Td
+(0101:                   <>) Tj
+0 -9 Td
+(0102:                     <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-gray-300) Tj
+0 -9 Td
+(      |  border-t-gray-500" />) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+31 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 30 0 R >>
+endobj
+32 0 obj
+<< /Length 4449 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(LAST 10 SOURCE PAGES | Source page 47 of 51) Tj
+0 -14 Td
+(0103:                     <span className="text-xs text-gray-400">Refreshing...</span>) Tj
+0 -9 Td
+(0104:                   </>) Tj
+0 -9 Td
+(0105:                 \)}) Tj
+0 -9 Td
+(0106:               </div>) Tj
+0 -9 Td
+(0107:             </div>) Tj
+0 -9 Td
+(0108:           </div>) Tj
+0 -9 Td
+(0109: ) Tj
+0 -9 Td
+(0110:           {unreadCount > 0 ? \() Tj
+0 -9 Td
+(0111:             <Button) Tj
+0 -9 Td
+(0112:               size="sm") Tj
+0 -9 Td
+(0113:               variant="primary") Tj
+0 -9 Td
+(0114:               onClick={markAllAsRead}) Tj
+0 -9 Td
+(0115:               disabled={isMarkingAll || notifications?.length === 0}) Tj
+0 -9 Td
+(0116:             >) Tj
+0 -9 Td
+(0117:               {isMarkingAll ? "Marking all as read..." : "Mark all as read"}) Tj
+0 -9 Td
+(0118:             </Button>) Tj
+0 -9 Td
+(0119:           \) : \() Tj
+0 -9 Td
+(0120:             <div className="w-px" />) Tj
+0 -9 Td
+(0121:           \)}) Tj
+0 -9 Td
+(0122:         </div>) Tj
+0 -9 Td
+(0123: ) Tj
+0 -9 Td
+(0124:         <div className="mb-4">) Tj
+0 -9 Td
+(0125:           <div className="inline-flex w-full rounded-xl border border-gray-200 bg-gray-50 p-1">) Tj
+0 -9 Td
+(0126:             {\(["all", "unread", "read"] as FilterType[]\).map\(\(tab\) => {) Tj
+0 -9 Td
+(0127:               const active = filter === tab;) Tj
+0 -9 Td
+(0128: ) Tj
+0 -9 Td
+(0129:               return \() Tj
+0 -9 Td
+(0130:                 <button) Tj
+0 -9 Td
+(0131:                   key={tab}) Tj
+0 -9 Td
+(0132:                   onClick={\(\) => setFilter\(tab\)}) Tj
+0 -9 Td
+(0133:                   disabled={isLoading}) Tj
+0 -9 Td
+(0134:                   className={[) Tj
+0 -9 Td
+(0135:                     "relative flex-1 overflow-visible rounded-lg px-3 py-2 text-sm font-semibold capitalize ) Tj
+0 -9 Td
+(      | transition",) Tj
+0 -9 Td
+(0136:                     "focus:ring-2 focus:ring-gray-200 focus:ring-offset-1 focus:outline-none",) Tj
+0 -9 Td
+(0137:                     active) Tj
+0 -9 Td
+(0138:                       ? "bg-white text-gray-900 shadow-sm") Tj
+0 -9 Td
+(0139:                       : "text-gray-600 hover:text-gray-900",) Tj
+0 -9 Td
+(0140:                     isLoading ? "cursor-not-allowed opacity-60" : "",) Tj
+0 -9 Td
+(0141:                   ].join\(" "\)}) Tj
+0 -9 Td
+(0142:                 >) Tj
+0 -9 Td
+(0143:                   {tab}) Tj
+0 -9 Td
+(0144: ) Tj
+0 -9 Td
+(0145:                   {tab === "unread" && unreadCount > 0 && \() Tj
+0 -9 Td
+(0146:                     <span className="absolute -top-1 right-1 flex h-5 min-w-[20px] animate-pulse items-center ) Tj
+0 -9 Td
+(      | justify-center rounded-full bg-orange-500 px-1 text-xs leading-none font-semibold text-white shadow-sm">) Tj
+0 -9 Td
+(0147:                       {unreadCount}) Tj
+0 -9 Td
+(0148:                     </span>) Tj
+0 -9 Td
+(0149:                   \)}) Tj
+0 -9 Td
+(0150:                 </button>) Tj
+0 -9 Td
+(0151:               \);) Tj
+0 -9 Td
+(0152:             }\)}) Tj
+0 -9 Td
+(0153:           </div>) Tj
+0 -9 Td
+(0154:         </div>) Tj
+0 -9 Td
+(0155: ) Tj
+0 -9 Td
+(0156:         <ul className="flex flex-col gap-2">) Tj
+0 -9 Td
+(0157:           {isLoading ? \() Tj
+0 -9 Td
+(0158:             [...Array\(5\)].map\(\(_, i\) => \() Tj
+0 -9 Td
+(0159:               <li) Tj
+0 -9 Td
+(0160:                 key={i}) Tj
+0 -9 Td
+(0161:                 className="flex animate-pulse gap-3 rounded-lg bg-gray-50 p-4 transition-colors") Tj
+0 -9 Td
+(0162:               >) Tj
+0 -9 Td
+(0163:                 <div className="h-10 w-10 rounded-full bg-gray-200" />) Tj
+0 -9 Td
+(0164:                 <div className="flex-1 space-y-2 pt-1">) Tj
+0 -9 Td
+(0165:                   <div className="h-3 w-2/3 rounded bg-gray-200" />) Tj
+0 -9 Td
+(0166:                   <div className="h-3 w-full rounded bg-gray-200" />) Tj
+0 -9 Td
+(0167:                   <div className="h-3 w-1/3 rounded bg-gray-200" />) Tj
+0 -9 Td
+(0168:                 </div>) Tj
+0 -9 Td
+(0169:               </li>) Tj
+0 -9 Td
+(0170:             \)\)) Tj
+0 -9 Td
+(0171:           \) : !filtered || filtered.length === 0 ? \() Tj
+0 -9 Td
+(0172:             <li className="flex flex-col items-center justify-center py-16 text-center">) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+33 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 32 0 R >>
+endobj
+34 0 obj
+<< /Length 4825 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(LAST 10 SOURCE PAGES | Source page 48 of 51) Tj
+0 -14 Td
+(0173:               <p className="text-sm font-medium text-gray-700">) Tj
+0 -9 Td
+(0174:                 {filter === "unread") Tj
+0 -9 Td
+(0175:                   ? "No unread notifications") Tj
+0 -9 Td
+(0176:                   : filter === "read") Tj
+0 -9 Td
+(0177:                     ? "No read notifications") Tj
+0 -9 Td
+(0178:                     : "No notifications yet"}) Tj
+0 -9 Td
+(0179:               </p>) Tj
+0 -9 Td
+(0180:               <p className="mt-1 text-sm text-gray-400">) Tj
+0 -9 Td
+(0181:                 {filter === "all") Tj
+0 -9 Td
+(0182:                   ? "You're all caught up!") Tj
+0 -9 Td
+(0183:                   : `Switch to "All" to see everything`}) Tj
+0 -9 Td
+(0184:               </p>) Tj
+0 -9 Td
+(0185:             </li>) Tj
+0 -9 Td
+(0186:           \) : \() Tj
+0 -9 Td
+(0187:             filtered.map\(\(notif\) => {) Tj
+0 -9 Td
+(0188:               const isUnread = notif.read_at === null;) Tj
+0 -9 Td
+(0189:               const isThisNotifLoading = isMarkingOne\(notif.id\);) Tj
+0 -9 Td
+(0190: ) Tj
+0 -9 Td
+(0191:               return \() Tj
+0 -9 Td
+(0192:                 <li key={notif.id}>) Tj
+0 -9 Td
+(0193:                   <Button) Tj
+0 -9 Td
+(0194:                     onClick={\(\) =>) Tj
+0 -9 Td
+(0195:                       handleNotificationClick\() Tj
+0 -9 Td
+(0196:                         notif.id,) Tj
+0 -9 Td
+(0197:                         notif.read_at,) Tj
+0 -9 Td
+(0198:                         notif.application_id,) Tj
+0 -9 Td
+(0199:                       \)) Tj
+0 -9 Td
+(0200:                     }) Tj
+0 -9 Td
+(0201:                     size="md") Tj
+0 -9 Td
+(0202:                     variant="outline") Tj
+0 -9 Td
+(0203:                     disabled={isMarkingAll || isThisNotifLoading}) Tj
+0 -9 Td
+(0204:                     className={`group w-full justify-start gap-3 p-4 text-left transition-all duration-200 ${) Tj
+0 -9 Td
+(0205:                       isUnread) Tj
+0 -9 Td
+(0206:                         ? "bg-orange-50/40 hover:bg-orange-50/60 hover:shadow-sm hover:ring-1 hover:ring-) Tj
+0 -9 Td
+(      | orange-200/70") Tj
+0 -9 Td
+(0207:                         : "bg-white hover:bg-gray-50 hover:shadow-sm hover:ring-1 hover:ring-gray-200/70") Tj
+0 -9 Td
+(0208:                     } ${) Tj
+0 -9 Td
+(0209:                       isMarkingAll || isThisNotifLoading) Tj
+0 -9 Td
+(0210:                         ? "cursor-not-allowed opacity-80") Tj
+0 -9 Td
+(0211:                         : "") Tj
+0 -9 Td
+(0212:                     }`}) Tj
+0 -9 Td
+(0213:                   >) Tj
+0 -9 Td
+(0214:                     <div className="flex w-full items-start gap-3">) Tj
+0 -9 Td
+(0215:                       <span className="mt-1.5 flex h-5 w-5 items-center justify-center">) Tj
+0 -9 Td
+(0216:                         {isThisNotifLoading ? \() Tj
+0 -9 Td
+(0217:                           <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-gray-300 ) Tj
+0 -9 Td
+(      | border-t-orange-500" />) Tj
+0 -9 Td
+(0218:                         \) : isUnread ? \() Tj
+0 -9 Td
+(0219:                           <span className="h-2 w-2 rounded-full bg-orange-500/75" />) Tj
+0 -9 Td
+(0220:                         \) : \() Tj
+0 -9 Td
+(0221:                           <span className="h-2 w-2 rounded-full border border-gray-300 bg-transparent ) Tj
+0 -9 Td
+(      | transition-colors group-hover:border-gray-400" />) Tj
+0 -9 Td
+(0222:                         \)}) Tj
+0 -9 Td
+(0223:                       </span>) Tj
+0 -9 Td
+(0224: ) Tj
+0 -9 Td
+(0225:                       <div className="min-w-0 flex-1">) Tj
+0 -9 Td
+(0226:                         <p) Tj
+0 -9 Td
+(0227:                           className={`text-sm font-semibold transition-colors ${) Tj
+0 -9 Td
+(0228:                             isUnread ? "text-gray-900" : "text-gray-800") Tj
+0 -9 Td
+(0229:                           }`}) Tj
+0 -9 Td
+(0230:                         >) Tj
+0 -9 Td
+(0231:                           {notif.title}) Tj
+0 -9 Td
+(0232:                         </p>) Tj
+0 -9 Td
+(0233: ) Tj
+0 -9 Td
+(0234:                         <p className="mt-0.5 text-sm break-words text-gray-500">) Tj
+0 -9 Td
+(0235:                           {notif.content}) Tj
+0 -9 Td
+(0236:                         </p>) Tj
+0 -9 Td
+(0237: ) Tj
+0 -9 Td
+(0238:                         {notif.application_id && \() Tj
+0 -9 Td
+(0239:                           <p className="mt-1 text-sm font-medium text-orange-600">) Tj
+0 -9 Td
+(0240:                             Open application) Tj
+0 -9 Td
+(0241:                           </p>) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+35 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 34 0 R >>
+endobj
+36 0 obj
+<< /Length 3922 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(LAST 10 SOURCE PAGES | Source page 49 of 51) Tj
+0 -14 Td
+(0242:                         \)}) Tj
+0 -9 Td
+(0243: ) Tj
+0 -9 Td
+(0244:                         <p className="mt-1 text-xs text-gray-400">) Tj
+0 -9 Td
+(0245:                           {notif.created_at &&) Tj
+0 -9 Td
+(0246:                             \(isToday\(new Date\(notif.created_at\)\)) Tj
+0 -9 Td
+(0247:                               ? `Today at ${formatTime\(notif.created_at\)}`) Tj
+0 -9 Td
+(0248:                               : formatDateTime\(notif.created_at\)\)}) Tj
+0 -9 Td
+(0249:                         </p>) Tj
+0 -9 Td
+(0250:                       </div>) Tj
+0 -9 Td
+(0251: ) Tj
+0 -9 Td
+(0252:                       {isUnread && \() Tj
+0 -9 Td
+(0253:                         <span className="mt-1 hidden shrink-0 text-xs font-semibold text-orange-500 group-) Tj
+0 -9 Td
+(      | hover:block">) Tj
+0 -9 Td
+(0254:                           {isThisNotifLoading) Tj
+0 -9 Td
+(0255:                             ? "Marking as read...") Tj
+0 -9 Td
+(0256:                             : "Mark read"}) Tj
+0 -9 Td
+(0257:                         </span>) Tj
+0 -9 Td
+(0258:                       \)}) Tj
+0 -9 Td
+(0259:                     </div>) Tj
+0 -9 Td
+(0260:                   </Button>) Tj
+0 -9 Td
+(0261:                 </li>) Tj
+0 -9 Td
+(0262:               \);) Tj
+0 -9 Td
+(0263:             }\)) Tj
+0 -9 Td
+(0264:           \)}) Tj
+0 -9 Td
+(0265:         </ul>) Tj
+0 -9 Td
+(0266:       </div>) Tj
+0 -9 Td
+(0267:     </div>) Tj
+0 -9 Td
+(0268:   \);) Tj
+0 -9 Td
+(0269: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/services/application/get-user-applications.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { supabaseClient as supabase } from "@/lib/supabase";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: export const getUserApplicationIds = async function\(\) {) Tj
+0 -9 Td
+(0004:     const { data: { user } } = await supabase.auth.getUser\(\);) Tj
+0 -9 Td
+(0005:     const userId = user?.id;) Tj
+0 -9 Td
+(0006: ) Tj
+0 -9 Td
+(0007:     if \(!userId\) {) Tj
+0 -9 Td
+(0008:         throw new Error\("Cannot find user id"\);) Tj
+0 -9 Td
+(0009:     }) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011:     const {data, error} = await supabase) Tj
+0 -9 Td
+(0012:     .schema\("private"\)) Tj
+0 -9 Td
+(0013:     .from\("inventors"\)) Tj
+0 -9 Td
+(0014:     .select\("application_id"\)) Tj
+0 -9 Td
+(0015:     .eq\("techgen_id", userId\)) Tj
+0 -9 Td
+(0016: ) Tj
+0 -9 Td
+(0017:     if \(error\) {) Tj
+0 -9 Td
+(0018:         throw new Error\(error.message\);) Tj
+0 -9 Td
+(0019:     }) Tj
+0 -9 Td
+(0020: ) Tj
+0 -9 Td
+(0021:     return data;) Tj
+0 -9 Td
+(0022: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/services/views/get-dashboard-analytics-techgen.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { supabaseClient as supabase } from "@/lib/supabase";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: export const getDashboardAnalyticsTechgen = async function \() Tj
+0 -9 Td
+(0004: \) {) Tj
+0 -9 Td
+(0005:   const { data: {user}} = await supabase.auth.getUser\(\);) Tj
+0 -9 Td
+(0006: ) Tj
+0 -9 Td
+(0007:   if \(!user\) {) Tj
+0 -9 Td
+(0008:     throw new Error\("User not found."\);) Tj
+0 -9 Td
+(0009:   }) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011:   const { data, error } = await supabase) Tj
+0 -9 Td
+(0012:     .from\("v_dashboard_analytics_techgen"\)) Tj
+0 -9 Td
+(0013:     .select\(\)) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+37 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 36 0 R >>
+endobj
+38 0 obj
+<< /Length 3807 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(LAST 10 SOURCE PAGES | Source page 50 of 51) Tj
+0 -14 Td
+(0014:     .eq\("techgen_id", user.id\)) Tj
+0 -9 Td
+(0015:     .order\("year", { ascending: false }\);) Tj
+0 -9 Td
+(0016: ) Tj
+0 -9 Td
+(0017:   if \(error\) {) Tj
+0 -9 Td
+(0018:     throw new Error\(error.message\);) Tj
+0 -9 Td
+(0019:   }) Tj
+0 -9 Td
+(0020: ) Tj
+0 -9 Td
+(0021:   return data;) Tj
+0 -9 Td
+(0022: };) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/hooks/views/useGetDashboardAnalyticsTechgen.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { getDashboardAnalyticsTechgen } from "@/services/views/get-dashboard-analytics-techgen";) Tj
+0 -9 Td
+(0002: import { useQuery } from "@tanstack/react-query";) Tj
+0 -9 Td
+(0003: ) Tj
+0 -9 Td
+(0004: export function useGetDashboardAnalyticsTechgen\() Tj
+0 -9 Td
+(0005: \) {) Tj
+0 -9 Td
+(0006:   const { data, isPending } = useQuery\({) Tj
+0 -9 Td
+(0007:     queryKey: ["dashboard-analytics-techgen"],) Tj
+0 -9 Td
+(0008:     queryFn: \(\) => getDashboardAnalyticsTechgen\(\),) Tj
+0 -9 Td
+(0009:   }\);) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011:   return { data, isLoading: isPending };) Tj
+0 -9 Td
+(0012: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/lib/roles.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: export const ROLE_CONFIG = {) Tj
+0 -9 Td
+(0002:   admin: {) Tj
+0 -9 Td
+(0003:     home: "/admin",) Tj
+0 -9 Td
+(0004:     allowedPrefixes: ["/admin"],) Tj
+0 -9 Td
+(0005:   },) Tj
+0 -9 Td
+(0006:   "up-official": {) Tj
+0 -9 Td
+(0007:     home: "/up-official",) Tj
+0 -9 Td
+(0008:     allowedPrefixes: ["/up-official"],) Tj
+0 -9 Td
+(0009:   },) Tj
+0 -9 Td
+(0010:   techgen: {) Tj
+0 -9 Td
+(0011:     home: "/techgen",) Tj
+0 -9 Td
+(0012:     allowedPrefixes: ["/techgen"],) Tj
+0 -9 Td
+(0013:   },) Tj
+0 -9 Td
+(0014: };) Tj
+0 -9 Td
+(0015: ) Tj
+0 -9 Td
+(0016: export type Role = keyof typeof ROLE_CONFIG;) Tj
+0 -9 Td
+(0017: export const VALID_ROLES = Object.keys\(ROLE_CONFIG\) as Role[];) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/lib/constants/new-application.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: export type NewApplicationFlowType = {) Tj
+0 -9 Td
+(0002:   pageTitle: string;) Tj
+0 -9 Td
+(0003:   pageSubtitle: string;) Tj
+0 -9 Td
+(0004:   startPromptTitle: string;) Tj
+0 -9 Td
+(0005:   startPromptDescription: string;) Tj
+0 -9 Td
+(0006:   wizardCardTitle: string;) Tj
+0 -9 Td
+(0007:   wizardCardDescription: string;) Tj
+0 -9 Td
+(0008:   directCardTitle: string;) Tj
+0 -9 Td
+(0009:   directCardDescription: string;) Tj
+0 -9 Td
+(0010:   directMenuTitle: string;) Tj
+0 -9 Td
+(0011:   directMenuDescription: string;) Tj
+0 -9 Td
+(0012:   defaultDetailsTitle: string;) Tj
+0 -9 Td
+(0013:   defaultDetailsDescription: string;) Tj
+0 -9 Td
+(0014:   proceedLabel: string;) Tj
+0 -9 Td
+(0015:   proceedHint: string;) Tj
+0 -9 Td
+(0016:   toastTitle: string;) Tj
+0 -9 Td
+(0017:   toastDescription: string;) Tj
+0 -9 Td
+(0018: };) Tj
+0 -9 Td
+(0019: ) Tj
+0 -9 Td
+(0020: export const TECHGEN_NEW_APPLICATION_COPY: NewApplicationFlowType = {) Tj
+0 -9 Td
+(0021:   pageTitle: "New IP Application",) Tj
+0 -9 Td
+(0022:   pageSubtitle:) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+39 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 38 0 R >>
+endobj
+40 0 obj
+<< /Length 4025 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Use Case Source Code | Source snapshot: 2026-06-10) Tj
+0 -10 Td
+(LAST 10 SOURCE PAGES | Source page 51 of 51) Tj
+0 -14 Td
+(0023:     "Start a disclosure for your research output and prepare the required forms for submission.",) Tj
+0 -9 Td
+(0024:   startPromptTitle: "How would you like to start?",) Tj
+0 -9 Td
+(0025:   startPromptDescription:) Tj
+0 -9 Td
+(0026:     "You can let IRIS recommend a form or choose one directly if you already know the protection you need.",) Tj
+0 -9 Td
+(0027:   wizardCardTitle: "Yes, guide me through it",) Tj
+0 -9 Td
+(0028:   wizardCardDescription:) Tj
+0 -9 Td
+(0029:     "IRIS will ask a few short questions and suggest the most suitable disclosure form for your work.",) Tj
+0 -9 Td
+(0030:   directCardTitle: "No, I already know what to choose",) Tj
+0 -9 Td
+(0031:   directCardDescription:) Tj
+0 -9 Td
+(0032:     "Select the disclosure form directly if you already know the protection you want.",) Tj
+0 -9 Td
+(0033:   directMenuTitle: "Choose the disclosure form to use",) Tj
+0 -9 Td
+(0034:   directMenuDescription:) Tj
+0 -9 Td
+(0035:     "These are the standard forms used for different types of protection.",) Tj
+0 -9 Td
+(0036:   defaultDetailsTitle: "Form details",) Tj
+0 -9 Td
+(0037:   defaultDetailsDescription:) Tj
+0 -9 Td
+(0038:     "Select an option or complete the guide to see more details about the recommended disclosure form.",) Tj
+0 -9 Td
+(0039:   proceedLabel: "Proceed to application",) Tj
+0 -9 Td
+(0040:   proceedHint:) Tj
+0 -9 Td
+(0041:     "You can still review and complete the submission details in the next step.",) Tj
+0 -9 Td
+(0042:   toastTitle: "How this works",) Tj
+0 -9 Td
+(0043:   toastDescription:) Tj
+0 -9 Td
+(0044:     "IRIS will help you choose a starting disclosure form. You can either answer a few quick questions or ) Tj
+0 -9 Td
+(      | directly choose the form you need. You can still update the details later during review.",) Tj
+0 -9 Td
+(0045: };) Tj
+0 -9 Td
+(0046: ) Tj
+0 -9 Td
+(0047: export const ADMIN_NEW_APPLICATION_COPY: NewApplicationFlowType = {) Tj
+0 -9 Td
+(0048:   pageTitle: "Create IP Application",) Tj
+0 -9 Td
+(0049:   pageSubtitle:) Tj
+0 -9 Td
+(0050:     "Start an IP application record and prepare the required forms for endorsement or processing.",) Tj
+0 -9 Td
+(0051:   startPromptTitle: "How would you like to begin?",) Tj
+0 -9 Td
+(0052:   startPromptDescription:) Tj
+0 -9 Td
+(0053:     "You can let IRIS recommend a form or select one directly based on the intended protection.",) Tj
+0 -9 Td
+(0054:   wizardCardTitle: "Use guided classification",) Tj
+0 -9 Td
+(0055:   wizardCardDescription:) Tj
+0 -9 Td
+(0056:     "IRIS will ask a few short questions and suggest the most suitable disclosure form for the application.",) Tj
+0 -9 Td
+(0057:   directCardTitle: "Select a form directly",) Tj
+0 -9 Td
+(0058:   directCardDescription:) Tj
+0 -9 Td
+(0059:     "Choose the disclosure form directly if the protection type is already known.",) Tj
+0 -9 Td
+(0060:   directMenuTitle: "Choose the disclosure form to use",) Tj
+0 -9 Td
+(0061:   directMenuDescription:) Tj
+0 -9 Td
+(0062:     "These are the standard forms used for different types of IP protection.",) Tj
+0 -9 Td
+(0063:   defaultDetailsTitle: "Form details",) Tj
+0 -9 Td
+(0064:   defaultDetailsDescription:) Tj
+0 -9 Td
+(0065:     "Select an option or complete the guide to view details about the recommended disclosure form.",) Tj
+0 -9 Td
+(0066:   proceedLabel: "Proceed to application record",) Tj
+0 -9 Td
+(0067:   proceedHint:) Tj
+0 -9 Td
+(0068:     "Classification and application details can still be updated during review.",) Tj
+0 -9 Td
+(0069:   toastTitle: "How this works",) Tj
+0 -9 Td
+(0070:   toastDescription:) Tj
+0 -9 Td
+(0071:     "IRIS can help classify the application through a short guided flow, or you can select the form directly if ) Tj
+0 -9 Td
+(      | the protection type is already identified.",) Tj
+0 -9 Td
+(0072: };) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-10.) Tj
+ET
+endstream
+endobj
+41 0 obj
+<< /Type /Page /Parent 42 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 40 0 R >>
+endobj
+42 0 obj
+<< /Type /Pages /Count 20 /Kids [3 0 R 5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R 21 0 R 23 0 R 25 0 R 27 0 R 29 0 R 31 0 R 33 0 R 35 0 R 37 0 R 39 0 R 41 0 R] >>
+endobj
+43 0 obj
+<< /Type /Catalog /Pages 42 0 R >>
+endobj
+xref
+0 44
+0000000000 65535 f 
+0000000015 00000 n 
+0000000083 00000 n 
+0000004338 00000 n 
+0000004465 00000 n 
+0000008715 00000 n 
+0000008842 00000 n 
+0000013163 00000 n 
+0000013290 00000 n 
+0000017494 00000 n 
+0000017621 00000 n 
+0000021251 00000 n 
+0000021380 00000 n 
+0000025500 00000 n 
+0000025629 00000 n 
+0000029893 00000 n 
+0000030022 00000 n 
+0000034688 00000 n 
+0000034817 00000 n 
+0000038848 00000 n 
+0000038977 00000 n 
+0000042417 00000 n 
+0000042546 00000 n 
+0000046700 00000 n 
+0000046829 00000 n 
+0000051176 00000 n 
+0000051305 00000 n 
+0000055690 00000 n 
+0000055819 00000 n 
+0000060108 00000 n 
+0000060237 00000 n 
+0000064452 00000 n 
+0000064581 00000 n 
+0000069083 00000 n 
+0000069212 00000 n 
+0000074090 00000 n 
+0000074219 00000 n 
+0000078194 00000 n 
+0000078323 00000 n 
+0000082183 00000 n 
+0000082312 00000 n 
+0000086390 00000 n 
+0000086519 00000 n 
+0000086708 00000 n 
+trailer
+<< /Size 44 /Root 43 0 R >>
+startxref
+86759
+%%EOF

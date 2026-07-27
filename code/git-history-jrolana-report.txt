@@ -1,0 +1,1733 @@
+Git history report for code/ authored by jrolana / Jhoanna Olana
+Generated: 2026-06-15 14:06:10 PST
+
+Author identities matched:
+Jhoanna Olana <113810517+jrolana@users.noreply.github.com>
+Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>
+jrolana <olanajhoanna@gmail.com>
+
+Summary:
+Matching commits: 252
+
+Unique files touched: 729
+
+Unique files added: 598
+
+
+Top path buckets touched:
+1047 code/src
+ 205 code/public
+ 183 code/scripts
+  48 code/components
+  32 code/app
+  18 code/deploy
+  17 code/package-lock.json
+  13 code/package.json
+  11 code/utils
+  10 code/tests
+   9 code/.gitignore
+   8 code/lib
+   6 code/next.config.ts
+   4 code/tsconfig.json
+   4 code/supabase
+   4 code/README.md
+   3 code/compose.yaml
+   2 code/tailwind.config.ts
+   2 code/postcss.config.mjs
+   2 code/middleware.ts
+   2 code/components.json
+   2 code/Dockerfile
+   2 code/.vscode
+   1 code/summary.json
+   1 code/prettier.config.js
+   1 code/postcss.config.js
+   1 code/playwright.config.ts
+   1 code/pentest.env.example
+   1 code/jsvectormap.d.ts
+   1 code/iris_pentest.sh
+   1 code/eslint.config.mjs
+   1 code/banner.png
+   1 code/LICENSE
+   1 code/.eslintrc.json
+   1 code/.env.lab.example
+   1 code/.env.lab
+   1 code/.env.example
+   1 code/.dockerignore
+
+Matching commits:
+9f79e24	2026-05-31	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] no rate limit on just frontend load
+9f041e8	2026-05-31	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Lesser rate limit
+3318c73	2026-05-31	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Applied Rate Limiting
+5896453	2026-05-31	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Tightened proof of concept api, Added baseline security headers
+3b06389	2026-05-28	jrolana <olanajhoanna@gmail.com>	[Olana][Seed] Added a techgen for every app
+a22cb4c	2026-05-28	jrolana <olanajhoanna@gmail.com>	[Olana][Seed] DB
+a17f5e2	2026-05-24	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Updated db schema type
+d95ea47	2026-05-24	jrolana <olanajhoanna@gmail.com>	[Olana][Migration] Synchronized main db changes to other db
+e7311af	2026-05-24	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into comsec
+fafc27c	2026-05-24	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Used get_user_role insteaD
+41dd8ea	2026-05-24	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added more auth fail logs
+52383f3	2026-05-23	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added auth problem logs
+47c8cf3	2026-05-23	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Signin redirect uses NEXT_PUBLIC_SITE_URL
+ab2aee8	2026-05-21	jrolana <olanajhoanna@gmail.com>	WIP on paper-final-revisions: 75dfb15 [Olana][Paper] Added pictures for req feature, Refined its description
+ce62e04	2026-05-21	jrolana <olanajhoanna@gmail.com>	removed shadow
+625a3be	2026-05-14	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] used env var for docker
+e80964f	2026-05-14	jrolana <olanajhoanna@gmail.com>	[Olana][Setup] Debian, Docker, and New Remote Copy of Orig Supabase
+a8eba4c	2026-05-14	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into comsec
+7e33059	2026-05-11	Jhoanna Olana <113810517+jrolana@users.noreply.github.com>	Potential fix for pull request finding
+2541664	2026-05-08	jrolana <olanajhoanna@gmail.com>	[Olana][Fiz] Build error fix
+a040b69	2026-05-08	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Tech gen removal adn addition UX
+18277cf	2026-05-08	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Techgen new app 1 inventor issue
+4b5d1d0	2026-05-07	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added sign in error messgae inline
+986f76c	2026-05-07	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] removed file size limit for uplaoding in public doc bucket
+524286c	2026-05-07	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Blocked related inventor edits
+46025bf	2026-05-07	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Block edits for withdrawn or downgrade to um
+6c3e526	2026-05-07	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Sort Feature
+3db210c	2026-05-07	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Audited more actions
+feb3859	2026-05-07	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Better DB Audit Trail Records, Added RLS, Better Action Taken UI
+412377c	2026-05-07	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Filter Audit Trail
+e61b3b6	2026-05-07	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Audit trail gets live data instead
+09d0ee1	2026-05-07	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Audit Trail DB
+2ed5f44	2026-04-30	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into comsec
+fa58788	2026-04-30	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] rever to auth handle
+67e42b4	2026-04-29	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Used a constant for admin email
+8917f40	2026-04-29	jrolana <olanajhoanna@gmail.com>	[Olana][Setup] Debian
+3d0fdc0	2026-04-29	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Signin Error Message, Toast Removed Delay Mount, Inserts all Invites into User Registration Request so that its the source of truth for all Auth Entry
+2478e9c	2026-04-25	Jhoanna Olana <113810517+jrolana@users.noreply.github.com>	Merge pull request #132 from jrolana/demo-revisions
+bff00e1	2026-04-25	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Used no pie ver for dashboard
+9a3589c	2026-04-25	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Dev settings last, Notice iris only uses gmail acc
+64446ef	2026-04-25	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Display number instead of bar when theres only 1 data
+feb94ef	2026-04-24	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Removed direct toggle between with and without pie chart ver
+ee6b264	2026-04-24	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] No pie chart ver for dashboard
+616e68c	2026-04-21	Jhoanna Olana <113810517+jrolana@users.noreply.github.com>	Merge pull request #128 from jrolana/last-push
+474b690	2026-04-21	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Order of Pings and Requests
+144e669	2026-04-21	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into penetration-testing
+11fb97f	2026-04-21	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] removed next url
+70307b8	2026-04-21	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] url from vercel for invite user
+f0919b6	2026-04-21	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into penetration-testing
+5081eea	2026-04-21	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Build error
+05addf9	2026-04-21	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added edge function invite_link thru cli also script to deply it for easier management
+b95e33c	2026-04-21	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] gets the metadata from registration request when there are incomplete one from auth.users, requests full user data in add new user modal
+b73c701	2026-04-20	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Handles server error component for invite users
+9a7f9ac	2026-04-20	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Better email invite format, added user role and explicit invite link
+84c1b2b	2026-04-20	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Used previous welcome page link to redirect users upon accepting invite, used prev email template, Irrelevant format chnange was caused by prettier
+c21d12e	2026-04-20	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Removed redundant db calls in invite user
+77f73ab	2026-04-20	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Node modules Fix, Invite user action fix
+6636b3d	2026-04-20	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into penetration-testing
+f1921d2	2026-04-20	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Removed csv functionality, Added the custom svg grant rate to exports
+2aa7a37	2026-04-20	jrolana <olanajhoanna@gmail.com>	[Olana] Merge with main from performance test fix
+c77aaf5	2026-04-20	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Moved watermark on top of charts
+b771b5f	2026-04-20	Jhoanna Olana <113810517+jrolana@users.noreply.github.com>	Merge pull request #120 from jrolana/performance-test-fix
+e3a4d20	2026-04-20	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Black text and Wider Area for Rejection Reason, Limit uplaod types
+feb346f	2026-04-19	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added ttbdo email
+5a0b06c	2026-04-19	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Improved Report
+3ac0e6b	2026-04-19	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Removed fullwidth
+ad648cb	2026-04-19	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added new app in techgen dashboard, Wrapped techgen/files counts in view app, Improved user schema
+56b5d4e	2026-04-19	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Signup Scrollbar and Other as Last itme in the List, Used initials as default image pic
+1a23970	2026-04-19	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] List all techgens, Retain search, Only list those with techgen role
+0b90a21	2026-04-19	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Cnetralized Role Options, Title Case for Filenames
+a236c69	2026-04-19	jrolana <olanajhoanna@gmail.com>	[Olana][Feature]Update Docs in Application Documents Page
+1ce46a2	2026-04-19	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Notifications Link to App and Removal of Techgen
+f79656f	2026-04-19	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Add User Role Change in Details and Request, Added Rejection Reason in Request
+af02be1	2026-04-17	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancemnet] gitignore in code
+07b25ab	2026-04-17	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Penetration Test
+a673c5b	2026-04-17	jrolana <olanajhoanna@gmail.com>	Merge branch 'performance-test-fix' into test-playwright-with-performance-fix
+676882f	2026-04-17	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into playwright-tests
+10bd5a4	2026-04-17	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Hydration Error
+7b1eb5c	2026-04-17	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Optimize auth pages and provider loading
+b0315ec	2026-04-16	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Image Delivery, Response Size, Restrict loading of components for public routes
+2211b39	2026-04-16	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Dynamic Imports, Lazy Load on Dashboard  and Saved role on cookie
+fdb7fc1	2026-04-16	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] SEO
+5caeeca	2026-04-16	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Handled nullable update_at for PublicResourceType
+597fa32	2026-04-16	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Removed unused public images and Added robot
+29ac8e4	2026-04-14	jrolana <olanajhoanna@gmail.com>	[Olana][Setup] Lighthouse
+dc3e88d	2026-04-09	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Modified search path to empty, Added techgenid in create_app func, Created search_user type
+7dbf4f4	2026-04-09	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Revoked guest permission and restricted return val for rpc search_users_for_linking
+60eac6a	2026-04-08	Jhoanna Olana <113810517+jrolana@users.noreply.github.com>	Apply suggestion from @Copilot
+afe5e13	2026-04-08	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Techgens only see their own applications, excluding public apps
+ad23665	2026-04-08	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added homepage link in full-width view, Added Homeroute helper, Flex-wrap buttons in App-Registry
+bab26da	2026-04-07	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Fixed unchanged layout pages from other branch - causes build errpr
+58e4c0a	2026-04-07	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into playwright-tests
+d9114da	2026-04-07	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Icon size for buttons, Notif Dropdown mt, Notif and Ping Gap
+a300f17	2026-04-07	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into fix-ui
+4dee71f	2026-04-07	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Used other_college_name as fallback for colleges
+ad58139	2026-04-07	jrolana <olanajhoanna@gmail.com>	[Olana][Test] Fixed test case script for cancelling uploads
+1c855b0	2026-04-06	jrolana <olanajhoanna@gmail.com>	[Olana][Test] Admin Use Case
+616f5d8	2026-04-06	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into playwright-tests
+431fea8	2026-04-06	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Build Issues - Added suspense/props to those that use searchParams
+89b6215	2026-04-06	jrolana <olanajhoanna@gmail.com>	[Olana][Clean] removed unused dummy data:
+8b5bccb	2026-04-06	jrolana <olanajhoanna@gmail.com>	[Olana][Clean] Clean up unused default pages/ui elements
+7be896b	2026-04-05	jrolana <olanajhoanna@gmail.com>	[Olana] Install playwright dependencies
+28b7200	2026-04-05	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into fix-last-sprint
+ade53f1	2026-04-05	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Used Project Title
+75a74ac	2026-04-03	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Revert to project title for notif basis
+74c9168	2026-04-02	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into fix-last-sprint
+2e326db	2026-04-02	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] App View UI, IP Title
+0a3df68	2026-04-02	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Moved App Details to a Modal, Changed dashboard views to only unarchived applications
+f1917cc	2026-03-28	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Bar Chart Total Issue - Removed total trend line
+4b538d7	2026-03-28	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added loading state in dashboard
+b3d147c	2026-03-28	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Better loading states for User Management Page
+51409a1	2026-03-28	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] User Management Page Removal of Action and Rename Table
+6ec312a	2026-03-28	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Notify reports to admin
+fea69d4	2026-03-28	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Notify inventors on new apps linked to them
+6a91b55	2026-03-28	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Notify on archive and withdraw
+6065c77	2026-03-28	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Loading State for Notifications - View all & Dropdown
+facb4fc	2026-03-28	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Separte loading state for mark as read for indiv notification and bulk ones
+94a2d73	2026-03-23	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Vertically centered loading icon
+be5c637	2026-03-23	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] PR #75 Comments, Also changed loader icon in toasts
+a151f42	2026-03-22	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Applicaiton Documents and Guide - UI and Docs
+76a7f7c	2026-03-22	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] New Application Relevant Files View and Download
+29def4a	2026-03-22	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] New App Files UI
+e407a7a	2026-03-22	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into dashboard-techgen
+0c55993	2026-03-22	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Recent Status Updates List and Techgen Metrics
+5b76917	2026-03-22	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] View Better Ref List
+b39d8f1	2026-03-22	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Techgen Dashboard
+cef66ee	2026-03-21	jrolana <olanajhoanna@gmail.com>	[Olana][[WIP]
+d4cae67	2026-03-14	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Export utility and View Privilege
+328901d	2026-03-14	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Changed privilege for views for guests
+4ae5551	2026-03-14	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Moved filtered data from the parent component instead on each chart, lessens load time
+713f9bf	2026-03-14	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] UI and File Structure
+e6d0d40	2026-03-14	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Fetch Users Details
+36ad8fe	2026-03-14	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Export functionality
+2074ccd	2026-03-13	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Donut CCharts, Better UI
+aa9b0bc	2026-03-13	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Dashboard Analytics Frontend, Fetch and filter by date
+5200b99	2026-03-10	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Dashboard Analytics View
+9450e25	2026-03-05	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] PR Comments
+66d7824	2026-03-04	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Date and Time Inconsistencies in DB and UI, Modal Overflow
+bbc248e	2026-03-04	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Ping - Connected to backend
+905f07d	2026-03-04	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Pings Dropdown and View All - Enhanced Pings and View All UI
+7a026db	2026-03-04	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Better Ping UI Message
+9c577b7	2026-03-04	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Ping - Admin and Client Workflow
+82d59ac	2026-03-04	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into ping
+8149f32	2026-03-03	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Better UI message for pings
+2e3131b	2026-02-27	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Ping UI
+84d90df	2026-02-27	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into ping
+478bf13	2026-02-27	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] All Notifications Page
+09c47ae	2026-02-27	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Notify users if there are still unread notifs
+d07d9ce	2026-02-21	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] handles invite link expiration, better error message
+b472a6e	2026-02-21	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] UX
+4f9b2a9	2026-02-20	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Fixed proxy and route inconsistency in handling invite link
+6ea14dc	2026-02-20	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Used proxy (middleware) to handle routes instead of a hook
+a4bd551	2026-02-20	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Stop unregistered from sign-in, Better error message for signin-errors, Used roleConfig for signin and middleware
+d519876	2026-02-19	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Approval/rejection workflow
+d7fb02c	2026-02-18	jrolana <olanajhoanna@gmail.com>	[Olana][Revision] Removed verification link flow, UI for Registration Requests
+70f8eb2	2026-02-18	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added expires_at, unique email constraint, reset values on sign up form
+a4e2ebf	2026-02-17	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Submit User Registration Request
+04c82fb	2026-02-17	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Update inventors - db policy
+630f08f	2026-02-17	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added different fields for unlisted college_dept and external_institute - made db and system change
+c6754b1	2026-02-16	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Sign-up Form UI with Validation
+79221f7	2026-02-13	Jhoanna Olana <113810517+jrolana@users.noreply.github.com>	Merge pull request #62 from jrolana/view-application
+88f0e5d	2026-02-12	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Fixed Filing/Registration Date Issue and Better Notif Message
+2f93639	2026-02-12	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Allow admin to edit registration/filing date manually, Made inline edit text consistent with view mode
+63139e3	2026-02-12	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Success message for ip title change
+29fd54d	2026-02-11	jrolana <olanajhoanna@gmail.com>	[Olana][Feature +Fix] Automatic date updates for certain status update, Notify on these updates, Inventors Select Policy:
+b4e24d1	2026-02-11	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added guard clause for updating IP title or number, Better UI for no ip number
+bf5566b	2026-02-11	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Add notif on ip title and number change
+4c3fd5d	2026-02-11	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Techgen App View not showing every app details
+732b45d	2026-02-11	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Inline edit for IP title, UI Change for relevant dates
+b0460fd	2026-02-10	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Used right variable for notify_deleted
+b9dc8d7	2026-02-10	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Ensured only those applicants with account are notified
+92f6296	2026-02-10	jrolana <olanajhoanna@gmail.com>	Revert "Merge branch 'new-application' into fix/start-application"
+2ffe84d	2026-02-10	jrolana <olanajhoanna@gmail.com>	[Olana][Fix] Ensured only those applicants with account are notified
+b7c65bb	2026-02-10	jrolana <olanajhoanna@gmail.com>	Merge branch 'new-application' into fix/start-application
+c572312	2026-02-10	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] DB Invalid Key error on file upload
+c1b3932	2026-02-03	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] Notif UI Responsiveness
+e85964d	2026-02-03	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] Refetch notif on any file or app change, Notif UI responsiveness
+faae284	2026-02-03	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] Notif title clamp, Fixed invalidated query keys for better refetching
+eed7e07	2026-02-02	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] Status save button, Fetching app status ui, Disable save when status/iptype didnt change, changed notif message
+e6263ab	2026-02-01	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] removed usememo in status
+be04ccd	2026-02-01	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] UI Fetch and Render Error
+9ad1c34	2026-02-01	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] Removed ipr_status_types, added script for generating types
+bb886d8	2026-02-01	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	Merge with main
+f8a0dc5	2026-02-01	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Notif mark as read, deleted some console logs
+f026d77	2026-02-01	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Fetch notif, Changed policy
+3850721	2026-02-01	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] Rendering and fetching of statuses
+7105352	2026-02-01	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Status UI
+2b56bb1	2026-01-31	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Get all status of an application
+8850c86	2026-01-31	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Notify uploaded or deleted files, added ip name fallback
+3871276	2026-01-31	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Notify on ip changed
+866e3c1	2026-01-31	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Notify on status change, Changed DB policies, Fixed Logical Issues in Status Update form
+4120000	2026-01-31	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] Added view policy on statuses
+7f3dd0f	2026-01-29	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] Submit, Grant, States Error
+7fc4260	2026-01-29	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Get latest status, modal states
+38f4af5	2026-01-29	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fetures] Status Services and Hooks
+bf1eed2	2026-01-28	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][WIP] Services, Hooks for Status Update
+648c614	2026-01-28	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] DB control for adding status upon app creation, Update Status UI Enhancement
+7a04a78	2026-01-27	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	Merge branch 'main' into feature/status-notifs
+dd91612	2026-01-27	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][WIP] Change of notif user_id name and select buttons for status
+3ce71f5	2026-01-23	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Added role type
+8325223	2026-01-23	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Email Validation, User Type
+cbf52fd	2026-01-22	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] Invite link redirect to welcome page
+43a4f9b	2026-01-22	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	Merge branch 'main' into user-management
+34a961f	2026-01-22	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Inivte User backend, Welcome Page - WIP
+43b5a45	2026-01-21	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] UX, Renamed Generic Modal
+09087f5	2026-01-20	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Invite users UI
+67ea5a1	2026-01-20	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] Removed unnecessary triggers
+225e1b9	2026-01-19	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	Merge branch 'main' into database
+3a2508c	2026-01-19	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] DB Func/Triggers Error
+9b2821a	2026-01-19	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] dl form vertically stacked in small screens
+4606c51	2026-01-18	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] UI on Other Pages
+cf67646	2026-01-18	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] Dashboard Responsiveness
+253130d	2026-01-18	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	Merge branch 'main' into database
+452d286	2026-01-18	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancment] Table Relatioships, ERD
+125454f	2026-01-18	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] DB Design
+a2ed31c	2026-01-16	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] Restructed db design, Status is still WIP
+9de7ffc	2026-01-16	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][DB] Create tables script
+0897512	2026-01-15	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Fix] Authentication Redirect, Also moved table to a private schema, Added db scripts
+c8ce58c	2026-01-02	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] Pie Charts color change
+e5a54a7	2026-01-02	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Revisions] Changed Pie Charts Colors, Added Sir Nikko as Co-Ad
+cb42ce7	2026-01-02	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] Readable version of Audit Trail Timestamp
+1ee4763	2026-01-02	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] Chnaged Notifications Data
+8874157	2026-01-02	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Paper] Chap4 - Audit Trail, Enhanced Audit Trail UI:
+d3e21bb	2025-12-31	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Feature] Audit Trail
+f79b11e	2025-12-31	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	Merge branch 'main' into revisions/olana
+1463bd9	2025-12-30	Jhoanna Olana <jhoannaolana@Jhoannas-MacBook-Air.local>	[Olana][Enhancement] Pie Charts Colors and UI Constants
+ccab8e0	2025-12-12	jrolana <olanajhoanna@gmail.com>	[Olana][System and Paper] Enhancemnents on UI, Addition of User Management
+1d4cd69	2025-12-12	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into paper/revisions
+aad7168	2025-12-12	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Sigin In Page
+49a7059	2025-12-05	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Logo
+1a6dcd1	2025-12-05	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancements] Refactor
+59915cd	2025-12-05	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Application Documents - Techgen and Guest
+22fbfed	2025-12-05	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancements] Application Guide - Guest and TechGen
+1fbe859	2025-12-05	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Application Guide
+79c649f	2025-12-05	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancements] Guest Dashboard and Applications Registry
+0c904e3	2025-12-05	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancements] Centralized Layout, Uniform UI, Added Consts
+2370da1	2025-12-05	jrolana <olanajhoanna@gmail.com>	Revert "Revert "[Olana][Enhancement] Added Add New User""
+4fcdf0a	2025-12-04	jrolana <olanajhoanna@gmail.com>	Revert "[Olana][Feature] Guest Dashboard and Application Registry"
+dd5d16f	2025-12-04	jrolana <olanajhoanna@gmail.com>	Revert "[Olana][Enhancement] Added Add New User"
+73c8f22	2025-12-04	jrolana <olanajhoanna@gmail.com>	Merge branch 'main' into frontend/all-except-application-page
+966d0e4	2025-12-04	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancement] Added Add New User
+ad9c824	2025-12-01	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Guest Dashboard and Application Registry
+ef15c3c	2025-12-01	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] UP Officials Page
+0dfe9d2	2025-12-01	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Applications Registry and User Management - Admin
+9e56670	2025-12-01	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Applications Table
+fbb9e67	2025-12-01	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Export Reports Button
+02efce6	2025-12-01	jrolana <olanajhoanna@gmail.com>	[Olana][Enhancements] Donut Chart
+c9bdd13	2025-12-01	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Dashboard Template
+a038dfb	2025-11-30	jrolana <olanajhoanna@gmail.com>	[Olana][Feature] Pie Chart
+63fedb3	2025-11-26	jrolana <olanajhoanna@gmail.com>	[Olana][Setup] Frontend Prelims, RBAC, and Supabase Integration
+2ab565e	2025-11-26	jrolana <olanajhoanna@gmail.com>	Stop tracking .env
+b3d38a9	2025-10-06	jrolana <olanajhoanna@gmail.com>	[Olana][Setup] NextJs and Supabase Starter
+
+Files added in matching commits:
+COMMIT 3318c73 2026-05-31 [Olana][Feature] Applied Rate Limiting
+A	code/deploy/nginx/iris-rate-limits.conf
+A	code/src/lib/security/rate-limit.ts
+COMMIT a22cb4c 2026-05-28 [Olana][Seed] DB
+A	code/scripts/seeds/admin_applications_seed.sql
+COMMIT d95ea47 2026-05-24 [Olana][Migration] Synchronized main db changes to other db
+A	code/deploy/sql/catchup-existing-project.psql.sql
+COMMIT 47c8cf3 2026-05-23 [Olana][Enhancement] Signin redirect uses NEXT_PUBLIC_SITE_URL
+A	code/src/lib/helper/get-base-url.ts
+COMMIT ce62e04 2026-05-21 removed shadow
+A	code/.env.lab
+COMMIT e80964f 2026-05-14 [Olana][Setup] Debian, Docker, and New Remote Copy of Orig Supabase
+A	code/.env.lab.example
+A	code/deploy/LAB-ENV-CHECKLIST.md
+A	code/deploy/REMOTE-LAB-SUPABASE.md
+A	code/deploy/sql/001_base_schema.sql
+A	code/deploy/sql/002_security_and_policies.sql
+A	code/deploy/sql/003_views_and_triggers.sql
+A	code/deploy/sql/README.md
+A	code/deploy/sql/fixes/process_daily_deadline_reminders.fixed.sql
+A	code/deploy/sql/remote-lab-bootstrap.psql.sql
+A	code/supabase/functions/.env.example
+COMMIT 46025bf 2026-05-07 [Olana][Feature] Block edits for withdrawn or downgrade to um
+A	code/src/lib/helper/is-application-edit-locked.ts
+A	code/src/services/application/assert-application-action-allowed.ts
+COMMIT 3db210c 2026-05-07 [Olana][Feature] Audited more actions
+A	code/scripts/functions/audit_api_tokens.sql
+A	code/scripts/functions/audit_inventors.sql
+A	code/scripts/functions/audit_pings.sql
+A	code/scripts/functions/audit_reports.sql
+A	code/scripts/functions/audit_user_registration_requests.sql
+A	code/scripts/triggers/trg_audit_api_tokens.sql
+A	code/scripts/triggers/trg_audit_inventors.sql
+A	code/scripts/triggers/trg_audit_pings.sql
+A	code/scripts/triggers/trg_audit_reports.sql
+A	code/scripts/triggers/trg_audit_user_registration_requests.sql
+COMMIT feb3859 2026-05-07 [Olana][Enhancement] Better DB Audit Trail Records, Added RLS, Better Action Taken UI
+A	code/scripts/policies/audit_trail_rls.sql
+COMMIT e61b3b6 2026-05-07 [Olana][Feature] Audit trail gets live data instead
+A	code/src/hooks/audit-trail/useGetAuditTrail.ts
+A	code/src/services/audit-trail/get-audit-trail.ts
+COMMIT 09d0ee1 2026-05-07 [Olana][Feature] Audit Trail DB
+A	code/scripts/functions/audit_ipr_applications.sql
+A	code/scripts/functions/audit_ipr_files.sql
+A	code/scripts/functions/audit_ipr_statuses.sql
+A	code/scripts/functions/audit_users.sql
+A	code/scripts/functions/log_audit_event.sql
+A	code/scripts/triggers/trg_audit_ipr_applications.sql
+A	code/scripts/triggers/trg_audit_ipr_files.sql
+A	code/scripts/triggers/trg_audit_ipr_statuses.sql
+A	code/scripts/triggers/trg_audit_users.sql
+COMMIT 8917f40 2026-04-29 [Olana][Setup] Debian
+A	code/.dockerignore
+A	code/.env.example
+A	code/Dockerfile
+A	code/compose.yaml
+A	code/deploy/PROXMOX-DEBIAN.md
+A	code/deploy/nginx/iris-web.conf
+A	code/deploy/systemd/iris-web.service
+COMMIT 3d0fdc0 2026-04-29 [Olana][Enhancement] Signin Error Message, Toast Removed Delay Mount, Inserts all Invites into User Registration Request so that its the source of truth for all Auth Entry
+A	code/scripts/functions/assert_signin_allowed.sql
+COMMIT 05addf9 2026-04-21 [Olana][Enhancement] Added edge function invite_link thru cli also script to deply it for easier management
+A	code/scripts/deploy/send-invite-email.sh
+A	code/supabase/functions/send-invite-email/index.ts
+COMMIT 5a0b06c 2026-04-19 [Olana][Enhancement] Improved Report
+A	code/public/images/upv-logo.png
+COMMIT 0b90a21 2026-04-19 [Olana][Enhancement] Cnetralized Role Options, Title Case for Filenames
+A	code/src/lib/constants/roles.ts
+COMMIT a236c69 2026-04-19 [Olana][Feature]Update Docs in Application Documents Page
+A	code/scripts/policies/public_resources_bucket_admin_rls.sql
+A	code/src/app/actions/public-resources.ts
+A	code/src/app/admin/(with-sidebar)/application-document/page.tsx
+A	code/src/hooks/public-resources/useDeletePublicResource.ts
+A	code/src/hooks/public-resources/useUploadPublicResource.ts
+A	code/src/services/public-resources/delete-public-resource.ts
+A	code/src/services/public-resources/upload-public-resource.ts
+COMMIT 1ce46a2 2026-04-19 [Olana][Feature] Notifications Link to App and Removal of Techgen
+A	code/scripts/functions/notify_inventor_techgen_changes.sql
+A	code/src/lib/helper/get-notification-application-link.ts
+COMMIT f79656f 2026-04-19 [Olana][Feature] Add User Role Change in Details and Request, Added Rejection Reason in Request
+A	code/src/hooks/users/useUpdateUserRole.ts
+A	code/src/services/users/assert-current-user-is-admin.ts
+A	code/src/services/users/update-user-role.ts
+COMMIT 07b25ab 2026-04-17 [Olana][Enhancement] Penetration Test
+A	code/iris_pentest.sh
+A	code/pentest.env.example
+COMMIT 7b1eb5c 2026-04-17 [Olana][Enhancement] Optimize auth pages and provider loading
+A	code/src/app/(full-width-pages)/(auth)/signup/layout.tsx
+A	code/src/providers/LazyToaster.tsx
+A	code/summary.json
+COMMIT 2211b39 2026-04-16 [Olana][Enhancement] Dynamic Imports, Lazy Load on Dashboard  and Saved role on cookie
+A	code/src/components/dashboard/ExportMenu.tsx
+COMMIT 597fa32 2026-04-16 [Olana][Enhancement] Removed unused public images and Added robot
+A	code/public/robots.txt
+COMMIT 29ac8e4 2026-04-14 [Olana][Setup] Lighthouse
+A	code/tests/auth.admin.spec.ts
+A	code/tests/auth.save.spec.ts
+A	code/tests/auth.techgen.spec.ts
+A	code/tests/auth.upofficial.spec.ts
+A	code/tests/lighthouse.spec.ts
+COMMIT ad23665 2026-04-08 [Olana][Enhancement] Added homepage link in full-width view, Added Homeroute helper, Flex-wrap buttons in App-Registry
+A	code/src/lib/helper/get-home-route.ts
+COMMIT 1c855b0 2026-04-06 [Olana][Test] Admin Use Case
+A	code/tests/fixtures/sample-upload.txt
+COMMIT 431fea8 2026-04-06 [Olana][Fix] Build Issues - Added suspense/props to those that use searchParams
+A	code/src/app/(full-width-pages)/(auth)/signin/SigninPageClient.tsx
+A	code/src/app/(full-width-pages)/welcome/WelcomePageClient.tsx
+A	code/src/app/admin/(full-width)/start-application/StartApplicationPageClient.tsx
+A	code/src/app/admin/(full-width)/view-application/TtbdoViewApplicationPageClient.tsx
+A	code/src/app/techgen/(full-width)/start-application/StartApplicationPageClient.tsx
+A	code/src/app/techgen/(full-width)/view-application/TechgenViewApplicationPageClient.tsx
+COMMIT 0a3df68 2026-04-02 [Olana][Enhancement] Moved App Details to a Modal, Changed dashboard views to only unarchived applications
+A	code/src/atom-states/edit-application-details-modal.ts
+A	code/src/components/application/EditApplicationDetailsForm.tsx
+A	code/src/components/modals/EditApplicationDetailsModal.tsx
+A	code/src/hooks/useEditApplicationDetailsModal.ts
+COMMIT 4b538d7 2026-03-28 [Olana][Enhancement] Added loading state in dashboard
+A	code/src/components/dashboard/DashboardLoadingState.tsx
+COMMIT 6ec312a 2026-03-28 [Olana][Feature] Notify reports to admin
+A	code/scripts/functions/notify_added_report.sql
+COMMIT fea69d4 2026-03-28 [Olana][Feature] Notify inventors on new apps linked to them
+A	code/scripts/functions/notify_added_to_application.sql
+COMMIT 6a91b55 2026-03-28 [Olana][Feature] Notify on archive and withdraw
+A	code/scripts/functions/notify_withdraw_archive.sql
+COMMIT a151f42 2026-03-22 [Olana][Feature] Applicaiton Documents and Guide - UI and Docs
+A	code/src/components/common/ApplicationGuidePage.tsx
+COMMIT 76a7f7c 2026-03-22 [Olana][Feature] New Application Relevant Files View and Download
+A	code/src/components/application/DisclosureFormActions.tsx
+A	code/src/components/application/NewApplicationFlow.tsx
+A	code/src/hooks/public-resources/useGetPublicResourcesByIpType.ts
+A	code/src/lib/constants/disclosure-forms.ts
+A	code/src/lib/constants/new-application.ts
+A	code/src/services/public-resources/get-public-resources-by-ip-type.ts
+COMMIT b39d8f1 2026-03-22 [Olana][Feature] Techgen Dashboard
+A	code/src/hooks/views/useGetDashboardAnalyticsTechgen.ts
+A	code/src/services/views/get-dashboard-analytics-techgen.ts
+COMMIT 713f9bf 2026-03-14 [Olana][Enhancement] UI and File Structure
+A	code/src/components/dashboard/OverviewKPIs.tsx
+A	code/src/lib/dashboard/dashboard.ts
+COMMIT e6d0d40 2026-03-14 [Olana][Feature] Fetch Users Details
+A	code/src/hooks/users/useGetUsers.ts
+A	code/src/services/users/get-users.ts
+COMMIT 36ad8fe 2026-03-14 [Olana][Feature] Export functionality
+A	code/src/components/dashboard/DashboardSummaryTable.tsx
+A	code/src/lib/helper/dashboard-export.ts
+A	code/src/lib/helper/dashboard-filters.ts
+A	code/src/lib/helper/dashboard-summary.ts
+COMMIT aa9b0bc 2026-03-13 [Olana][Feature] Dashboard Analytics Frontend, Fetch and filter by date
+A	code/scripts/global/grant_policy_views.sql
+A	code/src/hooks/views/useGetDashboardAnalytics.ts
+A	code/src/lib/constants/dashboard_analytics.ts
+A	code/src/lib/types/views.ts
+A	code/src/services/views/get-dashboard-analytics.ts
+COMMIT 5200b99 2026-03-10 [Olana][Feature] Dashboard Analytics View
+A	code/scripts/create_views.sql
+A	code/scripts/policies/views.sql
+A	code/src/services/views/get-views.ts
+COMMIT bbc248e 2026-03-04 [Olana][Feature] Ping - Connected to backend
+A	code/src/hooks/pings/useGetAllPings.ts
+A	code/src/services/pings/get-all-pings.ts
+COMMIT 905f07d 2026-03-04 [Olana][Feature] Pings Dropdown and View All - Enhanced Pings and View All UI
+A	code/src/app/admin/(full-width)/pings/page.tsx
+A	code/src/components/common/ViewAllPings.tsx
+A	code/src/components/header/PingsDropdown.tsx
+COMMIT 9c577b7 2026-03-04 [Olana][Feature] Ping - Admin and Client Workflow
+A	code/scripts/policies/pings_rls.sql
+A	code/src/components/application/Ping.tsx
+A	code/src/hooks/pings/useAddPing.ts
+A	code/src/hooks/pings/useGetPing.ts
+A	code/src/hooks/pings/useUpdatePing.ts
+A	code/src/lib/types/ping.ts
+A	code/src/services/pings/add-ping.ts
+A	code/src/services/pings/get-ping.ts
+A	code/src/services/pings/update-ping.ts
+COMMIT 478bf13 2026-02-27 [Olana][Feature] All Notifications Page
+A	code/src/app/admin/(full-width)/notifications/page.tsx
+A	code/src/app/techgen/(full-width)/notifications/page.tsx
+A	code/src/components/common/ViewAllNotifications.tsx
+COMMIT a4bd551 2026-02-20 [Olana][Feature] Stop unregistered from sign-in, Better error message for signin-errors, Used roleConfig for signin and middleware
+A	code/src/lib/roles.ts
+COMMIT d519876 2026-02-19 [Olana][Feature] Approval/rejection workflow
+A	code/src/hooks/registration-request/useUpdateRegistrationRequest.ts
+A	code/src/services/registration-request/update-registration-request.ts
+COMMIT d7fb02c 2026-02-18 [Olana][Revision] Removed verification link flow, UI for Registration Requests
+A	code/src/components/admin/RegistrationRequestsTable.tsx
+A	code/src/hooks/registration-request/useGetRegistrationRequests.ts
+A	code/src/services/registration-request/get-registration-requests.ts
+COMMIT a4e2ebf 2026-02-17 [Olana][Feature] Submit User Registration Request
+A	code/scripts/functions/submit-registration-request.sql
+A	code/scripts/policies/user-registration-request.sql
+A	code/src/hooks/registration-request/useAddRegistrationRequest.ts
+A	code/src/services/registration-request/add-registration-request.ts
+COMMIT 630f08f 2026-02-17 [Olana][Enhancement] Added different fields for unlisted college_dept and external_institute - made db and system change
+A	code/scripts/migrations/handle-external-institutions-1.sql
+A	code/scripts/migrations/handle-external-institutions-2.sql
+COMMIT c6754b1 2026-02-16 [Olana][Feature] Sign-up Form UI with Validation
+A	code/src/services/users/invite-user.ts
+COMMIT 88f0e5d 2026-02-12 [Olana][Fix] Fixed Filing/Registration Date Issue and Better Notif Message
+A	code/scripts/functions/format_date.sql
+COMMIT bf5566b 2026-02-11 [Olana][Feature] Add notif on ip title and number change
+A	code/scripts/functions/notify_application_detail_change.sql
+COMMIT 732b45d 2026-02-11 [Olana][Feature] Inline edit for IP title, UI Change for relevant dates
+A	code/src/components/form/input/InlineEdit.tsx
+COMMIT c572312 2026-02-10 [Olana][Fix] DB Invalid Key error on file upload
+A	code/src/lib/helper/sanitize-input.ts
+COMMIT 9ad1c34 2026-02-01 [Olana][Enhancement] Removed ipr_status_types, added script for generating types
+A	code/scripts/remove-status-types.sql
+COMMIT f8a0dc5 2026-02-01 [Olana][Feature] Notif mark as read, deleted some console logs
+A	code/src/hooks/notifications/useMarkAsRead.ts
+A	code/src/services/notifications/mark-as-read.ts
+COMMIT f026d77 2026-02-01 [Olana][Feature] Fetch notif, Changed policy
+A	code/src/hooks/notifications/useGetNotifications.ts
+A	code/src/services/notifications/get-notifications.ts
+COMMIT 7105352 2026-02-01 [Olana][Feature] Status UI
+A	code/scripts/policies/inventors_rls.sql
+A	code/src/components/application/StatusHistoryPanel.tsx
+A	code/src/components/techgen/StatusUpdatesPanel.tsx
+A	code/src/hooks/applications/useGetMultipleApplicationById.ts
+A	code/src/hooks/applications/useGetUserApplications.ts
+A	code/src/hooks/status/useGetMultipleApplicationStatuses.ts
+A	code/src/lib/helper/format-date.ts
+A	code/src/services/application/get-user-applications.ts
+COMMIT 2b56bb1 2026-01-31 [Olana][Feature] Get all status of an application
+A	code/src/hooks/status/useGetStatuses.ts
+COMMIT 8850c86 2026-01-31 [Olana][Feature] Notify uploaded or deleted files, added ip name fallback
+A	code/scripts/functions/notify_added_files.sql
+A	code/scripts/functions/notify_deleted_files.sql
+COMMIT 3871276 2026-01-31 [Olana][Feature] Notify on ip changed
+A	code/scripts/functions/notify_ip_type_change.sql
+COMMIT 866e3c1 2026-01-31 [Olana][Feature] Notify on status change, Changed DB policies, Fixed Logical Issues in Status Update form
+A	code/scripts/functions/notify_status_change.sql
+A	code/scripts/policies/notifications_rls.sql
+A	code/scripts/triggers/trg_notify_status_change.sql
+COMMIT 7f3dd0f 2026-01-29 [Olana][Fix] Submit, Grant, States Error
+A	code/scripts/policies/ipr_status_rls.sql
+A	code/src/components/admin/StatusUpdateForm.tsx
+COMMIT 7fc4260 2026-01-29 [Olana][Feature] Get latest status, modal states
+A	code/src/hooks/status/useGetLatestStatus.ts
+COMMIT 38f4af5 2026-01-29 [Olana][Fetures] Status Services and Hooks
+A	code/src/hooks/status/useAddStatus.ts
+A	code/src/hooks/status/useGetStatus.ts
+A	code/src/hooks/status/useUpdateStatus.ts
+A	code/src/lib/helper/to-supabase-date.ts
+A	code/src/services/status/add-status.ts
+A	code/src/services/status/get-status.ts
+A	code/src/services/status/update-status.ts
+COMMIT 648c614 2026-01-28 [Olana][Feature] DB control for adding status upon app creation, Update Status UI Enhancement
+A	code/scripts/functions/add_status_on_app_create.sql
+A	code/scripts/triggers/trg_add_status_on_create.sql
+COMMIT 34a961f 2026-01-22 [Olana][Feature] Inivte User backend, Welcome Page - WIP
+A	code/scripts/policies/admin.sql
+A	code/src/app/(full-width-pages)/welcome/page.tsx
+A	code/src/app/app/actions/invite-user.ts
+A	code/src/components/modals/ErrorModal.tsx
+A	code/utils/supabase/admin.ts
+COMMIT 43b5a45 2026-01-21 [Olana][Enhancement] UX, Renamed Generic Modal
+A	code/src/components/modals/SuccessModal.tsx
+COMMIT 09087f5 2026-01-20 [Olana][Feature] Invite users UI
+A	code/src/atom-states/add-new-user-modal.ts
+A	code/src/components/modals/AddNewUserModal.tsx
+A	code/src/hooks/useAddNewUserModal.ts
+COMMIT 3a2508c 2026-01-19 [Olana][Fix] DB Func/Triggers Error
+A	code/scripts/enums/get_enums.sql
+COMMIT 125454f 2026-01-18 [Olana][Enhancement] DB Design
+A	code/scripts/functions/update_updated_at.sql
+A	code/scripts/triggers/trg_update_updated_at.sql
+COMMIT 0897512 2026-01-15 [Olana][Fix] Authentication Redirect, Also moved table to a private schema, Added db scripts
+A	code/scripts/create_tables.sql
+A	code/scripts/functions/functions.json
+A	code/scripts/functions/get_functions.sql
+A	code/scripts/functions/get_user_role.sql
+A	code/scripts/functions/handle_new_user.sql
+A	code/scripts/triggers/get_triggers.sql
+A	code/scripts/triggers/triggers.sql
+COMMIT 1ee4763 2026-01-02 [Olana][Enhancement] Chnaged Notifications Data
+A	code/src/lib/dummy-data/notifications.ts
+COMMIT 8874157 2026-01-02 [Olana][Paper] Chap4 - Audit Trail, Enhanced Audit Trail UI:
+A	code/src/components/common/StatusBadge.tsx
+COMMIT d3e21bb 2025-12-31 [Olana][Feature] Audit Trail
+A	code/src/lib/dummy-data/audit_trail.ts
+A	code/src/lib/types/audit_trail.ts
+COMMIT 1463bd9 2025-12-30 [Olana][Enhancement] Pie Charts Colors and UI Constants
+A	code/src/app/admin/(with-sidebar)/audit-trail/page.tsx
+A	code/src/components/admin/AuditTrailTable.tsx
+A	code/src/lib/constants/ui.ts
+A	code/src/lib/dummy-data/metrics.ts
+COMMIT ccab8e0 2025-12-12 [Olana][System and Paper] Enhancemnents on UI, Addition of User Management
+A	code/src/lib/helper/get-status-title.ts
+COMMIT 1a6dcd1 2025-12-05 [Olana][Enhancements] Refactor
+A	code/src/components/common/ApplicationDocuments.tsx
+A	code/src/components/common/ApplicationsTable.tsx
+A	code/src/components/common/Dashboard.tsx
+A	code/src/lib/dummy-data/application_guide.ts
+A	code/src/lib/dummy-data/users.ts
+A	code/src/lib/types/users.ts
+COMMIT 59915cd 2025-12-05 [Olana][Feature] Application Documents - Techgen and Guest
+A	code/src/app/(guest)/application-document/page.tsx
+A	code/src/app/techgen/(with-sidebar)/application-document/page.tsx
+COMMIT 22fbfed 2025-12-05 [Olana][Enhancements] Application Guide - Guest and TechGen
+A	code/public/images/process-flow/copyright.png
+A	code/public/images/process-flow/others.png
+A	code/src/app/techgen/(with-sidebar)/application-guide/page.tsx
+A	code/src/components/common/ApplicationFlowChart.tsx
+A	code/src/components/common/ApplicationGuide.tsx
+A	code/src/components/common/CallToAction.tsx
+A	code/src/components/ui/Accordion.tsx
+COMMIT 1fbe859 2025-12-05 [Olana][Feature] Application Guide
+A	code/src/app/(guest)/application-guide/page.tsx
+COMMIT 79c649f 2025-12-05 [Olana][Enhancements] Guest Dashboard and Applications Registry
+A	code/src/app/(guest)/application-registry/page.tsx
+A	code/src/components/guest/ApplicationsTable.tsx
+COMMIT 0c904e3 2025-12-05 [Olana][Enhancements] Centralized Layout, Uniform UI, Added Consts
+A	code/src/app/admin/(full-width)/layout.tsx
+A	code/src/app/techgen/(full-width)/layout.tsx
+A	code/src/components/techgen/StatusPanel.tsx
+A	code/src/lib/helper/status-labels.ts
+COMMIT ad9c824 2025-12-01 [Olana][Feature] Guest Dashboard and Application Registry
+A	code/src/app/(homepage)/application-registry/page.tsx
+A	code/src/components/guest/ApplicationsTable.tsx
+COMMIT ef15c3c 2025-12-01 [Olana][Feature] UP Officials Page
+A	code/src/app/up-official/application-registry/page.tsx
+A	code/src/components/up-official/ApplicationsTable.tsx
+COMMIT 0dfe9d2 2025-12-01 [Olana][Feature] Applications Registry and User Management - Admin
+A	code/src/app/(homepage)/_.tsx
+A	code/src/app/admin/application-registry/page.tsx
+A	code/src/app/admin/user-management/page.tsx
+A	code/src/components/admin/ApplicationsTable.tsx
+A	code/src/components/admin/UsersTable.tsx
+A	code/src/components/common/FilterButton.tsx
+COMMIT 9e56670 2025-12-01 [Olana][Feature] Applications Table
+A	code/src/components/common/MetricItem.tsx
+A	code/src/components/techgen/ApplicationsTable.tsx
+COMMIT 02efce6 2025-12-01 [Olana][Enhancements] Donut Chart
+A	code/src/components/ecommerce/DonutChart.tsx
+COMMIT c9bdd13 2025-12-01 [Olana][Feature] Dashboard Template
+A	code/src/components/common/ThreeSummary.tsx
+A	code/src/components/ecommerce/CombinationChart.tsx
+COMMIT a038dfb 2025-11-30 [Olana][Feature] Pie Chart
+A	code/src/components/ecommerce/PieChart.tsx
+COMMIT 2ab565e 2025-11-26 Stop tracking .env
+A	code/.eslintrc.json
+A	code/.vscode/extensions.json
+A	code/.vscode/settings.json
+A	code/LICENSE
+A	code/banner.png
+A	code/jsvectormap.d.ts
+A	code/postcss.config.js
+A	code/prettier.config.js
+A	code/public/images/brand/brand-01.svg
+A	code/public/images/brand/brand-02.svg
+A	code/public/images/brand/brand-03.svg
+A	code/public/images/brand/brand-04.svg
+A	code/public/images/brand/brand-05.svg
+A	code/public/images/brand/brand-06.svg
+A	code/public/images/brand/brand-07.svg
+A	code/public/images/brand/brand-08.svg
+A	code/public/images/brand/brand-09.svg
+A	code/public/images/brand/brand-10.svg
+A	code/public/images/brand/brand-11.svg
+A	code/public/images/brand/brand-12.svg
+A	code/public/images/brand/brand-13.svg
+A	code/public/images/brand/brand-14.svg
+A	code/public/images/brand/brand-15.svg
+A	code/public/images/cards/card-01.jpg
+A	code/public/images/cards/card-01.png
+A	code/public/images/cards/card-02.jpg
+A	code/public/images/cards/card-02.png
+A	code/public/images/cards/card-03.jpg
+A	code/public/images/cards/card-03.png
+A	code/public/images/carousel/carousel-01.png
+A	code/public/images/carousel/carousel-02.png
+A	code/public/images/carousel/carousel-03.png
+A	code/public/images/carousel/carousel-04.png
+A	code/public/images/chat/chat.jpg
+A	code/public/images/country/country-01.svg
+A	code/public/images/country/country-02.svg
+A	code/public/images/country/country-03.svg
+A	code/public/images/country/country-04.svg
+A	code/public/images/country/country-05.svg
+A	code/public/images/country/country-06.svg
+A	code/public/images/country/country-07.svg
+A	code/public/images/country/country-08.svg
+A	code/public/images/error/404-dark.svg
+A	code/public/images/error/404.svg
+A	code/public/images/error/500-dark.svg
+A	code/public/images/error/500.svg
+A	code/public/images/error/503-dark.svg
+A	code/public/images/error/503.svg
+A	code/public/images/error/maintenance-dark.svg
+A	code/public/images/error/maintenance.svg
+A	code/public/images/error/success-dark.svg
+A	code/public/images/error/success.svg
+A	code/public/images/favicon.ico
+A	code/public/images/grid-image/image-01.png
+A	code/public/images/grid-image/image-02.png
+A	code/public/images/grid-image/image-03.png
+A	code/public/images/grid-image/image-04.png
+A	code/public/images/grid-image/image-05.png
+A	code/public/images/grid-image/image-06.png
+A	code/public/images/icons/file-image-dark.svg
+A	code/public/images/icons/file-image.svg
+A	code/public/images/icons/file-pdf-dark.svg
+A	code/public/images/icons/file-pdf.svg
+A	code/public/images/icons/file-video-dark.svg
+A	code/public/images/icons/file-video.svg
+A	code/public/images/logo/auth-logo.svg
+A	code/public/images/logo/logo-dark.svg
+A	code/public/images/logo/logo-icon.svg
+A	code/public/images/logo/logo.svg
+A	code/public/images/product/product-01.jpg
+A	code/public/images/product/product-02.jpg
+A	code/public/images/product/product-03.jpg
+A	code/public/images/product/product-04.jpg
+A	code/public/images/product/product-05.jpg
+A	code/public/images/shape/grid-01.svg
+A	code/public/images/task/google-drive.svg
+A	code/public/images/task/pdf.svg
+A	code/public/images/task/task.jpg
+A	code/public/images/task/task.png
+A	code/public/images/user/owner.jpg
+A	code/public/images/user/user-01.jpg
+A	code/public/images/user/user-02.jpg
+A	code/public/images/user/user-03.jpg
+A	code/public/images/user/user-04.jpg
+A	code/public/images/user/user-05.jpg
+A	code/public/images/user/user-06.jpg
+A	code/public/images/user/user-07.jpg
+A	code/public/images/user/user-08.jpg
+A	code/public/images/user/user-09.jpg
+A	code/public/images/user/user-10.jpg
+A	code/public/images/user/user-11.jpg
+A	code/public/images/user/user-12.jpg
+A	code/public/images/user/user-13.jpg
+A	code/public/images/user/user-14.jpg
+A	code/public/images/user/user-15.jpg
+A	code/public/images/user/user-16.jpg
+A	code/public/images/user/user-17.jpg
+A	code/public/images/user/user-18.jpg
+A	code/public/images/user/user-19.jpg
+A	code/public/images/user/user-20.jpg
+A	code/public/images/user/user-21.jpg
+A	code/public/images/user/user-22.jpg
+A	code/public/images/user/user-23.jpg
+A	code/public/images/user/user-24.jpg
+A	code/public/images/user/user-25.jpg
+A	code/public/images/user/user-26.jpg
+A	code/public/images/user/user-27.jpg
+A	code/public/images/user/user-28.jpg
+A	code/public/images/user/user-29.jpg
+A	code/public/images/user/user-30.jpg
+A	code/public/images/user/user-31.jpg
+A	code/public/images/user/user-32.jpg
+A	code/public/images/user/user-33.jpg
+A	code/public/images/user/user-34.jpg
+A	code/public/images/user/user-35.jpg
+A	code/public/images/user/user-36.jpg
+A	code/public/images/user/user-37.jpg
+A	code/public/images/video-thumb/thumb-16.png
+A	code/public/images/video-thumb/youtube-icon-84.svg
+A	code/src/app/(full-width-pages)/(auth)/layout.tsx
+A	code/src/app/(full-width-pages)/(auth)/signin/callback/route.ts
+A	code/src/app/(full-width-pages)/(auth)/signin/page.tsx
+A	code/src/app/(full-width-pages)/(auth)/signup/page.tsx
+A	code/src/app/(full-width-pages)/(error-pages)/error-404/page.tsx
+A	code/src/app/(full-width-pages)/layout.tsx
+A	code/src/app/(homepage)/layout.tsx
+A	code/src/app/(homepage)/page.tsx
+A	code/src/app/admin/(others-pages)/(chart)/bar-chart/page.tsx
+A	code/src/app/admin/(others-pages)/(chart)/line-chart/page.tsx
+A	code/src/app/admin/(others-pages)/(forms)/form-elements/page.tsx
+A	code/src/app/admin/(others-pages)/(tables)/basic-tables/page.tsx
+A	code/src/app/admin/(others-pages)/blank/page.tsx
+A	code/src/app/admin/(others-pages)/calendar/page.tsx
+A	code/src/app/admin/(others-pages)/profile/page.tsx
+A	code/src/app/admin/(ui-elements)/alerts/page.tsx
+A	code/src/app/admin/(ui-elements)/avatars/page.tsx
+A	code/src/app/admin/(ui-elements)/badge/page.tsx
+A	code/src/app/admin/(ui-elements)/buttons/page.tsx
+A	code/src/app/admin/(ui-elements)/images/page.tsx
+A	code/src/app/admin/(ui-elements)/modals/page.tsx
+A	code/src/app/admin/(ui-elements)/videos/page.tsx
+A	code/src/app/admin/layout.tsx
+A	code/src/app/admin/page.tsx
+A	code/src/app/favicon.ico
+A	code/src/app/globals.css
+A	code/src/app/layout.tsx
+A	code/src/app/not-found.tsx
+A	code/src/app/techgen/layout.tsx
+A	code/src/app/techgen/page.tsx
+A	code/src/app/up-official/layout.tsx
+A	code/src/app/up-official/page.tsx
+A	code/src/components/auth/SignInForm.tsx
+A	code/src/components/auth/SignUpForm.tsx
+A	code/src/components/calendar/Calendar.tsx
+A	code/src/components/charts/bar/BarChartOne.tsx
+A	code/src/components/charts/line/LineChartOne.tsx
+A	code/src/components/common/ChartTab.tsx
+A	code/src/components/common/ComponentCard.tsx
+A	code/src/components/common/GridShape.tsx
+A	code/src/components/common/PageBreadCrumb.tsx
+A	code/src/components/common/SearchInput.tsx
+A	code/src/components/ecommerce/CountryMap.tsx
+A	code/src/components/ecommerce/DemographicCard.tsx
+A	code/src/components/ecommerce/EcommerceMetrics.tsx
+A	code/src/components/ecommerce/MonthlySalesChart.tsx
+A	code/src/components/ecommerce/MonthlyTarget.tsx
+A	code/src/components/ecommerce/RecentOrders.tsx
+A	code/src/components/ecommerce/StatisticsChart.tsx
+A	code/src/components/example/ModalExample/DefaultModal.tsx
+A	code/src/components/example/ModalExample/FormInModal.tsx
+A	code/src/components/example/ModalExample/FullScreenModal.tsx
+A	code/src/components/example/ModalExample/ModalBasedAlerts.tsx
+A	code/src/components/example/ModalExample/VerticallyCenteredModal.tsx
+A	code/src/components/form/Form.tsx
+A	code/src/components/form/Label.tsx
+A	code/src/components/form/MultiSelect.tsx
+A	code/src/components/form/Select.tsx
+A	code/src/components/form/date-picker.tsx
+A	code/src/components/form/form-elements/CheckboxComponents.tsx
+A	code/src/components/form/form-elements/DefaultInputs.tsx
+A	code/src/components/form/form-elements/DropZone.tsx
+A	code/src/components/form/form-elements/FileInputExample.tsx
+A	code/src/components/form/form-elements/InputGroup.tsx
+A	code/src/components/form/form-elements/InputStates.tsx
+A	code/src/components/form/form-elements/RadioButtons.tsx
+A	code/src/components/form/form-elements/SelectInputs.tsx
+A	code/src/components/form/form-elements/TextAreaInput.tsx
+A	code/src/components/form/form-elements/ToggleSwitch.tsx
+A	code/src/components/form/group-input/PhoneInput.tsx
+A	code/src/components/form/input/Checkbox.tsx
+A	code/src/components/form/input/FileInput.tsx
+A	code/src/components/form/input/InputField.tsx
+A	code/src/components/form/input/Radio.tsx
+A	code/src/components/form/input/RadioSm.tsx
+A	code/src/components/form/input/TextArea.tsx
+A	code/src/components/form/switch/Switch.tsx
+A	code/src/components/header/NotificationDropdown.tsx
+A	code/src/components/header/UserDropdown.tsx
+A	code/src/components/tables/BasicTableOne.tsx
+A	code/src/components/tables/Pagination.tsx
+A	code/src/components/ui/alert/Alert.tsx
+A	code/src/components/ui/avatar/Avatar.tsx
+A	code/src/components/ui/avatar/AvatarText.tsx
+A	code/src/components/ui/badge/Badge.tsx
+A	code/src/components/ui/button/Button.tsx
+A	code/src/components/ui/dropdown/Dropdown.tsx
+A	code/src/components/ui/dropdown/DropdownItem.tsx
+A	code/src/components/ui/images/ResponsiveImage.tsx
+A	code/src/components/ui/images/ThreeColumnImageGrid.tsx
+A	code/src/components/ui/images/TwoColumnImageGrid.tsx
+A	code/src/components/ui/modal/index.tsx
+A	code/src/components/ui/table/index.tsx
+A	code/src/components/ui/video/VideosExample.tsx
+A	code/src/components/ui/video/YouTubeEmbed.tsx
+A	code/src/components/user-profile/UserAddressCard.tsx
+A	code/src/components/user-profile/UserInfoCard.tsx
+A	code/src/components/user-profile/UserMetaCard.tsx
+A	code/src/components/videos/FourIsToThree.tsx
+A	code/src/components/videos/OneIsToOne.tsx
+A	code/src/components/videos/SixteenIsToNine.tsx
+A	code/src/components/videos/TwentyOneIsToNine.tsx
+A	code/src/context/SidebarContext.tsx
+A	code/src/hooks/useGoBack.ts
+A	code/src/hooks/useModal.ts
+A	code/src/hooks/useRole.ts
+A	code/src/icons/alert.svg
+A	code/src/icons/angle-down.svg
+A	code/src/icons/angle-left.svg
+A	code/src/icons/angle-right.svg
+A	code/src/icons/angle-up.svg
+A	code/src/icons/arrow-down.svg
+A	code/src/icons/arrow-right.svg
+A	code/src/icons/arrow-up.svg
+A	code/src/icons/audio.svg
+A	code/src/icons/bell.svg
+A	code/src/icons/bolt.svg
+A	code/src/icons/box-cube.svg
+A	code/src/icons/box-line.svg
+A	code/src/icons/box.svg
+A	code/src/icons/calendar.svg
+A	code/src/icons/calender-line.svg
+A	code/src/icons/chat.svg
+A	code/src/icons/check-circle.svg
+A	code/src/icons/check-line.svg
+A	code/src/icons/chevron-down.svg
+A	code/src/icons/chevron-left.svg
+A	code/src/icons/chevron-up.svg
+A	code/src/icons/close-line.svg
+A	code/src/icons/close.svg
+A	code/src/icons/copy.svg
+A	code/src/icons/docs.svg
+A	code/src/icons/dollar-line.svg
+A	code/src/icons/download.svg
+A	code/src/icons/envelope.svg
+A	code/src/icons/eye-close.svg
+A	code/src/icons/eye.svg
+A	code/src/icons/file.svg
+A	code/src/icons/folder.svg
+A	code/src/icons/grid.svg
+A	code/src/icons/group.svg
+A	code/src/icons/horizontal-dots.svg
+A	code/src/icons/index.tsx
+A	code/src/icons/info-hexa.svg
+A	code/src/icons/info.svg
+A	code/src/icons/list.svg
+A	code/src/icons/lock.svg
+A	code/src/icons/mail-line.svg
+A	code/src/icons/more-dot.svg
+A	code/src/icons/page.svg
+A	code/src/icons/paper-plane.svg
+A	code/src/icons/pencil.svg
+A	code/src/icons/pie-chart.svg
+A	code/src/icons/plug-in.svg
+A	code/src/icons/plus.svg
+A	code/src/icons/shooting-star.svg
+A	code/src/icons/table.svg
+A	code/src/icons/task-icon.svg
+A	code/src/icons/task.svg
+A	code/src/icons/time.svg
+A	code/src/icons/trash.svg
+A	code/src/icons/user-circle.svg
+A	code/src/icons/user-line.svg
+A	code/src/icons/videos.svg
+A	code/src/layout/AppHeader.tsx
+A	code/src/layout/AppSidebar.tsx
+A	code/src/layout/Backdrop.tsx
+A	code/src/layout/BaseLayout.tsx
+A	code/src/layout/SidebarWidget.tsx
+A	code/src/lib/types/nav.tsx
+A	code/src/svg.d.ts
+A	code/supabase/.gitignore
+A	code/supabase/config.toml
+A	code/utils/supabase/client.ts
+A	code/utils/supabase/middleware.ts
+A	code/utils/supabase/server.ts
+COMMIT b3d38a9 2025-10-06 [Olana][Setup] NextJs and Supabase Starter
+A	code/.gitignore
+A	code/README.md
+A	code/app/auth/confirm/route.ts
+A	code/app/auth/error/page.tsx
+A	code/app/auth/forgot-password/page.tsx
+A	code/app/auth/login/page.tsx
+A	code/app/auth/sign-up-success/page.tsx
+A	code/app/auth/sign-up/page.tsx
+A	code/app/auth/update-password/page.tsx
+A	code/app/favicon.ico
+A	code/app/globals.css
+A	code/app/layout.tsx
+A	code/app/notes/page.tsx
+A	code/app/opengraph-image.png
+A	code/app/page.tsx
+A	code/app/protected/layout.tsx
+A	code/app/protected/page.tsx
+A	code/app/twitter-image.png
+A	code/components.json
+A	code/components/auth-button.tsx
+A	code/components/deploy-button.tsx
+A	code/components/env-var-warning.tsx
+A	code/components/forgot-password-form.tsx
+A	code/components/hero.tsx
+A	code/components/login-form.tsx
+A	code/components/logout-button.tsx
+A	code/components/next-logo.tsx
+A	code/components/sign-up-form.tsx
+A	code/components/supabase-logo.tsx
+A	code/components/theme-switcher.tsx
+A	code/components/tutorial/code-block.tsx
+A	code/components/tutorial/connect-supabase-steps.tsx
+A	code/components/tutorial/fetch-data-steps.tsx
+A	code/components/tutorial/sign-up-user-steps.tsx
+A	code/components/tutorial/tutorial-step.tsx
+A	code/components/ui/badge.tsx
+A	code/components/ui/button.tsx
+A	code/components/ui/card.tsx
+A	code/components/ui/checkbox.tsx
+A	code/components/ui/dropdown-menu.tsx
+A	code/components/ui/input.tsx
+A	code/components/ui/label.tsx
+A	code/components/update-password-form.tsx
+A	code/eslint.config.mjs
+A	code/lib/supabase/client.ts
+A	code/lib/supabase/middleware.ts
+A	code/lib/supabase/server.ts
+A	code/lib/utils.ts
+A	code/middleware.ts
+A	code/next.config.ts
+A	code/package-lock.json
+A	code/package.json
+A	code/postcss.config.mjs
+A	code/tailwind.config.ts
+A	code/tsconfig.json
+
+All unique files touched:
+code/.dockerignore
+code/.env.example
+code/.env.lab
+code/.env.lab.example
+code/.eslintrc.json
+code/.gitignore
+code/.vscode/extensions.json
+code/.vscode/settings.json
+code/Dockerfile
+code/LICENSE
+code/README.md
+code/app/auth/confirm/route.ts
+code/app/auth/error/page.tsx
+code/app/auth/forgot-password/page.tsx
+code/app/auth/login/page.tsx
+code/app/auth/sign-up-success/page.tsx
+code/app/auth/sign-up/page.tsx
+code/app/auth/update-password/page.tsx
+code/app/favicon.ico
+code/app/globals.css
+code/app/layout.tsx
+code/app/notes/page.tsx
+code/app/opengraph-image.png
+code/app/page.tsx
+code/app/protected/layout.tsx
+code/app/protected/page.tsx
+code/app/twitter-image.png
+code/banner.png
+code/components.json
+code/components/auth-button.tsx
+code/components/deploy-button.tsx
+code/components/env-var-warning.tsx
+code/components/forgot-password-form.tsx
+code/components/hero.tsx
+code/components/login-form.tsx
+code/components/logout-button.tsx
+code/components/next-logo.tsx
+code/components/sign-up-form.tsx
+code/components/supabase-logo.tsx
+code/components/theme-switcher.tsx
+code/components/tutorial/code-block.tsx
+code/components/tutorial/connect-supabase-steps.tsx
+code/components/tutorial/fetch-data-steps.tsx
+code/components/tutorial/sign-up-user-steps.tsx
+code/components/tutorial/tutorial-step.tsx
+code/components/ui/badge.tsx
+code/components/ui/button.tsx
+code/components/ui/card.tsx
+code/components/ui/checkbox.tsx
+code/components/ui/dropdown-menu.tsx
+code/components/ui/input.tsx
+code/components/ui/label.tsx
+code/components/update-password-form.tsx
+code/compose.yaml
+code/deploy/LAB-ENV-CHECKLIST.md
+code/deploy/PROXMOX-DEBIAN.md
+code/deploy/REMOTE-LAB-SUPABASE.md
+code/deploy/nginx/iris-rate-limits.conf
+code/deploy/nginx/iris-web.conf
+code/deploy/sql/001_base_schema.sql
+code/deploy/sql/002_security_and_policies.sql
+code/deploy/sql/003_views_and_triggers.sql
+code/deploy/sql/README.md
+code/deploy/sql/catchup-existing-project.psql.sql
+code/deploy/sql/fixes/process_daily_deadline_reminders.fixed.sql
+code/deploy/sql/remote-lab-bootstrap.psql.sql
+code/deploy/systemd/iris-web.service
+code/eslint.config.mjs
+code/iris_pentest.sh
+code/jsvectormap.d.ts
+code/lib/supabase/client.ts
+code/lib/supabase/middleware.ts
+code/lib/supabase/server.ts
+code/lib/utils.ts
+code/middleware.ts
+code/next.config.ts
+code/package-lock.json
+code/package.json
+code/pentest.env.example
+code/playwright.config.ts
+code/postcss.config.js
+code/postcss.config.mjs
+code/prettier.config.js
+code/public/images/brand/brand-01.svg
+code/public/images/brand/brand-02.svg
+code/public/images/brand/brand-03.svg
+code/public/images/brand/brand-04.svg
+code/public/images/brand/brand-05.svg
+code/public/images/brand/brand-06.svg
+code/public/images/brand/brand-07.svg
+code/public/images/brand/brand-08.svg
+code/public/images/brand/brand-09.svg
+code/public/images/brand/brand-10.svg
+code/public/images/brand/brand-11.svg
+code/public/images/brand/brand-12.svg
+code/public/images/brand/brand-13.svg
+code/public/images/brand/brand-14.svg
+code/public/images/brand/brand-15.svg
+code/public/images/cards/card-01.jpg
+code/public/images/cards/card-01.png
+code/public/images/cards/card-02.jpg
+code/public/images/cards/card-02.png
+code/public/images/cards/card-03.jpg
+code/public/images/cards/card-03.png
+code/public/images/carousel/carousel-01.png
+code/public/images/carousel/carousel-02.png
+code/public/images/carousel/carousel-03.png
+code/public/images/carousel/carousel-04.png
+code/public/images/chat/chat.jpg
+code/public/images/country/country-01.svg
+code/public/images/country/country-02.svg
+code/public/images/country/country-03.svg
+code/public/images/country/country-04.svg
+code/public/images/country/country-05.svg
+code/public/images/country/country-06.svg
+code/public/images/country/country-07.svg
+code/public/images/country/country-08.svg
+code/public/images/error/404-dark.svg
+code/public/images/error/404.svg
+code/public/images/error/500-dark.svg
+code/public/images/error/500.svg
+code/public/images/error/503-dark.svg
+code/public/images/error/503.svg
+code/public/images/error/maintenance-dark.svg
+code/public/images/error/maintenance.svg
+code/public/images/error/success-dark.svg
+code/public/images/error/success.svg
+code/public/images/favicon.ico
+code/public/images/grid-image/image-01.png
+code/public/images/grid-image/image-02.png
+code/public/images/grid-image/image-03.png
+code/public/images/grid-image/image-04.png
+code/public/images/grid-image/image-05.png
+code/public/images/grid-image/image-06.png
+code/public/images/icons/file-image-dark.svg
+code/public/images/icons/file-image.svg
+code/public/images/icons/file-pdf-dark.svg
+code/public/images/icons/file-pdf.svg
+code/public/images/icons/file-video-dark.svg
+code/public/images/icons/file-video.svg
+code/public/images/logo/auth-logo.svg
+code/public/images/logo/logo-dark.svg
+code/public/images/logo/logo-icon.svg
+code/public/images/logo/logo.svg
+code/public/images/process-flow/copyright.png
+code/public/images/process-flow/others.png
+code/public/images/product/product-01.jpg
+code/public/images/product/product-02.jpg
+code/public/images/product/product-03.jpg
+code/public/images/product/product-04.jpg
+code/public/images/product/product-05.jpg
+code/public/images/shape/grid-01.svg
+code/public/images/task/google-drive.svg
+code/public/images/task/pdf.svg
+code/public/images/task/task.jpg
+code/public/images/task/task.png
+code/public/images/upv-logo.png
+code/public/images/user/owner.jpg
+code/public/images/user/user-01.jpg
+code/public/images/user/user-02.jpg
+code/public/images/user/user-03.jpg
+code/public/images/user/user-04.jpg
+code/public/images/user/user-05.jpg
+code/public/images/user/user-06.jpg
+code/public/images/user/user-07.jpg
+code/public/images/user/user-08.jpg
+code/public/images/user/user-09.jpg
+code/public/images/user/user-10.jpg
+code/public/images/user/user-11.jpg
+code/public/images/user/user-12.jpg
+code/public/images/user/user-13.jpg
+code/public/images/user/user-14.jpg
+code/public/images/user/user-15.jpg
+code/public/images/user/user-16.jpg
+code/public/images/user/user-17.jpg
+code/public/images/user/user-18.jpg
+code/public/images/user/user-19.jpg
+code/public/images/user/user-20.jpg
+code/public/images/user/user-21.jpg
+code/public/images/user/user-22.jpg
+code/public/images/user/user-23.jpg
+code/public/images/user/user-24.jpg
+code/public/images/user/user-25.jpg
+code/public/images/user/user-26.jpg
+code/public/images/user/user-27.jpg
+code/public/images/user/user-28.jpg
+code/public/images/user/user-29.jpg
+code/public/images/user/user-30.jpg
+code/public/images/user/user-31.jpg
+code/public/images/user/user-32.jpg
+code/public/images/user/user-33.jpg
+code/public/images/user/user-34.jpg
+code/public/images/user/user-35.jpg
+code/public/images/user/user-36.jpg
+code/public/images/user/user-37.jpg
+code/public/images/video-thumb/thumb-16.png
+code/public/images/video-thumb/youtube-icon-84.svg
+code/public/robots.txt
+code/scripts/create_tables.sql
+code/scripts/create_views.sql
+code/scripts/deploy/send-invite-email.sh
+code/scripts/enums/get_enums.sql
+code/scripts/functions/add_creator_as_inventor.sql
+code/scripts/functions/add_status_on_app_create.sql
+code/scripts/functions/assert_signin_allowed.sql
+code/scripts/functions/audit_api_tokens.sql
+code/scripts/functions/audit_inventors.sql
+code/scripts/functions/audit_ipr_applications.sql
+code/scripts/functions/audit_ipr_files.sql
+code/scripts/functions/audit_ipr_statuses.sql
+code/scripts/functions/audit_pings.sql
+code/scripts/functions/audit_reports.sql
+code/scripts/functions/audit_user_registration_requests.sql
+code/scripts/functions/audit_users.sql
+code/scripts/functions/check_if_app_exists.sql
+code/scripts/functions/create_app_with_inventors.sql
+code/scripts/functions/edge_send_inv_email.ts
+code/scripts/functions/format_date.sql
+code/scripts/functions/functions.json
+code/scripts/functions/get_functions.sql
+code/scripts/functions/get_user_role.sql
+code/scripts/functions/handle_new_user.sql
+code/scripts/functions/is_admin.sql
+code/scripts/functions/log_audit_event.sql
+code/scripts/functions/notify_added_files.sql
+code/scripts/functions/notify_added_report.sql
+code/scripts/functions/notify_added_to_application.sql
+code/scripts/functions/notify_application_detail_change.sql
+code/scripts/functions/notify_deleted_files.sql
+code/scripts/functions/notify_inventor_techgen_changes.sql
+code/scripts/functions/notify_ip_type_change.sql
+code/scripts/functions/notify_status_change.sql
+code/scripts/functions/notify_withdraw_archive.sql
+code/scripts/functions/search_application_rpc.sql
+code/scripts/functions/search_users_for_linking.sql
+code/scripts/functions/submit-registration-request.sql
+code/scripts/functions/update_updated_at.sql
+code/scripts/global/grant_policy_views.sql
+code/scripts/migrations/handle-external-institutions-1.sql
+code/scripts/migrations/handle-external-institutions-2.sql
+code/scripts/migrations/remove-status-types.sql
+code/scripts/policies/admin.sql
+code/scripts/policies/audit_trail_rls.sql
+code/scripts/policies/file_bucket_update_rls.sql
+code/scripts/policies/files_bucket_delete_rls.sql
+code/scripts/policies/files_bucket_select_rls.sql
+code/scripts/policies/files_bucket_upload_rls.sql
+code/scripts/policies/inventors_rls.sql
+code/scripts/policies/ipr_apps_rls.sql
+code/scripts/policies/ipr_files_rls.sql
+code/scripts/policies/ipr_status_rls.sql
+code/scripts/policies/notifications_rls.sql
+code/scripts/policies/pings_rls.sql
+code/scripts/policies/public_resources_bucket_admin_rls.sql
+code/scripts/policies/user-registration-request.sql
+code/scripts/policies/users_rls.sql
+code/scripts/policies/views.sql
+code/scripts/remove-status-types.sql
+code/scripts/seeds/admin_applications_seed.sql
+code/scripts/triggers/get_triggers.sql
+code/scripts/triggers/trg_add_status_on_create.sql
+code/scripts/triggers/trg_audit_api_tokens.sql
+code/scripts/triggers/trg_audit_inventors.sql
+code/scripts/triggers/trg_audit_ipr_applications.sql
+code/scripts/triggers/trg_audit_ipr_files.sql
+code/scripts/triggers/trg_audit_ipr_statuses.sql
+code/scripts/triggers/trg_audit_pings.sql
+code/scripts/triggers/trg_audit_reports.sql
+code/scripts/triggers/trg_audit_user_registration_requests.sql
+code/scripts/triggers/trg_audit_users.sql
+code/scripts/triggers/trg_new_file_upload.sql
+code/scripts/triggers/trg_notifications.sql
+code/scripts/triggers/trg_notify_status_change.sql
+code/scripts/triggers/trg_update_updated_at.sql
+code/scripts/triggers/triggers.sql
+code/src/app/(full-width-pages)/(auth)/layout.tsx
+code/src/app/(full-width-pages)/(auth)/signin/SigninPageClient.tsx
+code/src/app/(full-width-pages)/(auth)/signin/callback/route.ts
+code/src/app/(full-width-pages)/(auth)/signin/page.tsx
+code/src/app/(full-width-pages)/(auth)/signup/layout.tsx
+code/src/app/(full-width-pages)/(auth)/signup/page.tsx
+code/src/app/(full-width-pages)/(error-pages)/error-404/page.tsx
+code/src/app/(full-width-pages)/layout.tsx
+code/src/app/(full-width-pages)/welcome/WelcomePageClient.tsx
+code/src/app/(full-width-pages)/welcome/page.tsx
+code/src/app/(guest)/_.tsx
+code/src/app/(guest)/application-document/page.tsx
+code/src/app/(guest)/application-guide/page.tsx
+code/src/app/(guest)/application-registry/page.tsx
+code/src/app/(guest)/layout.tsx
+code/src/app/(guest)/page.tsx
+code/src/app/(homepage)/_.tsx
+code/src/app/(homepage)/application-registry/page.tsx
+code/src/app/(homepage)/layout.tsx
+code/src/app/(homepage)/page.tsx
+code/src/app/actions/invite-user.ts
+code/src/app/actions/public-resources.ts
+code/src/app/admin/(full-width)/layout.tsx
+code/src/app/admin/(full-width)/new-application/page.tsx
+code/src/app/admin/(full-width)/notifications/page.tsx
+code/src/app/admin/(full-width)/pings/page.tsx
+code/src/app/admin/(full-width)/start-application/StartApplicationPageClient.tsx
+code/src/app/admin/(full-width)/start-application/layout.tsx
+code/src/app/admin/(full-width)/start-application/page.tsx
+code/src/app/admin/(full-width)/view-application/TtbdoViewApplicationPageClient.tsx
+code/src/app/admin/(full-width)/view-application/layout.tsx
+code/src/app/admin/(full-width)/view-application/page.tsx
+code/src/app/admin/(others-pages)/(chart)/bar-chart/page.tsx
+code/src/app/admin/(others-pages)/(chart)/line-chart/page.tsx
+code/src/app/admin/(others-pages)/(forms)/form-elements/page.tsx
+code/src/app/admin/(others-pages)/(tables)/basic-tables/page.tsx
+code/src/app/admin/(others-pages)/blank/page.tsx
+code/src/app/admin/(others-pages)/calendar/page.tsx
+code/src/app/admin/(others-pages)/dashboard.tsx
+code/src/app/admin/(others-pages)/profile/page.tsx
+code/src/app/admin/(ui-elements)/alerts/page.tsx
+code/src/app/admin/(ui-elements)/avatars/page.tsx
+code/src/app/admin/(ui-elements)/badge/page.tsx
+code/src/app/admin/(ui-elements)/buttons/page.tsx
+code/src/app/admin/(ui-elements)/images/page.tsx
+code/src/app/admin/(ui-elements)/modals/page.tsx
+code/src/app/admin/(ui-elements)/videos/page.tsx
+code/src/app/admin/(with-sidebar)/application-document/page.tsx
+code/src/app/admin/(with-sidebar)/application-registry/page.tsx
+code/src/app/admin/(with-sidebar)/audit-trail/page.tsx
+code/src/app/admin/(with-sidebar)/layout.tsx
+code/src/app/admin/(with-sidebar)/page.tsx
+code/src/app/admin/(with-sidebar)/user-management/page.tsx
+code/src/app/admin/application-document/page.tsx
+code/src/app/admin/application-registry/page.tsx
+code/src/app/admin/audit-trail/page.tsx
+code/src/app/admin/developer-settings/page.tsx
+code/src/app/admin/layout.tsx
+code/src/app/admin/new-application/page.tsx
+code/src/app/admin/notifications/page.tsx
+code/src/app/admin/page.tsx
+code/src/app/admin/pings/page.tsx
+code/src/app/admin/start-application/StartApplicationPageClient.tsx
+code/src/app/admin/start-application/page.tsx
+code/src/app/admin/user-management/page.tsx
+code/src/app/admin/view-application/TtbdoViewApplicationPageClient.tsx
+code/src/app/admin/view-application/page.tsx
+code/src/app/api/users/route.ts
+code/src/app/app/actions/invite-user.ts
+code/src/app/favicon.ico
+code/src/app/globals.css
+code/src/app/layout.tsx
+code/src/app/not-found.tsx
+code/src/app/techgen/(full-width)/layout.tsx
+code/src/app/techgen/(full-width)/new-application/page.tsx
+code/src/app/techgen/(full-width)/notifications/page.tsx
+code/src/app/techgen/(full-width)/start-application/StartApplicationPageClient.tsx
+code/src/app/techgen/(full-width)/start-application/layout.tsx
+code/src/app/techgen/(full-width)/start-application/page.tsx
+code/src/app/techgen/(full-width)/view-application/TechgenViewApplicationPageClient.tsx
+code/src/app/techgen/(full-width)/view-application/page.tsx
+code/src/app/techgen/(with-sidebar)/application-document/page.tsx
+code/src/app/techgen/(with-sidebar)/application-guide/page.tsx
+code/src/app/techgen/(with-sidebar)/layout.tsx
+code/src/app/techgen/(with-sidebar)/page.tsx
+code/src/app/techgen/application-document/page.tsx
+code/src/app/techgen/application-guide/page.tsx
+code/src/app/techgen/application-registry/page.tsx
+code/src/app/techgen/layout.tsx
+code/src/app/techgen/new-application/page.tsx
+code/src/app/techgen/notifications/page.tsx
+code/src/app/techgen/page.tsx
+code/src/app/techgen/start-application/StartApplicationPageClient.tsx
+code/src/app/techgen/start-application/page.tsx
+code/src/app/techgen/view-application/TechgenViewApplicationPageClient.tsx
+code/src/app/techgen/view-application/page.tsx
+code/src/app/up-official/application-registry/page.tsx
+code/src/app/up-official/layout.tsx
+code/src/app/up-official/page.tsx
+code/src/atom-states/add-new-user-modal.ts
+code/src/atom-states/edit-application-details-modal.ts
+code/src/atom-states/inventor-view-reports-modal.ts
+code/src/atom-states/user.ts
+code/src/components/admin/ApplicationsTable.tsx
+code/src/components/admin/AuditTrailTable.tsx
+code/src/components/admin/RegistrationRequestsTable.tsx
+code/src/components/admin/StatusUpdateForm.tsx
+code/src/components/admin/UsersTable.tsx
+code/src/components/admin/filter/FilterPanel.tsx
+code/src/components/application/ApplicationStepper.tsx
+code/src/components/application/ApplicationView.tsx
+code/src/components/application/DisclosureFormActions.tsx
+code/src/components/application/EditApplicationDetailsForm.tsx
+code/src/components/application/InformationPanel.tsx
+code/src/components/application/NewApplicationFlow.tsx
+code/src/components/application/Ping.tsx
+code/src/components/application/RequirementsPanel.tsx
+code/src/components/application/StatusHistoryPanel.tsx
+code/src/components/application/StatusPanel.tsx
+code/src/components/application/Stepper.tsx
+code/src/components/application/ViewAttachments.tsx
+code/src/components/application/ViewInventors.tsx
+code/src/components/application/Wizard.tsx
+code/src/components/auth/SignInForm.tsx
+code/src/components/auth/SignUpForm.tsx
+code/src/components/calendar/Calendar.tsx
+code/src/components/charts/BarChart.tsx
+code/src/components/charts/CombinationChart.tsx
+code/src/components/charts/DonutChart.tsx
+code/src/components/charts/PieChart.tsx
+code/src/components/charts/bar/BarChartOne.tsx
+code/src/components/charts/line/LineChartOne.tsx
+code/src/components/common/ApplicationDocuments.tsx
+code/src/components/common/ApplicationFlowChart.tsx
+code/src/components/common/ApplicationGuide.tsx
+code/src/components/common/ApplicationGuidePage.tsx
+code/src/components/common/ApplicationsTable.tsx
+code/src/components/common/CallToAction.tsx
+code/src/components/common/ChartTab.tsx
+code/src/components/common/ComponentCard.tsx
+code/src/components/common/Dashboard.tsx
+code/src/components/common/FileUploader.tsx
+code/src/components/common/FilterButton.tsx
+code/src/components/common/GridShape.tsx
+code/src/components/common/InventorItems.tsx
+code/src/components/common/MetricItem.tsx
+code/src/components/common/PageBreadCrumb.tsx
+code/src/components/common/SearchInput.tsx
+code/src/components/common/StatusBadge.tsx
+code/src/components/common/ThreeSummary.tsx
+code/src/components/common/ViewAllNotifications.tsx
+code/src/components/common/ViewAllPings.tsx
+code/src/components/dashboard/DashboardLoadingState.tsx
+code/src/components/dashboard/DashboardSummaryTable.tsx
+code/src/components/dashboard/ExportMenu.tsx
+code/src/components/dashboard/OverviewKPIs.tsx
+code/src/components/ecommerce/CombinationChart.tsx
+code/src/components/ecommerce/CountryMap.tsx
+code/src/components/ecommerce/DemographicCard.tsx
+code/src/components/ecommerce/DonutChart.tsx
+code/src/components/ecommerce/EcommerceMetrics.tsx
+code/src/components/ecommerce/MonthlySalesChart.tsx
+code/src/components/ecommerce/MonthlyTarget.tsx
+code/src/components/ecommerce/PieChart.tsx
+code/src/components/ecommerce/RecentOrders.tsx
+code/src/components/ecommerce/StatisticsChart.tsx
+code/src/components/example/ModalExample/DefaultModal.tsx
+code/src/components/example/ModalExample/FormInModal.tsx
+code/src/components/example/ModalExample/FullScreenModal.tsx
+code/src/components/example/ModalExample/ModalBasedAlerts.tsx
+code/src/components/example/ModalExample/VerticallyCenteredModal.tsx
+code/src/components/form/Form.tsx
+code/src/components/form/Label.tsx
+code/src/components/form/MultiSelect.tsx
+code/src/components/form/Select.tsx
+code/src/components/form/date-picker.tsx
+code/src/components/form/form-elements/CheckboxComponents.tsx
+code/src/components/form/form-elements/DefaultInputs.tsx
+code/src/components/form/form-elements/DropZone.tsx
+code/src/components/form/form-elements/FileInputExample.tsx
+code/src/components/form/form-elements/InputGroup.tsx
+code/src/components/form/form-elements/InputStates.tsx
+code/src/components/form/form-elements/RadioButtons.tsx
+code/src/components/form/form-elements/SelectInputs.tsx
+code/src/components/form/form-elements/TextAreaInput.tsx
+code/src/components/form/form-elements/ToggleSwitch.tsx
+code/src/components/form/group-input/PhoneInput.tsx
+code/src/components/form/input/Checkbox.tsx
+code/src/components/form/input/FileInput.tsx
+code/src/components/form/input/InlineEdit.tsx
+code/src/components/form/input/InputField.tsx
+code/src/components/form/input/Radio.tsx
+code/src/components/form/input/RadioSm.tsx
+code/src/components/form/input/TextArea.tsx
+code/src/components/form/switch/Switch.tsx
+code/src/components/guest/ApplicationsTable.tsx
+code/src/components/header/NotificationDropdown.tsx
+code/src/components/header/PingsDropdown.tsx
+code/src/components/header/UserDropdown.tsx
+code/src/components/modals/AddInventorModal.tsx
+code/src/components/modals/AddNewUserModal.tsx
+code/src/components/modals/AddVerifiedInventorModal.tsx
+code/src/components/modals/AddVerifiedInventorModal/SearchTab.tsx
+code/src/components/modals/EditApplicationDetailsModal.tsx
+code/src/components/modals/ErrorModal.tsx
+code/src/components/modals/InventorViewReportsModal.tsx
+code/src/components/modals/LinkInventorModal.tsx
+code/src/components/modals/Modal.tsx
+code/src/components/modals/RemoveInventorModal.tsx
+code/src/components/modals/StatusUpdateModal.tsx
+code/src/components/modals/SuccessModal.tsx
+code/src/components/tables/BasicTableOne.tsx
+code/src/components/tables/Pagination.tsx
+code/src/components/techgen/ApplicationsTable.tsx
+code/src/components/techgen/Metrics.tsx
+code/src/components/techgen/MetricsTechgen.tsx
+code/src/components/techgen/StatusPanel.tsx
+code/src/components/techgen/StatusUpdatesPanel.tsx
+code/src/components/ui/Accordion.tsx
+code/src/components/ui/alert/Alert.tsx
+code/src/components/ui/avatar/Avatar.tsx
+code/src/components/ui/avatar/AvatarText.tsx
+code/src/components/ui/badge/Badge.tsx
+code/src/components/ui/button/Button.tsx
+code/src/components/ui/dropdown/Dropdown.tsx
+code/src/components/ui/dropdown/DropdownItem.tsx
+code/src/components/ui/images/ResponsiveImage.tsx
+code/src/components/ui/images/ThreeColumnImageGrid.tsx
+code/src/components/ui/images/TwoColumnImageGrid.tsx
+code/src/components/ui/modal/index.tsx
+code/src/components/ui/sonner.tsx
+code/src/components/ui/table/index.tsx
+code/src/components/ui/video/VideosExample.tsx
+code/src/components/ui/video/YouTubeEmbed.tsx
+code/src/components/up-official/ApplicationsTable.tsx
+code/src/components/user-profile/UserAddressCard.tsx
+code/src/components/user-profile/UserInfoCard.tsx
+code/src/components/user-profile/UserMetaCard.tsx
+code/src/components/videos/FourIsToThree.tsx
+code/src/components/videos/OneIsToOne.tsx
+code/src/components/videos/SixteenIsToNine.tsx
+code/src/components/videos/TwentyOneIsToNine.tsx
+code/src/context/SidebarContext.tsx
+code/src/hooks/applications/useGetApplicationById.ts
+code/src/hooks/applications/useGetMultipleApplicationById.ts
+code/src/hooks/applications/useGetUserApplications.ts
+code/src/hooks/applications/useUpdateApplication.ts
+code/src/hooks/attachments/useDeleteFileById.ts
+code/src/hooks/attachments/useUploadFile.ts
+code/src/hooks/audit-trail/useGetAuditTrail.ts
+code/src/hooks/inventors/useAddInventors.ts
+code/src/hooks/inventors/useSearchUsersToLink.ts
+code/src/hooks/notifications/useGetNotifications.ts
+code/src/hooks/notifications/useMarkAsRead.ts
+code/src/hooks/pings/useAddPing.ts
+code/src/hooks/pings/useGetAllPings.ts
+code/src/hooks/pings/useGetPing.ts
+code/src/hooks/pings/useUpdatePing.ts
+code/src/hooks/public-resources/useDeletePublicResource.ts
+code/src/hooks/public-resources/useGetPublicResourcesByIpType.ts
+code/src/hooks/public-resources/useUploadPublicResource.ts
+code/src/hooks/registration-request/useAddRegistrationRequest.ts
+code/src/hooks/registration-request/useGetRegistrationRequests.ts
+code/src/hooks/registration-request/useUpdateRegistrationRequest.ts
+code/src/hooks/reports/useGetInventorIdsOfReported.ts
+code/src/hooks/status/useAddStatus.ts
+code/src/hooks/status/useGetApplicationStatuses.ts
+code/src/hooks/status/useGetLatestStatus.ts
+code/src/hooks/status/useGetMultipleApplicationStatuses.ts
+code/src/hooks/status/useGetStatus.ts
+code/src/hooks/status/useGetStatuses.ts
+code/src/hooks/status/useUpdateStatus.ts
+code/src/hooks/useAddNewUserModal.ts
+code/src/hooks/useEditApplicationDetailsModal.ts
+code/src/hooks/useGoBack.ts
+code/src/hooks/useInventorViewReportsModal.ts
+code/src/hooks/useModal.ts
+code/src/hooks/useRole.ts
+code/src/hooks/users/useGetUsers.ts
+code/src/hooks/users/useUpdateUserRole.ts
+code/src/hooks/views/useGetDashboardAnalytics.ts
+code/src/hooks/views/useGetDashboardAnalyticsTechgen.ts
+code/src/icons/alert.svg
+code/src/icons/angle-down.svg
+code/src/icons/angle-left.svg
+code/src/icons/angle-right.svg
+code/src/icons/angle-up.svg
+code/src/icons/arrow-down.svg
+code/src/icons/arrow-right.svg
+code/src/icons/arrow-up.svg
+code/src/icons/audio.svg
+code/src/icons/bell.svg
+code/src/icons/bolt.svg
+code/src/icons/box-cube.svg
+code/src/icons/box-line.svg
+code/src/icons/box.svg
+code/src/icons/calendar.svg
+code/src/icons/calender-line.svg
+code/src/icons/chat.svg
+code/src/icons/check-circle.svg
+code/src/icons/check-line.svg
+code/src/icons/chevron-down.svg
+code/src/icons/chevron-left.svg
+code/src/icons/chevron-up.svg
+code/src/icons/close-line.svg
+code/src/icons/close.svg
+code/src/icons/copy.svg
+code/src/icons/docs.svg
+code/src/icons/dollar-line.svg
+code/src/icons/download.svg
+code/src/icons/envelope.svg
+code/src/icons/eye-close.svg
+code/src/icons/eye.svg
+code/src/icons/file.svg
+code/src/icons/folder.svg
+code/src/icons/grid.svg
+code/src/icons/group.svg
+code/src/icons/horizontal-dots.svg
+code/src/icons/index.tsx
+code/src/icons/info-hexa.svg
+code/src/icons/info.svg
+code/src/icons/list.svg
+code/src/icons/lock.svg
+code/src/icons/mail-line.svg
+code/src/icons/more-dot.svg
+code/src/icons/page.svg
+code/src/icons/paper-plane.svg
+code/src/icons/pencil.svg
+code/src/icons/pie-chart.svg
+code/src/icons/plug-in.svg
+code/src/icons/plus.svg
+code/src/icons/shooting-star.svg
+code/src/icons/table.svg
+code/src/icons/task-icon.svg
+code/src/icons/task.svg
+code/src/icons/time.svg
+code/src/icons/trash.svg
+code/src/icons/user-circle.svg
+code/src/icons/user-line.svg
+code/src/icons/videos.svg
+code/src/layout/AppHeader.tsx
+code/src/layout/AppSidebar.tsx
+code/src/layout/Backdrop.tsx
+code/src/layout/BaseLayout.tsx
+code/src/layout/SidebarWidget.tsx
+code/src/lib/constants/dashboard_analytics.ts
+code/src/lib/constants/disclosure-forms.ts
+code/src/lib/constants/new-application.ts
+code/src/lib/constants/roles.ts
+code/src/lib/constants/ui.ts
+code/src/lib/dashboard/dashboard-export.ts
+code/src/lib/dashboard/dashboard-filters.ts
+code/src/lib/dashboard/dashboard-summary.ts
+code/src/lib/dashboard/dashboard.ts
+code/src/lib/dummy-data/application.ts
+code/src/lib/dummy-data/application_guide.ts
+code/src/lib/dummy-data/audit_trail.ts
+code/src/lib/dummy-data/metrics.ts
+code/src/lib/dummy-data/notifications.ts
+code/src/lib/dummy-data/users.ts
+code/src/lib/helper/dashboard-export.ts
+code/src/lib/helper/dashboard-filters.ts
+code/src/lib/helper/dashboard-summary.ts
+code/src/lib/helper/format-date.ts
+code/src/lib/helper/get-allowed-file-types.ts
+code/src/lib/helper/get-base-url.ts
+code/src/lib/helper/get-home-route.ts
+code/src/lib/helper/get-ip-title.ts
+code/src/lib/helper/get-notification-application-link.ts
+code/src/lib/helper/get-status-deadline.ts
+code/src/lib/helper/get-status-title.ts
+code/src/lib/helper/is-application-edit-locked.ts
+code/src/lib/helper/sanitize-input.ts
+code/src/lib/helper/status-labels.ts
+code/src/lib/helper/to-supabase-date.ts
+code/src/lib/roles.ts
+code/src/lib/schemas/user.ts
+code/src/lib/security/rate-limit.ts
+code/src/lib/supabase.ts
+code/src/lib/types/application.ts
+code/src/lib/types/audit_trail.ts
+code/src/lib/types/ip.ts
+code/src/lib/types/nav.ts
+code/src/lib/types/nav.tsx
+code/src/lib/types/ping.ts
+code/src/lib/types/reports.ts
+code/src/lib/types/status.ts
+code/src/lib/types/supabase.ts
+code/src/lib/types/users.ts
+code/src/lib/types/views.ts
+code/src/providers/LazyToaster.tsx
+code/src/providers/ModalProvider.tsx
+code/src/providers/TanStackProvider.tsx
+code/src/providers/UserProvider.tsx
+code/src/proxy.ts
+code/src/services/application/assert-application-action-allowed.ts
+code/src/services/application/create-application.ts
+code/src/services/application/get-user-applications.ts
+code/src/services/application/update-application-by-id.ts
+code/src/services/attachments/upload-file.ts
+code/src/services/audit-trail/get-audit-trail.ts
+code/src/services/inventors/add-inventors.ts
+code/src/services/inventors/add-new-inventor.ts
+code/src/services/inventors/autolink-inventors.ts
+code/src/services/inventors/delete-inventor-by-id.ts
+code/src/services/inventors/search-users-to-link.ts
+code/src/services/inventors/update-inventor-by-id.ts
+code/src/services/notifications/get-notifications.ts
+code/src/services/notifications/mark-as-read.ts
+code/src/services/pings/add-ping.ts
+code/src/services/pings/get-all-pings.ts
+code/src/services/pings/get-ping.ts
+code/src/services/pings/update-ping.ts
+code/src/services/public-resources/delete-public-resource.ts
+code/src/services/public-resources/get-public-resources-by-ip-type.ts
+code/src/services/public-resources/upload-public-resource.ts
+code/src/services/registration-request/add-registration-request.ts
+code/src/services/registration-request/get-registration-requests.ts
+code/src/services/registration-request/update-registration-request.ts
+code/src/services/reports/file-report.ts
+code/src/services/reports/resolve-report.ts
+code/src/services/status/add-status.ts
+code/src/services/status/get-application-statuses.ts
+code/src/services/status/get-latest-status.ts
+code/src/services/status/get-status.ts
+code/src/services/status/update-status.ts
+code/src/services/users/assert-current-user-is-admin.ts
+code/src/services/users/get-users.ts
+code/src/services/users/invite-user.ts
+code/src/services/users/update-user-role.ts
+code/src/services/views/get-dashboard-analytics-techgen.ts
+code/src/services/views/get-dashboard-analytics.ts
+code/src/services/views/get-views.ts
+code/src/svg.d.ts
+code/summary.json
+code/supabase/.gitignore
+code/supabase/config.toml
+code/supabase/functions/.env.example
+code/supabase/functions/send-invite-email/index.ts
+code/tailwind.config.ts
+code/tests/admin.spec.ts
+code/tests/auth.admin.spec.ts
+code/tests/auth.save.spec.ts
+code/tests/auth.techgen.spec.ts
+code/tests/auth.upofficial.spec.ts
+code/tests/fixtures/sample-upload.txt
+code/tests/lighthouse.spec.ts
+code/tests/support/mock-data.ts
+code/tests/support/supabase-mocks.ts
+code/tsconfig.json
+code/utils/supabase/admin.ts
+code/utils/supabase/client.ts
+code/utils/supabase/middleware.ts
+code/utils/supabase/server.ts

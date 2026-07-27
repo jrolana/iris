@@ -1,0 +1,38 @@
+IRIS - TechGen Use Case Source Code
+Source snapshot: 2026-06-10
+
+Purpose: first and last 10 rendered source pages for copyright deposit.
+Excluded: secrets, environment files, generated files, build artifacts, dependencies.
+Rendering: Courier 8pt, 72 source-display lines per page.
+Total source files: 27
+Total raw source lines: 3492
+Total rendered source pages: 51
+
+Files included, in deposit order:
+01. src/app/techgen/layout.tsx (38 lines)
+02. src/app/techgen/page.tsx (50 lines)
+03. src/app/techgen/application-registry/page.tsx (10 lines)
+04. src/app/techgen/application-guide/page.tsx (5 lines)
+05. src/app/techgen/application-document/page.tsx (6 lines)
+06. src/app/techgen/notifications/page.tsx (5 lines)
+07. src/app/techgen/new-application/page.tsx (13 lines)
+08. src/app/techgen/start-application/page.tsx (20 lines)
+09. src/app/techgen/start-application/StartApplicationPageClient.tsx (421 lines)
+10. src/app/techgen/view-application/page.tsx (16 lines)
+11. src/app/techgen/view-application/TechgenViewApplicationPageClient.tsx (38 lines)
+12. src/components/techgen/MetricsTechgen.tsx (509 lines)
+13. src/components/techgen/StatusUpdatesPanel.tsx (205 lines)
+14. src/components/application/ApplicationView.tsx (276 lines)
+15. src/components/application/InformationPanel.tsx (113 lines)
+16. src/components/application/ViewInventorsTechGen.tsx (144 lines)
+17. src/components/application/RequirementsPanel.tsx (155 lines)
+18. src/components/application/StatusHistoryPanel.tsx (223 lines)
+19. src/components/common/ApplicationsTable.tsx (631 lines)
+20. src/components/common/ApplicationGuidePage.tsx (52 lines)
+21. src/components/common/ApplicationDocuments.tsx (148 lines)
+22. src/components/common/ViewAllNotifications.tsx (269 lines)
+23. src/services/application/get-user-applications.ts (22 lines)
+24. src/services/views/get-dashboard-analytics-techgen.ts (22 lines)
+25. src/hooks/views/useGetDashboardAnalyticsTechgen.ts (12 lines)
+26. src/lib/roles.ts (17 lines)
+27. src/lib/constants/new-application.ts (72 lines)

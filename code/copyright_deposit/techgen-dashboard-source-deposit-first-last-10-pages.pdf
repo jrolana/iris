@@ -1,0 +1,2902 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+2 0 obj
+<< /Length 3965 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 1 of 18) Tj
+0 -14 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/app/techgen/page.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import { MetricsTechgen } from "@/components/techgen/MetricsTechgen";) Tj
+0 -9 Td
+(0004: import React, { useMemo } from "react";) Tj
+0 -9 Td
+(0005: import StatusUpdatesPanel from "@/components/techgen/StatusUpdatesPanel";) Tj
+0 -9 Td
+(0006: import { useGetUserApplicationIds } from "@/hooks/applications/useGetUserApplications";) Tj
+0 -9 Td
+(0007: import Link from "next/link";) Tj
+0 -9 Td
+(0008: import { PlusIcon } from "lucide-react";) Tj
+0 -9 Td
+(0009: ) Tj
+0 -9 Td
+(0010: export default function TechgenDashboard\(\) {) Tj
+0 -9 Td
+(0011:   const { userApplicationIds } = useGetUserApplicationIds\(\);) Tj
+0 -9 Td
+(0012: ) Tj
+0 -9 Td
+(0013:   // children gets stable reference) Tj
+0 -9 Td
+(0014:   const applicationIds = useMemo\(\(\) => {) Tj
+0 -9 Td
+(0015:     return userApplicationIds) Tj
+0 -9 Td
+(0016:       ?.map\(\(app\) => app.application_id\)) Tj
+0 -9 Td
+(0017:       .filter\(\(id\): id is string => id != null && id.trim\(\) !== ""\);) Tj
+0 -9 Td
+(0018:   }, [userApplicationIds]\);) Tj
+0 -9 Td
+(0019: ) Tj
+0 -9 Td
+(0020:   return \() Tj
+0 -9 Td
+(0021:     <div className="space-y-6">) Tj
+0 -9 Td
+(0022:       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">) Tj
+0 -9 Td
+(0023:         <div>) Tj
+0 -9 Td
+(0024:           <h1 className="text-2xl font-semibold text-gray-800">Dashboard</h1>) Tj
+0 -9 Td
+(0025:           <p className="mt-1 text-sm text-gray-500">) Tj
+0 -9 Td
+(0026:             Track your applications and recent status updates.) Tj
+0 -9 Td
+(0027:           </p>) Tj
+0 -9 Td
+(0028:         </div>) Tj
+0 -9 Td
+(0029: ) Tj
+0 -9 Td
+(0030:         <Link) Tj
+0 -9 Td
+(0031:           href="/techgen/new-application") Tj
+0 -9 Td
+(0032:           className="bg-brand-500 hover:bg-brand-600 inline-flex h-11 items-center justify-center gap-2 rounded-) Tj
+0 -9 Td
+(      | lg px-4 text-sm font-medium text-white") Tj
+0 -9 Td
+(0033:         >) Tj
+0 -9 Td
+(0034:           <PlusIcon size={18} />) Tj
+0 -9 Td
+(0035:           Add New Application) Tj
+0 -9 Td
+(0036:         </Link>) Tj
+0 -9 Td
+(0037:       </div>) Tj
+0 -9 Td
+(0038: ) Tj
+0 -9 Td
+(0039:       <div className="grid grid-cols-12 gap-4 md:gap-8">) Tj
+0 -9 Td
+(0040:         <div className="col-span-12 xl:col-span-8">) Tj
+0 -9 Td
+(0041:           <MetricsTechgen />) Tj
+0 -9 Td
+(0042:         </div>) Tj
+0 -9 Td
+(0043: ) Tj
+0 -9 Td
+(0044:         <div className="col-span-12 xl:col-span-4">) Tj
+0 -9 Td
+(0045:           <StatusUpdatesPanel applicationIds={applicationIds ?? []} />) Tj
+0 -9 Td
+(0046:         </div>) Tj
+0 -9 Td
+(0047:       </div>) Tj
+0 -9 Td
+(0048:     </div>) Tj
+0 -9 Td
+(0049:   \);) Tj
+0 -9 Td
+(0050: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/components/techgen/MetricsTechgen.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import React, { useMemo } from "react";) Tj
+0 -9 Td
+(0004: import {) Tj
+0 -9 Td
+(0005:   FileText,) Tj
+0 -9 Td
+(0006:   Send,) Tj
+0 -9 Td
+(0007:   Clock3,) Tj
+0 -9 Td
+(0008:   CheckCircle2,) Tj
+0 -9 Td
+(0009:   Undo2,) Tj
+0 -9 Td
+(0010:   ArrowDown,) Tj
+0 -9 Td
+(0011:   Shield,) Tj
+0 -9 Td
+(0012:   Shapes,) Tj
+0 -9 Td
+(0013:   Palette,) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 2 0 R >>
+endobj
+4 0 obj
+<< /Length 3626 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 2 of 18) Tj
+0 -14 Td
+(0014:   BadgeCheck,) Tj
+0 -9 Td
+(0015:   Copyright,) Tj
+0 -9 Td
+(0016:   Inbox,) Tj
+0 -9 Td
+(0017:   CalendarRange,) Tj
+0 -9 Td
+(0018:   Layers3,) Tj
+0 -9 Td
+(0019: } from "lucide-react";) Tj
+0 -9 Td
+(0020: import { useGetDashboardAnalyticsTechgen } from "@/hooks/views/useGetDashboardAnalyticsTechgen";) Tj
+0 -9 Td
+(0021: import { STATUS_ORDER } from "@/lib/dashboard/dashboard-summary";) Tj
+0 -9 Td
+(0022: import { IpType, IP_TYPES } from "@/lib/types/ip";) Tj
+0 -9 Td
+(0023: import { ipTypeToTitle } from "@/lib/helper/get-ip-title";) Tj
+0 -9 Td
+(0024: ) Tj
+0 -9 Td
+(0025: type MetricCardProps = {) Tj
+0 -9 Td
+(0026:   title: string;) Tj
+0 -9 Td
+(0027:   value: number;) Tj
+0 -9 Td
+(0028:   subtitle?: string;) Tj
+0 -9 Td
+(0029:   icon: React.ElementType;) Tj
+0 -9 Td
+(0030:   emptyText?: string;) Tj
+0 -9 Td
+(0031:   isEmpty?: boolean;) Tj
+0 -9 Td
+(0032: };) Tj
+0 -9 Td
+(0033: ) Tj
+0 -9 Td
+(0034: function MetricCard\({) Tj
+0 -9 Td
+(0035:   title,) Tj
+0 -9 Td
+(0036:   value,) Tj
+0 -9 Td
+(0037:   subtitle,) Tj
+0 -9 Td
+(0038:   icon: Icon,) Tj
+0 -9 Td
+(0039:   emptyText = "No data yet",) Tj
+0 -9 Td
+(0040:   isEmpty = false,) Tj
+0 -9 Td
+(0041: }: MetricCardProps\) {) Tj
+0 -9 Td
+(0042:   return \() Tj
+0 -9 Td
+(0043:     <div className="rounded-2xl border border-gray-200 bg-white p-5">) Tj
+0 -9 Td
+(0044:       <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100">) Tj
+0 -9 Td
+(0045:         <Icon className="h-6 w-6 text-gray-600" />) Tj
+0 -9 Td
+(0046:       </div>) Tj
+0 -9 Td
+(0047: ) Tj
+0 -9 Td
+(0048:       <div className="mt-4">) Tj
+0 -9 Td
+(0049:         <p className="text-sm text-gray-500">{title}</p>) Tj
+0 -9 Td
+(0050:         <h3 className="mt-2 text-2xl font-bold text-gray-900">{value}</h3>) Tj
+0 -9 Td
+(0051:         <p className="mt-1 text-xs text-gray-400">) Tj
+0 -9 Td
+(0052:           {isEmpty ? emptyText : subtitle}) Tj
+0 -9 Td
+(0053:         </p>) Tj
+0 -9 Td
+(0054:       </div>) Tj
+0 -9 Td
+(0055:     </div>) Tj
+0 -9 Td
+(0056:   \);) Tj
+0 -9 Td
+(0057: }) Tj
+0 -9 Td
+(0058: ) Tj
+0 -9 Td
+(0059: type MetricCardSkeletonProps = {) Tj
+0 -9 Td
+(0060:   icon: React.ElementType;) Tj
+0 -9 Td
+(0061: };) Tj
+0 -9 Td
+(0062: ) Tj
+0 -9 Td
+(0063: function MetricCardSkeleton\({ icon }: MetricCardSkeletonProps\) {) Tj
+0 -9 Td
+(0064:   const Icon = icon;) Tj
+0 -9 Td
+(0065: ) Tj
+0 -9 Td
+(0066:   return \() Tj
+0 -9 Td
+(0067:     <div className="rounded-2xl border border-gray-200 bg-white p-5">) Tj
+0 -9 Td
+(0068:       <div className="flex h-12 w-12 animate-pulse items-center justify-center rounded-xl bg-gray-100">) Tj
+0 -9 Td
+(0069:         <Icon className="h-6 w-6 text-gray-400" />) Tj
+0 -9 Td
+(0070:       </div>) Tj
+0 -9 Td
+(0071: ) Tj
+0 -9 Td
+(0072:       <div className="mt-4 space-y-3">) Tj
+0 -9 Td
+(0073:         <div className="h-4 w-24 animate-pulse rounded bg-gray-100" />) Tj
+0 -9 Td
+(0074:         <div className="h-8 w-16 animate-pulse rounded bg-gray-200" />) Tj
+0 -9 Td
+(0075:         <div className="h-3 w-36 animate-pulse rounded bg-gray-100" />) Tj
+0 -9 Td
+(0076:       </div>) Tj
+0 -9 Td
+(0077:     </div>) Tj
+0 -9 Td
+(0078:   \);) Tj
+0 -9 Td
+(0079: }) Tj
+0 -9 Td
+(0080: ) Tj
+0 -9 Td
+(0081: type BreakdownItemProps = {) Tj
+0 -9 Td
+(0082:   label: string;) Tj
+0 -9 Td
+(0083:   value: number;) Tj
+0 -9 Td
+(0084:   total: number;) Tj
+0 -9 Td
+(0085:   icon?: React.ElementType;) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 3851 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 3 of 18) Tj
+0 -14 Td
+(0086: };) Tj
+0 -9 Td
+(0087: ) Tj
+0 -9 Td
+(0088: function BreakdownItem\({) Tj
+0 -9 Td
+(0089:   label,) Tj
+0 -9 Td
+(0090:   value,) Tj
+0 -9 Td
+(0091:   total,) Tj
+0 -9 Td
+(0092:   icon: Icon,) Tj
+0 -9 Td
+(0093: }: BreakdownItemProps\) {) Tj
+0 -9 Td
+(0094:   const percentage = total > 0 ? Math.round\(\(value / total\) * 100\) : 0;) Tj
+0 -9 Td
+(0095: ) Tj
+0 -9 Td
+(0096:   return \() Tj
+0 -9 Td
+(0097:     <div className="space-y-2 rounded-xl bg-gray-50 p-4">) Tj
+0 -9 Td
+(0098:       <div className="flex items-center justify-between gap-3">) Tj
+0 -9 Td
+(0099:         <div className="flex items-center gap-2 text-sm font-medium text-gray-700">) Tj
+0 -9 Td
+(0100:           {Icon ? <Icon className="h-4 w-4 text-gray-500" /> : null}) Tj
+0 -9 Td
+(0101:           <span>{label}</span>) Tj
+0 -9 Td
+(0102:         </div>) Tj
+0 -9 Td
+(0103:         <span className="text-sm font-semibold text-gray-900">{value}</span>) Tj
+0 -9 Td
+(0104:       </div>) Tj
+0 -9 Td
+(0105: ) Tj
+0 -9 Td
+(0106:       <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">) Tj
+0 -9 Td
+(0107:         <div) Tj
+0 -9 Td
+(0108:           className="bg-brand-500 h-full rounded-full") Tj
+0 -9 Td
+(0109:           style={{ width: `${percentage}%` }}) Tj
+0 -9 Td
+(0110:         />) Tj
+0 -9 Td
+(0111:       </div>) Tj
+0 -9 Td
+(0112: ) Tj
+0 -9 Td
+(0113:       <p className="text-xs text-gray-500">) Tj
+0 -9 Td
+(0114:         {percentage}% of total applications) Tj
+0 -9 Td
+(0115:       </p>) Tj
+0 -9 Td
+(0116:     </div>) Tj
+0 -9 Td
+(0117:   \);) Tj
+0 -9 Td
+(0118: }) Tj
+0 -9 Td
+(0119: ) Tj
+0 -9 Td
+(0120: function BreakdownItemSkeleton\(\) {) Tj
+0 -9 Td
+(0121:   return \() Tj
+0 -9 Td
+(0122:     <div className="space-y-2 rounded-xl bg-gray-50 p-4">) Tj
+0 -9 Td
+(0123:       <div className="flex items-center justify-between gap-3">) Tj
+0 -9 Td
+(0124:         <div className="flex items-center gap-2">) Tj
+0 -9 Td
+(0125:           <div className="h-4 w-4 animate-pulse rounded bg-gray-200" />) Tj
+0 -9 Td
+(0126:           <div className="h-4 w-28 animate-pulse rounded bg-gray-100" />) Tj
+0 -9 Td
+(0127:         </div>) Tj
+0 -9 Td
+(0128:         <div className="h-4 w-8 animate-pulse rounded bg-gray-100" />) Tj
+0 -9 Td
+(0129:       </div>) Tj
+0 -9 Td
+(0130: ) Tj
+0 -9 Td
+(0131:       <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">) Tj
+0 -9 Td
+(0132:         <div className="bg-brand-100 h-full w-2/3 animate-pulse rounded-full" />) Tj
+0 -9 Td
+(0133:       </div>) Tj
+0 -9 Td
+(0134: ) Tj
+0 -9 Td
+(0135:       <div className="h-3 w-24 animate-pulse rounded bg-gray-100" />) Tj
+0 -9 Td
+(0136:     </div>) Tj
+0 -9 Td
+(0137:   \);) Tj
+0 -9 Td
+(0138: }) Tj
+0 -9 Td
+(0139: ) Tj
+0 -9 Td
+(0140: type YearItemProps = {) Tj
+0 -9 Td
+(0141:   year: number;) Tj
+0 -9 Td
+(0142:   total: number;) Tj
+0 -9 Td
+(0143:   max: number;) Tj
+0 -9 Td
+(0144: };) Tj
+0 -9 Td
+(0145: ) Tj
+0 -9 Td
+(0146: function YearItem\({ year, total, max }: YearItemProps\) {) Tj
+0 -9 Td
+(0147:   const percentage = max > 0 ? Math.round\(\(total / max\) * 100\) : 0;) Tj
+0 -9 Td
+(0148: ) Tj
+0 -9 Td
+(0149:   return \() Tj
+0 -9 Td
+(0150:     <div className="space-y-2">) Tj
+0 -9 Td
+(0151:       <div className="flex items-center justify-between text-sm">) Tj
+0 -9 Td
+(0152:         <span className="font-medium text-gray-700">{year}</span>) Tj
+0 -9 Td
+(0153:         <span className="font-semibold text-gray-900">{total}</span>) Tj
+0 -9 Td
+(0154:       </div>) Tj
+0 -9 Td
+(0155: ) Tj
+0 -9 Td
+(0156:       <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">) Tj
+0 -9 Td
+(0157:         <div) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 3733 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 4 of 18) Tj
+0 -14 Td
+(0158:           className="bg-brand-500 h-full rounded-full") Tj
+0 -9 Td
+(0159:           style={{ width: `${percentage}%` }}) Tj
+0 -9 Td
+(0160:         />) Tj
+0 -9 Td
+(0161:       </div>) Tj
+0 -9 Td
+(0162:     </div>) Tj
+0 -9 Td
+(0163:   \);) Tj
+0 -9 Td
+(0164: }) Tj
+0 -9 Td
+(0165: ) Tj
+0 -9 Td
+(0166: function YearItemSkeleton\(\) {) Tj
+0 -9 Td
+(0167:   return \() Tj
+0 -9 Td
+(0168:     <div className="space-y-2">) Tj
+0 -9 Td
+(0169:       <div className="flex items-center justify-between">) Tj
+0 -9 Td
+(0170:         <div className="h-4 w-14 animate-pulse rounded bg-gray-100" />) Tj
+0 -9 Td
+(0171:         <div className="h-4 w-8 animate-pulse rounded bg-gray-100" />) Tj
+0 -9 Td
+(0172:       </div>) Tj
+0 -9 Td
+(0173: ) Tj
+0 -9 Td
+(0174:       <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">) Tj
+0 -9 Td
+(0175:         <div className="bg-brand-100 h-full w-1/2 animate-pulse rounded-full" />) Tj
+0 -9 Td
+(0176:       </div>) Tj
+0 -9 Td
+(0177:     </div>) Tj
+0 -9 Td
+(0178:   \);) Tj
+0 -9 Td
+(0179: }) Tj
+0 -9 Td
+(0180: ) Tj
+0 -9 Td
+(0181: type EmptyPanelProps = {) Tj
+0 -9 Td
+(0182:   title: string;) Tj
+0 -9 Td
+(0183:   description: string;) Tj
+0 -9 Td
+(0184:   icon: React.ElementType;) Tj
+0 -9 Td
+(0185: };) Tj
+0 -9 Td
+(0186: ) Tj
+0 -9 Td
+(0187: function EmptyPanel\({ title, description, icon: Icon }: EmptyPanelProps\) {) Tj
+0 -9 Td
+(0188:   return \() Tj
+0 -9 Td
+(0189:     <div className="flex min-h-[260px] flex-col items-center justify-center rounded-2xl border border-dashed ) Tj
+0 -9 Td
+(      | border-gray-200 bg-white px-6 py-10 text-center">) Tj
+0 -9 Td
+(0190:       <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100">) Tj
+0 -9 Td
+(0191:         <Icon className="h-6 w-6 text-gray-500" />) Tj
+0 -9 Td
+(0192:       </div>) Tj
+0 -9 Td
+(0193:       <h3 className="mt-4 text-base font-semibold text-gray-900">{title}</h3>) Tj
+0 -9 Td
+(0194:       <p className="mt-2 max-w-sm text-sm text-gray-500">{description}</p>) Tj
+0 -9 Td
+(0195:     </div>) Tj
+0 -9 Td
+(0196:   \);) Tj
+0 -9 Td
+(0197: }) Tj
+0 -9 Td
+(0198: ) Tj
+0 -9 Td
+(0199: function BreakdownPanelSkeleton\({) Tj
+0 -9 Td
+(0200:   title,) Tj
+0 -9 Td
+(0201:   description,) Tj
+0 -9 Td
+(0202:   icon,) Tj
+0 -9 Td
+(0203:   children,) Tj
+0 -9 Td
+(0204: }: {) Tj
+0 -9 Td
+(0205:   title: string;) Tj
+0 -9 Td
+(0206:   description: string;) Tj
+0 -9 Td
+(0207:   icon: React.ElementType;) Tj
+0 -9 Td
+(0208:   children: React.ReactNode;) Tj
+0 -9 Td
+(0209: }\) {) Tj
+0 -9 Td
+(0210:   const Icon = icon;) Tj
+0 -9 Td
+(0211: ) Tj
+0 -9 Td
+(0212:   return \() Tj
+0 -9 Td
+(0213:     <div className="rounded-2xl border border-gray-200 bg-white p-5">) Tj
+0 -9 Td
+(0214:       <div className="mb-4">) Tj
+0 -9 Td
+(0215:         <div className="flex items-center gap-2">) Tj
+0 -9 Td
+(0216:           <div className="bg-brand-50 flex h-8 w-8 animate-pulse items-center justify-center rounded-lg">) Tj
+0 -9 Td
+(0217:             <Icon className="text-brand-600 h-4 w-4" />) Tj
+0 -9 Td
+(0218:           </div>) Tj
+0 -9 Td
+(0219:           <div className="h-5 w-40 animate-pulse rounded bg-gray-100" />) Tj
+0 -9 Td
+(0220:         </div>) Tj
+0 -9 Td
+(0221:         <div className="mt-2 h-4 w-64 animate-pulse rounded bg-gray-100" />) Tj
+0 -9 Td
+(0222:       </div>) Tj
+0 -9 Td
+(0223: ) Tj
+0 -9 Td
+(0224:       <div className="space-y-3">{children}</div>) Tj
+0 -9 Td
+(0225:     </div>) Tj
+0 -9 Td
+(0226:   \);) Tj
+0 -9 Td
+(0227: }) Tj
+0 -9 Td
+(0228: ) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 3681 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 5 of 18) Tj
+0 -14 Td
+(0229: function DashboardLoadingState\(\) {) Tj
+0 -9 Td
+(0230:   return \() Tj
+0 -9 Td
+(0231:     <div className="space-y-6">) Tj
+0 -9 Td
+(0232:       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">) Tj
+0 -9 Td
+(0233:         <MetricCardSkeleton icon={FileText} />) Tj
+0 -9 Td
+(0234:         <MetricCardSkeleton icon={Send} />) Tj
+0 -9 Td
+(0235:         <MetricCardSkeleton icon={Clock3} />) Tj
+0 -9 Td
+(0236:         <MetricCardSkeleton icon={CheckCircle2} />) Tj
+0 -9 Td
+(0237:         <MetricCardSkeleton icon={Undo2} />) Tj
+0 -9 Td
+(0238:         <MetricCardSkeleton icon={ArrowDown} />) Tj
+0 -9 Td
+(0239:       </div>) Tj
+0 -9 Td
+(0240: ) Tj
+0 -9 Td
+(0241:       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">) Tj
+0 -9 Td
+(0242:         <BreakdownPanelSkeleton) Tj
+0 -9 Td
+(0243:           title="Applications by IP Type") Tj
+0 -9 Td
+(0244:           description="Loading filing distribution across IP categories") Tj
+0 -9 Td
+(0245:           icon={Layers3}) Tj
+0 -9 Td
+(0246:         >) Tj
+0 -9 Td
+(0247:           <BreakdownItemSkeleton />) Tj
+0 -9 Td
+(0248:           <BreakdownItemSkeleton />) Tj
+0 -9 Td
+(0249:           <BreakdownItemSkeleton />) Tj
+0 -9 Td
+(0250:           <BreakdownItemSkeleton />) Tj
+0 -9 Td
+(0251:           <BreakdownItemSkeleton />) Tj
+0 -9 Td
+(0252:         </BreakdownPanelSkeleton>) Tj
+0 -9 Td
+(0253: ) Tj
+0 -9 Td
+(0254:         <BreakdownPanelSkeleton) Tj
+0 -9 Td
+(0255:           title="Applications by Year") Tj
+0 -9 Td
+(0256:           description="Loading yearly filing activity") Tj
+0 -9 Td
+(0257:           icon={CalendarRange}) Tj
+0 -9 Td
+(0258:         >) Tj
+0 -9 Td
+(0259:           <YearItemSkeleton />) Tj
+0 -9 Td
+(0260:           <YearItemSkeleton />) Tj
+0 -9 Td
+(0261:           <YearItemSkeleton />) Tj
+0 -9 Td
+(0262:           <YearItemSkeleton />) Tj
+0 -9 Td
+(0263:         </BreakdownPanelSkeleton>) Tj
+0 -9 Td
+(0264:       </div>) Tj
+0 -9 Td
+(0265:     </div>) Tj
+0 -9 Td
+(0266:   \);) Tj
+0 -9 Td
+(0267: }) Tj
+0 -9 Td
+(0268: ) Tj
+0 -9 Td
+(0269: export function MetricsTechgen\(\) {) Tj
+0 -9 Td
+(0270:   const { data, isLoading } = useGetDashboardAnalyticsTechgen\(\);) Tj
+0 -9 Td
+(0271: ) Tj
+0 -9 Td
+(0272:   const summary = useMemo\(\(\) => {) Tj
+0 -9 Td
+(0273:     const temp = {) Tj
+0 -9 Td
+(0274:       totalApplications: 0,) Tj
+0 -9 Td
+(0275:       filed: 0,) Tj
+0 -9 Td
+(0276:       pending: 0,) Tj
+0 -9 Td
+(0277:       granted: 0,) Tj
+0 -9 Td
+(0278:       withdrawn: 0,) Tj
+0 -9 Td
+(0279:       downgraded: 0,) Tj
+0 -9 Td
+(0280:     };) Tj
+0 -9 Td
+(0281: ) Tj
+0 -9 Td
+(0282:     if \(!data || data.length === 0\) {) Tj
+0 -9 Td
+(0283:       return temp;) Tj
+0 -9 Td
+(0284:     }) Tj
+0 -9 Td
+(0285: ) Tj
+0 -9 Td
+(0286:     temp.totalApplications = data.reduce\(\(acc, row\) => {) Tj
+0 -9 Td
+(0287:       return acc + \(row.total ?? 0\);) Tj
+0 -9 Td
+(0288:     }, 0\);) Tj
+0 -9 Td
+(0289: ) Tj
+0 -9 Td
+(0290:     for \(const status of STATUS_ORDER\) {) Tj
+0 -9 Td
+(0291:       const filteredRows = data.filter\() Tj
+0 -9 Td
+(0292:         \(row\) => row.dashboard_status === status,) Tj
+0 -9 Td
+(0293:       \);) Tj
+0 -9 Td
+(0294: ) Tj
+0 -9 Td
+(0295:       temp[status as keyof typeof temp] = filteredRows.reduce\(\(acc, row\) => {) Tj
+0 -9 Td
+(0296:         return acc + \(row.total ?? 0\);) Tj
+0 -9 Td
+(0297:       }, 0\);) Tj
+0 -9 Td
+(0298:     }) Tj
+0 -9 Td
+(0299: ) Tj
+0 -9 Td
+(0300:     return temp;) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Length 3409 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 6 of 18) Tj
+0 -14 Td
+(0301:   }, [data]\);) Tj
+0 -9 Td
+(0302: ) Tj
+0 -9 Td
+(0303:   const ipTypeIcon = {) Tj
+0 -9 Td
+(0304:     patent: Shield,) Tj
+0 -9 Td
+(0305:     utility_model: Shapes,) Tj
+0 -9 Td
+(0306:     industrial_design: Palette,) Tj
+0 -9 Td
+(0307:     copyright: Copyright,) Tj
+0 -9 Td
+(0308:     trademark: BadgeCheck,) Tj
+0 -9 Td
+(0309:   };) Tj
+0 -9 Td
+(0310: ) Tj
+0 -9 Td
+(0311:   const applicationsByType = useMemo\(\(\) => {) Tj
+0 -9 Td
+(0312:     const temp: { label: string; value: number; icon: React.ElementType }[] =) Tj
+0 -9 Td
+(0313:       [];) Tj
+0 -9 Td
+(0314: ) Tj
+0 -9 Td
+(0315:     if \(!data || data.length === 0\) {) Tj
+0 -9 Td
+(0316:       return temp;) Tj
+0 -9 Td
+(0317:     }) Tj
+0 -9 Td
+(0318: ) Tj
+0 -9 Td
+(0319:     for \(const ipType of IP_TYPES\) {) Tj
+0 -9 Td
+(0320:       const filteredRows = data.filter\(\(row\) => row.ip_type === ipType\);) Tj
+0 -9 Td
+(0321: ) Tj
+0 -9 Td
+(0322:       const value = filteredRows.reduce\(\(acc, row\) => {) Tj
+0 -9 Td
+(0323:         return acc + \(row.total ?? 0\);) Tj
+0 -9 Td
+(0324:       }, 0\);) Tj
+0 -9 Td
+(0325: ) Tj
+0 -9 Td
+(0326:       temp.push\({) Tj
+0 -9 Td
+(0327:         label: ipTypeToTitle\(ipType\),) Tj
+0 -9 Td
+(0328:         value,) Tj
+0 -9 Td
+(0329:         icon: ipTypeIcon[ipType],) Tj
+0 -9 Td
+(0330:       }\);) Tj
+0 -9 Td
+(0331:     }) Tj
+0 -9 Td
+(0332: ) Tj
+0 -9 Td
+(0333:     return temp;) Tj
+0 -9 Td
+(0334:   }, [data]\);) Tj
+0 -9 Td
+(0335: ) Tj
+0 -9 Td
+(0336:   const applicationsByYear = useMemo\(\(\) => {) Tj
+0 -9 Td
+(0337:     const temp: Record<number, number> = {};) Tj
+0 -9 Td
+(0338: ) Tj
+0 -9 Td
+(0339:     if \(!data || data.length === 0\) {) Tj
+0 -9 Td
+(0340:       return temp;) Tj
+0 -9 Td
+(0341:     }) Tj
+0 -9 Td
+(0342: ) Tj
+0 -9 Td
+(0343:     data.forEach\(\(item\) => {) Tj
+0 -9 Td
+(0344:       if \(!item || !item.year\) return;) Tj
+0 -9 Td
+(0345: ) Tj
+0 -9 Td
+(0346:       temp[item.year] = \(temp[item.year] ?? 0\) + \(item.total ?? 0\);) Tj
+0 -9 Td
+(0347:     }\);) Tj
+0 -9 Td
+(0348: ) Tj
+0 -9 Td
+(0349:     return temp;) Tj
+0 -9 Td
+(0350:   }, [data]\);) Tj
+0 -9 Td
+(0351: ) Tj
+0 -9 Td
+(0352:   if \(isLoading\) {) Tj
+0 -9 Td
+(0353:     return <DashboardLoadingState />;) Tj
+0 -9 Td
+(0354:   }) Tj
+0 -9 Td
+(0355: ) Tj
+0 -9 Td
+(0356:   const hasApplications = summary.totalApplications > 0;) Tj
+0 -9 Td
+(0357:   const highestYearTotal =) Tj
+0 -9 Td
+(0358:     Object.keys\(applicationsByYear\).length > 0) Tj
+0 -9 Td
+(0359:       ? Math.max\(...Object.values\(applicationsByYear\)\)) Tj
+0 -9 Td
+(0360:       : 0;) Tj
+0 -9 Td
+(0361: ) Tj
+0 -9 Td
+(0362:   return \() Tj
+0 -9 Td
+(0363:     <div className="space-y-6">) Tj
+0 -9 Td
+(0364:       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">) Tj
+0 -9 Td
+(0365:         <MetricCard) Tj
+0 -9 Td
+(0366:           title="Total Applications") Tj
+0 -9 Td
+(0367:           value={summary.totalApplications}) Tj
+0 -9 Td
+(0368:           subtitle="All IP applications recorded") Tj
+0 -9 Td
+(0369:           emptyText="No applications recorded yet") Tj
+0 -9 Td
+(0370:           icon={FileText}) Tj
+0 -9 Td
+(0371:           isEmpty={!hasApplications}) Tj
+0 -9 Td
+(0372:         />) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 12 0 R >>
+endobj
+14 0 obj
+<< /Length 4132 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 7 of 18) Tj
+0 -14 Td
+(0373:         <MetricCard) Tj
+0 -9 Td
+(0374:           title="Filed") Tj
+0 -9 Td
+(0375:           value={summary.filed}) Tj
+0 -9 Td
+(0376:           subtitle="Applications formally filed") Tj
+0 -9 Td
+(0377:           emptyText="No filed applications yet") Tj
+0 -9 Td
+(0378:           icon={Send}) Tj
+0 -9 Td
+(0379:           isEmpty={!hasApplications}) Tj
+0 -9 Td
+(0380:         />) Tj
+0 -9 Td
+(0381:         <MetricCard) Tj
+0 -9 Td
+(0382:           title="Pending") Tj
+0 -9 Td
+(0383:           value={summary.pending}) Tj
+0 -9 Td
+(0384:           subtitle="Currently under review or processing") Tj
+0 -9 Td
+(0385:           emptyText="No pending applications yet") Tj
+0 -9 Td
+(0386:           icon={Clock3}) Tj
+0 -9 Td
+(0387:           isEmpty={!hasApplications}) Tj
+0 -9 Td
+(0388:         />) Tj
+0 -9 Td
+(0389:         <MetricCard) Tj
+0 -9 Td
+(0390:           title="Granted") Tj
+0 -9 Td
+(0391:           value={summary.granted}) Tj
+0 -9 Td
+(0392:           subtitle="Applications successfully granted") Tj
+0 -9 Td
+(0393:           emptyText="No granted applications yet") Tj
+0 -9 Td
+(0394:           icon={CheckCircle2}) Tj
+0 -9 Td
+(0395:           isEmpty={!hasApplications}) Tj
+0 -9 Td
+(0396:         />) Tj
+0 -9 Td
+(0397:         <MetricCard) Tj
+0 -9 Td
+(0398:           title="Withdrawn") Tj
+0 -9 Td
+(0399:           value={summary.withdrawn}) Tj
+0 -9 Td
+(0400:           subtitle="Applications withdrawn") Tj
+0 -9 Td
+(0401:           emptyText="No withdrawn applications yet") Tj
+0 -9 Td
+(0402:           icon={Undo2}) Tj
+0 -9 Td
+(0403:           isEmpty={!hasApplications}) Tj
+0 -9 Td
+(0404:         />) Tj
+0 -9 Td
+(0405:         <MetricCard) Tj
+0 -9 Td
+(0406:           title="Downgraded") Tj
+0 -9 Td
+(0407:           value={summary.downgraded}) Tj
+0 -9 Td
+(0408:           subtitle="Applications moved to a lower IP type") Tj
+0 -9 Td
+(0409:           emptyText="No downgraded applications yet") Tj
+0 -9 Td
+(0410:           icon={ArrowDown}) Tj
+0 -9 Td
+(0411:           isEmpty={!hasApplications}) Tj
+0 -9 Td
+(0412:         />) Tj
+0 -9 Td
+(0413:       </div>) Tj
+0 -9 Td
+(0414: ) Tj
+0 -9 Td
+(0415:       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">) Tj
+0 -9 Td
+(0416:         <div className="rounded-2xl border border-gray-200 bg-white p-5">) Tj
+0 -9 Td
+(0417:           <div className="mb-4">) Tj
+0 -9 Td
+(0418:             <div className="flex items-center gap-2">) Tj
+0 -9 Td
+(0419:               <div className="bg-brand-50 flex h-8 w-8 items-center justify-center rounded-lg">) Tj
+0 -9 Td
+(0420:                 <Layers3 className="text-brand-600 h-4 w-4" />) Tj
+0 -9 Td
+(0421:               </div>) Tj
+0 -9 Td
+(0422:               <h2 className="text-lg font-semibold text-gray-900">) Tj
+0 -9 Td
+(0423:                 Applications by IP Type) Tj
+0 -9 Td
+(0424:               </h2>) Tj
+0 -9 Td
+(0425:             </div>) Tj
+0 -9 Td
+(0426:             <p className="mt-2 text-sm text-gray-500">) Tj
+0 -9 Td
+(0427:               Distribution of your filings across IP categories) Tj
+0 -9 Td
+(0428:             </p>) Tj
+0 -9 Td
+(0429:           </div>) Tj
+0 -9 Td
+(0430: ) Tj
+0 -9 Td
+(0431:           {hasApplications && applicationsByType.length > 0 ? \() Tj
+0 -9 Td
+(0432:             <div className="space-y-3">) Tj
+0 -9 Td
+(0433:               {applicationsByType.map\(\(item\) => \() Tj
+0 -9 Td
+(0434:                 <BreakdownItem) Tj
+0 -9 Td
+(0435:                   key={item.label}) Tj
+0 -9 Td
+(0436:                   label={item.label}) Tj
+0 -9 Td
+(0437:                   value={item.value}) Tj
+0 -9 Td
+(0438:                   total={summary.totalApplications}) Tj
+0 -9 Td
+(0439:                   icon={item.icon}) Tj
+0 -9 Td
+(0440:                 />) Tj
+0 -9 Td
+(0441:               \)\)}) Tj
+0 -9 Td
+(0442:             </div>) Tj
+0 -9 Td
+(0443:           \) : \() Tj
+0 -9 Td
+(0444:             <EmptyPanel) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 14 0 R >>
+endobj
+16 0 obj
+<< /Length 4341 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 8 of 18) Tj
+0 -14 Td
+(0445:               title="No IP type data yet") Tj
+0 -9 Td
+(0446:               description="Once applications are recorded, their distribution across patent, utility model, ) Tj
+0 -9 Td
+(      | industrial design, trademark, and copyright will appear here.") Tj
+0 -9 Td
+(0447:               icon={Layers3}) Tj
+0 -9 Td
+(0448:             />) Tj
+0 -9 Td
+(0449:           \)}) Tj
+0 -9 Td
+(0450:         </div>) Tj
+0 -9 Td
+(0451: ) Tj
+0 -9 Td
+(0452:         <div className="rounded-2xl border border-gray-200 bg-white p-5">) Tj
+0 -9 Td
+(0453:           <div className="mb-4">) Tj
+0 -9 Td
+(0454:             <div className="flex items-center gap-2">) Tj
+0 -9 Td
+(0455:               <div className="bg-brand-50 flex h-8 w-8 items-center justify-center rounded-lg">) Tj
+0 -9 Td
+(0456:                 <CalendarRange className="text-brand-600 h-4 w-4" />) Tj
+0 -9 Td
+(0457:               </div>) Tj
+0 -9 Td
+(0458:               <h2 className="text-lg font-semibold text-gray-900">) Tj
+0 -9 Td
+(0459:                 Applications by Year) Tj
+0 -9 Td
+(0460:               </h2>) Tj
+0 -9 Td
+(0461:             </div>) Tj
+0 -9 Td
+(0462:             <p className="mt-2 text-sm text-gray-500">) Tj
+0 -9 Td
+(0463:               Filing activity over the years) Tj
+0 -9 Td
+(0464:             </p>) Tj
+0 -9 Td
+(0465:           </div>) Tj
+0 -9 Td
+(0466: ) Tj
+0 -9 Td
+(0467:           {hasApplications && Object.keys\(applicationsByYear\).length > 0 ? \() Tj
+0 -9 Td
+(0468:             <div className="space-y-4">) Tj
+0 -9 Td
+(0469:               {Object.entries\(applicationsByYear\).map\(\([year, total]\) => \() Tj
+0 -9 Td
+(0470:                 <YearItem) Tj
+0 -9 Td
+(0471:                   key={year}) Tj
+0 -9 Td
+(0472:                   year={Number\(year\)}) Tj
+0 -9 Td
+(0473:                   total={total}) Tj
+0 -9 Td
+(0474:                   max={highestYearTotal}) Tj
+0 -9 Td
+(0475:                 />) Tj
+0 -9 Td
+(0476:               \)\)}) Tj
+0 -9 Td
+(0477:             </div>) Tj
+0 -9 Td
+(0478:           \) : \() Tj
+0 -9 Td
+(0479:             <EmptyPanel) Tj
+0 -9 Td
+(0480:               title="No yearly activity yet") Tj
+0 -9 Td
+(0481:               description="Application activity by year will appear here once at least one IP application has ) Tj
+0 -9 Td
+(      | been recorded.") Tj
+0 -9 Td
+(0482:               icon={CalendarRange}) Tj
+0 -9 Td
+(0483:             />) Tj
+0 -9 Td
+(0484:           \)}) Tj
+0 -9 Td
+(0485:         </div>) Tj
+0 -9 Td
+(0486:       </div>) Tj
+0 -9 Td
+(0487: ) Tj
+0 -9 Td
+(0488:       {!hasApplications && \() Tj
+0 -9 Td
+(0489:         <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-6">) Tj
+0 -9 Td
+(0490:           <div className="flex items-start gap-4">) Tj
+0 -9 Td
+(0491:             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100">) Tj
+0 -9 Td
+(0492:               <Inbox className="h-6 w-6 text-gray-500" />) Tj
+0 -9 Td
+(0493:             </div>) Tj
+0 -9 Td
+(0494:             <div>) Tj
+0 -9 Td
+(0495:               <h2 className="text-lg font-semibold text-gray-900">) Tj
+0 -9 Td
+(0496:                 No applications yet) Tj
+0 -9 Td
+(0497:               </h2>) Tj
+0 -9 Td
+(0498:               <p className="mt-1 text-sm text-gray-500">) Tj
+0 -9 Td
+(0499:                 When this TechGen starts submitting intellectual property) Tj
+0 -9 Td
+(0500:                 applications, the dashboard metrics and breakdowns will appear) Tj
+0 -9 Td
+(0501:                 here.) Tj
+0 -9 Td
+(0502:               </p>) Tj
+0 -9 Td
+(0503:             </div>) Tj
+0 -9 Td
+(0504:           </div>) Tj
+0 -9 Td
+(0505:         </div>) Tj
+0 -9 Td
+(0506:       \)}) Tj
+0 -9 Td
+(0507:     </div>) Tj
+0 -9 Td
+(0508:   \);) Tj
+0 -9 Td
+(0509: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/components/techgen/StatusUpdatesPanel.tsx) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: "use client";) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 16 0 R >>
+endobj
+18 0 obj
+<< /Length 3739 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 9 of 18) Tj
+0 -14 Td
+(0002: ) Tj
+0 -9 Td
+(0003: import Link from "next/link";) Tj
+0 -9 Td
+(0004: import { ReactNode } from "react";) Tj
+0 -9 Td
+(0005: ) Tj
+0 -9 Td
+(0006: import { StatusType } from "@/lib/types/ip";) Tj
+0 -9 Td
+(0007: import { STATUS_LABELS } from "@/lib/helper/status-labels";) Tj
+0 -9 Td
+(0008: import { formatDate, formatDateTime } from "@/lib/helper/format-date";) Tj
+0 -9 Td
+(0009: import { useGetMultipleApplicationStatuses } from "@/hooks/status/useGetMultipleApplicationStatuses";) Tj
+0 -9 Td
+(0010: import { useGetMultipleAppById } from "@/hooks/applications/useGetMultipleApplicationById";) Tj
+0 -9 Td
+(0011: import { IprStatusType } from "@/lib/types/status";) Tj
+0 -9 Td
+(0012: import { Clock3 } from "lucide-react";) Tj
+0 -9 Td
+(0013: ) Tj
+0 -9 Td
+(0014: interface PropsInterface {) Tj
+0 -9 Td
+(0015:   applicationIds: string[];) Tj
+0 -9 Td
+(0016: }) Tj
+0 -9 Td
+(0017: ) Tj
+0 -9 Td
+(0018: type StatusListItem = {) Tj
+0 -9 Td
+(0019:   applicationId: string;) Tj
+0 -9 Td
+(0020:   projectTitle: string;) Tj
+0 -9 Td
+(0021:   status: IprStatusType["Row"];) Tj
+0 -9 Td
+(0022:   timestamp: number;) Tj
+0 -9 Td
+(0023: };) Tj
+0 -9 Td
+(0024: ) Tj
+0 -9 Td
+(0025: export default function StatusUpdatesPanel\(props: PropsInterface\) {) Tj
+0 -9 Td
+(0026:   const { applicationIds } = props;) Tj
+0 -9 Td
+(0027: ) Tj
+0 -9 Td
+(0028:   const { statuses, isLoading: isStatusesLoading } =) Tj
+0 -9 Td
+(0029:     useGetMultipleApplicationStatuses\({) Tj
+0 -9 Td
+(0030:       applicationIds,) Tj
+0 -9 Td
+(0031:       isLatest: true,) Tj
+0 -9 Td
+(0032:     }\);) Tj
+0 -9 Td
+(0033: ) Tj
+0 -9 Td
+(0034:   const { applications } = useGetMultipleAppById\({) Tj
+0 -9 Td
+(0035:     applicationIds,) Tj
+0 -9 Td
+(0036:   }\);) Tj
+0 -9 Td
+(0037: ) Tj
+0 -9 Td
+(0038:   if \(isStatusesLoading.length > 0 && isStatusesLoading.every\(Boolean\)\) {) Tj
+0 -9 Td
+(0039:     return <StatusUpdateContainer>Fetching statuses...</StatusUpdateContainer>;) Tj
+0 -9 Td
+(0040:   }) Tj
+0 -9 Td
+(0041: ) Tj
+0 -9 Td
+(0042:   if \() Tj
+0 -9 Td
+(0043:     !statuses ||) Tj
+0 -9 Td
+(0044:     statuses.length < 1 ||) Tj
+0 -9 Td
+(0045:     !applications ||) Tj
+0 -9 Td
+(0046:     applications.length < 1) Tj
+0 -9 Td
+(0047:   \) {) Tj
+0 -9 Td
+(0048:     return \() Tj
+0 -9 Td
+(0049:       <StatusUpdateContainer>) Tj
+0 -9 Td
+(0050:         <EmptyStateText>No status history available.</EmptyStateText>) Tj
+0 -9 Td
+(0051:       </StatusUpdateContainer>) Tj
+0 -9 Td
+(0052:     \);) Tj
+0 -9 Td
+(0053:   }) Tj
+0 -9 Td
+(0054: ) Tj
+0 -9 Td
+(0055:   const statusList: StatusListItem[] = statuses) Tj
+0 -9 Td
+(0056:     .map\(\(status, i\) => {) Tj
+0 -9 Td
+(0057:       if \(Array.isArray\(status\)\) return null;) Tj
+0 -9 Td
+(0058: ) Tj
+0 -9 Td
+(0059:       const application = applications[i];) Tj
+0 -9 Td
+(0060:       if \(!status || !application || !status.created_at\) return null;) Tj
+0 -9 Td
+(0061: ) Tj
+0 -9 Td
+(0062:       const timestamp = Date.parse\(status.created_at\);) Tj
+0 -9 Td
+(0063:       if \(isNaN\(timestamp\)\) return null;) Tj
+0 -9 Td
+(0064: ) Tj
+0 -9 Td
+(0065:       return {) Tj
+0 -9 Td
+(0066:         applicationId: application.id,) Tj
+0 -9 Td
+(0067:         projectTitle: application.project_title,) Tj
+0 -9 Td
+(0068:         status,) Tj
+0 -9 Td
+(0069:         timestamp,) Tj
+0 -9 Td
+(0070:       };) Tj
+0 -9 Td
+(0071:     }\)) Tj
+0 -9 Td
+(0072:     .filter\(\(item\): item is StatusListItem => item !== null\)) Tj
+0 -9 Td
+(0073:     .sort\(\(a, b\) => b.timestamp - a.timestamp\);) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 18 0 R >>
+endobj
+20 0 obj
+<< /Length 3998 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 10 of 18) Tj
+0 -14 Td
+(0074: ) Tj
+0 -9 Td
+(0075:   return \() Tj
+0 -9 Td
+(0076:     <StatusUpdateContainer>) Tj
+0 -9 Td
+(0077:       <div className="mt-3 max-h-[24rem] overflow-y-auto pr-1">) Tj
+0 -9 Td
+(0078:         <div className="relative pl-5">) Tj
+0 -9 Td
+(0079:           <div className="absolute top-1 bottom-1 left-[7px] w-px bg-[var\(--color-gray-200\)]" />) Tj
+0 -9 Td
+(0080: ) Tj
+0 -9 Td
+(0081:           <div className="space-y-3">) Tj
+0 -9 Td
+(0082:             {statusList.map\(\(item\) => {) Tj
+0 -9 Td
+(0083:               const label =) Tj
+0 -9 Td
+(0084:                 STATUS_LABELS[item.status.status_type as StatusType] ??) Tj
+0 -9 Td
+(0085:                 item.status.status_type;) Tj
+0 -9 Td
+(0086: ) Tj
+0 -9 Td
+(0087:               return \() Tj
+0 -9 Td
+(0088:                 <TimelineItem) Tj
+0 -9 Td
+(0089:                   key={`${item.applicationId}-${item.status.created_at}`}) Tj
+0 -9 Td
+(0090:                   applicationId={item.applicationId}) Tj
+0 -9 Td
+(0091:                   projectTitle={item.projectTitle}) Tj
+0 -9 Td
+(0092:                   label={label}) Tj
+0 -9 Td
+(0093:                   createdAt={item.status.created_at!}) Tj
+0 -9 Td
+(0094:                   note={item.status.note}) Tj
+0 -9 Td
+(0095:                   deadline={item.status.deadline}) Tj
+0 -9 Td
+(0096:                 />) Tj
+0 -9 Td
+(0097:               \);) Tj
+0 -9 Td
+(0098:             }\)}) Tj
+0 -9 Td
+(0099:           </div>) Tj
+0 -9 Td
+(0100:         </div>) Tj
+0 -9 Td
+(0101:       </div>) Tj
+0 -9 Td
+(0102:     </StatusUpdateContainer>) Tj
+0 -9 Td
+(0103:   \);) Tj
+0 -9 Td
+(0104: }) Tj
+0 -9 Td
+(0105: ) Tj
+0 -9 Td
+(0106: interface TimelineItemProps {) Tj
+0 -9 Td
+(0107:   applicationId: string;) Tj
+0 -9 Td
+(0108:   projectTitle: string;) Tj
+0 -9 Td
+(0109:   label: string;) Tj
+0 -9 Td
+(0110:   createdAt: string;) Tj
+0 -9 Td
+(0111:   note?: string | null;) Tj
+0 -9 Td
+(0112:   deadline?: string | null;) Tj
+0 -9 Td
+(0113: }) Tj
+0 -9 Td
+(0114: ) Tj
+0 -9 Td
+(0115: function TimelineItem\({) Tj
+0 -9 Td
+(0116:   applicationId,) Tj
+0 -9 Td
+(0117:   projectTitle,) Tj
+0 -9 Td
+(0118:   label,) Tj
+0 -9 Td
+(0119:   createdAt,) Tj
+0 -9 Td
+(0120:   note,) Tj
+0 -9 Td
+(0121:   deadline,) Tj
+0 -9 Td
+(0122: }: TimelineItemProps\) {) Tj
+0 -9 Td
+(0123:   return \() Tj
+0 -9 Td
+(0124:     <div className="relative">) Tj
+0 -9 Td
+(0125:       <div className="absolute top-2.5 -left-5 h-3.5 w-3.5 rounded-full border border-[var\(--color-gray-300\)] ) Tj
+0 -9 Td
+(      | bg-white">) Tj
+0 -9 Td
+(0126:         <div className="absolute top-1/2 left-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full ) Tj
+0 -9 Td
+(      | bg-[var\(--color-gray-400\)]" />) Tj
+0 -9 Td
+(0127:       </div>) Tj
+0 -9 Td
+(0128: ) Tj
+0 -9 Td
+(0129:       <div className="rounded-xl border border-[var\(--color-gray-200\)] bg-white px-3 py-2.5 ) Tj
+0 -9 Td
+(      | hover:border-[var\(--color-gray-300\)]">) Tj
+0 -9 Td
+(0130:         <div className="flex items-start justify-between gap-3">) Tj
+0 -9 Td
+(0131:           <div className="min-w-0 flex-1">) Tj
+0 -9 Td
+(0132:             <div className="flex items-start justify-between gap-3">) Tj
+0 -9 Td
+(0133:               <Link) Tj
+0 -9 Td
+(0134:                 href={`/applications/${applicationId}`}) Tj
+0 -9 Td
+(0135:                 className="truncate text-sm font-medium text-[var\(--color-gray-900\)] hover:text-[var\(--color-) Tj
+0 -9 Td
+(      | brand-600\)]") Tj
+0 -9 Td
+(0136:               >) Tj
+0 -9 Td
+(0137:                 {projectTitle}) Tj
+0 -9 Td
+(0138:               </Link>) Tj
+0 -9 Td
+(0139: ) Tj
+0 -9 Td
+(0140:               <p className="shrink-0 text-[11px] text-[var\(--color-gray-500\)]">) Tj
+0 -9 Td
+(0141:                 {formatDateTime\(createdAt\)}) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+21 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 20 0 R >>
+endobj
+22 0 obj
+<< /Length 4046 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 11 of 18) Tj
+0 -14 Td
+(0142:               </p>) Tj
+0 -9 Td
+(0143:             </div>) Tj
+0 -9 Td
+(0144: ) Tj
+0 -9 Td
+(0145:             <div className="mt-1 flex items-center gap-2">) Tj
+0 -9 Td
+(0146:               <p className="text-xs font-medium text-[var\(--color-gray-700\)]">) Tj
+0 -9 Td
+(0147:                 {label}) Tj
+0 -9 Td
+(0148:               </p>) Tj
+0 -9 Td
+(0149: ) Tj
+0 -9 Td
+(0150:               <span className="h-1 w-1 rounded-full bg-[var\(--color-gray-300\)]" />) Tj
+0 -9 Td
+(0151: ) Tj
+0 -9 Td
+(0152:               <Link) Tj
+0 -9 Td
+(0153:                 href={`/techgen/view-application?applicationID=${applicationId}`}) Tj
+0 -9 Td
+(0154:                 className="text-xs text-[var\(--color-brand-600\)] hover:text-[var\(--color-brand-700\)]") Tj
+0 -9 Td
+(0155:               >) Tj
+0 -9 Td
+(0156:                 View) Tj
+0 -9 Td
+(0157:               </Link>) Tj
+0 -9 Td
+(0158:             </div>) Tj
+0 -9 Td
+(0159: ) Tj
+0 -9 Td
+(0160:             {note && \() Tj
+0 -9 Td
+(0161:               <p className="mt-2 line-clamp-2 text-xs text-[var\(--color-gray-600\)]">) Tj
+0 -9 Td
+(0162:                 {note}) Tj
+0 -9 Td
+(0163:               </p>) Tj
+0 -9 Td
+(0164:             \)}) Tj
+0 -9 Td
+(0165: ) Tj
+0 -9 Td
+(0166:             {deadline && \() Tj
+0 -9 Td
+(0167:               <p className="mt-1 text-xs text-[var\(--color-error-600\)]">) Tj
+0 -9 Td
+(0168:                 Deadline: {formatDate\(deadline\)}) Tj
+0 -9 Td
+(0169:               </p>) Tj
+0 -9 Td
+(0170:             \)}) Tj
+0 -9 Td
+(0171:           </div>) Tj
+0 -9 Td
+(0172:         </div>) Tj
+0 -9 Td
+(0173:       </div>) Tj
+0 -9 Td
+(0174:     </div>) Tj
+0 -9 Td
+(0175:   \);) Tj
+0 -9 Td
+(0176: }) Tj
+0 -9 Td
+(0177: ) Tj
+0 -9 Td
+(0178: function StatusUpdateContainer\({ children }: { children: ReactNode }\) {) Tj
+0 -9 Td
+(0179:   return \() Tj
+0 -9 Td
+(0180:     <div className="rounded-2xl border border-[var\(--color-gray-200\)] bg-white p-4">) Tj
+0 -9 Td
+(0181:       <div className="mb-4">) Tj
+0 -9 Td
+(0182:         <div className="flex items-center gap-2">) Tj
+0 -9 Td
+(0183:           <div className="bg-brand-50 flex h-8 w-8 items-center justify-center rounded-lg">) Tj
+0 -9 Td
+(0184:             <Clock3 className="text-brand-600 h-4 w-4" />) Tj
+0 -9 Td
+(0185:           </div>) Tj
+0 -9 Td
+(0186:           <h2 className="text-lg font-semibold text-gray-900">) Tj
+0 -9 Td
+(0187:             Recent Updates) Tj
+0 -9 Td
+(0188:           </h2>) Tj
+0 -9 Td
+(0189:         </div>) Tj
+0 -9 Td
+(0190:         <p className="mt-2 text-sm text-gray-500">) Tj
+0 -9 Td
+(0191:           Latest update for each application) Tj
+0 -9 Td
+(0192:         </p>) Tj
+0 -9 Td
+(0193:       </div>) Tj
+0 -9 Td
+(0194:       {children}) Tj
+0 -9 Td
+(0195:     </div>) Tj
+0 -9 Td
+(0196:   \);) Tj
+0 -9 Td
+(0197: }) Tj
+0 -9 Td
+(0198: ) Tj
+0 -9 Td
+(0199: function EmptyStateText\({ children }: { children: ReactNode }\) {) Tj
+0 -9 Td
+(0200:   return \() Tj
+0 -9 Td
+(0201:     <div className="flex min-h-[120px] items-center justify-center rounded-xl border border-dashed ) Tj
+0 -9 Td
+(      | border-[var\(--color-gray-200\)] bg-[var\(--color-gray-25\)] px-4 text-sm text-[var\(--color-gray-500\)]">) Tj
+0 -9 Td
+(0202:       {children}) Tj
+0 -9 Td
+(0203:     </div>) Tj
+0 -9 Td
+(0204:   \);) Tj
+0 -9 Td
+(0205: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/hooks/applications/useGetUserApplications.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { getUserApplicationIds } from "@/services/application/get-user-applications";) Tj
+0 -9 Td
+(0002: import { useQuery } from "@tanstack/react-query";) Tj
+0 -9 Td
+(0003: ) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+23 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 22 0 R >>
+endobj
+24 0 obj
+<< /Length 3978 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 12 of 18) Tj
+0 -14 Td
+(0004: export function useGetUserApplicationIds\(\) {) Tj
+0 -9 Td
+(0005:     const { data, isLoading } = useQuery\({) Tj
+0 -9 Td
+(0006:         queryKey: ['user-applications'],) Tj
+0 -9 Td
+(0007:         queryFn: getUserApplicationIds) Tj
+0 -9 Td
+(0008:     }\)) Tj
+0 -9 Td
+(0009: ) Tj
+0 -9 Td
+(0010:     return {userApplicationIds: data, isLoading}) Tj
+0 -9 Td
+(0011: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/services/application/get-user-applications.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { supabaseClient as supabase } from "@/lib/supabase";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: export const getUserApplicationIds = async function\(\) {) Tj
+0 -9 Td
+(0004:     const { data: { user } } = await supabase.auth.getUser\(\);) Tj
+0 -9 Td
+(0005:     const userId = user?.id;) Tj
+0 -9 Td
+(0006: ) Tj
+0 -9 Td
+(0007:     if \(!userId\) {) Tj
+0 -9 Td
+(0008:         throw new Error\("Cannot find user id"\);) Tj
+0 -9 Td
+(0009:     }) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011:     const {data, error} = await supabase) Tj
+0 -9 Td
+(0012:     .schema\("private"\)) Tj
+0 -9 Td
+(0013:     .from\("inventors"\)) Tj
+0 -9 Td
+(0014:     .select\("application_id"\)) Tj
+0 -9 Td
+(0015:     .eq\("techgen_id", userId\)) Tj
+0 -9 Td
+(0016: ) Tj
+0 -9 Td
+(0017:     if \(error\) {) Tj
+0 -9 Td
+(0018:         throw new Error\(error.message\);) Tj
+0 -9 Td
+(0019:     }) Tj
+0 -9 Td
+(0020: ) Tj
+0 -9 Td
+(0021:     return data;) Tj
+0 -9 Td
+(0022: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/hooks/views/useGetDashboardAnalyticsTechgen.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { getDashboardAnalyticsTechgen } from "@/services/views/get-dashboard-analytics-techgen";) Tj
+0 -9 Td
+(0002: import { useQuery } from "@tanstack/react-query";) Tj
+0 -9 Td
+(0003: ) Tj
+0 -9 Td
+(0004: export function useGetDashboardAnalyticsTechgen\() Tj
+0 -9 Td
+(0005: \) {) Tj
+0 -9 Td
+(0006:   const { data, isPending } = useQuery\({) Tj
+0 -9 Td
+(0007:     queryKey: ["dashboard-analytics-techgen"],) Tj
+0 -9 Td
+(0008:     queryFn: \(\) => getDashboardAnalyticsTechgen\(\),) Tj
+0 -9 Td
+(0009:   }\);) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011:   return { data, isLoading: isPending };) Tj
+0 -9 Td
+(0012: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/services/views/get-dashboard-analytics-techgen.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { supabaseClient as supabase } from "@/lib/supabase";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: export const getDashboardAnalyticsTechgen = async function \() Tj
+0 -9 Td
+(0004: \) {) Tj
+0 -9 Td
+(0005:   const { data: {user}} = await supabase.auth.getUser\(\);) Tj
+0 -9 Td
+(0006: ) Tj
+0 -9 Td
+(0007:   if \(!user\) {) Tj
+0 -9 Td
+(0008:     throw new Error\("User not found."\);) Tj
+0 -9 Td
+(0009:   }) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011:   const { data, error } = await supabase) Tj
+0 -9 Td
+(0012:     .from\("v_dashboard_analytics_techgen"\)) Tj
+0 -9 Td
+(0013:     .select\(\)) Tj
+0 -9 Td
+(0014:     .eq\("techgen_id", user.id\)) Tj
+0 -9 Td
+(0015:     .order\("year", { ascending: false }\);) Tj
+0 -9 Td
+(0016: ) Tj
+0 -9 Td
+(0017:   if \(error\) {) Tj
+0 -9 Td
+(0018:     throw new Error\(error.message\);) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+25 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 24 0 R >>
+endobj
+26 0 obj
+<< /Length 3393 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 13 of 18) Tj
+0 -14 Td
+(0019:   }) Tj
+0 -9 Td
+(0020: ) Tj
+0 -9 Td
+(0021:   return data;) Tj
+0 -9 Td
+(0022: };) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/lib/dashboard/dashboard-summary.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { DashboardAnalyticsType } from "@/lib/types/views";) Tj
+0 -9 Td
+(0002: import { ipTypeToTitle } from "../helper/get-ip-title";) Tj
+0 -9 Td
+(0003: import { IP_TYPES } from "../types/ip";) Tj
+0 -9 Td
+(0004: ) Tj
+0 -9 Td
+(0005: export const STATUS_ORDER = [) Tj
+0 -9 Td
+(0006:   "filed",) Tj
+0 -9 Td
+(0007:   "pending",) Tj
+0 -9 Td
+(0008:   "granted",) Tj
+0 -9 Td
+(0009:   "withdrawn",) Tj
+0 -9 Td
+(0010:   "downgraded",) Tj
+0 -9 Td
+(0011: ] as const;) Tj
+0 -9 Td
+(0012: ) Tj
+0 -9 Td
+(0013: export type DashboardStatus = \(typeof STATUS_ORDER\)[number];) Tj
+0 -9 Td
+(0014: ) Tj
+0 -9 Td
+(0015: export const DASHBOARD_STATUS_LABELS: Record<DashboardStatus, string> = {) Tj
+0 -9 Td
+(0016:   filed: "Filed",) Tj
+0 -9 Td
+(0017:   pending: "Pending",) Tj
+0 -9 Td
+(0018:   granted: "Granted",) Tj
+0 -9 Td
+(0019:   withdrawn: "Withdrawn",) Tj
+0 -9 Td
+(0020:   downgraded: "Downgraded",) Tj
+0 -9 Td
+(0021: };) Tj
+0 -9 Td
+(0022: ) Tj
+0 -9 Td
+(0023: export type SummaryTableRow = {) Tj
+0 -9 Td
+(0024:   year: number;) Tj
+0 -9 Td
+(0025:   ipType: string;) Tj
+0 -9 Td
+(0026:   filed: number;) Tj
+0 -9 Td
+(0027:   pending: number;) Tj
+0 -9 Td
+(0028:   granted: number;) Tj
+0 -9 Td
+(0029:   withdrawn: number;) Tj
+0 -9 Td
+(0030:   downgraded: number;) Tj
+0 -9 Td
+(0031:   total: number;) Tj
+0 -9 Td
+(0032: };) Tj
+0 -9 Td
+(0033: ) Tj
+0 -9 Td
+(0034: export type SummaryTotals = {) Tj
+0 -9 Td
+(0035:   filed: number;) Tj
+0 -9 Td
+(0036:   pending: number;) Tj
+0 -9 Td
+(0037:   granted: number;) Tj
+0 -9 Td
+(0038:   withdrawn: number;) Tj
+0 -9 Td
+(0039:   downgraded: number;) Tj
+0 -9 Td
+(0040:   total: number;) Tj
+0 -9 Td
+(0041: };) Tj
+0 -9 Td
+(0042: ) Tj
+0 -9 Td
+(0043: export const formatIpTypeLabel = \(ipType: string\) => {) Tj
+0 -9 Td
+(0044:   return \() Tj
+0 -9 Td
+(0045:     ipTypeToTitle\(ipType\) ??) Tj
+0 -9 Td
+(0046:     ipType) Tj
+0 -9 Td
+(0047:       .split\("_"\)) Tj
+0 -9 Td
+(0048:       .map\(\(part\) => part.charAt\(0\).toUpperCase\(\) + part.slice\(1\)\)) Tj
+0 -9 Td
+(0049:       .join\(" "\)) Tj
+0 -9 Td
+(0050:   \);) Tj
+0 -9 Td
+(0051: };) Tj
+0 -9 Td
+(0052: ) Tj
+0 -9 Td
+(0053: export const buildSummaryTableRows = \() Tj
+0 -9 Td
+(0054:   filteredData: DashboardAnalyticsType[],) Tj
+0 -9 Td
+(0055: \): SummaryTableRow[] => {) Tj
+0 -9 Td
+(0056:   const groupedRows = new Map<string, Omit<SummaryTableRow, "total">>\(\);) Tj
+0 -9 Td
+(0057: ) Tj
+0 -9 Td
+(0058:   filteredData.forEach\(\(item\) => {) Tj
+0 -9 Td
+(0059:     if \(!item.ip_type || item.year === null\) return;) Tj
+0 -9 Td
+(0060:     if \(!STATUS_ORDER.includes\(item.dashboard_status as DashboardStatus\)\) {) Tj
+0 -9 Td
+(0061:       return;) Tj
+0 -9 Td
+(0062:     }) Tj
+0 -9 Td
+(0063: ) Tj
+0 -9 Td
+(0064:     const year = Number\(item.year\);) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+27 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 26 0 R >>
+endobj
+28 0 obj
+<< /Length 3654 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 14 of 18) Tj
+0 -14 Td
+(0065:     const key = `${year}:${item.ip_type}`;) Tj
+0 -9 Td
+(0066: ) Tj
+0 -9 Td
+(0067:     if \(!groupedRows.has\(key\)\) {) Tj
+0 -9 Td
+(0068:       groupedRows.set\(key, {) Tj
+0 -9 Td
+(0069:         year,) Tj
+0 -9 Td
+(0070:         ipType: item.ip_type,) Tj
+0 -9 Td
+(0071:         filed: 0,) Tj
+0 -9 Td
+(0072:         pending: 0,) Tj
+0 -9 Td
+(0073:         granted: 0,) Tj
+0 -9 Td
+(0074:         withdrawn: 0,) Tj
+0 -9 Td
+(0075:         downgraded: 0,) Tj
+0 -9 Td
+(0076:       }\);) Tj
+0 -9 Td
+(0077:     }) Tj
+0 -9 Td
+(0078: ) Tj
+0 -9 Td
+(0079:     const row = groupedRows.get\(key\)!;) Tj
+0 -9 Td
+(0080:     const status = item.dashboard_status as DashboardStatus;) Tj
+0 -9 Td
+(0081:     row[status] += Number\(item.total ?? 0\);) Tj
+0 -9 Td
+(0082:   }\);) Tj
+0 -9 Td
+(0083: ) Tj
+0 -9 Td
+(0084:   return Array.from\(groupedRows.values\(\)\)) Tj
+0 -9 Td
+(0085:     .map\(\(row\) => \({) Tj
+0 -9 Td
+(0086:       ...row,) Tj
+0 -9 Td
+(0087:       total:) Tj
+0 -9 Td
+(0088:         row.filed + row.pending + row.granted + row.withdrawn + row.downgraded,) Tj
+0 -9 Td
+(0089:     }\)\)) Tj
+0 -9 Td
+(0090:     .sort\(\(a, b\) => {) Tj
+0 -9 Td
+(0091:       if \(a.year !== b.year\) return a.year - b.year;) Tj
+0 -9 Td
+(0092: ) Tj
+0 -9 Td
+(0093:       const aIndex = IP_TYPES.indexOf\(a.ipType as \(typeof IP_TYPES\)[number]\);) Tj
+0 -9 Td
+(0094:       const bIndex = IP_TYPES.indexOf\(b.ipType as \(typeof IP_TYPES\)[number]\);) Tj
+0 -9 Td
+(0095: ) Tj
+0 -9 Td
+(0096:       if \(aIndex !== -1 && bIndex !== -1\) return aIndex - bIndex;) Tj
+0 -9 Td
+(0097:       if \(aIndex !== -1\) return -1;) Tj
+0 -9 Td
+(0098:       if \(bIndex !== -1\) return 1;) Tj
+0 -9 Td
+(0099: ) Tj
+0 -9 Td
+(0100:       return a.ipType.localeCompare\(b.ipType\);) Tj
+0 -9 Td
+(0101:     }\);) Tj
+0 -9 Td
+(0102: };) Tj
+0 -9 Td
+(0103: ) Tj
+0 -9 Td
+(0104: export const buildSummaryTotals = \(rows: SummaryTableRow[]\): SummaryTotals => {) Tj
+0 -9 Td
+(0105:   return rows.reduce\() Tj
+0 -9 Td
+(0106:     \(acc, row\) => {) Tj
+0 -9 Td
+(0107:       acc.filed += row.filed;) Tj
+0 -9 Td
+(0108:       acc.pending += row.pending;) Tj
+0 -9 Td
+(0109:       acc.granted += row.granted;) Tj
+0 -9 Td
+(0110:       acc.withdrawn += row.withdrawn;) Tj
+0 -9 Td
+(0111:       acc.downgraded += row.downgraded;) Tj
+0 -9 Td
+(0112:       acc.total += row.total;) Tj
+0 -9 Td
+(0113:       return acc;) Tj
+0 -9 Td
+(0114:     },) Tj
+0 -9 Td
+(0115:     {) Tj
+0 -9 Td
+(0116:       filed: 0,) Tj
+0 -9 Td
+(0117:       pending: 0,) Tj
+0 -9 Td
+(0118:       granted: 0,) Tj
+0 -9 Td
+(0119:       withdrawn: 0,) Tj
+0 -9 Td
+(0120:       downgraded: 0,) Tj
+0 -9 Td
+(0121:       total: 0,) Tj
+0 -9 Td
+(0122:     },) Tj
+0 -9 Td
+(0123:   \);) Tj
+0 -9 Td
+(0124: };) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/hooks/status/useGetMultipleApplicationStatuses.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { getApplicationStatuses } from "@/services/status/get-application-statuses";) Tj
+0 -9 Td
+(0002: import { useQueries } from "@tanstack/react-query";) Tj
+0 -9 Td
+(0003: ) Tj
+0 -9 Td
+(0004: interface PropsInterface {) Tj
+0 -9 Td
+(0005:     applicationIds: string[],) Tj
+0 -9 Td
+(0006:     isLatest?: boolean;) Tj
+0 -9 Td
+(0007: }) Tj
+0 -9 Td
+(0008: ) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+29 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 28 0 R >>
+endobj
+30 0 obj
+<< /Length 3928 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 15 of 18) Tj
+0 -14 Td
+(0009: export function useGetMultipleApplicationStatuses\(props: PropsInterface\) {) Tj
+0 -9 Td
+(0010:     const {applicationIds, isLatest } = props;) Tj
+0 -9 Td
+(0011:     const validApplicationIds = applicationIds.filter\(id => id!=null && id!=""\);) Tj
+0 -9 Td
+(0012: ) Tj
+0 -9 Td
+(0013:     const queries = useQueries\() Tj
+0 -9 Td
+(0014:         {) Tj
+0 -9 Td
+(0015:             queries: validApplicationIds.map\(\(applicationId\) => \() Tj
+0 -9 Td
+(0016:             {) Tj
+0 -9 Td
+(0017:                 queryKey: ["multiple-status", applicationId, isLatest],) Tj
+0 -9 Td
+(0018:                 queryFn: \(\) => getApplicationStatuses\({applicationId, isLatest}\),) Tj
+0 -9 Td
+(0019:             }) Tj
+0 -9 Td
+(0020:             \)\)) Tj
+0 -9 Td
+(0021:         }) Tj
+0 -9 Td
+(0022:     \)) Tj
+0 -9 Td
+(0023: ) Tj
+0 -9 Td
+(0024:     return { statuses: queries.map\(\(q\) => q.data\), isLoading: queries.map\(\(q\) => q.isLoading\)};) Tj
+0 -9 Td
+(0025: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/services/status/get-application-statuses.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { supabaseClient as supabase } from "@/lib/supabase";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: interface PropsInterface {) Tj
+0 -9 Td
+(0004:     applicationId: string,) Tj
+0 -9 Td
+(0005:     isLatest?: boolean,) Tj
+0 -9 Td
+(0006: }) Tj
+0 -9 Td
+(0007: ) Tj
+0 -9 Td
+(0008: export const getApplicationStatuses = async function\(props: PropsInterface\) {) Tj
+0 -9 Td
+(0009:     const { applicationId, isLatest = false } = props;) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011:     if \(!applicationId\) {) Tj
+0 -9 Td
+(0012:         throw new Error\("Invalid application id."\)) Tj
+0 -9 Td
+(0013:     }) Tj
+0 -9 Td
+(0014:     ) Tj
+0 -9 Td
+(0015:     const { data, error } = await supabase) Tj
+0 -9 Td
+(0016:     .schema\("private"\)) Tj
+0 -9 Td
+(0017:     .from\("ipr_statuses"\)) Tj
+0 -9 Td
+(0018:     .select\(\)) Tj
+0 -9 Td
+(0019:     .eq\("application_id", applicationId\)) Tj
+0 -9 Td
+(0020:     .order\("created_at", {ascending: false}\);) Tj
+0 -9 Td
+(0021: ) Tj
+0 -9 Td
+(0022:     if \(error\) {) Tj
+0 -9 Td
+(0023:         throw new Error\(error.message\); ) Tj
+0 -9 Td
+(0024:     }) Tj
+0 -9 Td
+(0025: ) Tj
+0 -9 Td
+(0026:     if \(isLatest\) {) Tj
+0 -9 Td
+(0027:         if \(!data[0]\) {) Tj
+0 -9 Td
+(0028:             throw new Error\("No application with that id."\)) Tj
+0 -9 Td
+(0029:         }) Tj
+0 -9 Td
+(0030: ) Tj
+0 -9 Td
+(0031:         return data[0];) Tj
+0 -9 Td
+(0032:     }) Tj
+0 -9 Td
+(0033:     ) Tj
+0 -9 Td
+(0034:     return data;) Tj
+0 -9 Td
+(0035: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/hooks/applications/useGetMultipleApplicationById.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { useQueries, useQuery } from '@tanstack/react-query';) Tj
+0 -9 Td
+(0002: import { getApplicationById } from '@/services/application/get-application-by-id';) Tj
+0 -9 Td
+(0003: ) Tj
+0 -9 Td
+(0004: ) Tj
+0 -9 Td
+(0005: interface UseGetApplicationByIdProp {) Tj
+0 -9 Td
+(0006:   applicationIds: string[];) Tj
+0 -9 Td
+(0007: }) Tj
+0 -9 Td
+(0008: ) Tj
+0 -9 Td
+(0009: export function useGetMultipleAppById\(props: UseGetApplicationByIdProp\) {) Tj
+0 -9 Td
+(0010:     const { applicationIds } = props;) Tj
+0 -9 Td
+(0011: ) Tj
+0 -9 Td
+(0012:     const query =  useQueries\() Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+31 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 30 0 R >>
+endobj
+32 0 obj
+<< /Length 4002 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 16 of 18) Tj
+0 -14 Td
+(0013:         {) Tj
+0 -9 Td
+(0014:             queries: applicationIds.map\(\(applicationId\) => \() Tj
+0 -9 Td
+(0015:             {) Tj
+0 -9 Td
+(0016:                 queryKey: ['multiple-application', applicationId],) Tj
+0 -9 Td
+(0017:                 queryFn: \(\) => getApplicationById\({id: applicationId}\),) Tj
+0 -9 Td
+(0018:             }) Tj
+0 -9 Td
+(0019:             \)\)) Tj
+0 -9 Td
+(0020:         }) Tj
+0 -9 Td
+(0021:     \);) Tj
+0 -9 Td
+(0022: ) Tj
+0 -9 Td
+(0023:     return {applications: query.map\(\(q\) => q.data\), isLoading: query.map\(\(q\) => q.isLoading\)}; ) Tj
+0 -9 Td
+(0024: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/services/application/get-application-by-id.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { supabaseClient as supabase } from "@/lib/supabase") Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: interface GetApplicationByIdProps {) Tj
+0 -9 Td
+(0004:     id: string;) Tj
+0 -9 Td
+(0005: }) Tj
+0 -9 Td
+(0006: ) Tj
+0 -9 Td
+(0007: export const getApplicationById = async \(props: GetApplicationByIdProps\) => {) Tj
+0 -9 Td
+(0008:     const { id } = props;) Tj
+0 -9 Td
+(0009:     const {data, error} = await supabase.schema\("private"\).from\("ipr_applications"\).select\(\).eq\("id", ) Tj
+0 -9 Td
+(      | id\).single\(\);) Tj
+0 -9 Td
+(0010: ) Tj
+0 -9 Td
+(0011:     if \(error\) {) Tj
+0 -9 Td
+(0012:         throw new Error\(error.message\);) Tj
+0 -9 Td
+(0013:     }) Tj
+0 -9 Td
+(0014: ) Tj
+0 -9 Td
+(0015:     return data;) Tj
+0 -9 Td
+(0016: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/lib/helper/get-ip-title.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { IpType } from "@/lib/types/ip";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: ) Tj
+0 -9 Td
+(0004: export const  ipTypeToTitle = \(ipType: IpType | null | string\): string => {) Tj
+0 -9 Td
+(0005:   switch \(ipType\) {) Tj
+0 -9 Td
+(0006:     case 'utility_model':) Tj
+0 -9 Td
+(0007:       return 'Utility Model';) Tj
+0 -9 Td
+(0008:     case 'industrial_design':) Tj
+0 -9 Td
+(0009:       return 'Industrial Design';) Tj
+0 -9 Td
+(0010:     case 'trademark':) Tj
+0 -9 Td
+(0011:       return 'Trademark';) Tj
+0 -9 Td
+(0012:     case 'copyright':) Tj
+0 -9 Td
+(0013:       return 'Copyright';) Tj
+0 -9 Td
+(0014:     case 'patent':) Tj
+0 -9 Td
+(0015:       return 'Patent') Tj
+0 -9 Td
+(0016:     default:) Tj
+0 -9 Td
+(0017:       return '';) Tj
+0 -9 Td
+(0018:   }) Tj
+0 -9 Td
+(0019: }) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/lib/helper/status-labels.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: ) Tj
+0 -9 Td
+(0002: import { StatusType } from "../types/ip";) Tj
+0 -9 Td
+(0003: ) Tj
+0 -9 Td
+(0004: export const STATUS_LABELS: Record<StatusType, string> = {) Tj
+0 -9 Td
+(0005:   draft_classification: 'Draft Classification',) Tj
+0 -9 Td
+(0006:   draft_idf: 'Draft IDF',) Tj
+0 -9 Td
+(0007:   submitted_to_ttbdo: 'Submitted to TTBDO',) Tj
+0 -9 Td
+(0008:   under_ttbdo_review: 'Under TTBDO Review',) Tj
+0 -9 Td
+(0009:   prior_art_search: 'Prior Art Search',) Tj
+0 -9 Td
+(0010:   draft_application: 'Draft Application',) Tj
+0 -9 Td
+(0011:   filed_with_ipophil: 'Filed with IPOPHIL',) Tj
+0 -9 Td
+(0012:   wait_notice_publication: 'Waiting for Notice of Publication',) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+33 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 32 0 R >>
+endobj
+34 0 obj
+<< /Length 4648 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 17 of 18) Tj
+0 -14 Td
+(0013:   wait_substantive_exam_report: 'Waiting for Substantive Exam Report',) Tj
+0 -9 Td
+(0014:   resolve_ser_defects: 'Resolve SER Defects',) Tj
+0 -9 Td
+(0015:   downgraded_to_um: 'Downgraded to UM',) Tj
+0 -9 Td
+(0016:   wait_notice_of_issuance: 'Waiting for Notice of Issuance',) Tj
+0 -9 Td
+(0017:   req_cert_of_registration: 'Request Certificate of Registration',) Tj
+0 -9 Td
+(0018:   wait_cert_of_registration: 'Waiting for Certificate of Registration',) Tj
+0 -9 Td
+(0019:   registered: 'Registered',) Tj
+0 -9 Td
+(0020:   published: 'Published',) Tj
+0 -9 Td
+(0021:   wait_formality_exam_report: 'Waiting for Formality Exam Report',) Tj
+0 -9 Td
+(0022:   resolve_fer_defects: 'Resolve FER Defects',) Tj
+0 -9 Td
+(0023:   request_revival: 'Request Revival',) Tj
+0 -9 Td
+(0024:   '2nd_publication': '2nd Publication',) Tj
+0 -9 Td
+(0025:   prepare_nice_classification: 'Prepare Nice Classification',) Tj
+0 -9 Td
+(0026:   approve_nice_classification: 'Approve Nice Classification',) Tj
+0 -9 Td
+(0027:   wait_registrability_report: 'Waiting for Registrability Report',) Tj
+0 -9 Td
+(0028:   resolve_rr_defects: 'Resolve RR Defects',) Tj
+0 -9 Td
+(0029:   techgen_sign: 'TechGen Sign',) Tj
+0 -9 Td
+(0030:   chancellor_sign: 'Chancellor Sign the Deed of Assignment',) Tj
+0 -9 Td
+(0031:   notarization: 'Notarization',) Tj
+0 -9 Td
+(0032:   wait_notice_of_action: 'Waiting for Notice of Action',) Tj
+0 -9 Td
+(0033:   discussing_downgrade: 'Discussing Downgrade',) Tj
+0 -9 Td
+(0034:   resolve_additional_requirements: 'Resolve Additional Requirements',) Tj
+0 -9 Td
+(0035:   wait_statement_of_acc: 'Waiting for Statement of Account from IPOPHL',) Tj
+0 -9 Td
+(0036:   pay_fee_application: 'Pay Application Fee',) Tj
+0 -9 Td
+(0037:   mailed_to_ipophl: 'Mailing original Signed Copyright Documents to IPOPHL',) Tj
+0 -9 Td
+(0038:   closed: 'Closed',) Tj
+0 -9 Td
+(0039:   req_for_issuance_of_cert_and_2nd_publication: 'Request for Issuance of Certificate and 2nd Publication',) Tj
+0 -9 Td
+(0040:   endorse_copyright: 'Endorse Copyright Application to the Office of the Chancellor',) Tj
+0 -9 Td
+(0041:   print_copyright_forms: 'Print Copyright Forms',) Tj
+0 -9 Td
+(0042:   submit_to_ovcre: 'Submit to OVCRE for Endoresement',) Tj
+0 -9 Td
+(0043:   request_substantive_exam_report: 'Request Substantive Exam Report',) Tj
+0 -9 Td
+(0044:   removal_from_record: 'Removal from Record',) Tj
+0 -9 Td
+(0045:   expired: 'Expired',) Tj
+0 -9 Td
+(0046: };) Tj
+0 -9 Td
+() Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(FILE: src/lib/helper/format-date.ts) Tj
+0 -9 Td
+(================================================================================================) Tj
+0 -9 Td
+(0001: import { differenceInCalendarDays, isToday, format } from "date-fns";) Tj
+0 -9 Td
+(0002: ) Tj
+0 -9 Td
+(0003: export const toSupabaseDate = \(date: Date\) => format\(date, "yyyy-MM-dd"\);) Tj
+0 -9 Td
+(0004: ) Tj
+0 -9 Td
+(0005: export const formatDate = \(date: string | Date\) =>) Tj
+0 -9 Td
+(0006:   new Date\(date\).toLocaleDateString\(undefined, {) Tj
+0 -9 Td
+(0007:     month: "short",) Tj
+0 -9 Td
+(0008:     day: "numeric",) Tj
+0 -9 Td
+(0009:     year: "numeric",) Tj
+0 -9 Td
+(0010:   }\);) Tj
+0 -9 Td
+(0011: ) Tj
+0 -9 Td
+(0012: export const fromSupabaseDate = \(s: string\) => {) Tj
+0 -9 Td
+(0013:   const [y, m, d] = s.split\("-"\).map\(Number\);) Tj
+0 -9 Td
+(0014:   return new Date\(y, m - 1, d\); // local date, no timezone shift) Tj
+0 -9 Td
+(0015: };) Tj
+0 -9 Td
+(0016: ) Tj
+0 -9 Td
+(0017: export const toSupabaseTimestamp = \(d: Date\) => d.toISOString\(\);) Tj
+0 -9 Td
+(0018: export const fromSupabaseTimestamp = \(s: string\) => new Date\(s\);) Tj
+0 -9 Td
+(0019: ) Tj
+0 -9 Td
+(0020: export const formatTime = \(date: string | Date\) => ) Tj
+0 -9 Td
+(0021:   new Date\(date\).toLocaleTimeString\(undefined, {) Tj
+0 -9 Td
+(0022:     hour: "2-digit",) Tj
+0 -9 Td
+(0023:     minute: "2-digit") Tj
+0 -9 Td
+(0024:   }\)) Tj
+0 -9 Td
+(0025: ) Tj
+0 -9 Td
+(0026: export const formatDateTime = \(date: string | Date\) =>) Tj
+0 -9 Td
+(0027:   new Date\(date\).toLocaleString\(undefined, {) Tj
+0 -9 Td
+(0028:     month: "short",) Tj
+0 -9 Td
+(0029:     day: "numeric",) Tj
+0 -9 Td
+(0030:     year: "numeric",) Tj
+0 -9 Td
+(0031:     hour: "2-digit",) Tj
+0 -9 Td
+(0032:     minute: "2-digit",) Tj
+0 -9 Td
+(0033:   }\);) Tj
+0 -9 Td
+(0034: ) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+35 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 34 0 R >>
+endobj
+36 0 obj
+<< /Length 774 >>
+stream
+BT
+/F1 8 Tf
+36 762 Td
+(IRIS - TechGen Homepage/Dashboard Source Code | Source snapshot: 2026-06-13) Tj
+0 -10 Td
+(COMPLETE DASHBOARD SOURCE | Source page 18 of 18) Tj
+0 -14 Td
+(0035: export const daysDelayed = \(targetISO: string\) => {) Tj
+0 -9 Td
+(0036:   const diff = differenceInCalendarDays\(new Date\(\), new Date\(targetISO\)\);) Tj
+0 -9 Td
+(0037:   return Math.max\(diff, 0\);) Tj
+0 -9 Td
+(0038: }) Tj
+0 -9 Td
+(0039: ) Tj
+0 -9 Td
+(0040: export const formatSmartDate = \(iso: string\) => {) Tj
+0 -9 Td
+(0041:   const d = new Date\(iso\);) Tj
+0 -9 Td
+(0042:   return isToday\(d\) ? `Today at ${formatTime\(iso\)}` : formatDateTime\(iso\);) Tj
+0 -9 Td
+(0043: }) Tj
+0 -9 Td
+ET
+BT
+/F1 8 Tf
+36 24 Td
+(Prepared for copyright source-code deposit. Generated 2026-06-13.) Tj
+ET
+endstream
+endobj
+37 0 obj
+<< /Type /Page /Parent 38 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 36 0 R >>
+endobj
+38 0 obj
+<< /Type /Pages /Count 18 /Kids [3 0 R 5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R 21 0 R 23 0 R 25 0 R 27 0 R 29 0 R 31 0 R 33 0 R 35 0 R 37 0 R] >>
+endobj
+39 0 obj
+<< /Type /Catalog /Pages 38 0 R >>
+endobj
+xref
+0 40
+0000000000 65535 f 
+0000000015 00000 n 
+0000000083 00000 n 
+0000004100 00000 n 
+0000004227 00000 n 
+0000007905 00000 n 
+0000008032 00000 n 
+0000011935 00000 n 
+0000012062 00000 n 
+0000015847 00000 n 
+0000015974 00000 n 
+0000019708 00000 n 
+0000019837 00000 n 
+0000023299 00000 n 
+0000023428 00000 n 
+0000027613 00000 n 
+0000027742 00000 n 
+0000032136 00000 n 
+0000032265 00000 n 
+0000036057 00000 n 
+0000036186 00000 n 
+0000040237 00000 n 
+0000040366 00000 n 
+0000044465 00000 n 
+0000044594 00000 n 
+0000048625 00000 n 
+0000048754 00000 n 
+0000052200 00000 n 
+0000052329 00000 n 
+0000056036 00000 n 
+0000056165 00000 n 
+0000060146 00000 n 
+0000060275 00000 n 
+0000064330 00000 n 
+0000064459 00000 n 
+0000069160 00000 n 
+0000069289 00000 n 
+0000070115 00000 n 
+0000070244 00000 n 
+0000070419 00000 n 
+trailer
+<< /Size 40 /Root 39 0 R >>
+startxref
+70470
+%%EOF

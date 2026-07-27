@@ -1,0 +1,28 @@
+IRIS - TechGen Homepage/Dashboard Source Code
+Source snapshot: 2026-06-13
+
+Purpose: TechGen homepage/dashboard source-code deposit packet.
+Note: The dashboard-only source renders to fewer than 20 pages, so the first and last 10-page sets overlap. This PDF includes the complete dashboard-only source listing once, covering both requirements without duplicate pages.
+Excluded: secrets, environment files, generated files, build artifacts, dependencies.
+Rendering: Courier 8pt, 72 source-display lines per page.
+Total source files: 15
+Total raw source lines: 1163
+Total rendered source pages: 18
+PDF pages included: 18
+
+Files included, in deposit order:
+01. src/app/techgen/page.tsx (50 lines)
+02. src/components/techgen/MetricsTechgen.tsx (509 lines)
+03. src/components/techgen/StatusUpdatesPanel.tsx (205 lines)
+04. src/hooks/applications/useGetUserApplications.ts (11 lines)
+05. src/services/application/get-user-applications.ts (22 lines)
+06. src/hooks/views/useGetDashboardAnalyticsTechgen.ts (12 lines)
+07. src/services/views/get-dashboard-analytics-techgen.ts (22 lines)
+08. src/lib/dashboard/dashboard-summary.ts (124 lines)
+09. src/hooks/status/useGetMultipleApplicationStatuses.ts (25 lines)
+10. src/services/status/get-application-statuses.ts (35 lines)
+11. src/hooks/applications/useGetMultipleApplicationById.ts (24 lines)
+12. src/services/application/get-application-by-id.ts (16 lines)
+13. src/lib/helper/get-ip-title.ts (19 lines)
+14. src/lib/helper/status-labels.ts (46 lines)
+15. src/lib/helper/format-date.ts (43 lines)
